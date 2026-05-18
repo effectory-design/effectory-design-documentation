@@ -207,14 +207,16 @@
 
 <!-- TABS -->
 <div class="page-tabs">
-  <button class="page-tab active" data-tab="design">
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
-    Design
-  </button>
-  <button class="page-tab" data-tab="developer">
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 2l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Developer
-  </button>
+  <div class="page-tabs-inner">
+    <button class="page-tab is-active" data-tab="design">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Design
+    </button>
+    <button class="page-tab" data-tab="developer">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 2l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Developer
+    </button>
+  </div>
 </div>
 
 <!-- DESIGN PANEL -->
@@ -562,15 +564,17 @@
 
 </article>
 
-<!-- TOC -->
-<nav class="toc">
-  <div class="toc-title">ON THIS PAGE</div>
-  <a class="toc-link" href="#anatomy">Anatomy</a>
-  <a class="toc-link" href="#usage">Usage</a>
-  <a class="toc-link" href="#variants">Variants</a>
-  <a class="toc-link" href="#states">States</a>
-  <a class="toc-link" href="#tokens">Tokens</a>
-</nav>
+<div class="toc-col">
+  <nav class="toc">
+    <div class="toc-title">ON THIS PAGE</div>
+    <a class="toc-link" href="#anatomy">Anatomy</a>
+    <a class="toc-link" href="#usage">Usage</a>
+    <a class="toc-link" href="#variants">Variants</a>
+    <a class="toc-link" href="#states">States</a>
+    <a class="toc-link" href="#tokens">Tokens</a>
+  </nav>
+</div>
+
 </div><!-- /content-cols -->
 </div><!-- /tab-panel design -->
 
@@ -806,14 +810,17 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
 
 </article>
 
-<nav class="toc">
-  <div class="toc-title">ON THIS PAGE</div>
-  <a class="toc-link" href="#dev-basic">Radio group</a>
-  <a class="toc-link" href="#dev-tiles">Radio tiles</a>
-  <a class="toc-link" href="#dev-radio-btn">Radio button</a>
-  <a class="toc-link" href="#dev-disabled">Disabled states</a>
-  <a class="toc-link" href="#dev-api">API reference</a>
-</nav>
+<div class="toc-col">
+  <nav class="toc">
+    <div class="toc-title">ON THIS PAGE</div>
+    <a class="toc-link" href="#dev-basic">Radio group</a>
+    <a class="toc-link" href="#dev-tiles">Radio tiles</a>
+    <a class="toc-link" href="#dev-radio-btn">Radio button</a>
+    <a class="toc-link" href="#dev-disabled">Disabled states</a>
+    <a class="toc-link" href="#dev-api">API reference</a>
+  </nav>
+</div>
+
 </div><!-- /content-cols -->
 </div><!-- /tab-panel developer -->
 
@@ -825,8 +832,8 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
 // Tab switching
 document.querySelectorAll('.page-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('is-active'));
+    tab.classList.add('is-active');
     const target = tab.dataset.tab;
     document.querySelectorAll('.tab-panel').forEach(p => {
       p.hidden = p.dataset.panel !== target;
