@@ -105,8 +105,29 @@
       line-height: 1.55; font-family: 'Poppins', sans-serif;
     }
 
-    /* ── Radio button (pill) ── */
-    .rb-btn {
+    /* ── Radio button — ghost (transparent, no border) ── */
+    .rb-btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 34px; padding: 0 12px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Poppins', sans-serif; font-size: 14px;
+      color: var(--content-base);
+      cursor: pointer; user-select: none;
+      transition: background .1s;
+    }
+    .rb-btn-ghost input[type="radio"].rb { pointer-events: none; }
+    .rb-btn-ghost:hover,
+    .rb-btn-ghost.is-hover { background: var(--bg-base-hover); }
+    .rb-btn-ghost.is-pressed { background: var(--bg-base-pressed); }
+    .rb-btn-ghost.is-disabled {
+      color: var(--content-disabled) !important;
+      cursor: not-allowed; pointer-events: none;
+    }
+
+    /* ── Radio button — bordered ── */
+    .rb-btn-bordered {
       display: inline-flex; align-items: center; gap: 8px;
       height: 34px; padding: 0 12px;
       background: var(--bg-base);
@@ -117,21 +138,20 @@
       cursor: pointer; user-select: none;
       transition: border-color .1s, background .1s;
     }
-    .rb-btn input[type="radio"].rb { pointer-events: none; }
-    .rb-btn:hover,
-    .rb-btn.is-hover { background: var(--bg-base-hover); border-color: var(--border-action-hover); }
-    .rb-btn.is-selected,
-    .rb-btn:has(input.is-checked) {
+    .rb-btn-bordered input[type="radio"].rb { pointer-events: none; }
+    .rb-btn-bordered:hover,
+    .rb-btn-bordered.is-hover { background: var(--bg-base-hover); border-color: var(--border-action-hover); }
+    .rb-btn-bordered.is-selected,
+    .rb-btn-bordered:has(input.is-checked) {
       background: var(--bg-brand-subtle);
       border-color: var(--border-brand-subtle);
     }
-    .rb-btn.is-selected:hover,
-    .rb-btn:has(input.is-checked):hover,
-    .rb-btn.is-selected.is-hover { border-color: var(--bg-brand-base); }
-    .rb-btn.is-disabled {
-      background: var(--bg-base);
-      border-color: var(--border-disabled);
-      color: var(--content-disabled);
+    .rb-btn-bordered.is-selected:hover,
+    .rb-btn-bordered:has(input.is-checked):hover { border-color: var(--bg-brand-base); }
+    .rb-btn-bordered.is-disabled {
+      background: var(--bg-disabled) !important;
+      border-color: transparent !important;
+      color: var(--content-disabled) !important;
       cursor: not-allowed; pointer-events: none;
     }
 
@@ -181,7 +201,7 @@
     <span class="badge badge-stable">Stable</span>
   </div>
   <h1 class="text-l1">Radio Group</h1>
-  <p class="page-desc">Radio buttons let users select exactly one option from a set. Three display variants are available: a standard labeled list, a card-style tile, and a compact pill button.</p>
+  <p class="page-desc">Radio buttons let users select exactly one option from a set. Four display variants are available: a standard labeled list, a card-style tile, and compact pill buttons in ghost and bordered styles.</p>
 </div>
 </div><!-- /page-header-row -->
 
@@ -295,7 +315,8 @@
         <tbody>
           <tr><td><strong>Radio group</strong></td><td>Standard form fields, settings, and filters. Labels are short (1–4 words). Compact vertical or horizontal layout.</td></tr>
           <tr><td><strong>Radio tiles</strong></td><td>When each option needs a short description to be understood — plan selection, onboarding flows, survey question types. The larger click target also helps on touch screens.</td></tr>
-          <tr><td><strong>Radio button</strong></td><td>Compact pill-shaped buttons in a horizontal row. Ideal for 2–5 short options in filter bars or mode toggles where space is limited.</td></tr>
+          <tr><td><strong>Radio button — ghost</strong></td><td>Compact pill-shaped buttons in a horizontal row, no border in default state. Ideal for 2–5 short options in filter bars or toolbars where the control should blend in.</td></tr>
+          <tr><td><strong>Radio button — bordered</strong></td><td>Same as ghost but always shows a border. More visual weight — use alongside other bordered controls or when the ghost style is too subtle.</td></tr>
         </tbody>
       </table>
     </div>
@@ -372,7 +393,7 @@
   <!-- VARIANTS -->
   <section class="section" id="variants">
     <h2 class="text-l3">Variants</h2>
-    <p class="section-lead">Two layout variants cover the full range of single-select use cases.</p>
+    <p class="section-lead">Four layout variants cover the full range of single-select use cases — from a standard labeled list to card-style tiles and compact pill buttons.</p>
 
     <div class="variant-rows">
       <div class="variant-row">
@@ -412,21 +433,33 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn" style="gap:8px; flex-wrap:wrap;">
-          <label class="rb-btn" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option A</label>
-          <label class="rb-btn is-selected" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option B</label>
-          <label class="rb-btn is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option C</label>
+          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option A</label>
+          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option B</label>
+          <label class="rb-btn-ghost is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option C</label>
         </div>
         <div class="variant-row-desc">
-          <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Radio button</strong></p>
-          <p style="margin:0 0 10px;">A pill-shaped button where the entire surface is the click target. Selected state uses a soft teal background. Best for compact horizontal filter groups.</p>
-          <p style="margin:0;font-size:12.5px;color:var(--content-subtle);">Use for: 2–5 short options in a horizontal row, mode toggles, compact filter bars</p>
+          <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Radio button — ghost</strong></p>
+          <p style="margin:0 0 10px;">No border in default state — just a transparent background with a hover fill. Low visual weight; blends into a toolbar or filter bar.</p>
+          <p style="margin:0;font-size:12.5px;color:var(--content-subtle);">Use for: compact filter bars, toolbar toggles, mode switchers</p>
+        </div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn" style="gap:8px; flex-wrap:wrap;">
+          <label class="rb-btn-bordered" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option A</label>
+          <label class="rb-btn-bordered" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option B</label>
+          <label class="rb-btn-bordered is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option C</label>
+        </div>
+        <div class="variant-row-desc">
+          <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Radio button — bordered</strong></p>
+          <p style="margin:0 0 10px;">Always shows a border. Selected state uses a soft teal background with a brand-coloured border. More visual weight — use alongside other bordered controls or when the ghost style is too subtle.</p>
+          <p style="margin:0;font-size:12.5px;color:var(--content-subtle);">Use for: standalone filter chips, side-by-side with bordered inputs</p>
         </div>
       </div>
     </div>
 
     <div class="gap-callout" style="margin-top:20px;">
       <span class="gap-callout-icon">⚠️</span>
-      <div><strong>Figma gap — radio button card</strong> The Figma "Radio button card" variant includes a <em>View details →</em> action link inside the tile body. This is not part of <code>mat-radio-button</code> — implement it as a separate <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> element inside the tile template, outside the radio button's click target.</div>
+      <div><strong>Figma gap — radio buttons</strong> The pill-shaped Radio button variants (ghost and bordered) are not yet defined in the Figma component set. They are proposed here for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox button</a> pattern. Needs design sign-off before use in product.</div>
     </div>
   </section>
 
@@ -658,28 +691,53 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
   <!-- RADIO BUTTON PILL -->
   <section class="section" id="dev-radio-btn">
     <h2 class="text-l3">Radio button</h2>
-    <p class="section-lead">Pill-shaped radio buttons for compact horizontal groups. Wrap each <code>mat-radio-button</code> in a <code>.radio-button</code> label element and add <code>no-label</code> to suppress the built-in label.</p>
+    <p class="section-lead">Pill-shaped radio buttons for compact horizontal groups. Two visual styles: <strong>ghost</strong> (no border, transparent default) and <strong>bordered</strong> (always shows a border). Wrap each <code>mat-radio-button</code> in a <code>.radio-button</code> label element and add <code>no-label</code> to suppress the built-in label.</p>
 
+    <h3 class="text-l4">Ghost</h3>
     <div class="dev-preview" style="gap:8px; align-items:center; flex-wrap:wrap;">
-      <label class="rb-btn"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill" /></span>Option A</label>
-      <label class="rb-btn is-selected"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-pill" /></span>Option B</label>
-      <label class="rb-btn"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill" /></span>Option C</label>
-      <label class="rb-btn is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" name="dev-pill" /></span>Option D</label>
+      <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-ghost" /></span>Option A</label>
+      <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-pill-ghost" /></span>Option B</label>
+      <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-ghost" /></span>Option C</label>
+      <label class="rb-btn-ghost is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" name="dev-pill-ghost" /></span>Option D</label>
     </div>
     <div class="dev-code-wrap">
-      <button class="dev-copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre><code>&lt;mat-radio-group formControlName="option"&gt;
-  &lt;label class="radio-button"&gt;
-    &lt;mat-radio-button class="no-label" value="a"
-      aria-labelledby="opt-a"&gt;&lt;/mat-radio-button&gt;
-    &lt;span id="opt-a"&gt;Option A&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;label class="radio-button"&gt;
-    &lt;mat-radio-button class="no-label" value="b"
-      aria-labelledby="opt-b"&gt;&lt;/mat-radio-button&gt;
-    &lt;span id="opt-b"&gt;Option B&lt;/span&gt;
-  &lt;/label&gt;
-&lt;/mat-radio-group&gt;</code></pre>
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="ct">&lt;mat-radio-group</span> <span class="ca">formControlName</span>=<span class="cv">"option"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"radio-button"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;mat-radio-button</span> <span class="ca">class</span>=<span class="cv">"no-label"</span> <span class="ca">value</span>=<span class="cv">"a"</span>
+      <span class="ca">aria-labelledby</span>=<span class="cv">"opt-a"</span><span class="ct">&gt;&lt;/mat-radio-button&gt;</span>
+    <span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cv">"opt-a"</span><span class="ct">&gt;</span>Option A<span class="ct">&lt;/span&gt;</span>
+  <span class="ct">&lt;/label&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"radio-button"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;mat-radio-button</span> <span class="ca">class</span>=<span class="cv">"no-label"</span> <span class="ca">value</span>=<span class="cv">"b"</span>
+      <span class="ca">aria-labelledby</span>=<span class="cv">"opt-b"</span><span class="ct">&gt;&lt;/mat-radio-button&gt;</span>
+    <span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cv">"opt-b"</span><span class="ct">&gt;</span>Option B<span class="ct">&lt;/span&gt;</span>
+  <span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
+    </div>
+
+    <h3 class="text-l4">Bordered</h3>
+    <div class="dev-preview" style="gap:8px; align-items:center; flex-wrap:wrap;">
+      <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-bord" /></span>Option A</label>
+      <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-pill-bord" /></span>Option B</label>
+      <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-bord" /></span>Option C</label>
+      <label class="rb-btn-bordered is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" name="dev-pill-bord" /></span>Option D</label>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cm">&lt;!-- variant="bordered" is proposed, not yet in Figma --&gt;</span>
+<span class="ct">&lt;mat-radio-group</span> <span class="ca">formControlName</span>=<span class="cv">"option"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"radio-button radio-button--bordered"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;mat-radio-button</span> <span class="ca">class</span>=<span class="cv">"no-label"</span> <span class="ca">value</span>=<span class="cv">"a"</span>
+      <span class="ca">aria-labelledby</span>=<span class="cv">"opt-a"</span><span class="ct">&gt;&lt;/mat-radio-button&gt;</span>
+    <span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cv">"opt-a"</span><span class="ct">&gt;</span>Option A<span class="ct">&lt;/span&gt;</span>
+  <span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
+    </div>
+
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div><strong>Design / dev gap — Radio buttons</strong>Both ghost and bordered radio button styles are proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox button</a> pattern. Neither variant currently exists in the Figma component set. Needs design sign-off before use in product.</div>
     </div>
   </section>
 

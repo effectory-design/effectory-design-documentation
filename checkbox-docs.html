@@ -209,6 +209,33 @@
       cursor: not-allowed; pointer-events: none;
     }
 
+    /* ── Checkbox tile (proposed, not yet in Figma) ── */
+    .cb-tile {
+      display: flex; align-items: flex-start; gap: 0;
+      padding: 16px;
+      border: 1.5px solid var(--border-action);
+      border-radius: var(--radius-base);
+      background: var(--bg-base);
+      cursor: pointer;
+      transition: border-color .12s, background .12s;
+      position: relative;
+    }
+    .cb-tile:hover { border-color: var(--border-action-hover); background: var(--bg-base-hover); }
+    .cb-tile.is-checked,
+    .cb-tile:has(input:checked) { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
+    .cb-tile.is-disabled { cursor: not-allowed; opacity: 0.5; }
+    .cb-tile-cb { display: flex; padding-top: 2px; flex-shrink: 0; margin-right: 12px; }
+    .cb-tile-body { flex: 1; }
+    .cb-tile-title {
+      font-size: 14px; font-weight: 600; color: var(--content-base);
+      margin-bottom: 4px; font-family: 'Poppins', sans-serif;
+    }
+    .cb-tile-title:last-child { margin-bottom: 0; }
+    .cb-tile-desc {
+      font-size: 13px; color: var(--content-secondary);
+      line-height: 1.55; font-family: 'Poppins', sans-serif;
+    }
+
     /* ── Doc helpers ── */
     .state-label { font-size: 11px; color: var(--content-subtle); }
     .cb-demo-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
@@ -230,7 +257,7 @@
       <span class="page-updated">Updated May 2026</span>
     </div>
     <h1 class="text-l1">Checkbox</h1>
-    <p class="page-desc">A binary toggle for selecting one or more options from a set. Five variants cover everything from a bare control in a table cell to pill-shaped button chips in filter bars.</p>
+    <p class="page-desc">A binary toggle for selecting one or more options from a set. Six variants cover everything from a bare control in a table cell to card-style tiles and pill-shaped button chips in filter bars.</p>
   </div>
 </div><!-- /page-header-row -->
 
@@ -355,6 +382,7 @@
           <tr><td><strong>Checkbox</strong></td><td>Table cells, dense lists, custom layouts where you supply your own label. Available in default and large sizes.</td></tr>
           <tr><td><strong>Labeled</strong></td><td>Standard form fields and settings lists. The label is always to the right; check left-aligns with the first line of text so wrapping labels stay readable.</td></tr>
           <tr><td><strong>With description</strong></td><td>When each option needs a short explanation — onboarding flows, survey builders, plan selection. Has a responsive desktop/mobile layout. An inline link can optionally be appended to the description text.</td></tr>
+          <tr><td><strong>Checkbox tile</strong></td><td>Card-style options with a title and supporting description. The full tile surface is the click target. Use when each option carries more weight or for touch-friendly layouts.</td></tr>
           <tr><td><strong>Checkbox button — ghost</strong></td><td>Compact filter bars or tag pickers. No border in default state — low visual weight. Use when it should blend into a toolbar.</td></tr>
           <tr><td><strong>Checkbox button — bordered</strong></td><td>Same as ghost but always shows a border. More visual weight — use alongside other bordered controls or when the ghost style is too subtle.</td></tr>
         </tbody>
@@ -510,7 +538,7 @@
   <!-- VARIANTS -->
   <section class="section" id="variants">
     <h2 class="text-l3">Variants</h2>
-    <p class="section-lead">Five variants cover the full range of checkbox use cases — from bare controls in data tables to pill-shaped button chips in filter bars.</p>
+    <p class="section-lead">Six variants cover the full range of checkbox use cases — from bare controls in data tables to card-style tiles and pill-shaped button chips in filter bars.</p>
 
     <div class="variant-rows">
       <div class="variant-row">
@@ -547,6 +575,29 @@
         </div>
       </div>
       <div class="variant-row">
+        <div class="variant-row-btn" style="flex-direction:column; gap:8px; align-items:stretch;">
+          <div class="cb-tile is-checked" style="pointer-events:none;">
+            <div class="cb-tile-cb"><input type="checkbox" class="cb is-checked" /></div>
+            <div class="cb-tile-body">
+              <div class="cb-tile-title">Value 1</div>
+              <div class="cb-tile-desc">Short description of what this option means.</div>
+            </div>
+          </div>
+          <div class="cb-tile" style="pointer-events:none;">
+            <div class="cb-tile-cb"><input type="checkbox" class="cb" /></div>
+            <div class="cb-tile-body">
+              <div class="cb-tile-title">Value 2</div>
+              <div class="cb-tile-desc">Short description of what this option means.</div>
+            </div>
+          </div>
+        </div>
+        <div class="variant-row-desc">
+          <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Checkbox tile</strong></p>
+          <p style="margin:0 0 10px;">Card-style options with a title and supporting description. The full tile surface is the click target. Multiple tiles can be selected at once.</p>
+          <p style="margin:0;font-size:12.5px;color:var(--content-subtle);">Use when options need more context to compare, or when the choice carries more weight.</p>
+        </div>
+      </div>
+      <div class="variant-row">
         <div class="variant-row-btn" style="gap:8px; flex-wrap:wrap;">
           <label class="cb-btn" style="pointer-events:none;"><input type="checkbox" class="cb" />Label</label>
           <label class="cb-btn" style="pointer-events:none;"><input type="checkbox" class="cb is-checked" />Label</label>
@@ -579,7 +630,7 @@
 
     <div class="gap-callout" style="margin-top:12px;">
       <span class="gap-callout-icon">⚠️</span>
-      <div><strong>Figma gap — no tile/card variant</strong> Unlike <a class="link-inline" href="radio-group-docs.html">Radio Group</a>, there is no card-style tile variant for checkboxes in the Figma design system. The closest equivalent is the <strong>With description</strong> variant above (inline label + subtitle + optional link). If your use case requires a bordered card selection, consider the <a class="link-inline" href="radio-group-docs.html">Radio tile</a> pattern or discuss adding a new variant.</div>
+      <div><strong>Figma gap — Checkbox tile</strong> The Checkbox tile variant is not yet defined in the Figma component set. It is proposed here for parity with the <a class="link-inline" href="radio-group-docs.html">Radio tile</a> pattern. Needs design sign-off before use in product.</div>
     </div>
   </section>
 
