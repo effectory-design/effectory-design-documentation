@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Radio Group — Engage Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── Radio: bare control ── */
@@ -76,11 +76,11 @@
     .rb-info-wrap .rb-wrap { margin-top: 3px; }
     .rb-info-body { display: flex; flex-direction: column; gap: 2px; }
     .rb-info-label {
-      font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
       line-height: 1.5; color: var(--content-base);
     }
     .rb-info-desc {
-      font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 400;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400;
       line-height: 1.5; color: var(--content-secondary);
     }
     .rb-info-wrap.is-disabled .rb-info-label,
@@ -90,7 +90,7 @@
     .rb-label-wrap {
       display: inline-flex; align-items: center; gap: 8px;
       cursor: pointer; font-size: 14px; color: var(--content-base);
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
     .rb-label-wrap.is-disabled { color: var(--content-disabled); cursor: not-allowed; }
 
@@ -119,13 +119,13 @@
     .rb-tile-body { flex: 1; }
     .rb-tile-title {
       font-size: 14px; font-weight: 600; color: var(--content-base);
-      margin-bottom: 4px; font-family: 'Poppins', sans-serif;
+      margin-bottom: 4px; font-family: 'Inter', sans-serif;
     }
     /* No description below → remove bottom gap */
     .rb-tile-title:last-child { margin-bottom: 0; }
     .rb-tile-desc {
       font-size: 13px; color: var(--content-secondary);
-      line-height: 1.55; font-family: 'Poppins', sans-serif;
+      line-height: 1.55; font-family: 'Inter', sans-serif;
     }
 
     /* ── Radio button — ghost (transparent, no border) ── */
@@ -135,7 +135,7 @@
       background: transparent;
       border: none;
       border-radius: 6px;
-      font-family: 'Poppins', sans-serif; font-size: 14px;
+      font-family: 'Inter', sans-serif; font-size: 14px;
       color: var(--content-base);
       cursor: pointer; user-select: none;
       transition: background .1s;
@@ -156,7 +156,7 @@
       background: var(--bg-base);
       border: 1px solid var(--border-action);
       border-radius: 6px;
-      font-family: 'Poppins', sans-serif; font-size: 14px;
+      font-family: 'Inter', sans-serif; font-size: 14px;
       color: var(--content-base);
       cursor: pointer; user-select: none;
       transition: border-color .1s, background .1s;
@@ -277,7 +277,7 @@
         <!-- Main element -->
         <div style="display:flex; align-items:center; gap:8px;">
           <span class="rb-wrap"><input type="radio" class="rb is-checked" style="pointer-events:none;" /></span>
-          <span style="font-size:14px;color:var(--content-base);white-space:nowrap;font-family:'Poppins',sans-serif;">Label</span>
+          <span style="font-size:14px;color:var(--content-base);white-space:nowrap;font-family:'Inter',sans-serif;">Label</span>
         </div>
         <!-- Bottom callout -->
         <div style="display:flex; align-items:flex-start; gap:0;">
@@ -532,7 +532,7 @@
     <h2 class="text-l3">States</h2>
     <p class="section-lead">All variants share the same state model on the radio circle. The radio button variants also have a pressed state for the brief moment the surface is held down.</p>
 
-    <h3 class="text-l4">Radio</h3>
+    <h3 class="text-l4">Radio (bare)</h3>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
@@ -555,101 +555,28 @@
       </div>
     </div>
 
-    <h3 class="text-l4" style="margin-top:28px;">Labeled</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">Labeled</span>
-          <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label></div>
-          <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span>Option</label></div>
-          <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label></div>
-          <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span>Option</label></div>
-          <div style="display:flex;justify-content:center;"><label class="rb-label-wrap is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label></div>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="text-l4" style="margin-top:28px;">With description</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">With desc.</span>
-          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
-          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
-          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
-          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
-          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
-      <div><strong>Figma gap — radio with description</strong> This variant is not yet defined in the Figma component set. Proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox — With description</a> pattern.</div>
-    </div>
-
-    <h3 class="text-l4" style="margin-top:28px;">Radio tiles</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">Tile</span>
-          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
-          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--border-action-hover);background:var(--bg-base-hover);"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
-          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
-          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--bg-brand-base);align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
-          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-disabled" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
-        </div>
-      </div>
-    </div>
-
     <h3 class="text-l4" style="margin-top:28px;">Radio button — ghost</h3>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
         <div class="state-col">
-          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Default</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
+          <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
           <span class="state-label">Selected</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-ghost is-hover" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-ghost is-hover"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Hover</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-ghost is-pressed" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-ghost is-pressed"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Pressed</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-ghost is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
+          <label class="rb-btn-ghost is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
           <span class="state-label">Disabled</span>
         </div>
       </div>
@@ -660,23 +587,23 @@
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
         <div class="state-col">
-          <label class="rb-btn-bordered" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Default</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-bordered is-selected" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
+          <label class="rb-btn-bordered is-selected"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
           <span class="state-label">Selected</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-bordered is-hover" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-bordered is-hover"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Hover</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-bordered is-pressed" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <label class="rb-btn-bordered is-pressed"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
           <span class="state-label">Pressed</span>
         </div>
         <div class="state-col">
-          <label class="rb-btn-bordered is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
+          <label class="rb-btn-bordered is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
           <span class="state-label">Disabled</span>
         </div>
       </div>
@@ -689,7 +616,7 @@
 
   <!-- TOKENS -->
   <section class="section" id="tokens">
-    <h2 class="text-l3">Design tokens</h2>
+    <h2 class="text-l3">Design Tokens</h2>
     <p class="section-lead">All visual properties are driven by tokens. No raw colour or spacing values are used in the component.</p>
     <div class="tbl-wrap">
       <table>
@@ -711,6 +638,45 @@
     </div>
   </section>
 
+  <!-- ACCESSIBILITY -->
+  <section class="section" id="accessibility">
+    <h2 class="text-l3">Accessibility</h2>
+    <div class="a11y-list">
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Always use a native <code>&lt;input type="radio"&gt;</code>.</strong> You get keyboard navigation, arrow-key selection between options, and correct AT announcements ("radio button, checked") for free. Never replace a real radio with a <code>&lt;div role="radio"&gt;</code>.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Group related radios in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>.</strong> The legend becomes the group label that screen readers announce before each option, giving users full context for the choice they're making.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Always pre-select a sensible default.</strong> A group with nothing checked on load forces the user to make an extra decision. If no option is truly a default, add an explicit "None" option and pre-select it.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Use <code>aria-labelledby</code> for tiles and described options.</strong> When the visible label is a sibling element rather than a wrapping <code>&lt;label&gt;</code> (as in the Radio tile and With description patterns), connect the input to its label via <code>aria-labelledby</code>.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Arrow keys move between options; Tab exits the group.</strong> Once a radio group has focus, users navigate with arrow keys — not Tab. Tab moves focus out of the group entirely. Do not override or suppress this native behaviour.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <a class="pag-card left" href="checkbox-docs.html">
+      <span class="pag-dir">← Previous</span>
+      <span class="pag-name">Checkbox</span>
+    </a>
+    <a class="pag-card right" href="toggle-docs.html">
+      <span class="pag-dir">Next →</span>
+      <span class="pag-name">Toggle</span>
+    </a>
+  </div>
+
 </article>
 
 <div class="toc-col">
@@ -720,7 +686,8 @@
     <a class="toc-link" href="#usage">Usage</a>
     <a class="toc-link" href="#variants">Variants</a>
     <a class="toc-link" href="#states">States</a>
-    <a class="toc-link" href="#tokens">Tokens</a>
+    <a class="toc-link" href="#tokens">Design Tokens</a>
+    <a class="toc-link" href="#accessibility">Accessibility</a>
   </nav>
 </div>
 
@@ -732,10 +699,53 @@
 <div class="content-cols">
 <article class="content">
 
-  <!-- BASIC USAGE -->
-  <section class="section" id="dev-basic">
-    <h2 class="text-l3">Basic usage</h2>
+  <!-- USAGE -->
+  <section class="section" id="dev-usage">
+    <h2 class="text-l3">Usage</h2>
     <p class="section-lead">Use Angular Material's <code>mat-radio-group</code> with <code>mat-radio-button</code> children. Bind the group value with <code>[(ngModel)]</code> or reactive forms.</p>
+
+    <h3 class="text-l4">Bare radio</h3>
+    <div class="dev-preview" style="gap:12px; padding:24px 28px; justify-content:flex-start;">
+      <span class="rb-wrap"><input type="radio" class="rb" name="dev-bare" /></span>
+      <span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-bare" /></span>
+      <span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cm">&lt;!-- Unchecked --&gt;</span>
+<span class="ct">&lt;mat-radio-button</span>
+  <span class="ca">class</span>=<span class="cv">"no-label"</span>
+  <span class="ca">value</span>=<span class="cv">"a"</span>
+<span class="ct">&gt;&lt;/mat-radio-button&gt;</span>
+
+<span class="cm">&lt;!-- Checked --&gt;</span>
+<span class="ct">&lt;mat-radio-button</span>
+  <span class="ca">class</span>=<span class="cv">"no-label"</span>
+  <span class="ca">value</span>=<span class="cv">"b"</span>
+  <span class="ca">[checked]</span>=<span class="cv">"true"</span>
+<span class="ct">&gt;&lt;/mat-radio-button&gt;</span></code></pre>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">Sizes</h3>
+    <p class="section-lead">Two sizes: default (16×16 px) and large (20×20 px). Use large when the radio is the primary interactive element or the surrounding UI uses larger touch targets.</p>
+    <div class="dev-preview" style="gap:24px; align-items:center; padding:24px 28px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <label class="rb-label-wrap"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-sizes" /></span>Default</label>
+        <span style="font-size:11px;color:var(--content-subtle);">16×16 px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <label class="rb-label-wrap"><span class="rb-wrap"><input type="radio" class="rb rb-lg is-checked" name="dev-sizes-lg" /></span>Large</label>
+        <span style="font-size:11px;color:var(--content-subtle);">20×20 px</span>
+      </div>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cm">&lt;!-- Default (16×16 px) --&gt;</span>
+<span class="ct">&lt;mat-radio-button</span> <span class="ca">value</span>=<span class="cv">"a"</span><span class="ct">&gt;</span>Default<span class="ct">&lt;/mat-radio-button&gt;</span>
+
+<span class="cm">&lt;!-- Large (20×20 px) — proposed, not yet in Figma --&gt;</span>
+<span class="ct">&lt;mat-radio-button</span> <span class="ca">class</span>=<span class="cv">"rb-lg"</span> <span class="ca">value</span>=<span class="cv">"b"</span><span class="ct">&gt;</span>Large<span class="ct">&lt;/mat-radio-button&gt;</span></code></pre>
+    </div>
 
     <h3 class="text-l4">Labeled</h3>
     <div class="dev-preview" style="flex-direction:column; gap:10px; align-items:flex-start;">
@@ -792,39 +802,13 @@
   <span class="ct">&lt;/div&gt;</span>
 <span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
     </div>
-
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
       <div><strong>Design / dev gap — Radio with description</strong> This layout pattern is not yet defined in the Figma component set or the Angular component API. It mirrors the <a class="link-inline" href="checkbox-docs.html">Checkbox — With description</a> pattern. Needs design and dev sign-off before use in product.</div>
     </div>
 
-    <h3 class="text-l4">With reactive forms</h3>
-    <div class="dev-preview" style="flex-direction:column; gap:10px; align-items:flex-start;">
-      <div class="rb-group">
-        <label class="rb-label-wrap"><span class="rb-wrap"><input type="radio" class="rb" name="dev-rf" /></span>Send immediately</label>
-        <label class="rb-label-wrap"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-rf" /></span>Schedule for later</label>
-        <label class="rb-label-wrap"><span class="rb-wrap"><input type="radio" class="rb" name="dev-rf" /></span>Save as draft</label>
-      </div>
-    </div>
-    <div class="dev-code-wrap">
-      <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="cm">&lt;!-- Template --&gt;</span>
-<span class="ct">&lt;mat-radio-group</span> <span class="ca">[formControl]</span>=<span class="cv">"deliveryControl"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;mat-radio-button</span> <span class="ca">value</span>=<span class="cv">"immediate"</span><span class="ct">&gt;</span>Send immediately<span class="ct">&lt;/mat-radio-button&gt;</span>
-  <span class="ct">&lt;mat-radio-button</span> <span class="ca">value</span>=<span class="cv">"scheduled"</span><span class="ct">&gt;</span>Schedule for later<span class="ct">&lt;/mat-radio-button&gt;</span>
-  <span class="ct">&lt;mat-radio-button</span> <span class="ca">value</span>=<span class="cv">"draft"</span><span class="ct">&gt;</span>Save as draft<span class="ct">&lt;/mat-radio-button&gt;</span>
-<span class="ct">&lt;/mat-radio-group&gt;</span>
-
-<span class="cm">// Component</span>
-deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'scheduled'</span>);</code></pre>
-    </div>
-  </section>
-
-  <!-- RADIO TILES -->
-  <section class="section" id="dev-tiles">
-    <h2 class="text-l3">Radio tiles</h2>
+    <h3 class="text-l4" style="margin-top:28px;">Radio tiles</h3>
     <p class="section-lead">Wrap each <code>mat-radio-button</code> in a <code>.radio-tile</code> container and add the <code>no-label</code> class to the button. Connect the tile label via <code>aria-labelledby</code> for accessibility.</p>
-
     <div class="dev-preview" style="flex-direction:column; gap:10px; align-items:stretch; padding:24px 28px;">
       <div class="rb-tile is-selected">
         <div class="rb-tile-radio"><span class="rb-wrap"><input type="radio" class="rb is-checked" id="tile-dev-1" name="dev-tiles" /></span></div>
@@ -880,14 +864,9 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
 
 <span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
     </div>
-  </section>
 
-  <!-- RADIO BUTTON PILL -->
-  <section class="section" id="dev-radio-btn">
-    <h2 class="text-l3">Radio button</h2>
-    <p class="section-lead">Pill-shaped radio buttons for compact horizontal groups. Two visual styles: <strong>ghost</strong> (no border, transparent default) and <strong>bordered</strong> (always shows a border). Wrap each <code>mat-radio-button</code> in a <code>.radio-button</code> label element and add <code>no-label</code> to suppress the built-in label.</p>
-
-    <h3 class="text-l4">Ghost</h3>
+    <h3 class="text-l4" style="margin-top:28px;">Radio button — ghost</h3>
+    <p class="section-lead">Pill-shaped radio buttons for compact horizontal groups. No border in default state — transparent background with a hover fill.</p>
     <div class="dev-preview" style="gap:8px; align-items:center; flex-wrap:wrap;">
       <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-ghost" /></span>Option A</label>
       <label class="rb-btn-ghost"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-pill-ghost" /></span>Option B</label>
@@ -910,7 +889,8 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
 <span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
     </div>
 
-    <h3 class="text-l4">Bordered</h3>
+    <h3 class="text-l4" style="margin-top:28px;">Radio button — bordered</h3>
+    <p class="section-lead">Always shows a border. Selected state uses a soft teal background with a brand-coloured border. More visual weight — use alongside other bordered controls.</p>
     <div class="dev-preview" style="gap:8px; align-items:center; flex-wrap:wrap;">
       <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" name="dev-pill-bord" /></span>Option A</label>
       <label class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb is-checked" name="dev-pill-bord" /></span>Option B</label>
@@ -928,18 +908,13 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
   <span class="ct">&lt;/label&gt;</span>
 <span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
     </div>
-
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
-      <div><strong>Design / dev gap — Radio buttons</strong>Both ghost and bordered radio button styles are proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox button</a> pattern. Neither variant currently exists in the Figma component set. Needs design sign-off before use in product.</div>
+      <div><strong>Design / dev gap — Radio buttons</strong> Both ghost and bordered radio button styles are proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox button</a> pattern. Neither variant currently exists in the Figma component set. Needs design sign-off before use in product.</div>
     </div>
-  </section>
 
-  <!-- DISABLED -->
-  <section class="section" id="dev-disabled">
-    <h2 class="text-l3">Disabled states</h2>
+    <h3 class="text-l4" style="margin-top:28px;">Disabled states</h3>
     <p class="section-lead">Disable the entire group with <code>[disabled]</code> on <code>mat-radio-group</code>, or disable individual options with <code>[disabled]</code> on a specific <code>mat-radio-button</code>.</p>
-
     <div class="dev-preview" style="flex-direction:column; gap:10px; align-items:flex-start; padding:24px 28px;">
       <div class="rb-group">
         <label class="rb-label-wrap is-disabled"><span class="rb-wrap"><input type="radio" class="rb is-disabled" name="dev-dis" /></span>Disabled unselected</label>
@@ -963,7 +938,7 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
   </section>
 
   <!-- API -->
-  <section class="section" id="dev-api">
+  <section class="section" id="dev-props">
     <h2 class="text-l3">API reference</h2>
     <p class="section-lead">The Radio Group uses Angular Material. Both <code>mat-radio-group</code> and <code>mat-radio-button</code> are from <code>@angular/material/radio</code>.</p>
 
@@ -998,16 +973,79 @@ deliveryControl = <span class="ca">new</span> FormControl(<span class="cv">'sche
     </div>
   </section>
 
+  <!-- CSS TOKENS -->
+  <section class="section" id="dev-tokens">
+    <h2 class="text-l3">CSS tokens</h2>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cm">/* Control fill */</span>
+<span class="ca">--bg-brand-base</span>:         <span class="cv">#0a9d99</span>;                 <span class="cm">/* Selected fill                   */</span>
+<span class="ca">--bg-base</span>:               <span class="cv">#ffffff</span>;                 <span class="cm">/* Unselected fill                 */</span>
+<span class="ca">--bg-disabled</span>:           <span class="cv">rgba(25, 39, 67, 0.10)</span>;  <span class="cm">/* Disabled fill                   */</span>
+
+<span class="cm">/* Border */</span>
+<span class="ca">--border-brand-base</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Selected border (tile)          */</span>
+<span class="ca">--border-action</span>:         <span class="cv">#bcc1cd</span>;                 <span class="cm">/* Unselected border               */</span>
+<span class="ca">--border-action-hover</span>:   <span class="cv">#a5adbc</span>;                 <span class="cm">/* Hover border                    */</span>
+
+<span class="cm">/* Indicator (inner dot) */</span>
+<span class="ca">--content-on-brand-base</span>: <span class="cv">#ffffff</span>;                 <span class="cm">/* Inner dot on selected container */</span>
+
+<span class="cm">/* Content */</span>
+<span class="ca">--content-base</span>:          <span class="cv">#192743</span>;                 <span class="cm">/* Label text                      */</span>
+<span class="ca">--content-secondary</span>:     <span class="cv">rgba(25, 39, 67, 0.80)</span>;  <span class="cm">/* Description text                */</span>
+<span class="ca">--content-disabled</span>:      <span class="cv">rgba(25, 39, 67, 0.30)</span>;  <span class="cm">/* Disabled text &amp; indicator       */</span></code></pre>
+    </div>
+  </section>
+
+  <!-- A11Y -->
+  <section class="section" id="dev-a11y">
+    <h2 class="text-l3">Accessibility</h2>
+    <div class="a11y-list">
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>The component handles native semantics.</strong> <code>mat-radio-group</code> and <code>mat-radio-button</code> render a real <code>&lt;input type="radio"&gt;</code> internally — keyboard interaction, AT announcements, and form participation work out of the box.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Always label the group.</strong> Wrap the radio group in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>, or set <code>aria-labelledby</code> on <code>mat-radio-group</code> pointing to a visible heading. Screen readers announce the group label before each option.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Pre-select a default value.</strong> Set an initial value on <code>[(ngModel)]</code> or the <code>FormControl</code> so no group is left empty on load. If no default is meaningful, add an explicit "None" option and pre-select it.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Use <code>aria-labelledby</code> for tiles and descriptions.</strong> When the visible label is a sibling element (as in Radio tiles and With description), add <code>aria-labelledby</code> on the <code>mat-radio-button</code> pointing to the label element's <code>id</code>.</div>
+      </div>
+      <div class="a11y-item">
+        <span class="a11y-arrow">→</span>
+        <div><strong>Disabled removes the item from tab order.</strong> Setting <code>[disabled]="true"</code> applies the <code>disabled</code> attribute to the underlying input — the control is skipped during keyboard navigation and excluded from form submissions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <a class="pag-card left" href="checkbox-docs.html">
+      <span class="pag-dir">← Previous</span>
+      <span class="pag-name">Checkbox</span>
+    </a>
+    <a class="pag-card right" href="toggle-docs.html">
+      <span class="pag-dir">Next →</span>
+      <span class="pag-name">Toggle</span>
+    </a>
+  </div>
+
 </article>
 
 <div class="toc-col">
   <nav class="toc">
     <div class="toc-title">ON THIS PAGE</div>
-    <a class="toc-link" href="#dev-basic">Basic usage</a>
-    <a class="toc-link" href="#dev-tiles">Radio tiles</a>
-    <a class="toc-link" href="#dev-radio-btn">Radio button</a>
-    <a class="toc-link" href="#dev-disabled">Disabled states</a>
-    <a class="toc-link" href="#dev-api">API reference</a>
+    <a class="toc-link" href="#dev-usage">Usage</a>
+    <a class="toc-link" href="#dev-props">API reference</a>
+    <a class="toc-link" href="#dev-tokens">CSS tokens</a>
+    <a class="toc-link" href="#dev-a11y">Accessibility</a>
   </nav>
 </div>
 
