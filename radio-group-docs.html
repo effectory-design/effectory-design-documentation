@@ -171,6 +171,10 @@
     }
     .rb-btn-bordered.is-selected:hover,
     .rb-btn-bordered:has(input.is-checked):hover { border-color: var(--bg-brand-base); }
+    .rb-btn-bordered.is-pressed {
+      background: var(--bg-base-pressed);
+      border-color: var(--border-action-pressed);
+    }
     .rb-btn-bordered.is-disabled {
       background: var(--bg-disabled) !important;
       border-color: transparent !important;
@@ -221,7 +225,7 @@
 <div class="page-header-row">
 <div class="page-header">
   <div class="page-badges">
-    <span class="badge badge-stable">Stable</span>
+    <span class="page-updated">Updated May 2026</span>
   </div>
   <h1 class="text-l1">Radio Group</h1>
   <p class="page-desc">Radio buttons let users select exactly one option from a set. Six display variants are available: a bare control, a labeled option, a described option, a card-style tile, and compact pill buttons in ghost and bordered styles.</p>
@@ -526,12 +530,12 @@
   <!-- STATES -->
   <section class="section" id="states">
     <h2 class="text-l3">States</h2>
-    <p class="section-lead">All variants share the same state model on the radio circle itself.</p>
+    <p class="section-lead">All variants share the same state model on the radio circle. The radio button variants also have a pressed state for the brief moment the surface is held down.</p>
 
+    <h3 class="text-l4">Radio</h3>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
-        <!-- Header row -->
         <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
@@ -540,8 +544,7 @@
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
         </div>
-        <!-- Bare radio -->
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center; border-bottom:1px solid var(--border-base);">
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
           <span style="font-size:12px;color:var(--content-subtle);">Radio</span>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div>
@@ -549,8 +552,22 @@
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div>
         </div>
-        <!-- Labeled -->
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center; border-bottom:1px solid var(--border-base);">
+      </div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">Labeled</h3>
+    <div class="preview">
+      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
+      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
+        </div>
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
           <span style="font-size:12px;color:var(--content-subtle);">Labeled</span>
           <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label></div>
           <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span>Option</label></div>
@@ -558,75 +575,115 @@
           <div style="display:flex;justify-content:center;"><label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span>Option</label></div>
           <div style="display:flex;justify-content:center;"><label class="rb-label-wrap is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label></div>
         </div>
-        <!-- With description -->
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:12px;color:var(--content-subtle);">With desc.</span>
-          <div style="display:flex;justify-content:center;">
-            <div class="rb-info-wrap" style="pointer-events:none;">
-              <span class="rb-wrap"><input type="radio" class="rb" /></span>
-              <div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;">
-            <div class="rb-info-wrap" style="pointer-events:none;">
-              <span class="rb-wrap"><input type="radio" class="rb is-hover" /></span>
-              <div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;">
-            <div class="rb-info-wrap" style="pointer-events:none;">
-              <span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>
-              <div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;">
-            <div class="rb-info-wrap" style="pointer-events:none;">
-              <span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span>
-              <div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;">
-            <div class="rb-info-wrap is-disabled" style="pointer-events:none;">
-              <span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>
-              <div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div>
-            </div>
-          </div>
+      </div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">With description</h3>
+    <div class="preview">
+      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
+      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
         </div>
-        <!-- Tile -->
         <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">Tile</span>
-          <div style="display:flex;justify-content:center;padding:0 8px;">
-            <div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;">
-              <div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div>
-              <div class="rb-tile-body"><div class="rb-tile-title">Value</div></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 8px;">
-            <div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--border-action-hover);background:var(--bg-base-hover);">
-              <div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div>
-              <div class="rb-tile-body"><div class="rb-tile-title">Value</div></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 8px;">
-            <div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;">
-              <div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span></div>
-              <div class="rb-tile-body"><div class="rb-tile-title">Value</div></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 8px;">
-            <div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--bg-brand-base);align-items:center;">
-              <div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div>
-              <div class="rb-tile-body"><div class="rb-tile-title">Value</div></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 8px;">
-            <div class="rb-tile is-disabled" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;">
-              <div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div>
-              <div class="rb-tile-body"><div class="rb-tile-title">Value</div></div>
-            </div>
-          </div>
+          <span style="font-size:12px;color:var(--content-subtle);">With desc.</span>
+          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
+          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
+          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
+          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
+          <div style="display:flex;justify-content:center;"><div class="rb-info-wrap is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span><div class="rb-info-body"><span class="rb-info-label">Label</span><span class="rb-info-desc">Description</span></div></div></div>
         </div>
       </div>
+    </div>
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div><strong>Figma gap — radio with description</strong> This variant is not yet defined in the Figma component set. Proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox — With description</a> pattern.</div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">Radio tiles</h3>
+    <div class="preview">
+      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
+      <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
+        </div>
+        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
+          <span style="font-size:12px;color:var(--content-subtle);">Tile</span>
+          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
+          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--border-action-hover);background:var(--bg-base-hover);"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
+          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
+          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-selected" style="pointer-events:none;padding:10px 12px;min-width:80px;border-color:var(--bg-brand-base);align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
+          <div style="display:flex;justify-content:center;padding:0 8px;"><div class="rb-tile is-disabled" style="pointer-events:none;padding:10px 12px;min-width:80px;align-items:center;"><div class="rb-tile-radio" style="margin-right:8px;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div><div class="rb-tile-body"><div class="rb-tile-title">Value</div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">Radio button — ghost</h3>
+    <div class="preview">
+      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
+      <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
+        <div class="state-col">
+          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Default</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-ghost" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
+          <span class="state-label">Selected</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-ghost is-hover" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Hover</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-ghost is-pressed" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Pressed</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-ghost is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
+          <span class="state-label">Disabled</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:28px;">Radio button — bordered</h3>
+    <div class="preview">
+      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
+      <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
+        <div class="state-col">
+          <label class="rb-btn-bordered" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Default</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-bordered is-selected" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
+          <span class="state-label">Selected</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-bordered is-hover" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Hover</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-bordered is-pressed" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb" /></span>Option</label>
+          <span class="state-label">Pressed</span>
+        </div>
+        <div class="state-col">
+          <label class="rb-btn-bordered is-disabled" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span>Option</label>
+          <span class="state-label">Disabled</span>
+        </div>
+      </div>
+    </div>
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div><strong>Design / dev gap — Radio buttons</strong> Both ghost and bordered radio button styles are not yet defined in the Figma component set. Proposed for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox button</a> pattern. Needs design sign-off before use in product.</div>
     </div>
   </section>
 
