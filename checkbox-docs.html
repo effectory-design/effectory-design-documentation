@@ -1025,6 +1025,46 @@
       <div><strong>Design / dev gap — Select all style</strong>The Figma component includes an outlined teal "select all" visual style (white background, teal border, teal checkmark). This modifier is not exposed on <code>&lt;eff-checkbox&gt;</code> and is undocumented in the component API. Use <code>[intermediate]</code> for partial-selection state; the visual treatment of the parent "select all" control needs to be confirmed with the dev team.</div>
     </div>
 
+    <h3 class="text-l4" style="margin-top:28px;">Checkbox tile</h3>
+    <p class="section-lead">Each tile is a bordered card containing a checkbox, title, and optional description. Wrap the checkbox in a <code>.checkbox-tile</code> container. Multiple tiles can be selected at once.</p>
+    <div class="dev-preview" style="flex-direction:column; gap:10px; align-items:stretch; padding:24px 28px;">
+      <div class="cb-tile is-checked">
+        <div class="cb-tile-cb"><input type="checkbox" class="cb is-checked" id="tile-dev-1" /></div>
+        <div class="cb-tile-body">
+          <div class="cb-tile-title">Manager visibility</div>
+          <div class="cb-tile-desc">Managers can view their team's anonymised results.</div>
+        </div>
+      </div>
+      <div class="cb-tile">
+        <div class="cb-tile-cb"><input type="checkbox" class="cb" id="tile-dev-2" /></div>
+        <div class="cb-tile-body">
+          <div class="cb-tile-title">Public results</div>
+          <div class="cb-tile-desc">Publish results on your company's public page.</div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cm">&lt;!-- Checkbox tile is a proposed pattern, not yet in Figma --&gt;</span>
+<span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"checkbox-tile"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;eff-checkbox</span>
+    <span class="ca">class</span>=<span class="cv">"no-label"</span>
+    <span class="ca">id</span>=<span class="cv">"mgr-vis"</span>
+    <span class="ca">[checked]</span>=<span class="cv">"isManagerVisible"</span>
+    <span class="ca">(checkedChange)</span>=<span class="cv">"isManagerVisible = $event"</span>
+    <span class="ca">aria-labelledby</span>=<span class="cv">"mgr-vis-label"</span>
+  <span class="ct">&gt;&lt;/eff-checkbox&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ca">id</span>=<span class="cv">"mgr-vis-label"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;strong&gt;</span>Manager visibility<span class="ct">&lt;/strong&gt;</span>
+    <span class="ct">&lt;p&gt;</span>Managers can view their team's anonymised results.<span class="ct">&lt;/p&gt;</span>
+  <span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;/div&gt;</span></code></pre>
+    </div>
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div><strong>Design / dev gap — Checkbox tile</strong> The checkbox tile pattern is not yet defined in the Figma component set or the Angular component API. It is proposed here for parity with the <a class="link-inline" href="radio-group-docs.html">Radio tile</a> pattern. Needs design and dev sign-off before use in product.</div>
+    </div>
+
     <h3 class="text-l4">Checkbox button — ghost</h3>
     <p class="section-lead">The entire pill surface is the click target. No border — transparent background with a hover fill. Matches the current Figma component.</p>
     <div class="dev-preview" style="gap:8px; padding:24px 28px; flex-wrap:wrap; justify-content:flex-start;">

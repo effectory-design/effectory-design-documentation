@@ -432,6 +432,12 @@
           <strong>Radio</strong> — the bare control. Default size is 16×16 px; Large is 20×20 px. Use in custom layouts or anywhere you supply your own label markup.
         </div>
       </div>
+
+      <div class="gap-callout" style="margin-bottom:0;">
+        <span class="gap-callout-icon">⚠️</span>
+        <div><strong>Figma gap — large radio size</strong> The 20×20 px large size is not yet defined in the Figma component set. Use it in code for custom layouts that require a larger touch target; design the composition manually in Figma when needed.</div>
+      </div>
+
       <div class="variant-row">
         <div class="variant-row-btn">
           <label class="rb-label-wrap" style="pointer-events:none;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span>Option</label>
@@ -456,6 +462,12 @@
           <p style="margin:0;font-size:12.5px;color:var(--content-subtle);">Use for: onboarding flows, survey builders, plan selection</p>
         </div>
       </div>
+
+      <div class="gap-callout" style="margin-bottom:0;">
+        <span class="gap-callout-icon">⚠️</span>
+        <div><strong>Figma gap — radio with description</strong> The "With description" layout for radio buttons is not yet defined in the Figma component set. It is proposed here for parity with the <a class="link-inline" href="checkbox-docs.html">Checkbox — With description</a> pattern. Needs design sign-off before use in product.</div>
+      </div>
+
       <div class="variant-row">
         <div class="variant-row-btn" style="flex-direction:column; gap:8px; align-items:stretch;">
           <div class="rb-tile is-selected" style="pointer-events:none;">
@@ -722,6 +734,11 @@
     <span class="ct">&lt;/label&gt;</span>
   <span class="ct">&lt;/div&gt;</span>
 <span class="ct">&lt;/mat-radio-group&gt;</span></code></pre>
+    </div>
+
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div><strong>Design / dev gap — Radio with description</strong> This layout pattern is not yet defined in the Figma component set or the Angular component API. It mirrors the <a class="link-inline" href="checkbox-docs.html">Checkbox — With description</a> pattern. Needs design and dev sign-off before use in product.</div>
     </div>
 
     <h3 class="text-l4">With reactive forms</h3>
