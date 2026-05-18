@@ -145,6 +145,7 @@
     .rb-btn-ghost.is-hover { background: var(--bg-base-hover); }
     .rb-btn-ghost.is-pressed { background: var(--bg-base-pressed); }
     .rb-btn-ghost.is-disabled {
+      background: transparent !important;
       color: var(--content-disabled) !important;
       cursor: not-allowed; pointer-events: none;
     }
@@ -163,14 +164,15 @@
     }
     .rb-btn-bordered input[type="radio"].rb { pointer-events: none; }
     .rb-btn-bordered:hover,
-    .rb-btn-bordered.is-hover { background: var(--bg-base-hover); border-color: var(--border-action-hover); }
+    .rb-btn-bordered.is-hover { background: var(--bg-base-hover); border-color: var(--bg-brand-base-hover); }
     .rb-btn-bordered.is-selected,
     .rb-btn-bordered:has(input.is-checked) {
       background: var(--bg-brand-subtle);
       border-color: var(--border-brand-subtle);
     }
     .rb-btn-bordered.is-selected:hover,
-    .rb-btn-bordered:has(input.is-checked):hover { border-color: var(--bg-brand-base); }
+    .rb-btn-bordered.is-selected.is-hover,
+    .rb-btn-bordered:has(input.is-checked):hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-hover); }
     .rb-btn-bordered.is-pressed {
       background: var(--bg-base-pressed);
       border-color: var(--border-action-pressed);
@@ -537,21 +539,23 @@
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
+        <div style="display:grid; grid-template-columns:120px repeat(6,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
+          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED DISABLED</span>
         </div>
-        <div style="display:grid; grid-template-columns:120px repeat(5,1fr); padding:16px 24px; align-items:center;">
+        <div style="display:grid; grid-template-columns:120px repeat(6,1fr); padding:16px 24px; align-items:center;">
           <span style="font-size:12px;color:var(--content-subtle);">Radio</span>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div>
           <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div>
+          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-disabled" /></span></div>
         </div>
       </div>
     </div>
