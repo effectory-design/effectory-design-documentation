@@ -1,0 +1,513 @@
+# Engage Design System — Component Page Conventions
+
+Reference this file whenever creating or editing a component documentation page. It describes the shared HTML structure, CSS patterns, and authoring rules used across all component pages.
+
+---
+
+## 1. File Setup
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[Component Name] — Engage Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Component-specific styles only — no overrides of global patterns */
+  </style>
+</head>
+<body>
+
+<div id="topnav-placeholder"></div>
+
+<div class="shell">
+<div id="sidebar-placeholder"></div>
+
+<div class="content-wrap">
+  <!-- page header + tabs + panels go here -->
+</div><!-- /content-wrap -->
+</div><!-- /shell -->
+
+<script src="nav.js"></script>
+</body>
+</html>
+```
+
+- The `<style>` block contains only component styles (the actual interactive component CSS). Never put layout or documentation overrides here — those belong in `styles.css`.
+- `nav.js` injects the top nav and sidebar via the placeholder `<div>`s.
+
+---
+
+## 2. Page Header
+
+```html
+<div class="page-header-row">
+  <div class="page-header">
+    <div class="page-badges">
+      <span class="page-updated">Updated [Month Year]</span>
+    </div>
+    <h1 class="text-l1">[Component Name]</h1>
+    <p class="page-desc">[One-sentence description of what this component is and when to use it.]</p>
+  </div>
+</div><!-- /page-header-row -->
+```
+
+- `page-badges` is always present, even if empty. Use `<span class="page-updated">` for the date badge.
+- `text-l1` is the only heading level used for the page `<h1>`.
+- `page-desc` is a single paragraph. Keep it concise (1–2 sentences max).
+
+---
+
+## 3. Page Tabs
+
+Every component page has exactly two tabs: **Design** and **Developer**.
+
+```html
+<!-- PAGE TABS -->
+<div class="page-tabs">
+  <div class="page-tabs-inner">
+    <button class="page-tab" data-tab="design">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Design
+    </button>
+    <button class="page-tab" data-tab="developer">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 2l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Developer
+    </button>
+  </div>
+</div>
+```
+
+Tab switching is handled by `nav.js`. Each tab's content lives in a `<div class="tab-panel" data-panel="[design|developer]">`.
+
+---
+
+## 4. Panel Layout Wrapper
+
+Both the Design and Developer panels use the same two-column layout:
+
+```html
+<div class="tab-panel" data-panel="design">
+  <div class="content-cols">
+    <article class="content">
+      <!-- sections go here -->
+
+      <!-- PAGINATION at the bottom of the article -->
+      <div class="pagination">
+        <a class="pag-card left" href="[prev-page].html">
+          <span class="pag-dir">← Previous</span>
+          <span class="pag-name">[Previous Component]</span>
+        </a>
+        <a class="pag-card right" href="[next-page].html">
+          <span class="pag-dir">Next →</span>
+          <span class="pag-name">[Next Component]</span>
+        </a>
+      </div>
+    </article>
+
+    <div class="toc-col">
+      <nav class="toc">
+        <div class="toc-title">ON THIS PAGE</div>
+        <a class="toc-link" href="#[section-id]">[Section Name]</a>
+        <!-- one link per section -->
+      </nav>
+    </div>
+
+  </div><!-- /content-cols -->
+</div><!-- /tab-panel design -->
+```
+
+- If there is no previous page, use `<div></div>` as the left pagination slot.
+- TOC links must use the exact `id` values from section elements.
+
+---
+
+## 5. Design Tab — Section Order
+
+Sections appear in this order inside `<article class="content">`:
+
+| # | Section | `id` | Heading |
+|---|---------|------|---------|
+| 1 | Anatomy | `anatomy` | Anatomy |
+| 2 | Usage | `usage` | Usage |
+| 3 | Variants | `variants` | Variants |
+| 4 | Content guidelines | `content-guidelines` | Content guidelines |
+| 5 | States | `states` | States |
+| 6 | Design Tokens | `tokens` | Design Tokens |
+| 7 | Accessibility | `accessibility` | Accessibility |
+
+Not all sections are required for every component — skip ones that don't apply. Keep the order when sections are present.
+
+### Section boilerplate
+
+```html
+<section class="section" id="[section-id]">
+  <h2 class="text-l3">[Section Title]</h2>
+  <p class="section-lead">[One-line intro sentence.]</p>
+  <!-- section content -->
+</section>
+```
+
+Sub-headings within a section use `<h3 class="text-l4">`.
+
+---
+
+## 6. Anatomy Section
+
+```html
+<div class="anatomy-fig">
+  <!-- Live rendered component with callout lines and numbered labels -->
+  <!-- All elements inside use pointer-events:none -->
+</div>
+
+<div class="anatomy-items">
+  <div class="anatomy-item">
+    <div class="anatomy-num">1</div>
+    <div><span class="anatomy-term">[Part name]</span> — [Description.]</div>
+  </div>
+  <!-- repeat for each part -->
+</div>
+```
+
+- Number badges in the figure: `width:18-20px; height:18-20px; border-radius:50%; background:var(--content-base); color:var(--bg-base); font-size:9-10px; font-weight:700`.
+- Callout lines: `1px` solid `var(--content-subtle)`.
+- All components in anatomy figures must have `pointer-events:none` (they are not interactive).
+
+---
+
+## 7. Usage Section — Do/Don't Cards
+
+Use a `dd-grid` for each Do/Don't pair. Always come in pairs of exactly two: one Do, one Don't.
+
+```html
+<div class="dd-grid">
+  <div class="dd-card">
+    <div class="dd-prev">
+      <!-- live component demo, pointer-events:none -->
+    </div>
+    <div class="dd-cap do">
+      <div class="dd-cap-hd">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Do
+      </div>
+      [Caption text.]
+    </div>
+  </div>
+  <div class="dd-card">
+    <div class="dd-prev">
+      <!-- live component demo, pointer-events:none -->
+    </div>
+    <div class="dd-cap dont">
+      <div class="dd-cap-hd">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Don't
+      </div>
+      [Caption text.]
+    </div>
+  </div>
+</div>
+```
+
+### dd-prev layout rules
+
+**Default** (horizontal, single-line previews):
+```html
+<div class="dd-prev">
+  <!-- inline-flex by default, items in a row -->
+</div>
+```
+
+**Column layout** (stacked items — lists, form fields, etc.):
+```html
+<div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:flex-start; gap:[X]px; align-items:flex-start; padding:20px 28px;">
+```
+
+Critical: when `flex-direction:column`, always add **all five** of these inline overrides:
+- `flex-wrap:nowrap` — prevents items overflowing into a phantom right column
+- `flex:1` — lets the preview grow to fill the card height (captions then align via `flex:none` on `.dd-cap`)
+- `height:auto` — removes the global fixed height that causes overflow
+- `justify-content:flex-start` — items pin to the top
+- `align-items:flex-start` — items align left
+
+The `spread` modifier class (`<div class="dd-prev spread">`) adds `justify-content:space-between` for cases where items should be pushed apart.
+
+### Caption SVG icons
+
+Do (green check): `<circle cx="9" cy="9" r="9" fill="#16a34a"/>` + `<path d="M5 9l3 3 5-5" …/>`  
+Don't (red X): `<circle cx="9" cy="9" r="9" fill="#dc2626"/>` + `<path d="M6 6l6 6M12 6l-6 6" …/>`
+
+---
+
+## 8. Variants Section
+
+Use `state-col` groups or a free layout depending on the component. Each variant is shown live with a label below:
+
+```html
+<div class="state-col">
+  <!-- component instance -->
+  <span class="state-label">[Variant name]</span>
+</div>
+```
+
+Group related variants in a `<div class="cb-demo-row">` (row wrap) or `<div class="cb-demo-col">` (column).
+
+---
+
+## 9. States Section
+
+Show all interactive states in a consistent grid. Standard states to document (where applicable):
+
+- Default / Rest
+- Hover → add class `is-hover`
+- Pressed / Active → add class `is-pressed`
+- Checked / Selected → add class `is-checked` or `is-selected`
+- Indeterminate → add class `is-indeterminate`
+- Disabled → add class `is-disabled` + `pointer-events:none`
+
+All state demo elements must have `pointer-events:none` — they are static illustrations, not interactive.
+
+State class naming: always `is-[statename]` (kebab-case, prefixed with `is-`).
+
+---
+
+## 10. Design Tokens Section
+
+```html
+<section class="section" id="tokens">
+  <h2 class="text-l3">Design Tokens</h2>
+  <p class="section-lead">...</p>
+  <table class="token-table">
+    <thead>
+      <tr><th>Token</th><th>Role</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>--[token-name]</code></td>
+        <td>[What it's used for]</td>
+        <td>[Resolved value or alias]</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+```
+
+Token naming conventions:
+- **Fills / backgrounds**: `--bg-[role]-[state]` e.g. `--bg-brand-base`, `--bg-brand-base-hover`, `--bg-brand-base-pressed`
+- **Borders**: `--border-[role]-[state]` e.g. `--border-brand-base`, `--border-action-hover`
+- **Text / icons**: `--content-[role]` e.g. `--content-base`, `--content-secondary`, `--content-on-brand-base`
+- **Shadows**: `--sh-[name]` e.g. `--sh-action`
+- **Radius**: `--radius-base`
+- State suffix order: `base` → `base-hover` → `base-pressed`
+
+> ⚠️ `--bg-brand-base` ≠ `--border-brand-base` — they resolve to different hex values. Never use a `bg-` token as a border color or vice versa.
+
+---
+
+## 11. Developer Tab — Section Order
+
+| # | Section | `id` | Heading | Notes |
+|---|---------|------|---------|-------|
+| 1 | Playground | `dev-playground` | Playground | Required |
+| 2 | Usage | `dev-usage` | Usage | Required. Contains `dev-preview` + `dev-code-wrap` pairs |
+| 3 | CSS classes | `dev-props` | CSS classes | API reference table |
+| 4 | CSS tokens | `dev-tokens` | CSS tokens | Same token table as design tab |
+| 5 | Accessibility | `dev-a11y` | Accessibility | Required |
+
+---
+
+## 12. Developer Tab — Preview + Code Pattern
+
+Each example in the dev Usage section is a preview block followed immediately by a code block:
+
+```html
+<h3 class="text-l4">[Example Title]</h3>
+<div class="dev-preview">
+  <!-- live component, fully interactive -->
+</div>
+<div class="dev-code-wrap">
+  <button class="dev-copy-btn">Copy</button>
+  <pre><code><!-- syntax-highlighted HTML snippet --></code></pre>
+</div>
+```
+
+Syntax highlight classes inside `<code>`:
+- `<span class="ct">` — tag names (`<button`, `/>`)
+- `<span class="ca">` — attribute names (`class`, `type`)
+- `<span class="cv">` — attribute values (`"btn-primary"`)
+- `<span class="cc">` — comments
+
+**Never add a dark theme inline override** to `.dev-code-wrap` or `.dev-preview`. The global `styles.css` handles the light theme. Any `background: var(--bg-inverse-base)` or similar dark overrides on these elements must be removed.
+
+`dev-preview` inline style overrides (when needed):
+```html
+<!-- horizontal row, wrapping -->
+<div class="dev-preview" style="flex-wrap:wrap;">
+
+<!-- column layout (e.g. form fields stacked) -->
+<div class="dev-preview" style="flex-direction:column; gap:10px; align-items:flex-start; padding:24px 28px;">
+
+<!-- custom padding -->
+<div class="dev-preview" style="padding:24px 28px; gap:12px; justify-content:flex-start;">
+```
+
+---
+
+## 13. Gap / Figma Discrepancy Callouts
+
+Use `gap-callout` (in Design tab) or `dev-gap` (in Developer tab) to flag Design ↔ Dev mismatches.
+
+**Design tab:**
+```html
+<div class="gap-callout">
+  <span class="gap-callout-icon">⚠️</span>
+  <div class="gap-callout-body">
+    <span class="gap-callout-label">Design gap</span>
+    <span class="gap-callout-text">[Description of the discrepancy and what needs to be done.]</span>
+  </div>
+</div>
+```
+
+**Developer tab:**
+```html
+<div class="dev-gap">
+  <span class="dev-gap-icon">⚠️</span>
+  <div class="dev-gap-body">
+    <span class="dev-gap-label">Figma gap</span>
+    <span class="dev-gap-text">[Description of what's missing in Figma and what to add.]</span>
+  </div>
+</div>
+```
+
+Place these directly before the relevant `dev-preview` block, or at the top of a subsection.
+
+---
+
+## 14. Playground Section (Developer Tab — Required)
+
+Every component page must include a Playground as the first section in the Developer tab.
+
+```html
+<section class="section" id="dev-playground">
+  <h2 class="text-l3">Playground</h2>
+  <p class="section-lead">Configure props and see the component update live — the code snippet below reflects your selection.</p>
+
+  <div class="pg-card">
+    <div class="pg-preview" id="pg-preview"></div>
+    <div class="pg-bottom">
+      <div class="pg-tab-bar">
+        <button class="pg-tab is-active" data-pgtab="props">Properties</button>
+        <button class="pg-tab" data-pgtab="code">Code</button>
+        <button class="pg-reset" id="pg-reset">Reset</button>
+      </div>
+      <div class="pg-panel pg-props-wrap" id="pg-panel-props">
+        <!-- .pg-row elements for each prop -->
+      </div>
+      <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
+        <button class="dev-copy-btn" id="pg-copy">Copy</button>
+        <pre><code id="pg-code"></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+Prop row patterns:
+```html
+<!-- Select (enum) -->
+<div class="pg-row">
+  <div class="pg-row-name">[prop]</div>
+  <div class="pg-row-ctrl">
+    <select class="pg-select" id="pg-[prop]">
+      <option value="[val]">[val]</option>
+    </select>
+  </div>
+</div>
+
+<!-- Toggle (boolean) -->
+<div class="pg-row">
+  <div class="pg-row-name">[prop]</div>
+  <div class="pg-row-ctrl">
+    <label class="pg-toggle"><input type="checkbox" id="pg-[prop]"><span class="pg-toggle-track"></span></label>
+  </div>
+</div>
+```
+
+The playground logic is written as an inline `<script>` at the bottom of the panel.
+
+---
+
+## 15. Component CSS Conventions
+
+### Hover on `<input>` inside a `<label>`
+
+CSS `:hover` on a `<label>` or wrapper does **not** propagate to a contained `<input>`. Always add explicit parent-hover rules:
+
+```css
+/* Wrong — input:hover only fires when the cursor is directly on the input */
+input[type="radio"].rb:hover { border-color: var(--border-action-hover); }
+
+/* Correct — also covers hover on any ancestor wrapper */
+input[type="radio"].rb:hover,
+.rb-label-wrap:hover .rb:not(.is-disabled),
+.rb-info-wrap:hover .rb:not(.is-disabled) {
+  border-color: var(--border-action-hover);
+}
+```
+
+### State classes vs. pseudo-classes
+
+Always define both the real pseudo-class and the static state class (used in documentation demos):
+
+```css
+input:checked,
+input.is-checked { /* ... */ }
+
+input:hover,
+input.is-hover { /* ... */ }
+
+input:disabled,
+input.is-disabled { /* ... */ }
+```
+
+### pointer-events on demo elements
+
+All components inside `dd-prev` and anatomy figures must have `pointer-events:none` on the component element itself (not the wrapper). This prevents accidental interaction while keeping the demo visually accurate.
+
+---
+
+## 16. TOC Link → Section ID Mapping
+
+TOC `href`s must exactly match the section `id`. Standard IDs:
+
+**Design tab:**
+- `#anatomy`
+- `#usage`
+- `#variants`
+- `#content-guidelines`
+- `#states`
+- `#tokens`
+- `#accessibility`
+
+**Developer tab:**
+- `#dev-playground`
+- `#dev-usage`
+- `#dev-props`
+- `#dev-tokens`
+- `#dev-a11y`
+
+---
+
+## 17. Common Mistakes to Avoid
+
+| Mistake | Fix |
+|---------|-----|
+| `flex-direction:column` on `dd-prev` without `flex-wrap:nowrap` + `height:auto` | Items overflow into phantom right column. Add all five column overrides (see §7). |
+| Using `--bg-brand-base` as a border color | Use `--border-brand-base` for borders. Different values. |
+| Dark background override on `.dev-code-wrap` or `.dev-preview` | Remove it. `styles.css` handles the light theme globally. |
+| Setting `layoutSizingHorizontal = 'FILL'` before `appendChild` | Not applicable here (Figma SDK rule), but mirrors the flex rule: set sizing after the parent relationship is established. |
+| Mixing `flex:1` and `flex:none` incorrectly in `dd-card` | `dd-prev` gets `flex:1` (grows to fill height); `dd-cap` gets `flex:none` (natural height, pins to bottom). |
+| Missing `is-` prefix on state classes | All state classes are `is-hover`, `is-pressed`, `is-checked`, `is-disabled`, etc. Never `hover`, `active`, `checked`. |
