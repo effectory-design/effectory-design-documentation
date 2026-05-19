@@ -506,23 +506,23 @@
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body" style="gap:16px; padding:24px 28px; flex-wrap:wrap; align-items:center; justify-content:flex-start;">
         <div class="tf-demo-col">
-          <input class="tf-inline" type="text" value="Jente Hoornaert" style="pointer-events:none;width:180px;" tabindex="-1" />
+          <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="pointer-events:none;width:180px;" tabindex="-1" />
           <span class="state-label">Default (filled)</span>
         </div>
         <div class="tf-demo-col">
-          <input class="tf-inline is-hover" type="text" value="Jente Hoornaert" style="pointer-events:none;width:180px;" tabindex="-1" />
+          <input class="tf-inline is-hover" type="text" value="Annual Engagement" style="pointer-events:none;width:180px;" tabindex="-1" />
           <span class="state-label">Hover</span>
         </div>
         <div class="tf-demo-col">
-          <input class="tf-inline is-focus" type="text" value="Jente Hoornaert" style="pointer-events:none;width:180px;" tabindex="-1" />
+          <input class="tf-inline is-focus" type="text" value="Manager Feedback" style="pointer-events:none;width:180px;" tabindex="-1" />
           <span class="state-label">Focus</span>
         </div>
         <div class="tf-demo-col">
-          <input class="tf-inline" type="text" placeholder="Add a name…" style="pointer-events:none;width:180px;" tabindex="-1" />
+          <input class="tf-inline" type="text" placeholder="Add a title…" style="pointer-events:none;width:180px;" tabindex="-1" />
           <span class="state-label">Empty</span>
         </div>
         <div class="tf-demo-col">
-          <input class="tf-inline is-disabled" type="text" value="Read-only" style="pointer-events:none;width:180px;" tabindex="-1" />
+          <input class="tf-inline is-disabled" type="text" value="Onboarding Survey" style="pointer-events:none;width:180px;" tabindex="-1" />
           <span class="state-label">Disabled</span>
         </div>
       </div>
@@ -880,13 +880,13 @@
 
     <h3 class="text-l4">Inline variant</h3>
     <div class="dev-preview" style="padding:24px 28px; gap:20px; align-items:center; flex-wrap:wrap;">
-      <input class="tf-inline" type="text" value="Jente Hoornaert" style="width:200px;" />
+      <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="width:200px;" />
       <input class="tf-inline" type="text" placeholder="Add a value…" style="width:200px;" />
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cc">&lt;!-- Filled --&gt;</span>
-<span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf-inline"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">value</span>=<span class="cv">"Jente Hoornaert"</span> <span class="ct">/&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf-inline"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">value</span>=<span class="cv">"Q3 Employee Pulse"</span> <span class="ct">/&gt;</span>
 
 <span class="cc">&lt;!-- Empty --&gt;</span>
 <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf-inline"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">placeholder</span>=<span class="cv">"Add a value…"</span> <span class="ct">/&gt;</span></code></pre>
@@ -1081,7 +1081,7 @@
         (s === 'hover'    ? ' is-hover'    : '') +
         (s === 'focus'    ? ' is-focus'    : '') +
         (s === 'disabled' ? ' is-disabled' : '');
-      var val  = (s === 'filled' || s === 'hover' || s === 'focus') ? 'Jente Hoornaert' : '';
+      var val  = (s === 'filled' || s === 'hover' || s === 'focus') ? 'Q3 Employee Pulse' : '';
       var phld = 'Add a value…';
 
       previewEl.style.padding = '24px 28px';
@@ -1150,7 +1150,7 @@
     var isDisabled = s === 'disabled';
 
     if (v === 'inline') {
-      var val  = (s === 'filled' || s === 'hover' || s === 'focus') ? ' value="Jente Hoornaert"' : ' placeholder="Add a value…"';
+      var val  = (s === 'filled' || s === 'hover' || s === 'focus') ? ' value="Q3 Employee Pulse"' : ' placeholder="Add a title…"';
       var cls  = 'tf-inline' +
         (s === 'hover'    ? ' is-hover'    : '') +
         (s === 'focus'    ? ' is-focus'    : '') +
