@@ -95,6 +95,71 @@
       align-self: flex-start;
       margin-top: calc((1.4em - 14px) / 2);
     }
+
+    /* Label row (wraps label when options are used) */
+    .ta-lbl-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    /* Leading icon in label */
+    .ta-lbl-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--content-base);
+    }
+
+    /* Info button */
+    .ta-info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      padding: 2px;
+      border: none;
+      background: none;
+      border-radius: 4px;
+      color: var(--content-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .ta-info-btn:hover { background: var(--bg-secondary); color: var(--content-base); }
+    .ta-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-inverse-base);
+      color: var(--content-on-inverse);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.4;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .ta-info-btn:hover .ta-tooltip,
+    .ta-info-btn:focus .ta-tooltip { display: block; }
+
+    /* Character count */
+    .ta-char-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--content-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -311,6 +376,50 @@
           <textarea class="ta" rows="3" placeholder="Add a note…" style="width:240px;"></textarea>
         </div>
         <div class="variant-row-desc"><strong>Without label</strong> — the textarea alone, without a visible label element. Only use this when a heading, table column header, or <code>aria-label</code> provides the accessible name in the surrounding UI.</div>
+      </div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:32px;">Label options</h3>
+    <p style="font-size:14px; color:var(--content-secondary); line-height:1.6; margin-bottom:12px;">Three optional additions to the label row — combinable in any order.</p>
+    <div class="variant-rows">
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <div class="ta-wrap" style="width:240px;">
+            <div class="ta-lbl-row">
+              <span class="ta-lbl-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/></svg></span>
+              <label class="ta-lbl">Survey description</label>
+            </div>
+            <textarea class="ta" rows="3" placeholder="Describe the purpose…"></textarea>
+          </div>
+        </div>
+        <div class="variant-row-desc"><strong>Label icon</strong> — a 16×16 icon placed to the left of the label text. Use to reinforce the field's category at a glance.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <div class="ta-wrap" style="width:240px;">
+            <div class="ta-lbl-row">
+              <label class="ta-lbl">Additional context</label>
+              <button class="ta-info-btn" aria-label="More information">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 7v4M8 5.5v.5"/></svg>
+                <span class="ta-tooltip">Shown to respondents below the survey title.</span>
+              </button>
+            </div>
+            <textarea class="ta" rows="3" placeholder="Optional context for respondents…"></textarea>
+          </div>
+        </div>
+        <div class="variant-row-desc"><strong>Info tooltip</strong> — an icon button after the label that reveals a tooltip on hover. Use to explain a term or give context without cluttering the label or helper text.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <div class="ta-wrap" style="width:240px;">
+            <div class="ta-lbl-row">
+              <label class="ta-lbl">Comments</label>
+              <span class="ta-char-count" id="ta-cc-demo">0/200</span>
+            </div>
+            <textarea class="ta" rows="3" maxlength="200" placeholder="Share your thoughts…" oninput="document.getElementById('ta-cc-demo').textContent=this.value.length+'/200'"></textarea>
+          </div>
+        </div>
+        <div class="variant-row-desc"><strong>Character count</strong> — a live counter on the right of the label row showing characters used vs the limit. Use whenever a hard character limit is enforced so users can self-manage their input length.</div>
       </div>
     </div>
   </section>
