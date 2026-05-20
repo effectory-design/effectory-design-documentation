@@ -61,7 +61,7 @@
     textarea.ta:disabled,
     textarea.ta.is-disabled {
       background: var(--bg-disabled);
-      border-color: var(--border-disabled);
+      border-color: transparent;
       color: var(--content-disabled);
       box-shadow: none;
       cursor: not-allowed;
@@ -331,30 +331,46 @@
     <div class="states-row">
       <div class="state-col">
         <span class="state-lbl">Default</span>
-        <textarea class="ta" rows="3" placeholder="Placeholder text" style="pointer-events:none;width:100%;" tabindex="-1"></textarea>
+        <div class="ta-wrap" style="pointer-events:none; width:100%;">
+          <label class="ta-lbl">Label</label>
+          <textarea class="ta" rows="3" placeholder="Placeholder text" tabindex="-1"></textarea>
+        </div>
       </div>
       <div class="state-col">
         <span class="state-lbl">Hover</span>
-        <textarea class="ta is-hover" rows="3" placeholder="Placeholder text" style="pointer-events:none;width:100%;" tabindex="-1"></textarea>
+        <div class="ta-wrap" style="pointer-events:none; width:100%;">
+          <label class="ta-lbl">Label</label>
+          <textarea class="ta is-hover" rows="3" placeholder="Placeholder text" tabindex="-1"></textarea>
+        </div>
       </div>
       <div class="state-col">
         <span class="state-lbl">Focus</span>
-        <textarea class="ta is-focus" rows="3" placeholder="Placeholder text" style="pointer-events:none;width:100%;" tabindex="-1"></textarea>
+        <div class="ta-wrap" style="pointer-events:none; width:100%;">
+          <label class="ta-lbl">Label</label>
+          <textarea class="ta is-focus" rows="3" placeholder="Placeholder text" tabindex="-1"></textarea>
+        </div>
       </div>
       <div class="state-col">
         <span class="state-lbl">Filled</span>
-        <textarea class="ta" rows="3" style="pointer-events:none;width:100%;" tabindex="-1">This survey covers quarterly engagement across all departments and will be open for two weeks.</textarea>
+        <div class="ta-wrap" style="pointer-events:none; width:100%;">
+          <label class="ta-lbl">Label</label>
+          <textarea class="ta" rows="3" tabindex="-1">This survey covers quarterly engagement across all departments.</textarea>
+        </div>
       </div>
       <div class="state-col">
         <span class="state-lbl">Error</span>
         <div class="ta-wrap" style="width:100%;pointer-events:none;">
+          <label class="ta-lbl">Label</label>
           <textarea class="ta is-error" rows="3" tabindex="-1">Too short.</textarea>
           <span class="ta-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Description must be at least 20 characters</span>
         </div>
       </div>
       <div class="state-col">
         <span class="state-lbl">Disabled</span>
-        <textarea class="ta is-disabled" rows="3" style="pointer-events:none;width:100%;" tabindex="-1">Read-only content that cannot be edited.</textarea>
+        <div class="ta-wrap" style="pointer-events:none; width:100%;">
+          <label class="ta-lbl" style="color:var(--content-disabled);">Label</label>
+          <textarea class="ta is-disabled" rows="3" tabindex="-1">Read-only content that cannot be edited.</textarea>
+        </div>
       </div>
     </div>
   </section>

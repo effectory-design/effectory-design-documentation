@@ -97,7 +97,7 @@
     input.tf:disabled,
     input.tf.is-disabled {
       background: var(--bg-disabled);
-      border-color: var(--border-disabled);
+      border-color: transparent;
       color: var(--content-disabled);
       box-shadow: none;
       cursor: not-allowed;
@@ -618,18 +618,49 @@
 
     <h3 class="text-l4">Standard</h3>
     <div class="states-row">
-      <div class="state-col"><span class="state-lbl">Default</span><input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
-      <div class="state-col"><span class="state-lbl">Hover</span><input class="tf is-hover" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
-      <div class="state-col"><span class="state-lbl">Focus</span><input class="tf is-focus" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
-      <div class="state-col"><span class="state-lbl">Filled</span><input class="tf" type="text" value="Survey name" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col">
+        <span class="state-lbl">Default</span>
+        <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl">Label</label>
+          <input class="tf" type="text" placeholder="Placeholder" tabindex="-1" />
+        </div>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Hover</span>
+        <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl">Label</label>
+          <input class="tf is-hover" type="text" placeholder="Placeholder" tabindex="-1" />
+        </div>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Focus</span>
+        <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl">Label</label>
+          <input class="tf is-focus" type="text" placeholder="Placeholder" tabindex="-1" />
+        </div>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Filled</span>
+        <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl">Label</label>
+          <input class="tf" type="text" value="Survey name" tabindex="-1" />
+        </div>
+      </div>
       <div class="state-col">
         <span class="state-lbl">Error</span>
         <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl">Label</label>
           <input class="tf is-error" type="text" value="bad@" tabindex="-1" />
           <span class="tf-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Enter a valid email address</span>
         </div>
       </div>
-      <div class="state-col"><span class="state-lbl">Disabled</span><input class="tf is-disabled" type="text" value="Disabled" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col">
+        <span class="state-lbl">Disabled</span>
+        <div class="tf-wrap" style="pointer-events:none; width:100%;">
+          <label class="tf-lbl" style="color:var(--content-disabled);">Label</label>
+          <input class="tf is-disabled" type="text" value="Disabled value" tabindex="-1" />
+        </div>
+      </div>
     </div>
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
