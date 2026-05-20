@@ -274,6 +274,36 @@ All state demo elements must have `pointer-events:none` — they are static illu
 
 State class naming: always `is-[statename]` (kebab-case, prefixed with `is-`).
 
+### States layout — grey cards
+
+States are always displayed using the `states-row` + `state-col` pattern. Each state gets its own grey card. The label (`state-lbl`) goes **above** the component inside the card.
+
+```html
+<div class="states-row">
+  <div class="state-col">
+    <span class="state-lbl">Default</span>
+    <!-- component instance -->
+  </div>
+  <div class="state-col">
+    <span class="state-lbl">Hover</span>
+    <!-- component instance with is-hover -->
+  </div>
+  <!-- … one state-col per state … -->
+</div>
+```
+
+`states-row` is a CSS grid with `grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))`, `gap: 4px`, `border-radius: 12px`, and `overflow: hidden`. Each `state-col` has `background: var(--bg-secondary)` and `padding: 40px`.
+
+**Never wrap states in a `preview` / `preview-bar` / `preview-body` container** — that is the old browser-chrome style and is no longer used for states.
+
+For components whose states are shown as a **multi-variant grid table** (e.g. Text Field, bare Checkbox, bare Radio) rather than individual cards, wrap the entire table in a single plain grey card:
+
+```html
+<div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;padding-top:20px;">
+  <!-- grid table with header row + data rows -->
+</div>
+```
+
 **Every variant must be shown for every applicable state.** If a component has multiple variants (e.g. Standard, Inline, Number picker), each variant gets its own states grid row or sub-section. Never document states for only one variant and leave others incomplete. If a state genuinely does not apply to a variant (e.g. Error on an inline editor), omit that column only for that variant — but make a conscious decision, not an oversight.
 
 ---
