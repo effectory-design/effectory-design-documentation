@@ -518,7 +518,7 @@
   <!-- VARIANTS -->
   <section class="section" id="variants">
     <h2 class="text-l3">Variants</h2>
-    <p class="section-lead">Three variants cover different use cases — Standard for labeled forms, Inline text for in-place editing, and Inline number for compact numeric entry.</p>
+    <p class="section-lead">Four variants cover different use cases — Standard for labeled text forms, Number for numeric inputs, Inline text for in-place editing, and Inline number for compact stepper-based entry.</p>
 
     <div class="variant-rows">
       <div class="variant-row">
@@ -528,7 +528,16 @@
             <input class="tf" type="text" placeholder="Placeholder" tabindex="-1" />
           </div>
         </div>
-        <div class="variant-row-desc">Standard — the default text field with a visible border, label, and optional helper text or icons. Use in forms, modals, and anywhere a clearly labeled input is needed.</div>
+        <div class="variant-row-desc">Standard — the default text field with a visible border, label, and optional helper text or icons. Use in forms, modals, and anywhere a clearly labeled text input is needed.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <div class="tf-wrap" style="width:160px; pointer-events:none;">
+            <label class="tf-lbl">Quantity</label>
+            <input class="tf" type="number" placeholder="0" tabindex="-1" />
+          </div>
+        </div>
+        <div class="variant-row-desc">Number — the same bordered Standard field but with <code>type="number"</code>, which enables browser spin controls, numeric keyboard on mobile, and autofill hints. Use when the value is strictly numeric and browser-native behaviour is acceptable.</div>
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
