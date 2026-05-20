@@ -1056,10 +1056,8 @@
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"fullName"</span><span class="ct">&gt;</span>Full name<span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"fullName"</span> <span class="ca">placeholder</span>=<span class="cv">"Enter your full name"</span> <span class="ct">/&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+      <pre><code><span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cv">"fullName"</span><span class="ct">&gt;</span>Full name<span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"fullName"</span> <span class="ca">placeholder</span>=<span class="cv">"Enter your full name"</span> <span class="ct">/&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">With helper text</h3>
@@ -1075,15 +1073,9 @@
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"password"</span><span class="ct">&gt;</span>Password<span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"tf-help"</span> <span class="ca">id</span>=<span class="cv">"password-help"</span><span class="ct">&gt;</span>Minimum 8 characters<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-field"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-field-icon tf-icon-left"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- lock icon --&gt;</span><span class="ct">&lt;/div&gt;</span>
-    <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"password"</span> <span class="ca">id</span>=<span class="cv">"password"</span>
-           <span class="ca">aria-describedby</span>=<span class="cv">"password-help"</span> <span class="ct">/&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+      <pre><code><span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cv">"password"</span><span class="ct">&gt;</span>Password<span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cv">"password-help"</span><span class="ct">&gt;</span>Minimum 8 characters<span class="ct">&lt;/span&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"password"</span> <span class="ca">aria-describedby</span>=<span class="cv">"password-help"</span> <span class="ct">/&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">Required field</h3>
@@ -1095,12 +1087,10 @@
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"email"</span><span class="ct">&gt;</span>
-    Email address <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"tf-required"</span> <span class="ca">aria-hidden</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>*<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">id</span>=<span class="cv">"email"</span> <span class="ca">aria-required</span>=<span class="cv">"true"</span> <span class="ct">/&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+      <pre><code><span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cv">"email"</span><span class="ct">&gt;</span>
+  Email address <span class="ct">&lt;span</span> <span class="ca">aria-hidden</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>*<span class="ct">&lt;/span&gt;</span>
+<span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">id</span>=<span class="cv">"email"</span> <span class="ca">aria-required</span>=<span class="cv">"true"</span> <span class="ca">required</span> <span class="ct">/&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">Error state</h3>
@@ -1116,15 +1106,10 @@
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"email"</span><span class="ct">&gt;</span>Email address<span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf error"</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">id</span>=<span class="cv">"email"</span>
-         <span class="ca">aria-invalid</span>=<span class="cv">"true"</span> <span class="ca">aria-describedby</span>=<span class="cv">"email-err"</span> <span class="ct">/&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-err"</span> <span class="ca">id</span>=<span class="cv">"email-err"</span><span class="ct">&gt;</span>
-    <span class="cc">&lt;!-- alert-circle icon --&gt;</span>
-    Enter a valid email address
-  <span class="ct">&lt;/div&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+      <pre><code><span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cv">"email"</span><span class="ct">&gt;</span>Email address<span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">class</span>=<span class="cv">"error"</span> <span class="ca">id</span>=<span class="cv">"email"</span>
+       <span class="ca">aria-invalid</span>=<span class="cv">"true"</span> <span class="ca">aria-describedby</span>=<span class="cv">"email-err"</span> <span class="ct">/&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cv">"email-err"</span><span class="ct">&gt;</span>Enter a valid email address<span class="ct">&lt;/span&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">Disabled</h3>
@@ -1136,10 +1121,8 @@
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
-      <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"org"</span><span class="ct">&gt;</span>Organisation<span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"org"</span> <span class="ca">disabled</span> <span class="ct">/&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+      <pre><code><span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cv">"org"</span><span class="ct">&gt;</span>Organisation<span class="ct">&lt;/label&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"org"</span> <span class="ca">disabled</span> <span class="ct">/&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">Number input</h3>
@@ -1209,39 +1192,44 @@
 
   <!-- CSS CLASSES -->
   <section class="section" id="dev-props">
-    <h2 class="text-l3">CSS classes</h2>
-    <p class="section-lead">All classes are plain CSS — no framework dependency.</p>
+    <h2 class="text-l3">States &amp; modifiers</h2>
+    <p class="section-lead">The standard text field is a bare <code>&lt;input type="text"&gt;</code>. Only two modifiers exist — an error class and the native disabled attribute.</p>
+
+    <h3 class="text-l4">Standard input</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Attribute / class</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>class="error"</code></td><td>Error / invalid state — applies a red border. Always combine with <code>aria-invalid="true"</code> and <code>aria-describedby</code> pointing to the error message.</td></tr>
+          <tr><td><code>disabled</code></td><td>Native disabled attribute — muted background and border, not focusable, excluded from form submission.</td></tr>
+          <tr><td><code>required</code></td><td>Native required attribute — pair with <code>aria-required="true"</code> for full screen-reader support.</td></tr>
+          <tr><td><code>aria-describedby</code></td><td>Links the input to a helper text or error message element by its <code>id</code>. Screen readers announce it after the label and current value.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="text-l4">Inline variant</h3>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th>Class</th><th>Element</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>.tf-wrap</code></td><td><code>div</code></td><td>Outer wrapper — flex column, <code>gap: 4px</code></td></tr>
-          <tr><td><code>.tf-lbl</code></td><td><code>label</code></td><td>Field label — bold, 14px, links to the input via <code>for</code></td></tr>
-          <tr><td><code>.tf-required</code></td><td><code>span</code></td><td>Required asterisk — red (<code>--content-negative-secondary</code>), add <code>aria-hidden="true"</code></td></tr>
-          <tr><td><code>.tf-field</code></td><td><code>div</code></td><td>Wrapper for icon-decorated inputs — <code>position: relative</code></td></tr>
-          <tr><td><code>.tf-field-icon</code></td><td><code>div</code></td><td>Absolutely positioned icon inside <code>.tf-field</code> — pointer-events none</td></tr>
-          <tr><td><code>.tf-icon-left</code></td><td><code>div</code></td><td>Positions icon at <code>left: 10px</code> — also add <code>padding-left: 34px</code> to the input</td></tr>
-          <tr><td><code>.tf-icon-right</code></td><td><code>div</code></td><td>Positions icon at <code>right: 10px</code> — also add <code>padding-right: 34px</code> to the input</td></tr>
-          <tr><td><code>.tf</code></td><td><code>input</code></td><td>Core text input — 36px height, standard border, shadow</td></tr>
-          <tr><td><code>.tf.is-hover</code></td><td><code>input</code></td><td>Static hover state — darkens border</td></tr>
-          <tr><td><code>.tf.is-focus</code></td><td><code>input</code></td><td>Static focus state — brand border</td></tr>
-          <tr><td><code>.tf.error</code></td><td><code>input</code></td><td>Error / invalid state — red border; the production class used in Angular templates. Also set <code>aria-invalid="true"</code>. (<code>.is-error</code> is accepted as an alias for static design demos.)</td></tr>
-          <tr><td><code>.tf.is-disabled</code></td><td><code>input</code></td><td>Static disabled state — muted background, no border; prefer the native <code>disabled</code> attribute</td></tr>
-          <tr><td><code>.tf-help</code></td><td><code>span</code></td><td>Helper text — 13px, subtle colour; placed <strong>between label and input</strong>; link to input via <code>aria-describedby</code></td></tr>
-          <tr><td><code>.tf-err</code></td><td><code>div</code></td><td>Error message row — icon + 13px red text; link via <code>aria-describedby</code></td></tr>
-          <tr><td><code>.tf-inline</code></td><td><code>input</code></td><td>Inline variant — transparent border until hover/focus, 36px height, no label</td></tr>
-          <tr><td><code>.tf-inline.is-hover</code></td><td><code>input</code></td><td>Static hover for inline</td></tr>
-          <tr><td><code>.tf-inline.is-focus</code></td><td><code>input</code></td><td>Static focus for inline</td></tr>
-          <tr><td><code>.tf-inline.is-disabled</code></td><td><code>input</code></td><td>Static disabled for inline</td></tr>
-          <tr><td><code>.tf-num-wrap</code></td><td><code>div</code></td><td>Number / time-picker outer container — transparent border until interaction, 36px height, 104px default width</td></tr>
-          <tr><td><code>.tf-num-wrap.is-hover</code></td><td><code>div</code></td><td>Static hover — shows border</td></tr>
-          <tr><td><code>.tf-num-wrap.is-focus</code></td><td><code>div</code></td><td>Static focus — brand border</td></tr>
-          <tr><td><code>.tf-num-wrap.is-error</code></td><td><code>div</code></td><td>Error state — pink background (<code>--bg-negative-subtle</code>); combine with <code>is-hover</code> / <code>is-focus</code> for border</td></tr>
-          <tr><td><code>.tf-num-wrap.is-disabled</code></td><td><code>div</code></td><td>Disabled — 40% opacity, pointer-events none</td></tr>
-          <tr><td><code>.tf-num</code></td><td><code>input</code></td><td>Number input inside <code>.tf-num-wrap</code> — native spinners suppressed, inherits container styles</td></tr>
-          <tr><td><code>.tf-num-lbl</code></td><td><code>span</code></td><td>Optional inline label prefix (e.g. <code>H:</code>, <code>M:</code>) — add <code>aria-hidden="true"</code> and provide <code>aria-label</code> on the input instead</td></tr>
-          <tr><td><code>.tf-num-stepper</code></td><td><code>div</code></td><td>Absolutely positioned stepper column on the right — contains up and down buttons</td></tr>
-          <tr><td><code>.tf-num-btn</code></td><td><code>button</code></td><td>Individual up or down stepper button — provide <code>aria-label="Increment"</code> / <code>aria-label="Decrement"</code></td></tr>
+          <tr><td><code>.tf-inline</code></td><td><code>input</code></td><td>Inline text field — transparent border until hover/focus, 36px height, no visible label. Provide <code>aria-label</code> or <code>aria-labelledby</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="text-l4">Number / time-picker component</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Class</th><th>Element</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>.tf-num-wrap</code></td><td><code>div</code></td><td>Outer container — transparent border until interaction, 36px height, 104px default width, inline-flex.</td></tr>
+          <tr><td><code>.tf-num-wrap.is-error</code></td><td><code>div</code></td><td>Error state — pink background (<code>--bg-negative-subtle</code>) and red border on hover/focus.</td></tr>
+          <tr><td><code>.tf-num-wrap.is-disabled</code></td><td><code>div</code></td><td>Disabled — 40% opacity, pointer-events none.</td></tr>
+          <tr><td><code>.tf-num</code></td><td><code>input</code></td><td>Number input inside <code>.tf-num-wrap</code> — native spinners suppressed, inherits container colours.</td></tr>
+          <tr><td><code>.tf-num-lbl</code></td><td><code>span</code></td><td>Optional inline label prefix (e.g. <code>H:</code>) — add <code>aria-hidden="true"</code> and provide <code>aria-label</code> on the input.</td></tr>
+          <tr><td><code>.tf-num-stepper</code></td><td><code>div</code></td><td>Absolutely positioned stepper column — stacks up and down buttons on the right edge.</td></tr>
+          <tr><td><code>.tf-num-btn</code></td><td><code>button</code></td><td>Individual stepper button — provide <code>aria-label="Increment"</code> / <code>"Decrement"</code>.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1330,7 +1318,7 @@
     <div class="toc-title">ON THIS PAGE</div>
     <a class="toc-link" href="#dev-playground">Playground</a>
     <a class="toc-link" href="#dev-usage">Usage</a>
-    <a class="toc-link" href="#dev-props">CSS classes</a>
+    <a class="toc-link" href="#dev-props">States &amp; modifiers</a>
     <a class="toc-link" href="#dev-tokens">CSS tokens</a>
     <a class="toc-link" href="#dev-a11y">Accessibility</a>
   </nav>
@@ -1477,59 +1465,39 @@
 
     if (v === 'inline') {
       var val  = (s === 'filled' || s === 'hover' || s === 'focus') ? ' value="Q3 Employee Pulse"' : ' placeholder="Add a title…"';
-      var cls  = 'tf-inline' +
-        (s === 'hover'    ? ' is-hover'    : '') +
-        (s === 'focus'    ? ' is-focus'    : '') +
-        (s === 'disabled' ? ' is-disabled' : '');
-      var raw = '<input class="' + cls + '" type="text"' + val + (isDisabled ? ' disabled' : '') + ' />';
+      var raw = '<input class="tf-inline" type="text"' + val + (isDisabled ? ' disabled' : '') + ' />';
       codeEl.innerHTML = hl(escHtml(raw));
       return;
     }
 
-    /* Standard */
+    /* Standard — bare HTML, no tf-wrap / tf-lbl / tf classes */
     var lines = [];
-    lines.push('<div class="tf-wrap">');
 
     if (props.label) {
-      var lbl = '  <label class="tf-lbl" for="field">' +
-        'Label' +
-        (props.required ? ' <span class="tf-required" aria-hidden="true">*</span>' : '') +
-        '</label>';
-      lines.push(lbl);
+      if (props.required) {
+        lines.push('<label for="field">');
+        lines.push('  Label <span aria-hidden="true">*</span>');
+        lines.push('</label>');
+      } else {
+        lines.push('<label for="field">Label</label>');
+      }
     }
 
-    var hasIcons = props.iconLeft || props.iconRight;
-    if (hasIcons) lines.push('  <div class="tf-field">');
+    if (props.helper && s !== 'error') {
+      lines.push('<span id="field-help">Helper text for extra context</span>');
+    }
 
-    if (props.iconLeft)  lines.push('    <div class="tf-field-icon tf-icon-left"><!-- icon --></div>');
-    if (props.iconRight) lines.push('    <div class="tf-field-icon tf-icon-right"><!-- icon --></div>');
-
-    var inputCls = 'tf' +
-      (s === 'hover'    ? ' is-hover'    : '') +
-      (s === 'focus'    ? ' is-focus'    : '') +
-      (s === 'error'    ? ' is-error'    : '') +
-      (s === 'disabled' ? ' is-disabled' : '');
-
-    var attrs = ' class="' + inputCls + '" type="text" id="field"';
-    if (props.required) attrs += ' aria-required="true"';
-    if (s === 'error')  attrs += ' aria-invalid="true" aria-describedby="field-err"';
-    if (props.helper && s !== 'error') attrs += ' aria-describedby="field-help"';
-    if (isDisabled)     attrs += ' disabled';
-    var indent = hasIcons ? '    ' : '  ';
-    lines.push(indent + '<input' + attrs + ' />');
-
-    if (hasIcons) lines.push('  </div>');
+    var inputAttrs = ' type="text" id="field"';
+    if (s === 'error')  inputAttrs += ' class="error"';
+    if (props.required) inputAttrs += ' aria-required="true" required';
+    if (s === 'error')  inputAttrs += ' aria-invalid="true" aria-describedby="field-err"';
+    if (props.helper && s !== 'error') inputAttrs += ' aria-describedby="field-help"';
+    if (isDisabled)     inputAttrs += ' disabled';
+    lines.push('<input' + inputAttrs + ' />');
 
     if (s === 'error') {
-      lines.push('  <div class="tf-err" id="field-err">');
-      lines.push('    <!-- alert-circle icon -->');
-      lines.push('    This field is required');
-      lines.push('  </div>');
-    } else if (props.helper) {
-      lines.push('  <span class="tf-help" id="field-help">Helper text for extra context</span>');
+      lines.push('<span id="field-err">This field is required</span>');
     }
-
-    lines.push('</div>');
 
     codeEl.innerHTML = hl(escHtml(lines.join('\n')));
   }
