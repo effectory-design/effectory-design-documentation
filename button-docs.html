@@ -477,69 +477,51 @@
     <p class="section-lead">All four types share the same four states. Token mappings differ per type.</p>
 
     <h3 class="text-l4">Primary</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-primary">Save</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-primary is-hover">Save</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-primary is-pressed">Save</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-primary is-disabled" disabled>Save</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-primary">Save</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-primary is-hover">Save</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-primary is-pressed">Save</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-primary is-disabled" disabled>Save</button></div>
     </div>
 
     <h3 class="text-l4">Secondary</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-secondary">Cancel</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-secondary is-hover">Cancel</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-secondary is-pressed">Cancel</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-secondary is-disabled" disabled>Cancel</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-secondary">Cancel</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-secondary is-hover">Cancel</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-secondary is-pressed">Cancel</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-secondary is-disabled" disabled>Cancel</button></div>
     </div>
 
     <h3 class="text-l4">Tertiary</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-tertiary">Edit</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-tertiary is-hover">Edit</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-tertiary is-pressed">Edit</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-tertiary is-disabled" disabled>Edit</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-tertiary">Edit</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-tertiary is-hover">Edit</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-tertiary is-pressed">Edit</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-tertiary is-disabled" disabled>Edit</button></div>
     </div>
 
     <h3 class="text-l4">Link</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-link">View more</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-link is-hover">View more</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-link is-pressed">View more</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-link is-disabled" disabled>View more</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-link">View more</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-link is-hover">View more</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-link is-pressed">View more</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-link is-disabled" disabled>View more</button></div>
     </div>
 
     <h3 class="text-l4">Link — Danger</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-link-delete"><i data-icon="trash"></i>Delete</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-link-delete is-hover"><i data-icon="trash"></i>Delete</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-link-delete is-pressed"><i data-icon="trash"></i>Delete</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-link-delete is-disabled" disabled><i data-icon="trash"></i>Delete</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-link-delete"><i data-icon="trash"></i>Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-link-delete is-hover"><i data-icon="trash"></i>Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-link-delete is-pressed"><i data-icon="trash"></i>Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-link-delete is-disabled" disabled><i data-icon="trash"></i>Delete</button></div>
     </div>
 
     <h3 class="text-l4">Danger</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:32px; padding:28px 32px;">
-        <div class="state-col"><button class="btn btn-danger">Delete</button><span class="state-label">Default</span></div>
-        <div class="state-col"><button class="btn btn-danger is-hover">Delete</button><span class="state-label">Hover</span></div>
-        <div class="state-col"><button class="btn btn-danger is-pressed">Delete</button><span class="state-label">Pressed</span></div>
-        <div class="state-col"><button class="btn btn-danger is-disabled" disabled>Delete</button><span class="state-label">Disabled</span></div>
-      </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><button class="btn btn-danger">Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><button class="btn btn-danger is-hover">Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Pressed</span><button class="btn btn-danger is-pressed">Delete</button></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><button class="btn btn-danger is-disabled" disabled>Delete</button></div>
     </div>
 
     <div class="tbl-wrap" style="margin-top:16px;">

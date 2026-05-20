@@ -641,9 +641,7 @@
     <p class="section-lead">Every variant shares the same state model. The checkbox button also has a pressed state for the brief moment the surface is held down.</p>
 
     <h3 class="text-l4">Checkbox (bare)</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:0; padding:20px 0; flex-direction:column; align-items:stretch;">
+    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;">
         <!-- header row -->
         <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 0 24px 12px; border-bottom: 1px solid var(--border-base);">
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
@@ -684,7 +682,6 @@
           <div style="display:flex;justify-content:center;">—</div>
           <div style="display:flex;justify-content:center;">—</div>
         </div>
-      </div>
     </div>
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
@@ -692,56 +689,50 @@
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Checkbox button — ghost</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
-        <div class="state-col">
-          <label class="cb-btn"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Default</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn is-checked"><input type="checkbox" class="cb is-checked" />Label</label>
-          <span class="state-label">Checked</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn is-hover"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Hover</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn is-pressed"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Pressed</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn is-disabled"><input type="checkbox" class="cb is-disabled" />Label</label>
-          <span class="state-label">Disabled</span>
-        </div>
+    <div class="states-row">
+      <div class="state-col">
+        <span class="state-lbl">Default</span>
+        <label class="cb-btn"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Checked</span>
+        <label class="cb-btn is-checked"><input type="checkbox" class="cb is-checked" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Hover</span>
+        <label class="cb-btn is-hover"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Pressed</span>
+        <label class="cb-btn is-pressed"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Disabled</span>
+        <label class="cb-btn is-disabled"><input type="checkbox" class="cb is-disabled" />Label</label>
       </div>
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Checkbox button — bordered</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body center" style="gap:10px; padding:24px 28px; flex-wrap:wrap;">
-        <div class="state-col">
-          <label class="cb-btn-bordered"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Default</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn-bordered is-checked"><input type="checkbox" class="cb is-checked" />Label</label>
-          <span class="state-label">Checked</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn-bordered is-hover"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Hover</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn-bordered is-pressed"><input type="checkbox" class="cb" />Label</label>
-          <span class="state-label">Pressed</span>
-        </div>
-        <div class="state-col">
-          <label class="cb-btn-bordered is-disabled"><input type="checkbox" class="cb is-disabled" />Label</label>
-          <span class="state-label">Disabled</span>
-        </div>
+    <div class="states-row">
+      <div class="state-col">
+        <span class="state-lbl">Default</span>
+        <label class="cb-btn-bordered"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Checked</span>
+        <label class="cb-btn-bordered is-checked"><input type="checkbox" class="cb is-checked" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Hover</span>
+        <label class="cb-btn-bordered is-hover"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Pressed</span>
+        <label class="cb-btn-bordered is-pressed"><input type="checkbox" class="cb" />Label</label>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Disabled</span>
+        <label class="cb-btn-bordered is-disabled"><input type="checkbox" class="cb is-disabled" />Label</label>
       </div>
     </div>
     <div class="gap-callout">
