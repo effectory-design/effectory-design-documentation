@@ -83,8 +83,10 @@
     input.tf:focus,
     input.tf.is-focus { border-color: var(--border-brand-base); }
 
-    /* Error */
+    /* Error — .error is the production class; .is-error is used in static design demos */
+    input.tf.error,
     input.tf.is-error { border-color: var(--border-negative-base); }
+    input.tf.error:focus,
     input.tf.is-error:focus,
     input.tf.is-error.is-focus { border-color: var(--border-negative-base); }
 
@@ -722,7 +724,7 @@
       <span class="gap-callout-icon">⚠️</span>
       <div class="gap-callout-body">
         <span class="gap-callout-label">Design gap</span>
-        <span class="gap-callout-text">The live Angular component triggers the error state with <code>class="error"</code> directly on the <code>&lt;input&gt;</code>, not <code>class="is-error"</code>. The design system convention uses <code>is-error</code> to match the <code>is-*</code> state-class pattern. These need to be aligned — either update the CSS to also respond to <code>class="error"</code>, or migrate the codebase to use <code>is-error</code>.</span>
+        <span class="gap-callout-text">The Figma component does not yet have a distinct Error frame for the standard text field. The code uses <code>class="error"</code> to trigger the red border — add a corresponding Error variant to the Figma component set so designers can spec it explicitly.</span>
       </div>
     </div>
 
@@ -1102,17 +1104,10 @@
     </div>
 
     <h3 class="text-l4">Error state</h3>
-    <div class="dev-gap">
-      <span class="dev-gap-icon">⚠️</span>
-      <div class="dev-gap-body">
-        <span class="dev-gap-label">Figma gap</span>
-        <span class="dev-gap-text">The live styleguide component uses <code>class="error"</code> on the <code>&lt;input&gt;</code> for the error state — not <code>class="is-error"</code> as documented here. Until the codebase is updated to follow the <code>is-*</code> convention, use <code>class="error"</code> in production Angular templates and add support for both classes in the shared CSS.</span>
-      </div>
-    </div>
     <div class="dev-preview" style="padding:24px 28px; gap:20px; align-items:flex-start; flex-wrap:wrap;">
       <div class="tf-wrap" style="width:240px;">
         <label class="tf-lbl" for="tf-demo-4">Email address</label>
-        <input class="tf is-error" type="email" id="tf-demo-4" value="jente@" aria-invalid="true" aria-describedby="tf-demo-4-err" />
+        <input class="tf error" type="email" id="tf-demo-4" value="name@" aria-invalid="true" aria-describedby="tf-demo-4-err" />
         <div class="tf-err" id="tf-demo-4-err">
           <i data-icon="alert-circle"></i>
           Enter a valid email address
@@ -1123,7 +1118,7 @@
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
   <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"email"</span><span class="ct">&gt;</span>Email address<span class="ct">&lt;/label&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf is-error"</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">id</span>=<span class="cv">"email"</span>
+  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf error"</span> <span class="ca">type</span>=<span class="cv">"email"</span> <span class="ca">id</span>=<span class="cv">"email"</span>
          <span class="ca">aria-invalid</span>=<span class="cv">"true"</span> <span class="ca">aria-describedby</span>=<span class="cv">"email-err"</span> <span class="ct">/&gt;</span>
   <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-err"</span> <span class="ca">id</span>=<span class="cv">"email-err"</span><span class="ct">&gt;</span>
     <span class="cc">&lt;!-- alert-circle icon --&gt;</span>
@@ -1145,6 +1140,33 @@
   <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"org"</span><span class="ct">&gt;</span>Organisation<span class="ct">&lt;/label&gt;</span>
   <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"text"</span> <span class="ca">id</span>=<span class="cv">"org"</span> <span class="ca">disabled</span> <span class="ct">/&gt;</span>
 <span class="ct">&lt;/div&gt;</span></code></pre>
+    </div>
+
+    <h3 class="text-l4">Number input</h3>
+    <div class="dev-preview" style="padding:24px 28px; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+      <div class="tf-wrap" style="width:160px;">
+        <label class="tf-lbl" for="tf-num-1">Quantity</label>
+        <input class="tf" type="number" id="tf-num-1" placeholder="123456" />
+      </div>
+      <div class="tf-wrap" style="width:160px;">
+        <label class="tf-lbl" for="tf-num-2">Quantity</label>
+        <input class="tf" type="number" id="tf-num-2" disabled placeholder="123456" />
+      </div>
+      <div class="tf-wrap" style="width:160px;">
+        <label class="tf-lbl" for="tf-num-3">Quantity</label>
+        <input class="tf error" type="number" id="tf-num-3" placeholder="1a2345" aria-invalid="true" />
+      </div>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cc">&lt;!-- Default --&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"number"</span> <span class="ca">placeholder</span>=<span class="cv">"123456"</span> <span class="ct">/&gt;</span>
+
+<span class="cc">&lt;!-- Disabled --&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"number"</span> <span class="ca">disabled</span> <span class="ca">placeholder</span>=<span class="cv">"123456"</span> <span class="ct">/&gt;</span>
+
+<span class="cc">&lt;!-- Error --&gt;</span>
+<span class="ct">&lt;input</span> <span class="ca">type</span>=<span class="cv">"number"</span> <span class="ca">class</span>=<span class="cv">"error"</span> <span class="ca">aria-invalid</span>=<span class="cv">"true"</span> <span class="ca">placeholder</span>=<span class="cv">"1a2345"</span> <span class="ct">/&gt;</span></code></pre>
     </div>
 
     <h3 class="text-l4">Number / time picker</h3>
@@ -1203,7 +1225,7 @@
           <tr><td><code>.tf</code></td><td><code>input</code></td><td>Core text input — 36px height, standard border, shadow</td></tr>
           <tr><td><code>.tf.is-hover</code></td><td><code>input</code></td><td>Static hover state — darkens border</td></tr>
           <tr><td><code>.tf.is-focus</code></td><td><code>input</code></td><td>Static focus state — brand border</td></tr>
-          <tr><td><code>.tf.is-error</code></td><td><code>input</code></td><td>Error / invalid state — red border; also set <code>aria-invalid="true"</code></td></tr>
+          <tr><td><code>.tf.error</code></td><td><code>input</code></td><td>Error / invalid state — red border; the production class used in Angular templates. Also set <code>aria-invalid="true"</code>. (<code>.is-error</code> is accepted as an alias for static design demos.)</td></tr>
           <tr><td><code>.tf.is-disabled</code></td><td><code>input</code></td><td>Static disabled state — muted background, no border; prefer the native <code>disabled</code> attribute</td></tr>
           <tr><td><code>.tf-help</code></td><td><code>span</code></td><td>Helper text — 13px, subtle colour; placed <strong>between label and input</strong>; link to input via <code>aria-describedby</code></td></tr>
           <tr><td><code>.tf-err</code></td><td><code>div</code></td><td>Error message row — icon + 13px red text; link via <code>aria-describedby</code></td></tr>
