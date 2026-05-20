@@ -165,7 +165,7 @@
       cursor: not-allowed;
     }
 
-    /* ── Number / time-picker variant ── */
+    /* ── Inline number variant ── */
     .tf-num-wrap {
       position: relative;
       display: inline-flex;
@@ -608,7 +608,7 @@
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Inline variants</h3>
-    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:4px; line-height:1.6;">Both inline variants use a transparent border at rest that becomes visible on hover and focus. They differ in content type: the text variant is for free-form values; the number / time picker adds a custom stepper for numeric input.</p>
+    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:4px; line-height:1.6;">Both inline variants use a transparent border at rest that becomes visible on hover and focus. They differ in content type: the text variant is for free-form values; the inline number variant adds a custom stepper for numeric input.</p>
 
     <div class="variant-sub">
     <div class="variant-sub-hd">Text</div>
@@ -641,8 +641,8 @@
     </div><!-- /variant-sub text -->
 
     <div class="variant-sub">
-    <div class="variant-sub-hd">Number / time picker</div>
-    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">A compact inline number field with custom up/down stepper controls. Used for numeric entry and time pickers (HH:MM). An optional label prefix (e.g. <code>H:</code> or <code>M:</code>) can be placed inside the field for context. Unlike the text variant, the error state adds a pink background instead of just a red border.</p>
+    <div class="variant-sub-hd">Number</div>
+    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">A compact inline number field with custom up/down stepper controls. Used for numeric entry in dense layouts. An optional label prefix can be placed inside the field for context. Unlike the text variant, the error state adds a pink background instead of just a red border.</p>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body" style="gap:16px; padding:24px 28px; flex-wrap:wrap; align-items:center; justify-content:flex-start;">
@@ -709,7 +709,7 @@
   <!-- STATES -->
   <section class="section" id="states">
     <h2 class="text-l3">States</h2>
-    <p class="section-lead">All variants share the same state model — the number/time-picker variant adds an error background. All elements below have <code>pointer-events: none</code> — they are static illustrations.</p>
+    <p class="section-lead">All variants share the same state model — the inline number variant adds a pink error background instead of just a red border. All elements below have <code>pointer-events: none</code> — they are static illustrations.</p>
 
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
@@ -758,7 +758,7 @@
       </div>
     </div>
 
-    <h3 class="text-l4" style="margin-top:28px;">Inline</h3>
+    <h3 class="text-l4" style="margin-top:28px;">Inline text</h3>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
@@ -791,7 +791,7 @@
       </div>
     </div>
 
-    <h3 class="text-l4" style="margin-top:28px;">Number / time picker</h3>
+    <h3 class="text-l4" style="margin-top:28px;">Inline number</h3>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
       <div class="preview-body center" style="gap:0; padding:20px 0 0; flex-direction:column; align-items:stretch;">
@@ -807,7 +807,7 @@
           <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
         </div>
         <div style="display:grid; grid-template-columns:110px repeat(8,1fr); padding:16px 20px; align-items:center; gap:8px 4px;">
-          <span style="font-size:12px;color:var(--content-subtle);">Number</span>
+          <span style="font-size:12px;color:var(--content-subtle);">Inline number</span>
           <!-- Default -->
           <div style="display:flex;justify-content:center;padding:0 4px;">
             <div class="tf-num-wrap" style="pointer-events:none;width:100%;min-width:0;">
@@ -892,7 +892,7 @@
           <tr><td><code>--content-subtle</code></td><td>Helper text</td><td>rgba(25,39,67, 0.50)</td></tr>
           <tr><td><code>--content-negative-secondary</code></td><td>Error message text</td><td>#d3353b</td></tr>
           <tr><td><code>--content-disabled</code></td><td>Disabled text and icon</td><td>rgba(25,39,67, 0.30)</td></tr>
-          <tr><td><code>--bg-negative-subtle</code></td><td>Number / time-picker error background</td><td>#ffebeb</td></tr>
+          <tr><td><code>--bg-negative-subtle</code></td><td>Inline number error background</td><td>#ffebeb</td></tr>
           <tr><td><code>--sh-action</code></td><td>Container shadow</td><td>0 1px 2px rgba(25,39,67,.04)</td></tr>
           <tr><td><code>--radius-base</code></td><td>Container corner radius</td><td>6px</td></tr>
         </tbody>
@@ -1237,7 +1237,7 @@
       <span class="dev-gap-icon">⚠️</span>
       <div class="dev-gap-body">
         <span class="dev-gap-label">Figma gap</span>
-        <span class="dev-gap-text">The inline text field and number / time-picker variants are not yet documented in the Angular styleguide. Angular component selectors and APIs need to be confirmed before these can be added here.</span>
+        <span class="dev-gap-text">The inline text and inline number variants are not yet documented in the Angular styleguide. Angular component selectors and APIs need to be confirmed before these can be added here.</span>
       </div>
     </div>
   </section>
@@ -1266,7 +1266,7 @@
 <span class="ca">--content-negative-secondary</span>: <span class="cv">#d3353b</span>;                 <span class="cc">/* Error message text                */</span>
 <span class="ca">--content-disabled</span>:          <span class="cv">rgba(25, 39, 67, 0.30)</span>;   <span class="cc">/* Disabled text &amp; icon              */</span>
 
-<span class="cc">/* Number / time-picker */</span>
+<span class="cc">/* Inline number */</span>
 <span class="ca">--bg-negative-subtle</span>:        <span class="cv">#ffebeb</span>;                  <span class="cc">/* Error background                  */</span>
 
 <span class="cc">/* Shadow &amp; radius */</span>
