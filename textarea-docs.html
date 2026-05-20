@@ -82,17 +82,17 @@
       display: flex;
       align-items: flex-start;
       gap: 4px;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.4;
       color: var(--content-negative-secondary);
     }
     .ta-err svg,
     .ta-err i {
       display: flex;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
-      margin-top: calc((1.4em - 16px) / 2);
+      margin-top: calc((1.4em - 14px) / 2);
     }
   </style>
 </head>
@@ -319,6 +319,14 @@
     <h2 class="text-l3">States</h2>
     <p class="section-lead">The textarea shares the same state model as the standard text field. All elements below are static illustrations.</p>
 
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div class="gap-callout-body">
+        <span class="gap-callout-label">Design gap</span>
+        <span class="gap-callout-text">The error message styling in Figma does not yet reflect the current spec: text should be 12px and the warning icon 14px. Update the Figma component to match.</span>
+      </div>
+    </div>
+
     <div class="states-row">
       <div class="state-col">
         <span class="state-lbl">Default</span>
@@ -340,7 +348,7 @@
         <span class="state-lbl">Error</span>
         <div class="ta-wrap" style="width:100%;pointer-events:none;">
           <textarea class="ta is-error" rows="3" tabindex="-1">Too short.</textarea>
-          <span class="ta-err"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Description must be at least 20 characters</span>
+          <span class="ta-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Description must be at least 20 characters</span>
         </div>
       </div>
       <div class="state-col">
@@ -713,7 +721,7 @@
     }
     if (p.helper) html += '<span class="ta-help" id="pg-ta-help">Max 500 characters</span>';
     html += `<textarea class="${taClass}" id="pg-ta" rows="3" placeholder="Placeholder text…"${attrs}></textarea>`;
-    if (isError) html += '<div class="ta-err" id="pg-ta-err"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>This field is required</div>';
+    if (isError) html += '<div class="ta-err" id="pg-ta-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>This field is required</div>';
     html += '</div>';
     preview.innerHTML = html;
   }

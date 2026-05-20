@@ -127,17 +127,17 @@
       display: flex;
       align-items: flex-start;
       gap: 4px;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.4;
       color: var(--content-negative-secondary);
     }
     .tf-err svg,
     .tf-err i {
       display: flex;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
-      margin-top: calc((1.4em - 16px) / 2);
+      margin-top: calc((1.4em - 14px) / 2);
     }
 
     /* ── Inline variant ── */
@@ -607,6 +607,14 @@
     <h2 class="text-l3">States</h2>
     <p class="section-lead">All variants share the same state model — the inline number variant adds a pink error background instead of just a red border. All elements below have <code>pointer-events: none</code> — they are static illustrations.</p>
 
+    <div class="gap-callout">
+      <span class="gap-callout-icon">⚠️</span>
+      <div class="gap-callout-body">
+        <span class="gap-callout-label">Design gap</span>
+        <span class="gap-callout-text">The error message styling in Figma does not yet reflect the current spec: text should be 12px and the warning icon 14px. Update the Figma component to match.</span>
+      </div>
+    </div>
+
     <h3 class="text-l4">Standard</h3>
     <div class="states-row">
       <div class="state-col"><span class="state-lbl">Default</span><input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
@@ -617,7 +625,7 @@
         <span class="state-lbl">Error</span>
         <div class="tf-wrap" style="pointer-events:none; width:100%;">
           <input class="tf is-error" type="text" value="bad@" tabindex="-1" />
-          <span class="tf-err"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Enter a valid email address</span>
+          <span class="tf-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Enter a valid email address</span>
         </div>
       </div>
       <div class="state-col"><span class="state-lbl">Disabled</span><input class="tf is-disabled" type="text" value="Disabled" style="pointer-events:none;" tabindex="-1" /></div>
@@ -1255,7 +1263,7 @@
     if (props.iconLeft || props.iconRight) html += '</div>';
 
     if (s === 'error') {
-      html += '<div class="tf-err"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>This field is required</div>';
+      html += '<div class="tf-err"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>This field is required</div>';
     } else if (props.helper) {
       html += '<span class="tf-help">Helper text for extra context</span>';
     }
