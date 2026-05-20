@@ -526,22 +526,22 @@
     <div class="variant-rows">
       <div class="variant-row">
         <div class="variant-row-btn">
-          <div class="tf-wrap" style="width:220px; pointer-events:none;">
+          <div class="tf-wrap" style="width:220px;">
             <label class="tf-lbl">Label</label>
-            <input class="tf" type="text" placeholder="Placeholder" tabindex="-1" />
+            <input class="tf" type="text" placeholder="Placeholder" />
           </div>
         </div>
         <div class="variant-row-desc"><strong>Standard</strong> — the default text field with a visible border, label, and optional helper text or icons. Use in forms, modals, and anywhere a clearly labeled text input is needed.</div>
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
-          <div class="tf-wrap" style="width:160px; pointer-events:none;">
+          <div class="tf-wrap" style="width:160px;">
             <label class="tf-lbl">Quantity</label>
             <div class="tf-field">
-              <input class="tf" type="number" placeholder="0" style="padding-right:32px;" tabindex="-1" />
+              <input class="tf" type="number" placeholder="0" style="padding-right:32px;" />
               <div class="tf-num-stepper" style="position:absolute; right:0; top:0; bottom:0;">
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="tf-num-btn" onclick="var i=this.closest('.tf-field').querySelector('input');i.stepUp();"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="tf-num-btn" onclick="var i=this.closest('.tf-field').querySelector('input');i.stepDown();"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
             </div>
           </div>
@@ -550,17 +550,17 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
-          <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="pointer-events:none; width:200px;" tabindex="-1" />
+          <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="width:200px;" />
         </div>
         <div class="variant-row-desc"><strong>Inline text</strong> — a borderless input that blends into surrounding content at rest; the border only appears on hover and focus. Use for in-place editing inside table rows, settings lists, or any dense layout where a full bordered field would feel visually heavy.</div>
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
-          <div class="tf-num-wrap" style="pointer-events:none;">
-            <input class="tf-num" type="text" value="08" tabindex="-1" />
+          <div class="tf-num-wrap">
+            <input class="tf-num" type="text" value="8" />
             <div class="tf-num-stepper">
-              <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="tf-num-btn" onclick="var i=this.closest('.tf-num-wrap').querySelector('input');i.value=(parseInt(i.value)||0)+1;"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="tf-num-btn" onclick="var i=this.closest('.tf-num-wrap').querySelector('input');i.value=(parseInt(i.value)||0)-1;"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>
           </div>
         </div>
@@ -573,11 +573,11 @@
     <div class="variant-rows">
       <div class="variant-row">
         <div class="variant-row-btn">
-          <div class="tf-wrap" style="width:220px; pointer-events:none;">
+          <div class="tf-wrap" style="width:220px;">
             <label class="tf-lbl">Email</label>
             <div class="tf-field">
               <div class="tf-field-icon tf-icon-left"><i data-icon="mail" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="email" placeholder="name@company.com" style="padding-left:34px;" tabindex="-1" />
+              <input class="tf" type="email" placeholder="name@company.com" style="padding-left:34px;" />
             </div>
           </div>
         </div>
@@ -585,12 +585,12 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
-          <div class="tf-wrap" style="width:220px; pointer-events:none;">
+          <div class="tf-wrap" style="width:220px;">
             <label class="tf-lbl">Password</label>
             <div class="tf-field">
               <div class="tf-field-icon tf-icon-left"><i data-icon="lock" style="display:flex;width:16px;height:16px;"></i></div>
               <div class="tf-field-icon tf-icon-right"><i data-icon="eye" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="password" placeholder="••••••••" style="padding-left:34px;padding-right:34px;" tabindex="-1" />
+              <input class="tf" type="password" placeholder="••••••••" style="padding-left:34px;padding-right:34px;" />
             </div>
           </div>
         </div>

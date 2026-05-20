@@ -267,9 +267,9 @@ Every Variants section uses the `variant-rows` / `variant-row` pattern — a liv
 
 Rules:
 - **One row per variant.** Do not show multiple states (hover, focus, etc.) inside the Variants section — that is what the States section is for.
-- **`variant-row-btn` contains only the default / rest state** of the component. No `is-hover`, `is-focus`, `is-error` classes here.
+- **`variant-row-btn` contains a fully live, interactive component** — no `pointer-events:none`, no `tabindex="-1"`. Users can click, type, and hover to feel the component directly. Remove all static overrides.
+- **`variant-row-btn` shows only the default / rest state** — no `is-hover`, `is-focus`, `is-error` classes. Let the user trigger states naturally.
 - **`variant-row-desc` explains when to use it** — not what it looks like. Start with the use case, not the visual description.
-- All components inside `variant-row-btn` must have `pointer-events:none`.
 - If a component has sub-groups (e.g. a text field with Standard, Inline text, and Inline number sub-variants), use an `<h3 class="text-l4">` heading before the relevant `variant-rows` block for each sub-group.
 
 Example from the Button page:
