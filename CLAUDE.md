@@ -256,7 +256,7 @@ Every Variants section uses the `variant-rows` / `variant-row` pattern — a liv
       <div class="variant-row-btn">
         <!-- live component demo, pointer-events:none -->
       </div>
-      <div class="variant-row-desc">[When to use this variant. Keep it 1–3 sentences. Include the Figma property name in the first sentence where relevant.]</div>
+      <div class="variant-row-desc"><strong>[Variant name]</strong> — [When to use this variant. Keep it 1–3 sentences. Include the Figma property name in the first sentence where relevant.]</div>
     </div>
     <!-- repeat for each variant -->
   </div>
