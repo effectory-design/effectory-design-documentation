@@ -528,25 +528,13 @@
     <p class="section-lead">All variants share the same state model on the radio circle. The radio button variants also have a pressed state for the brief moment the surface is held down.</p>
 
     <h3 class="text-l4">Radio (bare)</h3>
-    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;">
-        <div style="display:grid; grid-template-columns:120px repeat(6,1fr); padding:0 24px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">SELECTED DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:120px repeat(6,1fr); padding:16px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">Radio</span>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb" /></span></div>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-hover" /></span></div>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" /></span></div>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" /></span></div>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-disabled" /></span></div>
-          <div style="display:flex;justify-content:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked is-disabled" /></span></div>
-        </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><span class="rb-wrap"><input type="radio" class="rb" style="pointer-events:none;" /></span></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><span class="rb-wrap"><input type="radio" class="rb is-hover" style="pointer-events:none;" /></span></div>
+      <div class="state-col"><span class="state-lbl">Selected</span><span class="rb-wrap"><input type="radio" class="rb is-checked" style="pointer-events:none;" /></span></div>
+      <div class="state-col"><span class="state-lbl">Selected hover</span><span class="rb-wrap"><input type="radio" class="rb is-checked is-hover" style="pointer-events:none;" /></span></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><span class="rb-wrap"><input type="radio" class="rb is-disabled" style="pointer-events:none;" /></span></div>
+      <div class="state-col"><span class="state-lbl">Selected disabled</span><span class="rb-wrap"><input type="radio" class="rb is-checked is-disabled" style="pointer-events:none;" /></span></div>
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Radio button — ghost</h3>

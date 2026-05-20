@@ -716,143 +716,34 @@
     </div>
 
     <h3 class="text-l4">Standard</h3>
-    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;padding-top:20px;">
-        <!-- Header row -->
-        <div style="display:grid; grid-template-columns:110px repeat(6,1fr); padding:0 20px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FOCUS</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FILLED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">ERROR</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <!-- Data row -->
-        <div style="display:grid; grid-template-columns:110px repeat(6,1fr); padding:16px 20px; align-items:center; gap:8px 4px;">
-          <span style="font-size:12px;color:var(--content-subtle);">Text Field</span>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf is-hover" type="text" placeholder="Placeholder" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf is-focus" type="text" placeholder="Placeholder" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf" type="text" value="Survey name" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf is-error" type="text" value="bad@" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf is-disabled" type="text" value="Disabled" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-        </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><input class="tf is-hover" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Focus</span><input class="tf is-focus" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Filled</span><input class="tf" type="text" value="Survey name" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Error</span><input class="tf is-error" type="text" value="bad@" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><input class="tf is-disabled" type="text" value="Disabled" style="pointer-events:none;" tabindex="-1" /></div>
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Inline text</h3>
-    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;padding-top:20px;">
-        <div style="display:grid; grid-template-columns:110px repeat(5,1fr); padding:0 20px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FOCUS</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FILLED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:110px repeat(5,1fr); padding:16px 20px; align-items:center; gap:8px 4px;">
-          <span style="font-size:12px;color:var(--content-subtle);">Inline</span>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf-inline" type="text" placeholder="Add a value…" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf-inline is-hover" type="text" placeholder="Add a value…" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf-inline is-focus" type="text" value="Q3 Pulse" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf-inline" type="text" value="Q3 Pulse" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <input class="tf-inline is-disabled" type="text" value="Q3 Pulse" style="pointer-events:none;width:100%;min-width:0;" tabindex="-1" />
-          </div>
-        </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><input class="tf-inline" type="text" placeholder="Add a value…" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><input class="tf-inline is-hover" type="text" placeholder="Add a value…" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Focus</span><input class="tf-inline is-focus" type="text" value="Q3 Pulse" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Filled</span><input class="tf-inline" type="text" value="Q3 Pulse" style="pointer-events:none;" tabindex="-1" /></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><input class="tf-inline is-disabled" type="text" value="Q3 Pulse" style="pointer-events:none;" tabindex="-1" /></div>
     </div>
 
     <h3 class="text-l4" style="margin-top:28px;">Inline number</h3>
-    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;padding-top:20px;">
-        <div style="display:grid; grid-template-columns:110px repeat(8,1fr); padding:0 20px 12px; border-bottom:1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FOCUS</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">FILLED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">ERROR</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">ERROR HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">ERROR FOCUS</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-        </div>
-        <div style="display:grid; grid-template-columns:110px repeat(8,1fr); padding:16px 20px; align-items:center; gap:8px 4px;">
-          <span style="font-size:12px;color:var(--content-subtle);">Inline number</span>
-          <!-- Default -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" placeholder="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Hover -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-hover" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Focus -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-focus" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Filled -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Error -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-error" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Error Hover -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-error is-hover" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Error Focus -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-error is-focus" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-          <!-- Disabled -->
-          <div style="display:flex;justify-content:center;padding:0 4px;">
-            <div class="tf-num-wrap is-disabled" style="pointer-events:none;width:100%;min-width:0;">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div>
-          </div>
-        </div>
+    <div class="states-row">
+      <div class="state-col"><span class="state-lbl">Default</span><div class="tf-num-wrap" style="pointer-events:none;"><input class="tf-num" type="text" placeholder="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Hover</span><div class="tf-num-wrap is-hover" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Focus</span><div class="tf-num-wrap is-focus" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Filled</span><div class="tf-num-wrap" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Error</span><div class="tf-num-wrap is-error" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Error hover</span><div class="tf-num-wrap is-error is-hover" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Error focus</span><div class="tf-num-wrap is-error is-focus" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
+      <div class="state-col"><span class="state-lbl">Disabled</span><div class="tf-num-wrap is-disabled" style="pointer-events:none;"><input class="tf-num" type="text" value="08" tabindex="-1" /><div class="tf-num-stepper"><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>
     </div>
   </section>
 

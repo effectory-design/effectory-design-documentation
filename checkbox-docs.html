@@ -641,47 +641,33 @@
     <p class="section-lead">Every variant shares the same state model. The checkbox button also has a pressed state for the brief moment the surface is held down.</p>
 
     <h3 class="text-l4">Checkbox (bare)</h3>
-    <div style="background:var(--bg-secondary);border-radius:12px;overflow:hidden;margin:24px 0 40px;">
-        <!-- header row -->
-        <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 0 24px 12px; border-bottom: 1px solid var(--border-base);">
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);"></span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DEFAULT</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">HOVER</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED</span>
-          <span style="font-size:11px;font-weight:600;color:var(--content-subtle);text-align:center;">DISABLED CHECKED</span>
+    <div class="states-row">
+      <div class="state-col">
+        <span class="state-lbl">Default</span>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Unchecked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-checked" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Checked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-indeterminate" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Indeterminate</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-select-all" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Select all</span></div>
         </div>
-        <!-- unchecked row -->
-        <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 14px 24px; align-items:center; border-bottom: 1px solid var(--border-base);">
-          <span style="font-size:12px;color:var(--content-subtle);">Unchecked</span>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-hover" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled" /></div>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Hover</span>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-hover" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Unchecked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-checked is-hover" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Checked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-indeterminate is-hover" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Indeterminate</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-select-all is-hover" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Select all</span></div>
         </div>
-        <!-- checked row -->
-        <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 14px 24px; align-items:center; border-bottom: 1px solid var(--border-base);">
-          <span style="font-size:12px;color:var(--content-subtle);">Checked</span>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-checked" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-checked is-hover" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled is-checked" /></div>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Disabled</span>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-disabled" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Unchecked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-disabled is-checked" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Checked</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" class="cb is-disabled is-indeterminate" style="pointer-events:none;" /><span style="font-size:12px;color:var(--content-subtle);">Indeterminate</span></div>
         </div>
-        <!-- indeterminate row -->
-        <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 14px 24px; align-items:center; border-bottom: 1px solid var(--border-base);">
-          <span style="font-size:12px;color:var(--content-subtle);">Indeterminate</span>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-indeterminate" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-indeterminate is-hover" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-disabled is-indeterminate" /></div>
-        </div>
-        <!-- select all row -->
-        <div style="display:grid; grid-template-columns: 120px repeat(4,1fr); padding: 14px 24px; align-items:center;">
-          <span style="font-size:12px;color:var(--content-subtle);">Select all</span>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-select-all" /></div>
-          <div style="display:flex;justify-content:center;"><input type="checkbox" class="cb is-select-all is-hover" /></div>
-          <div style="display:flex;justify-content:center;">—</div>
-          <div style="display:flex;justify-content:center;">—</div>
-        </div>
+      </div>
     </div>
     <div class="gap-callout">
       <span class="gap-callout-icon">⚠️</span>
