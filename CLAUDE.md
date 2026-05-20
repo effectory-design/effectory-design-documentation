@@ -266,11 +266,15 @@ Show all interactive states in a consistent grid. Standard states to document (w
 - Pressed / Active → add class `is-pressed`
 - Checked / Selected → add class `is-checked` or `is-selected`
 - Indeterminate → add class `is-indeterminate`
+- Filled → value present, no active state class
+- Error → add class `is-error`
 - Disabled → add class `is-disabled` + `pointer-events:none`
 
 All state demo elements must have `pointer-events:none` — they are static illustrations, not interactive.
 
 State class naming: always `is-[statename]` (kebab-case, prefixed with `is-`).
+
+**Every variant must be shown for every applicable state.** If a component has multiple variants (e.g. Standard, Inline, Number picker), each variant gets its own states grid row or sub-section. Never document states for only one variant and leave others incomplete. If a state genuinely does not apply to a variant (e.g. Error on an inline editor), omit that column only for that variant — but make a conscious decision, not an oversight.
 
 ---
 
