@@ -438,31 +438,19 @@ Syntax highlight classes inside `<code>`:
 
 ## 13. Gap / Figma Discrepancy Callouts
 
-Use `gap-callout` (in Design tab) or `dev-gap` (in Developer tab) to flag Design ↔ Dev mismatches.
+Use the `dev-gap` pattern **everywhere** — both Design tab and Developer tab — to flag Design ↔ Dev mismatches. The `gap-callout` class is deprecated; do not use it.
 
-**Design tab:**
-```html
-<div class="gap-callout">
-  <span class="gap-callout-icon">⚠️</span>
-  <div class="gap-callout-body">
-    <span class="gap-callout-label">Design gap</span>
-    <span class="gap-callout-text">[Description of the discrepancy and what needs to be done.]</span>
-  </div>
-</div>
-```
-
-**Developer tab:**
 ```html
 <div class="dev-gap">
   <span class="dev-gap-icon">⚠️</span>
   <div class="dev-gap-body">
     <span class="dev-gap-label">Figma gap</span>
-    <span class="dev-gap-text">[Description of what's missing in Figma and what to add.]</span>
+    <span class="dev-gap-text">[Description of the discrepancy and what needs to be done.]</span>
   </div>
 </div>
 ```
 
-Place these directly before the relevant `dev-preview` block, or at the top of a subsection.
+Place these directly before the relevant section, state card, or `dev-preview` block they relate to.
 
 ---
 

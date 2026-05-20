@@ -624,13 +624,13 @@
       </div>
     </div>
 
-    <div class="gap-callout" style="margin-top:20px;">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap" style="margin-top:20px;">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Figma gap — large size</strong> The large size is defined in Figma for the bare checkbox container only. The "Labeled" and "With description" variants do not have a large-size composition in the design file. Use the large size in code for custom layouts; design the composition manually in Figma when needed.</div>
     </div>
 
-    <div class="gap-callout" style="margin-top:12px;">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap" style="margin-top:12px;">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Figma gap — Checkbox tile</strong> The Checkbox tile variant is not yet defined in the Figma component set. It is proposed here for parity with the <a class="link-inline" href="radio-group-docs.html">Radio tile</a> pattern. Needs design sign-off before use in product.</div>
     </div>
   </section>
@@ -669,8 +669,8 @@
         </div>
       </div>
     </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Design / dev gap — Select all style</strong>The outlined teal "select all" style exists in the Figma component but has no corresponding input or modifier in <code>&lt;eff-checkbox&gt;</code>. It is unclear whether this is a separate visual treatment applied externally (e.g. via a CSS class on a table header) or a planned component feature. Needs alignment with the dev team before shipping.</div>
     </div>
 
@@ -721,8 +721,8 @@
         <label class="cb-btn-bordered is-disabled"><input type="checkbox" class="cb is-disabled" />Label</label>
       </div>
     </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Design / dev gap — Bordered checkbox button</strong>The Figma component only defines a ghost style (no border, transparent background). The bordered variant above is proposed to match the bordered radio button pattern — it does not yet exist in the component set. Needs design sign-off before use in product.</div>
     </div>
 
@@ -998,8 +998,8 @@
   <span class="ca">(checkedChange)</span>=<span class="cv">"survey.selected = $event; updateParent()"</span>
 <span class="ct">&gt;&lt;/eff-checkbox&gt;</span></code></pre>
     </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Design / dev gap — Select all style</strong>The Figma component includes an outlined teal "select all" visual style (white background, teal border, teal checkmark). This modifier is not exposed on <code>&lt;eff-checkbox&gt;</code> and is undocumented in the component API. Use <code>[intermediate]</code> for partial-selection state; the visual treatment of the parent "select all" control needs to be confirmed with the dev team.</div>
     </div>
 
@@ -1038,8 +1038,8 @@
   <span class="ct">&lt;/label&gt;</span>
 <span class="ct">&lt;/div&gt;</span></code></pre>
     </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Design / dev gap — Checkbox tile</strong> The checkbox tile pattern is not yet defined in the Figma component set or the Angular component API. It is proposed here for parity with the <a class="link-inline" href="radio-group-docs.html">Radio tile</a> pattern. Needs design and dev sign-off before use in product.</div>
     </div>
 
@@ -1097,8 +1097,8 @@
   <span class="ca">(checkedChange)</span>=<span class="cv">"onFilter($event)"</span>
 <span class="ct">&gt;</span>Weekly digest<span class="ct">&lt;/eff-checkbox-button&gt;</span></code></pre>
     </div>
-    <div class="gap-callout">
-      <span class="gap-callout-icon">⚠️</span>
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
       <div><strong>Design / dev gap — Bordered checkbox button</strong>The Figma component only defines a ghost (borderless) style. The bordered variant is proposed here for parity with the bordered radio button, but it does not exist in the component set or the Angular component API yet. Needs design and dev sign-off before use.</div>
     </div>
   </section>
