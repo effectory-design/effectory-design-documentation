@@ -454,7 +454,30 @@ Place these directly before the relevant section, state card, or `dev-preview` b
 
 ---
 
-## 14. Playground Section (Developer Tab — Required)
+## 14. Icons — Always Use the Icon Library
+
+**Never use inline SVGs for icons.** Always use `<i data-icon="[name]">` so icons stay consistent with the design system and automatically pick up colour via `currentColor`.
+
+```html
+<!-- ✅ Correct -->
+<i data-icon="info" style="display:flex;width:16px;height:16px;"></i>
+
+<!-- ❌ Wrong — never do this -->
+<svg width="16" height="16" viewBox="0 0 16 16" ...>...</svg>
+```
+
+Icons live in `assets/icons/{name}.svg` and are injected by `icons.js`. Size and colour are controlled via CSS on the host `<i>` element — the SVG inside inherits `width:100%`, `height:100%`, and `currentColor`.
+
+**Exceptions** — the only cases where an inline `<svg>` is acceptable:
+- Do/Don't caption tick and cross icons (the green circle-check and red circle-X)
+- Tab bar icons (design / developer tab buttons in the page header)
+- Any SVG that is purely decorative layout geometry (e.g. callout lines in anatomy figures)
+
+Every other icon — in components, state demos, variant rows, anatomy callouts, info buttons, error messages — must use `data-icon`.
+
+---
+
+## 15. Playground Section (Developer Tab — Required)
 
 Every component page must include a Playground as the first section in the Developer tab.
 
@@ -508,7 +531,7 @@ The playground logic is written as an inline `<script>` at the bottom of the pan
 
 ---
 
-## 15. Component CSS Conventions
+## 16. Component CSS Conventions
 
 ### Hover on `<input>` inside a `<label>`
 
@@ -547,7 +570,7 @@ All components inside `dd-prev` and anatomy figures must have `pointer-events:no
 
 ---
 
-## 16. TOC Link → Section ID Mapping
+## 17. TOC Link → Section ID Mapping
 
 TOC `href`s must exactly match the section `id`. Standard IDs:
 
@@ -569,7 +592,7 @@ TOC `href`s must exactly match the section `id`. Standard IDs:
 
 ---
 
-## 17. Common Mistakes to Avoid
+## 18. Common Mistakes to Avoid
 
 | Mistake | Fix |
 |---------|-----|
