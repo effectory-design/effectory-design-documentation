@@ -150,7 +150,6 @@
     input.tf-inline::placeholder { color: var(--content-placeholder); }
     input.tf-inline:hover,
     input.tf-inline.is-hover {
-      border-color: var(--border-action-hover);
       background: var(--bg-input-hover);
     }
     input.tf-inline:focus,
@@ -545,8 +544,8 @@
         <div class="tf-demo-col" style="width:220px;">
           <div class="tf-wrap" style="width:100%; pointer-events:none;">
             <label class="tf-lbl">Label</label>
-            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" />
             <span class="tf-help">Helper text for extra context</span>
+            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" />
           </div>
           <span class="state-label">With helper text</span>
         </div>
@@ -559,7 +558,7 @@
         </div>
         <div class="tf-demo-col" style="width:220px;">
           <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl" style="color:var(--content-disabled);">Label</label>
+            <label class="tf-lbl">Label</label>
             <input class="tf" type="text" value="Onboarding Survey" disabled style="pointer-events:none;" tabindex="-1" />
           </div>
           <span class="state-label">Disabled</span>
@@ -604,7 +603,7 @@
         </div>
         <div class="tf-demo-col" style="width:220px;">
           <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl" style="color:var(--content-disabled);">Search</label>
+            <label class="tf-lbl">Search</label>
             <div class="tf-field">
               <div class="tf-field-icon tf-icon-left" style="color:var(--content-disabled);"><i data-icon="search" style="display:flex;width:16px;height:16px;"></i></div>
               <input class="tf" type="search" value="Onboarding Survey" disabled style="pointer-events:none;padding-left:34px;" tabindex="-1" />
@@ -708,29 +707,6 @@
             </div>
           </div>
           <span class="state-label">Disabled</span>
-        </div>
-        <!-- Time picker pair -->
-        <div class="tf-demo-col">
-          <div style="display:flex; align-items:center; gap:4px; pointer-events:none;">
-            <div class="tf-num-wrap">
-              <span class="tf-num-lbl">H:</span>
-              <input class="tf-num" type="text" value="08" style="width:2ch;" tabindex="-1" />
-              <div class="tf-num-stepper">
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              </div>
-            </div>
-            <span style="font-size:14px;font-weight:600;color:var(--content-secondary);">:</span>
-            <div class="tf-num-wrap">
-              <span class="tf-num-lbl">M:</span>
-              <input class="tf-num" type="text" value="30" style="width:2ch;" tabindex="-1" />
-              <div class="tf-num-stepper">
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              </div>
-            </div>
-          </div>
-          <span class="state-label">Time picker (H + M)</span>
         </div>
       </div>
     </div>
@@ -1088,23 +1064,23 @@
     <div class="dev-preview" style="padding:24px 28px; gap:20px; align-items:flex-start; flex-wrap:wrap;">
       <div class="tf-wrap" style="width:240px;">
         <label class="tf-lbl" for="tf-demo-2">Password</label>
+        <span class="tf-help" id="tf-demo-2-help">Minimum 8 characters, at least one number</span>
         <div class="tf-field">
           <div class="tf-field-icon tf-icon-left"><i data-icon="lock" style="display:flex;width:16px;height:16px;"></i></div>
-          <input class="tf" type="password" id="tf-demo-2" placeholder="••••••••" style="padding-left:34px;" />
+          <input class="tf" type="password" id="tf-demo-2" placeholder="••••••••" style="padding-left:34px;" aria-describedby="tf-demo-2-help" />
         </div>
-        <span class="tf-help" id="tf-demo-2-help">Minimum 8 characters, at least one number</span>
       </div>
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-wrap"</span><span class="ct">&gt;</span>
   <span class="ct">&lt;label</span> <span class="ca">class</span>=<span class="cv">"tf-lbl"</span> <span class="ca">for</span>=<span class="cv">"password"</span><span class="ct">&gt;</span>Password<span class="ct">&lt;/label&gt;</span>
+  <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"tf-help"</span> <span class="ca">id</span>=<span class="cv">"password-help"</span><span class="ct">&gt;</span>Minimum 8 characters<span class="ct">&lt;/span&gt;</span>
   <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-field"</span><span class="ct">&gt;</span>
     <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-field-icon tf-icon-left"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- lock icon --&gt;</span><span class="ct">&lt;/div&gt;</span>
     <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf"</span> <span class="ca">type</span>=<span class="cv">"password"</span> <span class="ca">id</span>=<span class="cv">"password"</span>
            <span class="ca">aria-describedby</span>=<span class="cv">"password-help"</span> <span class="ct">/&gt;</span>
   <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"tf-help"</span> <span class="ca">id</span>=<span class="cv">"password-help"</span><span class="ct">&gt;</span>Minimum 8 characters<span class="ct">&lt;/span&gt;</span>
 <span class="ct">&lt;/div&gt;</span></code></pre>
     </div>
 
@@ -1159,7 +1135,7 @@
     <h3 class="text-l4">Disabled</h3>
     <div class="dev-preview" style="padding:24px 28px; gap:20px; align-items:flex-start; flex-wrap:wrap;">
       <div class="tf-wrap" style="width:240px;">
-        <label class="tf-lbl" for="tf-demo-5" style="color:var(--content-disabled);">Organisation</label>
+        <label class="tf-lbl" for="tf-demo-5">Organisation</label>
         <input class="tf is-disabled" type="text" id="tf-demo-5" value="Engage" tabindex="-1" style="pointer-events:none;" />
       </div>
     </div>
@@ -1180,26 +1156,6 @@
           <button class="tf-num-btn" aria-label="Decrement"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </div>
-      <!-- Time picker: H + M pair -->
-      <div style="display:flex; align-items:center; gap:4px;">
-        <div class="tf-num-wrap">
-          <span class="tf-num-lbl">H:</span>
-          <input class="tf-num" type="number" min="0" max="23" value="08" style="width:2ch;" />
-          <div class="tf-num-stepper">
-            <button class="tf-num-btn" aria-label="Increment hours"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button class="tf-num-btn" aria-label="Decrement hours"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
-        </div>
-        <span style="font-size:14px;font-weight:600;color:var(--content-secondary);">:</span>
-        <div class="tf-num-wrap">
-          <span class="tf-num-lbl">M:</span>
-          <input class="tf-num" type="number" min="0" max="59" value="30" style="width:2ch;" />
-          <div class="tf-num-stepper">
-            <button class="tf-num-btn" aria-label="Increment minutes"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button class="tf-num-btn" aria-label="Decrement minutes"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
@@ -1210,17 +1166,6 @@
   <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-num-stepper"</span><span class="ct">&gt;</span>
     <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"tf-num-btn"</span> <span class="ca">aria-label</span>=<span class="cv">"Increment"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- chevron-up --&gt;</span><span class="ct">&lt;/button&gt;</span>
     <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"tf-num-btn"</span> <span class="ca">aria-label</span>=<span class="cv">"Decrement"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- chevron-down --&gt;</span><span class="ct">&lt;/button&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-<span class="ct">&lt;/div&gt;</span>
-
-<span class="cc">&lt;!-- Time picker: two fields with label prefix --&gt;</span>
-<span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-num-wrap"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"tf-num-lbl"</span> <span class="ca">aria-hidden</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>H:<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;input</span> <span class="ca">class</span>=<span class="cv">"tf-num"</span> <span class="ca">type</span>=<span class="cv">"number"</span> <span class="ca">min</span>=<span class="cv">"0"</span> <span class="ca">max</span>=<span class="cv">"23"</span> <span class="ca">value</span>=<span class="cv">"08"</span>
-         <span class="ca">aria-label</span>=<span class="cv">"Hours"</span> <span class="ct">/&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"tf-num-stepper"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"tf-num-btn"</span> <span class="ca">aria-label</span>=<span class="cv">"Increment hours"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- chevron-up --&gt;</span><span class="ct">&lt;/button&gt;</span>
-    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"tf-num-btn"</span> <span class="ca">aria-label</span>=<span class="cv">"Decrement hours"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- chevron-down --&gt;</span><span class="ct">&lt;/button&gt;</span>
   <span class="ct">&lt;/div&gt;</span>
 <span class="ct">&lt;/div&gt;</span></code></pre>
     </div>
@@ -1260,7 +1205,7 @@
           <tr><td><code>.tf.is-focus</code></td><td><code>input</code></td><td>Static focus state — brand border</td></tr>
           <tr><td><code>.tf.is-error</code></td><td><code>input</code></td><td>Error / invalid state — red border; also set <code>aria-invalid="true"</code></td></tr>
           <tr><td><code>.tf.is-disabled</code></td><td><code>input</code></td><td>Static disabled state — muted background, no border; prefer the native <code>disabled</code> attribute</td></tr>
-          <tr><td><code>.tf-help</code></td><td><code>span</code></td><td>Helper text — 13px, subtle colour; link to input via <code>aria-describedby</code></td></tr>
+          <tr><td><code>.tf-help</code></td><td><code>span</code></td><td>Helper text — 13px, subtle colour; placed <strong>between label and input</strong>; link to input via <code>aria-describedby</code></td></tr>
           <tr><td><code>.tf-err</code></td><td><code>div</code></td><td>Error message row — icon + 13px red text; link via <code>aria-describedby</code></td></tr>
           <tr><td><code>.tf-inline</code></td><td><code>input</code></td><td>Inline variant — transparent border until hover/focus, 36px height, no label</td></tr>
           <tr><td><code>.tf-inline.is-hover</code></td><td><code>input</code></td><td>Static hover for inline</td></tr>
