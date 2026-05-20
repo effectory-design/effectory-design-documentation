@@ -255,11 +255,7 @@
     /* ── Variant sub-section label ── */
     .variant-sub { margin-top: 20px; }
     .variant-sub-hd {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--content-subtle);
+      margin-top: 0;
       margin-bottom: 10px;
     }
 
@@ -611,7 +607,7 @@
     <p style="font-size:14px; color:var(--content-secondary); margin-bottom:4px; line-height:1.6;">Both inline variants use a transparent border at rest that becomes visible on hover and focus. They differ in content type: the text variant is for free-form values; the inline number variant adds a custom stepper for numeric input.</p>
 
     <div class="variant-sub">
-    <div class="variant-sub-hd">Text</div>
+    <h4 class="text-l5 variant-sub-hd">Text</h4>
     <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">Used for editing text values in-place — inside table rows, settings lists, or any dense layout where a full bordered field would feel visually heavy. Context is provided by the surrounding UI instead of a label.</p>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
@@ -641,7 +637,7 @@
     </div><!-- /variant-sub text -->
 
     <div class="variant-sub">
-    <div class="variant-sub-hd">Number</div>
+    <h4 class="text-l5 variant-sub-hd">Number</h4>
     <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">A compact inline number field with custom up/down stepper controls. Used for numeric entry in dense layouts. An optional label prefix can be placed inside the field for context. Unlike the text variant, the error state adds a pink background instead of just a red border.</p>
     <div class="preview">
       <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
