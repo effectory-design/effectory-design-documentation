@@ -225,14 +225,14 @@ The global `.dd-prev` CSS uses `min-height: 200px`, `display: flex`, `align-item
 
 **Column layout** (stacked items — lists, form fields, etc.):
 ```html
-<div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:flex-start; gap:[X]px; align-items:flex-start; padding:20px 28px;">
+<div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:[X]px; align-items:flex-start; padding:20px 28px;">
 ```
 
 Critical: when `flex-direction:column`, always add **all five** of these inline overrides:
 - `flex-wrap:nowrap` — prevents items overflowing into a phantom right column
 - `flex:1` — lets the preview grow to fill the card height (captions then align via `flex:none` on `.dd-cap`)
 - `height:auto` — overrides the global `min-height` so the container shrinks to content
-- `justify-content:flex-start` — items pin to the top
+- `justify-content:center` — items are centred vertically within the min-height container
 - `align-items:flex-start` — items align left
 
 The `spread` modifier class (`<div class="dd-prev spread">`) adds `justify-content:space-between` for cases where items should be pushed apart.
