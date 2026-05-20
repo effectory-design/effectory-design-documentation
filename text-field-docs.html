@@ -71,7 +71,8 @@
     }
     input.tf::placeholder { color: var(--content-placeholder); }
     input.tf[type="number"]::-webkit-inner-spin-button,
-    input.tf[type="number"]::-webkit-outer-spin-button { -webkit-appearance: auto; opacity: 1; }
+    input.tf[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input.tf[type="number"] { -moz-appearance: textfield; }
 
     /* Padding adjustments for icons using :has() */
     .tf-field:has(.tf-icon-left)  input.tf { padding-left: 34px; }
