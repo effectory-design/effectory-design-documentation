@@ -518,120 +518,26 @@
   <!-- VARIANTS -->
   <section class="section" id="variants">
     <h2 class="text-l3">Variants</h2>
-    <p class="section-lead">All variants share the same core input and token set — they differ in what's placed alongside or inside the container.</p>
+    <p class="section-lead">Three variants cover different use cases — Standard for labeled forms, Inline text for in-place editing, and Inline number for compact numeric entry.</p>
 
-    <h3 class="text-l4">Standard</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body" style="gap:20px; padding:24px 28px; flex-wrap:wrap; align-items:flex-start; justify-content:flex-start;">
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
+    <div class="variant-rows">
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <div class="tf-wrap" style="width:220px; pointer-events:none;">
             <label class="tf-lbl">Label</label>
-            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" />
+            <input class="tf" type="text" placeholder="Placeholder" tabindex="-1" />
           </div>
-          <span class="state-label">Default</span>
         </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Label</label>
-            <span class="tf-help">Helper text for extra context</span>
-            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" />
-          </div>
-          <span class="state-label">With helper text</span>
-        </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Label <span class="tf-required">*</span></label>
-            <input class="tf" type="text" placeholder="Placeholder" style="pointer-events:none;" tabindex="-1" />
-          </div>
-          <span class="state-label">Required</span>
-        </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Label</label>
-            <input class="tf" type="text" value="Onboarding Survey" disabled style="pointer-events:none;" tabindex="-1" />
-          </div>
-          <span class="state-label">Disabled</span>
-        </div>
+        <div class="variant-row-desc">Standard — the default text field with a visible border, label, and optional helper text or icons. Use in forms, modals, and anywhere a clearly labeled input is needed.</div>
       </div>
-    </div>
-
-    <h3 class="text-l4" style="margin-top:28px;">With icons</h3>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body" style="gap:20px; padding:24px 28px; flex-wrap:wrap; align-items:flex-start; justify-content:flex-start;">
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Search</label>
-            <div class="tf-field">
-              <div class="tf-field-icon tf-icon-left"><i data-icon="search" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="search" placeholder="Search surveys…" style="pointer-events:none;padding-left:34px;" tabindex="-1" />
-            </div>
-          </div>
-          <span class="state-label">Leading icon</span>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="pointer-events:none; width:200px;" tabindex="-1" />
         </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Email</label>
-            <div class="tf-field">
-              <div class="tf-field-icon tf-icon-left"><i data-icon="mail" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="email" placeholder="name@company.com" style="pointer-events:none;padding-left:34px;" tabindex="-1" />
-            </div>
-          </div>
-          <span class="state-label">Leading icon (email)</span>
-        </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Password</label>
-            <div class="tf-field">
-              <div class="tf-field-icon tf-icon-left"><i data-icon="lock" style="display:flex;width:16px;height:16px;"></i></div>
-              <div class="tf-field-icon tf-icon-right"><i data-icon="eye" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="password" placeholder="••••••••" style="pointer-events:none;padding-left:34px;padding-right:34px;" tabindex="-1" />
-            </div>
-          </div>
-          <span class="state-label">Leading + trailing icon</span>
-        </div>
-        <div class="tf-demo-col" style="width:220px;">
-          <div class="tf-wrap" style="width:100%; pointer-events:none;">
-            <label class="tf-lbl">Search</label>
-            <div class="tf-field">
-              <div class="tf-field-icon tf-icon-left" style="color:var(--content-disabled);"><i data-icon="search" style="display:flex;width:16px;height:16px;"></i></div>
-              <input class="tf" type="search" value="Onboarding Survey" disabled style="pointer-events:none;padding-left:34px;" tabindex="-1" />
-            </div>
-          </div>
-          <span class="state-label">Disabled</span>
-        </div>
+        <div class="variant-row-desc">Inline text — a borderless input that blends into surrounding content at rest; the border only appears on hover and focus. Use for in-place editing inside table rows, settings lists, or any dense layout where a full bordered field would feel visually heavy.</div>
       </div>
-    </div>
-
-    <h3 class="text-l4" style="margin-top:28px;">Inline variants</h3>
-    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:4px; line-height:1.6;">Both inline variants use a transparent border at rest that becomes visible on hover and focus. They differ in content type: the text variant is for free-form values; the inline number variant adds a custom stepper for numeric input.</p>
-
-    <div class="variant-sub">
-    <h4 class="text-l5 variant-sub-hd">Text</h4>
-    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">Used for editing text values in-place — inside table rows, settings lists, or any dense layout where a full bordered field would feel visually heavy. Context is provided by the surrounding UI instead of a label.</p>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body" style="gap:16px; padding:24px 28px; flex-wrap:wrap; align-items:center; justify-content:flex-start;">
-        <div class="tf-demo-col">
-          <input class="tf-inline" type="text" value="Q3 Employee Pulse" style="pointer-events:none;width:180px;" tabindex="-1" />
-          <span class="state-label">With value</span>
-        </div>
-        <div class="tf-demo-col">
-          <input class="tf-inline" type="text" placeholder="Add a title…" style="pointer-events:none;width:180px;" tabindex="-1" />
-          <span class="state-label">Empty</span>
-        </div>
-      </div>
-    </div>
-    </div><!-- /variant-sub text -->
-
-    <div class="variant-sub">
-    <h4 class="text-l5 variant-sub-hd">Number</h4>
-    <p style="font-size:14px; color:var(--content-secondary); margin-bottom:12px; line-height:1.6;">A compact inline number field with custom up/down stepper controls. Used for numeric entry in dense layouts. An optional label prefix can be placed inside the field for context. Unlike the text variant, the error state adds a pink background instead of just a red border.</p>
-    <div class="preview">
-      <div class="preview-bar"><div class="preview-dots"><div class="preview-dot"></div><div class="preview-dot"></div><div class="preview-dot"></div></div></div>
-      <div class="preview-body" style="gap:16px; padding:24px 28px; flex-wrap:wrap; align-items:center; justify-content:flex-start;">
-        <div class="tf-demo-col">
+      <div class="variant-row">
+        <div class="variant-row-btn">
           <div class="tf-num-wrap" style="pointer-events:none;">
             <input class="tf-num" type="text" value="08" tabindex="-1" />
             <div class="tf-num-stepper">
@@ -639,24 +545,10 @@
               <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>
           </div>
-          <span class="state-label">Inline number</span>
         </div>
-        <div class="tf-demo-col">
-          <div style="display:flex;align-items:center;gap:4px;pointer-events:none;">
-            <span style="font-size:13px;color:var(--content-secondary);">H:</span>
-            <div class="tf-num-wrap">
-              <input class="tf-num" type="text" value="08" tabindex="-1" />
-              <div class="tf-num-stepper">
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 9L7 5L11 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <button class="tf-num-btn" tabindex="-1"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              </div>
-            </div>
-          </div>
-          <span class="state-label">With label prefix</span>
-        </div>
+        <div class="variant-row-desc">Inline number — a compact numeric field with custom stepper controls. The border is transparent at rest, like the inline text variant. Use for numeric entry in dense layouts such as table cells or configuration panels. An optional label prefix can be placed inside the field for context.</div>
       </div>
     </div>
-    </div><!-- /variant-sub number -->
   </section>
 
   <!-- STATES -->
@@ -672,8 +564,10 @@
       <div class="state-col"><span class="state-lbl">Filled</span><input class="tf" type="text" value="Survey name" style="pointer-events:none;" tabindex="-1" /></div>
       <div class="state-col">
         <span class="state-lbl">Error</span>
-        <input class="tf is-error" type="text" value="bad@" style="pointer-events:none;" tabindex="-1" />
-        <span class="tf-err" style="pointer-events:none;">Enter a valid email address</span>
+        <div class="tf-wrap" style="pointer-events:none;">
+          <input class="tf is-error" type="text" value="bad@" tabindex="-1" />
+          <span class="tf-err"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="6"/><path d="M7 4.5v3M7 9.5v.5"/></svg>Enter a valid email address</span>
+        </div>
       </div>
       <div class="state-col"><span class="state-lbl">Disabled</span><input class="tf is-disabled" type="text" value="Disabled" style="pointer-events:none;" tabindex="-1" /></div>
     </div>
