@@ -548,15 +548,32 @@
           <!-- Standard (dropdown) -->
           <div class="variant-row">
             <div class="variant-row-btn" style="align-items:flex-start;padding-top:16px;">
-              <div style="display:flex;flex-direction:column;gap:4px;">
-                <button class="dp-trigger">
+              <div style="position:relative;display:inline-block;">
+                <button class="dp-trigger" id="vr-trigger-std">
                   <i data-icon="calendar" style="display:flex;width:16px;height:16px;"></i>
-                  14 May 2026
+                  <span id="vr-trigger-std-label">14 May 2026</span>
                   <i data-icon="chevron-down" style="display:flex;width:14px;height:14px;"></i>
                 </button>
+                <div class="dp" id="vr-cal-std" style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:100;">
+                  <div class="dp-body">
+                    <div class="dp-header">
+                      <div class="dp-month-group"><span class="dp-month-label">May 2026</span><i data-icon="chevron-down-small" style="display:flex;width:16px;height:16px;color:var(--content-secondary);"></i></div>
+                      <div class="dp-nav"><button class="dp-nav-btn"><i data-icon="chevron-left" style="display:flex;width:16px;height:16px;"></i></button><button class="dp-nav-btn"><i data-icon="chevron-right" style="display:flex;width:16px;height:16px;"></i></button></div>
+                    </div>
+                    <div class="dp-weekdays"><div class="dp-wday">M</div><div class="dp-wday">T</div><div class="dp-wday">W</div><div class="dp-wday">T</div><div class="dp-wday">F</div><div class="dp-wday">S</div><div class="dp-wday">S</div></div>
+                    <div class="dp-grid">
+                      <div class="dp-day is-empty"></div><div class="dp-day is-empty"></div><div class="dp-day is-empty"></div><div class="dp-day is-empty"></div>
+                      <div class="dp-day">1</div><div class="dp-day">2</div><div class="dp-day">3</div>
+                      <div class="dp-day">4</div><div class="dp-day">5</div><div class="dp-day">6</div><div class="dp-day">7</div><div class="dp-day">8</div><div class="dp-day">9</div><div class="dp-day">10</div>
+                      <div class="dp-day">11</div><div class="dp-day">12</div><div class="dp-day">13</div><div class="dp-day is-selected">14</div><div class="dp-day is-today">15</div><div class="dp-day">16</div><div class="dp-day">17</div>
+                      <div class="dp-day">18</div><div class="dp-day">19</div><div class="dp-day">20</div><div class="dp-day">21</div><div class="dp-day">22</div><div class="dp-day">23</div><div class="dp-day">24</div>
+                      <div class="dp-day">25</div><div class="dp-day">26</div><div class="dp-day">27</div><div class="dp-day">28</div><div class="dp-day">29</div><div class="dp-day">30</div><div class="dp-day">31</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="variant-row-desc"><strong>Standard (dropdown)</strong> — A trigger button that opens the calendar in a floating panel. Footer buttons let users confirm or cancel the selection before the value is committed. Use in forms, filter panels, or anywhere a date field appears alongside other inputs. This is the default mode (<code>footerButtons = true</code>).</div>
+            <div class="variant-row-desc"><strong>Standard (dropdown)</strong> — A trigger button that opens the calendar in a floating panel. Clicking a day immediately commits the value and closes the picker. Use in forms, filter panels, or anywhere a date field appears alongside other inputs. This is the default mode.</div>
           </div>
 
           <!-- Inline -->
@@ -1501,6 +1518,37 @@ function wireDaySelect(cal, isRange) {
   wireDaySelect(range,  true);
   wireSteppers(document.getElementById('vr-cal-time'));
   wireSteppers(document.getElementById('dev-preview-time'));
+
+  // Standard dropdown variant
+  const stdTrigger = document.getElementById('vr-trigger-std');
+  const stdCal     = document.getElementById('vr-cal-std');
+  const stdLabel   = document.getElementById('vr-trigger-std-label');
+  const months     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  if (stdTrigger && stdCal) {
+    function openStd()  { stdCal.style.display = ''; stdTrigger.classList.add('is-open'); }
+    function closeStd() { stdCal.style.display = 'none'; stdTrigger.classList.remove('is-open'); }
+
+    stdTrigger.addEventListener('click', e => {
+      e.stopPropagation();
+      stdCal.style.display === 'none' ? openStd() : closeStd();
+    });
+
+    // Select a day → update label + close
+    stdCal.addEventListener('click', e => {
+      const day = e.target.closest('.dp-day');
+      if (!day || day.classList.contains('is-empty')) return;
+      stdCal.querySelectorAll('.dp-day').forEach(d => d.classList.remove('is-selected'));
+      day.classList.add('is-selected');
+      stdLabel.textContent = day.textContent.trim() + ' May 2026';
+      closeStd();
+    });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!stdTrigger.contains(e.target) && !stdCal.contains(e.target)) closeStd();
+    });
+  }
 })();
 </script>
 </body>
