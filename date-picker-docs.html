@@ -92,6 +92,7 @@
       display: grid; grid-template-columns: repeat(7, 28px);
       gap: 4px; justify-content: center;
       overflow: hidden; /* clips range-band bleeds at grid edges */
+      isolation: isolate; /* stacking context so ::before z-index:-1 is below .dp-day, not the whole page */
     }
     .dp-day {
       width: 28px; height: 28px;
@@ -130,43 +131,38 @@
     .dp-day.is-empty { opacity: 0; pointer-events: none; cursor: default; }
 
     /* ── Range selection ── */
-    /* Circle drawn by radial-gradient (top layer) over right/left-half band (bottom layer).
-       No border-radius so the band isn't clipped. box-shadow fills the 4px grid gap. */
-    .dp-day.is-range-start {
-      background:
-        radial-gradient(circle at center, var(--bg-brand-base) calc(50% - .5px), transparent 50%),
-        linear-gradient(to right, transparent 50%, var(--bg-brand-subtle) 50%);
-      color: #fff; border-radius: 0;
-      box-shadow: 4px 0 0 0 var(--bg-brand-subtle);
-    }
+    /* .dp-grid has isolation:isolate (stacking context), so ::before with z-index:-1
+       paints below .dp-day (the circle) but above .dp-grid's background — exactly right. */
+    .dp-day.is-range-start,
     .dp-day.is-range-end {
-      background:
-        radial-gradient(circle at center, var(--bg-brand-base) calc(50% - .5px), transparent 50%),
-        linear-gradient(to right, var(--bg-brand-subtle) 50%, transparent 50%);
-      color: #fff; border-radius: 0;
-      box-shadow: -4px 0 0 0 var(--bg-brand-subtle);
+      background: var(--bg-brand-base); color: #fff; border-radius: 80px;
     }
-    /* In-range: fills cell + bleeds into both side gaps via box-shadow */
+    /* Band half: right side of start cell, bleeds 4px into the gap */
+    .dp-day.is-range-start::before {
+      content: ''; position: absolute; z-index: -1;
+      top: 0; bottom: 0; left: 50%; right: -4px;
+      background: var(--bg-brand-subtle);
+    }
+    /* Band half: left side of end cell, bleeds 4px into the gap */
+    .dp-day.is-range-end::before {
+      content: ''; position: absolute; z-index: -1;
+      top: 0; bottom: 0; left: -4px; right: 50%;
+      background: var(--bg-brand-subtle);
+    }
+    /* In-range: full cell + bleeds 4px into both gaps */
     .dp-day.is-in-range {
       background: var(--bg-brand-subtle); border-radius: 0; color: var(--content-base);
-      box-shadow: -4px 0 0 0 var(--bg-brand-subtle), 4px 0 0 0 var(--bg-brand-subtle);
+    }
+    .dp-day.is-in-range::before {
+      content: ''; position: absolute; z-index: -1;
+      top: 0; bottom: 0; left: -4px; right: -4px;
+      background: var(--bg-brand-subtle);
     }
     /* Keep range colours on hover */
-    .dp-day.is-range-start:hover {
-      background:
-        radial-gradient(circle at center, var(--bg-brand-base) calc(50% - .5px), transparent 50%),
-        linear-gradient(to right, transparent 50%, var(--bg-brand-subtle) 50%);
-    }
-    .dp-day.is-range-end:hover {
-      background:
-        radial-gradient(circle at center, var(--bg-brand-base) calc(50% - .5px), transparent 50%),
-        linear-gradient(to right, var(--bg-brand-subtle) 50%, transparent 50%);
-    }
+    .dp-day.is-range-start:hover, .dp-day.is-range-end:hover { background: var(--bg-brand-base); }
     .dp-day.is-in-range:hover { background: var(--bg-brand-subtle); }
-    /* Single-day range: plain circle, no strip */
-    .dp-day.is-range-start.is-range-end {
-      background: var(--bg-brand-base); border-radius: 80px; box-shadow: none;
-    }
+    /* Single-day range: no strip */
+    .dp-day.is-range-start.is-range-end::before { display: none; }
 
     /* ── Time selector — no divider, just top spacing ── */
     .dp-time-section {
