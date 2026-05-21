@@ -1610,7 +1610,7 @@ function wireYearView(cal) {
   // Inject the year grid panel once, before weekdays
   const panel = document.createElement('div');
   panel.className = 'dp-year-panel';
-  panel.hidden = true;
+  panel.style.display = 'none';
   weekdays.before(panel);
 
   function render() {
@@ -1636,9 +1636,9 @@ function wireYearView(cal) {
     open = true;
     decade = Math.floor(curYear / 24) * 24;
     render();
-    panel.hidden = false;
-    weekdays.hidden = true;
-    grid.hidden = true;
+    panel.style.display = '';
+    weekdays.style.display = 'none';
+    grid.style.display = 'none';
     body.classList.add('dp-year-open');
     if (navBtns[0]) navBtns[0].addEventListener('click', prevDecade);
     if (navBtns[1]) navBtns[1].addEventListener('click', nextDecade);
@@ -1646,9 +1646,9 @@ function wireYearView(cal) {
 
   function close() {
     open = false;
-    panel.hidden = true;
-    weekdays.hidden = false;
-    grid.hidden = false;
+    panel.style.display = 'none';
+    weekdays.style.display = '';
+    grid.style.display = '';
     body.classList.remove('dp-year-open');
     monthLabel.textContent = curMonth + ' ' + curYear;
     if (navBtns[0]) navBtns[0].removeEventListener('click', prevDecade);
