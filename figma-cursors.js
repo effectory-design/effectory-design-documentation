@@ -8,10 +8,14 @@
   if (window.innerWidth < 768) return;
 
   var USERS = [
-    { name: 'Alex M.',   color: '#7B61FF' },
-    { name: 'Sarah K.',  color: '#F24E1E' },
-    { name: 'Tom W.',    color: '#1BC47D' },
-    { name: 'Priya S.',  color: '#0D99FF' },
+    { name: 'Jente',   color: '#7B61FF' },
+    { name: 'Jamal',   color: '#F24E1E' },
+    { name: 'Eray',    color: '#1BC47D' },
+    { name: 'Jesse',   color: '#0D99FF' },
+    { name: 'Maria',   color: '#FF6B6B' },
+    { name: 'Khaled',  color: '#F4A200' },
+    { name: 'Minh',    color: '#00C2A8' },
+    { name: 'Thimo',   color: '#E040FB' },
   ];
 
   // ── Styles ───────────────────────────────────────────────────────────────
