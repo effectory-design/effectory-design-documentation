@@ -1636,6 +1636,8 @@ function wireYearView(cal) {
     open = true;
     decade = Math.floor(curYear / 24) * 24;
     render();
+    // Match height of the weekdays + grid before hiding them
+    panel.style.minHeight = (weekdays.offsetHeight + grid.offsetHeight) + 'px';
     panel.style.display = '';
     weekdays.style.display = 'none';
     grid.style.display = 'none';
