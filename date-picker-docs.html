@@ -1578,12 +1578,13 @@ function wireDaySelect(cal, isRange) {
       const hasEnd = cal.querySelector('.dp-day.is-range-end');
       if (rangeStart === null || hasEnd) {
         allDays.forEach(d => d.classList.remove('is-range-start','is-range-end','is-in-range'));
-        day.classList.add('is-range-start');
+        // Add both start+end so the ::before band is hidden (single selection, no strip)
+        day.classList.add('is-range-start', 'is-range-end');
         rangeStart = idx;
       } else {
         if (idx < rangeStart) {
           allDays.forEach(d => d.classList.remove('is-range-start','is-range-end','is-in-range'));
-          day.classList.add('is-range-start');
+          day.classList.add('is-range-start', 'is-range-end');
           rangeStart = idx;
           return;
         }
