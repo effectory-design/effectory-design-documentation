@@ -47,7 +47,7 @@
       pausing:   false,
       pauseEnd:  0,
       visible:   false,
-      showAfter: Date.now() + 800 + i * 1400 + Math.random() * 1200,
+      showAfter: performance.now() + 800 + i * 1400 + Math.random() * 1200,
     };
   });
 
@@ -98,7 +98,7 @@
         if (Math.random() < 0.18) {
           inst.visible = false;
           inst.el.style.opacity = '0';
-          inst.showAfter = now + 2500 + Math.random() * 5000;
+          inst.showAfter = performance.now() + 2500 + Math.random() * 5000;
           return;
         }
 
