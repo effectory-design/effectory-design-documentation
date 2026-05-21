@@ -318,7 +318,7 @@
       <div class="variant-row-btn" style="padding:20px;">
         <div class="slt-wrap" style="width:200px;">
           <div class="slt-lbl">Label text</div>
-          <div class="slt" style="pointer-events:none;">
+          <div class="slt">
             <div class="slt-left"><span class="slt-ph">Select...</span></div>
             <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -330,7 +330,7 @@
       <div class="variant-row-btn" style="padding:20px;">
         <div style="display:flex;flex-direction:column;gap:4px;width:200px;">
           <div class="slt-lbl">Label text</div>
-          <div class="ms" style="pointer-events:none;flex-wrap:nowrap;">
+          <div class="ms" style="flex-wrap:nowrap;">
             <div class="chip">Result <svg viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
             <div class="chip">Option <svg viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 3l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
             <svg class="ms-ch" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -343,7 +343,7 @@
       <div class="variant-row-btn" style="padding:20px;">
         <div style="display:flex;flex-direction:column;gap:4px;width:200px;">
           <div class="slt-lbl">Label text</div>
-          <div class="ms" style="pointer-events:none;flex-wrap:nowrap;">
+          <div class="ms" style="flex-wrap:nowrap;">
             <span class="ms-text-val">2 selected</span>
             <svg class="ms-ch" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -353,7 +353,7 @@
     </div>
     <div class="variant-row" style="grid-template-columns:240px 1fr;">
       <div class="variant-row-btn" style="padding:20px;">
-        <div class="sel-btn" style="pointer-events:none;"><span class="sel-btn-name">Sort:</span><span class="sel-btn-value">Newest</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sel-btn"><span class="sel-btn-name">Sort:</span><span class="sel-btn-value">Newest</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="variant-row-desc"><strong>Named</strong> — sized to its value with a one-word <code>name:</code> prefix. Use in toolbars and filter rows where multiple selects sit side by side. Works for both single and multi-select; multi collapses to a count ("Filter: 2 selected") since chips next to a <code>name:</code> prefix would overflow on narrow toolbars.</div>
     </div>
@@ -365,19 +365,19 @@
   <div class="variant-rows">
     <div class="variant-row" style="grid-template-columns:240px 1fr;">
       <div class="variant-row-btn" style="padding:20px;">
-        <div class="sel-btn sel-btn-inline" style="pointer-events:none;"><span class="sel-btn-value">Newest</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sel-btn sel-btn-inline"><span class="sel-btn-value">Newest</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="variant-row-desc"><strong>Single, inline</strong> — drops the label and border. Use when the surrounding context already explains what's being chosen — e.g. a sentence like "Sorted by <em>Newest ▾</em>" or a list header where the column name is already visible.</div>
     </div>
     <div class="variant-row" style="grid-template-columns:240px 1fr;">
       <div class="variant-row-btn" style="padding:20px;">
-        <div class="sel-btn sel-btn-inline" style="pointer-events:none;"><span class="sel-btn-value">2 selected</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sel-btn sel-btn-inline"><span class="sel-btn-value">2 selected</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="variant-row-desc"><strong>Multi, inline</strong> — same ghost trigger but renders the selection as a count ("2 selected") instead of chips, since chips would feel out of place in body copy. The full picker still opens on click.</div>
     </div>
     <div class="variant-row" style="grid-template-columns:240px 1fr;">
       <div class="variant-row-btn" style="padding:20px;">
-        <div class="sel-btn sel-btn-inline" style="pointer-events:none;"><span class="sel-btn-name">Status:</span><span class="sel-btn-value">All</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sel-btn sel-btn-inline"><span class="sel-btn-name">Status:</span><span class="sel-btn-value">All</span><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px;flex-shrink:0;color:var(--content-secondary);" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="variant-row-desc"><strong>Named, inline</strong> — keeps the <code>name:</code> prefix but loses the border. Used for filter rows that sit directly above a list, where stacking bordered controls would compete with the list itself. Works for both single and multi-select.</div>
     </div>

@@ -544,8 +544,8 @@
     <div class="variant-rows">
       <div class="variant-row">
         <div class="variant-row-btn" style="gap:12px;">
-          <input type="checkbox" class="cb" style="pointer-events:none;" />
-          <input type="checkbox" class="cb cb-lg" style="pointer-events:none;" />
+          <input type="checkbox" class="cb" />
+          <input type="checkbox" class="cb cb-lg" />
         </div>
         <div class="variant-row-desc">
           <strong>Checkbox</strong> — the bare control. Default size is 16×16 px; Large is 20×20 px. Use in table cells, custom layouts, or anywhere you supply your own label markup.
@@ -553,7 +553,7 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn">
-          <label class="cb-label-wrap" style="pointer-events:none;"><input type="checkbox" class="cb" checked />Label</label>
+          <label class="cb-label-wrap"><input type="checkbox" class="cb" checked />Label</label>
         </div>
         <div class="variant-row-desc">
           <strong>Labeled</strong> — wraps the control with a right-aligned text label. The label and checkbox share a single click target — always use a semantic <code>&lt;label&gt;</code> element.
@@ -561,7 +561,7 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn" style="align-items:flex-start; padding:14px 20px;">
-          <div class="cb-info-wrap" style="pointer-events:none; max-width:240px;">
+          <div class="cb-info-wrap" style="max-width:240px;">
             <input type="checkbox" class="cb" checked />
             <div class="cb-info-body">
               <span class="cb-info-label">Label</span>
@@ -577,14 +577,14 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn" style="flex-direction:column; gap:8px; align-items:stretch;">
-          <div class="cb-tile is-checked" style="pointer-events:none;">
+          <div class="cb-tile is-checked">
             <div class="cb-tile-cb"><input type="checkbox" class="cb is-checked" /></div>
             <div class="cb-tile-body">
               <div class="cb-tile-title">Value 1</div>
               <div class="cb-tile-desc">Short description of what this option means.</div>
             </div>
           </div>
-          <div class="cb-tile" style="pointer-events:none;">
+          <div class="cb-tile">
             <div class="cb-tile-cb"><input type="checkbox" class="cb" /></div>
             <div class="cb-tile-body">
               <div class="cb-tile-title">Value 2</div>
@@ -600,9 +600,9 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn" style="gap:8px; flex-wrap:wrap;">
-          <label class="cb-btn" style="pointer-events:none;"><input type="checkbox" class="cb" />Label</label>
-          <label class="cb-btn" style="pointer-events:none;"><input type="checkbox" class="cb is-checked" />Label</label>
-          <label class="cb-btn is-disabled" style="pointer-events:none;"><input type="checkbox" class="cb" />Label</label>
+          <label class="cb-btn"><input type="checkbox" class="cb" />Label</label>
+          <label class="cb-btn"><input type="checkbox" class="cb is-checked" />Label</label>
+          <label class="cb-btn is-disabled"><input type="checkbox" class="cb" />Label</label>
         </div>
         <div class="variant-row-desc">
           <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Checkbox button — ghost</strong></p>
@@ -612,9 +612,9 @@
       </div>
       <div class="variant-row">
         <div class="variant-row-btn" style="gap:8px; flex-wrap:wrap;">
-          <label class="cb-btn-bordered" style="pointer-events:none;"><input type="checkbox" class="cb" />Label</label>
-          <label class="cb-btn-bordered is-checked" style="pointer-events:none;"><input type="checkbox" class="cb is-checked" />Label</label>
-          <label class="cb-btn-bordered is-disabled" style="pointer-events:none;"><input type="checkbox" class="cb" />Label</label>
+          <label class="cb-btn-bordered"><input type="checkbox" class="cb" />Label</label>
+          <label class="cb-btn-bordered is-checked"><input type="checkbox" class="cb is-checked" />Label</label>
+          <label class="cb-btn-bordered is-disabled"><input type="checkbox" class="cb" />Label</label>
         </div>
         <div class="variant-row-desc">
           <p style="margin:0 0 6px;"><strong style="color:var(--content-base);">Checkbox button — bordered</strong></p>
