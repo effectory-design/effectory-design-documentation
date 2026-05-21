@@ -1627,7 +1627,8 @@ function wireYearView(cal) {
   let curMonthIdx = Math.max(0, MNAMES.findIndex(m => m.startsWith(p0[0])));
   let curYear = parseInt(p0[p0.length - 1]) || 2026;
   let decade  = Math.floor(curYear / 16) * 16;
-  let view    = 'day'; // 'day' | 'year' | 'month'
+  let view       = 'day'; // 'day' | 'year' | 'month'
+  let cachedHeight = 0;  // measured once while days are still visible
 
   // Create panels
   const yearPanel  = document.createElement('div');
@@ -1665,7 +1666,8 @@ function wireYearView(cal) {
     view = 'year';
     decade = Math.floor(curYear / 16) * 16;
     renderYear();
-    yearPanel.style.height = calHeight() + 'px';
+    cachedHeight = calHeight(); // measure while days are still visible
+    yearPanel.style.height = cachedHeight + 'px';
     yearPanel.style.display = '';
     monthPanel.style.display = 'none';
     hideDays();
@@ -1691,7 +1693,7 @@ function wireYearView(cal) {
   function openMonth() {
     view = 'month';
     renderMonth();
-    monthPanel.style.height = calHeight() + 'px';
+    monthPanel.style.height = cachedHeight + 'px';
     monthPanel.style.display = '';
     yearPanel.style.display = 'none';
     hideDays();
