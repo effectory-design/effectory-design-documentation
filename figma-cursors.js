@@ -34,8 +34,8 @@
     el.style.opacity = '0';
     el.style.transition = 'opacity .35s ease';
     el.innerHTML =
-      '<svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<path d="M2 2L2 18.5L6 14L9.5 21.5L12 20.5L8.5 13H15L2 2Z"' +
+      '<svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M2 2L2 16L5.5 12.5L11 12.5L2 2Z"' +
         ' fill="' + user.color + '" stroke="white" stroke-width="1.5"' +
         ' stroke-linejoin="round" stroke-linecap="round"/>' +
       '</svg>' +
