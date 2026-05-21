@@ -635,6 +635,71 @@
     </div>
   </section>
 
+  <!-- CONTENT GUIDELINES -->
+  <section class="section" id="content-guidelines">
+    <h2 class="text-l3">Content guidelines</h2>
+    <p class="section-lead">Checkbox labels name the thing being selected — not the act of selecting it.</p>
+
+    <!-- Rule 1: Specific, not generic -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Be specific, not generic</h3>
+      <p>Each option should clearly identify what will happen or what is included when it's checked. Vague one-word labels leave users guessing.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>Send me product updates</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb" tabindex="-1" /></span>Notify me about new team members</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            Specific labels make the consequence clear without needing to read surrounding text.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>Updates</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb" tabindex="-1" /></span>Notifications</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            Generic one-word labels don't tell users what they're agreeing to.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 2: Parallel structure -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Keep options parallel</h3>
+      <p>When checkboxes appear as a group, use the same grammatical form for every option. Mixing verb phrases with noun phrases forces readers to shift mental models mid-list.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>Email</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>In-app notification</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb" tabindex="-1" /></span>SMS</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            All noun phrases — consistent form throughout the group.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>Send emails</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb is-checked" tabindex="-1" /></span>In-app notification</label>
+            <label class="cb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="cb-wrap"><input type="checkbox" class="cb" tabindex="-1" /></span>Via SMS</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            Mixing "Send emails", "In-app notification", and "Via SMS" breaks parallel structure.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
   <!-- STATES -->
   <section class="section" id="states">
     <h2 class="text-l3">States</h2>
@@ -815,6 +880,7 @@
     <a class="toc-link" href="#anatomy">Anatomy</a>
     <a class="toc-link" href="#usage">Usage</a>
     <a class="toc-link" href="#variants">Variants</a>
+    <a class="toc-link" href="#content-guidelines">Content guidelines</a>
     <a class="toc-link" href="#states">States</a>
     <a class="toc-link" href="#tokens">Design Tokens</a>
     <a class="toc-link" href="#accessibility">Accessibility</a>

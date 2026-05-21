@@ -453,20 +453,94 @@
     <h2 class="text-l3">Content guidelines</h2>
     <p class="section-lead">Toggle labels describe the feature being controlled — not the action of toggling.</p>
 
-    <h3 class="text-l4">Label writing</h3>
-    <ul class="section-list">
-      <li><strong>Describe the feature, not the action.</strong> Write "Email notifications" not "Enable email notifications" — the toggle's position communicates on/off already.</li>
-      <li><strong>Keep labels short</strong> — 2–5 words is ideal. If you need more context, use the with-description variant.</li>
-      <li><strong>Use sentence case.</strong> "Dark mode", not "Dark Mode" or "DARK MODE".</li>
-      <li><strong>Avoid negatives.</strong> "Show tips" is clearer than "Hide tips". Negative labels are confusing when the toggle is off: does off mean tips are shown or hidden?</li>
-    </ul>
+    <!-- Rule 1: Feature, not action -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Name the feature, not the action</h3>
+      <p>The toggle's position already communicates on/off. The label should name what is being controlled, not instruct the user to enable or disable it.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:flex-start; padding:24px 28px;">
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Email notifications</label>
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl" tabindex="-1" /><span class="tgl-track"><span class="tgl-thumb"></span></span></span>Dark mode</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            Short feature names — the toggle position says the rest.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:flex-start; padding:24px 28px;">
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Enable email notifications</label>
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl" tabindex="-1" /><span class="tgl-track"><span class="tgl-thumb"></span></span></span>Turn on dark mode</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            "Enable" and "turn on" are redundant — the toggle already communicates this.
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <h3 class="text-l4">Description writing</h3>
-    <ul class="section-list">
-      <li>Keep descriptions to 1–2 sentences. Explain the effect or consequence — don't repeat the label.</li>
-      <li>Use plain language. Assume the reader is not technical.</li>
-      <li>Don't include "click to" or "toggle to" — the control communicates the interaction model itself.</li>
-    </ul>
+    <!-- Rule 2: Avoid negatives -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Avoid negatives</h3>
+      <p>Negative labels ("Hide tips", "Don't show banner") create a double-negative when the toggle is off — it becomes unclear whether the feature is on or off. Always frame the label as the positive state.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:flex-start; padding:24px 28px;">
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Show tips</label>
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Weekly digest</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            Positive framing — "on" means the feature is active, "off" means it isn't.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:flex-start; padding:24px 28px;">
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Hide tips</label>
+            <label class="tgl-label-wrap" style="pointer-events:none;"><span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>Disable weekly digest</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            When the toggle is off, "Hide tips" = tips are shown — confusing double-negative.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 3: Description writing -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Keep descriptions brief and consequential</h3>
+      <p>Descriptions add context when the label alone isn't enough. Explain the effect — don't repeat the label or instruct the user how to interact.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; padding:24px 28px; align-items:flex-start;">
+            <label class="tgl-info-wrap" style="pointer-events:none;">
+              <span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>
+              <span class="tgl-text"><span class="tgl-lbl">Marketing emails</span><span class="tgl-desc">Receive product updates, tips, and offers from Engage.</span></span>
+            </label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            One sentence on the consequence. Plain language, no interaction verbs.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; padding:24px 28px; align-items:flex-start;">
+            <label class="tgl-info-wrap" style="pointer-events:none;">
+              <span class="tgl-wrap"><input type="checkbox" class="tgl is-checked" tabindex="-1" /><span class="tgl-track is-on"><span class="tgl-thumb"></span></span></span>
+              <span class="tgl-text"><span class="tgl-lbl">Marketing emails</span><span class="tgl-desc">Toggle this on to enable marketing emails. Click to receive product updates and news.</span></span>
+            </label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            "Toggle this on" and "Click to" are obvious — never describe how to use a toggle in its own label.
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- STATES -->

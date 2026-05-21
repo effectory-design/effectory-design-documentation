@@ -522,6 +522,71 @@
     </div>
   </section>
 
+  <!-- CONTENT GUIDELINES -->
+  <section class="section" id="content-guidelines">
+    <h2 class="text-l3">Content guidelines</h2>
+    <p class="section-lead">Radio option labels name the choice — not the act of selecting it.</p>
+
+    <!-- Rule 1: Use noun phrases or short sentences -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Use noun phrases or short clauses</h3>
+      <p>Options should read as things to choose from, not instructions. Avoid imperative verbs ("Select monthly", "Choose admin").</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Monthly</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" tabindex="-1" /></span>Annual — save 20%</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            Noun phrases scan quickly and feel like genuine options, not commands.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Choose monthly billing</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" tabindex="-1" /></span>Select annual to save 20%</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            Imperative labels ("Choose", "Select") are redundant — the radio button already signals that.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 2: Keep options parallel -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Keep all options parallel</h3>
+      <p>Every option in a group should use the same grammatical form and level of detail. Mixing styles forces users to process each option differently instead of scanning the list.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" tabindex="-1" /></span>Admin</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Editor</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Viewer</label>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Do</div>
+            Single-word role names — consistent, scannable, parallel.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:10px; align-items:flex-start; padding:24px 28px;">
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb is-checked" tabindex="-1" /></span>Admin — can do everything</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Editor</label>
+            <label class="rb-label-wrap" style="pointer-events:none;gap:8px;display:flex;align-items:center;"><span class="rb-wrap"><input type="radio" class="rb" tabindex="-1" /></span>Only view, no editing allowed</label>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg> Don't</div>
+            Wildly different lengths and styles across the group break visual rhythm.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
   <!-- STATES -->
   <section class="section" id="states">
     <h2 class="text-l3">States</h2>
@@ -661,6 +726,7 @@
     <a class="toc-link" href="#anatomy">Anatomy</a>
     <a class="toc-link" href="#usage">Usage</a>
     <a class="toc-link" href="#variants">Variants</a>
+    <a class="toc-link" href="#content-guidelines">Content guidelines</a>
     <a class="toc-link" href="#states">States</a>
     <a class="toc-link" href="#tokens">Design Tokens</a>
     <a class="toc-link" href="#accessibility">Accessibility</a>
