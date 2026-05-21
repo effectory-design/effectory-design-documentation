@@ -102,7 +102,6 @@
       cursor: pointer;
       font-family: 'Poppins', inherit;
       position: relative;
-      z-index: 0; /* stacking context so ::before z-index:-1 stays behind the circle */
       transition: background .1s, color .1s;
     }
     .dp-day:hover, .dp-day.is-hover {
@@ -131,38 +130,25 @@
     .dp-day.is-empty { opacity: 0; pointer-events: none; cursor: default; }
 
     /* ── Range selection ── */
-    /* Circle for start/end — fully round */
-    .dp-day.is-range-start,
+    /* Circle for start/end — fully round; box-shadow fills the 4px gap toward the band */
+    .dp-day.is-range-start {
+      background: var(--bg-brand-base); color: #fff; border-radius: 80px;
+      box-shadow: 4px 0 0 0 var(--bg-brand-subtle);
+    }
     .dp-day.is-range-end {
-      background: var(--bg-brand-base); color: #fff;
-      border-radius: 80px;
+      background: var(--bg-brand-base); color: #fff; border-radius: 80px;
+      box-shadow: -4px 0 0 0 var(--bg-brand-subtle);
     }
-    /* Band strip: sits behind the circle via z-index:-1 */
-    .dp-day.is-range-start::before {
-      content: ''; position: absolute; z-index: -1;
-      top: 0; bottom: 0; left: 50%; right: -4px; /* extends into gap on right */
-      background: var(--bg-brand-subtle);
-    }
-    .dp-day.is-range-end::before {
-      content: ''; position: absolute; z-index: -1;
-      top: 0; bottom: 0; left: -4px; right: 50%; /* extends into gap on left */
-      background: var(--bg-brand-subtle);
-    }
-    /* In-range: band fills cell + bleeds 4px into each gap */
+    /* In-range: fills cell + bleeds into both side gaps via box-shadow */
     .dp-day.is-in-range {
-      background: var(--bg-brand-subtle);
-      border-radius: 0; color: var(--content-base);
-    }
-    .dp-day.is-in-range::before {
-      content: ''; position: absolute; z-index: -1;
-      top: 0; bottom: 0; left: -4px; right: -4px;
-      background: var(--bg-brand-subtle);
+      background: var(--bg-brand-subtle); border-radius: 0; color: var(--content-base);
+      box-shadow: -4px 0 0 0 var(--bg-brand-subtle), 4px 0 0 0 var(--bg-brand-subtle);
     }
     /* Keep range colours on hover */
     .dp-day.is-range-start:hover, .dp-day.is-range-end:hover { background: var(--bg-brand-base); }
     .dp-day.is-in-range:hover { background: var(--bg-brand-subtle); }
     /* Single-day range: no strip */
-    .dp-day.is-range-start.is-range-end::before { display: none; }
+    .dp-day.is-range-start.is-range-end { box-shadow: none; }
 
     /* ── Time selector — no divider, just top spacing ── */
     .dp-time-section {
