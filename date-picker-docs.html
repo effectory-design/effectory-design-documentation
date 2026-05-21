@@ -1615,7 +1615,7 @@ function wireYearView(cal) {
   weekdays.before(panel);
 
   function render() {
-    const s = decade, e = s + 23;
+    const s = decade, e = s + 15;
     monthLabel.textContent = s + ' – ' + e;
     panel.innerHTML = '';
     const g = document.createElement('div');
@@ -1630,12 +1630,12 @@ function wireYearView(cal) {
     panel.appendChild(g);
   }
 
-  function prevDecade(e) { e.stopPropagation(); if (open) { decade -= 24; render(); } }
-  function nextDecade(e) { e.stopPropagation(); if (open) { decade += 24; render(); } }
+  function prevDecade(e) { e.stopPropagation(); if (open) { decade -= 16; render(); } }
+  function nextDecade(e) { e.stopPropagation(); if (open) { decade += 16; render(); } }
 
   function openView() {
     open = true;
-    decade = Math.floor(curYear / 24) * 24;
+    decade = Math.floor(curYear / 16) * 16;
     render();
     // Match height of the weekdays + grid before hiding them
     panel.style.height = (weekdays.offsetHeight + grid.offsetHeight) + 'px';
