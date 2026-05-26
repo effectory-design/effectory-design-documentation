@@ -5,220 +5,613 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction — Engage Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Hero ── */
+    .intro-hero {
+      background: #192743;
+      border-radius: 20px;
+      padding: 56px 52px 52px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 40px;
+      align-items: center;
+    }
+    .intro-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -60px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(10,157,153,.30) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .intro-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 30%;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(253,189,18,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.75); padding: 4px 12px 4px 8px;
+      border-radius: 20px; font-size: 11px; font-weight: 600;
+      letter-spacing: .05em; margin-bottom: 20px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #0a9d99; display: inline-block;
+    }
+    .intro-hero h1 {
+      color: #fff;
+      font-size: 30px; font-weight: 750; line-height: 1.22;
+      margin: 0 0 16px; letter-spacing: -.02em;
+    }
+    .intro-hero h1 span { color: #0a9d99; }
+    .intro-hero p {
+      color: rgba(255,255,255,.60);
+      font-size: 14px; line-height: 1.7;
+      margin: 0 0 28px; max-width: 440px;
+    }
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-btn-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #fdbd12; color: #192743;
+      padding: 10px 20px; border-radius: 8px;
+      font-size: 13px; font-weight: 700; text-decoration: none;
+      letter-spacing: .01em;
+      transition: opacity .15s;
+    }
+    .hero-btn-primary:hover { opacity: .9; }
+    .hero-btn-ghost {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,.08); color: rgba(255,255,255,.85);
+      padding: 10px 20px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      border: 1px solid rgba(255,255,255,.14); letter-spacing: .01em;
+      transition: background .15s;
+    }
+    .hero-btn-ghost:hover { background: rgba(255,255,255,.14); }
+
+    /* Hero illustration */
+    .hero-illustration {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .hi-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .hi-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .hi-btn {
+      height: 24px; border-radius: 5px; font-size: 9px; font-weight: 600;
+      display: inline-flex; align-items: center; padding: 0 10px;
+      letter-spacing: .03em;
+    }
+    .hi-btn-p  { background: #0a9d99; color: #fff; }
+    .hi-btn-s  { background: rgba(255,255,255,.12); color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.15); }
+    .hi-btn-g  { background: transparent; color: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.15); }
+    .hi-field {
+      height: 26px; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 5px;
+      flex: 1; display: flex; align-items: center; padding: 0 8px;
+    }
+    .hi-field-text { font-size: 9px; color: rgba(255,255,255,.35); }
+    .hi-badge {
+      height: 18px; border-radius: 20px; font-size: 8px; font-weight: 600;
+      display: inline-flex; align-items: center; padding: 0 8px;
+    }
+    .hi-badge-teal { background: rgba(10,157,153,.25); color: #0a9d99; }
+    .hi-badge-yellow { background: rgba(253,189,18,.2); color: #fdbd12; }
+    .hi-badge-red { background: rgba(244,63,94,.2); color: #f43f5e; }
+    .hi-avatar {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 700; color: #fff;
+      border: 1.5px solid rgba(255,255,255,.1);
+    }
+    .hi-toggle {
+      width: 28px; height: 16px; border-radius: 8px; background: #0a9d99;
+      position: relative; flex-shrink: 0;
+    }
+    .hi-toggle::after {
+      content: ''; position: absolute; top: 2px; right: 2px;
+      width: 12px; height: 12px; border-radius: 50%; background: #fff;
+    }
+    .hi-label { font-size: 9px; color: rgba(255,255,255,.45); }
+
+    /* Stats row */
+    .intro-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      margin-bottom: 48px;
+    }
+    .stat-card {
+      border-radius: 14px; padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 4px;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::after {
+      content: ''; position: absolute; bottom: -20px; right: -20px;
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,.12); pointer-events: none;
+    }
+    .stat-num {
+      font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
+    }
+    .stat-lbl { font-size: 11px; font-weight: 600; opacity: .7; letter-spacing: .04em; text-transform: uppercase; }
+
+    .stat-card-1 { background: #0a9d99; color: #fff; }
+    .stat-card-2 { background: #192743; color: #fff; }
+    .stat-card-3 { background: #fdbd12; color: #192743; }
+    .stat-card-4 { background: var(--bg-brand-subtle); color: var(--content-brand-base); border: 1px solid var(--border-brand-base); }
+
+    /* Category grid */
+    .intro-categories {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-bottom: 12px;
+    }
+    .cat-card {
+      border-radius: 14px; border: 1px solid var(--border-base);
+      overflow: hidden; text-decoration: none;
+      transition: box-shadow .15s, transform .15s;
+      display: flex; flex-direction: column;
+    }
+    .cat-card:hover { box-shadow: 0 6px 24px rgba(25,39,67,.10); transform: translateY(-2px); }
+    .cat-header {
+      padding: 24px 22px 20px;
+      position: relative; overflow: hidden; min-height: 90px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .cat-illustration {
+      position: absolute; top: 12px; right: 16px;
+      display: flex; gap: 5px; align-items: flex-end;
+    }
+    .cat-title { font-size: 15px; font-weight: 700; position: relative; z-index: 1; }
+    .cat-count { font-size: 11px; font-weight: 600; opacity: .6; margin-top: 2px; position: relative; z-index: 1; }
+    .cat-body { padding: 14px 22px 18px; background: var(--bg-base); flex: 1; }
+    .cat-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+    .cat-chip {
+      font-size: 11px; color: var(--content-secondary);
+      background: var(--bg-secondary); border: 1px solid var(--border-base);
+      border-radius: 20px; padding: 2px 9px;
+    }
+
+    /* Category color themes */
+    .cat-buttons .cat-header  { background: linear-gradient(135deg,#fff7e6,#fdefd3); color: #92400e; }
+    .cat-nav .cat-header      { background: linear-gradient(135deg,#e6faf9,#c8f0ee); color: #065f5b; }
+    .cat-forms .cat-header    { background: linear-gradient(135deg,#eef2ff,#dde5ff); color: #3730a3; }
+    .cat-feedback .cat-header { background: linear-gradient(135deg,#fff1f2,#ffe4e7); color: #9f1239; }
+    .cat-data .cat-header     { background: linear-gradient(135deg,#ecfdf5,#d1fae5); color: #065f46; }
+    .cat-overlays .cat-header { background: linear-gradient(135deg,#f5f3ff,#ede9fe); color: #4c1d95; }
+    .cat-layout .cat-header   { background: linear-gradient(135deg,#f8fafc,#f0f4f8); color: #334155; }
+    .cat-full { grid-column: 1 / -1; }
+    .cat-full .cat-header { min-height: 80px; }
+
+    /* Two worlds */
+    .intro-worlds {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-top: 12px; margin-bottom: 48px;
+    }
+    .world-card {
+      border-radius: 14px; padding: 28px 28px 24px;
+      border: 1px solid var(--border-base);
+    }
+    .world-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .world-icon-design { background: linear-gradient(135deg,#e6faf9,#c8f0ee); color: #0a9d99; }
+    .world-icon-dev    { background: linear-gradient(135deg,#eef2ff,#dde5ff); color: #6366f1; }
+    .world-title { font-size: 16px; font-weight: 700; color: var(--content-base); margin-bottom: 8px; }
+    .world-desc  { font-size: 13px; color: var(--content-secondary); line-height: 1.65; margin-bottom: 16px; }
+    .world-features { display: flex; flex-direction: column; gap: 7px; }
+    .world-feat {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--content-secondary);
+    }
+    .world-feat svg { flex-shrink: 0; color: var(--content-brand-base); }
+
+    /* Getting started steps */
+    .intro-steps { display: flex; flex-direction: column; gap: 0; margin-top: 24px; }
+    .intro-step {
+      display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+      padding: 0 0 28px;
+      position: relative;
+    }
+    .intro-step:not(:last-child)::after {
+      content: ''; position: absolute; left: 19px; top: 40px; bottom: 0;
+      width: 2px; background: var(--border-base);
+    }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--bg-brand-base); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; position: relative; z-index: 1;
+    }
+    .step-body {}
+    .step-title { font-size: 15px; font-weight: 700; color: var(--content-base); margin-bottom: 6px; padding-top: 8px; }
+    .step-desc  { font-size: 13px; color: var(--content-secondary); line-height: 1.65; }
+    .step-link  { color: var(--content-brand-base); text-decoration: none; font-weight: 600; }
+    .step-link:hover { text-decoration: underline; }
+
+    /* Section headings */
+    .intro-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--content-brand-base);
+      margin-bottom: 8px;
+    }
+    .intro-section-title {
+      font-size: 22px; font-weight: 750; color: var(--content-base);
+      letter-spacing: -.02em; margin-bottom: 8px;
+    }
+    .intro-section-sub {
+      font-size: 14px; color: var(--content-secondary); line-height: 1.6;
+      margin-bottom: 28px; max-width: 520px;
+    }
+  </style>
 </head>
 <body>
 <div id="topnav-placeholder"></div>
 <div class="shell">
 <div id="sidebar-placeholder"></div>
 <div class="content-wrap">
-<div class="page-header-row">
-<div class="page-header">
-  <div class="page-badges"></div>
-  <h1 class="text-l1">Introduction</h1>
-  <p class="page-desc">What the Engage Design System is, who it's for, and how to get started.</p>
-</div>
-</div>
-<div class="content-cols">
-<article class="content">
 
-  <!-- Opening hero card -->
-  <div style="background:#192743;border-radius:16px;padding:48px 56px;margin-bottom:56px;position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.07) 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none;"></div>
-    <div style="position:relative;z-index:1;">
-      <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.06em;display:inline-block;">v1.4.0</span>
-      <h2 style="color:#fff;font-size:28px;font-weight:700;margin:16px 0 12px;line-height:1.25;">A single source of truth that connects design decisions to production components.</h2>
-      <p style="color:rgba(255,255,255,0.65);max-width:500px;font-size:15px;line-height:1.65;margin:0 0 28px;">The Engage Design System bridges Figma and Angular — shared tokens, shared vocabulary, shared components — so what is designed is exactly what ships.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a href="design-principles-docs.html" style="display:inline-flex;align-items:center;gap:7px;background:#fdbd12;color:#192743;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.01em;">
-          Design Principles
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="contributing-docs.html" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.08);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,0.15);letter-spacing:.01em;">
-          Contributing
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
+<!-- Hero -->
+<div class="intro-hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      v1.4.0 — Now with Date Picker
+    </div>
+    <h1>Design once.<br><span>Ship everywhere.</span></h1>
+    <p>The Engage Design System connects every Figma decision to a production Angular component — shared tokens, shared vocabulary, zero re-interpretation at handoff.</p>
+    <div class="hero-btns">
+      <a href="design-principles-docs.html" class="hero-btn-primary">
+        Design Principles
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="colors-docs.html" class="hero-btn-ghost">
+        Explore Foundations
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 
-  <!-- What is the Engage Design System? -->
-  <div class="section">
-    <h2 class="text-l3">What is the Engage Design System?</h2>
-    <p class="section-lead">A single source of truth that connects design decisions to production components.</p>
-    <p>The Engage Design System is a shared library of components, patterns, design tokens, and usage guidelines built specifically for Effectory's Engage product — the platform that powers employee feedback and engagement surveys across organisations.</p>
-    <p style="margin-top:16px;">It bridges two worlds: the Figma component library that designers work in and the Angular component library that developers ship from. Both sides share the same vocabulary — the same token names, the same component names, the same interaction patterns — so decisions made in design translate directly into code without re-interpretation at every handoff.</p>
-    <p style="margin-top:16px;">The practical benefit is speed and consistency. Teams don't rebuild common UI primitives for each feature. They reach for a tested, accessible component, configure it with props, and ship. When a token changes — say, the brand colour shifts — it propagates everywhere at once, in both Figma and the browser.</p>
-  </div>
-
-  <!-- Who it's for — audience cards -->
-  <div class="section">
-    <h2 class="text-l3">Who it's for</h2>
-    <p class="section-lead">The system serves two primary audiences, with a third benefiting alongside them.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;margin-bottom:48px;">
-
-      <div style="border:1px solid var(--border-base);border-radius:12px;padding:24px;border-top:3px solid var(--border-brand-base);">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--bg-brand-subtle);color:var(--content-brand-base);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".9"/><rect x="11" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".6"/><rect x="2" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".6"/><rect x="11" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".3"/></svg>
+  <!-- Mini component illustration -->
+  <div class="hero-illustration">
+    <div class="hi-card">
+      <div class="hi-label" style="margin-bottom:7px;">Buttons</div>
+      <div class="hi-row">
+        <span class="hi-btn hi-btn-p">Primary</span>
+        <span class="hi-btn hi-btn-s">Secondary</span>
+        <span class="hi-btn hi-btn-g">Ghost</span>
+      </div>
+    </div>
+    <div class="hi-card">
+      <div class="hi-label" style="margin-bottom:7px;">Text field</div>
+      <div class="hi-row">
+        <div class="hi-field"><span class="hi-field-text">Search components…</span></div>
+      </div>
+    </div>
+    <div class="hi-card">
+      <div class="hi-row" style="justify-content:space-between;">
+        <div class="hi-row" style="gap:4px;">
+          <div class="hi-avatar" style="background:#0a9d99;">JT</div>
+          <div class="hi-avatar" style="background:#6366f1;">AK</div>
+          <div class="hi-avatar" style="background:#f43f5e;">+4</div>
         </div>
-        <div style="font-size:14px;font-weight:700;color:var(--content-base);margin-bottom:8px;">Designers</div>
-        <p style="font-size:13px;color:var(--content-secondary);line-height:1.6;margin:0;">The Figma component library contains every component with anatomy diagrams, usage guidelines, and variant breakdowns. All colour, spacing, and typography values are bound to Figma variables that map 1:1 to CSS custom properties.</p>
+        <div class="hi-toggle"></div>
       </div>
+    </div>
+    <div class="hi-card">
+      <div class="hi-row">
+        <span class="hi-badge hi-badge-teal">New</span>
+        <span class="hi-badge hi-badge-yellow">Beta</span>
+        <span class="hi-badge hi-badge-red">Deprecated</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <div style="border:1px solid var(--border-base);border-radius:12px;padding:24px;border-top:3px solid var(--border-brand-base);">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--bg-brand-subtle);color:var(--content-brand-base);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 6L3 10l4 4M13 6l4 4-4 4M11 4l-2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<!-- Stats -->
+<div class="intro-stats">
+  <div class="stat-card stat-card-1">
+    <div class="stat-num">40+</div>
+    <div class="stat-lbl">Components</div>
+  </div>
+  <div class="stat-card stat-card-2">
+    <div class="stat-num">7</div>
+    <div class="stat-lbl">Categories</div>
+  </div>
+  <div class="stat-card stat-card-3">
+    <div class="stat-num">2</div>
+    <div class="stat-lbl">Portals</div>
+  </div>
+  <div class="stat-card stat-card-4">
+    <div class="stat-num">100%</div>
+    <div class="stat-lbl">Token driven</div>
+  </div>
+</div>
+
+<!-- Components -->
+<div class="section">
+  <div class="intro-section-label">What's inside</div>
+  <div class="intro-section-title">Every component you need</div>
+  <div class="intro-section-sub">Browse by category, or use the sidebar to jump straight to any component.</div>
+
+  <div class="intro-categories">
+
+    <!-- Buttons -->
+    <a class="cat-card cat-buttons" href="button-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration">
+          <div style="height:22px;background:#f59e0b;border-radius:5px;padding:0 10px;display:flex;align-items:center;font-size:8px;font-weight:700;color:#fff;opacity:.9;">Primary</div>
+          <div style="height:22px;border:1.5px solid #f59e0b;border-radius:5px;padding:0 10px;display:flex;align-items:center;font-size:8px;font-weight:700;color:#f59e0b;opacity:.7;">Secondary</div>
         </div>
-        <div style="font-size:14px;font-weight:700;color:var(--content-base);margin-bottom:8px;">Developers</div>
-        <p style="font-size:13px;color:var(--content-secondary);line-height:1.6;margin:0;">The Angular component library exposes each component via an <code>eff-*</code> selector. Each component page includes a Developer tab with a live example, the full Angular input/output API table, and copy-ready code snippets.</p>
+        <div class="cat-title">Buttons</div>
+        <div class="cat-count">5 components</div>
       </div>
-
-      <div style="border:1px solid var(--border-base);border-radius:12px;padding:24px;border-top:3px solid var(--border-brand-base);">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--bg-brand-subtle);color:var(--content-brand-base);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 17c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Button</span>
+          <span class="cat-chip">Icon Button</span>
+          <span class="cat-chip">Button Big</span>
+          <span class="cat-chip">Sentiment</span>
         </div>
-        <div style="font-size:14px;font-weight:700;color:var(--content-base);margin-bottom:8px;">Product Managers</div>
-        <p style="font-size:13px;color:var(--content-secondary);line-height:1.6;margin:0;">PMs reviewing interaction patterns will find the component pages useful. The usage guidelines describe intended behaviour, edge cases, and when not to use a component — context that saves back-and-forth during review.</p>
       </div>
+    </a>
 
+    <!-- Navigation -->
+    <a class="cat-card cat-nav" href="segmented-control-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration">
+          <div style="display:flex;gap:0;background:rgba(10,157,153,.12);border-radius:6px;padding:3px;">
+            <div style="height:18px;background:#0a9d99;border-radius:4px;padding:0 8px;display:flex;align-items:center;font-size:7px;font-weight:700;color:#fff;">Design</div>
+            <div style="height:18px;border-radius:4px;padding:0 8px;display:flex;align-items:center;font-size:7px;color:#065f5b;opacity:.7;">Dev</div>
+          </div>
+        </div>
+        <div class="cat-title">Navigation</div>
+        <div class="cat-count">6 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Segmented Control</span>
+          <span class="cat-chip">Tabs</span>
+          <span class="cat-chip">Breadcrumb</span>
+          <span class="cat-chip">Pagination</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Forms -->
+    <a class="cat-card cat-forms" href="text-field-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration" style="flex-direction:column;gap:4px;align-items:flex-start;">
+          <div style="height:20px;width:90px;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.4);border-radius:4px;display:flex;align-items:center;padding:0 7px;font-size:7px;color:#6366f1;">Email address</div>
+          <div style="height:20px;width:90px;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.4);border-radius:4px;display:flex;align-items:center;padding:0 7px;font-size:7px;color:#a5b4fc;">Password</div>
+        </div>
+        <div class="cat-title">Forms</div>
+        <div class="cat-count">10 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Text Field</span>
+          <span class="cat-chip">Select</span>
+          <span class="cat-chip">Checkbox</span>
+          <span class="cat-chip">Toggle</span>
+          <span class="cat-chip">Date Picker</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Feedback -->
+    <a class="cat-card cat-feedback" href="alert-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration">
+          <div style="background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.25);border-radius:5px;padding:5px 9px;display:flex;align-items:center;gap:5px;">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#f43f5e" stroke-width="1.5"/><path d="M8 5v4M8 11v.5" stroke="#f43f5e" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span style="font-size:8px;font-weight:600;color:#f43f5e;">Action required</span>
+          </div>
+        </div>
+        <div class="cat-title">Feedback</div>
+        <div class="cat-count">7 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Alert</span>
+          <span class="cat-chip">Toast</span>
+          <span class="cat-chip">Dialog</span>
+          <span class="cat-chip">Tooltip</span>
+          <span class="cat-chip">Loading</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Data Display -->
+    <a class="cat-card cat-data" href="card-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration" style="gap:4px;flex-direction:column;align-items:flex-end;">
+          <div style="display:flex;gap:3px;align-items:center;">
+            <span style="font-size:16px;font-weight:800;color:#10b981;line-height:1;">84%</span>
+            <span style="font-size:8px;color:#059669;font-weight:600;">↑ 6%</span>
+          </div>
+          <div style="display:flex;gap:2px;">
+            <div style="width:6px;height:16px;background:#d1fae5;border-radius:2px;"></div>
+            <div style="width:6px;height:24px;background:#6ee7b7;border-radius:2px;"></div>
+            <div style="width:6px;height:20px;background:#34d399;border-radius:2px;"></div>
+            <div style="width:6px;height:30px;background:#10b981;border-radius:2px;"></div>
+            <div style="width:6px;height:22px;background:#059669;border-radius:2px;"></div>
+          </div>
+        </div>
+        <div class="cat-title">Data Display</div>
+        <div class="cat-count">8 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Table</span>
+          <span class="cat-chip">Card</span>
+          <span class="cat-chip">Badge</span>
+          <span class="cat-chip">Avatar</span>
+          <span class="cat-chip">Metric</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Overlays -->
+    <a class="cat-card cat-overlays" href="dropdown-menu-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration">
+          <div style="background:rgba(255,255,255,.8);border:1px solid rgba(139,92,246,.2);border-radius:6px;padding:5px 0;box-shadow:0 4px 12px rgba(139,92,246,.15);">
+            <div style="padding:3px 12px;font-size:7px;font-weight:600;color:#4c1d95;">Edit</div>
+            <div style="padding:3px 12px;font-size:7px;color:#6d28d9;">Duplicate</div>
+            <div style="height:1px;background:rgba(139,92,246,.15);margin:3px 0;"></div>
+            <div style="padding:3px 12px;font-size:7px;color:#dc2626;">Delete</div>
+          </div>
+        </div>
+        <div class="cat-title">Overlays</div>
+        <div class="cat-count">4 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Dropdown Menu</span>
+          <span class="cat-chip">Popover</span>
+          <span class="cat-chip">Context Menu</span>
+          <span class="cat-chip">Drawer</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Layout (full width) -->
+    <a class="cat-card cat-layout cat-full" href="container-docs.html">
+      <div class="cat-header">
+        <div class="cat-illustration" style="gap:3px;">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:3px;width:120px;">
+            <div style="height:28px;background:rgba(100,116,139,.12);border-radius:3px;"></div>
+            <div style="height:28px;background:rgba(100,116,139,.08);border-radius:3px;"></div>
+            <div style="height:28px;background:rgba(100,116,139,.08);border-radius:3px;"></div>
+            <div style="height:18px;background:rgba(100,116,139,.06);border-radius:3px;"></div>
+            <div style="height:18px;background:rgba(100,116,139,.1);border-radius:3px;"></div>
+            <div style="height:18px;background:rgba(100,116,139,.06);border-radius:3px;"></div>
+          </div>
+        </div>
+        <div class="cat-title">Layout</div>
+        <div class="cat-count">4 components</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-chips">
+          <span class="cat-chip">Container</span>
+          <span class="cat-chip">Divider</span>
+          <span class="cat-chip">Section Header</span>
+          <span class="cat-chip">Empty State</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- Two worlds -->
+<div class="section">
+  <div class="intro-section-label">Built for two worlds</div>
+  <div class="intro-section-title">Designers and developers, united</div>
+  <div class="intro-section-sub">One system, two entry points. Everything syncs — from the Figma variable to the CSS custom property.</div>
+
+  <div class="intro-worlds">
+    <div class="world-card">
+      <div class="world-icon world-icon-design">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" fill="currentColor" opacity=".9"/><rect x="13" y="3" width="8" height="8" rx="2" fill="currentColor" opacity=".6"/><rect x="3" y="13" width="8" height="8" rx="2" fill="currentColor" opacity=".6"/><rect x="13" y="13" width="8" height="8" rx="2" fill="currentColor" opacity=".3"/></svg>
+      </div>
+      <div class="world-title">For Designers</div>
+      <div class="world-desc">Work directly in Figma with components that map 1:1 to production. Every variant, every state, every token — exactly as it ships.</div>
+      <div class="world-features">
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Figma variables bound to design tokens
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Anatomy diagrams and usage guidance per component
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Light, dark, Coordinator and Personal themes
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Do / Don't guidelines to reduce review back-and-forth
+        </div>
+      </div>
+    </div>
+    <div class="world-card">
+      <div class="world-icon world-icon-dev">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 7L4 12l4 5M16 7l4 5-4 5M13 4l-2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="world-title">For Developers</div>
+      <div class="world-desc">Drop in <code style="font-size:12px;background:var(--bg-secondary);border-radius:4px;padding:1px 5px;">eff-*</code> Angular components and wire them to your model. The Developer tab on each page has the full input/output API.</div>
+      <div class="world-features">
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Angular components with typed inputs and outputs
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Copy-ready code snippets per example
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Interactive playground to configure props live
+        </div>
+        <div class="world-feat">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          WCAG 2.1 AA accessibility on all components
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- How it's organised -->
-  <div class="section">
-    <h2 class="text-l3">How it's organised</h2>
-    <p class="section-lead">Two layers: Foundations first, then Components built on top of them.</p>
+<!-- Getting started -->
+<div class="section">
+  <div class="intro-section-label">Get started</div>
+  <div class="intro-section-title">Pick your path</div>
+  <div class="intro-section-sub">Three common ways to get up to speed, depending on where you're starting from.</div>
 
-    <h3 class="text-l4">Foundations</h3>
-    <p>Foundations define the raw material: colour tokens, typography scale, spacing scale, motion (duration and easing), iconography, shadow levels, border radii, and the grid system. Every component is built exclusively from foundation tokens — no component introduces a raw value that isn't already in the token set.</p>
-
-    <h3 class="text-l4" style="margin-top:24px;">Components</h3>
-    <p>Components are grouped into functional categories:</p>
-
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Button</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Icon Button</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Button Big</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Sentiment Button</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Segmented Control</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Link Inline</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Tabs</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Breadcrumb</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Pagination</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Stepper</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Text Field</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Textarea</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Select</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Checkbox</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Radio Group</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Toggle</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Date Picker</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">File Upload</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Slider</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Alert</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Toast</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Dialog</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Tooltip</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Loading</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Progress Bar</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Skeleton</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Table</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Card</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Badge</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Tag</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Avatar</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Avatar Group</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">List</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Metric</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Dropdown Menu</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Popover</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Context Menu</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Drawer</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Container</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Divider</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Section Header</span>
-      <span style="padding:5px 12px;background:var(--bg-base-secondary);border:1px solid var(--border-base);border-radius:20px;font-size:12px;color:var(--content-secondary);">Empty State</span>
+  <div class="intro-steps">
+    <div class="intro-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Understand the foundations</div>
+        <div class="step-desc">Start with <a href="colors-docs.html" class="step-link">Colors</a>, <a href="typography-docs.html" class="step-link">Typography</a>, and <a href="spacing-docs.html" class="step-link">Spacing</a>. These three token layers underpin every component in the system. Understanding them makes everything else click.</div>
+      </div>
     </div>
-
-    <h3 class="text-l4" style="margin-top:32px;">Each component page</h3>
-    <p>Every component page is split into two tabs. The <strong>Design tab</strong> covers anatomy, usage guidelines, variants, interactive states, and the component-level token list. The <strong>Developer tab</strong> provides a live rendered example, the full Angular <code>@Input</code> / <code>@Output</code> API table, and code snippets ready to paste.</p>
-  </div>
-
-  <!-- Tech stack -->
-  <div class="section">
-    <h2 class="text-l3">Tech stack</h2>
-    <p class="section-lead">Angular components, CSS custom properties, and Figma as the design source of truth.</p>
-    <div class="tbl-wrap" style="border-left:3px solid var(--border-brand-base);padding-left:0;">
-      <table>
-        <thead>
-          <tr>
-            <th style="width:32px;padding-right:0;"></th>
-            <th>Layer</th>
-            <th>Technology</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding-right:0;color:var(--content-brand-base);">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="12" y="2" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="2" y="12" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 15h2m2 0h-2m0 0v-2m0 2v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </td>
-            <td>Components</td>
-            <td>Angular (<code>eff-*</code> selectors)</td>
-            <td>Compiled into a shared library consumed by the Coordinator and Personal portals</td>
-          </tr>
-          <tr>
-            <td style="padding-right:0;color:var(--content-brand-base);">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="15" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M5 7.5V12a3 3 0 003 3h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </td>
-            <td>Tokens</td>
-            <td>CSS custom properties</td>
-            <td>Defined in <code>tokens.css</code>; base layer plus portal overrides for Coordinator (teal <code>#0a9d99</code>) and Personal (yellow <code>#fdbd12</code>)</td>
-          </tr>
-          <tr>
-            <td style="padding-right:0;color:var(--content-brand-base);">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".9"/><rect x="11" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".6"/><rect x="2" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".6"/><rect x="11" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".3"/></svg>
-            </td>
-            <td>Design source</td>
-            <td>Figma</td>
-            <td>Main library file is the authoritative design spec; component pages link directly to Figma frames</td>
-          </tr>
-          <tr>
-            <td style="padding-right:0;color:var(--content-brand-base);">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </td>
-            <td>Documentation</td>
-            <td>GitHub Pages</td>
-            <td>This site — static HTML/CSS, no build step required to contribute</td>
-          </tr>
-          <tr>
-            <td style="padding-right:0;color:var(--content-brand-base);">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 6L3 10l4 4M13 6l4 4-4 4M11 4l-2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </td>
-            <td>Component sandbox</td>
-            <td>Storybook</td>
-            <td>Live Angular components with controls; linked from each Developer tab</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="intro-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Explore components by category</div>
+        <div class="step-desc">Each component page has two tabs: <strong>Design</strong> (anatomy, usage guidelines, states, tokens) and <strong>Developer</strong> (live playground, API table, code snippets). Browse the category cards above or use the sidebar.</div>
+      </div>
+    </div>
+    <div class="intro-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Read the Design Principles</div>
+        <div class="step-desc">The <a href="design-principles-docs.html" class="step-link">Design Principles</a> explain the decisions behind the system — why things are the way they are — and serve as the tiebreaker when two valid options exist.</div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- Getting help -->
-  <div class="section">
-    <h2 class="text-l3">Getting help</h2>
-    <p class="section-lead">The system is a living product — questions, gaps, and contributions are all welcome.</p>
-    <p>If you're unsure how a component should behave or whether one exists for your use case, the <a href="contributing-docs.html" style="color:var(--content-action);">Contributing page</a> explains how to raise a question, file a bug, or propose something new. The DS team reviews proposals in a bi-weekly sync open to all product team members.</p>
-    <p style="margin-top:16px;">For a full record of what has changed, see the <a href="changelog-docs.html" style="color:var(--content-action);">Changelog</a>. It covers every release with new additions, breaking changes, and fixes.</p>
-    <p style="margin-top:16px;">Where a gap exists between what is designed in Figma and what is shipped in code — for example, a variant that is specced but not yet built — the relevant component page will include a <strong>⚠️ callout</strong> explaining the discrepancy and the expected resolution timeline. Nothing is silently missing.</p>
-  </div>
-
-</article>
-</div>
-</div>
-</div>
+</div><!-- /content-wrap -->
+</div><!-- /shell -->
 <script src="nav.js"></script>
 </body>
 </html>
