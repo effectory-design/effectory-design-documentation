@@ -46,22 +46,23 @@
     .av-grey      { background: var(--bg-secondary);               color: var(--content-secondary); }
     .av-counter   { background: var(--bg-secondary);               color: var(--content-secondary); }
 
-    /* ── Anatomy figure ── */
+    /* ── Anatomy figure (scoped so list .anatomy-num keeps its global flex layout) ── */
     .anatomy-fig {
       display: flex; align-items: center; justify-content: center;
       gap: var(--spacing-super-extra-loose);
       padding: var(--spacing-super-extra-loose) var(--spacing-loose);
-      background: var(--bg-secondary);
+      background: var(--bg-base);
+      border: 1px solid var(--border-base);
       border-radius: var(--radius-lg);
       margin-bottom: var(--spacing-loose);
     }
     .anatomy-stack { position: relative; }
-    .anatomy-line {
+    .anatomy-fig .anatomy-line {
       position: absolute;
       height: 1px;
       background: var(--content-subtle);
     }
-    .anatomy-num {
+    .anatomy-fig .anatomy-num {
       position: absolute;
       width: 18px; height: 18px;
       border-radius: var(--radius-full);
@@ -69,6 +70,7 @@
       color: var(--bg-base);
       font-size: 10px; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
+      margin: 0;
     }
 
     /* ── Variant row preview helpers ── */
