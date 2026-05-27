@@ -31,8 +31,10 @@
       position: absolute;
       left: 0; top: 0;
       width: 32px; height: 32px; border-radius: 50%;
-      background: var(--bg-brand-base); color: var(--content-on-brand-base);
-      font-size: 14px; font-weight: 700;
+      background: var(--bg-secondary);
+      color: var(--content-base);
+      border: 1px solid var(--border-base);
+      font-size: 14px; font-weight: 600;
       display: flex; align-items: center; justify-content: center;
     }
     .gs-step-body { flex: 1; }
@@ -75,14 +77,19 @@
     /* ── Ground-rules list ── */
     .gs-rules { display: flex; flex-direction: column; gap: 0; margin-top: var(--spacing-base); }
     .gs-rule {
-      display: flex; gap: var(--spacing-tight); align-items: flex-start;
+      display: flex; gap: 14px; align-items: flex-start;
       font-size: 14px; color: var(--content-secondary); line-height: 1.6;
-      padding: var(--spacing-base-tight) 0;
+      padding: 14px 0;
       border-bottom: 1px solid var(--border-base);
     }
+    .gs-rule:first-child { border-top: 1px solid var(--border-base); }
     .gs-rule:last-child { border-bottom: none; }
-    .gs-rule-icon { color: var(--content-brand-base); flex-shrink: 0; margin-top: 2px; }
-    .gs-rule strong { color: var(--content-base); font-weight: 600; }
+    .gs-rule-icon {
+      flex-shrink: 0; margin-top: 4px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--content-subtle);
+    }
+    .gs-rule strong { color: var(--content-base); font-weight: 600; display: block; margin-bottom: 2px; }
 
     /* ── Download button ── */
     .gs-download-btn {
@@ -170,43 +177,15 @@
   <!-- ── What is it ── -->
   <section class="section" id="what">
     <h2 class="text-l3">What is it</h2>
-    <p class="section-lead">A way to build product screens with the real components and styles of this design system — no Figma, no coding required.</p>
+    <p class="section-lead">Build product screens with the real components and styles of this design system — by describing what you want in plain language.</p>
 
-    <p>The Engage Design System ships as a <strong>skill for Claude</strong>. When you describe a screen — in plain Dutch or English — Claude builds a working HTML prototype using the exact same components, colours, and spacing as the real product. The result looks like the real app because it <em>uses</em> the real app's styles.</p>
-
-    <p style="margin-top:var(--spacing-base);">You don't need to know how to code. You just need Claude open and a rough idea of what you want to build.</p>
-  </section>
-
-  <!-- ── Pick your path ── -->
-  <section class="section" id="setup">
-    <h2 class="text-l3">Pick your path</h2>
-    <p class="section-lead">How you get the skill depends on whether you're inside Effectory or outside.</p>
-
-    <div class="gs-paths">
-      <a class="gs-path" href="#team">
-        <span class="gs-path-tag is-team">Effectory team</span>
-        <h3>Already installed</h3>
-        <p>The skill is pre-installed in the Effectory Claude account. Just open Claude and start describing what you want.</p>
-      </a>
-      <a class="gs-path" href="#external">
-        <span class="gs-path-tag is-external">Outside Effectory</span>
-        <h3>Install via GitHub</h3>
-        <p>Download the skill from the public GitHub repo and drop it into your own Claude setup.</p>
-      </a>
-    </div>
+    <p>The Engage Design System ships as a skill for Claude. Describe a screen in Dutch or English and Claude builds a working HTML prototype using the same components, colours and spacing as the real product. No Figma, no code.</p>
   </section>
 
   <!-- ── Effectory team path ── -->
   <section class="section" id="team">
     <h2 class="text-l3">For Effectory designers</h2>
-    <p class="section-lead">Nothing to install — the skill is already in your Claude workspace.</p>
-
-    <div class="gs-callout-info">
-      <span class="gs-callout-icon">✅</span>
-      <div>
-        <strong>You're good to go.</strong> Every Effectory teammate signed in to the company Claude account automatically has the <code>effectory-design-system</code> skill available. No download, no terminal commands.
-      </div>
-    </div>
+    <p class="section-lead">The skill is pre-installed in the Effectory Claude account — just open Claude and start.</p>
 
     <div class="gs-steps">
 
@@ -225,7 +204,7 @@
         <div class="gs-step-body">
           <div class="gs-step-title">Describe what you want to build</div>
           <div class="gs-step-desc">
-            Just type your request. Use words like <em>prototype</em>, <em>design</em>, <em>scherm</em>, <em>pagina</em>, or <em>mockup</em> and Claude will recognise it and load the skill automatically. Examples:
+            Use words like <em>prototype</em>, <em>design</em>, <em>scherm</em> or <em>pagina</em> and Claude loads the skill automatically.
             <div class="gs-prompts">
               <span class="gs-prompt">"bouw een prototype van het instellingenscherm"</span>
               <span class="gs-prompt">"maak een design voor een onboarding-flow met drie stappen"</span>
@@ -238,10 +217,8 @@
       <div class="gs-step">
         <div class="gs-step-num">3</div>
         <div class="gs-step-body">
-          <div class="gs-step-title">Claude builds the screen and shows you the result</div>
-          <div class="gs-step-desc">
-            Claude generates an HTML preview directly in the conversation. You can iterate by asking for tweaks — "make the button primary", "add a back link", "use dark mode" — and Claude updates the file in place.
-          </div>
+          <div class="gs-step-title">Iterate until it's right</div>
+          <div class="gs-step-desc">Claude shows the result inline. Ask for tweaks — "make the button primary", "add a back link", "use dark mode" — and the file updates in place.</div>
         </div>
       </div>
 
@@ -251,7 +228,7 @@
   <!-- ── External users path ── -->
   <section class="section" id="external">
     <h2 class="text-l3">For everyone else</h2>
-    <p class="section-lead">If you're not part of Effectory, you can still use the skill by installing it from GitHub.</p>
+    <p class="section-lead">Outside Effectory? Install the skill from the public GitHub repo.</p>
 
     <div class="gs-steps">
 
@@ -260,12 +237,14 @@
         <div class="gs-step-body">
           <div class="gs-step-title">Download the skill from GitHub</div>
           <div class="gs-step-desc">
-            The skill is open source and lives in our public GitHub repo. You don't need a GitHub account to download it.<br><br>
-            <a class="gs-download-btn" href="https://github.com/jenteinsing123/effectory-design-documentation/archive/refs/heads/main.zip">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              Download design system (.zip)
-            </a><br>
-            Or browse the source at <a href="https://github.com/jenteinsing123/effectory-design-documentation" target="_blank">github.com/jenteinsing123/effectory-design-documentation</a>. Unzip and save the folder somewhere easy to find.
+            The skill is open source. No GitHub account needed.
+            <div style="margin-top:10px;">
+              <a class="gs-download-btn" href="https://github.com/jenteinsing123/effectory-design-documentation/archive/refs/heads/main.zip">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                Download design system (.zip)
+              </a>
+            </div>
+            Unzip and save the folder somewhere easy to find. Or browse the source at <a href="https://github.com/jenteinsing123/effectory-design-documentation" target="_blank">github.com/jenteinsing123/effectory-design-documentation</a>.
           </div>
         </div>
       </div>
@@ -275,9 +254,9 @@
         <div class="gs-step-body">
           <div class="gs-step-title">Install Claude Code</div>
           <div class="gs-step-desc">
-            Claude Code is a free CLI tool by Anthropic. Open Terminal and run:<br>
-            <code style="display:inline-block;margin-top:6px;">npm install -g @anthropic-ai/claude-code</code><br><br>
-            If you see <strong>npm not found</strong>, install <a href="https://nodejs.org/" target="_blank">Node.js</a> first — it ships with npm.
+            A free CLI tool by Anthropic. Open Terminal and run:
+            <div style="margin-top:6px;"><code>npm install -g @anthropic-ai/claude-code</code></div>
+            <span style="display:block;margin-top:8px;">No npm? Install <a href="https://nodejs.org/" target="_blank">Node.js</a> first.</span>
           </div>
         </div>
       </div>
@@ -285,36 +264,22 @@
       <div class="gs-step">
         <div class="gs-step-num">3</div>
         <div class="gs-step-body">
-          <div class="gs-step-title">Open Claude Code inside the folder</div>
+          <div class="gs-step-title">Run <code>claude</code> in the folder</div>
           <div class="gs-step-desc">
-            In Terminal, navigate to the folder you downloaded in step 1 and run:<br>
-            <code style="display:inline-block;margin-top:6px;">claude</code><br><br>
-            Claude Code starts and automatically picks up the <code>effectory-design-system</code> skill from the <code>.claude/skills/</code> folder. From here, describe what you want to build — exactly like the Effectory team path above.
+            Navigate to the unzipped folder and run <code>claude</code>. The skill in <code>.claude/skills/</code> loads automatically. From here, follow the same flow as the Effectory team above.
           </div>
         </div>
       </div>
 
     </div>
 
-    <div class="gs-callout-info" style="margin-top:var(--spacing-loose);">
-      <span class="gs-callout-icon">🔄</span>
-      <div>
-        <strong>Keep it up to date.</strong> The design system gets new components and improvements regularly. Re-download the ZIP before each session, or — if you cloned with Git — run <code>git pull</code> in the project folder.
-      </div>
-    </div>
+    <p style="margin-top:var(--spacing-base); font-size:14px; color:var(--content-secondary);">Keep it fresh: re-download the ZIP before each session, or <code>git pull</code> if you cloned the repo.</p>
   </section>
 
   <!-- ── Viewing ── -->
   <section class="section" id="open">
     <h2 class="text-l3">Viewing your prototype</h2>
-    <p class="section-lead">Open it through the local server — not by double-clicking the file.</p>
-
-    <div class="gs-callout">
-      <span class="gs-callout-icon">⚠️</span>
-      <div>
-        <strong>Don't open the file by double-clicking it.</strong> This breaks icons and some visual details — the prototype will look incomplete even though nothing is wrong. Always use the local server instead (see below).
-      </div>
-    </div>
+    <p class="section-lead">Open prototypes through the local server — double-clicking the HTML file breaks icons.</p>
 
     <div class="gs-steps">
 
@@ -322,7 +287,7 @@
         <div class="gs-step-num">1</div>
         <div class="gs-step-body">
           <div class="gs-step-title">Start the local server</div>
-          <div class="gs-step-desc">In a Terminal window inside the project folder, run:<br><code style="display:inline-block;margin-top:6px;">python3 serve.py</code><br><br>This starts a small local web server on your computer. Leave this Terminal window open while you're working.</div>
+          <div class="gs-step-desc">In Terminal, inside the project folder: <code>python3 serve.py</code>. Leave the window open while you work.</div>
         </div>
       </div>
 
@@ -330,7 +295,7 @@
         <div class="gs-step-num">2</div>
         <div class="gs-step-body">
           <div class="gs-step-title">Open the link Claude gives you</div>
-          <div class="gs-step-desc">After building, Claude always prints a URL like <code>http://localhost:8000/prototypes/my-screen.html</code>. Copy that link and paste it into your browser.</div>
+          <div class="gs-step-desc">Claude prints a URL like <code>http://localhost:8000/prototypes/my-screen.html</code>. Paste it into your browser.</div>
         </div>
       </div>
 
@@ -344,30 +309,22 @@
     <div class="gs-rules">
 
       <div class="gs-rule">
-        <span class="gs-rule-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <span class="gs-rule-icon"></span>
         <div><strong>Only real components.</strong> Claude only uses components, colours, and icons that actually exist in the design system. It never invents something new or uses a rough approximation.</div>
       </div>
 
       <div class="gs-rule">
-        <span class="gs-rule-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <span class="gs-rule-icon"></span>
         <div><strong>If something doesn't exist, Claude tells you.</strong> If you ask for a component that isn't in the system yet, Claude stops and tells you clearly — it won't silently build a substitute that looks different from the real product.</div>
       </div>
 
       <div class="gs-rule">
-        <span class="gs-rule-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <span class="gs-rule-icon"></span>
         <div><strong>Prototypes look like the real product.</strong> Not a documentation page, not a wireframe — a realistic product screen. Dark mode and portal theming (Coordinator / Personal) work out of the box.</div>
       </div>
 
       <div class="gs-rule">
-        <span class="gs-rule-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        <span class="gs-rule-icon"></span>
         <div><strong>Files are saved automatically.</strong> Every prototype is saved in the <code>prototypes/</code> folder inside the project. You can share the URL with teammates — as long as they're also running the local server.</div>
       </div>
 
@@ -428,7 +385,6 @@
   <nav class="toc">
     <div class="toc-title">ON THIS PAGE</div>
     <a class="toc-link" href="#what">What is it</a>
-    <a class="toc-link" href="#setup">Pick your path</a>
     <a class="toc-link" href="#team">For Effectory designers</a>
     <a class="toc-link" href="#external">For everyone else</a>
     <a class="toc-link" href="#open">Viewing your prototype</a>
