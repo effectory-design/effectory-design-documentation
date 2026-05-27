@@ -14,21 +14,25 @@ Do NOT invent names. If something isn't listed here, it does not exist.
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prototype</title>
+  <base href="/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../tokens.css" />
-  <link rel="stylesheet" href="../foundation.css" />
-  <link rel="stylesheet" href="../components.css" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/foundation.css" />
+  <link rel="stylesheet" href="/components.css" />
   <style>
     body { background: var(--bg-interface-body); color: var(--content-base); font-family: 'Poppins', sans-serif; }
   </style>
 </head>
 <body>
   <!-- prototype content here -->
-  <script src="../icons.js"></script>
+  <script src="/icons.js"></script>
 </body>
 </html>
 ```
+
+**Waarom `<base href="/">` en root-relatieve paden:**
+`icons.js` fetcht SVGs via `fetch('assets/icons/...')`. Browsers resolven `fetch`-paden relatief aan het HTML-document, niet het script. Vanuit `prototypes/` zou dat naar `prototypes/assets/icons/` wijzen — die map bestaat niet. `<base href="/">` forceert resolutie vanaf de server-root, zodat iconen, CSS én de toggle-mask altijd correct laden. Altijd `<base href="/">` gebruiken voor prototypes in een submap.
 
 **Nooit meenemen:** `nav.html`, `nav.js`, `.shell`, `.topnav`, `.sidebar`, `.content-wrap`, `.page-header`, `.page-tabs`, `.tab-panel`, `.states-row`, `.state-col`, `.dd-grid`, `.token-table`, `.pg-card`, `.dev-preview`, `.dev-code-wrap`, `.toc-col`, `.section`, `.pagination`
 

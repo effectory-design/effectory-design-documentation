@@ -65,12 +65,24 @@ Een prototype ziet eruit als een echte pagina in de app — niet als een docs-pa
 - Gebruik `--content-base` als standaard tekstkleur
 - Geen docs-chrome (sidebar, tabs, TOC, etc.)
 
-### 7. Altijd via lokale server openen
-Prototypes gebruiken `url('assets/icons/...')` CSS-masks (o.a. het Toggle-vinkje) en `icons.js` icoonfetches.
-Beide werken **niet** via `file://` (CORS-beperking van de browser).
-- Open prototypes altijd via `python3 serve.py` → `http://localhost:<poort>/...`
-- Zeg nooit dat dubbelklik ook werkt — het werkt niet.
-- Meld dit altijd aan de gebruiker na het bouwen (zie Workflow stap 7).
+### 7. Altijd via lokale server openen — en `<base href="/">` verplicht
+Prototypes in `prototypes/` staan in een submap. `icons.js` fetcht SVGs relatief aan het HTML-document, niet het script. Zonder `<base href="/">` wordt `assets/icons/` omgezet naar `prototypes/assets/icons/` — die map bestaat niet. Iconen laden dan niet, ook niet via http.
+
+Altijd in de `<head>` van elk prototype:
+```html
+<base href="/" />
+```
+En gebruik root-relatieve paden voor alle assets:
+```html
+<link rel="stylesheet" href="/tokens.css" />
+<link rel="stylesheet" href="/foundation.css" />
+<link rel="stylesheet" href="/components.css" />
+...
+<script src="/icons.js"></script>
+```
+
+Bovendien: open prototypes altijd via `python3 serve.py` → `http://localhost:<poort>/...`.
+Nooit via dubbelklik (`file://`) — CSS-masks voor het Toggle-vinkje werken dan ook niet.
 
 ---
 
