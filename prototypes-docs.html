@@ -8,20 +8,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Numbered steps with connecting line ── */
+    /* ── Numbered steps with connecting line ──
+       All spacing values come from --spacing tokens. The 32px num
+       diameter is a component size; padding-left and the line offset
+       are derived from it (32 + 16 base, center = 16). */
     .gs-steps { display: flex; flex-direction: column; margin-top: var(--spacing-base); }
     .gs-step  {
       position: relative;
-      padding-left: 48px;
-      padding-bottom: 28px;
+      padding-left: calc(32px + var(--spacing-base));
+      padding-bottom: var(--spacing-extra-loose);
       min-height: 32px;
     }
     .gs-step::before {
       content: "";
       position: absolute;
-      left: 15px;          /* center of 32px num */
+      left: 15px;          /* center of 32px num — derived, not spacing */
       top: 34px;
-      bottom: -2px;
+      bottom: 0;
       width: 2px;
       background: var(--border-base);
     }
@@ -30,7 +33,7 @@
     .gs-step-num {
       position: absolute;
       left: 0; top: 0;
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 32px; height: 32px; border-radius: var(--radius-full);
       background: var(--bg-secondary);
       color: var(--content-base);
       border: 1px solid var(--border-base);
@@ -38,36 +41,36 @@
       display: flex; align-items: center; justify-content: center;
     }
     .gs-step-body { flex: 1; }
-    .gs-step-title { font-weight: 600; font-size: 15px; color: var(--content-base); margin-bottom: 6px; }
+    .gs-step-title { font-weight: 600; font-size: 15px; color: var(--content-base); margin-bottom: var(--spacing-extra-tight); }
     .gs-step-desc  { font-size: 14px; color: var(--content-secondary); line-height: 1.65; }
 
     /* ── Info / warning callouts ── */
-    .gs-callout {
-      display: flex; gap: 12px; align-items: flex-start;
-      background: var(--bg-warning-subtle);
-      border: 1px solid var(--border-warning-base);
-      border-left: 4px solid var(--bg-warning-bold);
+    .gs-callout, .gs-callout-info {
+      display: flex; gap: var(--spacing-base-tight); align-items: flex-start;
+      border: 1px solid var(--border-base);
+      border-left: 4px solid var(--border-base);
       border-radius: var(--radius-lg);
-      padding: 14px 16px;
+      padding: var(--spacing-base);
       margin: var(--spacing-base) 0 var(--spacing-loose);
       font-size: 14px; color: var(--content-base); line-height: 1.6;
+    }
+    .gs-callout {
+      background: var(--bg-warning-subtle);
+      border-color: var(--border-warning-base);
+      border-left-color: var(--bg-warning-bold);
     }
     .gs-callout-info {
-      display: flex; gap: 12px; align-items: flex-start;
       background: var(--bg-brand-subtle);
-      border: 1px solid var(--border-brand-base);
-      border-left: 4px solid var(--bg-brand-base);
-      border-radius: var(--radius-lg);
-      padding: 14px 16px;
-      margin: var(--spacing-base) 0 var(--spacing-loose);
-      font-size: 14px; color: var(--content-base); line-height: 1.6;
+      border-color: var(--border-brand-base);
+      border-left-color: var(--bg-brand-base);
     }
-    .gs-callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .gs-callout-icon { font-size: 16px; flex-shrink: 0; }
 
     /* ── Example prompts ── */
-    .gs-prompts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+    .gs-prompts { display: flex; flex-direction: column; gap: var(--spacing-tight); margin-top: var(--spacing-base-tight); }
     .gs-prompt  {
-      display: block; padding: 9px 12px;
+      display: block;
+      padding: var(--spacing-tight) var(--spacing-base-tight);
       background: var(--bg-secondary); border: 1px solid var(--border-base);
       border-radius: var(--radius-base);
       font-family: 'Poppins', sans-serif; font-size: 14px;
@@ -77,24 +80,28 @@
     /* ── Ground-rules list ── */
     .gs-rules { display: flex; flex-direction: column; gap: 0; margin-top: var(--spacing-base); }
     .gs-rule {
-      display: flex; gap: 14px; align-items: flex-start;
+      display: flex; gap: var(--spacing-base); align-items: flex-start;
       font-size: 14px; color: var(--content-secondary); line-height: 1.6;
-      padding: 14px 0;
+      padding: var(--spacing-base) 0;
       border-bottom: 1px solid var(--border-base);
     }
     .gs-rule:first-child { border-top: 1px solid var(--border-base); }
     .gs-rule:last-child { border-bottom: none; }
     .gs-rule-icon {
-      flex-shrink: 0; margin-top: 4px;
-      width: 5px; height: 5px; border-radius: 50%;
+      flex-shrink: 0; margin-top: var(--spacing-extra-tight);
+      width: 5px; height: 5px; border-radius: var(--radius-full);
       background: var(--content-subtle);
     }
-    .gs-rule strong { color: var(--content-base); font-weight: 600; display: block; margin-bottom: 2px; }
+    .gs-rule strong {
+      color: var(--content-base); font-weight: 600;
+      display: block; margin-bottom: var(--spacing-extra-tight);
+    }
 
-    /* ── Download button ── */
+    /* ── Download button (matches .btn-primary) ── */
     .gs-download-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      gap: 6px; height: 36px; padding: 0 14px;
+      gap: var(--spacing-tight); height: 36px;
+      padding: 0 var(--spacing-base-tight);
       background: var(--bg-brand-base);
       border: 1px solid var(--border-brand-base);
       border-radius: var(--radius-base);
@@ -119,37 +126,40 @@
 
     /* ── Who-is-this pills ── */
     .gs-audience {
-      display: flex; gap: 8px; flex-wrap: wrap;
+      display: flex; gap: var(--spacing-tight); flex-wrap: wrap;
       margin-bottom: var(--spacing-loose);
     }
     .gs-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 12px; border-radius: 20px;
+      display: inline-flex; align-items: center; gap: var(--spacing-tight);
+      padding: var(--spacing-tight) var(--spacing-base-tight);
+      border-radius: var(--radius-full);
       font-size: 14px; font-weight: 600;
       background: var(--bg-secondary); border: 1px solid var(--border-base);
       color: var(--content-secondary);
     }
     .gs-pill-dot {
-      width: 7px; height: 7px; border-radius: 50%;
+      width: 7px; height: 7px; border-radius: var(--radius-full);
       background: var(--bg-brand-base); flex-shrink: 0;
     }
 
     /* ── Audience path cards ── */
     .gs-paths {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base);
       margin: var(--spacing-base) 0 var(--spacing-loose);
     }
     .gs-path {
       border: 1px solid var(--border-base);
       border-radius: var(--radius-lg);
-      padding: 20px 22px;
+      padding: var(--spacing-loose);
       background: var(--bg-base);
     }
     .gs-path-tag {
-      display: inline-flex; align-items: center; gap: 6px;
+      display: inline-flex; align-items: center; gap: var(--spacing-tight);
       font-size: 11px; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
-      margin-bottom: 12px;
+      text-transform: uppercase;
+      padding: var(--spacing-extra-tight) var(--spacing-base-tight);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--spacing-base-tight);
     }
     .gs-path-tag.is-team {
       background: var(--bg-brand-subtle); color: var(--content-brand-base);
@@ -159,12 +169,13 @@
       border: 1px solid var(--border-base);
     }
     .gs-path-tag::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      content: ''; width: 6px; height: 6px;
+      border-radius: var(--radius-full);
       background: currentColor; display: inline-block;
     }
     .gs-path h3 {
       font-size: 16px; font-weight: 700; color: var(--content-base);
-      margin: 0 0 6px;
+      margin: 0 0 var(--spacing-tight);
     }
     .gs-path p { font-size: 14px; color: var(--content-secondary); line-height: 1.6; margin: 0; }
     @media (max-width: 720px) { .gs-paths { grid-template-columns: 1fr; } }
@@ -253,7 +264,7 @@
           <div class="gs-step-title">Download the skill from GitHub</div>
           <div class="gs-step-desc">
             The skill is open source. No GitHub account needed.
-            <div style="margin-top:10px;">
+            <div style="margin-top:var(--spacing-base-tight);">
               <a class="gs-download-btn" href="https://github.com/jenteinsing123/effectory-design-documentation/archive/refs/heads/main.zip">
                 <i data-icon="download"></i>
                 Download design system (.zip)
@@ -270,8 +281,8 @@
           <div class="gs-step-title">Install Claude Code</div>
           <div class="gs-step-desc">
             A free CLI tool by Anthropic. Open Terminal and run:
-            <div style="margin-top:6px;"><code>npm install -g @anthropic-ai/claude-code</code></div>
-            <span style="display:block;margin-top:8px;">No npm? Install <a href="https://nodejs.org/" target="_blank">Node.js</a> first.</span>
+            <div style="margin-top:var(--spacing-tight);"><code>npm install -g @anthropic-ai/claude-code</code></div>
+            <span style="display:block;margin-top:var(--spacing-tight);">No npm? Install <a href="https://nodejs.org/" target="_blank">Node.js</a> first.</span>
           </div>
         </div>
       </div>
