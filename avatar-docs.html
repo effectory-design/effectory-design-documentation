@@ -130,45 +130,34 @@
   <!-- ─── ANATOMY ─── -->
   <section class="section" id="anatomy">
     <h2 class="text-l3">Anatomy</h2>
-    <p class="section-lead">Two visual forms with shared structure — a circular surface filled with a soft colour tint, and centred content that's either the person's initials or a generic person icon.</p>
+    <p class="section-lead">Two parts: a circular container and the content inside — either initials or an icon.</p>
 
     <div class="anatomy-fig">
-      <div class="anatomy-stack" style="width:140px; height:120px;">
-        <span class="av av-40 av-blue" style="position:absolute; left:50px; top:32px; pointer-events:none;">JI</span>
-        <!-- Callout lines + numbers -->
-        <div class="anatomy-line" style="left:90px; top:42px; width:48px;"></div>
-        <div class="anatomy-num"  style="left:140px; top:33px;">1</div>
-        <div class="anatomy-line" style="left:90px; top:62px; width:48px;"></div>
-        <div class="anatomy-num"  style="left:140px; top:53px;">2</div>
-        <div class="anatomy-line" style="left:90px; top:82px; width:48px;"></div>
-        <div class="anatomy-num"  style="left:140px; top:73px;">3</div>
+      <div class="anatomy-stack" style="width:160px; height:120px;">
+        <span class="av av-40 av-blue" style="position:absolute; left:60px; top:40px; pointer-events:none;">JI</span>
+        <div class="anatomy-line" style="left:60px; top:80px; width:40px; transform:rotate(35deg); transform-origin:left center;"></div>
+        <div class="anatomy-num"  style="left:90px; top:96px;">1</div>
+        <div class="anatomy-line" style="left:80px; top:60px; width:60px;"></div>
+        <div class="anatomy-num"  style="left:142px; top:51px;">2</div>
       </div>
 
-      <div class="anatomy-stack" style="width:140px; height:120px;">
-        <span class="av av-40 av-grey" style="position:absolute; left:50px; top:32px; pointer-events:none;"><i data-icon="user"></i></span>
-        <div class="anatomy-line" style="left:90px; top:42px; width:48px;"></div>
-        <div class="anatomy-num"  style="left:140px; top:33px;">1</div>
-        <div class="anatomy-line" style="left:90px; top:62px; width:48px;"></div>
-        <div class="anatomy-num"  style="left:140px; top:53px;">4</div>
+      <div class="anatomy-stack" style="width:160px; height:120px;">
+        <span class="av av-40 av-grey" style="position:absolute; left:60px; top:40px; pointer-events:none;"><i data-icon="user"></i></span>
+        <div class="anatomy-line" style="left:60px; top:80px; width:40px; transform:rotate(35deg); transform-origin:left center;"></div>
+        <div class="anatomy-num"  style="left:90px; top:96px;">1</div>
+        <div class="anatomy-line" style="left:80px; top:60px; width:60px;"></div>
+        <div class="anatomy-num"  style="left:142px; top:51px;">2</div>
       </div>
     </div>
 
     <div class="anatomy-items">
       <div class="anatomy-item">
         <div class="anatomy-num">1</div>
-        <div><span class="anatomy-term">Surface</span> — circular fill in one of seven accent tints. Always uses the <code>subtle</code> background paired with its matching <code>base</code> content colour.</div>
+        <div><span class="anatomy-term">Container</span> — circular surface in one of seven accent tints, sized 40 / 36 / 32 / 24 / 20 px.</div>
       </div>
       <div class="anatomy-item">
         <div class="anatomy-num">2</div>
-        <div><span class="anatomy-term">Initials</span> — one or two characters in Poppins SemiBold, vertically and horizontally centred. Always uppercase.</div>
-      </div>
-      <div class="anatomy-item">
-        <div class="anatomy-num">3</div>
-        <div><span class="anatomy-term">Colour token</span> — assigned consistently per person (e.g. via a hash of their user id) so the same person always shows the same tint across the product.</div>
-      </div>
-      <div class="anatomy-item">
-        <div class="anatomy-num">4</div>
-        <div><span class="anatomy-term">Anonymous icon</span> — the <code>user</code> icon from the library, used when the name is unknown or must stay anonymous. Always rendered on a grey surface to signal the lack of identity.</div>
+        <div><span class="anatomy-term">Content</span> — either one or two uppercase initials in Poppins SemiBold, or the anonymous <code>user</code> icon when the name is unknown.</div>
       </div>
     </div>
   </section>
