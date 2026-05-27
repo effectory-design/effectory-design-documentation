@@ -379,6 +379,43 @@
     </div>
 
     <p style="margin-top:var(--spacing-base);">If these files drift out of sync with the documentation, Claude will build prototypes with outdated or missing components without any warning. Running <code>git pull</code> before each session is the simplest safeguard.</p>
+
+    <h3 class="text-l4" style="margin-top:var(--spacing-extra-loose);">Publishing the org-skill</h3>
+    <p class="section-lead">The Effectory team uses the skill via the company Claude account, which runs a packaged copy of the skill. After any change to <code>components.css</code>, <code>foundation.css</code> or <code>design-system-reference.md</code>, rebuild and re-upload — otherwise the team keeps building with the old version.</p>
+
+    <div class="gs-steps">
+
+      <div class="gs-step">
+        <div class="gs-step-num">1</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Sync the bundle</div>
+          <div class="gs-step-desc">
+            In Terminal, from the project root, run <code>./sync-skill.sh</code>. This copies the latest CSS, reference doc, icons and <code>serve.py</code> into <code>skill-source/</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">2</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Build the zip</div>
+          <div class="gs-step-desc">
+            Run <code>./build-skill.sh</code>. The output is <code>dist/effectory-design-system.zip</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">3</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Upload to Claude.ai</div>
+          <div class="gs-step-desc">
+            Go to <strong>Claude.ai → Organization settings → Skills</strong>. Find <code>effectory-design-system</code>, choose update / re-upload, and pick the new zip. From that moment every Effectory teammate signed in to the company account uses the updated version automatically.
+          </div>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <div class="pagination">
