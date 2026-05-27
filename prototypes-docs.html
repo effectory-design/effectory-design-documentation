@@ -76,6 +76,17 @@
     .gs-rule-icon { color: var(--content-brand-base); flex-shrink: 0; margin-top: 2px; }
     .gs-rule strong { color: var(--content-base); font-weight: 600; }
 
+    /* ── Download button ── */
+    .gs-download-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--bg-brand-base); color: var(--content-on-brand-base);
+      padding: 10px 18px; border-radius: var(--radius-base);
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      margin: 10px 0 14px;
+      transition: opacity .15s;
+    }
+    .gs-download-btn:hover { opacity: .88; }
+
     /* ── Who-is-this pills ── */
     .gs-audience {
       display: flex; gap: 8px; flex-wrap: wrap;
@@ -92,6 +103,41 @@
       width: 7px; height: 7px; border-radius: 50%;
       background: var(--bg-brand-base); flex-shrink: 0;
     }
+
+    /* ── Audience path cards ── */
+    .gs-paths {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin: var(--spacing-base) 0 var(--spacing-loose);
+    }
+    .gs-path {
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      background: var(--bg-base);
+    }
+    .gs-path-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .gs-path-tag.is-team {
+      background: var(--bg-brand-subtle); color: var(--content-brand-base);
+    }
+    .gs-path-tag.is-external {
+      background: var(--bg-secondary); color: var(--content-secondary);
+      border: 1px solid var(--border-base);
+    }
+    .gs-path-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; display: inline-block;
+    }
+    .gs-path h3 {
+      font-size: 16px; font-weight: 700; color: var(--content-base);
+      margin: 0 0 6px;
+    }
+    .gs-path p { font-size: 13.5px; color: var(--content-secondary); line-height: 1.55; margin: 0; }
+    @media (max-width: 720px) { .gs-paths { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -118,79 +164,50 @@
     <h2 class="text-l3">What is it</h2>
     <p class="section-lead">A way to build product screens with the real components and styles of this design system — no Figma, no coding required.</p>
 
-    <p>The Engage Design System comes with a built-in skill for Claude Code. When you describe a screen — in plain Dutch or English — Claude builds a working HTML prototype using the exact same components, colours, and spacing as the real product. The result looks like the real app because it <em>uses</em> the real app's styles.</p>
+    <p>The Engage Design System ships as a <strong>skill for Claude</strong>. When you describe a screen — in plain Dutch or English — Claude builds a working HTML prototype using the exact same components, colours, and spacing as the real product. The result looks like the real app because it <em>uses</em> the real app's styles.</p>
 
-    <p style="margin-top:var(--spacing-base);">You don't need to know how to code. You just need Claude Code open and a rough idea of what you want to build.</p>
-
-    <div class="gs-callout-info" style="margin-top:var(--spacing-loose);">
-      <span class="gs-callout-icon">💡</span>
-      <div>
-        <strong>New to this?</strong> Start with the one-time setup below. It takes about 5 minutes and you only do it once. After that, building a prototype takes less than a minute.
-      </div>
-    </div>
+    <p style="margin-top:var(--spacing-base);">You don't need to know how to code. You just need Claude open and a rough idea of what you want to build.</p>
   </section>
 
-  <!-- ── One-time setup ── -->
+  <!-- ── Pick your path ── -->
   <section class="section" id="setup">
-    <h2 class="text-l3">One-time setup</h2>
-    <p class="section-lead">Do this once on your computer. After that you're ready to build.</p>
+    <h2 class="text-l3">Pick your path</h2>
+    <p class="section-lead">How you get the skill depends on whether you're inside Effectory or outside.</p>
 
-    <div class="gs-steps">
-
-      <div class="gs-step">
-        <div class="gs-step-num">1</div>
-        <div class="gs-step-body">
-          <div class="gs-step-title">Get the project folder</div>
-          <div class="gs-step-desc">
-            All the design system files live in a shared folder on your computer. If you don't have it yet, ask a developer on your team to set it up for you — they'll know what to do.<br><br>
-            If you already have the folder, make sure you have the latest version by opening a Terminal window inside it and running:
-            <br><code style="display:inline-block;margin-top:6px;">git pull</code><br><br>
-            Not sure how to do that? Ask a developer. It takes 30 seconds.
-          </div>
-        </div>
-      </div>
-
-      <div class="gs-step">
-        <div class="gs-step-num">2</div>
-        <div class="gs-step-body">
-          <div class="gs-step-title">Install Claude Code</div>
-          <div class="gs-step-desc">
-            Claude Code is a free tool made by Anthropic that runs in your Terminal. Install it by opening Terminal and running:<br>
-            <code style="display:inline-block;margin-top:6px;">npm install -g @anthropic-ai/claude-code</code><br><br>
-            If you see an error about <strong>npm not found</strong>, ask a developer to install Node.js for you first — it's a one-time step.
-          </div>
-        </div>
-      </div>
-
-      <div class="gs-step">
-        <div class="gs-step-num">3</div>
-        <div class="gs-step-body">
-          <div class="gs-step-title">Start Claude Code in the project folder</div>
-          <div class="gs-step-desc">
-            Open a Terminal window, navigate to the project folder, and run:
-            <br><code style="display:inline-block;margin-top:6px;">claude</code><br><br>
-            Claude Code starts up and automatically finds the design system. You're ready.
-          </div>
-        </div>
-      </div>
-
+    <div class="gs-paths">
+      <a class="gs-path" href="#team">
+        <span class="gs-path-tag is-team">Effectory team</span>
+        <h3>Already installed</h3>
+        <p>The skill is pre-installed in the Effectory Claude account. Just open Claude and start describing what you want.</p>
+      </a>
+      <a class="gs-path" href="#external">
+        <span class="gs-path-tag is-external">Outside Effectory</span>
+        <h3>Install via GitHub</h3>
+        <p>Download the skill from the public GitHub repo and drop it into your own Claude setup.</p>
+      </a>
     </div>
   </section>
 
-  <!-- ── Building a prototype ── -->
-  <section class="section" id="make">
-    <h2 class="text-l3">Building a prototype</h2>
-    <p class="section-lead">Once setup is done, this is all you do every time.</p>
+  <!-- ── Effectory team path ── -->
+  <section class="section" id="team">
+    <h2 class="text-l3">For Effectory designers</h2>
+    <p class="section-lead">Nothing to install — the skill is already in your Claude workspace.</p>
+
+    <div class="gs-callout-info">
+      <span class="gs-callout-icon">✅</span>
+      <div>
+        <strong>You're good to go.</strong> Every Effectory teammate signed in to the company Claude account automatically has the <code>effectory-design-system</code> skill available. No download, no terminal commands.
+      </div>
+    </div>
+
     <div class="gs-steps">
 
       <div class="gs-step">
         <div class="gs-step-num">1</div>
         <div class="gs-step-body">
-          <div class="gs-step-title">Update your files before you start</div>
+          <div class="gs-step-title">Open Claude with your Effectory account</div>
           <div class="gs-step-desc">
-            The design system gets new components and improvements regularly. Before each session, run a quick update so you always have the latest version:<br>
-            <code style="display:inline-block;margin-top:6px;">git pull</code><br><br>
-            Skip this and you might build a prototype with outdated components.
+            Sign in to Claude using your Effectory login. You can use Claude in the browser, the desktop app, or Claude Code — the skill is available in all of them.
           </div>
         </div>
       </div>
@@ -198,9 +215,9 @@
       <div class="gs-step">
         <div class="gs-step-num">2</div>
         <div class="gs-step-body">
-          <div class="gs-step-title">Describe the screen you want</div>
+          <div class="gs-step-title">Describe what you want to build</div>
           <div class="gs-step-desc">
-            Just type what you want to build — in Dutch or English, as detailed or as rough as you like. Use words like <em>prototype</em>, <em>design</em>, <em>scherm</em>, or <em>pagina</em> and Claude will know what to do. Examples:
+            Just type your request. Use words like <em>prototype</em>, <em>design</em>, <em>scherm</em>, <em>pagina</em>, or <em>mockup</em> and Claude will recognise it and load the skill automatically. Examples:
             <div class="gs-prompts">
               <span class="gs-prompt">"bouw een prototype van het instellingenscherm"</span>
               <span class="gs-prompt">"maak een design voor een onboarding-flow met drie stappen"</span>
@@ -213,11 +230,69 @@
       <div class="gs-step">
         <div class="gs-step-num">3</div>
         <div class="gs-step-body">
-          <div class="gs-step-title">Claude builds the file and gives you the link</div>
-          <div class="gs-step-desc">Claude saves the prototype as an HTML file and tells you exactly where to find it and how to open it. You don't need to do anything else.</div>
+          <div class="gs-step-title">Claude builds the screen and shows you the result</div>
+          <div class="gs-step-desc">
+            Claude generates an HTML preview directly in the conversation. You can iterate by asking for tweaks — "make the button primary", "add a back link", "use dark mode" — and Claude updates the file in place.
+          </div>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ── External users path ── -->
+  <section class="section" id="external">
+    <h2 class="text-l3">For everyone else</h2>
+    <p class="section-lead">If you're not part of Effectory, you can still use the skill by installing it from GitHub.</p>
+
+    <div class="gs-steps">
+
+      <div class="gs-step">
+        <div class="gs-step-num">1</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Download the skill from GitHub</div>
+          <div class="gs-step-desc">
+            The skill is open source and lives in our public GitHub repo. You don't need a GitHub account to download it.<br><br>
+            <a class="gs-download-btn" href="https://github.com/jenteinsing123/effectory-design-documentation/archive/refs/heads/main.zip">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Download design system (.zip)
+            </a><br>
+            Or browse the source at <a href="https://github.com/jenteinsing123/effectory-design-documentation" target="_blank">github.com/jenteinsing123/effectory-design-documentation</a>. Unzip and save the folder somewhere easy to find.
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">2</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Install Claude Code</div>
+          <div class="gs-step-desc">
+            Claude Code is a free CLI tool by Anthropic. Open Terminal and run:<br>
+            <code style="display:inline-block;margin-top:6px;">npm install -g @anthropic-ai/claude-code</code><br><br>
+            If you see <strong>npm not found</strong>, install <a href="https://nodejs.org/" target="_blank">Node.js</a> first — it ships with npm.
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">3</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Open Claude Code inside the folder</div>
+          <div class="gs-step-desc">
+            In Terminal, navigate to the folder you downloaded in step 1 and run:<br>
+            <code style="display:inline-block;margin-top:6px;">claude</code><br><br>
+            Claude Code starts and automatically picks up the <code>effectory-design-system</code> skill from the <code>.claude/skills/</code> folder. From here, describe what you want to build — exactly like the Effectory team path above.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="gs-callout-info" style="margin-top:var(--spacing-loose);">
+      <span class="gs-callout-icon">🔄</span>
+      <div>
+        <strong>Keep it up to date.</strong> The design system gets new components and improvements regularly. Re-download the ZIP before each session, or — if you cloned with Git — run <code>git pull</code> in the project folder.
+      </div>
     </div>
   </section>
 
@@ -345,8 +420,9 @@
   <nav class="toc">
     <div class="toc-title">ON THIS PAGE</div>
     <a class="toc-link" href="#what">What is it</a>
-    <a class="toc-link" href="#setup">One-time setup</a>
-    <a class="toc-link" href="#make">Building a prototype</a>
+    <a class="toc-link" href="#setup">Pick your path</a>
+    <a class="toc-link" href="#team">For Effectory designers</a>
+    <a class="toc-link" href="#external">For everyone else</a>
     <a class="toc-link" href="#open">Viewing your prototype</a>
     <a class="toc-link" href="#rules">How it works</a>
     <a class="toc-link" href="#maintenance">For maintainers</a>
