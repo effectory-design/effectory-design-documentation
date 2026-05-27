@@ -361,13 +361,132 @@
     <h2 class="text-l3">Content guidelines</h2>
     <p class="section-lead">A consistent rule for deriving initials keeps the surface predictable across the product.</p>
 
-    <h3 class="text-l4">Deriving initials</h3>
-    <div class="gs-rules">
-      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Two names</strong> — first letter of first name + first letter of last name. "Jamie Tan" → <code>JT</code>.</div></div>
-      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Three or more names</strong> — use first and last only. "Jamie Yi Tan" → <code>JT</code>. Drop middle names.</div></div>
-      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Single name</strong> — first letter only. "Madonna" → <code>M</code>.</div></div>
-      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Always uppercase</strong> — no lowercase, no mixed case, even if the person spells their name that way.</div></div>
-      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>No symbols or numbers</strong> — strip accents to their nearest ASCII letter only when display rendering fails; otherwise keep them (Ä, Ö, Ñ are fine).</div></div>
+    <!-- Rule 1: Two letters max -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Two characters maximum</h3>
+      <p>First letter of the first name + first letter of the last name. Three letters always look cramped, even at 40 px.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-blue" style="pointer-events:none;">JT</span>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Do
+            </div>
+            "Jamie Tan" → <code>JT</code>. Two letters fit at every size.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-blue" style="pointer-events:none; font-size:10px;">JYT</span>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Don't
+            </div>
+            "Jamie Yi Tan" → <code>JYT</code>. Drop the middle name and shrink to two characters.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 2: Single name -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Single name → single letter</h3>
+      <p>If the person has only one name, use the first letter alone. Don't pad with the second letter of the same word.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-green" style="pointer-events:none;">M</span>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Do
+            </div>
+            "Madonna" → <code>M</code>. One letter is the right amount of information.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-green" style="pointer-events:none;">MA</span>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Don't
+            </div>
+            "Madonna" → <code>MA</code>. Padding with the second letter looks like an initial that isn't there.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 3: Uppercase -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Always uppercase</h3>
+      <p>Even when the person stylises their name in lowercase, the avatar always uses uppercase. Consistency outweighs personal styling at this scale.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-turquoise" style="pointer-events:none;">JR</span>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Do
+            </div>
+            Uppercase, regardless of how the person writes their name.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-turquoise" style="pointer-events:none; text-transform:none;">jr</span>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Don't
+            </div>
+            Don't preserve lowercase or mixed case — it breaks visual rhythm in lists.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 4: Anonymous icon vs placeholder text -->
+    <div class="cg-rule">
+      <h3 class="text-l4">Anonymous icon, not placeholder text</h3>
+      <p>When the name is unknown or must stay private, switch to the icon variant. Never use "?", "—" or "anon" as text inside an avatar.</p>
+      <div class="dd-grid">
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-grey" style="pointer-events:none;"><i data-icon="user"></i></span>
+          </div>
+          <div class="dd-cap do">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Do
+            </div>
+            The icon variant on a grey surface — that's what it's for.
+          </div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-prev">
+            <span class="av av-40 av-blue" style="pointer-events:none;">??</span>
+          </div>
+          <div class="dd-cap dont">
+            <div class="dd-cap-hd">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Don't
+            </div>
+            Placeholder characters look like missing data, not anonymity.
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="text-l4" style="margin-top:var(--spacing-extra-loose);">Assigning a colour</h3>
