@@ -7,6 +7,85 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Avatar component ── */
+    .av {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0;
+      flex-shrink: 0;
+      user-select: none;
+      box-sizing: border-box;
+    }
+    .av i[data-icon] { display: flex; flex-shrink: 0; }
+
+    /* Sizes — fixed scale from Figma (40 / 36 / 32 / 24 / 20) */
+    .av-40 { width: 40px; height: 40px; font-size: 14px; }
+    .av-36 { width: 36px; height: 36px; font-size: 14px; }
+    .av-32 { width: 32px; height: 32px; font-size: 12px; }
+    .av-24 { width: 24px; height: 24px; font-size: 11px; line-height: 1; }
+    .av-20 { width: 20px; height: 20px; font-size: 10px; line-height: 1; }
+
+    .av-40 i[data-icon] { width: 20px; height: 20px; }
+    .av-36 i[data-icon] { width: 18px; height: 18px; }
+    .av-32 i[data-icon] { width: 16px; height: 16px; }
+    .av-24 i[data-icon] { width: 12px; height: 12px; }
+    .av-20 i[data-icon] { width: 10px; height: 10px; }
+
+    /* Colours — subtle background + matching content tone */
+    .av-blue      { background: var(--bg-accent-blue-subtle);      color: var(--content-accent-blue-base); }
+    .av-turquoise { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise-base); }
+    .av-green     { background: var(--bg-accent-green-subtle);     color: var(--content-accent-green-base); }
+    .av-orange    { background: var(--bg-accent-orange-subtle);    color: var(--content-accent-orange-base); }
+    .av-red       { background: var(--bg-accent-red-subtle);       color: var(--content-accent-red-base); }
+    .av-yellow    { background: var(--bg-accent-yellow-subtle);    color: var(--content-accent-yellow-base); }
+    .av-grey      { background: var(--bg-secondary);               color: var(--content-secondary); }
+    .av-counter   { background: var(--bg-secondary);               color: var(--content-secondary); }
+
+    /* ── Anatomy figure ── */
+    .anatomy-fig {
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--spacing-super-extra-loose);
+      padding: var(--spacing-super-extra-loose) var(--spacing-loose);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-loose);
+    }
+    .anatomy-stack { position: relative; }
+    .anatomy-line {
+      position: absolute;
+      height: 1px;
+      background: var(--content-subtle);
+    }
+    .anatomy-num {
+      position: absolute;
+      width: 18px; height: 18px;
+      border-radius: var(--radius-full);
+      background: var(--content-base);
+      color: var(--bg-base);
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Variant row preview helpers ── */
+    .av-row {
+      display: flex; align-items: center;
+      gap: var(--spacing-base);
+      flex-wrap: wrap;
+    }
+    .av-row-stack {
+      display: flex; align-items: flex-end; gap: var(--spacing-base);
+      flex-wrap: wrap;
+    }
+
+    /* ── State card variant labels ── */
+    .av-size-lbl { font-size: 11px; color: var(--content-secondary); margin-top: var(--spacing-extra-tight); text-align: center; }
+    .av-size-col { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-extra-tight); }
+  </style>
 </head>
 <body>
 
@@ -16,27 +95,646 @@
 <div id="sidebar-placeholder"></div>
 
 <div class="content-wrap">
+
 <div class="page-header-row">
-<div class="page-header">
+  <div class="page-header">
     <div class="page-badges">
+      <span class="page-updated">Updated May 2026</span>
     </div>
     <h1 class="text-l1">Avatar</h1>
-    <p class="page-desc">Documentation for this component is being written.</p>
+    <p class="page-desc">A small circular surface that represents a person. Shows initials when we know the name; falls back to an anonymous icon when we don't — or when the person must stay anonymous.</p>
   </div>
-</div><!-- /page-header-row -->
+</div>
+
+<!-- PAGE TABS -->
+<div class="page-tabs">
+  <div class="page-tabs-inner">
+    <button class="page-tab" data-tab="design">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Design
+    </button>
+    <button class="page-tab" data-tab="developer">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 2l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Developer
+    </button>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                       DESIGN TAB                              ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-panel" data-panel="design">
 <div class="content-cols">
 <article class="content">
 
+  <!-- ─── ANATOMY ─── -->
+  <section class="section" id="anatomy">
+    <h2 class="text-l3">Anatomy</h2>
+    <p class="section-lead">Two visual forms with shared structure — a circular surface filled with a soft colour tint, and centred content that's either the person's initials or a generic person icon.</p>
 
-  <div class="coming-soon-box">
-    <p>✍️ This page is a placeholder. Documentation will be added here.</p>
+    <div class="anatomy-fig">
+      <div class="anatomy-stack" style="width:140px; height:120px;">
+        <span class="av av-40 av-blue" style="position:absolute; left:50px; top:32px; pointer-events:none;">JI</span>
+        <!-- Callout lines + numbers -->
+        <div class="anatomy-line" style="left:90px; top:42px; width:48px;"></div>
+        <div class="anatomy-num"  style="left:140px; top:33px;">1</div>
+        <div class="anatomy-line" style="left:90px; top:62px; width:48px;"></div>
+        <div class="anatomy-num"  style="left:140px; top:53px;">2</div>
+        <div class="anatomy-line" style="left:90px; top:82px; width:48px;"></div>
+        <div class="anatomy-num"  style="left:140px; top:73px;">3</div>
+      </div>
+
+      <div class="anatomy-stack" style="width:140px; height:120px;">
+        <span class="av av-40 av-grey" style="position:absolute; left:50px; top:32px; pointer-events:none;"><i data-icon="user"></i></span>
+        <div class="anatomy-line" style="left:90px; top:42px; width:48px;"></div>
+        <div class="anatomy-num"  style="left:140px; top:33px;">1</div>
+        <div class="anatomy-line" style="left:90px; top:62px; width:48px;"></div>
+        <div class="anatomy-num"  style="left:140px; top:53px;">4</div>
+      </div>
+    </div>
+
+    <div class="anatomy-items">
+      <div class="anatomy-item">
+        <div class="anatomy-num">1</div>
+        <div><span class="anatomy-term">Surface</span> — circular fill in one of seven accent tints. Always uses the <code>subtle</code> background paired with its matching <code>base</code> content colour.</div>
+      </div>
+      <div class="anatomy-item">
+        <div class="anatomy-num">2</div>
+        <div><span class="anatomy-term">Initials</span> — one or two characters in Poppins SemiBold, vertically and horizontally centred. Always uppercase.</div>
+      </div>
+      <div class="anatomy-item">
+        <div class="anatomy-num">3</div>
+        <div><span class="anatomy-term">Colour token</span> — assigned consistently per person (e.g. via a hash of their user id) so the same person always shows the same tint across the product.</div>
+      </div>
+      <div class="anatomy-item">
+        <div class="anatomy-num">4</div>
+        <div><span class="anatomy-term">Anonymous icon</span> — the <code>user</code> icon from the library, used when the name is unknown or must stay anonymous. Always rendered on a grey surface to signal the lack of identity.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── USAGE ─── -->
+  <section class="section" id="usage">
+    <h2 class="text-l3">Usage</h2>
+    <p class="section-lead">Avatars represent <em>one</em> person at a single point in the UI. They are not status indicators or category badges — when in doubt, use a Tag or Badge instead.</p>
+
+    <div class="dd-grid">
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-blue" style="pointer-events:none;">JI</span>
+          <span class="av av-32 av-turquoise" style="pointer-events:none;">JR</span>
+          <span class="av av-32 av-green" style="pointer-events:none;">MY</span>
+        </div>
+        <div class="dd-cap do">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Do
+          </div>
+          Use initials when the name is known. Each person keeps the same colour everywhere so they're recognisable at a glance.
+        </div>
+      </div>
+
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-blue" style="pointer-events:none;">JI</span>
+          <span class="av av-32 av-blue" style="pointer-events:none;">JR</span>
+          <span class="av av-32 av-blue" style="pointer-events:none;">MY</span>
+        </div>
+        <div class="dd-cap dont">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Don't
+          </div>
+          Don't paint every avatar in the same colour. The point of the tint is to distinguish people quickly.
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-grid">
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-grey" style="pointer-events:none;"><i data-icon="user"></i></span>
+        </div>
+        <div class="dd-cap do">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Do
+          </div>
+          Use the anonymous icon variant when the name is unknown, or when anonymity is required (e.g. anonymous survey responses).
+        </div>
+      </div>
+
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-blue" style="pointer-events:none;">??</span>
+        </div>
+        <div class="dd-cap dont">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Don't
+          </div>
+          Don't use placeholder text like "??" or "—". Switch to the anonymous icon variant — that's exactly what it's for.
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-grid">
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-yellow" style="pointer-events:none;">JT</span>
+        </div>
+        <div class="dd-cap do">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Do
+          </div>
+          Two characters at most. For "Jamie Tan" use <strong>JT</strong>; for single-word names use the first letter only.
+        </div>
+      </div>
+
+      <div class="dd-card">
+        <div class="dd-prev">
+          <span class="av av-32 av-yellow" style="pointer-events:none; font-size:8px;">JTT</span>
+        </div>
+        <div class="dd-cap dont">
+          <div class="dd-cap-hd">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Don't
+          </div>
+          Don't cram three or more characters in. Drop the middle name and shrink to two letters max.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VARIANTS ─── -->
+  <section class="section" id="variants">
+    <h2 class="text-l3">Variants</h2>
+    <p class="section-lead">The <strong>Type</strong> property switches between the two forms. The <strong>Size</strong> property scales it; <strong>Colour</strong> picks the accent tint.</p>
+
+    <h3 class="text-l4">Type</h3>
+    <div class="variant-rows">
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-40 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>Initials</strong> — the default. Use whenever the person's display name is available. Two characters max, derived from the first letter of their first and last name.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-40 av-grey"><i data-icon="user"></i></span>
+        </div>
+        <div class="variant-row-desc"><strong>Icon</strong> — the anonymous form. Use when the name is genuinely unknown, or when anonymity is required (anonymous survey responses, redacted authors). Always rendered grey.</div>
+      </div>
+    </div>
+
+    <h3 class="text-l4">Size</h3>
+    <div class="variant-rows">
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-40 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>40 px</strong> — profile menus, settings pages, user-detail headers.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-36 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>36 px</strong> — top-bar account chip, action-bar leading avatars.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-32 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>32 px</strong> — default in lists, cards, table rows. Pick this when in doubt.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-24 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>24 px</strong> — dense tables, comment metadata, breadcrumb trails.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn">
+          <span class="av av-20 av-blue">JI</span>
+        </div>
+        <div class="variant-row-desc"><strong>20 px</strong> — smallest stacks (Avatar Group with many overflow members), notification list rows.</div>
+      </div>
+    </div>
+
+    <h3 class="text-l4">Colour</h3>
+    <p class="section-lead">Seven colour options. Six accent colours are assigned <em>per person</em> for recognisability; grey is reserved for the anonymous icon variant and overflow counters.</p>
+    <div class="variant-rows">
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-blue">JI</span></div>
+        <div class="variant-row-desc"><strong>Blue</strong> — accent palette member, assigned to ~⅙ of users.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-turquoise">JR</span></div>
+        <div class="variant-row-desc"><strong>Turquoise (Brand)</strong> — accent palette member.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-green">JR</span></div>
+        <div class="variant-row-desc"><strong>Green</strong> — accent palette member.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-orange">MY</span></div>
+        <div class="variant-row-desc"><strong>Orange</strong> — accent palette member.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-red">SS</span></div>
+        <div class="variant-row-desc"><strong>Red</strong> — accent palette member. Note: this is identity colour only, not a status signal.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-yellow">JT</span></div>
+        <div class="variant-row-desc"><strong>Yellow (Accent)</strong> — accent palette member.</div>
+      </div>
+      <div class="variant-row">
+        <div class="variant-row-btn"><span class="av av-32 av-grey"><i data-icon="user"></i></span></div>
+        <div class="variant-row-desc"><strong>Grey</strong> — reserved for the anonymous icon variant and overflow counters (<code>+3</code>). Never assign grey to a named person.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTENT GUIDELINES ─── -->
+  <section class="section" id="content-guidelines">
+    <h2 class="text-l3">Content guidelines</h2>
+    <p class="section-lead">A consistent rule for deriving initials keeps the surface predictable across the product.</p>
+
+    <h3 class="text-l4">Deriving initials</h3>
+    <div class="gs-rules">
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Two names</strong> — first letter of first name + first letter of last name. "Jamie Tan" → <code>JT</code>.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Three or more names</strong> — use first and last only. "Jamie Yi Tan" → <code>JT</code>. Drop middle names.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Single name</strong> — first letter only. "Madonna" → <code>M</code>.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Always uppercase</strong> — no lowercase, no mixed case, even if the person spells their name that way.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>No symbols or numbers</strong> — strip accents to their nearest ASCII letter only when display rendering fails; otherwise keep them (Ä, Ö, Ñ are fine).</div></div>
+    </div>
+
+    <h3 class="text-l4" style="margin-top:var(--spacing-extra-loose);">Assigning a colour</h3>
+    <p>Hash a stable identifier (user id, e-mail address) modulo 6 to pick one of the six accent colours. The same input always returns the same colour so the avatar is recognisable across pages and sessions. Never let users pick their own avatar colour.</p>
+  </section>
+
+  <!-- ─── STATES ─── -->
+  <section class="section" id="states">
+    <h2 class="text-l3">States</h2>
+    <p class="section-lead">Avatars are non-interactive by default. They become interactive only when wrapped in a button or link — in which case the surrounding control handles the state, not the avatar itself.</p>
+
+    <div class="states-row">
+      <div class="state-col">
+        <span class="state-lbl">Default · Initials</span>
+        <span class="av av-32 av-blue">JI</span>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Default · Icon</span>
+        <span class="av av-32 av-grey"><i data-icon="user"></i></span>
+      </div>
+      <div class="state-col">
+        <span class="state-lbl">Counter (overflow)</span>
+        <span class="av av-32 av-counter">+3</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TOKENS ─── -->
+  <section class="section" id="tokens">
+    <h2 class="text-l3">Design Tokens</h2>
+    <p class="section-lead">All surfaces and content use semantic accent tokens — no raw hex values.</p>
+    <table class="token-table">
+      <thead>
+        <tr><th>Token</th><th>Role</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--bg-accent-blue-subtle</code></td><td>Blue avatar surface</td><td>#d6e6ff</td></tr>
+        <tr><td><code>--content-accent-blue-base</code></td><td>Blue avatar initials / icon</td><td>#205bb9</td></tr>
+        <tr><td><code>--bg-accent-turquoise-subtle</code></td><td>Turquoise avatar surface</td><td>#b6f2f1</td></tr>
+        <tr><td><code>--content-accent-turquoise-base</code></td><td>Turquoise avatar initials / icon</td><td>#166764</td></tr>
+        <tr><td><code>--bg-accent-green-subtle</code></td><td>Green avatar surface</td><td>#bdf4cc</td></tr>
+        <tr><td><code>--content-accent-green-base</code></td><td>Green avatar initials / icon</td><td>#236e41</td></tr>
+        <tr><td><code>--bg-accent-orange-subtle</code></td><td>Orange avatar surface</td><td>#ffdfc9</td></tr>
+        <tr><td><code>--content-accent-orange-base</code></td><td>Orange avatar initials / icon</td><td>#a83e00</td></tr>
+        <tr><td><code>--bg-accent-red-subtle</code></td><td>Red avatar surface</td><td>#ffdbdb</td></tr>
+        <tr><td><code>--content-accent-red-base</code></td><td>Red avatar initials / icon</td><td>#b9252a</td></tr>
+        <tr><td><code>--bg-accent-yellow-subtle</code></td><td>Yellow avatar surface</td><td>#ffe488</td></tr>
+        <tr><td><code>--content-accent-yellow-base</code></td><td>Yellow avatar initials / icon</td><td>#8a4b15</td></tr>
+        <tr><td><code>--bg-secondary</code></td><td>Grey (anonymous & counter) surface</td><td>page secondary</td></tr>
+        <tr><td><code>--content-secondary</code></td><td>Grey content</td><td>page secondary</td></tr>
+        <tr><td><code>--radius-full</code></td><td>Circular shape</td><td>999px</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── ACCESSIBILITY ─── -->
+  <section class="section" id="accessibility">
+    <h2 class="text-l3">Accessibility</h2>
+    <p class="section-lead">An avatar is decorative when the person's name appears next to it; it carries meaning on its own only in dense rosters.</p>
+
+    <div class="gs-rules">
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Decorative by default.</strong> When the avatar sits next to a visible name label, mark it <code>aria-hidden="true"</code>. The name carries the meaning.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Standalone needs a label.</strong> If the avatar appears without a visible name (e.g. compact tables), add <code>aria-label="Jamie Tan"</code> with the full name.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Colour is not the identity.</strong> Screen readers don't announce avatar colour, and 8% of users can't distinguish all six tints reliably. Never rely on colour alone to convey who someone is.</div></div>
+      <div class="gs-rule"><span class="gs-rule-icon"></span><div><strong>Contrast.</strong> Each subtle background pairs with its matching base content colour — all combinations meet WCAG AA for text at 14&nbsp;px and up.</div></div>
+    </div>
+  </section>
+
+  <div class="pagination">
+    <a class="pag-card left" href="alert-docs.html">
+      <span class="pag-dir">← Previous</span>
+      <span class="pag-name">Alert</span>
+    </a>
+    <a class="pag-card right" href="avatar-group-docs.html">
+      <span class="pag-dir">Next →</span>
+      <span class="pag-name">Avatar Group</span>
+    </a>
   </div>
 
 </article>
+
+<div class="toc-col">
+  <nav class="toc">
+    <div class="toc-title">ON THIS PAGE</div>
+    <a class="toc-link" href="#anatomy">Anatomy</a>
+    <a class="toc-link" href="#usage">Usage</a>
+    <a class="toc-link" href="#variants">Variants</a>
+    <a class="toc-link" href="#content-guidelines">Content guidelines</a>
+    <a class="toc-link" href="#states">States</a>
+    <a class="toc-link" href="#tokens">Design Tokens</a>
+    <a class="toc-link" href="#accessibility">Accessibility</a>
+  </nav>
+</div>
+
 </div><!-- /content-cols -->
+</div><!-- /tab-panel design -->
+
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                     DEVELOPER TAB                            ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-panel" data-panel="developer">
+<div class="content-cols">
+<article class="content">
+
+  <!-- ─── PLAYGROUND ─── -->
+  <section class="section" id="dev-playground">
+    <h2 class="text-l3">Playground</h2>
+    <p class="section-lead">Configure props and see the component update live — the code snippet below reflects your selection.</p>
+
+    <div class="pg-card">
+      <div class="pg-preview" id="pg-preview"></div>
+      <div class="pg-bottom">
+        <div class="pg-tab-bar">
+          <button class="pg-tab is-active" data-pgtab="props">Properties</button>
+          <button class="pg-tab" data-pgtab="code">Code</button>
+          <button class="pg-reset" id="pg-reset">Reset</button>
+        </div>
+        <div class="pg-panel pg-props-wrap" id="pg-panel-props">
+          <div class="pg-row">
+            <div class="pg-row-name">type</div>
+            <div class="pg-row-ctrl">
+              <select class="pg-select" id="pg-type">
+                <option value="initials">initials</option>
+                <option value="icon">icon</option>
+                <option value="counter">counter</option>
+              </select>
+            </div>
+          </div>
+          <div class="pg-row">
+            <div class="pg-row-name">size</div>
+            <div class="pg-row-ctrl">
+              <select class="pg-select" id="pg-size">
+                <option value="40">40</option>
+                <option value="36">36</option>
+                <option value="32" selected>32</option>
+                <option value="24">24</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+          </div>
+          <div class="pg-row">
+            <div class="pg-row-name">colour</div>
+            <div class="pg-row-ctrl">
+              <select class="pg-select" id="pg-color">
+                <option value="blue" selected>blue</option>
+                <option value="turquoise">turquoise</option>
+                <option value="green">green</option>
+                <option value="orange">orange</option>
+                <option value="red">red</option>
+                <option value="yellow">yellow</option>
+                <option value="grey">grey</option>
+              </select>
+            </div>
+          </div>
+          <div class="pg-row">
+            <div class="pg-row-name">initials</div>
+            <div class="pg-row-ctrl">
+              <input class="pg-select" type="text" id="pg-initials" value="JI" maxlength="2" style="width:80px;">
+            </div>
+          </div>
+        </div>
+        <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
+          <button class="dev-copy-btn" id="pg-copy">Copy</button>
+          <pre><code id="pg-code"></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── USAGE ─── -->
+  <section class="section" id="dev-usage">
+    <h2 class="text-l3">Usage</h2>
+    <p class="section-lead">Each avatar is a single inline element. The size and colour are controlled by classes.</p>
+
+    <h3 class="text-l4">Initials avatar</h3>
+    <div class="dev-preview">
+      <span class="av av-32 av-blue">JI</span>
+      <span class="av av-32 av-turquoise">JR</span>
+      <span class="av av-32 av-green">MY</span>
+      <span class="av av-32 av-orange">KH</span>
+      <span class="av av-32 av-red">SS</span>
+      <span class="av av-32 av-yellow">JT</span>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-blue"</span><span class="ct">&gt;</span>JI<span class="ct">&lt;/span&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-turquoise"</span><span class="ct">&gt;</span>JR<span class="ct">&lt;/span&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-green"</span><span class="ct">&gt;</span>MY<span class="ct">&lt;/span&gt;</span></code></pre>
+    </div>
+
+    <h3 class="text-l4">Anonymous icon avatar</h3>
+    <div class="dev-preview">
+      <span class="av av-32 av-grey"><i data-icon="user"></i></span>
+      <span class="av av-40 av-grey"><i data-icon="user"></i></span>
+      <span class="av av-24 av-grey"><i data-icon="user"></i></span>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-grey"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"user"</span><span class="ct">&gt;&lt;/i&gt;</span>
+<span class="ct">&lt;/span&gt;</span></code></pre>
+    </div>
+
+    <h3 class="text-l4">Counter (overflow)</h3>
+    <div class="dev-preview">
+      <span class="av av-32 av-counter">+3</span>
+      <span class="av av-32 av-counter">+12</span>
+      <span class="av av-24 av-counter">+5</span>
+    </div>
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-counter"</span><span class="ct">&gt;</span>+3<span class="ct">&lt;/span&gt;</span></code></pre>
+    </div>
+
+    <div class="dev-gap">
+      <span class="dev-gap-icon">⚠️</span>
+      <div class="dev-gap-body">
+        <span class="dev-gap-label">Angular gap</span>
+        <span class="dev-gap-text">Angular component selector for the Avatar isn't published in the styleguide yet. The snippets above use the prototype CSS classes — they render correctly but the production Angular wrapper may use a different selector.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CSS CLASSES ─── -->
+  <section class="section" id="dev-props">
+    <h2 class="text-l3">CSS classes</h2>
+    <p class="section-lead">Every avatar is <code>.av</code> plus one size class and one colour class.</p>
+
+    <table class="token-table">
+      <thead>
+        <tr><th>Class</th><th>Required</th><th>Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>.av</code></td><td>Yes</td><td>Base — circular shape, flex centring, Poppins SemiBold.</td></tr>
+        <tr><td><code>.av-40</code> · <code>.av-36</code> · <code>.av-32</code> · <code>.av-24</code> · <code>.av-20</code></td><td>Yes</td><td>One of the five fixed sizes. Pick <code>.av-32</code> when in doubt.</td></tr>
+        <tr><td><code>.av-blue</code> · <code>.av-turquoise</code> · <code>.av-green</code> · <code>.av-orange</code> · <code>.av-red</code> · <code>.av-yellow</code></td><td>Yes (initials)</td><td>One of the six accent colours, assigned per person.</td></tr>
+        <tr><td><code>.av-grey</code></td><td>Yes (icon)</td><td>Grey surface — use with the anonymous icon variant only.</td></tr>
+        <tr><td><code>.av-counter</code></td><td>Yes (overflow)</td><td>Grey surface used for overflow counters like <code>+3</code> inside an Avatar Group.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── CSS TOKENS ─── -->
+  <section class="section" id="dev-tokens">
+    <h2 class="text-l3">CSS tokens</h2>
+    <p class="section-lead">Same table as the Design tab — these are the only tokens the component reads.</p>
+    <table class="token-table">
+      <thead>
+        <tr><th>Token</th><th>Role</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--bg-accent-{color}-subtle</code></td><td>Avatar surface for the matching colour.</td></tr>
+        <tr><td><code>--content-accent-{color}-base</code></td><td>Initials / icon colour for the matching surface.</td></tr>
+        <tr><td><code>--bg-secondary</code></td><td>Grey surface for icon avatars and overflow counters.</td></tr>
+        <tr><td><code>--content-secondary</code></td><td>Content colour for grey avatars and counters.</td></tr>
+        <tr><td><code>--radius-full</code></td><td>Circular shape.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── ACCESSIBILITY ─── -->
+  <section class="section" id="dev-a11y">
+    <h2 class="text-l3">Accessibility</h2>
+    <p class="section-lead">Mark the avatar as decorative when a name label is visible nearby; give it an <code>aria-label</code> when it stands alone.</p>
+
+    <div class="dev-code-wrap">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="cc">&lt;!-- Next to a visible name — decorative --&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-blue"</span> <span class="ca">aria-hidden</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>JT<span class="ct">&lt;/span&gt;</span>
+Jamie Tan
+
+<span class="cc">&lt;!-- Standalone — needs a label --&gt;</span>
+<span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"av av-32 av-blue"</span> <span class="ca">role</span>=<span class="cv">"img"</span> <span class="ca">aria-label</span>=<span class="cv">"Jamie Tan"</span><span class="ct">&gt;</span>JT<span class="ct">&lt;/span&gt;</span></code></pre>
+    </div>
+  </section>
+
+  <div class="pagination">
+    <a class="pag-card left" href="alert-docs.html">
+      <span class="pag-dir">← Previous</span>
+      <span class="pag-name">Alert</span>
+    </a>
+    <a class="pag-card right" href="avatar-group-docs.html">
+      <span class="pag-dir">Next →</span>
+      <span class="pag-name">Avatar Group</span>
+    </a>
+  </div>
+
+</article>
+
+<div class="toc-col">
+  <nav class="toc">
+    <div class="toc-title">ON THIS PAGE</div>
+    <a class="toc-link" href="#dev-playground">Playground</a>
+    <a class="toc-link" href="#dev-usage">Usage</a>
+    <a class="toc-link" href="#dev-props">CSS classes</a>
+    <a class="toc-link" href="#dev-tokens">CSS tokens</a>
+    <a class="toc-link" href="#dev-a11y">Accessibility</a>
+  </nav>
+</div>
+
+</div><!-- /content-cols -->
+</div><!-- /tab-panel developer -->
+
 </div><!-- /content-wrap -->
 </div><!-- /shell -->
 
 <script src="nav.js"></script>
+<script>
+  // Playground logic
+  (function () {
+    const preview = document.getElementById('pg-preview');
+    const codeEl  = document.getElementById('pg-code');
+    const type    = document.getElementById('pg-type');
+    const size    = document.getElementById('pg-size');
+    const color   = document.getElementById('pg-color');
+    const initials= document.getElementById('pg-initials');
+    const reset   = document.getElementById('pg-reset');
+    const copyBtn = document.getElementById('pg-copy');
+
+    const defaults = { type: 'initials', size: '32', color: 'blue', initials: 'JI' };
+
+    function render() {
+      const t = type.value;
+      const s = size.value;
+      let c = color.value;
+      const ini = (initials.value || 'JI').toUpperCase().slice(0, 2);
+
+      // Lock colour for non-initials variants
+      if (t === 'icon')    c = 'grey';
+      if (t === 'counter') c = 'counter';
+
+      let inner = '';
+      if (t === 'initials')      inner = ini;
+      else if (t === 'icon')     inner = '<i data-icon="user"></i>';
+      else if (t === 'counter')  inner = '+3';
+
+      preview.innerHTML = '<span class="av av-' + s + ' av-' + c + '">' + inner + '</span>';
+      if (window.Icons) window.Icons.render(preview);
+
+      let snippet = '';
+      if (t === 'initials') {
+        snippet = '<span class="av av-' + s + ' av-' + c + '">' + ini + '</span>';
+      } else if (t === 'icon') {
+        snippet = '<span class="av av-' + s + ' av-grey">\n  <i data-icon="user"></i>\n</span>';
+      } else {
+        snippet = '<span class="av av-' + s + ' av-counter">+3</span>';
+      }
+      codeEl.textContent = snippet;
+    }
+
+    [type, size, color, initials].forEach(el => el.addEventListener('input', render));
+    reset.addEventListener('click', () => {
+      type.value = defaults.type;
+      size.value = defaults.size;
+      color.value = defaults.color;
+      initials.value = defaults.initials;
+      render();
+    });
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeEl.textContent);
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => copyBtn.textContent = 'Copy', 1200);
+    });
+
+    render();
+  })();
+</script>
 </body>
 </html>
