@@ -1,0 +1,11 @@
+{
+  "name": "effectory-design-system",
+  "version": "0.1.0",
+  "description": "Bouw prototypes en mockups met de Effectory design-system componenten, tokens en iconen.",
+  "author": {
+    "name": "Jente Insing"
+  },
+  "homepage": "https://github.com/jenteinsing123/effectory-design-documentation",
+  "repository": "https://github.com/jenteinsing123/effectory-design-documentation",
+  "keywords": ["design-system", "effectory", "prototyping"]
+}

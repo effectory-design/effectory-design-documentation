@@ -1,0 +1,13 @@
+{
+  "name": "effectory-design-plugins",
+  "owner": {
+    "name": "Jente Insing"
+  },
+  "plugins": [
+    {
+      "name": "effectory-design-system",
+      "source": "./plugins/effectory-design-system",
+      "description": "Bouw prototypes en mockups met de Effectory design-system componenten, tokens en iconen."
+    }
+  ]
+}
