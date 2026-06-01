@@ -111,11 +111,11 @@
        (border/*/base, darker than the fill) and Figma's text colour: dark on
        the light orange warning, white on the darker moods.
        NOTE: Figma intent; the Angular styleguide doesn't expose it yet. */
-    .inline-notif.is-info    .inline-notif-actions .btn-primary { background: var(--bg-info-base);     border-color: var(--border-info-base);     color: #fff; }
-    .inline-notif.is-warn    .inline-notif-actions .btn-primary { background: var(--bg-warning-bold);  border-color: var(--border-warning-base);  color: var(--content-base); }
-    .inline-notif.is-success .inline-notif-actions .btn-primary { background: var(--bg-positive-base); border-color: var(--border-positive-base); color: #fff; }
-    .inline-notif.is-error   .inline-notif-actions .btn-primary { background: var(--bg-negative-base); border-color: var(--border-negative-base); color: #fff; }
-    .inline-notif.is-subtle  .inline-notif-actions .btn-primary { background: var(--bg-brand-base);    border-color: var(--bg-brand-base);        color: var(--content-on-brand-base); }
+    .inline-notif.is-info    .inline-notif-actions .btn-primary { background: var(--bg-info-base, #3174db);     border-color: var(--border-info-base, #3174db);     color: #fff; }
+    .inline-notif.is-warn    .inline-notif-actions .btn-primary { background: var(--bg-warning-bold, #fa8324);  border-color: var(--border-warning-base, #ec6e0a);  color: var(--content-base, #192743); }
+    .inline-notif.is-success .inline-notif-actions .btn-primary { background: var(--bg-positive-base, #278747); border-color: var(--border-positive-base, #39a35c); color: #fff; }
+    .inline-notif.is-error   .inline-notif-actions .btn-primary { background: var(--bg-negative-base, #d3353b); border-color: var(--border-negative-base, #b9252a); color: #fff; }
+    .inline-notif.is-subtle  .inline-notif-actions .btn-primary { background: var(--bg-brand-base, #0a9d99);    border-color: var(--bg-brand-base, #0a9d99);        color: var(--content-on-brand-base, #fff); }
 
     .inline-notif-close {
       flex-shrink: 0;
