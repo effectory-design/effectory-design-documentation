@@ -97,13 +97,22 @@
     .inline-notif-actions .btn { height: auto; padding: 4px 12px; font-size: 13px; }
     /* The link inside actions uses the shared .link-inline class. */
 
-    /* Sentiment button — a secondary button whose border is coloured to match
-       the mood. The styleguide renders [buttonMessages] as these. Subtle keeps
-       the neutral border. */
+    /* Secondary sentiment button — white fill, mood-coloured border.
+       The styleguide renders [buttonMessages] as these. Subtle keeps neutral. */
     .inline-notif.is-info    .inline-notif-actions .btn-secondary { border-color: var(--border-info-base); }
     .inline-notif.is-warn    .inline-notif-actions .btn-secondary { border-color: var(--border-warning-base); }
     .inline-notif.is-success .inline-notif-actions .btn-secondary { border-color: var(--border-positive-base); }
     .inline-notif.is-error   .inline-notif-actions .btn-secondary { border-color: var(--border-negative-base); }
+
+    /* Primary sentiment button — filled in the mood colour, white text.
+       NOTE: this is the Figma intent; the Angular styleguide doesn't expose it
+       yet (see the gap callout). */
+    .inline-notif-actions .btn-primary { color: #fff; }
+    .inline-notif.is-info    .inline-notif-actions .btn-primary { background: var(--bg-info-base);     border-color: var(--bg-info-base); }
+    .inline-notif.is-warn    .inline-notif-actions .btn-primary { background: var(--bg-warning-bold);  border-color: var(--bg-warning-bold); }
+    .inline-notif.is-success .inline-notif-actions .btn-primary { background: var(--bg-positive-base); border-color: var(--bg-positive-base); }
+    .inline-notif.is-error   .inline-notif-actions .btn-primary { background: var(--bg-negative-base); border-color: var(--bg-negative-base); }
+    .inline-notif.is-subtle  .inline-notif-actions .btn-primary { background: var(--bg-brand-base);    border-color: var(--bg-brand-base); color: var(--content-on-brand-base); }
 
     .inline-notif-close {
       flex-shrink: 0;
@@ -534,11 +543,15 @@
                 <div class="pg-row"><div class="pg-row-name">messageTitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Heads up!" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">message</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-message" value="This alert needs your attention" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">showCloseButton</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-close" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">inlineButton <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-inlinebtn"><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">link <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">buttonMessages <span style="color:var(--content-secondary);font-weight:400;">(action buttons, max 3)</span></div><div class="pg-row-ctrl">
+                <div class="pg-row"><div class="pg-row-name">inlineButton<span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">in message</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-inlinebtn"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">link<span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">in message</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">action buttons<span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">buttonMessages, max 3</span></div><div class="pg-row-ctrl">
                   <select class="pg-select" id="pg-btncount">
                     <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  </select></div></div>
+                <div class="pg-row"><div class="pg-row-name">button style<span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">secondary = styleguide · primary = Figma</span></div><div class="pg-row-ctrl">
+                  <select class="pg-select" id="pg-btnstyle">
+                    <option value="secondary" selected>secondary (sentiment border)</option><option value="primary">primary (filled sentiment)</option>
                   </select></div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
@@ -755,7 +768,7 @@
         ? '<span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>'
         : `<img class="inline-notif-icon" src="${ICON_SRC[type]}" alt="" />`;
     }
-    const defaults = { type:'info', oneliner:false, title:'Heads up!', message:'This alert needs your attention', close:true, inlineBtn:false, link:false, btnCount:0 };
+    const defaults = { type:'info', oneliner:false, title:'Heads up!', message:'This alert needs your attention', close:true, inlineBtn:false, link:false, btnCount:0, btnStyle:'secondary' };
     const ACTION_LABELS = ['Confirm', 'Cancel', 'Later']; // up to 3 sentiment action buttons
 
     function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -768,23 +781,29 @@
       inlineBtn:document.getElementById('pg-inlinebtn').checked,
       link:document.getElementById('pg-link').checked,
       btnCount:parseInt(document.getElementById('pg-btncount').value, 10) || 0,
+      btnStyle:document.getElementById('pg-btnstyle').value,
     };}
     function buildHtml(s){
       const ol = s.oneliner ? ' is-one-liner' : '';
-      // inline text button (no underline) + link (underlined) live inside the message copy
+      // inline text button + link both styled as an inline Link Inline
       let inlineExtras = '';
       if (s.inlineBtn) inlineExtras += ` <button class="link-inline" style="font:inherit;">Learn more</button>`;
       if (s.link) inlineExtras += ` <a href="#" onclick="return false;" class="link-inline">Support Page</a>`;
       const msgSpan = (s.message || inlineExtras) ? `<span class="inline-notif-msg">${esc(s.message)}${inlineExtras}</span>` : '';
-      // buttonMessages renders up to 3 sentiment action buttons below the text (or right in one-liner)
+      // action buttons: secondary (sentiment border) or primary (filled sentiment), below the text / right in one-liner
+      const btnCls = s.btnStyle === 'primary' ? 'btn btn-primary' : 'btn btn-secondary';
       const labels = ACTION_LABELS.slice(0, s.btnCount);
-      const action = labels.length ? `<div class="inline-notif-actions">${labels.map(l=>`<button class="btn btn-secondary">${l}</button>`).join('')}</div>` : '';
+      const action = labels.length ? `<div class="inline-notif-actions">${labels.map(l=>`<button class="${btnCls}">${l}</button>`).join('')}</div>` : '';
       const close = s.close ? `<button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>` : '';
       return `<div class="inline-notif is-${s.type}${ol}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-title">${esc(s.title)}</span>${msgSpan}${action}</div>${close}</div>`;
     }
     function ngEsc(s){return String(s).replace(/'/g,"\\'");}
     function buildCode(s){
       const L=[];
+      if (s.btnCount > 0 && s.btnStyle === 'primary') {
+        L.push('<!-- Filled/primary sentiment buttons are a Figma intent —');
+        L.push('     the Angular styleguide only renders buttonMessages as secondary. -->');
+      }
       L.push('<eff-inline-notification');
       if (s.oneliner) L.push(`  [isOneLiner]="true"`);
       L.push(`  [messageTitle]="'${ngEsc(s.title)}'"`);
@@ -812,8 +831,8 @@
       return L.join('\n');
     }
     function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
-    ['pg-type','pg-oneliner','pg-title','pg-message','pg-close','pg-btncount','pg-inlinebtn','pg-link'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-oneliner').checked=defaults.oneliner;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-btncount').value=defaults.btnCount;document.getElementById('pg-inlinebtn').checked=defaults.inlineBtn;document.getElementById('pg-link').checked=defaults.link;render();});
+    ['pg-type','pg-oneliner','pg-title','pg-message','pg-close','pg-btncount','pg-btnstyle','pg-inlinebtn','pg-link'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-oneliner').checked=defaults.oneliner;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-btncount').value=defaults.btnCount;document.getElementById('pg-btnstyle').value=defaults.btnStyle;document.getElementById('pg-inlinebtn').checked=defaults.inlineBtn;document.getElementById('pg-link').checked=defaults.link;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     render();

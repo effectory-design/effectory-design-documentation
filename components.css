@@ -1844,6 +1844,15 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 20px; height: 20px; displ
 .inline-notif.is-success .inline-notif-actions .btn-secondary { border-color: var(--border-positive-base); }
 .inline-notif.is-error   .inline-notif-actions .btn-secondary { border-color: var(--border-negative-base); }
 
+/* Primary sentiment button — filled in the mood colour. This is the Figma
+   intent; the Angular styleguide does not expose it yet (only secondary). */
+.inline-notif-actions .btn-primary { color: #fff; }
+.inline-notif.is-info    .inline-notif-actions .btn-primary { background: var(--bg-info-base);     border-color: var(--bg-info-base); }
+.inline-notif.is-warn    .inline-notif-actions .btn-primary { background: var(--bg-warning-bold);  border-color: var(--bg-warning-bold); }
+.inline-notif.is-success .inline-notif-actions .btn-primary { background: var(--bg-positive-base); border-color: var(--bg-positive-base); }
+.inline-notif.is-error   .inline-notif-actions .btn-primary { background: var(--bg-negative-base); border-color: var(--bg-negative-base); }
+.inline-notif.is-subtle  .inline-notif-actions .btn-primary { background: var(--bg-brand-base);    border-color: var(--bg-brand-base); color: var(--content-on-brand-base); }
+
 .inline-notif-close {
   flex-shrink: 0;
   width: 24px; height: 24px;
