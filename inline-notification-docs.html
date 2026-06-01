@@ -534,8 +534,8 @@
                 <div class="pg-row"><div class="pg-row-name">messageTitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Heads up!" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">message</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-message" value="This alert needs your attention" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">showCloseButton</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-close" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">inlineButton <span style="color:var(--content-secondary);font-weight:400;">(in message, no underline)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-inlinebtn"><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">link <span style="color:var(--content-secondary);font-weight:400;">(in message, underlined)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">inlineButton <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-inlinebtn"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">link <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
                 <div class="pg-row"><div class="pg-row-name">buttonMessages <span style="color:var(--content-secondary);font-weight:400;">(action buttons, max 3)</span></div><div class="pg-row-ctrl">
                   <select class="pg-select" id="pg-btncount">
                     <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
@@ -573,11 +573,11 @@
           </div>
 
           <h3 class="text-l4">Subtle — with inline text button</h3>
-          <p>The <code>inlineButtonText</code> input renders a text-link style button <em>inline within the message copy</em> (not a separate action button); <code>inlineButtonCallback</code> fires on click. Project a sparkle icon for the subtle mood.</p>
+          <p>The <code>inlineButtonText</code> input renders a link-styled button <em>inline within the message copy</em>; <code>inlineButtonCallback</code> fires on click. We style it the same as an inline <a class="link-inline" href="link-inline-docs.html">Link Inline</a>. Project a sparkle icon for the subtle mood.</p>
           <div class="dev-preview">
             <div class="inline-notif is-subtle" style="width:100%;">
               <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
-              <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use. <button class="link-inline" style="font:inherit;text-decoration:none;">Learn more</button></span></div>
+              <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use. <button class="link-inline" style="font:inherit;">Learn more</button></span></div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
           </div>
@@ -662,7 +662,7 @@
             <span class="dev-gap-icon">⚠️</span>
             <div class="dev-gap-body">
               <span class="dev-gap-label">Figma gap</span>
-              <span class="dev-gap-text">Two things to keep an eye on. <strong>(1) Mood names</strong> differ between Figma (Feature / Warning / Positive / Negative) and code (subtle / warn / success / error) — to be reconciled (see the callout at the top). <strong>(2) The brand primary (filled teal) button is never used inside a notification</strong> — actions are limited to the inline text button (<code>inlineButtonText</code>), the sentiment-bordered <code>secondary</code> button (<code>buttonMessages</code>), and a link (<code>linkText</code>). If a design shows a filled primary button in a notification, flag it.</span>
+              <span class="dev-gap-text">This page follows the live Angular styleguide. Known Figma ↔ code differences to reconcile: <strong>(1) Mood names</strong> — Figma (Feature / Warning / Positive / Negative) vs code (subtle / warn / success / error). <strong>(2) Primary sentiment button</strong> — Figma includes a filled, mood-coloured primary action button; the Angular styleguide does not expose it yet (only the <code>secondary</code> sentiment button via <code>buttonMessages</code> exists). <strong>(3) Inline button placement</strong> — Figma groups the inline button with the other action buttons, while the styleguide renders <code>inlineButtonText</code> inline within the message copy. <strong>(4) Inline button style</strong> — we render it like an underlined Link Inline; the current styleguide renders it without an underline.</span>
             </div>
           </div>
         </section>
@@ -773,7 +773,7 @@
       const ol = s.oneliner ? ' is-one-liner' : '';
       // inline text button (no underline) + link (underlined) live inside the message copy
       let inlineExtras = '';
-      if (s.inlineBtn) inlineExtras += ` <button class="link-inline" style="font:inherit;text-decoration:none;">Learn more</button>`;
+      if (s.inlineBtn) inlineExtras += ` <button class="link-inline" style="font:inherit;">Learn more</button>`;
       if (s.link) inlineExtras += ` <a href="#" onclick="return false;" class="link-inline">Support Page</a>`;
       const msgSpan = (s.message || inlineExtras) ? `<span class="inline-notif-msg">${esc(s.message)}${inlineExtras}</span>` : '';
       // buttonMessages renders up to 3 sentiment action buttons below the text (or right in one-liner)
