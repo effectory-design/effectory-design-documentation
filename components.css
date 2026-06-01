@@ -1784,17 +1784,17 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
    Those SVGs have the coloured circle baked in. Subtle uses a sparkle via
    data-icon inside a <span class="inline-notif-icon is-subtle">. */
 .inline-notif-icon {
-  flex: 0 0 20px;
-  width: 20px; height: 20px;
+  flex: 0 0 24px;
+  width: 24px; height: 24px;
   display: block;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 span.inline-notif-icon.is-subtle {
   display: inline-flex;
   align-items: center; justify-content: center;
   color: var(--content-highlight-secondary);
 }
-span.inline-notif-icon.is-subtle i[data-icon] { width: 20px; height: 20px; display: flex; }
+span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; display: flex; }
 
 /* Default layout is stacked (title above message), matching the Angular
    default. .is-one-liner collapses it to a single row. */
