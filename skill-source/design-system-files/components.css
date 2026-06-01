@@ -1756,8 +1756,8 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
 /* ─────────────────────────────────────────────
    Inline notification
    Persistent, non-blocking message inline with content.
-   Variants: feature (default white), info, warning, positive, negative
-   Layouts:  compact (default), stacked (.is-stacked)
+   Moods (match Angular messageType): subtle (default white), info, warn, success, error
+   Layouts: stacked (default), one-liner (.is-one-liner)
    ───────────────────────────────────────────── */
 .inline-notif {
   display: flex;
@@ -1773,41 +1773,45 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
   font-size: 14px;
   line-height: 1.6;
 }
-.inline-notif.is-info     { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; }
-.inline-notif.is-warning  { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; }
-.inline-notif.is-positive { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; }
-.inline-notif.is-negative { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; }
+.inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; }
+.inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; }
+.inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; }
+.inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; }
+/* is-subtle keeps the default white card */
 
-/* Icon — Info/Warning/Positive/Negative ship as <img> tags pointing to
+/* Icon — Info/Warn/Success/Error ship as <img> tags pointing to
    assets/icons/notification-{information,warning,positive,negative}.svg.
-   Those SVGs have the coloured circle baked in. Feature uses a sparkle via
-   data-icon inside a <span class="inline-notif-icon is-feature">. */
+   Those SVGs have the coloured circle baked in. Subtle uses a sparkle via
+   data-icon inside a <span class="inline-notif-icon is-subtle">. */
 .inline-notif-icon {
   flex: 0 0 20px;
   width: 20px; height: 20px;
   display: block;
   margin-top: 2px;
 }
-span.inline-notif-icon.is-feature {
+span.inline-notif-icon.is-subtle {
   display: inline-flex;
   align-items: center; justify-content: center;
   color: var(--content-highlight-secondary);
 }
-span.inline-notif-icon.is-feature i[data-icon] { width: 20px; height: 20px; display: flex; }
+span.inline-notif-icon.is-subtle i[data-icon] { width: 20px; height: 20px; display: flex; }
 
+/* Default layout is stacked (title above message), matching the Angular
+   default. .is-one-liner collapses it to a single row. */
 .inline-notif-content {
   flex: 1;
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 6px;
-  min-width: 0;
-  padding-top: 1px;
-}
-.inline-notif.is-stacked .inline-notif-content {
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  min-width: 0;
+  padding-top: 1px;
+}
+.inline-notif.is-one-liner .inline-notif-content {
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 6px;
 }
 .inline-notif-title { font-weight: 600; }
 .inline-notif-msg   { color: var(--content-secondary); }

@@ -8,7 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Poppins:wght@300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Inline notification — base ── */
+    /* ── Inline notification — base ──
+       Mood names mirror the Angular styleguide messageType:
+       subtle · info · warn · success · error */
     .inline-notif {
       display: flex;
       align-items: flex-start;
@@ -23,41 +25,44 @@
       font-size: 14px;
       line-height: 1.6;
     }
-    .inline-notif.is-info     { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; }
-    .inline-notif.is-warning  { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; }
-    .inline-notif.is-positive { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; }
-    .inline-notif.is-negative { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; }
+    .inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; }
+    .inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; }
+    .inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; }
+    .inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; }
+    /* is-subtle keeps the default white card */
 
-    /* Icon — the four notification SVGs (info/warning/positive/negative)
-       have the coloured circle baked in, so they ship as <img> tags and only
-       need sizing here. The feature variant uses the sparkle icon via the
-       regular data-icon mechanism. */
+    /* Icon — Info/Warn/Success/Error ship as <img> tags pointing to
+       pre-coloured SVGs (the coloured circle is baked in). Subtle uses the
+       sparkle via data-icon inside a <span>. */
     .inline-notif-icon {
       flex: 0 0 20px;
       width: 20px; height: 20px;
       display: block;
       margin-top: 2px;
     }
-    span.inline-notif-icon.is-feature {
+    span.inline-notif-icon.is-subtle {
       display: inline-flex;
       align-items: center; justify-content: center;
       color: var(--content-highlight-secondary);
     }
-    span.inline-notif-icon.is-feature i[data-icon] { width: 20px; height: 20px; display: flex; }
+    span.inline-notif-icon.is-subtle i[data-icon] { width: 20px; height: 20px; display: flex; }
 
+    /* Content — default is stacked (title above message), matching the
+       Angular default. .is-one-liner collapses it to a single row. */
     .inline-notif-content {
       flex: 1;
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 4px 6px;
-      min-width: 0;
-      padding-top: 1px;
-    }
-    .inline-notif.is-stacked .inline-notif-content {
       flex-direction: column;
       align-items: flex-start;
       gap: 2px;
+      min-width: 0;
+      padding-top: 1px;
+    }
+    .inline-notif.is-one-liner .inline-notif-content {
+      flex-direction: row;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px 6px;
     }
     .inline-notif-title { font-weight: 600; }
     .inline-notif-msg   { color: var(--content-secondary); }
@@ -71,6 +76,7 @@
       flex-shrink: 0;
     }
     .inline-notif-actions .btn { padding: 4px 12px; font-size: 13px; }
+    /* The link inside actions uses the shared .link-inline class. */
 
     .inline-notif-close {
       flex-shrink: 0;
@@ -89,10 +95,7 @@
     .inline-notif-close:focus-visible,
     .inline-notif-close.is-focus { outline: 2px solid var(--border-brand-base); outline-offset: 1px; }
 
-    /* Page-specific override: give the variants column more room so the
-       inline notifications don't render cramped. Inline notifications are
-       wider than most components, so the default 300px preview column is
-       too tight here. */
+    /* Wider variant preview column — notifications need the room. */
     .variant-row { grid-template-columns: minmax(420px, 1.4fr) 1fr; }
 
     /* Anatomy figure */
@@ -106,16 +109,6 @@
       justify-content: center;
     }
     .anatomy-fig .inline-notif { pointer-events: none; width: 100%; max-width: 520px; }
-    .ana-num {
-      position: absolute;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--content-base);
-      color: var(--bg-base);
-      font-size: 9px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 2;
-    }
   </style>
 </head>
 <body>
@@ -169,11 +162,11 @@
             </div>
           </div>
           <div class="anatomy-items">
-            <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Icon badge</span> — A coloured circular icon that signals the message type (info, warning, positive, negative) at a glance.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Icon</span> — A coloured icon that signals the message type (info, warn, success, error) at a glance. The subtle mood uses a sparkle.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">2</div><div><span class="anatomy-term">Title</span> — A short, scannable label that summarises the message in one or two words.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">3</div><div><span class="anatomy-term">Message</span> — The body text explaining what happened or what the user should do.</div></div>
-            <div class="anatomy-item"><div class="anatomy-num">4</div><div><span class="anatomy-term">Close button</span> — Lets the user dismiss the notification. Optional but recommended unless the message is critical.</div></div>
-            <div class="anatomy-item"><div class="anatomy-num">+</div><div><span class="anatomy-term">Actions (optional)</span> — A link or one or more buttons placed before the close, used when the notification offers a direct follow-up action.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">4</div><div><span class="anatomy-term">Close button</span> — Lets the user dismiss the notification. Optional, controlled by <code>showCloseButton</code>.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">+</div><div><span class="anatomy-term">Actions (optional)</span> — An inline link/button or a dismiss button, placed before the close.</div></div>
           </div>
         </section>
 
@@ -181,11 +174,11 @@
           <h2 class="text-l3">Usage</h2>
           <p class="section-lead">Use inline notifications when a message is tied to the surrounding content and the user should still see and interact with the page.</p>
 
-          <h3 class="text-l4">Choose the right type</h3>
+          <h3 class="text-l4">Choose the right mood</h3>
           <div class="dd-grid">
             <div class="dd-card">
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
-                <div class="inline-notif is-positive" style="pointer-events:none;">
+                <div class="inline-notif is-success is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">Your changes have been saved</span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
@@ -193,12 +186,12 @@
               </div>
               <div class="dd-cap do">
                 <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
-                Match the type to the situation — Positive for success, Negative for errors, Warning for things needing attention, Info for neutral context.
+                Match the mood to the situation — <code>success</code> for success, <code>error</code> for errors, <code>warn</code> for things needing attention, <code>info</code> for neutral context.
               </div>
             </div>
             <div class="dd-card">
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
-                <div class="inline-notif is-negative" style="pointer-events:none;">
+                <div class="inline-notif is-error is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Your changes have been saved</span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
@@ -206,7 +199,7 @@
               </div>
               <div class="dd-cap dont">
                 <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
-                Pair a Negative variant with a success message. The colour and tone send conflicting signals and erode trust in the system.
+                Pair an <code>error</code> mood with a success message. The colour and tone send conflicting signals and erode trust.
               </div>
             </div>
           </div>
@@ -215,7 +208,7 @@
           <div class="dd-grid">
             <div class="dd-card">
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
-                <div class="inline-notif is-warning" style="pointer-events:none;">
+                <div class="inline-notif is-warn is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
@@ -228,7 +221,7 @@
             </div>
             <div class="dd-card">
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
-                <div class="inline-notif is-warning is-stacked" style="pointer-events:none;">
+                <div class="inline-notif is-warn" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">We've noticed that your subscription is scheduled to expire in three days from now and you may want to take action soon to avoid losing access</span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
@@ -244,14 +237,14 @@
 
         <section class="section" id="variants">
           <h2 class="text-l3">Variants</h2>
-          <p class="section-lead">Five message types cover the most common signals; two layouts handle short and longer copy.</p>
+          <p class="section-lead">Five moods cover the most common signals; the one-liner layout handles short copy. Mood names match the Angular <code>messageType</code> input.</p>
 
-          <h3 class="text-l4">By type</h3>
+          <h3 class="text-l4">By mood</h3>
           <div class="variant-rows">
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="inline-notif is-feature" style="width:100%;">
-                  <span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>
+                <div class="inline-notif is-subtle" style="width:100%;">
+                  <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
                   <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span></div>
                   <div class="inline-notif-actions">
                     <a href="#" onclick="return false;" class="link-inline">Link label</a>
@@ -260,7 +253,7 @@
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Feature</strong> — Announce a new feature, capability, or product update. Pair with a <a class="link-inline" href="link-inline-docs.html">Link Inline</a> or button that lets the user explore the feature directly. Use sparingly; reserve for genuinely new things.</div>
+              <div class="variant-row-desc"><strong>Subtle</strong> (<code>messageType: 'subtle'</code>) — Neutral white card with a sparkle icon. Announce a new feature, capability, or product update. Pair with a <a class="link-inline" href="link-inline-docs.html">Link Inline</a> or button. Use sparingly.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
@@ -270,37 +263,37 @@
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Info</strong> — Neutral, contextual information the user should know but doesn't need to act on immediately. Examples: "Read-only mode active", "3 invitations pending".</div>
+              <div class="variant-row-desc"><strong>Info</strong> (<code>messageType: 'info'</code>) — Neutral, contextual information the user should know but doesn't need to act on immediately.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="inline-notif is-warning" style="width:100%;">
+                <div class="inline-notif is-warn" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Better check yourself, you're not looking too good</span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Warning</strong> — Something needs the user's attention soon to avoid a problem. Use for expiring trials, deprecations, near-quota limits, or actions that may have unintended side effects.</div>
+              <div class="variant-row-desc"><strong>Warning</strong> (<code>messageType: 'warn'</code>) — Something needs the user's attention soon to avoid a problem. Expiring trials, deprecations, near-quota limits.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="inline-notif is-positive" style="width:100%;">
+                <div class="inline-notif is-success" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">You successfully read this important alert message</span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Positive</strong> — Confirms a successful outcome that persists on the page (saved settings, imported data, completed setup). For transient success, prefer a Toast.</div>
+              <div class="variant-row-desc"><strong>Success</strong> (<code>messageType: 'success'</code>) — Confirms a successful outcome that persists on the page. For transient success, prefer a Toast.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="inline-notif is-negative" style="width:100%;">
+                <div class="inline-notif is-error" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Change a few things up and try again</span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Negative</strong> — Errors or failures the user must address before they can continue. Examples: failed import, permission denied, API error.</div>
+              <div class="variant-row-desc"><strong>Error</strong> (<code>messageType: 'error'</code>) — Errors or failures the user must address before they can continue. Failed import, permission denied, API error.</div>
             </div>
           </div>
 
@@ -310,21 +303,21 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></div>
-                  <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
-                </div>
-              </div>
-              <div class="variant-row-desc"><strong>Compact</strong> — Title and message flow on a single line. Use for short messages that fit without wrapping. Default layout.</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-row-btn">
-                <div class="inline-notif is-info is-stacked" style="width:100%;">
-                  <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
                   <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention, but it is not super important</span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Stacked</strong> — Title above the message. Use when the message is longer than ~5 words or when actions are present. Add the <code>is-stacked</code> modifier.</div>
+              <div class="variant-row-desc"><strong>Stacked</strong> (default, <code>isOneLiner: false</code>) — Title sits above the message. Use for longer messages or when actions are present.</div>
+            </div>
+            <div class="variant-row">
+              <div class="variant-row-btn">
+                <div class="inline-notif is-info is-one-liner" style="width:100%;">
+                  <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
+                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></div>
+                  <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
+                </div>
+              </div>
+              <div class="variant-row-desc"><strong>One-liner</strong> (<code>isOneLiner: true</code>) — Title and message flow on a single line. Use for short messages that fit without wrapping.</div>
             </div>
           </div>
         </section>
@@ -333,7 +326,7 @@
           <h2 class="text-l3">Content guidelines</h2>
           <p class="section-lead">Notifications are read at a glance. Keep titles short, messages specific, and actions verb-led.</p>
           <ul style="padding-left:18px; line-height:1.8;">
-            <li><strong>Title (1–3 words)</strong> — Use a short label that mirrors the type. <em>Well done!</em>, <em>Warning</em>, <em>Heads up</em>, <em>New feature</em>, <em>Couldn't save</em>.</li>
+            <li><strong>Title (1–3 words)</strong> — A short label that mirrors the mood. <em>Well done!</em>, <em>Warning</em>, <em>Heads up</em>, <em>New feature</em>, <em>Couldn't save</em>.</li>
             <li><strong>Message (one sentence)</strong> — State what happened and, if relevant, what the user should do next. Avoid jargon and apologies.</li>
             <li><strong>Action label</strong> — Start with a verb that describes the outcome: <em>Review</em>, <em>Try again</em>, <em>Learn more</em>. Never <em>Click here</em>.</li>
             <li><strong>Punctuation</strong> — End full sentences with a period. Single-word titles can use an exclamation only when it adds meaning.</li>
@@ -349,38 +342,38 @@
             <div class="state-col"><span class="state-lbl">Hover</span><button class="inline-notif-close is-hover" tabindex="-1" style="pointer-events:none;"><i data-icon="cross"></i></button></div>
             <div class="state-col"><span class="state-lbl">Focus</span><button class="inline-notif-close is-focus" tabindex="-1" style="pointer-events:none;"><i data-icon="cross"></i></button></div>
           </div>
-          <h3 class="text-l4">All types at rest</h3>
+          <h3 class="text-l4">All moods at rest</h3>
           <div class="states-row">
-            <div class="state-col"><span class="state-lbl">Feature</span>
-              <div class="inline-notif is-feature" style="pointer-events:none; width:100%;">
-                <span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>
+            <div class="state-col"><span class="state-lbl">Subtle</span>
+              <div class="inline-notif is-subtle is-one-liner" style="pointer-events:none; width:100%;">
+                <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
                 <div class="inline-notif-content"><span class="inline-notif-title">New feature</span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Info</span>
-              <div class="inline-notif is-info" style="pointer-events:none; width:100%;">
+              <div class="inline-notif is-info is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
                 <div class="inline-notif-content"><span class="inline-notif-title">Heads up</span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Warning</span>
-              <div class="inline-notif is-warning" style="pointer-events:none; width:100%;">
+              <div class="inline-notif is-warn is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
                 <div class="inline-notif-content"><span class="inline-notif-title">Warning</span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
-            <div class="state-col"><span class="state-lbl">Positive</span>
-              <div class="inline-notif is-positive" style="pointer-events:none; width:100%;">
+            <div class="state-col"><span class="state-lbl">Success</span>
+              <div class="inline-notif is-success is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
                 <div class="inline-notif-content"><span class="inline-notif-title">Well done</span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
-            <div class="state-col"><span class="state-lbl">Negative</span>
-              <div class="inline-notif is-negative" style="pointer-events:none; width:100%;">
+            <div class="state-col"><span class="state-lbl">Error</span>
+              <div class="inline-notif is-error is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
                 <div class="inline-notif-content"><span class="inline-notif-title">Oh snap</span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
@@ -391,27 +384,26 @@
 
         <section class="section" id="tokens">
           <h2 class="text-l3">Design Tokens</h2>
-          <p class="section-lead">The notification reuses semantic colour tokens — change them once and every variant updates.</p>
+          <p class="section-lead">The notification reuses semantic colour tokens — change them once and every mood updates.</p>
           <table class="token-table">
             <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
             <tbody>
               <tr><td><code>--bg-info-subtle</code></td><td>Info background</td><td>#e6f0fe</td></tr>
               <tr><td><code>--border-info-subtle</code></td><td>Info border</td><td>#acceff</td></tr>
-              <tr><td><code>--bg-info-base</code></td><td>Info icon badge</td><td>#3174db</td></tr>
-              <tr><td><code>--bg-warning-subtle</code></td><td>Warning background</td><td>#feede1</td></tr>
-              <tr><td><code>--border-warning-subtle</code></td><td>Warning border</td><td>#fec095</td></tr>
-              <tr><td><code>--bg-warning-bold</code></td><td>Warning icon badge</td><td>#fa8324</td></tr>
-              <tr><td><code>--bg-positive-subtle</code></td><td>Positive background</td><td>#d7f9e0</td></tr>
-              <tr><td><code>--border-positive-subtle</code></td><td>Positive border</td><td>#94dfa8</td></tr>
-              <tr><td><code>--bg-positive-base</code></td><td>Positive icon badge</td><td>#278747</td></tr>
-              <tr><td><code>--bg-negative-subtle</code></td><td>Negative background</td><td>#ffebeb</td></tr>
-              <tr><td><code>--border-negative-subtle</code></td><td>Negative border</td><td>#feb9b9</td></tr>
-              <tr><td><code>--bg-negative-base</code></td><td>Negative icon badge</td><td>#d3353b</td></tr>
-              <tr><td><code>--bg-base</code></td><td>Feature background</td><td>#ffffff</td></tr>
-              <tr><td><code>--border-base</code></td><td>Feature border</td><td>#e1e4e8</td></tr>
+              <tr><td><code>--bg-info-base</code></td><td>Info icon</td><td>#3174db</td></tr>
+              <tr><td><code>--bg-warning-subtle</code></td><td>Warn background</td><td>#feede1</td></tr>
+              <tr><td><code>--border-warning-subtle</code></td><td>Warn border</td><td>#fec095</td></tr>
+              <tr><td><code>--bg-warning-bold</code></td><td>Warn icon</td><td>#fa8324</td></tr>
+              <tr><td><code>--bg-positive-subtle</code></td><td>Success background</td><td>#d7f9e0</td></tr>
+              <tr><td><code>--border-positive-subtle</code></td><td>Success border</td><td>#94dfa8</td></tr>
+              <tr><td><code>--bg-positive-base</code></td><td>Success icon</td><td>#278747</td></tr>
+              <tr><td><code>--bg-negative-subtle</code></td><td>Error background</td><td>#ffebeb</td></tr>
+              <tr><td><code>--border-negative-subtle</code></td><td>Error border</td><td>#feb9b9</td></tr>
+              <tr><td><code>--bg-negative-base</code></td><td>Error icon</td><td>#d3353b</td></tr>
+              <tr><td><code>--bg-base</code></td><td>Subtle background</td><td>#ffffff</td></tr>
+              <tr><td><code>--border-base</code></td><td>Subtle border</td><td>#e1e4e8</td></tr>
               <tr><td><code>--content-base</code></td><td>Title colour</td><td>#192743</td></tr>
               <tr><td><code>--content-secondary</code></td><td>Message + close icon</td><td>rgba(25,39,67,.8)</td></tr>
-              <tr><td><code>--content-inverse-base</code></td><td>Icon colour in coloured badge</td><td>#ffffff</td></tr>
               <tr><td><code>--radius-base</code></td><td>Border radius</td><td>8px</td></tr>
             </tbody>
           </table>
@@ -421,11 +413,11 @@
           <h2 class="text-l3">Accessibility</h2>
           <p class="section-lead">Inline notifications must be perceivable, operable, and announce themselves to assistive tech.</p>
           <div class="a11y-list">
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Pick the right role.</strong> Use <code>role="status"</code> for Info, Positive, and Feature notifications and <code>role="alert"</code> for Warning and Negative. The role determines how screen readers announce it.</div></div>
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Never colour alone.</strong> The variant colour is paired with an icon and a textual title; never rely on colour alone to communicate the message type.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Pick the right role.</strong> Use <code>role="status"</code> for Subtle, Info, and Success notifications and <code>role="alert"</code> for Warn and Error. The styleguide renders <code>role="alert"</code> on the root <code>.notification</code> element.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Never colour alone.</strong> The mood colour is paired with an icon and a textual title; never rely on colour alone to communicate the type.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Label the close.</strong> Always include an <code>aria-label</code> like <code>Dismiss notification</code>. Focus must be visible — the <code>:focus-visible</code> ring is built in.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Keyboard reachable.</strong> The close button is reachable via Tab and activated with Enter or Space.</div></div>
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Contrast.</strong> All title and message text meets WCAG 2.2 AA (≥4.5:1) on the variant background.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Contrast.</strong> All title and message text meets WCAG 2.2 AA (≥4.5:1) on the mood background.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Don't trap focus.</strong> Inline notifications are non-modal. Never move focus to them on mount unless the user just triggered an error they need to fix.</div></div>
           </div>
         </section>
@@ -457,9 +449,17 @@
     <div class="content-cols">
       <article class="content">
 
+        <div class="dev-gap">
+          <span class="dev-gap-icon">⚠️</span>
+          <div class="dev-gap-body">
+            <span class="dev-gap-label">Figma gap</span>
+            <span class="dev-gap-text">The Figma component and the Angular styleguide use <strong>different mood names</strong>. Figma: <code>Feature</code> / <code>Info</code> / <code>Warning</code> / <code>Positive</code> / <code>Negative</code>. Code (<code>messageType</code>): <code>subtle</code> / <code>info</code> / <code>warn</code> / <code>success</code> / <code>error</code>. This doc follows the code names. These should be reconciled — rename the Figma moods to match the code (or vice versa) so design and dev share one vocabulary.</span>
+          </div>
+        </div>
+
         <section class="section" id="dev-playground">
           <h2 class="text-l3">Playground</h2>
-          <p class="section-lead">Configure props and see the component update live — the code snippet reflects your selection.</p>
+          <p class="section-lead">Configure inputs and see the component update live — the code snippet reflects your selection as real <code>&lt;eff-inline-notification&gt;</code> markup.</p>
           <div class="pg-card">
             <div class="pg-preview" id="pg-preview" style="padding:24px;"></div>
             <div class="pg-bottom">
@@ -469,20 +469,17 @@
                 <button class="pg-reset" id="pg-reset">Reset</button>
               </div>
               <div class="pg-panel pg-props-wrap" id="pg-panel-props">
-                <div class="pg-row"><div class="pg-row-name">type</div><div class="pg-row-ctrl">
+                <div class="pg-row"><div class="pg-row-name">messageType</div><div class="pg-row-ctrl">
                   <select class="pg-select" id="pg-type">
-                    <option value="info">info</option><option value="warning">warning</option>
-                    <option value="positive">positive</option><option value="negative">negative</option>
-                    <option value="feature">feature</option>
+                    <option value="subtle">subtle</option><option value="info" selected>info</option>
+                    <option value="warn">warn</option><option value="success">success</option>
+                    <option value="error">error</option>
                   </select></div></div>
-                <div class="pg-row"><div class="pg-row-name">layout</div><div class="pg-row-ctrl">
-                  <select class="pg-select" id="pg-layout">
-                    <option value="compact">compact</option><option value="stacked">stacked</option>
-                  </select></div></div>
-                <div class="pg-row"><div class="pg-row-name">title</div><div class="pg-row-ctrl"><input class="pg-select" type="text" id="pg-title" value="Heads up!" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">isOneLiner</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-oneliner"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">messageTitle</div><div class="pg-row-ctrl"><input class="pg-select" type="text" id="pg-title" value="Heads up!" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">message</div><div class="pg-row-ctrl"><input class="pg-select" type="text" id="pg-message" value="This alert needs your attention" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">dismissible</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-dismiss" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">action button</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-action"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">showCloseButton</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-close" checked><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">inlineButtonText</div><div class="pg-row-ctrl"><input class="pg-select" type="text" id="pg-btn" value="" placeholder="(none)" /></div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
                 <button class="dev-copy-btn" id="pg-copy">Copy</button>
@@ -494,9 +491,9 @@
 
         <section class="section" id="dev-usage">
           <h2 class="text-l3">Usage</h2>
-          <p class="section-lead">Drop a notification anywhere in the document flow. Pair the right variant class with the matching icon.</p>
+          <p class="section-lead">The notification is the Angular component <code>&lt;eff-inline-notification&gt;</code>. Set the mood with <code>messageType</code> and pass content via inputs.</p>
 
-          <h3 class="text-l4">Info — compact</h3>
+          <h3 class="text-l4">Info — basic</h3>
           <div class="dev-preview">
             <div class="inline-notif is-info" style="width:100%;">
               <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
@@ -506,93 +503,114 @@
           </div>
           <div class="dev-code-wrap">
             <button class="dev-copy-btn">Copy</button>
-            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif is-info"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;img</span> <span class="ca">class</span>=<span class="cv">"inline-notif-icon"</span> <span class="ca">src</span>=<span class="cv">"assets/icons/notification-information.svg"</span> <span class="ca">alt</span>=<span class="cv">""</span> <span class="ct">/&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif-content"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-title"</span><span class="ct">&gt;</span>Heads up!<span class="ct">&lt;/span&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-msg"</span><span class="ct">&gt;</span>This alert needs your attention<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"inline-notif-close"</span> <span class="ca">aria-label</span>=<span class="cv">"Dismiss"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"cross"</span><span class="ct">&gt;&lt;/i&gt;&lt;/button&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+            <pre><code><span class="ct">&lt;eff-inline-notification</span>
+  <span class="ca">[messageTitle]</span>=<span class="cv">"'Heads up!'"</span>
+  <span class="ca">[message]</span>=<span class="cv">"'This alert needs your attention'"</span>
+  <span class="ca">[messageType]</span>=<span class="cv">"'info'"</span>
+  <span class="ca">[showCloseButton]</span>=<span class="cv">"true"</span>
+  <span class="ca">(closeNotification)</span>=<span class="cv">"onClose()"</span><span class="ct">&gt;</span>
+<span class="ct">&lt;/eff-inline-notification&gt;</span></code></pre>
           </div>
 
-          <h3 class="text-l4">Negative — stacked</h3>
+          <h3 class="text-l4">Subtle — with inline button</h3>
+          <p>The <code>inlineButtonText</code> input renders a text-link style button; <code>inlineButtonCallback</code> fires on click. Project a sparkle icon for the subtle mood.</p>
           <div class="dev-preview">
-            <div class="inline-notif is-negative is-stacked" style="width:100%;">
-              <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
-              <div class="inline-notif-content"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Change a few things up and try again</span></div>
-              <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
-            </div>
-          </div>
-          <div class="dev-code-wrap">
-            <button class="dev-copy-btn">Copy</button>
-            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif is-negative is-stacked"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;img</span> <span class="ca">class</span>=<span class="cv">"inline-notif-icon"</span> <span class="ca">src</span>=<span class="cv">"assets/icons/notification-negative.svg"</span> <span class="ca">alt</span>=<span class="cv">""</span> <span class="ct">/&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif-content"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-title"</span><span class="ct">&gt;</span>Oh snap!<span class="ct">&lt;/span&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-msg"</span><span class="ct">&gt;</span>Change a few things up and try again<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"inline-notif-close"</span> <span class="ca">aria-label</span>=<span class="cv">"Dismiss"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"cross"</span><span class="ct">&gt;&lt;/i&gt;&lt;/button&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
-          </div>
-
-          <h3 class="text-l4">Feature — with action</h3>
-          <p>Actions sit in a trailing <code>.inline-notif-actions</code> row before the close button. The link uses the <a class="link-inline" href="link-inline-docs.html">Link Inline</a> component (<code>link-inline</code>); pair it with a button when you need a stronger call-to-action.</p>
-          <div class="dev-preview">
-            <div class="inline-notif is-feature" style="width:100%;">
-              <span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>
+            <div class="inline-notif is-subtle" style="width:100%;">
+              <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
               <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span></div>
               <div class="inline-notif-actions">
-                <a href="#" onclick="return false;" class="link-inline">Link label</a>
-                <button class="btn btn-secondary">Try it</button>
+                <button class="btn btn-secondary">Learn more</button>
               </div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
           </div>
           <div class="dev-code-wrap">
             <button class="dev-copy-btn">Copy</button>
-            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif is-feature"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-icon is-feature"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"featured"</span><span class="ct">&gt;&lt;/i&gt;&lt;/span&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif-content"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-title"</span><span class="ct">&gt;</span>New feature!<span class="ct">&lt;/span&gt;</span>
-    <span class="ct">&lt;span</span> <span class="ca">class</span>=<span class="cv">"inline-notif-msg"</span><span class="ct">&gt;</span>We released a new feature you might want to use<span class="ct">&lt;/span&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"inline-notif-actions"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;a</span> <span class="ca">href</span>=<span class="cv">"/whats-new"</span> <span class="ca">class</span>=<span class="cv">"link-inline"</span><span class="ct">&gt;</span>Link label<span class="ct">&lt;/a&gt;</span>
-    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"btn btn-secondary"</span><span class="ct">&gt;</span>Try it<span class="ct">&lt;/button&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"inline-notif-close"</span> <span class="ca">aria-label</span>=<span class="cv">"Dismiss"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"cross"</span><span class="ct">&gt;&lt;/i&gt;&lt;/button&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
+            <pre><code><span class="ct">&lt;eff-inline-notification</span>
+  <span class="ca">[messageTitle]</span>=<span class="cv">"'New feature!'"</span>
+  <span class="ca">[message]</span>=<span class="cv">"'We released a new feature you might want to use'"</span>
+  <span class="ca">[messageType]</span>=<span class="cv">"'subtle'"</span>
+  <span class="ca">[inlineButtonText]</span>=<span class="cv">"'Learn more'"</span>
+  <span class="ca">(inlineButtonCallback)</span>=<span class="cv">"onLearnMore()"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;eff-mat-icon</span> <span class="ca">[iconName]</span>=<span class="cv">"'featured'"</span> <span class="ca">subtleIcon</span> <span class="ca">class</span>=<span class="cv">"icon subtle"</span><span class="ct">&gt;&lt;/eff-mat-icon&gt;</span>
+<span class="ct">&lt;/eff-inline-notification&gt;</span></code></pre>
+          </div>
+
+          <h3 class="text-l4">Info — with link</h3>
+          <p>Use <code>linkText</code> + <code>linkHref</code> for a navigating link, with <code>linkIconPosition</code> to place an optional icon.</p>
+          <div class="dev-preview">
+            <div class="inline-notif is-info" style="width:100%;">
+              <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
+              <div class="inline-notif-content"><span class="inline-notif-title">Need a hand?</span><span class="inline-notif-msg">Read the docs for a full walkthrough</span></div>
+              <div class="inline-notif-actions">
+                <a href="#" onclick="return false;" class="link-inline">Support Page</a>
+              </div>
+              <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
+            </div>
+          </div>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ct">&lt;eff-inline-notification</span>
+  <span class="ca">[messageTitle]</span>=<span class="cv">"'Need a hand?'"</span>
+  <span class="ca">[message]</span>=<span class="cv">"'Read the docs for a full walkthrough'"</span>
+  <span class="ca">[messageType]</span>=<span class="cv">"'info'"</span>
+  <span class="ca">[linkText]</span>=<span class="cv">"'Support Page'"</span>
+  <span class="ca">[linkHref]</span>=<span class="cv">"'https://support.effectory.com/hc/en-us'"</span>
+  <span class="ca">[linkIconPosition]</span>=<span class="cv">"'after'"</span><span class="ct">&gt;</span>
+<span class="ct">&lt;/eff-inline-notification&gt;</span></code></pre>
+          </div>
+
+          <h3 class="text-l4">One-liner</h3>
+          <div class="dev-preview">
+            <div class="inline-notif is-warn is-one-liner" style="width:100%;">
+              <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
+              <div class="inline-notif-content"><span class="inline-notif-title">Heads up</span><span class="inline-notif-msg">Your trial ends soon</span></div>
+              <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
+            </div>
+          </div>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ct">&lt;eff-inline-notification</span>
+  <span class="ca">[isOneLiner]</span>=<span class="cv">"true"</span>
+  <span class="ca">[messageTitle]</span>=<span class="cv">"'Heads up'"</span>
+  <span class="ca">[message]</span>=<span class="cv">"'Your trial ends soon'"</span>
+  <span class="ca">[messageType]</span>=<span class="cv">"'warn'"</span>
+  <span class="ca">[showCloseButton]</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>
+<span class="ct">&lt;/eff-inline-notification&gt;</span></code></pre>
           </div>
 
           <div class="dev-gap">
             <span class="dev-gap-icon">⚠️</span>
             <div class="dev-gap-body">
               <span class="dev-gap-label">Figma gap</span>
-              <span class="dev-gap-text">In Figma use the Warning, Positive, and Negative notifications <strong>sentiment buttons</strong> — action buttons coloured to match the notification's sentiment (orange in a Warning, green in a Positive, red in a Negative). The Angular styleguide does not expose these sentiment button variants yet: only the standard <code>btn-secondary</code> and, for negative actions, <code>btn-danger</code> exist. The brand <code>btn-primary</code> is also not yet wired up inside notifications. Until the sentiment button variants ship, fall back to <code>btn-secondary</code> (or <code>btn-danger</code> for a destructive action in a Negative notification) and do not hand-roll sentiment colours.</span>
+              <span class="dev-gap-text">In Figma the Warning, Success, and Error notifications use <strong>sentiment buttons</strong> — action buttons coloured to match the mood. The Angular styleguide does not expose sentiment-coloured action buttons: the only options inside a notification are the text-link style <code>inline-button link</code> (via <code>inlineButtonText</code>), a <code>secondary</code> button, and the dismiss buttons (via <code>buttonMessages</code>). The brand <strong>primary</strong> button is also not wired up inside notifications. Until sentiment button variants ship, use the inline button or a secondary button — don't hand-roll sentiment colours.</span>
             </div>
           </div>
         </section>
 
         <section class="section" id="dev-props">
-          <h2 class="text-l3">CSS classes</h2>
-          <p class="section-lead">Compose the notification by combining a base class with a type modifier and an optional layout modifier.</p>
+          <h2 class="text-l3">Inputs &amp; outputs</h2>
+          <p class="section-lead"><code>&lt;eff-inline-notification&gt;</code> is configured entirely through Angular inputs and outputs — there are no CSS classes to apply by hand.</p>
           <table class="token-table">
-            <thead><tr><th>Class</th><th>Applied to</th><th>Purpose</th></tr></thead>
+            <thead><tr><th>Input / Output</th><th>Type</th><th>Purpose</th></tr></thead>
             <tbody>
-              <tr><td><code>.inline-notif</code></td><td>Root <code>&lt;div&gt;</code></td><td>Container — flex row, padding, border, radius.</td></tr>
-              <tr><td><code>.is-info</code> · <code>.is-warning</code> · <code>.is-positive</code> · <code>.is-negative</code> · <code>.is-feature</code></td><td>Root</td><td>Type modifier — sets background and border colour.</td></tr>
-              <tr><td><code>.is-stacked</code></td><td>Root</td><td>Layout modifier — title above message instead of inline.</td></tr>
-              <tr><td><code>.inline-notif-icon</code></td><td>Leading icon (img or span)</td><td>Sizes the icon to 20×20. For Info/Warning/Positive/Negative use an <code>&lt;img&gt;</code> pointing to <code>assets/icons/notification-{information,warning,positive,negative}.svg</code> — the coloured circle is baked into the SVG. For Feature use a <code>&lt;span class="inline-notif-icon is-feature"&gt;</code> wrapping a <code>data-icon="featured"</code>.</td></tr>
-              <tr><td><code>.inline-notif-content</code></td><td>Middle text container</td><td>Holds title + message. Switches to column when root has <code>.is-stacked</code>.</td></tr>
-              <tr><td><code>.inline-notif-title</code></td><td>Title text</td><td>Bold (weight 600), <code>--content-base</code>.</td></tr>
-              <tr><td><code>.inline-notif-msg</code></td><td>Message text</td><td>Regular, <code>--content-secondary</code>.</td></tr>
-              <tr><td><code>.inline-notif-actions</code></td><td>Optional actions wrapper</td><td>Right-aligned flex row for links and buttons that sit before the close.</td></tr>
-              <tr><td><code>.link-inline</code></td><td>Inline text link inside actions</td><td>The shared <a class="link-inline" href="link-inline-docs.html">Link Inline</a> component — use it for the link action, not a bespoke class.</td></tr>
-              <tr><td><code>.btn</code> + variant</td><td>Action button</td><td>Use <code>btn-secondary</code> today (or <code>btn-danger</code> for a destructive Negative action). Sentiment-coloured variants are a known gap — see the callout above.</td></tr>
-              <tr><td><code>.inline-notif-close</code></td><td>Dismiss button</td><td>Bare X button with hover/focus state.</td></tr>
+              <tr><td><code>[messageTitle]</code></td><td>string</td><td>Bold title line.</td></tr>
+              <tr><td><code>[message]</code></td><td>string</td><td>Body text. Omit for a title-only notification.</td></tr>
+              <tr><td><code>[messageType]</code></td><td>'subtle' | 'info' | 'warn' | 'success' | 'error'</td><td>The mood — sets colour and icon.</td></tr>
+              <tr><td><code>[isOneLiner]</code></td><td>boolean</td><td>Collapse title + message onto one line. Default <code>false</code> (stacked).</td></tr>
+              <tr><td><code>[showCloseButton]</code></td><td>boolean</td><td>Show the dismiss X.</td></tr>
+              <tr><td><code>[dismissOnly]</code></td><td>boolean</td><td>Dismiss-only mode (no persistent actions beyond closing).</td></tr>
+              <tr><td><code>[inlineButtonText]</code></td><td>string</td><td>Text-link style action button label.</td></tr>
+              <tr><td><code>[inlineButtonIconPosition]</code></td><td>'before' | 'after'</td><td>Where the projected <code>inlineButtonIcon</code> sits.</td></tr>
+              <tr><td><code>[linkText]</code> · <code>[linkHref]</code> · <code>[linkIconPosition]</code></td><td>string · string · 'before' | 'after'</td><td>An anchor link with optional icon.</td></tr>
+              <tr><td><code>[buttonMessages]</code></td><td>string[]</td><td>Labels for dismiss buttons (e.g. <code>['Dismiss']</code>).</td></tr>
+              <tr><td><code>(inlineButtonCallback)</code></td><td>EventEmitter</td><td>Fires when the inline button is clicked.</td></tr>
+              <tr><td><code>(linkCallback)</code></td><td>EventEmitter</td><td>Fires when the link is clicked.</td></tr>
+              <tr><td><code>(closeNotification)</code></td><td>EventEmitter</td><td>Fires when the close X is clicked.</td></tr>
+              <tr><td><code>(buttonCallback0)</code></td><td>EventEmitter</td><td>Fires for the first dismiss button.</td></tr>
             </tbody>
           </table>
+          <p style="margin-top:12px; font-size:13.5px; color:var(--content-secondary);">The icon is content-projected as <code>&lt;eff-mat-icon&gt;</code>. The rendered root carries classes <code>notification inline &lt;mood&gt;</code> plus modifiers (<code>one-liner</code>, <code>closable</code>, <code>dismiss-only</code>) — these are emitted by the component, not applied by you.</p>
         </section>
 
         <section class="section" id="dev-tokens">
@@ -601,11 +619,11 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-info-subtle</code> · <code>--border-info-subtle</code> · <code>--bg-info-base</code></td><td>Info variant</td></tr>
-              <tr><td><code>--bg-warning-subtle</code> · <code>--border-warning-subtle</code> · <code>--bg-warning-bold</code></td><td>Warning variant</td></tr>
-              <tr><td><code>--bg-positive-subtle</code> · <code>--border-positive-subtle</code> · <code>--bg-positive-base</code></td><td>Positive variant</td></tr>
-              <tr><td><code>--bg-negative-subtle</code> · <code>--border-negative-subtle</code> · <code>--bg-negative-base</code></td><td>Negative variant</td></tr>
-              <tr><td><code>--bg-base</code> · <code>--border-base</code> · <code>--sh-card</code></td><td>Feature variant</td></tr>
+              <tr><td><code>--bg-info-subtle</code> · <code>--border-info-subtle</code> · <code>--bg-info-base</code></td><td>Info mood</td></tr>
+              <tr><td><code>--bg-warning-subtle</code> · <code>--border-warning-subtle</code> · <code>--bg-warning-bold</code></td><td>Warn mood</td></tr>
+              <tr><td><code>--bg-positive-subtle</code> · <code>--border-positive-subtle</code> · <code>--bg-positive-base</code></td><td>Success mood</td></tr>
+              <tr><td><code>--bg-negative-subtle</code> · <code>--border-negative-subtle</code> · <code>--bg-negative-base</code></td><td>Error mood</td></tr>
+              <tr><td><code>--bg-base</code> · <code>--border-base</code> · <code>--sh-card</code></td><td>Subtle mood</td></tr>
               <tr><td><code>--radius-base</code></td><td>Outer corners</td></tr>
             </tbody>
           </table>
@@ -615,7 +633,7 @@
           <h2 class="text-l3">Accessibility</h2>
           <p class="section-lead">Pick the right role, label the close, and let users dismiss via keyboard.</p>
           <div class="a11y-list">
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Match the role to the type.</strong> Wrap Warning and Negative variants in <code>role="alert"</code>; wrap Info, Positive, and Feature in <code>role="status"</code>.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Match the role to the mood.</strong> Warn and Error map to <code>role="alert"</code>; Subtle, Info, and Success map to <code>role="status"</code>.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Label the close.</strong> The close button must have a descriptive <code>aria-label</code> (e.g. <code>aria-label="Dismiss notification"</code>).</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Don't steal focus.</strong> Keep focus order natural — don't move focus to the notification on mount unless it's a blocking error.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Live regions outside the dismiss button.</strong> If the message changes dynamically, place the live region <em>outside</em> the close button so screen readers don't re-announce on dismiss.</div></div>
@@ -629,7 +647,7 @@
           <div class="toc-title">ON THIS PAGE</div>
           <a class="toc-link" href="#dev-playground">Playground</a>
           <a class="toc-link" href="#dev-usage">Usage</a>
-          <a class="toc-link" href="#dev-props">CSS classes</a>
+          <a class="toc-link" href="#dev-props">Inputs &amp; outputs</a>
           <a class="toc-link" href="#dev-tokens">CSS tokens</a>
           <a class="toc-link" href="#dev-a11y">Accessibility</a>
         </nav>
@@ -645,51 +663,59 @@
   (function () {
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
-    // Maps a notification type to the icon markup. The four coloured types use a pre-coloured
-     // <img>; feature uses the sparkle via data-icon.
+    // The four coloured moods render a pre-coloured <img>; subtle uses the sparkle.
     const ICON_SRC = {
-      info:     'assets/icons/notification-information.svg',
-      warning:  'assets/icons/notification-warning.svg',
-      positive: 'assets/icons/notification-positive.svg',
-      negative: 'assets/icons/notification-negative.svg',
+      info:    'assets/icons/notification-information.svg',
+      warn:    'assets/icons/notification-warning.svg',
+      success: 'assets/icons/notification-positive.svg',
+      error:   'assets/icons/notification-negative.svg',
     };
     function iconLive(type) {
-      return type === 'feature'
-        ? '<span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>'
+      return type === 'subtle'
+        ? '<span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>'
         : `<img class="inline-notif-icon" src="${ICON_SRC[type]}" alt="" />`;
     }
-    function iconCode(type) {
-      return type === 'feature'
-        ? '<span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>'
-        : `<img class="inline-notif-icon" src="${ICON_SRC[type]}" alt="" />`;
-    }
-    const defaults = { type:'info', layout:'compact', title:'Heads up!', message:'This alert needs your attention', dismiss:true, action:false };
+    const defaults = { type:'info', oneliner:false, title:'Heads up!', message:'This alert needs your attention', close:true, btn:'' };
 
-    function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-    function state(){return{type:document.getElementById('pg-type').value,layout:document.getElementById('pg-layout').value,title:document.getElementById('pg-title').value,message:document.getElementById('pg-message').value,dismiss:document.getElementById('pg-dismiss').checked,action:document.getElementById('pg-action').checked};}
+    function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+    function ngEsc(s){return String(s).replace(/'/g,"\\'");}
+    function state(){return{
+      type:document.getElementById('pg-type').value,
+      oneliner:document.getElementById('pg-oneliner').checked,
+      title:document.getElementById('pg-title').value,
+      message:document.getElementById('pg-message').value,
+      close:document.getElementById('pg-close').checked,
+      btn:document.getElementById('pg-btn').value.trim(),
+    };}
     function buildHtml(s){
-      const stacked = s.layout==='stacked' ? ' is-stacked':'';
-      const action = s.action?`<div class="inline-notif-actions"><button class="btn btn-secondary">Action</button></div>`:'';
-      const close = s.dismiss?`<button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>`:'';
-      return `<div class="inline-notif is-${s.type}${stacked}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-title">${escapeHtml(s.title)}</span><span class="inline-notif-msg">${escapeHtml(s.message)}</span></div>${action}${close}</div>`;
+      const ol = s.oneliner ? ' is-one-liner' : '';
+      const action = s.btn ? `<div class="inline-notif-actions"><button class="btn btn-secondary">${esc(s.btn)}</button></div>` : '';
+      const close = s.close ? `<button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>` : '';
+      return `<div class="inline-notif is-${s.type}${ol}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-title">${esc(s.title)}</span>${s.message?`<span class="inline-notif-msg">${esc(s.message)}</span>`:''}</div>${action}${close}</div>`;
     }
     function buildCode(s){
-      const stacked = s.layout==='stacked' ? ' is-stacked':'';
       const L=[];
-      L.push(`<div class="inline-notif is-${s.type}${stacked}">`);
-      L.push(`  ${iconCode(s.type)}`);
-      L.push(`  <div class="inline-notif-content">`);
-      L.push(`    <span class="inline-notif-title">${escapeHtml(s.title)}</span>`);
-      L.push(`    <span class="inline-notif-msg">${escapeHtml(s.message)}</span>`);
-      L.push(`  </div>`);
-      if(s.action){L.push(`  <div class="inline-notif-actions">`);L.push(`    <button class="btn btn-secondary">Action</button>`);L.push(`  </div>`);}
-      if(s.dismiss){L.push(`  <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>`);}
-      L.push(`</div>`);
+      L.push('<eff-inline-notification');
+      if (s.oneliner) L.push(`  [isOneLiner]="true"`);
+      L.push(`  [messageTitle]="'${ngEsc(s.title)}'"`);
+      if (s.message) L.push(`  [message]="'${ngEsc(s.message)}'"`);
+      L.push(`  [messageType]="'${s.type}'"`);
+      if (s.btn) {
+        L.push(`  [inlineButtonText]="'${ngEsc(s.btn)}'"`);
+        L.push(`  (inlineButtonCallback)="onAction()"`);
+      }
+      if (s.close) L.push(`  [showCloseButton]="true"`);
+      // close the opening tag on the last attribute line
+      L[L.length-1] = L[L.length-1] + '>';
+      if (s.type === 'subtle') {
+        L.push(`  <eff-mat-icon [iconName]="'featured'" subtleIcon class="icon subtle"></eff-mat-icon>`);
+      }
+      L.push('</eff-inline-notification>');
       return L.join('\n');
     }
     function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.injectIcons)window.injectIcons($preview);}
-    ['pg-type','pg-layout','pg-title','pg-message','pg-dismiss','pg-action'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-layout').value=defaults.layout;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-dismiss').checked=defaults.dismiss;document.getElementById('pg-action').checked=defaults.action;render();});
+    ['pg-type','pg-oneliner','pg-title','pg-message','pg-close','pg-btn'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-oneliner').checked=defaults.oneliner;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-btn').value=defaults.btn;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     render();

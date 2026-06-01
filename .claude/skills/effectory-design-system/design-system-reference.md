@@ -568,8 +568,10 @@ Range states: `.is-range-start` `.is-range-end` `.is-in-range`
 Trigger states: `.is-hover` `.is-focus` `.is-open`
 
 ### Inline notification
+Moods heten in code (Angular `messageType`): **`subtle` · `info` · `warn` · `success` · `error`**. De prototype-classes volgen deze namen: `is-subtle` `is-info` `is-warn` `is-success` `is-error`. Layout: standaard gestapeld; voeg `.is-one-liner` toe voor één regel.
+
 ```html
-<!-- Compact (single line) -->
+<!-- Stacked (default — title boven message) -->
 <div class="inline-notif is-info">
   <img class="inline-notif-icon" src="/assets/icons/notification-information.svg" alt="" />
   <div class="inline-notif-content">
@@ -579,8 +581,8 @@ Trigger states: `.is-hover` `.is-focus` `.is-open`
   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
 </div>
 
-<!-- Stacked (title above message) -->
-<div class="inline-notif is-warning is-stacked">
+<!-- One-liner (één regel) -->
+<div class="inline-notif is-warn is-one-liner">
   <img class="inline-notif-icon" src="/assets/icons/notification-warning.svg" alt="" />
   <div class="inline-notif-content">
     <span class="inline-notif-title">Warning!</span>
@@ -589,9 +591,9 @@ Trigger states: `.is-hover` `.is-focus` `.is-open`
   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
 </div>
 
-<!-- With actions (link + button) -->
-<div class="inline-notif is-feature">
-  <span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>
+<!-- Subtle met actie (link + button) -->
+<div class="inline-notif is-subtle">
+  <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
   <div class="inline-notif-content">
     <span class="inline-notif-title">New feature!</span>
     <span class="inline-notif-msg">We released a new feature you might want to use</span>
@@ -604,19 +606,21 @@ Trigger states: `.is-hover` `.is-focus` `.is-open`
 </div>
 ```
 
-**Icoon-keuze per type:**
+**Icoon-keuze per mood:**
 - `.is-info` → `<img src="/assets/icons/notification-information.svg">` (blauwe cirkel met "i")
-- `.is-warning` → `<img src="/assets/icons/notification-warning.svg">` (oranje cirkel met "!")
-- `.is-positive` → `<img src="/assets/icons/notification-positive.svg">` (groene cirkel met "✓")
-- `.is-negative` → `<img src="/assets/icons/notification-negative.svg">` (rode cirkel met "!")
-- `.is-feature` → `<span class="inline-notif-icon is-feature"><i data-icon="featured"></i></span>` (oranje sparkle op witte card)
+- `.is-warn` → `<img src="/assets/icons/notification-warning.svg">` (oranje cirkel met "!")
+- `.is-success` → `<img src="/assets/icons/notification-positive.svg">` (groene cirkel met "✓")
+- `.is-error` → `<img src="/assets/icons/notification-negative.svg">` (rode cirkel met "!")
+- `.is-subtle` → `<span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>` (oranje sparkle op witte card)
 
-Belangrijk: voor de vier gekleurde varianten **altijd `<img>` gebruiken** — niet `<i data-icon="…">`. De cirkel zit in de SVG zelf en `icons.js` zou de kleuren wegnormaliseren tot één `currentColor`.
+Belangrijk: voor de vier gekleurde moods **altijd `<img>` gebruiken** — niet `<i data-icon="…">`. De cirkel zit in de SVG zelf en `icons.js` zou de kleuren wegnormaliseren tot één `currentColor`.
 
-Acties: gebruik in de `.inline-notif-actions`-rij de gedeelde `link-inline`-class voor de link (geen eigen class) en `btn btn-secondary` voor een knop. Sentiment-gekleurde actieknoppen (oranje/groen/rood per type) bestaan nog niet in code — val terug op `btn-secondary`, of `btn-danger` voor een destructieve actie in een Negative-notificatie.
-Layout: voeg `.is-stacked` toe op de root voor een gestapelde titel + boodschap.
+Acties: gebruik de gedeelde `link-inline`-class voor de link (geen eigen class) en `btn btn-secondary` voor een knop. Sentiment-gekleurde actieknoppen (oranje/groen/rood per mood) bestaan nog niet in de Angular styleguide — val terug op `btn-secondary`.
 Sluitknop-states: `.is-hover` `.is-focus`.
-Toegankelijkheid: `role="alert"` voor Warning/Negative; `role="status"` voor de rest. Close-button altijd met `aria-label`.
+Toegankelijkheid: `role="alert"` voor Warn/Error; `role="status"` voor de rest. Close-button altijd met `aria-label`.
+
+> ⚠️ **Dev/Figma gap:** Figma gebruikt mood-namen `Feature / Info / Warning / Positive / Negative`; de code gebruikt `subtle / info / warn / success / error`. Nog te harmoniseren.
+> **Echte Angular component:** `<eff-inline-notification [messageTitle] [message] [messageType] [isOneLiner] [showCloseButton] [inlineButtonText] [linkText] [linkHref] …>`. De prototype-HTML hierboven is de visuele weergave; in productie-Angular gebruik je de component met inputs.
 
 ---
 
