@@ -534,9 +534,12 @@
                 <div class="pg-row"><div class="pg-row-name">messageTitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Heads up!" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">message</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-message" value="This alert needs your attention" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">showCloseButton</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-close" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">buttonMessages <span style="color:var(--content-secondary);font-weight:400;">(action button)</span></div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-btn" value="" placeholder="e.g. Renew now" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">inlineButtonText <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-inlinebtn" value="" placeholder="e.g. Learn more" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">linkText <span style="color:var(--content-secondary);font-weight:400;">(in message)</span></div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-link" value="" placeholder="e.g. Support Page" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">inlineButton <span style="color:var(--content-secondary);font-weight:400;">(in message, no underline)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-inlinebtn"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">link <span style="color:var(--content-secondary);font-weight:400;">(in message, underlined)</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">buttonMessages <span style="color:var(--content-secondary);font-weight:400;">(action buttons, max 3)</span></div><div class="pg-row-ctrl">
+                  <select class="pg-select" id="pg-btncount">
+                    <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                  </select></div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
                 <button class="dev-copy-btn" id="pg-copy">Copy</button>
@@ -574,7 +577,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-subtle" style="width:100%;">
               <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
-              <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use. <button class="link-inline" style="font:inherit;">Learn more</button></span></div>
+              <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use. <button class="link-inline" style="font:inherit;text-decoration:none;">Learn more</button></span></div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
           </div>
@@ -752,32 +755,34 @@
         ? '<span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>'
         : `<img class="inline-notif-icon" src="${ICON_SRC[type]}" alt="" />`;
     }
-    const defaults = { type:'info', oneliner:false, title:'Heads up!', message:'This alert needs your attention', close:true, btn:'', inlineBtn:'', link:'' };
+    const defaults = { type:'info', oneliner:false, title:'Heads up!', message:'This alert needs your attention', close:true, inlineBtn:false, link:false, btnCount:0 };
+    const ACTION_LABELS = ['Confirm', 'Cancel', 'Later']; // up to 3 sentiment action buttons
 
     function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-    function ngEsc(s){return String(s).replace(/'/g,"\\'");}
     function state(){return{
       type:document.getElementById('pg-type').value,
       oneliner:document.getElementById('pg-oneliner').checked,
       title:document.getElementById('pg-title').value,
       message:document.getElementById('pg-message').value,
       close:document.getElementById('pg-close').checked,
-      btn:document.getElementById('pg-btn').value.trim(),
-      inlineBtn:document.getElementById('pg-inlinebtn').value.trim(),
-      link:document.getElementById('pg-link').value.trim(),
+      inlineBtn:document.getElementById('pg-inlinebtn').checked,
+      link:document.getElementById('pg-link').checked,
+      btnCount:parseInt(document.getElementById('pg-btncount').value, 10) || 0,
     };}
     function buildHtml(s){
       const ol = s.oneliner ? ' is-one-liner' : '';
-      // inline text button + link live inside the message copy
+      // inline text button (no underline) + link (underlined) live inside the message copy
       let inlineExtras = '';
-      if (s.inlineBtn) inlineExtras += ` <button class="link-inline" style="font:inherit;">${esc(s.inlineBtn)}</button>`;
-      if (s.link) inlineExtras += ` <a href="#" onclick="return false;" class="link-inline">${esc(s.link)}</a>`;
+      if (s.inlineBtn) inlineExtras += ` <button class="link-inline" style="font:inherit;text-decoration:none;">Learn more</button>`;
+      if (s.link) inlineExtras += ` <a href="#" onclick="return false;" class="link-inline">Support Page</a>`;
       const msgSpan = (s.message || inlineExtras) ? `<span class="inline-notif-msg">${esc(s.message)}${inlineExtras}</span>` : '';
-      // buttonMessages renders the sentiment action button below the text (or right in one-liner)
-      const action = s.btn ? `<div class="inline-notif-actions"><button class="btn btn-secondary">${esc(s.btn)}</button></div>` : '';
+      // buttonMessages renders up to 3 sentiment action buttons below the text (or right in one-liner)
+      const labels = ACTION_LABELS.slice(0, s.btnCount);
+      const action = labels.length ? `<div class="inline-notif-actions">${labels.map(l=>`<button class="btn btn-secondary">${l}</button>`).join('')}</div>` : '';
       const close = s.close ? `<button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>` : '';
       return `<div class="inline-notif is-${s.type}${ol}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-title">${esc(s.title)}</span>${msgSpan}${action}</div>${close}</div>`;
     }
+    function ngEsc(s){return String(s).replace(/'/g,"\\'");}
     function buildCode(s){
       const L=[];
       L.push('<eff-inline-notification');
@@ -785,20 +790,20 @@
       L.push(`  [messageTitle]="'${ngEsc(s.title)}'"`);
       if (s.message) L.push(`  [message]="'${ngEsc(s.message)}'"`);
       L.push(`  [messageType]="'${s.type}'"`);
-      if (s.btn) {
-        L.push(`  [buttonMessages]="['${ngEsc(s.btn)}']"`);
-        L.push(`  (buttonCallback0)="onAction()"`);
+      if (s.btnCount > 0) {
+        const labels = ACTION_LABELS.slice(0, s.btnCount).map(l => `'${l}'`).join(', ');
+        L.push(`  [buttonMessages]="[${labels}]"`);
+        for (let i = 0; i < s.btnCount; i++) L.push(`  (buttonCallback${i})="onAction${i}()"`);
       }
       if (s.inlineBtn) {
-        L.push(`  [inlineButtonText]="'${ngEsc(s.inlineBtn)}'"`);
+        L.push(`  [inlineButtonText]="'Learn more'"`);
         L.push(`  (inlineButtonCallback)="onInlineAction()"`);
       }
       if (s.link) {
-        L.push(`  [linkText]="'${ngEsc(s.link)}'"`);
+        L.push(`  [linkText]="'Support Page'"`);
         L.push(`  [linkHref]="'#'"`);
       }
       if (s.close) L.push(`  [showCloseButton]="true"`);
-      // close the opening tag on the last attribute line
       L[L.length-1] = L[L.length-1] + '>';
       if (s.type === 'subtle') {
         L.push(`  <eff-mat-icon [iconName]="'featured'" subtleIcon class="icon subtle"></eff-mat-icon>`);
@@ -807,8 +812,8 @@
       return L.join('\n');
     }
     function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
-    ['pg-type','pg-oneliner','pg-title','pg-message','pg-close','pg-btn','pg-inlinebtn','pg-link'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-oneliner').checked=defaults.oneliner;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-btn').value=defaults.btn;document.getElementById('pg-inlinebtn').value=defaults.inlineBtn;document.getElementById('pg-link').value=defaults.link;render();});
+    ['pg-type','pg-oneliner','pg-title','pg-message','pg-close','pg-btncount','pg-inlinebtn','pg-link'].forEach(id=>{const el=document.getElementById(id);el&&el.addEventListener('input',render);el&&el.addEventListener('change',render);});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-type').value=defaults.type;document.getElementById('pg-oneliner').checked=defaults.oneliner;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-message').value=defaults.message;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-btncount').value=defaults.btnCount;document.getElementById('pg-inlinebtn').checked=defaults.inlineBtn;document.getElementById('pg-link').checked=defaults.link;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     render();
