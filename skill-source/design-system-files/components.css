@@ -1763,7 +1763,7 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 16px;
   border: 1px solid var(--border-base);
   border-radius: var(--radius-base);
   background: var(--bg-base);
@@ -1773,11 +1773,17 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
   font-size: 14px;
   line-height: 1.6;
 }
-.inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; }
-.inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; }
-.inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; }
-.inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; }
-/* is-subtle keeps the default white card */
+/* Each mood sets its accent vars (used by the action buttons) plus the
+   notification's own subtle background. */
+.inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; --notif-accent: var(--bg-info-base, #3174db);     --notif-accent-border: var(--border-info-base, #3174db);     --notif-accent-on: #fff; }
+.inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; --notif-accent: var(--bg-warning-bold, #fa8324);  --notif-accent-border: var(--border-warning-base, #ec6e0a);  --notif-accent-on: var(--content-base, #192743); }
+.inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; --notif-accent: var(--bg-positive-base, #278747); --notif-accent-border: var(--border-positive-base, #39a35c); --notif-accent-on: #fff; }
+.inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; --notif-accent: var(--bg-negative-base, #d3353b); --notif-accent-border: var(--border-negative-base, #b9252a); --notif-accent-on: #fff; }
+/* is-subtle keeps the default white card; its accent is the brand colour */
+.inline-notif.is-subtle  { --notif-accent: var(--bg-brand-base, #0a9d99); --notif-accent-border: var(--border-brand-base, #0c827f); --notif-accent-on: var(--content-on-brand-base, #fff); }
+
+/* One-liner notifications are tighter vertically */
+.inline-notif.is-one-liner { padding: 12px 16px; }
 
 /* Icon — Info/Warn/Success/Error ship as <img> tags pointing to
    assets/icons/notification-{information,warning,positive,negative}.svg.
@@ -1836,22 +1842,14 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* The link inside .inline-notif-actions uses the shared .link-inline class
    (defined below) — there is no bespoke notification-link class. */
 
-/* Sentiment button — a secondary button whose border is coloured to match the
-   mood. The Angular styleguide renders [buttonMessages] as these. Subtle keeps
-   the neutral --border-action. */
-.inline-notif.is-info    .inline-notif-actions .btn-secondary { border-color: var(--border-info-base); }
-.inline-notif.is-warn    .inline-notif-actions .btn-secondary { border-color: var(--border-warning-base); }
-.inline-notif.is-success .inline-notif-actions .btn-secondary { border-color: var(--border-positive-base); }
-.inline-notif.is-error   .inline-notif-actions .btn-secondary { border-color: var(--border-negative-base); }
+/* Secondary sentiment button — white fill, mood-coloured border (reads the
+   notification's --notif-accent-border). One rule, every mood. */
+.inline-notif-actions .btn-secondary { border-color: var(--notif-accent-border); }
 
-/* Primary sentiment button — filled in the mood colour WITH a mood border
-   (border/*/base, darker than the fill). Text: dark on the light orange
-   warning, white on the darker moods. Figma intent; not in Angular yet. */
-.inline-notif.is-info    .inline-notif-actions .btn-primary { background: var(--bg-info-base, #3174db);     border-color: var(--border-info-base, #3174db);     color: #fff; }
-.inline-notif.is-warn    .inline-notif-actions .btn-primary { background: var(--bg-warning-bold, #fa8324);  border-color: var(--border-warning-base, #ec6e0a);  color: var(--content-base, #192743); }
-.inline-notif.is-success .inline-notif-actions .btn-primary { background: var(--bg-positive-base, #278747); border-color: var(--border-positive-base, #39a35c); color: #fff; }
-.inline-notif.is-error   .inline-notif-actions .btn-primary { background: var(--bg-negative-base, #d3353b); border-color: var(--border-negative-base, #b9252a); color: #fff; }
-.inline-notif.is-subtle  .inline-notif-actions .btn-primary { background: var(--bg-brand-base, #0a9d99);    border-color: var(--border-brand-base, #0c827f);    color: var(--content-on-brand-base, #fff); }
+/* Primary sentiment button — filled in the mood accent WITH a darker mood
+   border and the mood's on-accent text colour. One rule, every mood.
+   Figma intent; the Angular styleguide doesn't expose it yet. */
+.inline-notif-actions .btn-primary { background: var(--notif-accent); border-color: var(--notif-accent-border); color: var(--notif-accent-on); }
 
 .inline-notif-close {
   flex-shrink: 0;
