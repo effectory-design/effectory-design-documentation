@@ -30,7 +30,7 @@
 
     /* Demo wrapper: positions a tooltip around a trigger so it's visible statically */
     .tt-demo { position: relative; display: inline-flex; }
-    .tt-demo .tooltip { position: absolute; white-space: nowrap; z-index: 2; }
+    .tt-demo .tooltip { position: absolute; z-index: 2; width: max-content; max-width: 240px; }
     .tt-demo .tooltip.is-above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); }
     .tt-demo .tooltip.is-below { top: calc(100% + 10px);    left: 50%; transform: translateX(-50%); }
     .tt-demo .tooltip.is-left  { right: calc(100% + 10px);  top: 50%;  transform: translateY(-50%); }
@@ -41,6 +41,8 @@
     .ib { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); border: 1px solid var(--border-action); background: var(--bg-base); color: var(--content-secondary); cursor: pointer; }
     .ib i[data-icon] { width: 18px; height: 18px; display: flex; }
 
+    /* Do/Don't preview fills the card height so the caption pins to the bottom */
+    .dd-card .dd-prev { flex: 1; }
     .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: 12px; padding: 70px 40px; margin-bottom: 24px; display: flex; justify-content: center; }
     .anatomy-fig .tooltip { pointer-events: none; }
     .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 2; }
@@ -99,7 +101,7 @@
 
         <section class="section" id="usage">
           <h2 class="text-l3">Usage</h2>
-          <p class="section-lead">Use a tooltip to label or briefly clarify a control — never to hide essential information.</p>
+          <p class="section-lead">Use a tooltip to label or briefly clarify a control — never to hide essential information. It can sit above, below, left, or right of the trigger; pick the side with the most room.</p>
 
           <h3 class="text-l4">Label icon-only controls</h3>
           <div class="dd-grid">
@@ -127,7 +129,7 @@
           <div class="dd-grid">
             <div class="dd-card">
               <div class="dd-prev" style="padding:40px 24px;">
-                <div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-above">Shown to your team only</div></div>
+                <div class="tooltip is-above" style="pointer-events:none;">Shown to your team only</div>
               </div>
               <div class="dd-cap do">
                 <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
@@ -135,38 +137,13 @@
               </div>
             </div>
             <div class="dd-card">
-              <div class="dd-prev" style="padding:24px;">
-                <div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-above" style="white-space:normal; width:200px;">This setting controls who can see your results. Choose "team" to limit visibility, or "everyone" to share across the organisation — you can change it later in settings.</div></div>
+              <div class="dd-prev" style="padding:40px 24px;">
+                <div class="tooltip is-above" style="pointer-events:none;">This setting controls who can see your results. Choose "team" to limit visibility, or "everyone" to share across the organisation — you can change it later in settings.</div>
               </div>
               <div class="dd-cap dont">
                 <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
                 Cram a paragraph in — long or essential content belongs in a Guided tooltip, dialog, or helper text.
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="variants">
-          <h2 class="text-l3">Variants</h2>
-          <p class="section-lead">The position controls which side of the trigger the tooltip sits on. Pick the side with the most room.</p>
-
-          <h3 class="text-l4">By position</h3>
-          <div class="variant-rows">
-            <div class="variant-row">
-              <div class="variant-row-btn" style="padding:36px 20px;"><div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-above">Tooltip message</div></div></div>
-              <div class="variant-row-desc"><strong>Above</strong> — Tooltip sits above the trigger, arrow pointing down. The default; use when there's room above.</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-row-btn" style="padding:36px 20px;"><div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-below">Tooltip message</div></div></div>
-              <div class="variant-row-desc"><strong>Below</strong> — Sits under the trigger. Use when the trigger is near the top of the viewport.</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-row-btn" style="padding:20px 90px;"><div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-left">Tooltip message</div></div></div>
-              <div class="variant-row-desc"><strong>Left</strong> — Sits to the left, arrow pointing right. Use for triggers near the right edge.</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-row-btn" style="padding:20px 90px;"><div class="tt-demo"><span class="ib"><i data-icon="info"></i></span><div class="tooltip is-right">Tooltip message</div></div></div>
-              <div class="variant-row-desc"><strong>Right</strong> — Sits to the right, arrow pointing left. Use for triggers near the left edge.</div>
             </div>
           </div>
         </section>
@@ -244,7 +221,6 @@
           <div class="toc-title">ON THIS PAGE</div>
           <a class="toc-link" href="#anatomy">Anatomy</a>
           <a class="toc-link" href="#usage">Usage</a>
-          <a class="toc-link" href="#variants">Variants</a>
           <a class="toc-link" href="#content-guidelines">Content guidelines</a>
           <a class="toc-link" href="#tokens">Design Tokens</a>
           <a class="toc-link" href="#accessibility">Accessibility</a>
