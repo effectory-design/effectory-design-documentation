@@ -384,9 +384,10 @@ code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px
 .dd-cap-hd {
   display: flex; align-items: center; gap: var(--spacing-tight);
   font-size: 13.5px; font-weight: 700; color: var(--content-base);
+  line-height: 1;
   margin-bottom: var(--spacing-extra-tight);
 }
-.dd-cap-hd svg { flex-shrink: 0; }
+.dd-cap-hd svg { flex-shrink: 0; display: block; }
 
 /* ─── CONTENT GUIDELINE RULES ─── */
 .cg-rule { margin-bottom: var(--spacing-extra-loose); }
