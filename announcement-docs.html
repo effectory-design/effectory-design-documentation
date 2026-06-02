@@ -43,6 +43,18 @@
     .btn-link { background: transparent; border-color: transparent; color: var(--content-secondary); padding: 0 8px; }
     .btn-link:hover, .btn-link.is-hover { color: var(--content-base); }
 
+    /* Stacked: progress (dots + prev/next) on the left, actions on the right */
+    .ann-footer { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+    .ann-footer .ann-actions { margin-top: 0; }
+    .ann-progress { display: flex; align-items: center; gap: 4px; }
+    .ann-dots { display: flex; align-items: center; gap: 6px; margin: 0 4px; }
+    .ann-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-action); }
+    .ann-dot.is-active { background: var(--bg-brand-base); }
+    .ann-nav { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: none; background: transparent; border-radius: var(--radius-base); color: var(--content-secondary); cursor: pointer; }
+    .ann-nav:hover:not(:disabled) { background: var(--bg-base-hover); color: var(--content-base); }
+    .ann-nav:disabled { opacity: .35; cursor: default; }
+    .ann-nav i[data-icon] { width: 16px; height: 16px; display: flex; }
+
     .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: 12px; padding: 48px 40px; margin-bottom: 24px; display: flex; justify-content: center; }
     .anatomy-fig .announcement { pointer-events: none; }
     /* roomy preview cells for the wider card */
@@ -215,6 +227,26 @@
               </div>
               <div class="variant-row-desc"><strong>Text only</strong> — No illustration. Use it for smaller updates and changes where an image would add noise rather than value.</div>
             </div>
+            <div class="variant-row">
+              <div class="variant-row-btn" style="padding:24px;">
+                <div class="announcement" style="width:300px;">
+                  <div class="ann-media" style="height:120px;"><i data-icon="image" class="ann-media-ph"></i></div>
+                  <div class="ann-body">
+                    <p class="ann-title">20+ new integrations</p>
+                    <p class="ann-text">Connect the tools your team already uses.</p>
+                    <div class="ann-footer">
+                      <div class="ann-progress">
+                        <button class="ann-nav" disabled aria-label="Previous"><i data-icon="chevron-left"></i></button>
+                        <div class="ann-dots"><span class="ann-dot is-active"></span><span class="ann-dot"></span><span class="ann-dot"></span></div>
+                        <button class="ann-nav" aria-label="Next"><i data-icon="chevron-right"></i></button>
+                      </div>
+                      <div class="ann-actions"><button class="btn btn-link">Close</button><button class="btn btn-primary">View</button></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="variant-row-desc"><strong>Stacked</strong> — When several teams have something to promote on the same page, queue the announcements and show one at a time. A progress indicator (dots + ‹ ›) lets the user page through them; "Close" dismisses the whole stack. Mirrors the Spotlight multi-step pattern.</div>
+            </div>
           </div>
         </section>
 
@@ -336,6 +368,9 @@
                 <div class="pg-row"><div class="pg-row-name">dialogButtonText <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">primary CTA</span></div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-cta" value="View integrations" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">dialogLinkButtonText <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">link / dismiss</span></div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-link" value="Close" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">isNewFeature</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-new"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">stacked <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;"># queued — page with ‹ ›</span></div><div class="pg-row-ctrl">
+                  <select class="pg-select" id="pg-stack"><option value="1" selected>off (single)</option><option value="2">2 announcements</option><option value="3">3 announcements</option><option value="4">4 announcements</option></select>
+                </div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
                 <button class="dev-copy-btn" id="pg-copy">Copy</button>
@@ -407,8 +442,17 @@
               <tr><td><code>p.text-w400.text-subdued</code></td><td>Subtitle / body.</td></tr>
               <tr><td><code>.new-feature-container</code></td><td>The "New" badge (when <code>isNewFeature</code> is set).</td></tr>
               <tr><td><code>.tour-footer</code></td><td>Footer: <code>button.link</code> (link text) + <code>button.primary</code> (CTA).</td></tr>
+              <tr><td><code>.tour-progression-container</code> › <code>.tour-progression-indicator</code></td><td>Progress dots when stacked; the active/completed one adds <code>.tour-progression-indicator-completed</code> (shared with the Spotlight multi-step).</td></tr>
             </tbody>
           </table>
+
+          <div class="dev-gap" style="margin-top:20px;">
+            <span class="dev-gap-icon">⚠️</span>
+            <div class="dev-gap-body">
+              <span class="dev-gap-label">Stacking is app-orchestrated</span>
+              <span class="dev-gap-text">The progress dots reuse the Spotlight's <code>.tour-progression</code> structure, but <strong>queueing multiple announcements from different teams is your app's job</strong>: keep an ordered list and render one <code>&lt;eff-tooltip-dialog&gt;</code> at a time, advancing the index on next/prev. The exact input for binding a step count / index isn't exposed in the styleguide example — confirm with engineering before wiring it up.</span>
+            </div>
+          </div>
         </section>
 
         <section class="section" id="dev-tokens">
@@ -457,7 +501,13 @@
   (function () {
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
-    const defaults = { media:true, title:'We just launched 20+ additional integrations!', body:'Managing employee data has never been easier. Discover how to connect your tools.', cta:'View integrations', link:'Close', isNew:false };
+    const defaults = { media:true, title:'We just launched 20+ additional integrations!', body:'Managing employee data has never been easier. Discover how to connect your tools.', cta:'View integrations', link:'Close', isNew:false, stack:'1' };
+    // sample queue used when stacked; index 0 is overridden by the editable fields
+    const SAMPLES = [null,
+      { title:'Comments are live', body:'Leave feedback right on a question.', cta:'Try comments', team:'Insights team' },
+      { title:'Bulk export', body:'Download every response in one go.', cta:'Export', team:'Data team' },
+      { title:'API tokens', body:'Connect your own tools to Engage.', cta:'Manage tokens', team:'Platform team' }];
+    let idx = 0; // active card in the stack
     function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
     function aq(s){return String(s).replace(/'/g,"\\'");}
     function state(){return{
@@ -467,34 +517,53 @@
       cta:document.getElementById('pg-cta').value,
       link:document.getElementById('pg-link').value,
       isNew:document.getElementById('pg-new').checked,
+      stack:parseInt(document.getElementById('pg-stack').value,10)||1,
     };}
     const PH = '<i data-icon="image" class="ann-media-ph"></i>';
+    function cardData(s){ // resolve the active card's content
+      if (s.stack<=1 || idx===0) return { title:s.title, body:s.body, cta:s.cta };
+      const x = SAMPLES[idx] || SAMPLES[1]; return { title:x.title, body:x.body, cta:x.cta };
+    }
+    function dots(n){ let h=''; for(let i=0;i<n;i++) h+=`<span class="ann-dot${i===idx?' is-active':''}"></span>`; return h; }
+    function footer(s){
+      const link = s.link ? `<button class="btn btn-link">${esc(s.link)}</button>` : '';
+      const cta = `<button class="btn btn-primary">${esc(cardData(s).cta)||'View'}</button>`;
+      if (s.stack<=1) return `<div class="ann-actions">${link}${cta}</div>`;
+      return `<div class="ann-footer"><div class="ann-progress">`+
+        `<button class="ann-nav" data-nav="prev"${idx===0?' disabled':''} aria-label="Previous"><i data-icon="chevron-left"></i></button>`+
+        `<div class="ann-dots">${dots(s.stack)}</div>`+
+        `<button class="ann-nav" data-nav="next"${idx>=s.stack-1?' disabled':''} aria-label="Next"><i data-icon="chevron-right"></i></button>`+
+        `</div><div class="ann-actions">${link}${cta}</div></div>`;
+    }
     function buildHtml(s){
+      const d = cardData(s);
       const media = s.media ? `<div class="ann-media">${PH}</div>` : '';
       const badge = s.isNew ? '<div class="sl-badge" style="margin:0 0 8px; color:var(--content-highlight-secondary); font-size:12px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; display:flex; align-items:center; gap:6px;"><i data-icon="featured" style="width:16px;height:16px;display:flex;"></i> New</div>' : '';
-      const link = s.link ? `<button class="btn btn-link">${esc(s.link)}</button>` : '';
-      return `<div class="announcement" style="width:300px;">${media}<div class="ann-body">${badge}<p class="ann-title">${esc(s.title)}</p><p class="ann-text">${esc(s.body)}</p><div class="ann-actions">${link}<button class="btn btn-primary">${esc(s.cta)||'View'}</button></div></div></div>`;
+      return `<div class="announcement" style="width:300px;">${media}<div class="ann-body">${badge}<p class="ann-title">${esc(d.title)}</p><p class="ann-text">${esc(d.body)}</p>${footer(s)}</div></div>`;
     }
     function buildCode(s){
       const L=[];
+      if (s.stack>1) L.push(`<!-- ${s.stack} queued; your app shows one at a time and advances on next / close -->`);
       L.push('<eff-tooltip-dialog');
       L.push('  *ngIf="showAnnouncement()"');
       if (s.media) L.push('  class="with-svg"');
       L.push('  [targetElement]="svgTarget"');
       if (s.media) L.push("  [svgUrl]=\"'assets/img/home-illustration.svg'\"");
       if (s.isNew) L.push('  [isNewFeature]="true"');
-      L.push(`  [dialogTitle]="'${aq(s.title)}'"`);
-      L.push(`  [dialogSubtitle]="'${aq(s.body)}'"`);
-      L.push(`  [dialogButtonText]="'${aq(s.cta)}'"`);
+      L.push(`  [dialogTitle]="'${aq(cardData(s).title)}'"`);
+      L.push(`  [dialogSubtitle]="'${aq(cardData(s).body)}'"`);
+      L.push(`  [dialogButtonText]="'${aq(cardData(s).cta)}'"`);
       if (s.link) L.push(`  [dialogLinkButtonText]="'${aq(s.link)}'"`);
       L.push('  [dialogPositionToTarget]="\'after\'"');
       L.push('  (dialogClosedOutput)="showAnnouncement.set(false)">');
       L.push('</eff-tooltip-dialog>');
       return L.join('\n');
     }
-    function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
-    ['pg-media','pg-title','pg-body','pg-cta','pg-link','pg-new'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',render);el.addEventListener('change',render);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-media').checked=defaults.media;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-body').value=defaults.body;document.getElementById('pg-cta').value=defaults.cta;document.getElementById('pg-link').value=defaults.link;document.getElementById('pg-new').checked=defaults.isNew;render();});
+    function render(){const s=state();if(idx>s.stack-1)idx=s.stack-1;if(idx<0)idx=0;$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
+    ['pg-media','pg-title','pg-body','pg-cta','pg-link','pg-new','pg-stack'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const fn=()=>{ if(id==='pg-stack') idx=0; render(); };el.addEventListener('input',fn);el.addEventListener('change',fn);});
+    // page through the stack via the chevrons
+    $preview.addEventListener('click',(e)=>{const b=e.target.closest('[data-nav]');if(!b)return;idx+=(b.dataset.nav==='next'?1:-1);render();});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{idx=0;document.getElementById('pg-media').checked=defaults.media;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-body').value=defaults.body;document.getElementById('pg-cta').value=defaults.cta;document.getElementById('pg-link').value=defaults.link;document.getElementById('pg-new').checked=defaults.isNew;document.getElementById('pg-stack').value=defaults.stack;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     document.querySelectorAll('.dev-copy-btn').forEach(b=>{ if(b.id==='pg-copy')return; b.addEventListener('click',()=>{const c=b.parentElement.querySelector('code');if(c)navigator.clipboard.writeText(c.textContent);}); });

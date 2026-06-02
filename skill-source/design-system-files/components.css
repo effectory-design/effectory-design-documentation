@@ -1990,3 +1990,14 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* link-style low-emphasis action (no underline, matches eff button.link) */
 .btn-link { background: transparent; border-color: transparent; color: var(--content-secondary); padding: 0 8px; }
 .btn-link:hover, .btn-link.is-hover { color: var(--content-base); }
+/* Stacked: progress (dots + prev/next) left, actions right */
+.ann-footer { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.ann-footer .ann-actions { margin-top: 0; }
+.ann-progress { display: flex; align-items: center; gap: 4px; }
+.ann-dots { display: flex; align-items: center; gap: 6px; margin: 0 4px; }
+.ann-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-action); }
+.ann-dot.is-active { background: var(--bg-brand-base); }
+.ann-nav { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: none; background: transparent; border-radius: var(--radius-base); color: var(--content-secondary); cursor: pointer; }
+.ann-nav:hover:not(:disabled) { background: var(--bg-base-hover); color: var(--content-base); }
+.ann-nav:disabled { opacity: .35; cursor: default; }
+.ann-nav i[data-icon] { width: 16px; height: 16px; display: flex; }

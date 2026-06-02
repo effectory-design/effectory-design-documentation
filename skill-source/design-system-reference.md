@@ -706,6 +706,8 @@ Prototype-markup (`components.css`):
 ```
 Classes: `.announcement` (320px, `--bg-base`, `--border-base`, `--sh-dialogs`, `--radius-lg`), `.ann-media` (optioneel; `<img>` vult 'm, anders placeholder op `--bg-secondary`), `.ann-body`, `.ann-title` (16/SemiBold), `.ann-text` (14), `.ann-actions` (rechts uitgelijnd: `.btn-link` dismiss + `.btn-primary` CTA).
 
+**Gestapeld (meerdere announcements):** als meerdere teams iets willen promoten op dezelfde pagina, queue je ze en toon je er één tegelijk met een progress-indicator. Footer wordt dan `.ann-footer` met links `.ann-progress` (`.ann-nav` prev/next chevrons + `.ann-dots`/`.ann-dot.is-active`) en rechts `.ann-actions`. "Close" ruimt de hele stapel op. Het queuen/volgorde-bepalen is app-orkestratie (render één `<eff-tooltip-dialog>` tegelijk, index ophogen); de dots hergebruiken de Spotlight-`.tour-progression`-structuur.
+
 Echte Angular-API (`eff-tooltip-dialog`, `class="with-svg"`): `[svgUrl]` (illustratie), `[isNewFeature]` (badge), `[dialogTitle]`, `[dialogSubtitle]`, `[dialogButtonText]` (primary), `[dialogLinkButtonText]` (link/dismiss), `[targetElement]`, `[dialogPositionToTarget]` ('after'/'before'/'above'/'below'), `[dialogWidth]`, `[addOutlineToTargetElement]`, `[addHighlightToTargetElement]`, `(dialogClosedOutput)`. Gerenderd: `.tour-container` > `img.illustration` + `p.text-l5.text-w600` + `p.text-w400.text-subdued` + `.tour-footer` (`button.link` + `button.primary`). A11y: non-modal — geen focus stelen, `aria-live="polite"`, altijd dismissible.
 
 ---
