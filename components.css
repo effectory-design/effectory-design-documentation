@@ -1942,7 +1942,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .guided-tooltip {
   position: relative; width: 300px; max-width: 100%;
   background: var(--bg-inverse-base); color: var(--content-inverse-base);
-  border-radius: var(--radius-md); padding: 20px;
+  border-radius: var(--radius-lg); padding: 20px;
   font-family: 'Poppins', sans-serif;
   box-shadow: 0 8px 24px rgba(25,39,67,.24);
 }
