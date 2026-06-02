@@ -1804,42 +1804,36 @@ span.inline-notif-icon.is-subtle {
 }
 span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; display: flex; }
 
-/* Default layout is stacked (title above message), matching the Angular
-   default. .is-one-liner collapses it to a single row. */
+/* Content holds a text block (title + message in .inline-notif-text) and an
+   optional actions block. Stacked (default): they stack, actions below the
+   text. One-liner: one row — text flows on the left, actions pinned right.
+   Title + message live in .inline-notif-text so they read as one continuous,
+   wrapping run of text. */
 .inline-notif-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 8px;
   min-width: 0;
   padding-top: 1px;
 }
-/* One-liner: title + message flow as continuous inline text, wrapping together
-   onto the next line instead of stacking as separate blocks. */
-.inline-notif.is-one-liner .inline-notif-content { display: block; }
+.inline-notif-text { min-width: 0; }
+.inline-notif-title { font-weight: 600; display: block; }
+.inline-notif-msg   { color: var(--content-secondary); display: block; margin-top: 2px; }
+
+/* One-liner: text flows continuously on the left; actions stay on the right */
+.inline-notif.is-one-liner .inline-notif-content { flex-direction: row; align-items: center; gap: 12px; }
+.inline-notif.is-one-liner .inline-notif-text { flex: 1; }
 .inline-notif.is-one-liner .inline-notif-title { display: inline; }
 .inline-notif.is-one-liner .inline-notif-title::after { content: " "; }
-.inline-notif.is-one-liner .inline-notif-msg { display: inline; }
-.inline-notif-title { font-weight: 600; }
-.inline-notif-msg   { color: var(--content-secondary); }
+.inline-notif.is-one-liner .inline-notif-msg { display: inline; margin-top: 0; }
 
-/* Actions live INSIDE .inline-notif-content. The content column is stacked
-   by default, so the action button sits BELOW the text; in .is-one-liner the
-   content is a row, so the button moves to the RIGHT. Mirrors the styleguide
-   (button below in stacked, right in one-liner). */
 .inline-notif-actions {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
-  margin-top: 8px;
-}
-.inline-notif.is-one-liner .inline-notif-actions {
-  display: inline-flex;
-  vertical-align: middle;
-  margin-top: 0;
-  margin-left: 8px;
 }
 .inline-notif-actions .btn { padding: 9px 12px; }
 /* The link inside .inline-notif-actions uses the shared .link-inline class

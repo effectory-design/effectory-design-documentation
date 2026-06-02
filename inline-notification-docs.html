@@ -56,42 +56,36 @@
     }
     span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; display: flex; }
 
-    /* Content — default is stacked (title above message), matching the
-       Angular default. .is-one-liner collapses it to a single row. */
+    /* Content holds a text block (title + message) and an optional actions
+       block. Stacked (default): they stack vertically, actions below the text.
+       One-liner: they sit on one row — text flows on the left, actions pinned
+       right. Title + message live in .inline-notif-text so they read as one
+       continuous, wrapping run of text. */
     .inline-notif-content {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 2px;
+      gap: 8px;
       min-width: 0;
       padding-top: 1px;
     }
-    /* One-liner: title + message flow as continuous inline text, wrapping
-       together onto the next line instead of stacking as separate blocks. */
-    .inline-notif.is-one-liner .inline-notif-content { display: block; }
+    .inline-notif-text { min-width: 0; }
+    .inline-notif-title { font-weight: 600; display: block; }
+    .inline-notif-msg   { color: var(--content-secondary); display: block; margin-top: 2px; }
+
+    /* One-liner: text flows continuously on the left; actions stay on the right */
+    .inline-notif.is-one-liner .inline-notif-content { flex-direction: row; align-items: center; gap: 12px; }
+    .inline-notif.is-one-liner .inline-notif-text { flex: 1; }
     .inline-notif.is-one-liner .inline-notif-title { display: inline; }
     .inline-notif.is-one-liner .inline-notif-title::after { content: " "; }
-    .inline-notif.is-one-liner .inline-notif-msg { display: inline; }
-    .inline-notif-title { font-weight: 600; }
-    .inline-notif-msg   { color: var(--content-secondary); }
+    .inline-notif.is-one-liner .inline-notif-msg { display: inline; margin-top: 0; }
 
-    /* Actions live INSIDE .inline-notif-content. Because the content column
-       is stacked by default, the action button sits BELOW the text; in
-       .is-one-liner the content is a row, so the button moves to the RIGHT.
-       This mirrors the styleguide (button below in stacked, right in one-liner). */
     .inline-notif-actions {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-shrink: 0;
-      margin-top: 8px;
-    }
-    .inline-notif.is-one-liner .inline-notif-actions {
-      display: inline-flex;
-      vertical-align: middle;
-      margin-top: 0;
-      margin-left: 8px;
     }
     /* Button base — styles.css doesn't ship .btn, so define it locally for
        the action-button demos (mirrors components.css). */
@@ -204,8 +198,8 @@
             <div class="inline-notif is-info" style="max-width:520px;">
               <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
               <div class="inline-notif-content">
-                <span class="inline-notif-title">Heads up!</span>
-                <span class="inline-notif-msg">This alert needs your attention</span>
+                <span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span>
+                <span class="inline-notif-msg">This alert needs your attention</span></span>
               </div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
@@ -229,7 +223,7 @@
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
                 <div class="inline-notif is-success is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">Your changes have been saved</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">Your changes have been saved</span></span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -242,7 +236,7 @@
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
                 <div class="inline-notif is-error is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Your changes have been saved</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Your changes have been saved</span></span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -259,7 +253,7 @@
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
                 <div class="inline-notif is-warn is-one-liner" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -272,7 +266,7 @@
               <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
                 <div class="inline-notif is-warn" style="pointer-events:none;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">We've noticed that your subscription is scheduled to expire in three days from now and you may want to take action soon to avoid losing access</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">We've noticed that your subscription is scheduled to expire in three days from now and you may want to take action soon to avoid losing access</span></span></div>
                   <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -294,7 +288,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-subtle" style="width:100%;">
                   <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
-                  <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span></span>
                     <div class="inline-notif-actions">
                       <a href="#" onclick="return false;" class="link-inline">Link label</a>
                       <button class="btn btn-secondary">Action</button>
@@ -309,7 +303,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention, but it is not super important</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention, but it is not super important</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -319,7 +313,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-warn" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Better check yourself, you're not looking too good</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Better check yourself, you're not looking too good</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -329,7 +323,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-success" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">You successfully read this important alert message</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Well done!</span><span class="inline-notif-msg">You successfully read this important alert message</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -339,7 +333,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-error" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Change a few things up and try again</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Oh snap!</span><span class="inline-notif-msg">Change a few things up and try again</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -353,7 +347,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention, but it is not super important</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention, but it is not super important</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -363,7 +357,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info is-one-liner" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -378,7 +372,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></div>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></span></div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
                 </div>
               </div>
@@ -388,7 +382,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-warn" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span>
                     <div class="inline-notif-actions"><button class="btn btn-secondary">Renew now</button></div>
                   </div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
@@ -400,7 +394,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-warn" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span>
                     <div class="inline-notif-actions"><button class="btn btn-primary">Renew now</button></div>
                   </div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
@@ -412,7 +406,7 @@
               <div class="variant-row-btn">
                 <div class="inline-notif is-info is-one-liner" style="width:100%;">
                   <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                  <div class="inline-notif-content"><span class="inline-notif-title">Your export is ready</span>
+                  <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Your export is ready</span></span>
                     <div class="inline-notif-actions"><a href="#" onclick="return false;" class="link-inline">Dismiss</a><button class="btn btn-secondary">Download</button></div>
                   </div>
                   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
@@ -448,35 +442,35 @@
             <div class="state-col"><span class="state-lbl">Subtle</span>
               <div class="inline-notif is-subtle is-one-liner" style="pointer-events:none; width:100%;">
                 <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
-                <div class="inline-notif-content"><span class="inline-notif-title">New feature</span></div>
+                <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">New feature</span></span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Info</span>
               <div class="inline-notif is-info is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-                <div class="inline-notif-content"><span class="inline-notif-title">Heads up</span></div>
+                <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up</span></span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Warning</span>
               <div class="inline-notif is-warn is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-                <div class="inline-notif-content"><span class="inline-notif-title">Warning</span></div>
+                <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning</span></span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Success</span>
               <div class="inline-notif is-success is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-positive.svg" alt="" />
-                <div class="inline-notif-content"><span class="inline-notif-title">Well done</span></div>
+                <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Well done</span></span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
             <div class="state-col"><span class="state-lbl">Error</span>
               <div class="inline-notif is-error is-one-liner" style="pointer-events:none; width:100%;">
                 <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
-                <div class="inline-notif-content"><span class="inline-notif-title">Oh snap</span></div>
+                <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Oh snap</span></span></div>
                 <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
               </div>
             </div>
@@ -605,7 +599,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-info" style="width:100%;">
               <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-              <div class="inline-notif-content"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></div>
+              <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up!</span><span class="inline-notif-msg">This alert needs your attention</span></span></div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
           </div>
@@ -625,7 +619,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-subtle" style="width:100%;">
               <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
-              <div class="inline-notif-content"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span>
+              <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">New feature!</span><span class="inline-notif-msg">We released a new feature you might want to use</span></span>
                 <div class="inline-notif-actions"><button class="link-inline" style="font:inherit; text-decoration:none;">Learn more</button></div>
               </div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
@@ -648,7 +642,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-info" style="width:100%;">
               <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-              <div class="inline-notif-content"><span class="inline-notif-title">Need a hand?</span><span class="inline-notif-msg">Read the full walkthrough for setup help</span>
+              <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Need a hand?</span><span class="inline-notif-msg">Read the full walkthrough for setup help</span></span>
                 <div class="inline-notif-actions"><a href="#" onclick="return false;" class="link-inline">Support Page</a></div>
               </div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
@@ -670,7 +664,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-warn is-one-liner" style="width:100%;">
               <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-              <div class="inline-notif-content"><span class="inline-notif-title">Heads up</span><span class="inline-notif-msg">Your trial ends soon</span></div>
+              <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Heads up</span><span class="inline-notif-msg">Your trial ends soon</span></span></div>
               <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
             </div>
           </div>
@@ -690,7 +684,7 @@
           <div class="dev-preview">
             <div class="inline-notif is-warn" style="width:100%;">
               <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
-              <div class="inline-notif-content"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span>
+              <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span>
                 <div class="inline-notif-actions">
                   <button class="btn btn-secondary">Renew now</button>
                 </div>
@@ -862,7 +856,7 @@
       buttons.forEach(b => items.push(buttonHtml(b)));
       const action = items.length ? `<div class="inline-notif-actions">${items.join('')}</div>` : '';
       const close = s.close ? `<button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>` : '';
-      return `<div class="inline-notif is-${s.type}${ol}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-title">${esc(s.title)}</span>${msgSpan}${action}</div>${close}</div>`;
+      return `<div class="inline-notif is-${s.type}${ol}" style="width:100%;">${iconLive(s.type)}<div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">${esc(s.title)}</span>${msgSpan}</span>${action}</div>${close}</div>`;
     }
 
     function buildCode(s){

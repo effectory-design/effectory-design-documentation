@@ -575,28 +575,37 @@ Moods heten in code (Angular `messageType`): **`subtle` · `info` · `warn` · `
 <div class="inline-notif is-info">
   <img class="inline-notif-icon" src="/assets/icons/notification-information.svg" alt="" />
   <div class="inline-notif-content">
-    <span class="inline-notif-title">Heads up!</span>
-    <span class="inline-notif-msg">This alert needs your attention</span>
+    <span class="inline-notif-text">
+      <span class="inline-notif-title">Heads up!</span>
+      <span class="inline-notif-msg">This alert needs your attention</span>
+    </span>
   </div>
   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
 </div>
 
-<!-- One-liner (één regel) -->
+<!-- One-liner (titel + message lopen door als één tekst, knop blijft rechts) -->
 <div class="inline-notif is-warn is-one-liner">
   <img class="inline-notif-icon" src="/assets/icons/notification-warning.svg" alt="" />
   <div class="inline-notif-content">
-    <span class="inline-notif-title">Warning!</span>
-    <span class="inline-notif-msg">Better check yourself, you're not looking too good</span>
+    <span class="inline-notif-text">
+      <span class="inline-notif-title">Warning!</span>
+      <span class="inline-notif-msg">Better check yourself, you're not looking too good</span>
+    </span>
+    <div class="inline-notif-actions">
+      <button class="btn btn-secondary">Renew now</button>
+    </div>
   </div>
   <button class="inline-notif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>
 </div>
 
-<!-- Subtle met actieknop — let op: .inline-notif-actions staat BINNEN .inline-notif-content -->
+<!-- Subtle met actieknop -->
 <div class="inline-notif is-subtle">
   <span class="inline-notif-icon is-subtle"><i data-icon="featured"></i></span>
   <div class="inline-notif-content">
-    <span class="inline-notif-title">New feature!</span>
-    <span class="inline-notif-msg">We released a new feature you might want to use</span>
+    <span class="inline-notif-text">
+      <span class="inline-notif-title">New feature!</span>
+      <span class="inline-notif-msg">We released a new feature you might want to use</span>
+    </span>
     <div class="inline-notif-actions">
       <button class="btn btn-secondary">Try it</button>
     </div>
@@ -605,7 +614,9 @@ Moods heten in code (Angular `messageType`): **`subtle` · `info` · `warn` · `
 </div>
 ```
 
-**Knoppositie:** `.inline-notif-actions` staat **binnen** `.inline-notif-content`. Daardoor volgt de knop automatisch de layout — **stacked (default): knop ónder de tekst**; **one-liner (`.is-one-liner`): knop **rechts** op dezelfde regel. Geen aparte input/class nodig; het volgt `isOneLiner`.
+**Structuur:** titel + message zitten samen in `<span class="inline-notif-text">`, en `.inline-notif-actions` is een **sibling** daarvan binnen `.inline-notif-content`. Layout volgt vanzelf:
+- **Stacked (default):** text-blok boven, actieknop(pen) eronder.
+- **One-liner (`.is-one-liner`):** titel + message lopen door als één doorlopende tekst (wrapt samen naar de volgende regel); de actieknoppen blijven **rechts** op de regel.
 
 **Icoon-keuze per mood:**
 - `.is-info` → `<img src="/assets/icons/notification-information.svg">` (blauwe cirkel met "i")
