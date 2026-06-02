@@ -655,7 +655,9 @@ Kleine, niet-interactieve donkere bubble die op hover/focus verschijnt. Alleen k
   <div class="tooltip is-above">Delete survey</div>
 </div>
 ```
-Positie-classes: `.is-above` `.is-below` `.is-left` `.is-right`. Bubble = `--bg-inverse-base` (#192743), witte tekst, Poppins Medium 14, `--radius-md`. Gebruik nooit voor essentiële info of interactieve content → dan een Guided tooltip of dialog.
+Positie-classes: `.is-above` `.is-below` `.is-left` `.is-right`. Bubble = `--bg-inverse-base` (#192743), witte tekst, Poppins Medium 14, `--radius-md`. Tekst wrapt op max-width ~240px. Gebruik nooit voor essentiële info of interactieve content → dan een Guided tooltip of dialog.
+
+> ⚠️ **Dev/Figma gap:** Figma gebruikt **Medium (500)** voor de tooltip-tekst; de Material `matTooltip` rendert **Normal (400)**. Nog gelijk te trekken.
 
 ### Guided tooltip
 Interactieve coach-mark/onboarding-overlay (Angular: `<eff-tooltip-dialog>`). Donkere card met optionele NEW-badge, titel, body, en footer met óf één primary knop (single-step) óf paginatie-dots + "Next" (multi-step).
