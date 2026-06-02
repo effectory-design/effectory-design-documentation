@@ -246,6 +246,25 @@ The `spread` modifier class (`<div class="dd-prev spread">`) adds `justify-conte
 Do (green check): `<circle cx="9" cy="9" r="9" fill="#16a34a"/>` + `<path d="M5 9l3 3 5-5" …/>`  
 Don't (red X): `<circle cx="9" cy="9" r="9" fill="#dc2626"/>` + `<path d="M6 6l6 6M12 6l-6 6" …/>`
 
+### Content guidelines section — also uses Do/Don't cards
+
+The **Content guidelines** section (`id="content-guidelines"`) is not a plain bullet list — it uses the same Do/Don't card pattern as Usage. Structure each rule as a `<div class="cg-rule">` containing an `<h3 class="text-l4">` rule title, a short `<p>` explanation, and a `dd-grid` with a Do card and a Don't card. The card previews should show **example copy** in a live component (title/message/label text), `pointer-events:none`, demonstrating good vs bad wording — not visual states.
+
+```html
+<section class="section" id="content-guidelines">
+  <h2 class="text-l3">Content guidelines</h2>
+  <p class="section-lead">[One-line intro.]</p>
+  <div class="cg-rule">
+    <h3 class="text-l4">[Rule title]</h3>
+    <p>[Why this rule matters.]</p>
+    <div class="dd-grid"> … Do card + Don't card with example copy … </div>
+  </div>
+  <!-- one cg-rule per guideline -->
+</section>
+```
+
+Don't use a bare `<ul>`/`<li>` list for Content guidelines — match the Do/Don't card format used on the Button, Checkbox, Toggle, and Radio Group pages.
+
 ---
 
 ## 8. Variants Section

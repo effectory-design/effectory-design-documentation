@@ -420,12 +420,105 @@
         <section class="section" id="content-guidelines">
           <h2 class="text-l3">Content guidelines</h2>
           <p class="section-lead">Notifications are read at a glance. Keep titles short, messages specific, and actions verb-led.</p>
-          <ul style="padding-left:18px; line-height:1.8;">
-            <li><strong>Title (1–3 words)</strong> — A short label that mirrors the mood. <em>Well done!</em>, <em>Warning</em>, <em>Heads up</em>, <em>New feature</em>, <em>Couldn't save</em>.</li>
-            <li><strong>Message (one sentence)</strong> — State what happened and, if relevant, what the user should do next. Avoid jargon and apologies.</li>
-            <li><strong>Action label</strong> — Start with a verb that describes the outcome: <em>Review</em>, <em>Try again</em>, <em>Learn more</em>. Never <em>Click here</em>.</li>
-            <li><strong>Punctuation</strong> — End full sentences with a period. Single-word titles can use an exclamation only when it adds meaning.</li>
-          </ul>
+
+          <div class="cg-rule">
+            <h3 class="text-l4">Keep the title short and scannable</h3>
+            <p>Use a 1–3 word title that signals the mood. The message carries the detail — the title shouldn't be a full sentence.</p>
+            <div class="dd-grid">
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-error" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Couldn't save</span><span class="inline-notif-msg">Check your connection and try again</span></span></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap do">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
+                  A short title (<em>Couldn't save</em>) with the detail in the message.
+                </div>
+              </div>
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-error" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-negative.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">We couldn't save your changes because the connection dropped</span></span></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap dont">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
+                  A full sentence as the title — there's no scannable label.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cg-rule">
+            <h3 class="text-l4">Make the message specific</h3>
+            <p>Say what happened and, where relevant, what to do next. Avoid vague phrases and apologies.</p>
+            <div class="dd-grid">
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-warn" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Your trial ends in 3 days — add a payment method to keep your data</span></span></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap do">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
+                  Concrete detail and a clear next step.
+                </div>
+              </div>
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-warn" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Warning!</span><span class="inline-notif-msg">Something needs your attention</span></span></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap dont">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
+                  Vague copy that doesn't say what or why.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cg-rule">
+            <h3 class="text-l4">Lead action labels with a verb</h3>
+            <p>Action and link labels start with a verb that names the outcome. Never use "Click here" or a bare "OK".</p>
+            <div class="dd-grid">
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-warn" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span><div class="inline-notif-actions"><button class="btn btn-secondary">Renew now</button></div></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap do">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
+                  A verb-led label (<em>Renew now</em>) names the outcome.
+                </div>
+              </div>
+              <div class="dd-card">
+                <div class="dd-prev" style="flex-direction:column; flex-wrap:nowrap; flex:1; height:auto; justify-content:center; gap:12px; align-items:stretch; padding:24px;">
+                  <div class="inline-notif is-warn" style="pointer-events:none;">
+                    <img class="inline-notif-icon" src="assets/icons/notification-warning.svg" alt="" />
+                    <div class="inline-notif-content"><span class="inline-notif-text"><span class="inline-notif-title">Action required</span><span class="inline-notif-msg">Your subscription expires in 3 days</span></span><div class="inline-notif-actions"><button class="btn btn-secondary">Click here</button></div></div>
+                    <button class="inline-notif-close" tabindex="-1"><i data-icon="cross"></i></button>
+                  </div>
+                </div>
+                <div class="dd-cap dont">
+                  <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
+                  "Click here" says nothing about what happens.
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="section" id="states">
