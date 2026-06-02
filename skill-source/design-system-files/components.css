@@ -1783,7 +1783,9 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
 .inline-notif.is-subtle  { --notif-accent: var(--bg-brand-base, #0a9d99); --notif-accent-border: var(--border-action, #bcc1cd); --notif-accent-fill-border: var(--border-brand-base, #0c827f); --notif-accent-on: var(--content-on-brand-base, #fff); }
 
 /* One-liner notifications are tighter vertically */
-.inline-notif.is-one-liner { padding: 12px 16px; }
+.inline-notif.is-one-liner { padding: 12px 16px; align-items: center; }
+.inline-notif.is-one-liner .inline-notif-icon { margin-top: 0; }
+.inline-notif.is-one-liner .inline-notif-close { margin-top: 0; }
 
 /* Icon — Info/Warn/Success/Error ship as <img> tags pointing to
    assets/icons/notification-{information,warning,positive,negative}.svg.
@@ -1862,7 +1864,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
   margin-top: -2px;
   margin-left: 4px;
 }
-.inline-notif-close i[data-icon] { width: 14px; height: 14px; display: flex; }
+.inline-notif-close i[data-icon] { width: 16px; height: 16px; display: flex; }
 .inline-notif-close:hover,
 .inline-notif-close.is-hover { color: var(--content-base); }
 .inline-notif-close:focus-visible,
