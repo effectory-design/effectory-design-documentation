@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results dashboard — Prototype</title>
+  <base href="/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/foundation.css" />
+  <link rel="stylesheet" href="/components.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Poppins', sans-serif; color: #192743; background: #f4f6f8; -webkit-font-smoothing: antialiased; }
+
+    .app { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Sidebar ── */
+    .side { width: 244px; flex-shrink: 0; background: #fff; border-right: 1px solid #edeff2; display: flex; flex-direction: column; padding: 18px 0 14px; }
+    .side-brand { display: flex; align-items: center; gap: 11px; padding: 4px 18px 20px; }
+    .side-logo { width: 30px; height: 30px; border-radius: 8px; background: #30b3af; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .side-logo span { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid #fff; }
+    .side-brand b { font-size: 14.5px; font-weight: 600; letter-spacing: -.1px; }
+    .side-brand > i[data-icon] { width: 15px; height: 15px; margin-left: auto; color: #9aa3b2; display: flex; }
+    .nav { display: flex; flex-direction: column; gap: 3px; padding: 4px 12px; }
+    .nav a { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 9px; font-size: 13px; color: #4b586e; text-decoration: none; cursor: pointer; transition: background .12s, color .12s; }
+    .nav a i[data-icon] { width: 18px; height: 18px; display: flex; flex-shrink: 0; color: #8c97a8; }
+    .nav a .chev { margin-left: auto; width: 15px; height: 15px; }
+    .nav a:hover { background: #f4f6f8; color: #192743; }
+    .nav a.active { background: #e9f6f5; color: #0a7f7b; font-weight: 600; }
+    .nav a.active i[data-icon] { color: #0a9d99; }
+    .side-foot { margin-top: auto; padding: 4px 12px 0; display: flex; flex-direction: column; gap: 4px; }
+    .side-foot a { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 9px; font-size: 13px; color: #4b586e; text-decoration: none; }
+    .side-foot a i[data-icon] { width: 18px; height: 18px; display: flex; color: #8c97a8; }
+    .side-user { display: flex; align-items: center; gap: 10px; padding: 12px 14px 4px; border-top: 1px solid #edeff2; margin: 8px 4px 0; }
+    .side-ava { width: 32px; height: 32px; border-radius: 50%; background: #6c5ce7; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .side-user .meta { line-height: 1.35; min-width: 0; }
+    .side-user .n { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .side-user .o { font-size: 11px; color: #9aa3b2; }
+    .side-user > i[data-icon] { width: 15px; height: 15px; margin-left: auto; color: #9aa3b2; }
+
+    /* ── Main ── */
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .crumbs { height: 48px; flex-shrink: 0; border-bottom: 1px solid #edeff2; background: #fff; display: flex; align-items: center; gap: 10px; padding: 0 24px; font-size: 12.5px; color: #9aa3b2; }
+    .crumbs .back { display: inline-flex; align-items: center; gap: 5px; color: #4b586e; border: 1px solid #e1e4e8; border-radius: 8px; padding: 5px 10px; cursor: pointer; transition: background .12s; }
+    .crumbs .back:hover { background: #f4f6f8; }
+    .crumbs .back i[data-icon] { width: 13px; height: 13px; display: flex; }
+    .crumbs i.sep { width: 14px; height: 14px; display: flex; color: #cdd2db; }
+    .crumbs .cur { color: #192743; font-weight: 500; }
+    .scroll { flex: 1; overflow-y: auto; padding: 32px 44px 96px; }
+
+    .h-row { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+    .h-row h1 { font-size: 24px; font-weight: 600; margin: 0; letter-spacing: -.3px; }
+    .chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #e1e4e8; border-radius: 9px; padding: 6px 11px; font-size: 12.5px; color: #4b586e; background: #fff; box-shadow: 0 1px 2px rgba(25,39,67,.04); }
+    .chip i[data-icon] { width: 13px; height: 13px; display: flex; color: #8c97a8; }
+    .daterange { font-size: 12.5px; color: #4b586e; display: inline-flex; align-items: center; gap: 8px; }
+    .daterange i[data-icon] { width: 14px; height: 14px; display: inline-flex; color: #8c97a8; }
+
+    .tabs { display: flex; gap: 26px; border-bottom: 1px solid #edeff2; margin-bottom: 26px; }
+    .tabs a { font-size: 13.5px; color: #6a7689; text-decoration: none; padding: 0 0 13px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .12s; }
+    .tabs a:hover { color: #192743; }
+    .tabs a.active { color: #192743; font-weight: 600; border-bottom-color: #0a9d99; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+    .card { background: #fff; border: 1px solid #edeff2; border-radius: 16px; box-shadow: 0 1px 2px rgba(25,39,67,.04), 0 10px 24px -14px rgba(25,39,67,.18); padding: 22px; transition: box-shadow .15s, transform .15s; }
+    .card:hover { box-shadow: 0 1px 2px rgba(25,39,67,.05), 0 16px 32px -16px rgba(25,39,67,.25); }
+    .card-hd { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 16px; }
+    .card-hd .t { font-size: 15px; font-weight: 600; letter-spacing: -.1px; }
+    .card-hd .s { font-size: 12px; color: #8c97a8; margin-top: 3px; line-height: 1.5; max-width: 92%; }
+    .card-tools { margin-left: auto; display: flex; gap: 9px; color: #c2c9d4; flex-shrink: 0; }
+    .card-tools i[data-icon] { width: 15px; height: 15px; display: flex; cursor: pointer; transition: color .12s; }
+    .card-tools i[data-icon]:hover { color: #6a7689; }
+
+    /* donut via conic-gradient */
+    .donut { position: relative; border-radius: 50%; }
+    .donut::after { content: ''; position: absolute; inset: 30%; background: #fff; border-radius: 50%; }
+    .donut .dc { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; }
+    .donut .dc .big { font-size: 23px; font-weight: 700; letter-spacing: -.5px; }
+    .donut .dc .sm { font-size: 10px; color: #9aa3b2; margin-top: 1px; }
+
+    .legend { display: flex; flex-direction: column; gap: 11px; }
+    .legend-row { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+    .legend-row .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-row .lbl { color: #4b586e; }
+    .legend-row .val { margin-left: auto; color: #192743; font-weight: 600; }
+    .legend-row .cnt { color: #9aa3b2; display: inline-flex; align-items: center; gap: 4px; min-width: 46px; justify-content: flex-end; }
+    .legend-row .cnt i[data-icon] { width: 11px; height: 11px; display: inline-flex; }
+
+    .bench { margin-top: 18px; }
+    .bench .lab { display: flex; justify-content: space-between; font-size: 11.5px; color: #9aa3b2; margin-bottom: 6px; }
+    .bench .lab b { color: #192743; font-weight: 600; }
+    .bench .track { height: 7px; border-radius: 99px; background: #eef0f3; overflow: hidden; }
+    .bench .fill { height: 100%; border-radius: 99px; background: #0a9d99; }
+
+    /* effectiveness matrix */
+    .matrix { position: relative; }
+    .matrix .quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 5px; height: 184px; border-radius: 12px; overflow: hidden; }
+    .matrix .quad > div { display: flex; align-items: flex-start; justify-content: flex-end; padding: 9px; }
+    .q-tl { background: #eef0f3; }
+    .q-tr { background: #cdf3d6; }
+    .q-bl { background: #ffdedf; }
+    .q-br { background: #ffe9a6; }
+    .q-tag { background: #fff; border: 1px solid #e1e4e8; border-radius: 7px; font-size: 10px; font-weight: 500; padding: 3px 7px; color: #4b586e; box-shadow: 0 1px 2px rgba(25,39,67,.08); }
+    .matrix .dot-here { position: absolute; left: 57%; top: 40%; width: 13px; height: 13px; border-radius: 50%; background: #3174db; border: 2.5px solid #fff; box-shadow: 0 2px 5px rgba(49,116,219,.4); }
+    .matrix .axis-x { text-align: center; font-size: 11px; color: #9aa3b2; margin-top: 9px; }
+
+    /* engagement gauge */
+    .eng { text-align: center; padding: 14px 0 4px; }
+    .eng .pct { font-size: 46px; font-weight: 700; color: #1f9d57; line-height: 1; letter-spacing: -1px; }
+    .eng-wrap { position: relative; margin: 16px -22px 0; }
+    .eng-area { height: 66px; background: linear-gradient(180deg, rgba(85,186,118,.10), rgba(85,186,118,.26)); border-top: 2px solid #55ba76; clip-path: polygon(0 78%, 16% 60%, 34% 66%, 52% 42%, 70% 50%, 86% 30%, 100% 22%, 100% 100%, 0 100%); }
+    .eng-pill { position: absolute; right: 22px; top: 8px; background: #fff; border: 1px solid #e1e4e8; border-radius: 99px; font-size: 11px; font-weight: 600; color: #1f9d57; padding: 3px 9px; box-shadow: 0 1px 3px rgba(25,39,67,.12); display: inline-flex; align-items: center; gap: 3px; }
+
+    /* mini metric cards */
+    .mini-stack { display: flex; flex-direction: column; gap: 20px; }
+    .mini { background: #fff; border: 1px solid #edeff2; border-radius: 16px; box-shadow: 0 1px 2px rgba(25,39,67,.04), 0 10px 24px -14px rgba(25,39,67,.18); padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow .15s; }
+    .mini:hover { box-shadow: 0 1px 2px rgba(25,39,67,.05), 0 16px 32px -16px rgba(25,39,67,.25); }
+    .mini .txt .t { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .mini .txt .s { font-size: 12px; color: #8c97a8; line-height: 1.5; margin-top: 4px; }
+    .mini .txt i[data-icon] { width: 13px; height: 13px; color: #c2c9d4; display: inline-flex; }
+    .mini .donut { margin-left: auto; flex-shrink: 0; }
+    .mini .donut::after { inset: 32%; }
+    .mini .donut .dc .big { font-size: 14px; }
+
+    .radar-legend { display: flex; gap: 20px; justify-content: center; margin-top: 10px; font-size: 12.5px; color: #4b586e; }
+    .radar-legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .radar-legend .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .empty-mini { height: 70px; border-radius: 10px; background: repeating-linear-gradient(135deg, #f6f7f9, #f6f7f9 10px, #f1f3f6 10px, #f1f3f6 20px); }
+
+    /* ── Announcement, floating bottom-right ── */
+    #announcement { position: fixed; right: 30px; bottom: 30px; z-index: 1000; }
+    #announcement .ann-deck { width: 300px; }
+    .ann-enter { animation: annIn .42s cubic-bezier(.16,.84,.34,1) both; }
+    @keyframes annIn { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="side">
+      <div class="side-brand">
+        <div class="side-logo"><span></span></div>
+        <b>Coordinator</b>
+        <i data-icon="chevron-down"></i>
+      </div>
+      <nav class="nav">
+        <a class="active"><i data-icon="home"></i> Home</a>
+        <a><i data-icon="barchart-2"></i> Surveys <i data-icon="chevron-down" class="chev"></i></a>
+        <a><i data-icon="message"></i> 360° Feedback</a>
+        <a><i data-icon="building"></i> Organization <i data-icon="chevron-down" class="chev"></i></a>
+      </nav>
+      <div class="side-foot">
+        <a><i data-icon="help"></i> Help &amp; learn</a>
+        <div class="side-user">
+          <div class="side-ava">JR</div>
+          <div class="meta">
+            <div class="n">Jamal van Rooi…</div>
+            <div class="o">Effectory B.V.</div>
+          </div>
+          <i data-icon="chevron-down"></i>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="crumbs">
+        <span class="back"><i data-icon="chevron-left"></i> Back</span>
+        <span>Company wide pulse</span>
+        <i data-icon="chevron-right" class="sep"></i>
+        <span class="cur">Survey title</span>
+      </div>
+
+      <div class="scroll">
+        <div class="h-row">
+          <h1>Survey title</h1>
+          <span class="chip"><i data-icon="filter"></i> Filter: <strong style="font-weight:600;color:#192743;">Orange</strong></span>
+          <span class="daterange"><i data-icon="calendar"></i> 22 Jul 2023 <span style="color:#cdd2db;">→</span> 22 Aug 2023</span>
+        </div>
+
+        <div class="tabs">
+          <a class="active">Overview</a><a>Themes</a><a>Questions</a><a>Open answers</a><a>Topics &amp; Ideas</a><a>Reports</a><a>Actions</a>
+        </div>
+
+        <div class="grid">
+          <!-- Effectiveness -->
+          <div class="card matrix">
+            <div class="card-hd"><div><div class="t">Effectiveness</div><div class="s">Performance environment</div></div><div class="card-tools"><i data-icon="info"></i></div></div>
+            <div class="quad">
+              <div class="q-tl"><span class="q-tag">Detached</span></div>
+              <div class="q-tr" style="flex-direction:column; gap:5px; align-items:flex-end;"><span class="q-tag">Effectory</span><span class="q-tag">5th dr.</span><span class="q-tag" style="background:#3174db;color:#fff;border-color:#3174db;">[currentGroup]</span></div>
+              <div class="q-bl"><span class="q-tag">Ineffective</span></div>
+              <div class="q-br"><span class="q-tag">Underutilized</span></div>
+            </div>
+            <div class="dot-here"></div>
+            <div class="axis-x">Engagement</div>
+          </div>
+
+          <!-- Engagement -->
+          <div class="card">
+            <div class="card-hd"><div><div class="t">Engagement</div><div class="s">Employees that are inspired and energized by their work.</div></div><div class="card-tools"><i data-icon="pin"></i><i data-icon="info"></i><i data-icon="maximize"></i></div></div>
+            <div class="eng"><div class="pct">82%</div></div>
+            <div class="eng-wrap"><div class="eng-area"></div><span class="eng-pill"><i data-icon="arrow-up" style="width:11px;height:11px;display:inline-flex;"></i> 8.0</span></div>
+            <div class="bench"><div class="lab"><span>Benchmark</span><b>8.0</b></div><div class="track"><div class="fill" style="width:72%;"></div></div></div>
+          </div>
+
+          <!-- eNPS -->
+          <div class="card">
+            <div class="card-hd"><div><div class="t">Employee Net Promoter Score</div><div class="s">Shows to what extent employees would recommend your organization.</div></div><div class="card-tools"><i data-icon="pin"></i><i data-icon="info"></i></div></div>
+            <div style="display:flex; gap:20px; align-items:center;">
+              <div class="donut" style="width:100px; height:100px; background: conic-gradient(#55ba76 0 35%, #ec9f06 35% 80%, #d3353b 80% 100%);">
+                <div class="dc"><span class="big">15</span><span class="sm">eNPS</span></div>
+              </div>
+              <div class="legend" style="flex:1;">
+                <div class="legend-row"><span class="dot" style="background:#55ba76;"></span><span class="lbl">Promoters</span><span class="val">35%</span><span class="cnt">258 <i data-icon="users"></i></span></div>
+                <div class="legend-row"><span class="dot" style="background:#ec9f06;"></span><span class="lbl">Passives</span><span class="val">45%</span><span class="cnt">332 <i data-icon="users"></i></span></div>
+                <div class="legend-row"><span class="dot" style="background:#d3353b;"></span><span class="lbl">Detractors</span><span class="val">20%</span><span class="cnt">147 <i data-icon="users"></i></span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Themes (radar) -->
+          <div class="card">
+            <div class="card-hd"><div><div class="t">Themes</div></div><div class="card-tools"><i data-icon="pin"></i><i data-icon="info"></i></div></div>
+            <!-- icon-exempt: radar chart illustration -->
+            <svg viewBox="0 0 180 188" width="100%" height="196" fill="none" aria-hidden="true" style="display:block;">
+              <polygon points="90,24 151,59 151,129 90,164 29,129 29,59" stroke="#eef0f3" stroke-width="1.5" fill="none"/>
+              <polygon points="90,49 130,72 130,116 90,140 50,116 50,72" stroke="#eef0f3" stroke-width="1.5" fill="none"/>
+              <line x1="90" y1="24" x2="90" y2="164" stroke="#f1f3f6" stroke-width="1"/><line x1="29" y1="59" x2="151" y2="129" stroke="#f1f3f6" stroke-width="1"/><line x1="151" y1="59" x2="29" y2="129" stroke="#f1f3f6" stroke-width="1"/>
+              <polygon points="90,55 122,73 124,112 90,124 62,112 66,75" fill="#ec9f0622" stroke="#ec9f06" stroke-width="1.5"/>
+              <polygon points="90,38 130,70 134,118 90,134 48,116 54,71" fill="#3174db26" stroke="#3174db" stroke-width="2.5"/>
+              <text x="90" y="16" text-anchor="middle" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Engagement</text>
+              <text x="156" y="57" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Diversity</text>
+              <text x="150" y="143" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Employer-ship</text>
+              <text x="90" y="180" text-anchor="middle" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Customer focus</text>
+              <text x="2" y="143" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Alignment</text>
+              <text x="6" y="57" font-size="9.5" fill="#9aa3b2" font-family="Poppins">Leadership</text>
+            </svg>
+            <div class="radar-legend"><span><span class="dot" style="background:#3174db;"></span> Current</span><span><span class="dot" style="background:#ec9f06;"></span> Previous</span></div>
+          </div>
+
+          <!-- Response rate -->
+          <div class="card">
+            <div class="card-hd"><div><div class="t">Response rate</div></div><div class="card-tools"><i data-icon="pin"></i><i data-icon="info"></i></div></div>
+            <div style="display:flex; justify-content:center; padding:8px 0 4px;">
+              <div class="donut" style="width:150px; height:150px; background: conic-gradient(#3174db 0 67%, #eef0f3 67% 100%);">
+                <div class="dc"><span class="big" style="font-size:32px;">67%</span><span class="sm" style="color:#3174db; font-weight:500; margin-top:3px;">737/780 Participants</span></div>
+              </div>
+            </div>
+            <div class="bench"><div class="lab"><span>Benchmark</span><b>84%</b></div><div class="track"><div class="fill" style="width:84%; background:#3174db;"></div></div></div>
+          </div>
+
+          <!-- Workload / Retention / Well-being -->
+          <div class="mini-stack">
+            <div class="mini">
+              <div class="txt"><div class="t">Workload</div><div class="s">Employees who find their workload just right.</div></div>
+              <div class="donut" style="width:58px; height:58px; background: conic-gradient(#55ba76 0 82%, #eef0f3 82% 100%);"><div class="dc"><span class="big">82%</span></div></div>
+            </div>
+            <div class="mini">
+              <div class="txt"><div class="t">Retention</div><div class="s">Employees who want to stay at their current role.</div></div>
+              <div class="donut" style="width:58px; height:58px; background: conic-gradient(#0a9d99 0 67%, #eef0f3 67% 100%);"><div class="dc"><span class="big">67%</span></div></div>
+            </div>
+            <div class="mini">
+              <div class="txt"><div class="t">Well-being <i data-icon="info"></i></div><div class="s">How well employees can maintain a good work-life balance.</div></div>
+              <div class="donut" style="width:58px; height:58px; background: conic-gradient(#ec9f06 0 75%, #eef0f3 75% 100%);"><div class="dc"><span class="big">7.5</span></div></div>
+            </div>
+          </div>
+
+          <!-- bottom row -->
+          <div class="card"><div class="card-hd"><div><div class="t">Feel-good topics</div></div><div class="card-tools"><i data-icon="pin"></i><i data-icon="info"></i></div></div><div class="empty-mini"></div></div>
+          <div class="card"><div class="card-hd"><div><div class="t" style="display:flex;align-items:center;gap:7px;"><i data-icon="star-filled" style="width:16px;height:16px;color:#1f9d57;display:inline-flex;"></i> Highest scores</div></div><div class="card-tools"><i data-icon="pin"></i></div></div><div class="empty-mini"></div></div>
+          <div class="card"><div class="card-hd"><div><div class="t" style="display:flex;align-items:center;gap:7px;"><i data-icon="star" style="width:16px;height:16px;color:#d3353b;display:inline-flex;"></i> Lowest scores</div></div><div class="card-tools"><i data-icon="pin"></i></div></div><div class="empty-mini"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating announcement (card deck, option B) -->
+  <div id="announcement"></div>
+
+  <script src="/icons.js"></script>
+  <script>
+    const ITEMS = [
+      { title: 'Dynamic reporting is here!', body: 'A new look, new features, and even more to explore.', cta: 'Learn more', bg: '#6c5ce7' },
+      { title: 'Compare across groups', body: 'Benchmark any team against the company in one click.', cta: 'Learn more', bg: '#0a9d99' },
+      { title: 'Export to PowerPoint', body: 'Download a ready-made results deck for your meeting.', cta: 'Learn more', bg: '#ec9f06' },
+    ];
+    const TOTAL = ITEMS.length, FALL_MS = 420;
+    const $host = document.getElementById('announcement');
+    let idx = 0, first = true;
+    const PH = '<i data-icon="image" class="ann-media-ph"></i>';
+    function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+    function card(i, cls){
+      const it = ITEMS[i];
+      return `<div class="announcement ${cls}">
+        <div class="ann-media" style="background:${it.bg}; color:rgba(255,255,255,.85);">${PH}</div>
+        <div class="ann-body">
+          <p class="ann-title">${esc(it.title)}</p>
+          <p class="ann-text">${esc(it.body)}</p>
+          <div class="ann-actions">
+            <button class="btn btn-primary" data-next>${esc(it.cta)}</button>
+            <button class="btn btn-tertiary" data-next>Close</button>
+          </div>
+        </div></div>`;
+    }
+    function render(){
+      if (idx >= TOTAL) { $host.innerHTML = ''; return; }
+      const layers = [];
+      if (idx + 2 < TOTAL) layers.push(card(idx + 2, 'ann-b2'));
+      if (idx + 1 < TOTAL) layers.push(card(idx + 1, 'ann-b1'));
+      layers.push(card(idx, 'ann-front'));
+      $host.innerHTML = `<div class="ann-deck${first ? ' ann-enter' : ''}">${layers.join('')}</div>`;
+      first = false;
+      if (window.Icons && window.Icons.render) window.Icons.render($host);
+    }
+    function advance(){
+      const front = $host.querySelector('.ann-front');
+      if (!front || front.classList.contains('is-leaving')) return;
+      front.classList.add('is-leaving');
+      const b1 = $host.querySelector('.ann-b1'); if (b1) b1.classList.add('is-promoting');
+      const b2 = $host.querySelector('.ann-b2'); if (b2) b2.classList.add('is-promoting');
+      setTimeout(() => { idx += 1; render(); }, FALL_MS);
+    }
+    $host.addEventListener('click', (e) => { if (e.target.closest('[data-next]')) advance(); });
+    render();
+  </script>
+</body>
+</html>
