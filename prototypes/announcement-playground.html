@@ -328,7 +328,7 @@
           <p class="dlg-text">${esc(s.body)}</p>
           <div class="dlg-dots">${dots}</div>
           <div class="dlg-footer">
-            <button class="btn btn-secondary" data-dprev ${dStep===0?'disabled':''}><i data-icon="arrow-left"></i> ${esc(prevLabel)}</button>
+            <button class="btn btn-secondary" data-dprev><i data-icon="arrow-left"></i> ${esc(prevLabel)}</button>
             <button class="btn btn-primary" data-dnext>${esc(nextLabel)} ${last?'':'<i data-icon="arrow-right"></i>'}</button>
           </div>
         </div>
@@ -344,7 +344,7 @@
     function dStartTour(){ dPhase='tour'; dStep=0; dRender(); }
     function dClose(){ dOpen=false; dRender(); updateFab(); }
     function dNext(){ if (dStep < dCount-1){ dStep++; dRender(); } else dClose(); }
-    function dPrev(){ if (dStep > 0){ dStep--; dRender(); } }
+    function dPrev(){ if (dStep > 0){ dStep--; dRender(); } else { dPhase='intro'; dRender(); } }
     function dSetCount(n){ dCount=Math.max(1,Math.min(6,n)); el('d-count').value=dCount; if(dStep>=dCount) dStep=dCount-1; dRenderForm(); dRender(); }
 
     $dlg.addEventListener('click', e => {
