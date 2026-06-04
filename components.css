@@ -2034,14 +2034,14 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .mn-portal b { font-size: 14.5px; font-weight: 600; color: var(--content-base); }
 .mn-portal .mn-chev { margin-left: auto; width: 15px; height: 15px; color: var(--content-subtle); display: flex; }
 .mn-nav { display: flex; flex-direction: column; gap: 3px; padding: 0 12px; }
-.mn-item { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 9px; font-size: 13px; color: var(--content-secondary); text-decoration: none; cursor: pointer; border: none; background: transparent; font-family: inherit; width: 100%; text-align: left; transition: background .1s, color .1s; }
-.mn-item > i[data-icon] { width: 18px; height: 18px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
+.mn-item { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: 9px; font-size: 14px; font-weight: 500; color: var(--content-secondary); text-decoration: none; cursor: pointer; border: none; background: transparent; font-family: inherit; width: 100%; text-align: left; transition: background .1s, color .1s; }
+.mn-item > i[data-icon] { width: 20px; height: 20px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
 .mn-item .mn-chev { margin-left: auto; width: 15px; height: 15px; color: var(--content-subtle); display: flex; }
 .mn-item:hover, .mn-item.is-hover { background: var(--bg-base-hover); color: var(--content-base); }
 .mn-item.is-active { background: var(--mn-accent-soft); color: var(--content-base); font-weight: 600; }
 .mn-item.is-active > i[data-icon] { color: var(--mn-accent); }
 .mn-sub { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 6px; }
-.mn-subitem { display: flex; align-items: center; padding: 9px 12px 9px 41px; border-radius: 9px; font-size: 13px; color: var(--content-secondary); text-decoration: none; cursor: pointer; }
+.mn-subitem { display: flex; align-items: center; height: 44px; padding: 0 14px 0 46px; border-radius: 9px; font-size: 14px; color: var(--content-secondary); text-decoration: none; cursor: pointer; }
 .mn-subitem:hover { background: var(--bg-base-hover); color: var(--content-base); }
 .mn-subitem.is-active { background: var(--mn-accent-soft); color: var(--content-base); font-weight: 600; }
 .mn-sub-divider { height: 1px; background: var(--border-base); margin: 6px 12px; }
