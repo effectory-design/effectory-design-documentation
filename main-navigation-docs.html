@@ -535,7 +535,6 @@
     // Selecting a group as the active item auto-expands it with its first sub-item active.
     document.getElementById('pg-active')?.addEventListener('change',ev=>{const v=ev.target.value;if(v==='surveys'||v==='org'){document.getElementById(v==='surveys'?'pg-exp-surveys':'pg-exp-org').checked=true;activeSub[v]=firstSub[v];render();}});
     // Make the rendered nav directly clickable; the props controls stay in sync.
-    const firstSub = { surveys:'All surveys', org:'Employees' };
     $preview.addEventListener('click', e=>{
       const portal = e.target.closest('[data-action="portal"]');
       if (portal){ const sel=document.getElementById('pg-portal'); sel.value = sel.value==='personal'?'coordinator':'personal'; render(); return; }
