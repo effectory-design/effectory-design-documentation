@@ -286,7 +286,7 @@
       { title:'Schedule recurring pulses', body:'Set a cadence once and let surveys go out on autopilot.', media:true },
       { title:'Share results securely', body:'Give managers their own view without exposing the whole organization.', media:true },
     ];
-    let dCount = 4, dStep = 0, dOpen = false, dPhase = 'intro'; // 'intro' | 'tour'
+    let dCount = 4, dOpen = false, dIdx = 0; // dIdx spans intro + features + outro
 
     function dBlock(i){
       const s = STEPS[i];
@@ -300,128 +300,92 @@
     }
     const $stepCfgs = document.getElementById('step-cfgs');
     function dRenderForm(){ let h=''; for(let i=0;i<dCount;i++) h+=dBlock(i); $stepCfgs.innerHTML=h; paint($stepCfgs); }
+    const INTRO_CONFETTI = [
+      'top:34px;left:64px;background:#ffd857;transform:rotate(22deg)','top:58px;right:96px;background:#ff5d8f;border-radius:50%',
+      'bottom:48px;left:104px;background:#c1eeed;border-radius:50%','top:96px;left:168px;background:#fff;transform:rotate(-16deg)',
+      'bottom:64px;right:130px;background:#ffd857;border-radius:50%','top:48px;right:180px;background:#fff;transform:rotate(38deg)',
+      'bottom:90px;left:60px;background:#ff5d8f;transform:rotate(10deg)'
+    ].map(s => `<span class="confetti" style="${s}"></span>`).join('');
+    // one ordered list of slides: intro + features + (optional) outro — all in the same carousel
+    function slides(){
+      const arr = [];
+      const im = el('d-intro-media').checked;
+      arr.push({ kind:'intro', title:el('d-intro-title').value, body:el('d-intro-body').value,
+        media:`<div class="dlg-media dlg-intro-media ${im?'':'is-collapsed'}">${INTRO_CONFETTI}<i data-icon="featured" class="dlg-intro-spark"></i></div>` });
+      for (let i=0;i<dCount;i++){ const s=STEPS[i];
+        arr.push({ kind:'feature', title:s.title, body:s.body, locked:s.locked, mediaOn:s.media,
+          media:`<div class="dlg-media ${s.media?'':'is-collapsed'}" style="background:${D_BG[i]};">${DPH}</div>` }); }
+      if (el('d-outro-on').checked) arr.push({ kind:'outro', title:el('d-outro-title').value, body:el('d-outro-body').value, url:el('d-outro-url').value,
+        media:`<div class="dlg-media" style="background:linear-gradient(135deg,#7b6cf0,#30b3af); color:#fff;"><i data-icon="zap-filled" class="dlg-intro-spark"></i></div>` });
+      return arr;
+    }
     function dRender(){
       if (!dOpen) { $dlg.classList.remove('open'); $dlg.innerHTML=''; return; }
-      if (dPhase === 'intro') {
-        const im = el('d-intro-media').checked;
-        const confetti = [
-          'top:34px;left:64px;background:#ffd857;transform:rotate(22deg)',
-          'top:58px;right:96px;background:#ff5d8f;border-radius:50%',
-          'bottom:48px;left:104px;background:#c1eeed;border-radius:50%',
-          'top:96px;left:168px;background:#fff;transform:rotate(-16deg)',
-          'bottom:64px;right:130px;background:#ffd857;border-radius:50%',
-          'top:48px;right:180px;background:#fff;transform:rotate(38deg)',
-          'bottom:90px;left:60px;background:#ff5d8f;transform:rotate(10deg)'
-        ].map(s => `<span class="confetti" style="${s}"></span>`).join('');
-        const media = `<div class="dlg-media dlg-intro-media ${im?'':'is-collapsed'}">${confetti}<i data-icon="featured" class="dlg-intro-spark"></i></div>`;
-        $dlg.innerHTML = `<div class="dlg">
-          <button class="dlg-close ib ib-36 ib-secondary" data-dclose aria-label="Close"><i data-icon="cross"></i></button>
-          ${media}
-          <div class="dlg-body">
-            <p class="dlg-title">${esc(el('d-intro-title').value)}</p>
-            <p class="dlg-text">${esc(el('d-intro-body').value)}</p>
-            <div class="dlg-footer" style="margin-top:24px;">
-              <button class="btn btn-tertiary" data-dskip>${esc(el('d-skip').value)||'Skip for now'}</button>
-              <button class="btn btn-primary" data-dstart>${esc(el('d-start').value)||'Show me'} <i data-icon="arrow-right"></i></button>
-            </div>
-          </div>
-        </div>`;
-        $dlg.classList.add('open'); paint($dlg); return;
-      }
-      if (dPhase === 'outro') {
-        const media = `<div class="dlg-media" style="background:linear-gradient(135deg,#7b6cf0,#30b3af); color:#fff;"><i data-icon="zap-filled" class="dlg-intro-spark"></i></div>`;
-        $dlg.innerHTML = `<div class="dlg">
-          <button class="dlg-close ib ib-36 ib-secondary" data-dclose aria-label="Close"><i data-icon="cross"></i></button>
-          ${media}
-          <div class="dlg-body">
-            <p class="dlg-title">${esc(el('d-outro-title').value)}</p>
-            <p class="dlg-text">${esc(el('d-outro-body').value)}</p>
-            <div class="dlg-footer" style="margin-top:24px;">
-              <button class="btn btn-secondary" data-dprev><i data-icon="arrow-left"></i> ${esc(el('d-prev').value)||'Previous'}</button>
-              <a class="btn btn-primary" href="${esc(el('d-outro-url').value)||'#'}" target="_blank" rel="noopener">${esc(el('d-outro-cta').value)||'Learn more'} <i data-icon="arrow-right"></i></a>
-            </div>
-          </div>
-        </div>`;
-        $dlg.classList.add('open'); paint($dlg); return;
-      }
-      const s = STEPS[dStep];
-      const last = dStep >= dCount - 1;
-      const media = `<div class="dlg-media ${s.media?'':'is-collapsed'}" style="background:${D_BG[dStep]};">${DPH}</div>`;
-      let dots = '';
-      for (let i=0;i<dCount;i++) dots += `<span class="dlg-dot${i===dStep?' is-active':''}" data-ddot="${i}"></span>`;
-      const prevLabel = el('d-prev').value || 'Previous';
-      const lastFinal = last && !el('d-outro-on').checked;   // truly the last slide (no outro after)
-      const nextLabel = lastFinal ? 'Got it' : (el('d-next').value || 'Next');
+      const S = slides();
+      dIdx = Math.max(0, Math.min(S.length-1, dIdx));
+      const sl = S[dIdx], isFirst = dIdx===0, isLast = dIdx===S.length-1;
+      let dots=''; for (let i=0;i<S.length;i++) dots += `<span class="dlg-dot${i===dIdx?' is-active':''}" data-ddot="${i}"></span>`;
       const tagText = esc(el('d-plantag').value) || 'Premium';
-      const tagMedia = s.locked && s.media ? `<div class="dlg-tag dlg-tag-media"><i data-icon="lock"></i> ${tagText}</div>` : '';
-      const tagBody  = s.locked && !s.media ? `<div class="dlg-tag"><i data-icon="lock"></i> ${tagText}</div>` : '';
-      const mediaWithTag = media.replace('</div>', `${tagMedia}</div>`);
+      const tagMedia = (sl.kind==='feature' && sl.locked && sl.mediaOn) ? `<div class="dlg-tag dlg-tag-media"><i data-icon="lock"></i> ${tagText}</div>` : '';
+      const tagBody  = (sl.kind==='feature' && sl.locked && !sl.mediaOn) ? `<div class="dlg-tag"><i data-icon="lock"></i> ${tagText}</div>` : '';
+      const media = sl.media.replace('</div>', `${tagMedia}</div>`);
+      // footer
+      const left = isFirst
+        ? `<button class="btn btn-tertiary" data-dskip>${esc(el('d-skip').value)||'Skip for now'}</button>`
+        : `<button class="btn btn-secondary" data-dprev><i data-icon="arrow-left"></i> ${esc(el('d-prev').value)||'Previous'}</button>`;
+      let right;
+      if (sl.kind==='outro') right = `<a class="btn btn-primary" href="${esc(sl.url)||'#'}" target="_blank" rel="noopener">${esc(el('d-outro-cta').value)||'Learn more'} <i data-icon="arrow-right"></i></a>`;
+      else if (sl.kind==='intro') right = `<button class="btn btn-primary" data-dnext>${esc(el('d-start').value)||'Show me'} <i data-icon="arrow-right"></i></button>`;
+      else if (isLast) right = `<button class="btn btn-primary" data-dnext>Got it</button>`;
+      else right = `<button class="btn btn-primary" data-dnext>${esc(el('d-next').value)||'Next'} <i data-icon="arrow-right"></i></button>`;
       $dlg.innerHTML = `<div class="dlg">
         <button class="dlg-close ib ib-36 ib-secondary" data-dclose aria-label="Close"><i data-icon="cross"></i></button>
-        ${mediaWithTag}
+        ${media}
         <div class="dlg-body">
           ${tagBody}
-          <p class="dlg-title">${esc(s.title)}</p>
-          <p class="dlg-text">${esc(s.body)}</p>
+          <p class="dlg-title">${esc(sl.title)}</p>
+          <p class="dlg-text">${esc(sl.body)}</p>
           <div class="dlg-dots">${dots}</div>
-          <div class="dlg-footer">
-            <button class="btn btn-secondary" data-dprev><i data-icon="arrow-left"></i> ${esc(prevLabel)}</button>
-            <button class="btn btn-primary" data-dnext>${esc(nextLabel)} ${lastFinal?'':'<i data-icon="arrow-right"></i>'}</button>
-          </div>
+          <div class="dlg-footer">${left}${right}</div>
         </div>
       </div>`;
-      $dlg.classList.add('open');
-      paint($dlg);
+      $dlg.classList.add('open'); paint($dlg);
     }
     function updateFab(){
       el('c-fab').classList.toggle('show', tab === 'card' && (cCount <= 0 || cIdx >= cCount));
       el('d-fab').classList.toggle('show', tab === 'dialog' && !dOpen);
     }
-    function dOpenDlg(){ dPhase='intro'; dStep=0; dOpen=true; dRender(); updateFab(); }
-    function dStartTour(){ dPhase='tour'; dStep=0; dRender(); }
+    function dOpenDlg(){ dIdx=0; dOpen=true; dRender(); updateFab(); }
     function dClose(){ dOpen=false; dRender(); updateFab(); }
-    function dNext(){
-      if (dStep < dCount-1){ dStep++; dRender(); }
-      else if (el('d-outro-on').checked){ dPhase='outro'; dRender(); }
-      else dClose();
-    }
-    function dPrev(){
-      if (dPhase==='outro'){ dPhase='tour'; dRender(); return; }
-      if (dStep > 0){ dStep--; dRender(); } else { dPhase='intro'; dRender(); }
-    }
-    function dSetCount(n){ dCount=Math.max(1,Math.min(6,n)); el('d-count').value=dCount; if(dStep>=dCount) dStep=dCount-1; dRenderForm(); dRender(); }
+    function dNext(){ const S=slides(); if (dIdx < S.length-1){ dIdx++; dRender(); } else dClose(); }
+    function dPrev(){ if (dIdx > 0){ dIdx--; dRender(); } }
+    function dSetCount(n){ dCount=Math.max(1,Math.min(6,n)); el('d-count').value=dCount; dRenderForm(); dRender(); }
 
     $dlg.addEventListener('click', e => {
       if (e.target.closest('[data-dclose]')) return dClose();
       if (e.target.closest('[data-dskip]')) return dClose();
-      if (e.target.closest('[data-dstart]')) return dStartTour();
       if (e.target.closest('[data-dnext]')) return dNext();
       if (e.target.closest('[data-dprev]')) return dPrev();
-      const dot = e.target.closest('[data-ddot]'); if (dot){ dStep = +dot.dataset.ddot; dRender(); return; }
+      const dot = e.target.closest('[data-ddot]'); if (dot){ dIdx = +dot.dataset.ddot; dRender(); return; }
       if (e.target === $dlg) dClose(); // click backdrop
     });
     el('d-count').addEventListener('input', () => dSetCount(parseInt(el('d-count').value,10)||1));
     document.querySelectorAll('.tf-num-btn[data-dstep]').forEach(b => b.addEventListener('click', () => dSetCount((parseInt(el('d-count').value,10)||0)+parseInt(b.dataset.dstep,10))));
     function dEdit(e){
       const t=e.target;
-      if (t.id==='d-prev' || t.id==='d-next'){ dRender(); return; }
       if (t.dataset.step===undefined) return;
       const i=+t.dataset.step, f=t.dataset.field;
       if (f==='media'){ STEPS[i][f]=t.checked; t.closest('.card-cfg').querySelector('.swatch').style.background = t.checked?D_BG[i]:'var(--bg-tertiary)'; }
       else if (f==='locked'){ STEPS[i][f]=t.checked; }
       else STEPS[i][f]=t.value;
-      if (i===dStep && dPhase==='tour') dRender();
+      if (dOpen) dRender();
     }
     $stepCfgs.addEventListener('input', dEdit); $stepCfgs.addEventListener('change', dEdit);
-    el('d-prev').addEventListener('input', dRender); el('d-next').addEventListener('input', dRender);
-    el('d-plantag').addEventListener('input', () => { if (dPhase==='tour') dRender(); });
-    ['d-outro-on','d-outro-title','d-outro-body','d-outro-cta','d-outro-url'].forEach(id => {
+    // any dialog setting re-renders the open dialog (one slide list reads them all)
+    ['d-prev','d-next','d-plantag','d-intro-title','d-intro-body','d-start','d-skip','d-intro-media',
+     'd-outro-on','d-outro-title','d-outro-body','d-outro-cta','d-outro-url'].forEach(id => {
       el(id).addEventListener('input', () => { if (dOpen) dRender(); });
       el(id).addEventListener('change', () => { if (dOpen) dRender(); });
-    });
-    ['d-intro-title','d-intro-body','d-start','d-skip','d-intro-media'].forEach(id => {
-      el(id).addEventListener('input', () => { if (dPhase==='intro') dRender(); });
-      el(id).addEventListener('change', () => { if (dPhase==='intro') dRender(); });
     });
     el('d-fab').addEventListener('click', dOpenDlg);
 
