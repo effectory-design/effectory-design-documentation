@@ -68,6 +68,10 @@
     .dlg-media { height: 300px; display: flex; align-items: center; justify-content: center; color: rgba(25,39,67,.32); overflow: hidden; transition: height .3s cubic-bezier(.4,0,.2,1); }
     .dlg-media.is-collapsed { height: 0; }
     .dlg-media-ph { display: flex; width: 48px; height: 48px; }
+    /* festive intro header */
+    .dlg-intro-media { background: linear-gradient(135deg, #7b6cf0 0%, #30b3af 100%); color: #fff; position: relative; }
+    .dlg-intro-spark { display: flex; width: 76px; height: 76px; filter: drop-shadow(0 4px 10px rgba(25,39,67,.25)); }
+    .confetti { position: absolute; width: 11px; height: 11px; border-radius: 2px; opacity: .92; }
     /* close uses the real design-system Icon Button (.ib .ib-secondary); this only positions it */
     .dlg-close { position: absolute; top: 16px; right: 16px; z-index: 2; }
     .dlg-body { padding: 32px; }
@@ -276,7 +280,16 @@
       if (!dOpen) { $dlg.classList.remove('open'); $dlg.innerHTML=''; return; }
       if (dPhase === 'intro') {
         const im = el('d-intro-media').checked;
-        const media = `<div class="dlg-media ${im?'':'is-collapsed'}" style="background:#6c5ce7; color:rgba(255,255,255,.85);">${DPH}</div>`;
+        const confetti = [
+          'top:34px;left:64px;background:#ffd857;transform:rotate(22deg)',
+          'top:58px;right:96px;background:#ff5d8f;border-radius:50%',
+          'bottom:48px;left:104px;background:#c1eeed;border-radius:50%',
+          'top:96px;left:168px;background:#fff;transform:rotate(-16deg)',
+          'bottom:64px;right:130px;background:#ffd857;border-radius:50%',
+          'top:48px;right:180px;background:#fff;transform:rotate(38deg)',
+          'bottom:90px;left:60px;background:#ff5d8f;transform:rotate(10deg)'
+        ].map(s => `<span class="confetti" style="${s}"></span>`).join('');
+        const media = `<div class="dlg-media dlg-intro-media ${im?'':'is-collapsed'}">${confetti}<i data-icon="featured" class="dlg-intro-spark"></i></div>`;
         $dlg.innerHTML = `<div class="dlg">
           <button class="dlg-close ib ib-36 ib-secondary" data-dclose aria-label="Close"><i data-icon="cross"></i></button>
           ${media}
