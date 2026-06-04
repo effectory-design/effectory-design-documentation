@@ -458,10 +458,17 @@
       surveys:document.getElementById('pg-exp-surveys').checked,
       org:document.getElementById('pg-exp-org').checked,
     };}
+    // Tracks which sub-item is active per expandable group (lets clicks highlight sub-items).
+    const activeSub = { surveys:'All surveys', org:'Employees' };
     function item(icon, label, key, s, group){
       const active = s.active===key ? ' is-active' : '';
-      const chev = group ? ` <i data-icon="${(group==='surveys'?s.surveys:s.org)?'chevron-up':'chevron-down'}" class="mn-chev"></i>` : '';
-      return `<a class="mn-item${active}"><i data-icon="${icon}"></i> ${label}${chev}</a>`;
+      const expanded = group ? (group==='surveys'?s.surveys:s.org) : null;
+      const chev = group ? ` <i data-icon="${expanded?'chevron-up':'chevron-down'}" class="mn-chev"></i>` : '';
+      const aria = group ? ` aria-expanded="${expanded}"` : (s.active===key ? ' aria-current="page"' : '');
+      return `<a class="mn-item${active}" data-key="${key}"${group?` data-group="${group}"`:''}${aria}><i data-icon="${icon}"></i> ${label}${chev}</a>`;
+    }
+    function sub(label, group){
+      return `<a class="mn-subitem${activeSub[group]===label?' is-active':''}" data-sub="${label}" data-subgroup="${group}">${label}</a>`;
     }
     function buildHtml(s){
       const personal = s.portal==='personal';
@@ -472,13 +479,13 @@
         items += item('refresh','360° Feedback','feedback',s);
       } else {
         items += item('clipboard','Surveys','surveys',s,'surveys');
-        if (s.surveys) items += `<div class="mn-sub"><a class="mn-subitem is-active">All surveys</a><a class="mn-subitem">Projects</a></div>`;
+        if (s.surveys) items += `<div class="mn-sub">${sub('All surveys','surveys')}${sub('Projects','surveys')}</div>`;
         items += item('refresh','360° Feedback','feedback',s);
         items += item('globe','Organization','org',s,'org');
-        if (s.org) items += `<div class="mn-sub"><a class="mn-subitem is-active">Employees</a><a class="mn-subitem">Reporting structures</a><a class="mn-subitem">Segments</a><a class="mn-subitem">Integrations</a><div class="mn-sub-divider"></div><a class="mn-subitem">Admins</a><a class="mn-subitem">Security</a></div>`;
+        if (s.org) items += `<div class="mn-sub">${sub('Employees','org')}${sub('Reporting structures','org')}${sub('Segments','org')}${sub('Integrations','org')}<div class="mn-sub-divider"></div>${sub('Admins','org')}${sub('Security','org')}</div>`;
       }
       return `<div class="mainnav${personal?' is-personal':''}" style="height:480px;">
-        <button class="mn-portal"><span class="mn-logo"></span> <b>${personal?'Personal':'Coordinator'}</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+        <button class="mn-portal" data-action="portal"><span class="mn-logo"></span> <b>${personal?'Personal':'Coordinator'}</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
         <nav class="mn-nav" aria-label="Main">${items}</nav>
         <div class="mn-foot">
           <a class="mn-item"><i data-icon="help"></i> Help &amp; learn</a>
@@ -510,7 +517,21 @@
     }
     function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
     ['pg-portal','pg-active','pg-exp-surveys','pg-exp-org'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',render);el.addEventListener('change',render);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-portal').value=defaults.portal;document.getElementById('pg-active').value=defaults.active;document.getElementById('pg-exp-surveys').checked=defaults.surveys;document.getElementById('pg-exp-org').checked=defaults.org;render();});
+    // Make the rendered nav directly clickable; the props controls stay in sync.
+    $preview.addEventListener('click', e=>{
+      const portal = e.target.closest('[data-action="portal"]');
+      if (portal){ const sel=document.getElementById('pg-portal'); sel.value = sel.value==='personal'?'coordinator':'personal'; render(); return; }
+      const subEl = e.target.closest('.mn-subitem');
+      if (subEl){ activeSub[subEl.dataset.subgroup]=subEl.dataset.sub; render(); return; }
+      const it = e.target.closest('.mn-item');
+      if (it && it.dataset.key){
+        const group=it.dataset.group;
+        if (group){ const cb=document.getElementById(group==='surveys'?'pg-exp-surveys':'pg-exp-org'); cb.checked=!cb.checked; }
+        document.getElementById('pg-active').value=it.dataset.key;
+        render();
+      }
+    });
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-portal').value=defaults.portal;document.getElementById('pg-active').value=defaults.active;document.getElementById('pg-exp-surveys').checked=defaults.surveys;document.getElementById('pg-exp-org').checked=defaults.org;activeSub.surveys='All surveys';activeSub.org='Employees';render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     render();
