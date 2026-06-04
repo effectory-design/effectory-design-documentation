@@ -58,7 +58,7 @@
     <div class="mn-foot">
       <a class="mn-item"><i data-icon="help"></i> Help &amp; learn</a>
       <div class="mn-foot-divider"></div>
-      <div class="mn-user">
+      <div class="mn-user" id="userBtn" title="Open account designs in Figma">
         <div class="av av-36 av-blue">JR</div>
         <div class="mn-meta">
           <div class="mn-name">Jamal van Rooi…</div>
@@ -176,6 +176,11 @@
       render(); return;
     }
     active = it.dataset.key; render();
+  });
+
+  // Account / name menu item → open the Figma designs in a new tab
+  document.getElementById('userBtn').addEventListener('click', ()=>{
+    window.open('https://www.figma.com/design/W5JIbsiwG0mczYajMuEwSOmy/%F0%9F%A4%96-Components?node-id=19464-14816&t=mEZM561fyBEC8Cuh-4', '_blank', 'noopener');
   });
 
   // Portal switch
