@@ -76,7 +76,7 @@
     .dlg-close { position: absolute; top: 16px; right: 16px; z-index: 2; }
     .dlg-body { padding: 32px; }
     .dlg-title { font-size: 18px; font-weight: 600; margin: 0 0 8px; color: var(--content-base); }
-    .dlg-text { font-size: 14px; font-weight: 400; line-height: 1.6; margin: 0; color: var(--content-secondary); }
+    .dlg-text { font-size: 14px; font-weight: 400; line-height: 1.6; margin: 0; color: var(--content-secondary); min-height: 90px; } /* ~4 lines, keeps step heights consistent */
     .dlg-dots { display: flex; gap: 8px; justify-content: center; margin: 24px 0; }
     .dlg-dot { width: 8px; height: 8px; border-radius: 50%; background: #c1eeed; cursor: pointer; transition: background .15s; }
     .dlg-dot.is-active { background: #30b3af; }
