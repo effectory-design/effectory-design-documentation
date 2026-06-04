@@ -42,8 +42,12 @@
     .ph-line { height: 9px; border-radius: var(--radius-full); background: var(--bg-secondary); margin-top: 8px; }
     .ph-line.w-90 { width: 90%; } .ph-line.w-70 { width: 70%; } .ph-line.w-50 { width: 50%; }
 
-    /* Account dropdown floats above the account button (fixed → never clipped by the sidebar) */
-    #userMenu { position: fixed; z-index: 50; }
+    /* Dropdowns float (fixed → never clipped by the sidebar) */
+    #userMenu, #portalMenu { position: fixed; z-index: 50; }
+    /* Mini portal logos inside the portal dropdown */
+    .pi-logo { width: 24px; height: 24px; flex-shrink: 0; background-size: contain; background-repeat: no-repeat; background-position: center; }
+    .pi-logo-coordinator { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzMwQjNBRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE5LjkwNTggMjIuOTIyNkMyMy41Mjk4IDIyLjkyMjYgMjYuNDc4MyAxOS45NzQ0IDI2LjQ3ODMgMTYuMzUwMkMyNi40NzgzIDEyLjcyNjIgMjMuNTI5OCA5Ljc3NzcxIDE5LjkwNTggOS43Nzc3MUMxNi4yODE2IDkuNzc3NzEgMTMuMzMzMiAxMi43MjYyIDEzLjMzMzIgMTYuMzUwMkMxMy4zMzMyIDE5Ljk3NDQgMTYuMjgxNiAyMi45MjI2IDE5LjkwNTggMjIuOTIyNlpNMTcuMDI0NiAxNi4zNTAyQzE3LjAyNDYgMTQuNzYxNSAxOC4zMTcyIDEzLjQ2ODYgMTkuOTA2MSAxMy40Njg2QzIxLjQ5NDggMTMuNDY4NiAyMi43ODc1IDE0Ljc2MTUgMjIuNzg3NSAxNi4zNTAyQzIyLjc4NzUgMTcuOTM5IDIxLjQ5NDggMTkuMjMxNyAxOS45MDYxIDE5LjIzMTdDMTguMzE3MiAxOS4yMzE3IDE3LjAyNDYgMTcuOTM5IDE3LjAyNDYgMTYuMzUwMlpNMjUuNzM2MyAyNS4xMTFDMjYuNTY5MiAyNS4xMTEgMjcuMjQ0MyAyNS43ODYxIDI3LjI0NDMgMjYuNjE5VjI4Ljk0MDRIMTQuNTU0OUwxMi42NjY1IDMwLjExMDZWMjYuNjMyNkMxMi42NjY1IDI1Ljc5MjEgMTMuMzQ3OCAyNS4xMTEgMTQuMTg4MyAyNS4xMTFIMjUuNzM2M1oiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="); }
+    .pi-logo-personal { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMTIuOEMwIDguMzE5NTggMCA2LjA3OTM3IDAuODcxOTQ4IDQuMzY4MDhDMS42Mzg5MyAyLjg2Mjc4IDIuODYyNzggMS42Mzg5MyA0LjM2ODA4IDAuODcxOTQ4QzYuMDc5MzcgMCA4LjMxOTU4IDAgMTIuOCAwSDI3LjJDMzEuNjgwNCAwIDMzLjkyMDYgMCAzNS42MzE5IDAuODcxOTQ4QzM3LjEzNzIgMS42Mzg5MyAzOC4zNjExIDIuODYyNzggMzkuMTI4MSA0LjM2ODA4QzQwIDYuMDc5MzcgNDAgOC4zMTk1OCA0MCAxMi44VjI3LjJDNDAgMzEuNjgwNCA0MCAzMy45MjA2IDM5LjEyODEgMzUuNjMxOUMzOC4zNjExIDM3LjEzNzIgMzcuMTM3MiAzOC4zNjExIDM1LjYzMTkgMzkuMTI4MUMzMy45MjA2IDQwIDMxLjY4MDQgNDAgMjcuMiA0MEgxMi44QzguMzE5NTggNDAgNi4wNzkzNyA0MCA0LjM2ODA4IDM5LjEyODFDMi44NjI3OCAzOC4zNjExIDEuNjM4OTMgMzcuMTM3MiAwLjg3MTk0OCAzNS42MzE5QzAgMzMuOTIwNiAwIDMxLjY4MDQgMCAyNy4yVjEyLjhaIiBmaWxsPSIjRkRCRDEyIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTkuOTA1OCAyMi45MjI2QzIzLjUyOTggMjIuOTIyNiAyNi40NzgzIDE5Ljk3NDQgMjYuNDc4MyAxNi4zNTAyQzI2LjQ3ODMgMTIuNzI2MiAyMy41Mjk4IDkuNzc3NzEgMTkuOTA1OCA5Ljc3NzcxQzE2LjI4MTYgOS43Nzc3MSAxMy4zMzMyIDEyLjcyNjIgMTMuMzMzMiAxNi4zNTAyQzEzLjMzMzIgMTkuOTc0NCAxNi4yODE2IDIyLjkyMjYgMTkuOTA1OCAyMi45MjI2Wk0xNy4wMjQ2IDE2LjM1MDJDMTcuMDI0NiAxNC43NjE1IDE4LjMxNzIgMTMuNDY4NiAxOS45MDYxIDEzLjQ2ODZDMjEuNDk0OCAxMy40Njg2IDIyLjc4NzUgMTQuNzYxNSAyMi43ODc1IDE2LjM1MDJDMjIuNzg3NSAxNy45MzkgMjEuNDk0OCAxOS4yMzE3IDE5LjkwNjEgMTkuMjMxN0MxOC4zMTcyIDE5LjIzMTcgMTcuMDI0NiAxNy45MzkgMTcuMDI0NiAxNi4zNTAyWk0yNS43MzYzIDI1LjExMUMyNi41NjkyIDI1LjExMSAyNy4yNDQzIDI1Ljc4NjEgMjcuMjQ0MyAyNi42MTlWMjguOTQwNEgxNC41NTQ5TDEyLjY2NjUgMzAuMTEwNlYyNi42MzI2QzEyLjY2NjUgMjUuNzkyMSAxMy4zNDc4IDI1LjExMSAxNC4xODgzIDI1LjExMUgyNS43MzYzWiIgZmlsbD0iIzE5Mjc0MyIvPgo8L3N2Zz4K"); }
   </style>
 </head>
 <body>
@@ -81,6 +85,12 @@
     <div class="menu-item" role="menuitem"><i class="menu-item-icon" data-icon="cookie"></i><div class="menu-item-body"><span class="menu-item-title">Cookie settings</span></div></div>
     <div class="menu-divider"></div>
     <div class="menu-item" role="menuitem"><i class="menu-item-icon" data-icon="log-out"></i><div class="menu-item-body"><span class="menu-item-title">Log out</span></div></div>
+  </div>
+
+  <!-- Portal switcher dropdown — also the documented Dropdown Menu component (.menu) -->
+  <div class="menu" id="portalMenu" role="menu" hidden>
+    <div class="menu-item" role="menuitem" data-portal="coordinator"><span class="pi-logo pi-logo-coordinator"></span><div class="menu-item-body"><span class="menu-item-title">Coordinator</span></div><svg class="menu-item-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="menu-item" role="menuitem" data-portal="personal"><span class="pi-logo pi-logo-personal"></span><div class="menu-item-body"><span class="menu-item-title">Personal</span></div><svg class="menu-item-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   </div>
 
   <div class="main">
@@ -192,30 +202,53 @@
     active = it.dataset.key; render();
   });
 
-  // Account / name menu item → open the account dropdown above the button
+  // ── Dropdowns (account + portal), both the documented .menu component ──
   const userBtn = document.getElementById('userBtn');
   const userMenu = document.getElementById('userMenu');
-  function openMenu(){
+  const portalBtn = document.getElementById('portalBtn');
+  const portalMenu = document.getElementById('portalMenu');
+
+  function closeMenus(){
+    userMenu.hidden = true; userBtn.setAttribute('aria-expanded','false');
+    portalMenu.hidden = true; portalBtn.setAttribute('aria-expanded','false');
+  }
+  // Account dropdown pops up above its button (it sits at the bottom of the sidebar)
+  function openUserMenu(){
+    closeMenus();
     const r = userBtn.getBoundingClientRect();
-    userMenu.hidden = false;
     userMenu.style.left = r.left + 'px';
     userMenu.style.width = '240px';
     userMenu.style.bottom = (window.innerHeight - r.top + 8) + 'px';
-    userBtn.setAttribute('aria-expanded','true');
+    userMenu.hidden = false; userBtn.setAttribute('aria-expanded','true');
     if (window.Icons && window.Icons.render) window.Icons.render(userMenu);
   }
-  function closeMenu(){ userMenu.hidden = true; userBtn.setAttribute('aria-expanded','false'); }
-  userBtn.addEventListener('click', e=>{ e.stopPropagation(); userMenu.hidden ? openMenu() : closeMenu(); });
-  document.addEventListener('click', e=>{ if (!userMenu.hidden && !userMenu.contains(e.target)) closeMenu(); });
-  document.addEventListener('keydown', e=>{ if (e.key==='Escape') closeMenu(); });
-
-  // Portal switch
-  document.getElementById('portalBtn').addEventListener('click', ()=>{
-    portal = portal==='personal' ? 'coordinator' : 'personal';
-    active = 'home';
-    expanded.surveys = false; expanded.org = false;
-    render();
+  // Portal dropdown drops down below its button (it sits at the top)
+  function openPortalMenu(){
+    closeMenus();
+    portalMenu.querySelectorAll('.menu-item').forEach(mi=>{
+      const sel = mi.dataset.portal===portal;
+      mi.classList.toggle('is-selected', sel);
+      mi.querySelector('.menu-item-check').style.visibility = sel ? 'visible' : 'hidden';
+    });
+    const r = portalBtn.getBoundingClientRect();
+    portalMenu.style.left = r.left + 'px';
+    portalMenu.style.width = '240px';
+    portalMenu.style.top = (r.bottom + 8) + 'px';
+    portalMenu.hidden = false; portalBtn.setAttribute('aria-expanded','true');
+    if (window.Icons && window.Icons.render) window.Icons.render(portalMenu);
+  }
+  userBtn.addEventListener('click', e=>{ e.stopPropagation(); userMenu.hidden ? openUserMenu() : closeMenus(); });
+  portalBtn.addEventListener('click', e=>{ e.stopPropagation(); portalMenu.hidden ? openPortalMenu() : closeMenus(); });
+  portalMenu.addEventListener('click', e=>{
+    const mi = e.target.closest('.menu-item'); if (!mi) return;
+    portal = mi.dataset.portal; active = 'home'; expanded.surveys = false; expanded.org = false;
+    closeMenus(); render();
   });
+  document.addEventListener('click', e=>{
+    if (!userMenu.hidden && !userMenu.contains(e.target)) closeMenus();
+    if (!portalMenu.hidden && !portalMenu.contains(e.target)) closeMenus();
+  });
+  document.addEventListener('keydown', e=>{ if (e.key==='Escape') closeMenus(); });
 
   render();
 })();
