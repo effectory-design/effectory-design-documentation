@@ -389,19 +389,22 @@
     });
     el('d-fab').addEventListener('click', dOpenDlg);
 
-    /* ══════════════ TABS ══════════════ */
+    /* ══════════════ TABS (deep-linkable: #card / #dialog) ══════════════ */
     let tab = 'card';
-    document.querySelectorAll('.tabs-top button').forEach(b => b.addEventListener('click', () => {
-      tab = b.dataset.tab;
-      document.querySelectorAll('.tabs-top button').forEach(x => x.classList.toggle('active', x===b));
+    function activate(t){
+      tab = (t === 'dialog') ? 'dialog' : 'card';
+      document.querySelectorAll('.tabs-top button').forEach(x => x.classList.toggle('active', x.dataset.tab===tab));
       document.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.dataset.panel===tab));
       if (tab === 'card') { dClose(); cReshow(); }
       else { $ann.innerHTML=''; dClose(); }   // dialog stays closed until "Show dialog"
-    }));
+      if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+    }
+    document.querySelectorAll('.tabs-top button').forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
+    window.addEventListener('hashchange', () => activate(location.hash.slice(1)));
 
     // init
-    cRenderForm(); cRenderDeck();
-    dRenderForm(); updateFab();
+    cRenderForm(); dRenderForm();
+    activate(location.hash.slice(1) || 'card');
   </script>
 </body>
 </html>
