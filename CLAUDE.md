@@ -528,6 +528,20 @@ Every other icon — in components, state demos, variant rows, anatomy callouts,
 
 ---
 
+## 14b. Typography — Always Use the Type Scale
+
+**Font sizes for components must come from the type scale. Never use an arbitrary `px` value.**
+
+Allowed sizes (px): **12, 14, 16, 18, 20, 26, 32, 42**. These map to the `text-l*` / `body-*` utilities. Prefer the utility class (`class="text-l5"`, `body-14`) over a raw `font-size`; when you must write `font-size`, use only a scale value.
+
+**Never** use off-scale values like `13`, `13.5`, `14.5`, `12.5`, `11`, `10.5`, `9.5px`. If a design looks like 13px, it's 12 or 14 — pick one. This applies to every component (in `components.css`) and every component demo in a `*-docs.html` `<style>` block.
+
+> The `styles.css` documentation chrome (page header, badges, TOC) is the website's own furniture and may use its own micro-sizes — that is **not** the component type scale and is out of scope.
+
+A pre-commit hook (`.githooks/pre-commit`, Guard 2) blocks off-scale `font-size` additions in `*-docs.html` and `components.css`. For a genuine exception, add `/* font-scale-exempt: reason */` on the line.
+
+---
+
 ## 15. Playground Section (Developer Tab — Required)
 
 Every component page must include a Playground as the first section in the Developer tab.

@@ -10,17 +10,17 @@
   <style>
     /* ── Main Navigation (app sidebar) ── */
     .mainnav {
-      --mn-accent: #0a9d99; --mn-accent-soft: #e9f6f5; --mn-logo: #30b3af;
       width: 240px; flex-shrink: 0; background: var(--bg-base); border: 1px solid var(--border-base);
       border-radius: var(--radius-lg); display: flex; flex-direction: column; padding: 16px 0;
       font-family: 'Poppins', sans-serif; height: 480px; overflow: hidden;
     }
-    .mainnav.is-personal { --mn-accent: #b8860b; --mn-accent-soft: #fff3d1; --mn-logo: #fdbd12; }
+    /* Personal portal remaps the brand tokens (mirrors html[data-portal="personal"]) */
+    .mainnav.is-personal { --bg-brand-subtle-selected: #ffefc2; --content-brand-base: #8a4b15; --logo-bg: #fdbd12; }
 
     /* portal switcher */
     .mn-portal { display: flex; align-items: center; gap: 10px; margin: 0 12px 16px; padding: 8px 10px; border: none; background: transparent; border-radius: 10px; cursor: pointer; font-family: inherit; }
     .mn-portal:hover { background: var(--bg-base-hover); }
-    .mn-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--mn-logo); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mn-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--logo-bg, #30b3af); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .mn-logo span { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid #fff; }
     .mn-portal b { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .mn-portal .mn-chev { margin-left: auto; width: 15px; height: 15px; color: var(--content-subtle); display: flex; }
@@ -31,14 +31,14 @@
     .mn-item > i[data-icon] { width: 20px; height: 20px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
     .mn-item .mn-chev { margin-left: auto; width: 15px; height: 15px; color: var(--content-subtle); display: flex; }
     .mn-item:hover, .mn-item.is-hover { background: var(--bg-base-hover); color: var(--content-base); }
-    .mn-item.is-active { background: var(--mn-accent-soft); color: var(--content-base); font-weight: 600; }
-    .mn-item.is-active > i[data-icon] { color: var(--mn-accent); }
+    .mn-item.is-active { background: var(--bg-brand-subtle-selected); color: var(--content-base); font-weight: 600; }
+    .mn-item.is-active > i[data-icon] { color: var(--content-brand-base); }
 
     /* expandable group */
     .mn-sub { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 6px; }
     .mn-subitem { display: flex; align-items: center; height: 44px; padding: 0 14px 0 46px; border-radius: 9px; font-size: 14px; color: var(--content-secondary); text-decoration: none; cursor: pointer; }
     .mn-subitem:hover { background: var(--bg-base-hover); color: var(--content-base); }
-    .mn-subitem.is-active { background: var(--mn-accent-soft); color: var(--content-base); font-weight: 600; }
+    .mn-subitem.is-active { background: var(--bg-brand-subtle-selected); color: var(--content-base); font-weight: 600; }
     .mn-sub-divider { height: 1px; background: var(--border-base); margin: 6px 12px; }
 
     /* footer: help + account */
@@ -304,8 +304,9 @@
               <tr><td><code>--bg-base-hover</code></td><td>Item hover</td><td>—</td></tr>
               <tr><td><code>--content-secondary</code></td><td>Item label (rest)</td><td>rgba(25,39,67,.8)</td></tr>
               <tr><td><code>--content-subtle</code></td><td>Item icons (rest), chevrons, org line</td><td>rgba(25,39,67,.5)</td></tr>
-              <tr><td><code>--bg-brand-subtle</code> / accent</td><td>Active-item highlight (Coordinator = teal, Personal = yellow)</td><td>#e9f6f5 / #fff3d1</td></tr>
-              <tr><td>logo fill</td><td>Portal logo square (Coordinator / Personal)</td><td>#30b3af / #fdbd12</td></tr>
+              <tr><td><code>--bg-brand-subtle-selected</code></td><td>Active-item highlight — remaps with the portal (Coordinator / Personal)</td><td>#d2f8f6 / #ffefc2</td></tr>
+              <tr><td><code>--content-brand-base</code></td><td>Active-item icon</td><td>#166764 / #8a4b15</td></tr>
+              <tr><td><code>--logo-bg</code></td><td>Portal logo square (Coordinator / Personal)</td><td>#30b3af / #fdbd12</td></tr>
               <tr><td><code>--sh-dialogs</code></td><td>Account dropdown shadow</td><td>0 4px 12px rgba(25,39,67,.08)</td></tr>
               <tr><td><code>--radius-lg</code></td><td>Dropdown / item radius</td><td>12px / 9px</td></tr>
             </tbody>
@@ -402,13 +403,13 @@
 
         <section class="section" id="dev-tokens">
           <h2 class="text-l3">CSS tokens</h2>
-          <p class="section-lead">See the Design tab for the full list. The portal accent is driven by two custom properties on <code>.mainnav</code>.</p>
+          <p class="section-lead">The active item uses design tokens directly; switching to the Personal portal (<code>html[data-portal="personal"]</code>) remaps them to the yellow brand.</p>
           <table class="token-table">
-            <thead><tr><th>Custom property</th><th>Used for</th></tr></thead>
+            <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--mn-accent</code></td><td>Active item icon / accent (teal · yellow)</td></tr>
-              <tr><td><code>--mn-accent-soft</code></td><td>Active item highlight background</td></tr>
-              <tr><td><code>--mn-logo</code></td><td>Portal logo square fill</td></tr>
+              <tr><td><code>--bg-brand-subtle-selected</code></td><td>Active-item highlight background</td></tr>
+              <tr><td><code>--content-brand-base</code></td><td>Active-item icon</td></tr>
+              <tr><td><code>--logo-bg</code></td><td>Portal logo square fill</td></tr>
             </tbody>
           </table>
         </section>

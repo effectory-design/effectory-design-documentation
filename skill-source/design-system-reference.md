@@ -737,7 +737,7 @@ De primaire app-sidebar (240px, links). Bevat een portal-switcher bovenaan, navi
   </div>
 </div>
 ```
-Classes: `.mainnav` (+ `.is-personal`), `.mn-portal`/`.mn-logo`, `.mn-nav`/`.mn-item` (states `.is-hover`/`.is-active`, optionele `.mn-chev`), uitklapbare groep `.mn-sub`/`.mn-subitem` (+ `.mn-sub-divider`), footer `.mn-foot`/`.mn-user` (states `.is-hover`/`.is-pressed`), account-dropdown `.mn-menu`/`.mn-menu-item` (`.mn-menu-divider`, `.mn-beta`). Het portal-accent loopt via `--mn-accent`, `--mn-accent-soft` en `--mn-logo` op `.mainnav` (Coordinator = teal, Personal = geel). A11y: `<nav aria-label="Main">`, `aria-current="page"` op de actieve item, `aria-expanded` op groep-headers.
+Classes: `.mainnav` (+ `.is-personal`), `.mn-portal`/`.mn-logo`, `.mn-nav`/`.mn-item` (states `.is-hover`/`.is-active`, optionele `.mn-chev`), uitklapbare groep `.mn-sub`/`.mn-subitem` (+ `.mn-sub-divider`), footer `.mn-foot`/`.mn-user` (states `.is-hover`/`.is-pressed`), account-dropdown `.mn-menu`/`.mn-menu-item` (`.mn-menu-divider`, `.mn-beta`). De actieve item gebruikt `--bg-brand-subtle-selected` (highlight) + `--content-brand-base` (icoon) en het logo-vlak `--logo-bg`. Het Personal-portal (`html[data-portal="personal"]`, of `.mainnav.is-personal` in een prototype) remapt die brand-tokens naar geel. A11y: `<nav aria-label="Main">`, `aria-current="page"` op de actieve item, `aria-expanded` op groep-headers.
 
 > ⚠️ **Dev gap:** de Angular-selector/inputs van de app-sidebar zijn nog niet bevestigd in de styleguide. Deze `.mainnav`-classes zijn de prototype-structuur; verifieer de productie-API met engineering.
 
