@@ -724,7 +724,7 @@ De primaire app-sidebar (240px, links). Bevat een portal-switcher bovenaan, navi
 
 ```html
 <div class="mainnav">                          <!-- + .is-personal voor het Personal-portal (geel accent) -->
-  <button class="mn-portal"><span class="mn-logo"><span></span></span> <b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
   <nav class="mn-nav" aria-label="Main">
     <a class="mn-item is-active"><i data-icon="home"></i> Home</a>
     <a class="mn-item"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-down" class="mn-chev"></i></a>
@@ -738,7 +738,7 @@ De primaire app-sidebar (240px, links). Bevat een portal-switcher bovenaan, navi
   </div>
 </div>
 ```
-Classes: `.mainnav` (+ `.is-personal`), `.mn-portal`/`.mn-logo`, `.mn-nav`/`.mn-item` (states `.is-hover`/`.is-active`, optionele `.mn-chev`), uitklapbare groep `.mn-sub`/`.mn-subitem` (+ `.mn-sub-divider`), footer `.mn-foot`/`.mn-user` (states `.is-hover`/`.is-pressed`), account-dropdown `.mn-menu`/`.mn-menu-item` (`.mn-menu-divider`, `.mn-beta`). De actieve item gebruikt `--bg-brand-subtle-selected` (highlight) + `--content-brand-base` (icoon). Het portal-logo (`.mn-logo`) is het Effectory-merklogo als `background-image` (teal voor Coordinator), dat naar het gele logo wisselt bij `.mainnav.is-personal`. Het Personal-portal (`html[data-portal="personal"]`, of `.mainnav.is-personal` in een prototype) remapt die brand-tokens naar geel. Het account-menu gebruikt de gedocumenteerde **Avatar** (`.av av-32`), niet een eigen avatar-class. Menu-item-iconen zijn 16px met `--content-action`; alle radii komen uit `--radius-*` tokens. A11y: `<nav aria-label="Main">`, `aria-current="page"` op de actieve item, `aria-expanded` op groep-headers.
+Classes: `.mainnav` (+ `.is-personal`), `.mn-portal` (container) met statisch `.mn-logo` + klikbare `.mn-portal-btn` (alleen het label/chevron heeft een hover-achtergrond, het logo niet), `.mn-nav`/`.mn-item` (states `.is-hover`/`.is-active`, optionele `.mn-chev`), uitklapbare groep `.mn-sub`/`.mn-subitem` (+ `.mn-sub-divider`), footer `.mn-foot`/`.mn-user` (states `.is-hover`/`.is-pressed`), account-dropdown `.mn-menu`/`.mn-menu-item` (`.mn-menu-divider`, `.mn-beta`). De actieve item gebruikt `--bg-brand-subtle-selected` (highlight) + `--content-brand-base` (icoon). Het portal-logo (`.mn-logo`) is het Effectory-merklogo als `background-image` (teal voor Coordinator), dat naar het gele logo wisselt bij `.mainnav.is-personal`. Het Personal-portal (`html[data-portal="personal"]`, of `.mainnav.is-personal` in een prototype) remapt die brand-tokens naar geel. Het account-menu gebruikt de gedocumenteerde **Avatar** (`.av av-32`), niet een eigen avatar-class. Menu-item-iconen zijn 16px met `--content-action`; alle radii komen uit `--radius-*` tokens. A11y: `<nav aria-label="Main">`, `aria-current="page"` op de actieve item, `aria-expanded` op groep-headers.
 
 > ⚠️ **Dev gap:** de Angular-selector/inputs van de app-sidebar zijn nog niet bevestigd in de styleguide. Deze `.mainnav`-classes zijn de prototype-structuur; verifieer de productie-API met engineering.
 

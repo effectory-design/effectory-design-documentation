@@ -18,12 +18,13 @@
     .mainnav.is-personal { --bg-brand-subtle-selected: #ffefc2; --content-brand-base: #8a4b15; }
 
     /* portal switcher */
-    .mn-portal { display: flex; align-items: center; gap: 10px; margin: 0 16px 16px; padding: 8px 10px; border: none; background: transparent; border-radius: var(--radius-md); cursor: pointer; font-family: inherit; }
-    .mn-portal:hover { background: var(--bg-base-hover); }
+    .mn-portal { display: flex; align-items: center; gap: 10px; margin: 0 16px 16px; }
+    .mn-portal-btn { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding: 8px 10px; border: none; background: transparent; border-radius: var(--radius-md); cursor: pointer; font-family: inherit; }
+    .mn-portal-btn:hover { background: var(--bg-base-hover); }
     .mn-logo { width: 40px; height: 40px; flex-shrink: 0; background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzMwQjNBRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE5LjkwNTggMjIuOTIyNkMyMy41Mjk4IDIyLjkyMjYgMjYuNDc4MyAxOS45NzQ0IDI2LjQ3ODMgMTYuMzUwMkMyNi40NzgzIDEyLjcyNjIgMjMuNTI5OCA5Ljc3NzcxIDE5LjkwNTggOS43Nzc3MUMxNi4yODE2IDkuNzc3NzEgMTMuMzMzMiAxMi43MjYyIDEzLjMzMzIgMTYuMzUwMkMxMy4zMzMyIDE5Ljk3NDQgMTYuMjgxNiAyMi45MjI2IDE5LjkwNTggMjIuOTIyNlpNMTcuMDI0NiAxNi4zNTAyQzE3LjAyNDYgMTQuNzYxNSAxOC4zMTcyIDEzLjQ2ODYgMTkuOTA2MSAxMy40Njg2QzIxLjQ5NDggMTMuNDY4NiAyMi43ODc1IDE0Ljc2MTUgMjIuNzg3NSAxNi4zNTAyQzIyLjc4NzUgMTcuOTM5IDIxLjQ5NDggMTkuMjMxNyAxOS45MDYxIDE5LjIzMTdDMTguMzE3MiAxOS4yMzE3IDE3LjAyNDYgMTcuOTM5IDE3LjAyNDYgMTYuMzUwMlpNMjUuNzM2MyAyNS4xMTFDMjYuNTY5MiAyNS4xMTEgMjcuMjQ0MyAyNS43ODYxIDI3LjI0NDMgMjYuNjE5VjI4Ljk0MDRIMTQuNTU0OUwxMi42NjY1IDMwLjExMDZWMjYuNjMyNkMxMi42NjY1IDI1Ljc5MjEgMTMuMzQ3OCAyNS4xMTEgMTQuMTg4MyAyNS4xMTFIMjUuNzM2M1oiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="); background-size: contain; background-repeat: no-repeat; background-position: center; }
     .mainnav.is-personal .mn-logo { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMTIuOEMwIDguMzE5NTggMCA2LjA3OTM3IDAuODcxOTQ4IDQuMzY4MDhDMS42Mzg5MyAyLjg2Mjc4IDIuODYyNzggMS42Mzg5MyA0LjM2ODA4IDAuODcxOTQ4QzYuMDc5MzcgMCA4LjMxOTU4IDAgMTIuOCAwSDI3LjJDMzEuNjgwNCAwIDMzLjkyMDYgMCAzNS42MzE5IDAuODcxOTQ4QzM3LjEzNzIgMS42Mzg5MyAzOC4zNjExIDIuODYyNzggMzkuMTI4MSA0LjM2ODA4QzQwIDYuMDc5MzcgNDAgOC4zMTk1OCA0MCAxMi44VjI3LjJDNDAgMzEuNjgwNCA0MCAzMy45MjA2IDM5LjEyODEgMzUuNjMxOUMzOC4zNjExIDM3LjEzNzIgMzcuMTM3MiAzOC4zNjExIDM1LjYzMTkgMzkuMTI4MUMzMy45MjA2IDQwIDMxLjY4MDQgNDAgMjcuMiA0MEgxMi44QzguMzE5NTggNDAgNi4wNzkzNyA0MCA0LjM2ODA4IDM5LjEyODFDMi44NjI3OCAzOC4zNjExIDEuNjM4OTMgMzcuMTM3MiAwLjg3MTk0OCAzNS42MzE5QzAgMzMuOTIwNiAwIDMxLjY4MDQgMCAyNy4yVjEyLjhaIiBmaWxsPSIjRkRCRDEyIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTkuOTA1OCAyMi45MjI2QzIzLjUyOTggMjIuOTIyNiAyNi40NzgzIDE5Ljk3NDQgMjYuNDc4MyAxNi4zNTAyQzI2LjQ3ODMgMTIuNzI2MiAyMy41Mjk4IDkuNzc3NzEgMTkuOTA1OCA5Ljc3NzcxQzE2LjI4MTYgOS43Nzc3MSAxMy4zMzMyIDEyLjcyNjIgMTMuMzMzMiAxNi4zNTAyQzEzLjMzMzIgMTkuOTc0NCAxNi4yODE2IDIyLjkyMjYgMTkuOTA1OCAyMi45MjI2Wk0xNy4wMjQ2IDE2LjM1MDJDMTcuMDI0NiAxNC43NjE1IDE4LjMxNzIgMTMuNDY4NiAxOS45MDYxIDEzLjQ2ODZDMjEuNDk0OCAxMy40Njg2IDIyLjc4NzUgMTQuNzYxNSAyMi43ODc1IDE2LjM1MDJDMjIuNzg3NSAxNy45MzkgMjEuNDk0OCAxOS4yMzE3IDE5LjkwNjEgMTkuMjMxN0MxOC4zMTcyIDE5LjIzMTcgMTcuMDI0NiAxNy45MzkgMTcuMDI0NiAxNi4zNTAyWk0yNS43MzYzIDI1LjExMUMyNi41NjkyIDI1LjExMSAyNy4yNDQzIDI1Ljc4NjEgMjcuMjQ0MyAyNi42MTlWMjguOTQwNEgxNC41NTQ5TDEyLjY2NjUgMzAuMTEwNlYyNi42MzI2QzEyLjY2NjUgMjUuNzkyMSAxMy4zNDc4IDI1LjExMSAxNC4xODgzIDI1LjExMUgyNS43MzYzWiIgZmlsbD0iIzE5Mjc0MyIvPgo8L3N2Zz4K"); }
-    .mn-portal b { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .mn-portal .mn-chev { margin-left: auto; width: 16px; height: 16px; color: var(--content-subtle); display: flex; }
+    .mn-portal-btn b { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .mn-portal-btn .mn-chev { margin-left: auto; width: 16px; height: 16px; color: var(--content-subtle); display: flex; }
 
     /* nav items */
     .mn-nav { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
@@ -118,7 +119,7 @@
           <p class="section-lead">A fixed-width column with a portal switcher on top, the navigation items in the middle, and the account menu pinned to the bottom.</p>
           <div class="anatomy-fig">
             <div class="mainnav" style="pointer-events:none;">
-              <button class="mn-portal"><span class="mn-logo"></span> <b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+              <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
               <nav class="mn-nav">
                 <a class="mn-item is-active"><i data-icon="home"></i> Home</a>
                 <a class="mn-item"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-down" class="mn-chev"></i></a>
@@ -150,7 +151,7 @@
             <div class="dd-card">
               <div class="mn-prev">
                 <div class="mainnav" style="pointer-events:none; height:320px;">
-                  <button class="mn-portal"><span class="mn-logo"></span> <b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+                  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
                   <nav class="mn-nav">
                     <a class="mn-item"><i data-icon="home"></i> Home</a>
                     <a class="mn-item is-active"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-up" class="mn-chev"></i></a>
@@ -164,7 +165,7 @@
             <div class="dd-card">
               <div class="mn-prev">
                 <div class="mainnav" style="pointer-events:none; height:320px;">
-                  <button class="mn-portal"><span class="mn-logo"></span> <b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+                  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
                   <nav class="mn-nav">
                     <a class="mn-item is-active"><i data-icon="home"></i> Home</a>
                     <a class="mn-item"><i data-icon="clipboard"></i> All surveys</a>
@@ -217,7 +218,7 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="mainnav" style="height:300px;">
-                  <button class="mn-portal"><span class="mn-logo"></span> <b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+                  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
                   <nav class="mn-nav">
                     <a class="mn-item is-active"><i data-icon="home"></i> Home</a>
                     <a class="mn-item"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-down" class="mn-chev"></i></a>
@@ -231,7 +232,7 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="mainnav is-personal" style="height:300px;">
-                  <button class="mn-portal"><span class="mn-logo"></span> <b>Personal</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+                  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn"><b>Personal</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
                   <nav class="mn-nav">
                     <a class="mn-item is-active"><i data-icon="home"></i> Home</a>
                     <a class="mn-item"><i data-icon="clipboard"></i> Your feedback</a>
@@ -406,7 +407,7 @@
             <thead><tr><th>Class</th><th>Role</th></tr></thead>
             <tbody>
               <tr><td><code>.mainnav</code></td><td>The sidebar (240px). Add <code>.is-personal</code> for the Personal portal accent.</td></tr>
-              <tr><td><code>.mn-portal</code> · <code>.mn-logo</code></td><td>Portal switcher button + logo square.</td></tr>
+              <tr><td><code>.mn-portal</code> · <code>.mn-logo</code> · <code>.mn-portal-btn</code></td><td>Portal switcher: static logo + the clickable label button (only the label/chevron has a hover background — the logo is not part of the button).</td></tr>
               <tr><td><code>.mn-nav</code> · <code>.mn-item</code></td><td>Item list + a single item (icon + label + optional <code>.mn-chev</code>). States: <code>.is-hover</code>, <code>.is-active</code>.</td></tr>
               <tr><td><code>.mn-sub</code> · <code>.mn-subitem</code></td><td>Expanded group's sub-items (indented). <code>.mn-sub-divider</code> separates setting-level items.</td></tr>
               <tr><td><code>.mn-foot</code> · <code>.mn-user</code></td><td>Bottom region: Help &amp; learn + account button (<code>.av</code>, <code>.mn-name</code>, <code>.mn-org</code>). States: <code>.is-hover</code>, <code>.is-pressed</code>.</td></tr>
@@ -499,7 +500,7 @@
         if (s.org) items += `<div class="mn-sub">${sub('Employees','org',s)}${sub('Reporting structures','org',s)}${sub('Segments','org',s)}${sub('Integrations','org',s)}<div class="mn-sub-divider"></div>${sub('Admins','org',s)}${sub('Security','org',s)}</div>`;
       }
       return `<div class="mainnav${personal?' is-personal':''}" style="height:480px;">
-        <button class="mn-portal" data-action="portal"><span class="mn-logo"></span> <b>${personal?'Personal':'Coordinator'}</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+        <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn" data-action="portal"><b>${personal?'Personal':'Coordinator'}</b> <i data-icon="chevron-down" class="mn-chev"></i></button></div>
         <nav class="mn-nav" aria-label="Main">${items}</nav>
         <div class="mn-foot">
           <a class="mn-item"><i data-icon="help"></i> Help &amp; learn</a>
@@ -512,7 +513,7 @@
       const personal = s.portal==='personal';
       const L = [];
       L.push(`<div class="mainnav${personal?' is-personal':''}">`);
-      L.push('  <button class="mn-portal">…</button>');
+      L.push('  <div class="mn-portal"><span class="mn-logo"></span><button class="mn-portal-btn">…</button></div>');
       L.push('  <nav class="mn-nav" aria-label="Main">');
       L.push(`    <a class="mn-item${s.active==='home'?' is-active':''}" ${s.active==='home'?'aria-current="page" ':''}><i data-icon="home"></i> Home</a>`);
       if (personal){
