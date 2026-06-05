@@ -2106,7 +2106,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* ── Side panel (right-docked overlay) ── */
 .sidepanel { display: flex; flex-direction: column; width: 800px; max-width: 100%; height: 100%; background: var(--bg-base); border-radius: var(--radius-xl) 0 0 var(--radius-xl); box-shadow: var(--sh-dialogs); font-family: 'Poppins', sans-serif; overflow: hidden; }
 .sidepanel-sm { width: 400px; }
-.sp-header { display: flex; flex-direction: column; gap: 14px; padding: 20px 24px 0; flex-shrink: 0; }
+.sp-header { display: flex; flex-direction: column; gap: 14px; padding: 40px 40px 0; flex-shrink: 0; }
 .sp-toolbar { display: flex; align-items: center; min-height: 20px; }
 .sp-nav { display: flex; align-items: center; gap: 10px; }
 .sp-nav i[data-icon] { width: 18px; height: 18px; display: flex; color: var(--content-action); cursor: pointer; }
@@ -2116,9 +2116,9 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .sp-heading .sp-title { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--content-base); }
 .sp-heading.is-sm .sp-title { font-size: 18px; line-height: 1.5; }
 .sp-heading .sp-subtitle { margin: 2px 0 0; font-size: 14px; color: var(--content-secondary); }
-.sp-tabs { display: flex; gap: 28px; margin: 2px -24px 0; padding: 0 24px; border-bottom: 1px solid var(--border-base); overflow-x: auto; }
+.sp-tabs { display: flex; gap: 28px; margin: 2px -40px 0; padding: 0 40px; border-bottom: 1px solid var(--border-base); overflow-x: auto; }
 .sp-tab { display: inline-flex; align-items: center; gap: 6px; padding: 10px 0; font-size: 14px; font-weight: 500; color: var(--content-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; cursor: pointer; }
 .sp-tab i[data-icon] { width: 16px; height: 16px; display: flex; }
 .sp-tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-base); }
-.sp-body { flex: 1; overflow: auto; padding: 20px 24px; font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
-.sp-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 16px 24px; border-top: 1px solid var(--border-base); flex-shrink: 0; }
+.sp-body { flex: 1; overflow: auto; padding: 24px 40px; font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
+.sp-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 24px 40px 40px; flex-shrink: 0; }
