@@ -69,9 +69,9 @@
     .sp-scene .sidepanel { position: absolute; top: 0; right: 0; height: 100%; box-shadow: -8px 0 24px -12px rgba(25,39,67,.3); }
 
     /* Anatomy */
-    .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 24px; display: flex; justify-content: center; }
-    .anatomy-fig .sidepanel { pointer-events: none; height: 460px; border: 1px solid var(--border-base); border-radius: var(--radius-xl); }
-    .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; /* font-scale-exempt: anatomy number badge */ font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 3; }
+    .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); margin-bottom: 24px; height: 460px; overflow: hidden; }
+    .anatomy-fig .sidepanel { position: absolute; top: 0; right: 0; height: 100%; width: 380px; pointer-events: none; z-index: 2; box-shadow: -8px 0 24px -12px rgba(25,39,67,.3); }
+    .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; /* font-scale-exempt: anatomy number badge */ font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 4; }
     .sp-slot { flex: 1; display: flex; align-items: center; justify-content: center; border: 1.5px dashed var(--border-action); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; font-size: 14px; color: var(--content-subtle); }
     .sp-body:has(.sp-slot) { display: flex; }
 
@@ -131,7 +131,13 @@
           <h2 class="text-l3">Anatomy</h2>
           <p class="section-lead">A side panel docks against the right edge at full height, over a scrim. A header holds the title and actions; the body scrolls; an optional footer pins the actions.</p>
           <div class="anatomy-fig">
-            <div class="sidepanel" style="width:420px;">
+            <div class="spm-page">
+              <div class="spm-title">Deepdive about Appreciation</div>
+              <div class="spm-tabs"><span class="is-active">Open Answers</span><span>Scores</span><span>Reports</span></div>
+              <div class="spm-row"></div><div class="spm-row"></div><div class="spm-row"></div>
+            </div>
+            <div class="spm-scrim"></div>
+            <div class="sidepanel">
               <div class="sp-header">
                 <div class="sp-toolbar">
                   <div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div>
@@ -143,14 +149,15 @@
               <div class="sp-body"><div class="sp-slot">Your content goes here — details, a form, or any custom UI</div></div>
               <div class="sp-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Confirm</button></div>
             </div>
-            <div class="ana-num" style="left:31%; top:11%;">1</div>
-            <div class="ana-num" style="left:34%; top:16%;">2</div>
-            <div class="ana-num" style="right:30%; top:16%;">3</div>
-            <div class="ana-num" style="left:31%; top:25%;">4</div>
-            <div class="ana-num" style="left:31%; top:31%;">5</div>
-            <div class="ana-num" style="left:31%; top:38%;">6</div>
-            <div class="ana-num" style="left:31%; top:55%;">7</div>
-            <div class="ana-num" style="right:30%; top:88%;">8</div>
+            <!-- callouts anchored to the right edge (panel is flush right) -->
+            <div class="ana-num" style="right:181px; top:8px;">1</div>
+            <div class="ana-num" style="right:10px; top:14px;">2</div>
+            <div class="ana-num" style="right:392px; top:18px;">3</div>
+            <div class="ana-num" style="right:392px; top:58px;">4</div>
+            <div class="ana-num" style="right:392px; top:98px;">5</div>
+            <div class="ana-num" style="right:392px; top:132px;">6</div>
+            <div class="ana-num" style="right:392px; top:236px;">7</div>
+            <div class="ana-num" style="right:392px; top:398px;">8</div>
           </div>
           <div class="anatomy-items">
             <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Surface</span> — A full-height panel docked to the right edge, raised over a scrim that dims the page behind it.</div></div>
