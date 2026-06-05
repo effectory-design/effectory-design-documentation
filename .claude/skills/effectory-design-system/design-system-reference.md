@@ -751,6 +751,29 @@ Ronde avatar met initialen of een icoon. Gebruik altijd deze gedocumenteerde com
 ```
 Maten: `.av-40` / `.av-36` / `.av-32` / `.av-24` / `.av-20` (font schaalt mee; av-24=11px, av-20=10px zijn bewust off-scale voor initialen). Kleuren: `.av-blue`, `.av-turquoise`, `.av-green`, `.av-orange`, `.av-red`, `.av-yellow`, `.av-grey` — elk een `--bg-accent-*-subtle` vlak met `--content-accent-*-base` tekst. Radius is altijd `--radius-full`. Gebruikt o.a. in de Main Navigation (`.av av-36` in `.mn-user`).
 
+### Dialog
+Een modale kaart die over een scrim verschijnt: titel, optionele subtitle, content-slot en een footer met acties. Eén primaire actie + een uitweg (Cancel/close).
+
+```html
+<div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+  <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
+  <div class="dialog-media"><i data-icon="image"></i></div>   <!-- optioneel: visual header -->
+  <div class="dialog-header">
+    <h3 class="dialog-title" id="dlg-title">Discard changes?</h3>
+    <p class="dialog-subtitle">You have unsaved edits to this report.</p>
+  </div>
+  <div class="dialog-body">…custom content…</div>             <!-- optioneel content-slot -->
+  <div class="dialog-footer">
+    <a class="dialog-footer-link" href="#">Outgoing link <i data-icon="external-link"></i></a> <!-- optioneel -->
+    <button class="btn btn-secondary">Keep editing</button>
+    <button class="btn btn-primary">Discard</button>
+  </div>
+</div>
+```
+Maten (breedte): default `.dialog` = 440 (XS), `.dialog-s` = 600, `.dialog-m` = 800, `.dialog-l` = 1080. XS gebruikt een kleinere titel (18px); S/M/L gebruiken `text-l3` (26px). `.dialog-media` is een full-bleed band bovenaan (illustratie/afbeelding) voor de *visual header*-variant. Footer-knoppen zijn de Button-component (`.btn` + `.btn-primary`/`.btn-secondary`); de optionele `.dialog-footer-link` staat links. Tokens: `--bg-base`/`--border-base`, `--sh-dialogs`, `--radius-xl` (16), `--content-base`/`--content-secondary`, `--content-action` (close), `--bg-brand-subtle` (media). A11y: `role="dialog"` + `aria-modal="true"`, `aria-labelledby` naar de titel, focus-trap + focus terug op de trigger bij sluiten, Escape sluit.
+
+> ⚠️ **Dev gap:** de Angular-selector/inputs van de dialog (en de overlay/scrim-wiring) zijn nog niet bevestigd in de styleguide. Deze `.dialog`-classes zijn de prototype-structuur; verifieer de productie-API met engineering.
+
 ---
 
 ## 5. Iconen

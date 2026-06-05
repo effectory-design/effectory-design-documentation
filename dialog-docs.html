@@ -5,8 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dialog — Engage Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Poppins:wght@300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Dialog — a focused modal surface shown over a scrim ── */
+    .dialog {
+      position: relative; display: flex; flex-direction: column; gap: 24px;
+      width: 440px; max-width: 100%; padding: 32px;
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-xl); box-shadow: var(--sh-dialogs);
+      font-family: 'Poppins', sans-serif; overflow: hidden;
+    }
+    .dialog-s { width: 600px; }
+    .dialog-m { width: 800px; }
+    .dialog-l { width: 1080px; }
+
+    .dialog-close {
+      position: absolute; top: 15px; right: 15px; z-index: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; padding: 4px; border: none; background: transparent;
+      border-radius: var(--radius-base); color: var(--content-action); cursor: pointer;
+    }
+    .dialog-close:hover { background: var(--bg-base-hover); }
+    .dialog-close i[data-icon] { width: 16px; height: 16px; display: flex; }
+
+    /* Visual header — full-bleed media band at the top */
+    .dialog-media {
+      margin: -32px -32px 0; height: 160px; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-brand-subtle); color: var(--content-brand-base);
+    }
+    .dialog-media i[data-icon] { width: 40px; height: 40px; display: flex; opacity: .6; }
+
+    .dialog-header { display: flex; flex-direction: column; gap: 4px; }
+    .dialog-title { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--content-base); }
+    .dialog-subtitle { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-secondary); }
+    .dialog-xs .dialog-title { font-size: 18px; line-height: 1.5; }
+
+    .dialog-body { font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
+
+    .dialog-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+    .dialog-footer-link {
+      margin-right: auto; display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 500; color: var(--content-secondary); text-decoration: none; cursor: pointer;
+    }
+    .dialog-footer-link:hover { text-decoration: underline; }
+    .dialog-footer-link i[data-icon] { width: 16px; height: 16px; display: flex; }
+
+    /* Footer buttons (the Button component) */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 6px 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; box-shadow: var(--sh-action); }
+    .btn-secondary { background: var(--bg-base); border-color: var(--border-action); color: var(--content-action); }
+    .btn-secondary:hover { background: var(--bg-base-hover); border-color: var(--border-action-hover); }
+    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); }
+    .btn-primary:hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); }
+
+    /* Anatomy figure */
+    .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 24px; display: flex; justify-content: center; }
+    .anatomy-fig .dialog { pointer-events: none; }
+    .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; /* font-scale-exempt: anatomy number badge */ font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 3; }
+
+    .dd-card .dd-prev { flex: 1; }
+    .pg-preview .dialog { max-width: 100%; }
+  </style>
 </head>
 <body>
 
@@ -16,27 +75,469 @@
 <div id="sidebar-placeholder"></div>
 
 <div class="content-wrap">
-<div class="page-header-row">
-<div class="page-header">
-    <div class="page-badges">
+
+  <div class="page-header-row">
+    <div class="page-header">
+      <div class="page-badges">
+        <span class="page-updated">Updated June 2026</span>
+      </div>
+      <h1 class="text-l1">Dialog</h1>
+      <p class="page-desc">A focused modal surface shown over a scrim to confirm a decision, complete a short task, or surface a message that needs the user's full attention.</p>
     </div>
-    <h1 class="text-l1">Dialog</h1>
-    <p class="page-desc">Documentation for this component is being written.</p>
+  </div><!-- /page-header-row -->
+
+  <div class="page-tabs">
+    <div class="page-tabs-inner">
+      <button class="page-tab" data-tab="design">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        Design
+      </button>
+      <button class="page-tab" data-tab="developer">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 2l-2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Developer
+      </button>
+    </div>
   </div>
-</div><!-- /page-header-row -->
-<div class="content-cols">
-<article class="content">
 
+  <!-- DESIGN -->
+  <div class="tab-panel" data-panel="design">
+    <div class="content-cols">
+      <article class="content">
 
-  <div class="coming-soon-box">
-    <p>✍️ This page is a placeholder. Documentation will be added here.</p>
+        <section class="section" id="anatomy">
+          <h2 class="text-l3">Anatomy</h2>
+          <p class="section-lead">A dialog is a card centred over a dimmed scrim. It holds a title, optional supporting text, the content, and a footer with the actions.</p>
+          <div class="anatomy-fig">
+            <div class="dialog dialog-s">
+              <button class="dialog-close" aria-label="Close" tabindex="-1"><i data-icon="cross"></i></button>
+              <div class="dialog-header">
+                <h3 class="dialog-title">Header</h3>
+                <p class="dialog-subtitle">An explanation of some sorts — what this dialog is for and what happens next.</p>
+              </div>
+              <div class="dialog-body">Dialog content goes here — a message, a form, or any custom UI.</div>
+              <div class="dialog-footer">
+                <button class="btn btn-secondary" tabindex="-1">Cancel</button>
+                <button class="btn btn-primary" tabindex="-1">Got it</button>
+              </div>
+            </div>
+            <div class="ana-num" style="left:50%; top:7%;">1</div>
+            <div class="ana-num" style="right:7%; top:11%;">2</div>
+            <div class="ana-num" style="left:13%; top:24%;">3</div>
+            <div class="ana-num" style="left:13%; top:38%;">4</div>
+            <div class="ana-num" style="left:13%; top:55%;">5</div>
+            <div class="ana-num" style="right:13%; top:80%;">6</div>
+          </div>
+          <div class="anatomy-items">
+            <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Surface</span> — A rounded card on the base background, raised with the dialog shadow, centred over a scrim that dims and blocks the page behind it.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">2</div><div><span class="anatomy-term">Close</span> — An icon button top-right that dismisses the dialog without taking the primary action.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">3</div><div><span class="anatomy-term">Title</span> — A short, specific heading naming the task or decision. Always present.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">4</div><div><span class="anatomy-term">Supporting text</span> — Optional one or two lines explaining the choice or its consequence.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">5</div><div><span class="anatomy-term">Content</span> — The body slot: a message, a form, or any custom UI.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">6</div><div><span class="anatomy-term">Footer</span> — Right-aligned actions: a single primary, an optional secondary (Cancel), and an optional left-aligned link. The primary repeats the dialog's intent ("Got it", "Delete").</div></div>
+          </div>
+        </section>
+
+        <section class="section" id="usage">
+          <h2 class="text-l3">Usage</h2>
+          <p class="section-lead">Use a dialog for a short, focused interruption the user must resolve before continuing. Don't use it for long flows, non-urgent info, or anything that fits inline.</p>
+
+          <h3 class="text-l4">One primary action</h3>
+          <div class="dd-grid">
+            <div class="dd-card">
+              <div class="dd-prev" style="padding:28px;">
+                <div class="dialog dialog-xs" style="pointer-events:none; width:340px;">
+                  <div class="dialog-header"><h3 class="dialog-title">Delete this survey?</h3><p class="dialog-subtitle">This can't be undone.</p></div>
+                  <div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Delete</button></div>
+                </div>
+              </div>
+              <div class="dd-cap do">
+                <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
+                One clear primary action plus a way out (Cancel or close).
+              </div>
+            </div>
+            <div class="dd-card">
+              <div class="dd-prev" style="padding:28px;">
+                <div class="dialog dialog-xs" style="pointer-events:none; width:340px;">
+                  <div class="dialog-header"><h3 class="dialog-title">Delete this survey?</h3></div>
+                  <div class="dialog-footer"><button class="btn btn-primary">Delete</button><button class="btn btn-primary">Archive</button><button class="btn btn-primary">Export</button></div>
+                </div>
+              </div>
+              <div class="dd-cap dont">
+                <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
+                Stack several competing primaries — the user can't tell what's expected.
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-l4">Reserve it for moments that need focus</h3>
+          <div class="dd-grid">
+            <div class="dd-card">
+              <div class="dd-prev" style="padding:28px;">
+                <div class="dialog dialog-xs" style="pointer-events:none; width:340px;">
+                  <div class="dialog-header"><h3 class="dialog-title">Discard changes?</h3><p class="dialog-subtitle">You have unsaved edits to this report.</p></div>
+                  <div class="dialog-footer"><button class="btn btn-secondary">Keep editing</button><button class="btn btn-primary">Discard</button></div>
+                </div>
+              </div>
+              <div class="dd-cap do">
+                <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>
+                Interrupt only for a decision with consequences or a confirmation.
+              </div>
+            </div>
+            <div class="dd-card">
+              <div class="dd-prev" style="padding:28px;">
+                <div class="dialog dialog-xs" style="pointer-events:none; width:340px;">
+                  <div class="dialog-header"><h3 class="dialog-title">Did you know?</h3><p class="dialog-subtitle">You can now filter results by team.</p></div>
+                  <div class="dialog-footer"><button class="btn btn-primary">OK</button></div>
+                </div>
+              </div>
+              <div class="dd-cap dont">
+                <div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>
+                Block the page for non-urgent tips — use a Spotlight, Toast, or inline message.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="variants">
+          <h2 class="text-l3">Variants</h2>
+          <p class="section-lead">Two properties shape a dialog: whether it carries a visual header, and its width.</p>
+
+          <h3 class="text-l4">Visual header</h3>
+          <div class="variant-rows">
+            <div class="variant-row">
+              <div class="variant-row-btn">
+                <div class="dialog dialog-xs" style="width:360px;">
+                  <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
+                  <div class="dialog-header"><h3 class="dialog-title">Header</h3><p class="dialog-subtitle">Subtitle</p></div>
+                  <div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Got it</button></div>
+                </div>
+              </div>
+              <div class="variant-row-desc"><strong>Standard</strong> — Title, optional supporting text, content and footer. The default for confirmations, forms and messages.</div>
+            </div>
+            <div class="variant-row">
+              <div class="variant-row-btn">
+                <div class="dialog dialog-xs" style="width:360px;">
+                  <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
+                  <div class="dialog-media"><i data-icon="image"></i></div>
+                  <div class="dialog-header"><h3 class="dialog-title">Header</h3><p class="dialog-subtitle">Subtitle</p></div>
+                  <div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Got it</button></div>
+                </div>
+              </div>
+              <div class="variant-row-desc"><strong>Visual header</strong> — Adds a full-bleed media band (illustration, image or icon) above the title. Use to set the tone of a feature announcement or onboarding moment — not for routine confirmations.</div>
+            </div>
+          </div>
+
+          <h3 class="text-l4">Size</h3>
+          <p>Width scales with how much the content needs; height always fits the content. Pick the smallest that comfortably holds your content.</p>
+          <div class="variant-rows">
+            <div class="variant-row">
+              <div class="variant-row-btn"><div class="dialog dialog-xs" style="width:300px; gap:16px; padding:20px;"><div class="dialog-header"><h3 class="dialog-title" style="font-size:18px; line-height:1.4;">Header</h3><p class="dialog-subtitle">Subtitle</p></div><div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Got it</button></div></div></div>
+              <div class="variant-row-desc"><strong>XS · 440px</strong> — Tight confirmations and yes/no decisions. Uses a smaller (18px) title.</div>
+            </div>
+            <div class="variant-row">
+              <div class="variant-row-desc" style="flex:none; width:100%;"><strong>S · 600px</strong> — The default. Most confirmations, short forms and messages.</div>
+            </div>
+            <div class="variant-row">
+              <div class="variant-row-desc" style="flex:none; width:100%;"><strong>M · 800px</strong> — Denser content: longer forms, side-by-side fields, a small table.</div>
+            </div>
+            <div class="variant-row">
+              <div class="variant-row-desc" style="flex:none; width:100%;"><strong>L · 1080px</strong> — The largest. Complex, content-rich tasks that still warrant a modal. Consider a full page instead when it grows beyond this.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="content-guidelines">
+          <h2 class="text-l3">Content guidelines</h2>
+          <p class="section-lead">A dialog should be readable in seconds: a specific title, lean supporting text, and action labels that say what they do.</p>
+
+          <div class="cg-rule">
+            <h3 class="text-l4">Title states the decision</h3>
+            <p>Name the task or ask the question directly. Avoid vague titles like "Are you sure?".</p>
+            <div class="dd-grid">
+              <div class="dd-card">
+                <div class="dd-prev" style="padding:28px;"><div class="dialog dialog-xs" style="pointer-events:none; width:320px;"><div class="dialog-header"><h3 class="dialog-title">Delete 3 responses?</h3></div><div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Delete</button></div></div></div>
+                <div class="dd-cap do"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>Specific — names exactly what happens.</div>
+              </div>
+              <div class="dd-card">
+                <div class="dd-prev" style="padding:28px;"><div class="dialog dialog-xs" style="pointer-events:none; width:320px;"><div class="dialog-header"><h3 class="dialog-title">Are you sure?</h3></div><div class="dialog-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Yes</button></div></div></div>
+                <div class="dd-cap dont"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>Vague — the user must guess the consequence.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cg-rule">
+            <h3 class="text-l4">Buttons name the action</h3>
+            <p>Use verbs that echo the title ("Delete", "Discard", "Save"), not generic "Yes / No / OK".</p>
+            <div class="dd-grid">
+              <div class="dd-card">
+                <div class="dd-prev" style="padding:28px;"><div class="dialog dialog-xs" style="pointer-events:none; width:320px;"><div class="dialog-header"><h3 class="dialog-title">Discard changes?</h3></div><div class="dialog-footer"><button class="btn btn-secondary">Keep editing</button><button class="btn btn-primary">Discard</button></div></div></div>
+                <div class="dd-cap do"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>Action verbs — clear at a glance.</div>
+              </div>
+              <div class="dd-card">
+                <div class="dd-prev" style="padding:28px;"><div class="dialog dialog-xs" style="pointer-events:none; width:320px;"><div class="dialog-header"><h3 class="dialog-title">Discard changes?</h3></div><div class="dialog-footer"><button class="btn btn-secondary">No</button><button class="btn btn-primary">Yes</button></div></div></div>
+                <div class="dd-cap dont"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>Yes / No forces a re-read of the title.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="tokens">
+          <h2 class="text-l3">Design Tokens</h2>
+          <p class="section-lead">The surface uses the base background and the dialog shadow; the scrim dims the page behind it.</p>
+          <table class="token-table">
+            <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td><code>--bg-base</code></td><td>Dialog surface</td><td>#ffffff</td></tr>
+              <tr><td><code>--border-base</code></td><td>Surface border</td><td>#e1e4e8</td></tr>
+              <tr><td><code>--sh-dialogs</code></td><td>Surface shadow</td><td>0 4px 12px rgba(25,39,67,.08)</td></tr>
+              <tr><td><code>--radius-xl</code></td><td>Surface corner radius</td><td>16px</td></tr>
+              <tr><td><code>--content-base</code></td><td>Title colour</td><td>#192743</td></tr>
+              <tr><td><code>--content-secondary</code></td><td>Supporting text &amp; body</td><td>rgba(25,39,67,.80)</td></tr>
+              <tr><td><code>--content-action</code></td><td>Close icon</td><td>rgba(25,39,67,.80)</td></tr>
+              <tr><td><code>--bg-brand-subtle</code></td><td>Visual-header band</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px; font-size:14px; color:var(--content-secondary);">Typography: title <code>text-l3</code> (26px SemiBold) — or <code>body-18-SB</code> (18px) at XS; supporting text <code>body-14</code>; body <code>body-16</code>.</p>
+        </section>
+
+        <section class="section" id="accessibility">
+          <h2 class="text-l3">Accessibility</h2>
+          <p class="section-lead">A dialog takes over the page, so focus and dismissal must be handled rigorously.</p>
+          <div class="a11y-list">
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Modal semantics.</strong> Mark the surface with <code>role="dialog"</code> and <code>aria-modal="true"</code> so assistive tech treats the rest of the page as inert.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Name it.</strong> Point <code>aria-labelledby</code> at the title (and <code>aria-describedby</code> at the supporting text) so the dialog is announced when it opens.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Trap and restore focus.</strong> Move focus into the dialog on open, keep <code>Tab</code> cycling within it, and return focus to the trigger on close.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Escape closes.</strong> <code>Escape</code> dismisses the dialog (equivalent to Cancel / close), unless a destructive action is mid-flight.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Scrim click.</strong> Clicking the scrim may close non-destructive dialogs; for ones with unsaved input, confirm first rather than discarding silently.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Don't autofocus destructive actions.</strong> Put initial focus on a safe control (Cancel or the first field), not on "Delete".</div></div>
+          </div>
+        </section>
+
+        <div class="pagination">
+          <a class="pag-card left" href="toast-docs.html"><span class="pag-dir">← Previous</span><span class="pag-name">Toast</span></a>
+          <a class="pag-card right" href="tooltip-docs.html"><span class="pag-dir">Next →</span><span class="pag-name">Tooltip</span></a>
+        </div>
+      </article>
+
+      <div class="toc-col">
+        <nav class="toc">
+          <div class="toc-title">ON THIS PAGE</div>
+          <a class="toc-link" href="#anatomy">Anatomy</a>
+          <a class="toc-link" href="#usage">Usage</a>
+          <a class="toc-link" href="#variants">Variants</a>
+          <a class="toc-link" href="#content-guidelines">Content guidelines</a>
+          <a class="toc-link" href="#tokens">Design Tokens</a>
+          <a class="toc-link" href="#accessibility">Accessibility</a>
+        </nav>
+      </div>
+    </div>
   </div>
 
-</article>
-</div><!-- /content-cols -->
-</div><!-- /content-wrap -->
-</div><!-- /shell -->
+  <!-- DEVELOPER -->
+  <div class="tab-panel" data-panel="developer">
+    <div class="content-cols">
+      <article class="content">
+
+        <div class="dev-gap">
+          <span class="dev-gap-icon">⚠️</span>
+          <div class="dev-gap-body">
+            <span class="dev-gap-label">Dev gap</span>
+            <span class="dev-gap-text">The Angular component/selector and inputs for the dialog still need to be confirmed from the styleguide source. The markup below is the <strong>design-system prototype structure</strong> (the <code>.dialog</code> classes shipped in <code>components.css</code>) — use it as a visual reference, not a copy-paste-ready production API. The dialog is rendered in an overlay/CDK portal over a scrim; that wiring is app-level.</span>
+          </div>
+        </div>
+
+        <section class="section" id="dev-playground">
+          <h2 class="text-l3">Playground</h2>
+          <p class="section-lead">Configure the dialog and see it update — the snippet reflects your selection (prototype structure).</p>
+          <div class="pg-card">
+            <div class="pg-preview" id="pg-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);"></div>
+            <div class="pg-bottom">
+              <div class="pg-tab-bar">
+                <button class="pg-tab is-active" data-pgtab="props">Properties</button>
+                <button class="pg-tab" data-pgtab="code">Code</button>
+                <button class="pg-reset" id="pg-reset">Reset</button>
+              </div>
+              <div class="pg-panel pg-props-wrap" id="pg-panel-props">
+                <div class="pg-row"><div class="pg-row-name">size</div><div class="pg-row-ctrl"><select class="pg-select" id="pg-size"><option value="xs">XS — 440</option><option value="s" selected>S — 600</option><option value="m">M — 800</option><option value="l">L — 1080</option></select></div></div>
+                <div class="pg-row"><div class="pg-row-name">visual header</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-visual"><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">title</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Discard changes?" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">subtitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-subtitle" value="You have unsaved edits to this report." /></div></div>
+                <div class="pg-row"><div class="pg-row-name">primary label</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-primary" value="Discard" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">secondary label</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-secondary" value="Keep editing" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">close button</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-close" checked><span class="pg-toggle-track"></span></label></div></div>
+                <div class="pg-row"><div class="pg-row-name">outgoing link</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-link"><span class="pg-toggle-track"></span></label></div></div>
+              </div>
+              <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
+                <button class="dev-copy-btn" id="pg-copy">Copy</button>
+                <pre><code id="pg-code"></code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="dev-usage">
+          <h2 class="text-l3">Usage</h2>
+          <p class="section-lead">The dialog surface is a <code>.dialog</code> with a header, a body slot and a footer. Add a size modifier (<code>.dialog-s</code>) and, optionally, a <code>.dialog-media</code> band.</p>
+
+          <h3 class="text-l4">Standard</h3>
+          <div class="dev-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);">
+            <div class="dialog dialog-s">
+              <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
+              <div class="dialog-header"><h3 class="dialog-title">Discard changes?</h3><p class="dialog-subtitle">You have unsaved edits to this report.</p></div>
+              <div class="dialog-footer"><button class="btn btn-secondary">Keep editing</button><button class="btn btn-primary">Discard</button></div>
+            </div>
+          </div>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="cc">&lt;!-- rendered in an overlay over a scrim --&gt;</span>
+<span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog dialog-s"</span> <span class="ca">role</span>=<span class="cv">"dialog"</span> <span class="ca">aria-modal</span>=<span class="cv">"true"</span> <span class="ca">aria-labelledby</span>=<span class="cv">"dlg-title"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"dialog-close"</span> <span class="ca">aria-label</span>=<span class="cv">"Close"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"cross"</span><span class="ct">&gt;&lt;/i&gt;&lt;/button&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-header"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;h3</span> <span class="ca">class</span>=<span class="cv">"dialog-title"</span> <span class="ca">id</span>=<span class="cv">"dlg-title"</span><span class="ct">&gt;</span>Discard changes?<span class="ct">&lt;/h3&gt;</span>
+    <span class="ct">&lt;p</span> <span class="ca">class</span>=<span class="cv">"dialog-subtitle"</span><span class="ct">&gt;</span>You have unsaved edits to this report.<span class="ct">&lt;/p&gt;</span>
+  <span class="ct">&lt;/div&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-footer"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"btn btn-secondary"</span><span class="ct">&gt;</span>Keep editing<span class="ct">&lt;/button&gt;</span>
+    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"btn btn-primary"</span><span class="ct">&gt;</span>Discard<span class="ct">&lt;/button&gt;</span>
+  <span class="ct">&lt;/div&gt;</span>
+<span class="ct">&lt;/div&gt;</span></code></pre>
+          </div>
+
+          <h3 class="text-l4">With visual header</h3>
+          <div class="dev-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);">
+            <div class="dialog dialog-s">
+              <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
+              <div class="dialog-media"><i data-icon="image"></i></div>
+              <div class="dialog-header"><h3 class="dialog-title">New: team filters</h3><p class="dialog-subtitle">Slice your results by team in one click.</p></div>
+              <div class="dialog-footer"><button class="btn btn-secondary">Not now</button><button class="btn btn-primary">Try it</button></div>
+            </div>
+          </div>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog dialog-s"</span> <span class="ca">role</span>=<span class="cv">"dialog"</span> <span class="ca">aria-modal</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-media"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- illustration / image --&gt;</span><span class="ct">&lt;/div&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-header"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/div&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-footer"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/div&gt;</span>
+<span class="ct">&lt;/div&gt;</span></code></pre>
+          </div>
+        </section>
+
+        <section class="section" id="dev-props">
+          <h2 class="text-l3">Prototype structure</h2>
+          <p class="section-lead">Classes shipped in <code>components.css</code> for building prototypes with the design-system skill.</p>
+          <table class="token-table">
+            <thead><tr><th>Class</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><code>.dialog</code></td><td>The surface. Defaults to 440px; add <code>.dialog-s</code> (600) · <code>.dialog-m</code> (800) · <code>.dialog-l</code> (1080) to widen.</td></tr>
+              <tr><td><code>.dialog-close</code></td><td>Top-right icon button (a <code>cross</code> icon) that dismisses the dialog.</td></tr>
+              <tr><td><code>.dialog-media</code></td><td>Optional full-bleed visual-header band above the title.</td></tr>
+              <tr><td><code>.dialog-header</code> · <code>.dialog-title</code> · <code>.dialog-subtitle</code></td><td>Heading block: required title + optional supporting line.</td></tr>
+              <tr><td><code>.dialog-body</code></td><td>The content slot — put a message, form or custom UI here.</td></tr>
+              <tr><td><code>.dialog-footer</code></td><td>Right-aligned actions (<code>.btn</code> from the Button component). Add <code>.dialog-footer-link</code> for an optional left-aligned outgoing link.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section" id="dev-tokens">
+          <h2 class="text-l3">CSS tokens</h2>
+          <p class="section-lead">The dialog surface and scrim are themed with these tokens.</p>
+          <table class="token-table">
+            <thead><tr><th>Token</th><th>Used for</th></tr></thead>
+            <tbody>
+              <tr><td><code>--bg-base</code> · <code>--border-base</code></td><td>Surface fill + border</td></tr>
+              <tr><td><code>--sh-dialogs</code></td><td>Surface shadow</td></tr>
+              <tr><td><code>--radius-xl</code></td><td>Corner radius (16px)</td></tr>
+              <tr><td><code>--content-base</code> · <code>--content-secondary</code></td><td>Title / supporting text + body</td></tr>
+              <tr><td><code>--content-action</code></td><td>Close icon</td></tr>
+              <tr><td><code>--bg-brand-subtle</code></td><td>Visual-header band</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section" id="dev-a11y">
+          <h2 class="text-l3">Accessibility</h2>
+          <p class="section-lead">The overlay must manage focus and expose modal semantics.</p>
+          <div class="a11y-list">
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>role + aria-modal.</strong> Set <code>role="dialog"</code> and <code>aria-modal="true"</code>; mark background content inert.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Label.</strong> <code>aria-labelledby</code> → the title id; <code>aria-describedby</code> → the supporting text.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Focus.</strong> Trap <code>Tab</code> inside, focus a safe control on open, restore focus to the trigger on close.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Escape.</strong> Closes the dialog (= Cancel), except mid destructive action.</div></div>
+          </div>
+        </section>
+
+      </article>
+
+      <div class="toc-col">
+        <nav class="toc">
+          <div class="toc-title">ON THIS PAGE</div>
+          <a class="toc-link" href="#dev-playground">Playground</a>
+          <a class="toc-link" href="#dev-usage">Usage</a>
+          <a class="toc-link" href="#dev-props">Prototype structure</a>
+          <a class="toc-link" href="#dev-tokens">CSS tokens</a>
+          <a class="toc-link" href="#dev-a11y">Accessibility</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+</div></div>
 
 <script src="nav.js"></script>
+<script src="icons.js"></script>
+<script>
+  (function () {
+    const $preview = document.getElementById('pg-preview');
+    if (!$preview) return;
+    const defaults = { size:'s', visual:false, title:'Discard changes?', subtitle:'You have unsaved edits to this report.', primary:'Discard', secondary:'Keep editing', close:true, link:false };
+    function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+    function state(){return{
+      size:document.getElementById('pg-size').value,
+      visual:document.getElementById('pg-visual').checked,
+      title:document.getElementById('pg-title').value,
+      subtitle:document.getElementById('pg-subtitle').value,
+      primary:document.getElementById('pg-primary').value,
+      secondary:document.getElementById('pg-secondary').value,
+      close:document.getElementById('pg-close').checked,
+      link:document.getElementById('pg-link').checked,
+    };}
+    function buildHtml(s){
+      let h = `<div class="dialog dialog-${s.size}" role="dialog" aria-modal="true">`;
+      if (s.close) h += `<button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>`;
+      if (s.visual) h += `<div class="dialog-media"><i data-icon="image"></i></div>`;
+      h += `<div class="dialog-header"><h3 class="dialog-title">${esc(s.title)||'Header'}</h3>`;
+      if (s.subtitle) h += `<p class="dialog-subtitle">${esc(s.subtitle)}</p>`;
+      h += `</div>`;
+      h += `<div class="dialog-footer">`;
+      if (s.link) h += `<a class="dialog-footer-link" href="#">Outgoing link <i data-icon="external-link"></i></a>`;
+      if (s.secondary) h += `<button class="btn btn-secondary">${esc(s.secondary)}</button>`;
+      if (s.primary) h += `<button class="btn btn-primary">${esc(s.primary)}</button>`;
+      h += `</div></div>`;
+      return h;
+    }
+    function buildCode(s){
+      const L = [];
+      L.push(`<div class="dialog dialog-${s.size}" role="dialog" aria-modal="true">`);
+      if (s.close) L.push('  <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>');
+      if (s.visual) L.push('  <div class="dialog-media"><!-- illustration / image --></div>');
+      L.push('  <div class="dialog-header">');
+      L.push(`    <h3 class="dialog-title">${esc(s.title)||'Header'}</h3>`);
+      if (s.subtitle) L.push(`    <p class="dialog-subtitle">${esc(s.subtitle)}</p>`);
+      L.push('  </div>');
+      L.push('  <div class="dialog-footer">');
+      if (s.link) L.push('    <a class="dialog-footer-link" href="#">Outgoing link <i data-icon="external-link"></i></a>');
+      if (s.secondary) L.push(`    <button class="btn btn-secondary">${esc(s.secondary)}</button>`);
+      if (s.primary) L.push(`    <button class="btn btn-primary">${esc(s.primary)}</button>`);
+      L.push('  </div>');
+      L.push('</div>');
+      return L.join('\n');
+    }
+    function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
+    ['pg-size','pg-visual','pg-title','pg-subtitle','pg-primary','pg-secondary','pg-close','pg-link'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',render);el.addEventListener('change',render);});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-size').value=defaults.size;document.getElementById('pg-visual').checked=defaults.visual;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-subtitle').value=defaults.subtitle;document.getElementById('pg-primary').value=defaults.primary;document.getElementById('pg-secondary').value=defaults.secondary;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-link').checked=defaults.link;render();});
+    document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
+    document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
+    render();
+  })();
+</script>
 </body>
 </html>

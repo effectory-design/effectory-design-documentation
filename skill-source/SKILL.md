@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
