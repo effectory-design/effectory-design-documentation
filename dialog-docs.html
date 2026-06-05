@@ -391,16 +391,16 @@
       <article class="content">
 
         <div class="dev-gap">
-          <span class="dev-gap-icon">⚠️</span>
+          <span class="dev-gap-icon">ℹ️</span>
           <div class="dev-gap-body">
-            <span class="dev-gap-label">Dev gap</span>
-            <span class="dev-gap-text">The Angular component/selector and inputs for the dialog still need to be confirmed from the styleguide source. The markup below is the <strong>design-system prototype structure</strong> (the <code>.dialog</code> classes shipped in <code>components.css</code>) — use it as a visual reference, not a copy-paste-ready production API. The dialog is rendered in an overlay/CDK portal over a scrim; that wiring is app-level.</span>
+            <span class="dev-gap-label">Production API</span>
+            <span class="dev-gap-text">In production a dialog is an <strong>Angular Material <code>MatDialog</code></strong> opened from an <code>&lt;ng-template&gt;</code>, with the content built from <strong>Card</strong> helper classes (<code>.card</code>, <code>.card-title-container</code>, <code>.card-content-container</code>, <code>.action-container</code>). Size is set via <code>config.panelClass</code> (<code>dialog-xs/s/m/l</code>) and the scrim via <code>config.backdropClass = "dialog-backdrop"</code>. The code below is the real styleguide API. <em>(The visual previews on this page use simplified <code>.dialog</code> prototype classes for illustration — see <a class="link-inline" href="https://styleguide.effectory.com/components/dialogs">styleguide.effectory.com/components/dialogs</a>.)</em></span>
           </div>
         </div>
 
         <section class="section" id="dev-playground">
           <h2 class="text-l3">Playground</h2>
-          <p class="section-lead">Configure the dialog and see it update — the snippet reflects your selection (prototype structure).</p>
+          <p class="section-lead">Configure the dialog and see it update — the Code tab shows the matching production template (Material <code>MatDialog</code> + Card classes).</p>
           <div class="pg-card">
             <div class="pg-preview" id="pg-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);"></div>
             <div class="pg-bottom">
@@ -431,65 +431,79 @@
 
         <section class="section" id="dev-usage">
           <h2 class="text-l3">Usage</h2>
-          <p class="section-lead">The dialog surface is a <code>.dialog</code> with a header, a body slot and a footer. Add a size modifier (<code>.dialog-s</code>) and, optionally, a <code>.dialog-media</code> band.</p>
+          <p class="section-lead">Define the content as an <code>&lt;ng-template&gt;</code> built from Card classes, then open it with <code>MatDialog</code>. Size is a <code>panelClass</code>; the scrim is <code>backdropClass="dialog-backdrop"</code>.</p>
 
-          <h3 class="text-l4">Standard</h3>
-          <div class="dev-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);">
-            <div class="dialog dialog-s">
-              <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
-              <div class="dialog-header"><h3 class="dialog-title">Discard changes?</h3><p class="dialog-subtitle">You have unsaved edits to this report.</p></div>
-              <div class="dialog-footer"><button class="btn btn-secondary">Keep editing</button><button class="btn btn-primary">Discard</button></div>
-            </div>
-          </div>
+          <h3 class="text-l4">Template + open</h3>
           <div class="dev-code-wrap">
             <button class="dev-copy-btn">Copy</button>
-            <pre><code><span class="cc">&lt;!-- rendered in an overlay over a scrim --&gt;</span>
-<span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog dialog-s"</span> <span class="ca">role</span>=<span class="cv">"dialog"</span> <span class="ca">aria-modal</span>=<span class="cv">"true"</span> <span class="ca">aria-labelledby</span>=<span class="cv">"dlg-title"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"dialog-close"</span> <span class="ca">aria-label</span>=<span class="cv">"Close"</span><span class="ct">&gt;&lt;i</span> <span class="ca">data-icon</span>=<span class="cv">"cross"</span><span class="ct">&gt;&lt;/i&gt;&lt;/button&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-header"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;h3</span> <span class="ca">class</span>=<span class="cv">"dialog-title"</span> <span class="ca">id</span>=<span class="cv">"dlg-title"</span><span class="ct">&gt;</span>Discard changes?<span class="ct">&lt;/h3&gt;</span>
-    <span class="ct">&lt;p</span> <span class="ca">class</span>=<span class="cv">"dialog-subtitle"</span><span class="ct">&gt;</span>You have unsaved edits to this report.<span class="ct">&lt;/p&gt;</span>
+            <pre><code><span class="cc">&lt;!-- template --&gt;</span>
+<span class="ct">&lt;ng-template</span> <span class="ca">#cardDialog</span> <span class="ca">let-dialogRef</span>=<span class="cv">"dialogRef"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card-title-container"</span><span class="ct">&gt;</span>
+      <span class="ct">&lt;h3</span> <span class="ca">class</span>=<span class="cv">"text-l5 card-title"</span><span class="ct">&gt;</span>Discard changes?<span class="ct">&lt;/h3&gt;</span>
+      <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"icon-button close-button"</span> <span class="ca">(click)</span>=<span class="cv">"dialogRef.close()"</span> <span class="ca">[attr.aria-label]</span>=<span class="cv">"'shell.dialog-close-button-label' | translate"</span><span class="ct">&gt;</span>
+        <span class="ct">&lt;eff-mat-icon</span> <span class="ca">class</span>=<span class="cv">"icon small-icon"</span> <span class="ca">[iconName]</span>=<span class="cv">"'cross'"</span><span class="ct">/&gt;</span>
+      <span class="ct">&lt;/button&gt;</span>
+    <span class="ct">&lt;/div&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card-content-container"</span><span class="ct">&gt;</span>You have unsaved edits to this report.<span class="ct">&lt;/div&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"action-container"</span><span class="ct">&gt;</span>
+      <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"action-button secondary"</span> <span class="ca">(click)</span>=<span class="cv">"dialogRef.close()"</span><span class="ct">&gt;</span>Keep editing<span class="ct">&lt;/button&gt;</span>
+      <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"action-button primary"</span> <span class="ca">(click)</span>=<span class="cv">"dialogRef.close()"</span><span class="ct">&gt;</span>Discard<span class="ct">&lt;/button&gt;</span>
+    <span class="ct">&lt;/div&gt;</span>
   <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-footer"</span><span class="ct">&gt;</span>
-    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"btn btn-secondary"</span><span class="ct">&gt;</span>Keep editing<span class="ct">&lt;/button&gt;</span>
-    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"btn btn-primary"</span><span class="ct">&gt;</span>Discard<span class="ct">&lt;/button&gt;</span>
-  <span class="ct">&lt;/div&gt;</span>
+<span class="ct">&lt;/ng-template&gt;</span>
+
+<span class="cc">// component.ts</span>
+<span class="ca">@ViewChild</span>(<span class="cv">"cardDialog"</span>) cardDialog!: TemplateRef&lt;any&gt;;
+<span class="ca">constructor</span>(<span class="ca">public</span> matDialog: MatDialog) {}
+
+openDialog() {
+  <span class="ca">const</span> config = <span class="ca">new</span> MatDialogConfig();
+  config.panelClass = <span class="cv">"dialog-s"</span>;          <span class="cc">// dialog-xs | dialog-s | dialog-m | dialog-l</span>
+  config.backdropClass = <span class="cv">"dialog-backdrop"</span>;
+  <span class="ca">this</span>.matDialog.open(<span class="ca">this</span>.cardDialog, config);
+}</code></pre>
+          </div>
+
+          <h3 class="text-l4">Title size &amp; icon</h3>
+          <p>Use <code>card-title</code> (18px, with <code>text-l5</code>) or <code>card-title-large</code> (26px, with <code>text-l3</code>). For a leading icon add <code>icon-before</code> to the <code>eff-mat-icon</code> inside the title container.</p>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card-title-container"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;eff-mat-icon</span> <span class="ca">class</span>=<span class="cv">"icon icon-before"</span> <span class="ca">[iconName]</span>=<span class="cv">"'info'"</span><span class="ct">/&gt;</span>
+  <span class="ct">&lt;h3</span> <span class="ca">class</span>=<span class="cv">"text-l3 card-title-large"</span><span class="ct">&gt;</span>New: team filters<span class="ct">&lt;/h3&gt;</span>
 <span class="ct">&lt;/div&gt;</span></code></pre>
           </div>
 
-          <h3 class="text-l4">With visual header</h3>
-          <div class="dev-preview" style="padding:32px; justify-content:center; background:rgba(25,39,67,.06);">
-            <div class="dialog dialog-s">
-              <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>
-              <div class="dialog-media"><i data-icon="image"></i></div>
-              <div class="dialog-header"><h3 class="dialog-title">New: team filters</h3><p class="dialog-subtitle">Slice your results by team in one click.</p></div>
-              <div class="dialog-footer"><button class="btn btn-secondary">Not now</button><button class="btn btn-primary">Try it</button></div>
-            </div>
-          </div>
-          <div class="dev-code-wrap">
-            <button class="dev-copy-btn">Copy</button>
-            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog dialog-s"</span> <span class="ca">role</span>=<span class="cv">"dialog"</span> <span class="ca">aria-modal</span>=<span class="cv">"true"</span><span class="ct">&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-media"</span><span class="ct">&gt;</span><span class="cc">&lt;!-- illustration / image --&gt;</span><span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-header"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/div&gt;</span>
-  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"dialog-footer"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/div&gt;</span>
-<span class="ct">&lt;/div&gt;</span></code></pre>
-          </div>
+          <h3 class="text-l4">Visual header &amp; footer shadow</h3>
+          <p>Add a <code>.card-illustration-container</code> for a hero image, and <code>.with-shadow</code> on <code>.action-container</code> when the body scrolls under the footer. Centred actions: add <code>"center-action-btns"</code> to <code>panelClass</code>. Fullscreen variants use <code>"dialog-fullscreen"</code> with <code>with-header</code> / <code>with-footer</code> / <code>with-progress-bar</code> (Material <code>mat-dialog-content</code> / <code>mat-dialog-actions</code>).</p>
         </section>
 
         <section class="section" id="dev-props">
-          <h2 class="text-l3">Prototype structure</h2>
-          <p class="section-lead">Classes shipped in <code>components.css</code> for building prototypes with the design-system skill.</p>
+          <h2 class="text-l3">Class reference</h2>
+          <p class="section-lead">The dialog content is a Card built from these helper classes (from the live styleguide). Size &amp; scrim are set on the <code>MatDialogConfig</code>, not in the markup.</p>
           <table class="token-table">
-            <thead><tr><th>Class</th><th>Role</th></tr></thead>
+            <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
             <tbody>
-              <tr><td><code>.dialog</code></td><td>The surface. Defaults to 440px; add <code>.dialog-s</code> (600) · <code>.dialog-m</code> (800) · <code>.dialog-l</code> (1080) to widen.</td></tr>
-              <tr><td><code>.dialog-close</code></td><td>Top-right icon button (a <code>cross</code> icon) that dismisses the dialog.</td></tr>
-              <tr><td><code>.dialog-media</code></td><td>Optional full-bleed visual-header band above the title.</td></tr>
-              <tr><td><code>.dialog-header</code> · <code>.dialog-title</code> · <code>.dialog-subtitle</code></td><td>Heading block: required title + optional supporting line. Add <code>.is-sm</code> for the small (18px) title. For an icon, wrap the title in <code>.dialog-header-top</code> with a <code>.dialog-header-icon</code> before it.</td></tr>
-              <tr><td><code>.dialog-body</code></td><td>The content slot — put a message, form or custom UI here.</td></tr>
-              <tr><td><code>.dialog-footer</code></td><td>Right-aligned actions (<code>.btn</code> from the Button component). Add <code>.dialog-footer-link</code> for an optional left-aligned outgoing link.</td></tr>
+              <tr><td><code>.card</code></td><td>The dialog surface card (rendered inside the Material dialog panel).</td></tr>
+              <tr><td><code>.card-title-container</code></td><td>Header wrapper aligning the title and the optional close button.</td></tr>
+              <tr><td><code>.card-title</code> · <code>.card-title-large</code></td><td>Title styling — 18px (with <code>text-l5</code>) or 26px (with <code>text-l3</code>).</td></tr>
+              <tr><td><code>.icon-before</code></td><td>Spacing helper on an <code>eff-mat-icon</code> placed before the title.</td></tr>
+              <tr><td><code>.card-illustration-container</code></td><td>Container for a hero image / visual asset (the visual-header variant).</td></tr>
+              <tr><td><code>.card-content-container</code></td><td>Main body content area (text, form fields, custom UI).</td></tr>
+              <tr><td><code>.action-container</code></td><td>Footer action row. Add <code>.with-shadow</code> for a shadow when content scrolls under it.</td></tr>
+              <tr><td><code>.action-button</code> · <code>.secondary</code> / <code>.primary</code></td><td>Footer buttons.</td></tr>
+              <tr><td><code>.icon-button.close-button</code></td><td>The top-right close button (an <code>eff-mat-icon</code> <code>cross</code>).</td></tr>
             </tbody>
           </table>
+          <table class="token-table" style="margin-top:16px;">
+            <thead><tr><th>MatDialogConfig</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td><code>panelClass</code></td><td><code>"dialog-xs"</code> · <code>"dialog-s"</code> · <code>"dialog-m"</code> · <code>"dialog-l"</code>; <code>"dialog-fullscreen-card"</code>; <code>["dialog-m","center-action-btns"]</code>; <code>["dialog-fullscreen", "with-header" | "with-footer" | "with-progress-bar" | "small"]</code>.</td></tr>
+              <tr><td><code>backdropClass</code></td><td><code>"dialog-backdrop"</code> — the scrim behind the dialog.</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px; font-size:14px; color:var(--content-secondary);">Ready-made dialogs: <strong>Confirm navigation</strong> (<code>ConfirmNavigationGuard</code> + <code>ConfirmDialogComponent</code>) and <strong>Upsell</strong> (<code>UpsellDialogComponent</code>).</p>
         </section>
 
         <section class="section" id="dev-tokens">
@@ -526,7 +540,7 @@
           <div class="toc-title">ON THIS PAGE</div>
           <a class="toc-link" href="#dev-playground">Playground</a>
           <a class="toc-link" href="#dev-usage">Usage</a>
-          <a class="toc-link" href="#dev-props">Prototype structure</a>
+          <a class="toc-link" href="#dev-props">Class reference</a>
           <a class="toc-link" href="#dev-tokens">CSS tokens</a>
           <a class="toc-link" href="#dev-a11y">Accessibility</a>
         </nav>
@@ -575,28 +589,35 @@
       return h;
     }
     function buildCode(s){
+      // Production API: Angular Material MatDialog + Card helper classes (styleguide.effectory.com)
+      const titleCls = s.header==='small' ? 'text-l5 card-title' : 'text-l3 card-title-large';
+      const ICN = { info:'info', warning:'alert-triangle', error:'alert-circle' };
       const L = [];
-      L.push(`<div class="dialog dialog-${s.size}" role="dialog" aria-modal="true">`);
-      if (s.close) L.push('  <button class="dialog-close" aria-label="Close"><i data-icon="cross"></i></button>');
-      if (s.visual) L.push('  <div class="dialog-media"><!-- illustration / image --></div>');
-      L.push(`  <div class="dialog-header${s.header==='small'?' is-sm':''}">`);
-      const ic = HICONS[s.icon];
-      if (ic){
-        L.push('    <div class="dialog-header-top">');
-        L.push(`      <i class="dialog-header-icon${ic[1]}" data-icon="${ic[0]}"></i>`);
-        L.push(`      <h3 class="dialog-title">${esc(s.title)||'Header'}</h3>`);
-        L.push('    </div>');
-      } else {
-        L.push(`    <h3 class="dialog-title">${esc(s.title)||'Header'}</h3>`);
-      }
-      if (s.subtitle) L.push(`    <p class="dialog-subtitle">${esc(s.subtitle)}</p>`);
+      L.push('<!-- template -->');
+      L.push('<ng-template #cardDialog let-dialogRef="dialogRef">');
+      L.push('  <div class="card">');
+      if (s.visual) L.push('    <div class="card-illustration-container"><!-- illustration / image --></div>');
+      L.push('    <div class="card-title-container">');
+      if (s.icon!=='none') L.push(`      <eff-mat-icon class="icon icon-before" [iconName]="'${ICN[s.icon]}'"/>`);
+      L.push(`      <h3 class="${titleCls}">${esc(s.title)||'Header'}</h3>`);
+      if (s.close) L.push('      <button class="icon-button close-button" (click)="dialogRef.close()"><eff-mat-icon class="icon small-icon" [iconName]="\'cross\'"/></button>');
+      L.push('    </div>');
+      L.push('    <div class="card-content-container">');
+      if (s.subtitle) L.push(`      ${esc(s.subtitle)}`);
+      L.push('      <!-- your content -->');
+      L.push('    </div>');
+      L.push('    <div class="action-container">');
+      if (s.secondary) L.push(`      <button class="action-button secondary" (click)="dialogRef.close()">${esc(s.secondary)}</button>`);
+      if (s.primary) L.push(`      <button class="action-button primary" (click)="dialogRef.close()">${esc(s.primary)}</button>`);
+      L.push('    </div>');
       L.push('  </div>');
-      L.push('  <div class="dialog-footer">');
-      if (s.link) L.push('    <a class="dialog-footer-link" href="#">Outgoing link <i data-icon="external-link"></i></a>');
-      if (s.secondary) L.push(`    <button class="btn btn-secondary">${esc(s.secondary)}</button>`);
-      if (s.primary) L.push(`    <button class="btn btn-primary">${esc(s.primary)}</button>`);
-      L.push('  </div>');
-      L.push('</div>');
+      L.push('</ng-template>');
+      L.push('');
+      L.push('// open it');
+      L.push('const config = new MatDialogConfig();');
+      L.push(`config.panelClass = "dialog-${s.size}";`);
+      L.push('config.backdropClass = "dialog-backdrop";');
+      L.push('this.matDialog.open(this.cardDialog, config);');
       return L.join('\n');
     }
     function render(){const s=state();$preview.innerHTML='<button class="btn btn-primary" id="pg-open">Open dialog</button>';document.getElementById('pg-code').textContent=buildCode(s);}
