@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── Side panel — a right-docked overlay over a scrim ── */
-    .sidepanel { display: flex; flex-direction: column; width: 800px; max-width: 100%; height: 100%; background: var(--bg-base); border-radius: var(--radius-xl); box-shadow: var(--sh-dialogs); font-family: 'Poppins', sans-serif; overflow: hidden; }
+    .sidepanel { display: flex; flex-direction: column; width: 800px; max-width: 100%; height: 100%; background: var(--bg-base); border-radius: var(--radius-xl) 0 0 var(--radius-xl); box-shadow: var(--sh-dialogs); font-family: 'Poppins', sans-serif; overflow: hidden; }
     .sidepanel-sm { width: 400px; }
 
     .sp-header { display: flex; flex-direction: column; gap: 14px; padding: 20px 24px 0; flex-shrink: 0; }
@@ -53,11 +53,11 @@
     .variant-row { grid-template-columns: minmax(420px, 1fr) 1fr; }
 
     /* Real modal overlay opened from the playground */
-    .sp-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; justify-content: flex-end; padding: 16px; background: rgba(25,39,67,.45); animation: sp-fade .15s ease-out; }
+    .sp-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; justify-content: flex-end; background: rgba(25,39,67,.45); animation: sp-fade .15s ease-out; }
     .sp-overlay[hidden] { display: none; }
     .sp-overlay .sidepanel { height: 100%; animation: sp-slide .26s cubic-bezier(.22,.61,.36,1); }
     @keyframes sp-fade { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes sp-slide { from { transform: translateX(calc(100% + 16px)); } to { transform: translateX(0); } }
+    @keyframes sp-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
   </style>
 </head>
 <body>

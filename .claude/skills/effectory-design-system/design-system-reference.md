@@ -775,7 +775,7 @@ Maten (breedte): default `.dialog` = 440 (XS), `.dialog-s` = 600, `.dialog-m` = 
 > ⚠️ **Dev gap:** de Angular-selector/inputs van de dialog (en de overlay/scrim-wiring) zijn nog niet bevestigd in de styleguide. Deze `.dialog`-classes zijn de prototype-structuur; verifieer de productie-API met engineering.
 
 ### Side panel
-Een paneel dat rechts invliegt over een scrim: details, een formulier of een gerichte taak naast de huidige pagina. Maten: Default (800px) en Small (400px, `.sidepanel-sm`). Zweeft met een marge en `--radius-xl` op alle hoeken.
+Een paneel dat rechts invliegt over een scrim: details, een formulier of een gerichte taak naast de huidige pagina. Maten: Default (800px) en Small (400px, `.sidepanel-sm`). Raakt de rechter-/boven-/onderrand van het scherm; `--radius-xl` (16px) alleen linksboven en linksonder, 0 rechts.
 
 ```html
 <div class="sidepanel" role="dialog" aria-modal="true">       <!-- + .sidepanel-sm voor smal -->
