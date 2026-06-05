@@ -307,8 +307,8 @@
                 <div class="pg-row"><div class="pg-row-name">advanced menu</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-adv"><span class="pg-toggle-track"></span></label></div></div>
                 <div class="pg-row"><div class="pg-row-name">tabs</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-tabs" checked><span class="pg-toggle-track"></span></label></div></div>
                 <div class="pg-row"><div class="pg-row-name">footer</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-foot" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">title</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Response details" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">subtitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-subtitle" value="Jamal van Rooi" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">title</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Title" /></div></div>
+                <div class="pg-row"><div class="pg-row-name">subtitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-subtitle" value="Subtitle" /></div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
                 <button class="dev-copy-btn" id="pg-copy">Copy</button>
@@ -428,7 +428,7 @@ open() {
   (function () {
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
-    const defaults = { size:'default', adv:false, tabs:true, foot:true, title:'Response details', subtitle:'Jamal van Rooi' };
+    const defaults = { size:'default', adv:false, tabs:true, foot:true, title:'Title', subtitle:'Subtitle' };
     function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
     function state(){return{
       size:document.getElementById('pg-size').value,
