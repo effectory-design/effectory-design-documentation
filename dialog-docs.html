@@ -65,6 +65,13 @@
 
     .dd-card .dd-prev { flex: 1; }
     .pg-preview .dialog { max-width: 100%; }
+
+    /* Real modal overlay opened from the playground */
+    .dlg-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(25,39,67,.45); animation: dlg-fade .12s ease-out; }
+    .dlg-overlay[hidden] { display: none; }
+    .dlg-overlay .dialog { animation: dlg-pop .14s ease-out; }
+    @keyframes dlg-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes dlg-pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
   </style>
 </head>
 <body>
@@ -531,8 +538,27 @@
       L.push('</div>');
       return L.join('\n');
     }
-    function render(){const s=state();$preview.innerHTML=buildHtml(s);document.getElementById('pg-code').textContent=buildCode(s);if(window.Icons&&window.Icons.render)window.Icons.render($preview);}
+    function render(){const s=state();$preview.innerHTML='<button class="btn btn-primary" id="pg-open">Open dialog</button>';document.getElementById('pg-code').textContent=buildCode(s);}
     ['pg-size','pg-visual','pg-title','pg-subtitle','pg-primary','pg-secondary','pg-close','pg-link'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',render);el.addEventListener('change',render);});
+
+    // Open the configured dialog as a real modal over the page (scrim overlay)
+    const overlay = document.createElement('div');
+    overlay.className = 'dlg-overlay'; overlay.hidden = true;
+    document.body.appendChild(overlay);
+    function escClose(e){ if (e.key==='Escape') closeOverlay(); }
+    function openOverlay(){
+      overlay.innerHTML = buildHtml(state());
+      overlay.hidden = false;
+      if (window.Icons && window.Icons.render) window.Icons.render(overlay);
+      document.addEventListener('keydown', escClose);
+      const safe = overlay.querySelector('.btn-secondary') || overlay.querySelector('.dialog-close');
+      if (safe) safe.focus();
+    }
+    function closeOverlay(){ overlay.hidden = true; overlay.innerHTML = ''; document.removeEventListener('keydown', escClose); }
+    overlay.addEventListener('click', e=>{
+      if (e.target === overlay || e.target.closest('.dialog-close') || e.target.closest('.dialog-footer .btn')) closeOverlay();
+    });
+    $preview.addEventListener('click', e=>{ if (e.target.closest('#pg-open')) openOverlay(); });
     document.getElementById('pg-reset')?.addEventListener('click',()=>{document.getElementById('pg-size').value=defaults.size;document.getElementById('pg-visual').checked=defaults.visual;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-subtitle').value=defaults.subtitle;document.getElementById('pg-primary').value=defaults.primary;document.getElementById('pg-secondary').value=defaults.secondary;document.getElementById('pg-close').checked=defaults.close;document.getElementById('pg-link').checked=defaults.link;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
