@@ -795,6 +795,20 @@ Classes: `.sidepanel` (+ `.sidepanel-sm`), `.sp-header` met `.sp-toolbar` (`.sp-
 
 > **Productie-API:** in code is dit de **`SidepanelService`** (`@effectory/branding-angular`): `sidepanelService.open(Component, data)`, `.close(data)`, `.afterClosed`. De paneel-component gebruikt `.title.text-l3`, `.subtitle`, `.icon-button.close-button` en `.actions-container` (met `.primary`/`.secondary`). De `.sidepanel`/`.sp-*`-classes hier zijn de prototype-structuur voor de visuele opbouw.
 
+### Tabs
+Wissel tussen secties van dezelfde view. Horizontaal (default) of verticaal; label optioneel met een icoon.
+
+```html
+<div class="tabs">                          <!-- + .is-vertical voor verticaal -->
+  <a class="tab is-active"><i data-icon="home"></i> Overview</a>
+  <a class="tab">Open answers</a>
+  <a class="tab">Reports</a>
+</div>
+```
+Classes: `.tabs` (+ `.is-vertical`), `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; optioneel een leading `<i data-icon>`). Actieve tab: `--content-base` tekst + 2px underline `--content-brand-secondary`; inactief `--content-secondary`; track `--border-base`. Typografie `body-14-M`. A11y: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, pijltjestoetsen + roving `tabindex`.
+
+> **Productie-API:** in code is dit Angular Material `mat-tab-group` met `class="tabs"` (`mat-align-tabs="start"`, `disableRipple`) en `mat-tab`-children (`label`, of een `<ng-template mat-tab-label>` met `eff-mat-icon class="tab-icon"`). De `.tabs`/`.tab`-classes hier zijn de prototype-structuur. Verticale tabs zijn een design-variant; bevestig de productie-aanpak met engineering.
+
 ---
 
 ## 5. Iconen

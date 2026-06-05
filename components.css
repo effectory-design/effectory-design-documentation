@@ -2134,3 +2134,13 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .sp-tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-base); }
 .sp-body { flex: 1; overflow: auto; padding: 24px 40px; font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
 .sp-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 24px 40px 40px; flex-shrink: 0; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--border-base); font-family: 'Poppins', sans-serif; }
+.tab { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.tab:hover, .tab.is-hover { color: var(--content-base); }
+.tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-secondary); }
+.tab.is-disabled { color: var(--content-subtle); cursor: not-allowed; }
+.tab i[data-icon] { width: 16px; height: 16px; display: flex; }
+.tabs.is-vertical { flex-direction: column; gap: 6px; align-items: flex-start; border-bottom: none; }
+.tabs.is-vertical .tab { margin-bottom: 0; }
