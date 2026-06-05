@@ -56,9 +56,10 @@
     .sp-stage { display: flex; justify-content: flex-end; height: 480px; background: rgba(25,39,67,.18); border-radius: var(--radius-lg); overflow: hidden; }
     .sp-stage .sidepanel { box-shadow: -8px 0 24px -12px rgba(25,39,67,.25); }
 
-    /* Header variant preview — the panel header at natural proportions, scaled down */
-    .sp-headerdemo { position: relative; width: 380px; max-width: 100%; height: 190px; margin: 0 auto; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); }
-    .sp-headerdemo .sidepanel { position: absolute; top: 0; left: 0; width: 540px; height: 270px; transform: scale(.704); transform-origin: top left; box-shadow: none; border-radius: 0; }
+    /* Header variant preview — panel docked over a page, scaled (still reads as a side panel) */
+    .sp-hscene { position: relative; width: 420px; max-width: 100%; height: 204px; margin: 0 auto; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); }
+    .sp-hscene-inner { position: absolute; top: 0; left: 0; width: 700px; height: 340px; transform: scale(.6); transform-origin: top left; }
+    .sp-hscene .sidepanel { position: absolute; top: 0; right: 0; height: 100%; width: 320px; box-shadow: -8px 0 24px -12px rgba(25,39,67,.3); }
 
     /* Zoomed-out "page with a side panel" scene (a real page mock, scaled down) */
     .sp-scene { position: relative; width: 300px; height: 188px; margin: 0 auto; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--border-base); background: var(--bg-base); }
@@ -247,10 +248,14 @@
           <div class="variant-rows">
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="sp-headerdemo">
-                  <div class="sidepanel">
-                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div><div class="sp-actions"><i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
-                    <div class="sp-body"></div>
+                <div class="sp-hscene">
+                  <div class="sp-hscene-inner">
+                    <div class="spm-page"><div class="spm-title"></div><div class="spm-tabs"><span></span><span></span><span></span></div><div class="spm-row"></div><div class="spm-row"></div></div>
+                    <div class="spm-scrim"></div>
+                    <div class="sidepanel">
+                      <div class="sp-header"><div class="sp-toolbar"><div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div><div class="sp-actions"><i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
+                      <div class="sp-body"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -258,10 +263,14 @@
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
-                <div class="sp-headerdemo">
-                  <div class="sidepanel">
-                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
-                    <div class="sp-body"></div>
+                <div class="sp-hscene">
+                  <div class="sp-hscene-inner">
+                    <div class="spm-page"><div class="spm-title"></div><div class="spm-tabs"><span></span><span></span><span></span></div><div class="spm-row"></div><div class="spm-row"></div></div>
+                    <div class="spm-scrim"></div>
+                    <div class="sidepanel">
+                      <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
+                      <div class="sp-body"></div>
+                    </div>
                   </div>
                 </div>
               </div>
