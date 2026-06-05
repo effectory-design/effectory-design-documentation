@@ -1,0 +1,56 @@
+name: Build & publish skill
+
+# Rebuilds the Effectory Design System skill bundle and refreshes a single
+# rolling release ("skill-latest") on every push to main that touches the
+# skill sources. The shareable download URL stays the same and always points
+# to the newest build:
+#   https://github.com/<owner>/<repo>/releases/download/skill-latest/effectory-design-system.zip
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'components.css'
+      - 'foundation.css'
+      - 'tokens.css'
+      - 'icons.js'
+      - 'serve.py'
+      - 'assets/icons/**'
+      - 'skill-source/**'
+      - '.claude/skills/effectory-design-system/**'
+      - 'sync-skill.sh'
+      - 'build-skill.sh'
+      - '.github/workflows/release-skill.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build skill bundle
+        run: |
+          bash sync-skill.sh
+          bash build-skill.sh
+
+      - name: Refresh rolling "skill-latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTES="Always the latest build of the Effectory Design System skill.
+
+          **Install:** download \`effectory-design-system.zip\` and upload it in
+          Claude.ai → Organization settings → Skills → + Add.
+          (Requires 'Code execution and file creation' enabled in Organization → Capabilities.)"
+          if gh release view skill-latest >/dev/null 2>&1; then
+            gh release upload skill-latest dist/effectory-design-system.zip --clobber
+            gh release edit skill-latest --notes "$NOTES"
+          else
+            gh release create skill-latest dist/effectory-design-system.zip \
+              --title "Effectory Design System — skill (latest)" \
+              --notes "$NOTES"
+          fi
