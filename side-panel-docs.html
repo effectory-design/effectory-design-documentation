@@ -69,9 +69,10 @@
     .sp-scene .sidepanel { position: absolute; top: 0; right: 0; height: 100%; box-shadow: -8px 0 24px -12px rgba(25,39,67,.3); }
 
     /* Anatomy */
-    .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 24px; display: flex; justify-content: center; }
-    .anatomy-fig .sidepanel { pointer-events: none; height: 460px; border: 1px solid var(--border-base); }
-    .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; /* font-scale-exempt: anatomy number badge */ font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 3; }
+    .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); margin-bottom: 24px; height: 500px; overflow: hidden; display: flex; justify-content: flex-end; }
+    .anatomy-fig .sidepanel { pointer-events: none; height: 100%; }
+    .ana-panelwrap { position: relative; z-index: 2; width: 440px; height: 100%; flex-shrink: 0; box-shadow: -8px 0 24px -12px rgba(25,39,67,.3); }
+    .ana-num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--content-base); color: var(--bg-base); font-size: 9px; /* font-scale-exempt: anatomy number badge */ font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 4; }
     .sp-slot { flex: 1; display: flex; align-items: center; justify-content: center; border: 1.5px dashed var(--border-action); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; font-size: 14px; color: var(--content-subtle); }
     .sp-body:has(.sp-slot) { display: flex; }
 
@@ -131,26 +132,34 @@
           <h2 class="text-l3">Anatomy</h2>
           <p class="section-lead">A side panel docks against the right edge at full height, over a scrim. A header holds the title and actions; the body scrolls; an optional footer pins the actions.</p>
           <div class="anatomy-fig">
-            <div class="sidepanel" style="width:420px;">
-              <div class="sp-header">
-                <div class="sp-toolbar">
-                  <div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div>
-                  <div class="sp-actions"><i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div>
-                </div>
-                <div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div>
-                <div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div>
-              </div>
-              <div class="sp-body"><div class="sp-slot">Your content goes here — details, a form, or any custom UI</div></div>
-              <div class="sp-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Confirm</button></div>
+            <div class="spm-page">
+              <div class="spm-title">Deepdive about Appreciation</div>
+              <div class="spm-tabs"><span class="is-active">Open Answers</span><span>Scores</span><span>Reports</span></div>
+              <div class="spm-row"></div><div class="spm-row"></div><div class="spm-row"></div>
             </div>
-            <div class="ana-num" style="left:31%; top:11%;">1</div>
-            <div class="ana-num" style="left:34%; top:16%;">2</div>
-            <div class="ana-num" style="right:30%; top:16%;">3</div>
-            <div class="ana-num" style="left:31%; top:25%;">4</div>
-            <div class="ana-num" style="left:31%; top:31%;">5</div>
-            <div class="ana-num" style="left:31%; top:38%;">6</div>
-            <div class="ana-num" style="left:31%; top:55%;">7</div>
-            <div class="ana-num" style="right:30%; top:88%;">8</div>
+            <div class="spm-scrim"></div>
+            <div class="ana-panelwrap">
+              <div class="sidepanel" style="width:100%;">
+                <div class="sp-header">
+                  <div class="sp-toolbar">
+                    <div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div>
+                    <div class="sp-actions"><i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div>
+                  </div>
+                  <div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div>
+                  <div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div>
+                </div>
+                <div class="sp-body"><div class="sp-slot">Your content goes here — details, a form, or any custom UI</div></div>
+                <div class="sp-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Confirm</button></div>
+              </div>
+              <div class="ana-num" style="left:46%; top:2%;">1</div>
+              <div class="ana-num" style="right:6%; top:3%;">2</div>
+              <div class="ana-num" style="left:7%; top:3%;">3</div>
+              <div class="ana-num" style="left:10%; top:13%;">4</div>
+              <div class="ana-num" style="left:10%; top:21%;">5</div>
+              <div class="ana-num" style="left:10%; top:30%;">6</div>
+              <div class="ana-num" style="left:10%; top:54%;">7</div>
+              <div class="ana-num" style="right:9%; bottom:5%;">8</div>
+            </div>
           </div>
           <div class="anatomy-items">
             <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Surface</span> — A full-height panel docked to the right edge, raised over a scrim that dims the page behind it.</div></div>
