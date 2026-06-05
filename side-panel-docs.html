@@ -144,7 +144,7 @@
               <div class="dd-prev" style="padding:0; overflow:hidden;">
                 <div class="sp-stage" style="height:230px; width:100%; border-radius:0;">
                   <div class="sidepanel" style="width:62%; pointer-events:none;">
-                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div></div><div class="sp-heading is-sm"><h3 class="sp-title">Jamal van Rooi</h3><p class="sp-subtitle">Response details</p></div></div>
+                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross"></i></div></div><div class="sp-heading is-sm"><h3 class="sp-title">Jamal van Rooi</h3><p class="sp-subtitle">Response details</p></div></div>
                     <div class="sp-body" style="font-size:14px;">Open a respondent beside the list — the table stays in view.</div>
                   </div>
                 </div>
@@ -201,7 +201,7 @@
               <div class="variant-row-btn">
                 <div class="sp-stage" style="height:240px; width:100%;">
                   <div class="sidepanel" style="width:78%;">
-                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
+                    <div class="sp-header"><div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross"></i></div></div><div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div><div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div></div>
                     <div class="sp-body"></div>
                   </div>
                 </div>
@@ -438,12 +438,13 @@ open() {
     };}
     function buildPanel(s){
       const nav = s.adv ? '<div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div>' : '';
-      const extra = s.adv ? '<i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i>' : '';
+      // The kebab + extra tools belong to the advanced menu; the standard header is just close.
+      const extra = s.adv ? '<i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span>' : '';
       const tabs = s.tabs ? '<div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div>' : '';
       const foot = s.foot ? '<div class="sp-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Confirm</button></div>' : '';
       return `<div class="sidepanel${s.size==='small'?' sidepanel-sm':''}" role="dialog" aria-modal="true">
         <div class="sp-header">
-          <div class="sp-toolbar">${nav}<div class="sp-actions">${extra}<i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross" data-close="1"></i></div></div>
+          <div class="sp-toolbar">${nav}<div class="sp-actions">${extra}<i data-icon="cross" data-close="1"></i></div></div>
           <div class="sp-heading${s.size==='small'?' is-sm':''}"><h3 class="sp-title">${esc(s.title)||'Title'}</h3>${s.subtitle?`<p class="sp-subtitle">${esc(s.subtitle)}</p>`:''}</div>
           ${tabs}
         </div>
