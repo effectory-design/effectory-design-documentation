@@ -58,14 +58,21 @@
     .av-36 { width: 36px; height: 36px; font-size: 14px; }
     .av-blue { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue-base); }
 
-    /* account dropdown */
-    .mn-menu { width: 264px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-dialogs); padding: 8px; font-family: 'Poppins', sans-serif; }
-    .mn-menu-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); font-size: 14px; color: var(--content-base); cursor: pointer; }
-    .mn-menu-item:hover { background: var(--bg-base-hover); }
-    .mn-menu-item > i[data-icon] { width: 16px; height: 16px; display: flex; color: var(--content-subtle); flex-shrink: 0; }
-    .mn-menu-item .mn-menu-sub { font-size: 12px; color: var(--content-subtle); }
-    .mn-menu-item .mn-beta { margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 6px; border-radius: var(--radius-full); background: var(--bg-info-subtle, #d6e6ff); color: var(--content-info-base, #205bb9); }
-    .mn-menu-divider { height: 1px; background: var(--border-base); margin: 6px 4px; }
+    /* account & portal dropdowns — the documented Dropdown Menu (.menu) component */
+    .menu { width: 240px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers); padding: 8px; font-family: 'Poppins', sans-serif; }
+    .menu-header { padding: 6px 8px 10px; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .menu-divider { height: 1px; background: var(--border-base); margin: 4px 0; }
+    .menu-item { display: flex; align-items: center; gap: 12px; padding: 10px 8px; border-radius: var(--radius-md); cursor: pointer; color: var(--content-base); line-height: 20px; }
+    .menu-item:hover { background: var(--bg-base-hover); }
+    .menu-item.is-selected { background: var(--bg-brand-subtle); }
+    .menu-item-body { display: flex; flex-direction: column; min-width: 0; flex: 1; gap: 2px; }
+    .menu-item-title { font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--content-base); }
+    .menu-item-sub { font-weight: 400; font-size: 12px; line-height: 1.6; color: var(--content-secondary); }
+    .menu-item-icon { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--content-subtle); flex-shrink: 0; }
+    .menu-item-check { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--content-brand-base); flex-shrink: 0; }
+    .pi-logo { width: 24px; height: 24px; flex-shrink: 0; background-size: contain; background-repeat: no-repeat; background-position: center; }
+    .pi-logo-coordinator { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzMwQjNBRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE5LjkwNTggMjIuOTIyNkMyMy41Mjk4IDIyLjkyMjYgMjYuNDc4MyAxOS45NzQ0IDI2LjQ3ODMgMTYuMzUwMkMyNi40NzgzIDEyLjcyNjIgMjMuNTI5OCA5Ljc3NzcxIDE5LjkwNTggOS43Nzc3MUMxNi4yODE2IDkuNzc3NzEgMTMuMzMzMiAxMi43MjYyIDEzLjMzMzIgMTYuMzUwMkMxMy4zMzMyIDE5Ljk3NDQgMTYuMjgxNiAyMi45MjI2IDE5LjkwNTggMjIuOTIyNlpNMTcuMDI0NiAxNi4zNTAyQzE3LjAyNDYgMTQuNzYxNSAxOC4zMTcyIDEzLjQ2ODYgMTkuOTA2MSAxMy40Njg2QzIxLjQ5NDggMTMuNDY4NiAyMi43ODc1IDE0Ljc2MTUgMjIuNzg3NSAxNi4zNTAyQzIyLjc4NzUgMTcuOTM5IDIxLjQ5NDggMTkuMjMxNyAxOS45MDYxIDE5LjIzMTdDMTguMzE3MiAxOS4yMzE3IDE3LjAyNDYgMTcuOTM5IDE3LjAyNDYgMTYuMzUwMlpNMjUuNzM2MyAyNS4xMTFDMjYuNTY5MiAyNS4xMTEgMjcuMjQ0MyAyNS43ODYxIDI3LjI0NDMgMjYuNjE5VjI4Ljk0MDRIMTQuNTU0OUwxMi42NjY1IDMwLjExMDZWMjYuNjMyNkMxMi42NjY1IDI1Ljc5MjEgMTMuMzQ3OCAyNS4xMTEgMTQuMTg4MyAyNS4xMTFIMjUuNzM2M1oiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="); }
+    .pi-logo-personal { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMTIuOEMwIDguMzE5NTggMCA2LjA3OTM3IDAuODcxOTQ4IDQuMzY4MDhDMS42Mzg5MyAyLjg2Mjc4IDIuODYyNzggMS42Mzg5MyA0LjM2ODA4IDAuODcxOTQ4QzYuMDc5MzcgMCA4LjMxOTU4IDAgMTIuOCAwSDI3LjJDMzEuNjgwNCAwIDMzLjkyMDYgMCAzNS42MzE5IDAuODcxOTQ4QzM3LjEzNzIgMS42Mzg5MyAzOC4zNjExIDIuODYyNzggMzkuMTI4MSA0LjM2ODA4QzQwIDYuMDc5MzcgNDAgOC4zMTk1OCA0MCAxMi44VjI3LjJDNDAgMzEuNjgwNCA0MCAzMy45MjA2IDM5LjEyODEgMzUuNjMxOUMzOC4zNjExIDM3LjEzNzIgMzcuMTM3MiAzOC4zNjExIDM1LjYzMTkgMzkuMTI4MUMzMy45MjA2IDQwIDMxLjY4MDQgNDAgMjcuMiA0MEgxMi44QzguMzE5NTggNDAgNi4wNzkzNyA0MCA0LjM2ODA4IDM5LjEyODFDMi44NjI3OCAzOC4zNjExIDEuNjM4OTMgMzcuMTM3MiAwLjg3MTk0OCAzNS42MzE5QzAgMzMuOTIwNiAwIDMxLjY4MDQgMCAyNy4yVjEyLjhaIiBmaWxsPSIjRkRCRDEyIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTkuOTA1OCAyMi45MjI2QzIzLjUyOTggMjIuOTIyNiAyNi40NzgzIDE5Ljk3NDQgMjYuNDc4MyAxNi4zNTAyQzI2LjQ3ODMgMTIuNzI2MiAyMy41Mjk4IDkuNzc3NzEgMTkuOTA1OCA5Ljc3NzcxQzE2LjI4MTYgOS43Nzc3MSAxMy4zMzMyIDEyLjcyNjIgMTMuMzMzMiAxNi4zNTAyQzEzLjMzMzIgMTkuOTc0NCAxNi4yODE2IDIyLjkyMjYgMTkuOTA1OCAyMi45MjI2Wk0xNy4wMjQ2IDE2LjM1MDJDMTcuMDI0NiAxNC43NjE1IDE4LjMxNzIgMTMuNDY4NiAxOS45MDYxIDEzLjQ2ODZDMjEuNDk0OCAxMy40Njg2IDIyLjc4NzUgMTQuNzYxNSAyMi43ODc1IDE2LjM1MDJDMjIuNzg3NSAxNy45MzkgMjEuNDk0OCAxOS4yMzE3IDE5LjkwNjEgMTkuMjMxN0MxOC4zMTcyIDE5LjIzMTcgMTcuMDI0NiAxNy45MzkgMTcuMDI0NiAxNi4zNTAyWk0yNS43MzYzIDI1LjExMUMyNi41NjkyIDI1LjExMSAyNy4yNDQzIDI1Ljc4NjEgMjcuMjQ0MyAyNi42MTlWMjguOTQwNEgxNC41NTQ5TDEyLjY2NjUgMzAuMTEwNlYyNi42MzI2QzEyLjY2NjUgMjUuNzkyMSAxMy4zNDc4IDI1LjExMSAxNC4xODgzIDI1LjExMUgyNS43MzYzWiIgZmlsbD0iIzE5Mjc0MyIvPgo8L3N2Zz4K"); }
 
     /* doc layout helpers */
     .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 24px; display: flex; justify-content: center; }
@@ -287,6 +294,39 @@
           </div>
         </section>
 
+        <section class="section" id="menus">
+          <h2 class="text-l3">Menus</h2>
+          <p class="section-lead">Both the portal switcher and the account button open a menu built with the Dropdown Menu component.</p>
+
+          <h3 class="text-l4">Portal switcher</h3>
+          <p>Opens below the switcher. A header introduces the choice, each role shows its logo, and a check marks the active one.</p>
+          <div class="states-row">
+            <div class="state-col"><span class="state-lbl">Portal menu</span>
+              <div class="menu" style="pointer-events:none;">
+                <div class="menu-header">Switch my role</div>
+                <div class="menu-item is-selected"><span class="pi-logo pi-logo-coordinator"></span><div class="menu-item-body"><span class="menu-item-title">Coordinator</span></div><i data-icon="check" class="menu-item-check"></i></div>
+                <div class="menu-item"><span class="pi-logo pi-logo-personal"></span><div class="menu-item-body"><span class="menu-item-title">Personal</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-l4">Account menu</h3>
+          <p>Opens above the account button. Groups account-level actions; the last item (Log out) sits below a divider.</p>
+          <div class="states-row">
+            <div class="state-col"><span class="state-lbl">Account menu</span>
+              <div class="menu" style="pointer-events:none;">
+                <div class="menu-item"><i data-icon="building" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Switch organization</span></div></div>
+                <div class="menu-item"><i data-icon="gift" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Preview features</span></div></div>
+                <div class="menu-item"><i data-icon="sun" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Appearance</span><span class="menu-item-sub">Light</span></div></div>
+                <div class="menu-item"><i data-icon="globe" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Change language</span></div></div>
+                <div class="menu-item"><i data-icon="cookie" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Cookie settings</span></div></div>
+                <div class="menu-divider"></div>
+                <div class="menu-item"><i data-icon="log-out" class="menu-item-icon"></i><div class="menu-item-body"><span class="menu-item-title">Log out</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="section" id="content-guidelines">
           <h2 class="text-l3">Content guidelines</h2>
           <p class="section-lead">Labels are the wayfinding system — keep them short, concrete, and stable.</p>
@@ -346,6 +386,7 @@
           <a class="toc-link" href="#usage">Usage</a>
           <a class="toc-link" href="#variants">Variants</a>
           <a class="toc-link" href="#states">States</a>
+          <a class="toc-link" href="#menus">Menus</a>
           <a class="toc-link" href="#content-guidelines">Content guidelines</a>
           <a class="toc-link" href="#tokens">Design Tokens</a>
           <a class="toc-link" href="#accessibility">Accessibility</a>
@@ -411,7 +452,7 @@
               <tr><td><code>.mn-nav</code> · <code>.mn-item</code></td><td>Item list + a single item (icon + label + optional <code>.mn-chev</code>). States: <code>.is-hover</code>, <code>.is-active</code>.</td></tr>
               <tr><td><code>.mn-sub</code> · <code>.mn-subitem</code></td><td>Expanded group's sub-items (indented). <code>.mn-sub-divider</code> separates setting-level items.</td></tr>
               <tr><td><code>.mn-foot</code> · <code>.mn-user</code></td><td>Bottom region: Help &amp; learn + account button (<code>.av</code>, <code>.mn-name</code>, <code>.mn-org</code>). States: <code>.is-hover</code>, <code>.is-pressed</code>.</td></tr>
-              <tr><td><code>.mn-menu</code> · <code>.mn-menu-item</code></td><td>The account dropdown + its rows (<code>.mn-menu-divider</code>, <code>.mn-beta</code> tag).</td></tr>
+              <tr><td><code>.menu</code> · <code>.menu-item</code></td><td>The portal switcher and account dropdowns use the shared <a href="dropdown-menu-docs.html">Dropdown Menu</a> component (<code>.menu-item-icon</code>, <code>.menu-item-body</code> → <code>.menu-item-title</code>/<code>.menu-item-sub</code>, <code>.menu-item-check</code>, <code>.menu-header</code>, <code>.menu-divider</code>). The portal menu's role logos use <code>.pi-logo</code>.</td></tr>
             </tbody>
           </table>
         </section>
