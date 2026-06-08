@@ -622,10 +622,26 @@
       if (total > 1) notes.push(`<!-- ${total} queued; your app shows one at a time and advances on close. Snippet shows the first card. -->`);
       return notes.length ? notes.join('\n') + '\n' + L.join('\n') : L.join('\n');
     }
-    // advance the deck with the promote animation: front falls, the cards behind move up one step
+    // measure how tall a given card renders at 260px (off-screen), so the deck height can animate
+    function measure(c){
+      const probe = document.createElement('div');
+      probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;';
+      probe.innerHTML = `<div class="ann-deck" style="width:260px;">${cardEl(c, 'ann-front')}</div>`;
+      $preview.appendChild(probe);
+      const h = probe.querySelector('.ann-front').offsetHeight;
+      probe.remove();
+      return h;
+    }
+    // advance the deck: glide the deck height to the next card, drop the front, promote the rest
     function advance(){
+      const deck = $preview.querySelector('.ann-deck');
       const front = $preview.querySelector('.ann-front');
-      if (!front || front.classList.contains('is-leaving')) return;
+      if (!front || !deck || front.classList.contains('is-leaving')) return;
+      const next = idx + 1;
+      if (next < count()){
+        const h0 = deck.offsetHeight, h1 = measure(CARDS[next]);
+        if (h1 && h1 !== h0){ deck.style.height = h0+'px'; deck.getBoundingClientRect(); deck.style.transition = 'height '+FALL_MS+'ms cubic-bezier(.3,.1,.3,1)'; deck.style.height = h1+'px'; }
+      }
       front.classList.add('is-leaving');
       ['ann-b1','ann-b2','ann-b3','ann-b4'].forEach(c => { const el = $preview.querySelector('.'+c); if (el) el.classList.add('is-promoting'); });
       setTimeout(() => { idx += 1; render(); }, FALL_MS);
