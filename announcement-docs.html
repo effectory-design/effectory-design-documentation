@@ -70,6 +70,9 @@
     .variant-row-btn { padding: 36px 32px 44px; }
     /* framed preview for the colour swatches */
     .colour-frame { display: flex; flex-wrap: wrap; gap: 16px; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 32px; margin: 18px 0 28px; }
+    /* per-card config groups in the developer playground */
+    .pg-cardgroup-hd { padding: 12px var(--spacing-loose) 6px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--content-subtle); border-top: 1px solid var(--border-base); }
+    .pg-row.is-hidden { display: none; }
   </style>
 </head>
 <body>
@@ -372,7 +375,7 @@
 
         <section class="section" id="dev-playground">
           <h2 class="text-l3">Playground</h2>
-          <p class="section-lead">Configure the announcement and preview it. Set <em>stacked</em> &gt; 1 to see the deck — click a button to advance.</p>
+          <p class="section-lead">Configure each card and preview it. Set <em>cards</em> &gt; 1 to queue a deck — every card has its own colour, illustration, title and CTA; click a button to advance.</p>
           <div class="pg-card">
             <div class="pg-preview" id="pg-preview" style="padding:48px 24px 56px;"></div>
             <div class="pg-bottom">
@@ -382,15 +385,10 @@
                 <button class="pg-reset" id="pg-reset">Reset</button>
               </div>
               <div class="pg-panel pg-props-wrap" id="pg-panel-props">
-                <div class="pg-row"><div class="pg-row-name">colour <span style="display:block;font-size:12px;color:var(--content-secondary);font-weight:400;">card, illustration &amp; button</span></div><div class="pg-row-ctrl"><select class="pg-select" id="pg-color"><option value="default" selected>Default</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="red">Red</option></select></div></div>
-                <div class="pg-row"><div class="pg-row-name">svgUrl <span style="display:block;font-size:12px;color:var(--content-secondary);font-weight:400;">show illustration</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-media" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row"><div class="pg-row-name">dialogTitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Dynamic reporting is here!" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">dialogSubtitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-body" value="A new look, new features, and even more to explore." /></div></div>
-                <div class="pg-row"><div class="pg-row-name">dialogButtonText <span style="display:block;font-size:12px;color:var(--content-secondary);font-weight:400;">primary CTA — on/off</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-cta-on" checked><span class="pg-toggle-track"></span></label></div></div>
-                <div class="pg-row" id="pg-cta-label-row"><div class="pg-row-name">button label</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-cta" value="Learn more" /></div></div>
-                <div class="pg-row"><div class="pg-row-name">stacked <span style="display:block;font-size:12px;color:var(--content-secondary);font-weight:400;"># queued in the deck</span></div><div class="pg-row-ctrl">
-                  <select class="pg-select" id="pg-stack"><option value="1" selected>off (single)</option><option value="2">2 announcements</option><option value="3">3 announcements</option><option value="4">4 announcements</option><option value="5">5 announcements</option></select>
+                <div class="pg-row"><div class="pg-row-name">cards <span style="display:block;font-size:12px;color:var(--content-secondary);font-weight:400;"># queued in the deck</span></div><div class="pg-row-ctrl">
+                  <select class="pg-select" id="pg-stack"><option value="1" selected>1 (single)</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
                 </div></div>
+                <div id="pg-cards"></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
                 <button class="dev-copy-btn" id="pg-copy">Copy</button>
@@ -515,94 +513,113 @@
   (function () {
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
-    const defaults = { media:true, title:'Dynamic reporting is here!', body:'A new look, new features, and even more to explore.', ctaOn:true, cta:'Learn more', stack:'1', color:'default' };
     const PH = '<i data-icon="image" class="ann-media-ph"></i>';
     // colour options — values from the design-system palette tokens; Default = white card + brand (teal) button
     const THEMES = {
-      default: { surface:'var(--bg-base)',           illu:'var(--bg-brand-base)' },
-      blue:    { surface:'var(--bg-info-subtle)',     illu:'var(--bg-info-base)',     btnBg:'var(--bg-info-base)',     btnBorder:'var(--border-info-base-hover)',     btnOn:'#fff' },
-      green:   { surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive-base)', btnBg:'var(--bg-positive-base)', btnBorder:'var(--border-positive-base-hover)', btnOn:'#fff' },
-      orange:  { surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning-bold)',  btnBg:'var(--bg-warning-bold)',  btnBorder:'var(--border-warning-base)',        btnOn:'var(--content-base)' },
-      red:     { surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative-base)', btnBg:'var(--bg-negative-base)', btnBorder:'var(--border-negative-base-hover)', btnOn:'#fff' },
+      default: { label:'Default', surface:'var(--bg-base)',           illu:'var(--bg-brand-base)' },
+      blue:    { label:'Blue',    surface:'var(--bg-info-subtle)',     illu:'var(--bg-info-base)',     btnBg:'var(--bg-info-base)',     btnBorder:'var(--border-info-base-hover)',     btnOn:'#fff' },
+      green:   { label:'Green',   surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive-base)', btnBg:'var(--bg-positive-base)', btnBorder:'var(--border-positive-base-hover)', btnOn:'#fff' },
+      orange:  { label:'Orange',  surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning-bold)',  btnBg:'var(--bg-warning-bold)',  btnBorder:'var(--border-warning-base)',        btnOn:'var(--content-base)' },
+      red:     { label:'Red',     surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative-base)', btnBg:'var(--bg-negative-base)', btnBorder:'var(--border-negative-base-hover)', btnOn:'#fff' },
     };
-    const themeOf = s => THEMES[s.color] || THEMES.default;
-    // sample queue used when stacked; index 0 is the editable card
-    const SAMPLES = [null,
-      { title:'Comments are now live', body:'Leave feedback right on any question, in real time.' },
-      { title:'Bulk export is ready', body:'Download every response as a spreadsheet in one click.' }];
+    const THEME_ORDER = ['default','blue','green','orange','red'];
+    const themeOf = c => THEMES[c.color] || THEMES.default;
+    const DEFAULT_CARDS = [
+      { color:'default', media:true,  title:'Dynamic reporting is here!', body:'A new look, new features, and even more to explore.', cta:true,  ctaLabel:'Learn more' },
+      { color:'blue',    media:false, title:'Comments are now live',      body:'Leave feedback right on any question, in real time.',     cta:true,  ctaLabel:'Learn more' },
+      { color:'green',   media:false, title:'Bulk export is ready',       body:'Download every response as a spreadsheet in one click.',  cta:true,  ctaLabel:'Get the file' },
+      { color:'orange',  media:true,  title:'Topics & Ideas',             body:'See the themes your employees suggest most often.',       cta:false, ctaLabel:'Learn more' },
+      { color:'red',     media:true,  title:'Schedule recurring pulses',  body:'Set a cadence once and let surveys go out on autopilot.', cta:true,  ctaLabel:'Set up' },
+    ];
+    let CARDS = DEFAULT_CARDS.map(c => ({...c}));
     let idx = 0;
     const FALL_MS = 420;
-    function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-    function aq(s){return String(s).replace(/'/g,"\\'");}
-    function st(){return{
-      media:document.getElementById('pg-media').checked,
-      title:document.getElementById('pg-title').value,
-      body:document.getElementById('pg-body').value,
-      ctaOn:document.getElementById('pg-cta-on').checked,
-      cta:document.getElementById('pg-cta').value,
-      stack:parseInt(document.getElementById('pg-stack').value,10)||1,
-      color:document.getElementById('pg-color').value,
-    };}
-    function content(s, p){ // content for absolute queue position p (0 = editable card)
-      if (p === 0) return { title:s.title, body:s.body, cta:s.cta || 'Learn more' };
-      const x = SAMPLES[p] || SAMPLES[1];
-      return { title:x.title, body:x.body, cta:'Learn more' };
+    const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const aq = s => String(s).replace(/'/g,"\\'");
+    const count = () => parseInt(document.getElementById('pg-stack').value,10) || 1;
+
+    // ── per-card config groups ──
+    function cardForm(){
+      const n = count();
+      let h = '';
+      for (let i=0;i<n;i++){ const c = CARDS[i];
+        h += `<div class="pg-cardgroup" data-cardgroup="${i}">
+          <div class="pg-cardgroup-hd">Card ${i+1}</div>
+          <div class="pg-row"><div class="pg-row-name">colour</div><div class="pg-row-ctrl"><select class="pg-select" data-card="${i}" data-f="color">${THEME_ORDER.map(k=>`<option value="${k}" ${c.color===k?'selected':''}>${THEMES[k].label}</option>`).join('')}</select></div></div>
+          <div class="pg-row"><div class="pg-row-name">illustration</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" data-card="${i}" data-f="media" ${c.media?'checked':''}><span class="pg-toggle-track"></span></label></div></div>
+          <div class="pg-row"><div class="pg-row-name">title</div><div class="pg-row-ctrl"><input class="pg-input" type="text" data-card="${i}" data-f="title" value="${esc(c.title)}"></div></div>
+          <div class="pg-row"><div class="pg-row-name">message</div><div class="pg-row-ctrl"><input class="pg-input" type="text" data-card="${i}" data-f="body" value="${esc(c.body)}"></div></div>
+          <div class="pg-row"><div class="pg-row-name">call-to-action</div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" data-card="${i}" data-f="cta" ${c.cta?'checked':''}><span class="pg-toggle-track"></span></label></div></div>
+          <div class="pg-row cta-l ${c.cta?'':'is-hidden'}"><div class="pg-row-name">button label</div><div class="pg-row-ctrl"><input class="pg-input" type="text" data-card="${i}" data-f="ctaLabel" value="${esc(c.ctaLabel)}"></div></div>
+        </div>`;
+      }
+      const wrap = document.getElementById('pg-cards');
+      wrap.innerHTML = h;
+      if (window.Icons && window.Icons.render) window.Icons.render(wrap);
     }
-    function media(s, p){
-      if (!s.media) return '';
-      const th = themeOf(s);
-      return `<div class="ann-media" style="background:${th.illu}; color:rgba(255,255,255,.92);">${PH}</div>`;
+    function onCardEdit(e){
+      const t = e.target; if (t.dataset.card === undefined) return;
+      const i = +t.dataset.card, f = t.dataset.f;
+      if (f === 'media' || f === 'cta'){ CARDS[i][f] = t.checked;
+        if (f === 'cta') t.closest('.pg-cardgroup').querySelector('.cta-l').classList.toggle('is-hidden', !t.checked);
+      } else CARDS[i][f] = t.value;
+      render();
     }
-    function inner(s, p){
-      const d = content(s, p);
-      const th = themeOf(s);
+    document.getElementById('pg-cards').addEventListener('input', onCardEdit);
+    document.getElementById('pg-cards').addEventListener('change', onCardEdit);
+
+    // ── preview ──
+    function media(c){
+      if (!c.media) return '';
+      return `<div class="ann-media" style="background:${themeOf(c).illu}; color:rgba(255,255,255,.92);">${PH}</div>`;
+    }
+    function inner(c){
+      const th = themeOf(c);
       // Default → plain brand (teal) button; colours retint the primary button via its own tokens
       const btnStyle = th.btnBg ? `--bg-brand-base:${th.btnBg};--bg-brand-base-hover:${th.btnBorder};--bg-brand-base-pressed:${th.btnBorder};--border-brand-base:${th.btnBorder};--border-brand-base-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
-      const cta = s.ctaOn ? `<button class="btn btn-primary" data-next style="${btnStyle}">${esc(d.cta)}</button>` : '';
+      const cta = c.cta ? `<button class="btn btn-primary" data-next style="${btnStyle}">${esc(c.ctaLabel)||'Learn more'}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
       const close = `<button class="ann-close ib ib-24 ib-secondary" data-next aria-label="Close"><i data-icon="cross"></i></button>`;
-      return `${close}${media(s,p)}<div class="ann-body"><p class="ann-title">${esc(d.title)}</p><p class="ann-text">${esc(d.body)}</p>${actions}</div>`;
+      return `${close}${media(c)}<div class="ann-body"><p class="ann-title">${esc(c.title)}</p><p class="ann-text">${esc(c.body)}</p>${actions}</div>`;
     }
-    // full card wrapper with the chosen surface tint
-    function card(s, p, cls){ return `<div class="announcement ${cls}" style="width:260px; background:${themeOf(s).surface};">${inner(s,p)}</div>`; }
+    const cardEl = (c, cls) => `<div class="announcement ${cls}" style="width:260px; background:${themeOf(c).surface};">${inner(c)}</div>`;
     function render(){
-      const s = st();
-      document.getElementById('pg-cta-label-row').style.display = s.ctaOn ? '' : 'none';
-      const total = s.stack;
+      const total = count();
       if (total <= 1) {
-        $preview.innerHTML = card(s, 0, '');
+        $preview.innerHTML = cardEl(CARDS[0], '');
       } else if (idx >= total) {
         $preview.innerHTML = `<div style="width:260px; text-align:center; font-family:'Poppins',sans-serif; font-size:14px; color:var(--content-secondary); padding:32px 0;">You're all caught up ✓<button id="pg-replay" style="display:block; margin:10px auto 0; background:none; border:none; color:var(--content-brand-base); font:inherit; cursor:pointer; text-decoration:underline;">Replay</button></div>`;
         document.getElementById('pg-replay').onclick = () => { idx = 0; render(); };
       } else {
         const layers = [];
-        if (idx + 4 < total) layers.push(card(s, idx+4, 'ann-b4'));
-        if (idx + 3 < total) layers.push(card(s, idx+3, 'ann-b3'));
-        if (idx + 2 < total) layers.push(card(s, idx+2, 'ann-b2'));
-        if (idx + 1 < total) layers.push(card(s, idx+1, 'ann-b1'));
-        layers.push(card(s, idx, 'ann-front'));
+        if (idx + 4 < total) layers.push(cardEl(CARDS[idx+4], 'ann-b4'));
+        if (idx + 3 < total) layers.push(cardEl(CARDS[idx+3], 'ann-b3'));
+        if (idx + 2 < total) layers.push(cardEl(CARDS[idx+2], 'ann-b2'));
+        if (idx + 1 < total) layers.push(cardEl(CARDS[idx+1], 'ann-b1'));
+        layers.push(cardEl(CARDS[idx], 'ann-front'));
         $preview.innerHTML = `<div class="ann-deck" style="width:260px;">${layers.join('')}</div>`;
       }
-      document.getElementById('pg-code').textContent = code(s);
+      document.getElementById('pg-code').textContent = code();
       if (window.Icons && window.Icons.render) window.Icons.render($preview);
     }
-    function code(s){
+    function code(){
+      const c = CARDS[0], total = count();
       const L = [];
       L.push('<eff-tooltip-dialog');
       L.push('  *ngIf="showAnnouncement()"');
-      if (s.media) L.push('  class="with-svg"');
+      if (c.media) L.push('  class="with-svg"');
       L.push('  [targetElement]="svgTarget"');
-      if (s.media) L.push("  [svgUrl]=\"'assets/img/home-illustration.svg'\"");
-      L.push(`  [dialogTitle]="'${aq(s.title)}'"`);
-      L.push(`  [dialogSubtitle]="'${aq(s.body)}'"`);
-      if (s.ctaOn) L.push(`  [dialogButtonText]="'${aq(s.cta)}'"`);
+      if (c.media) L.push("  [svgUrl]=\"'assets/img/home-illustration.svg'\"");
+      L.push(`  [dialogTitle]="'${aq(c.title)}'"`);
+      L.push(`  [dialogSubtitle]="'${aq(c.body)}'"`);
+      if (c.cta) L.push(`  [dialogButtonText]="'${aq(c.ctaLabel||'Learn more')}'"`);
       L.push("  [dialogLinkButtonText]=\"'Close'\"");
       L.push("  [dialogPositionToTarget]=\"'after'\"");
       L.push('  (dialogClosedOutput)="showAnnouncement.set(false)">');
       L.push('</eff-tooltip-dialog>');
       const notes = [];
-      if (s.color !== 'default') notes.push(`<!-- '${s.color}' is a colour preset applied via host styling — not an input on eff-tooltip-dialog -->`);
-      if (s.stack > 1) notes.push(`<!-- ${s.stack} queued; your app shows one at a time and advances on close -->`);
+      if (c.color !== 'default') notes.push(`<!-- '${c.color}' is a colour preset applied via host styling — not an input on eff-tooltip-dialog -->`);
+      if (total > 1) notes.push(`<!-- ${total} queued; your app shows one at a time and advances on close. Snippet shows the first card. -->`);
       return notes.length ? notes.join('\n') + '\n' + L.join('\n') : L.join('\n');
     }
     // advance the deck with the promote animation: front falls, the cards behind move up one step
@@ -610,22 +627,19 @@
       const front = $preview.querySelector('.ann-front');
       if (!front || front.classList.contains('is-leaving')) return;
       front.classList.add('is-leaving');
-      const b1 = $preview.querySelector('.ann-b1'); if (b1) b1.classList.add('is-promoting');
-      const b2 = $preview.querySelector('.ann-b2'); if (b2) b2.classList.add('is-promoting');
-      const b3 = $preview.querySelector('.ann-b3'); if (b3) b3.classList.add('is-promoting');
-      const b4 = $preview.querySelector('.ann-b4'); if (b4) b4.classList.add('is-promoting');
+      ['ann-b1','ann-b2','ann-b3','ann-b4'].forEach(c => { const el = $preview.querySelector('.'+c); if (el) el.classList.add('is-promoting'); });
       setTimeout(() => { idx += 1; render(); }, FALL_MS);
     }
     $preview.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-next]'); if (!b) return;
-      if (st().stack > 1) advance(); // page through the deck
+      if (!e.target.closest('[data-next]')) return;
+      if (count() > 1) advance(); // page through the deck
     });
-    ['pg-media','pg-title','pg-body','pg-cta-on','pg-cta','pg-stack','pg-color'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const fn=()=>{ if(id==='pg-stack') idx=0; render(); };el.addEventListener('input',fn);el.addEventListener('change',fn);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{idx=0;document.getElementById('pg-media').checked=defaults.media;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-body').value=defaults.body;document.getElementById('pg-cta-on').checked=defaults.ctaOn;document.getElementById('pg-cta').value=defaults.cta;document.getElementById('pg-stack').value=defaults.stack;document.getElementById('pg-color').value=defaults.color;render();});
+    document.getElementById('pg-stack').addEventListener('change', () => { idx = 0; cardForm(); render(); });
+    document.getElementById('pg-reset')?.addEventListener('click', () => { idx = 0; CARDS = DEFAULT_CARDS.map(c=>({...c})); document.getElementById('pg-stack').value = '1'; cardForm(); render(); });
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     document.querySelectorAll('.dev-copy-btn').forEach(b=>{ if(b.id==='pg-copy')return; b.addEventListener('click',()=>{const c=b.parentElement.querySelector('code');if(c)navigator.clipboard.writeText(c.textContent);}); });
-    render();
+    cardForm(); render();
   })();
 </script>
 </body>
