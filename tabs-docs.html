@@ -10,9 +10,11 @@
   <style>
     /* ── Tabs — switch between sections of the same view ── */
     .tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--border-base); font-family: 'Poppins', sans-serif; }
-    .tab { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 14px; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); background: none; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
     .tab:hover, .tab.is-hover { color: var(--content-base); }
-    .tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-secondary); }
+    .tab.is-active { color: var(--content-base); }
+    .tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: var(--radius-full); background: transparent; }
+    .tab.is-active::after { background: var(--content-brand-secondary); }
     .tab.is-disabled { color: var(--content-disabled); cursor: not-allowed; }
     .tab i[data-icon] { width: 16px; height: 16px; display: flex; }
     .tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--radius-full); background: var(--bg-info-base); color: #fff; font-size: 12px; font-weight: 500; line-height: 1; }
@@ -84,7 +86,7 @@
           </div>
           <div class="anatomy-items">
             <div class="anatomy-item"><div class="anatomy-num">1</div><div><span class="anatomy-term">Tab</span> — A label (optionally with an icon) for one section. Keep labels short.</div></div>
-            <div class="anatomy-item"><div class="anatomy-num">2</div><div><span class="anatomy-term">Active indicator</span> — A 2px brand underline marking the selected tab.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">2</div><div><span class="anatomy-term">Active indicator</span> — A 4px rounded brand-coloured bar marking the selected tab.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">3</div><div><span class="anatomy-term">Track</span> — The hairline separating the tab row from the content.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">4</div><div><span class="anatomy-term">Panel</span> — The content of the active tab. Only one panel is shown at a time.</div></div>
           </div>

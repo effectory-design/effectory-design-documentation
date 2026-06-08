@@ -805,7 +805,7 @@ Wissel tussen secties van dezelfde view (altijd horizontaal); label optioneel me
   <a class="tab">Reports</a>
 </div>
 ```
-Classes: `.tabs`, `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; optioneel een leading `<i data-icon>` en/of een `.tab-count`-badge vóór of na het label — blauwe pill `--bg-info-base`, witte 12px-tekst). Actieve tab: `--content-base` tekst + 2px underline `--content-brand-secondary`; inactief `--content-secondary`; disabled `--content-disabled`; track `--border-base`. Typografie `body-14-M`. A11y: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, pijltjestoetsen + roving `tabindex`.
+Classes: `.tabs`, `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; optioneel een leading `<i data-icon>` en/of een `.tab-count`-badge vóór of na het label — blauwe pill `--bg-info-base`, witte 12px-tekst). Actieve tab: `--content-base` tekst + een 4px afgeronde bar `--content-brand-secondary` (via `.tab::after`); inactief `--content-secondary`; disabled `--content-disabled`; track `--border-base`. Typografie `body-14-M`. A11y: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, pijltjestoetsen + roving `tabindex`.
 
 > **Productie-API:** in code is dit Angular Material `mat-tab-group` met `class="tabs"` (`mat-align-tabs="start"`, `disableRipple`) en `mat-tab`-children (`label`, of een `<ng-template mat-tab-label>` met `eff-mat-icon class="tab-icon"`). De `.tabs`/`.tab`-classes hier zijn de prototype-structuur.
 
