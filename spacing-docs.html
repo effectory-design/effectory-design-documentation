@@ -93,10 +93,12 @@
       min-width: 180px;
     }
     .d-btn {
-      background: var(--bg-brand-base); color: var(--content-on-brand-base); border: none;
-      border-radius: var(--radius-base); padding: 8px 14px; font-size: 13px; font-weight: 500;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px;
+      background: var(--bg-brand-base); color: var(--content-on-brand-base);
+      border: 1px solid var(--border-brand-base); box-shadow: var(--sh-action);
+      border-radius: var(--radius-base); padding: 0 12px; font-size: 14px; font-weight: 500;
     }
-    .d-btn.sec { background: var(--bg-base); color: var(--content-base); border: 1px solid var(--border-base); }
+    .d-btn.sec { background: var(--bg-base); color: var(--content-secondary); border-color: var(--border-action); }
     .d-card-sm {
       background: var(--bg-base); border: 1px solid var(--border-base);
       border-radius: var(--radius-md); width: 100%;

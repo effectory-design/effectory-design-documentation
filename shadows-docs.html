@@ -117,16 +117,19 @@
 
     /* ── Demo elements ── */
     .d-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
       background: var(--bg-base); color: var(--content-secondary);
-      border: 1px solid var(--border-base);
-      border-radius: var(--radius-base); padding: 8px 16px;
-      font-size: 13px; font-weight: 500; font-family: 'Poppins', sans-serif;
+      border: 1px solid var(--border-action); box-shadow: var(--sh-action);
+      border-radius: var(--radius-base); height: 36px; padding: 0 12px;
+      font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;
       cursor: pointer;
     }
     .d-btn-primary {
       background: var(--bg-brand-base); color: var(--content-on-brand-base);
-      border: none;
+      border-color: var(--border-brand-base);
     }
+    /* keep the shadow-token demo overriding the button's resting shadow */
+    .d-btn.sh-action-hover { box-shadow: var(--sh-action-hover); }
     .d-card {
       background: var(--bg-base); border-radius: var(--radius-md);
       padding: 16px 20px; min-width: 200px;
