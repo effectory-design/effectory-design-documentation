@@ -195,15 +195,17 @@
     }
 
     /* ══════════════ CARD ══════════════ */
-    // per-card colour themes: illustration/button fill, the matching button border (darker shade),
-    // and a light card-background tint. Tints are ~10% so the dark title/body text keeps AA+ contrast.
+    // per-card colour themes — a deep, fully-coloured card with white text.
+    //   illu    = illustration fill (~500)
+    //   surface = card background, one step deeper (~600); dark enough for white text (WCAG AA, verified)
+    //   btn / btnBorder = CTA button, deeper still (~700) so it reads as a distinct action
     const THEMES = {
-      teal:   { label:'Teal (brand)', bg:'#0a9d99', border:'#0c827f', surface:'#e6f5f4' },
-      blue:   { label:'Blue',         bg:'#3174db', border:'#2861b5', surface:'#e9f1fc' },
-      purple: { label:'Purple',       bg:'#6c5ce7', border:'#5544c9', surface:'#efedfc' },
-      green:  { label:'Green',        bg:'#16a34a', border:'#11833c', surface:'#e7f6ed' },
-      orange: { label:'Orange',       bg:'#ec9f06', border:'#c08105', surface:'#fdf3df' },
-      pink:   { label:'Pink',         bg:'#e0518a', border:'#c23d72', surface:'#fce9f0' },
+      teal:   { label:'Teal (brand)', illu:'#0a9d99', surface:'#0b7975', btn:'#0a6360', btnBorder:'#084f4d' },
+      blue:   { label:'Blue',         illu:'#3174db', surface:'#2860b3', btn:'#1f4d8f', btnBorder:'#193e73' },
+      purple: { label:'Purple',       illu:'#6c5ce7', surface:'#5443c4', btn:'#43349a', btnBorder:'#352a7a' },
+      green:  { label:'Green',        illu:'#16a34a', surface:'#0f7d39', btn:'#0b602c', btnBorder:'#084a22' },
+      orange: { label:'Orange',       illu:'#d99106', surface:'#8a5d00', btn:'#6e4a00', btnBorder:'#543900' },
+      pink:   { label:'Pink',         illu:'#e0518a', surface:'#bf3a6f', btn:'#9a2f58', btnBorder:'#7b2546' },
     };
     const THEME_ORDER = ['teal','blue','purple','green','orange','pink'];
     const themeOf = c => THEMES[c.color] || THEMES.teal;
@@ -223,8 +225,8 @@
     function cBlock(i){
       const c = CARDS[i];
       return `<div class="panel card-cfg" data-cblock="${i}">
-        <div class="panel-hd"><span class="card-cfg-hd-left"><span class="swatch" style="background:${c.media?themeOf(c).bg:'var(--bg-tertiary)'}"></span> Card ${i+1}</span>${i===0?'<span class="tag">featured</span>':''}</div>
-        <div class="set-row"><div class="lbl"><div class="t">Color</div><div class="d">Tints the illustration and the button.</div></div><div class="ctrl"><select class="tf" data-card="${i}" data-field="color">${THEME_ORDER.map(k=>`<option value="${k}" ${c.color===k?'selected':''}>${THEMES[k].label}</option>`).join('')}</select></div></div>
+        <div class="panel-hd"><span class="card-cfg-hd-left"><span class="swatch" style="background:${c.media?themeOf(c).illu:'var(--bg-tertiary)'}"></span> Card ${i+1}</span>${i===0?'<span class="tag">featured</span>':''}</div>
+        <div class="set-row"><div class="lbl"><div class="t">Color</div><div class="d">Colours the card, illustration and button (white text).</div></div><div class="ctrl"><select class="tf" data-card="${i}" data-field="color">${THEME_ORDER.map(k=>`<option value="${k}" ${c.color===k?'selected':''}>${THEMES[k].label}</option>`).join('')}</select></div></div>
         <div class="set-row"><div class="lbl"><div class="t">Illustration</div></div><div class="ctrl">${tgl('card',i,'media',c.media)}</div></div>
         <div class="set-row"><div class="lbl"><div class="t">Title</div></div><div class="ctrl"><input class="tf" type="text" data-card="${i}" data-field="title" value="${esc(c.title)}"></div></div>
         <div class="set-row"><div class="lbl"><div class="t">Message</div></div><div class="ctrl"><input class="tf" type="text" data-card="${i}" data-field="body" value="${esc(c.body)}"></div></div>
@@ -238,13 +240,14 @@
       const th = themeOf(c);
       // each card keeps its own illustration colour on every layer, so the colour is already
       // correct the moment a queued card promotes to the front (no late colour swap)
-      const media = `<div class="ann-media ${c.media?'':'is-collapsed'}" style="background:${th.bg}; color:rgba(255,255,255,.85);">${PH}</div>`;
+      const media = `<div class="ann-media ${c.media?'':'is-collapsed'}" style="background:${th.illu}; color:rgba(255,255,255,.92);">${PH}</div>`;
       const close = `<button class="ann-close ib ib-24 ib-secondary" data-cnext aria-label="Close"><i data-icon="cross"></i></button>`;
       // retint the design-system primary button via its own tokens so hover/pressed stay coherent
-      const btnStyle = `--bg-brand-base:${th.bg};--bg-brand-base-hover:${th.border};--bg-brand-base-pressed:${th.border};--border-brand-base:${th.border};--border-brand-base-pressed:${th.border};`;
+      const btnStyle = `--bg-brand-base:${th.btn};--bg-brand-base-hover:${th.btnBorder};--bg-brand-base-pressed:${th.btnBorder};--border-brand-base:${th.btnBorder};--border-brand-base-pressed:${th.btnBorder};`;
       const cta = c.cta ? `<button class="btn btn-primary" data-cnext style="${btnStyle}">${esc(c.ctaLabel)||'Learn more'}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
-      return `<div class="announcement ${cls}" style="background:${th.surface};">${close}${media}<div class="ann-body"><p class="ann-title">${esc(c.title)}</p><p class="ann-text">${esc(c.body)}</p>${actions}</div></div>`;
+      // deep coloured card → white title/body text
+      return `<div class="announcement ${cls}" style="background:${th.surface};">${close}${media}<div class="ann-body"><p class="ann-title" style="color:#fff;">${esc(c.title)}</p><p class="ann-text" style="color:rgba(255,255,255,.95);">${esc(c.body)}</p>${actions}</div></div>`;
     }
     function cMeasure(i){
       const probe = document.createElement('div'); probe.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;';
@@ -286,10 +289,10 @@
       if (f==='media'||f==='cta'){
         CARDS[i][f]=t.checked;
         if (f==='cta') t.closest('.card-cfg').querySelector('.cta-label-row').classList.toggle('hidden', !t.checked);
-        if (f==='media'){ t.closest('.card-cfg').querySelector('.swatch').style.background = t.checked?themeOf(CARDS[i]).bg:'var(--bg-tertiary)';
+        if (f==='media'){ t.closest('.card-cfg').querySelector('.swatch').style.background = t.checked?themeOf(CARDS[i]).illu:'var(--bg-tertiary)';
           const m=(i===cIdx)?$ann.querySelector('.ann-front .ann-media'):null; if(m){ m.classList.toggle('is-collapsed', !t.checked); return; } }
       } else { CARDS[i][f]=t.value;
-        if (f==='color' && CARDS[i].media) t.closest('.card-cfg').querySelector('.swatch').style.background = themeOf(CARDS[i]).bg; }
+        if (f==='color' && CARDS[i].media) t.closest('.card-cfg').querySelector('.swatch').style.background = themeOf(CARDS[i]).illu; }
       cRenderDeck();
     }
     $cardCfgs.addEventListener('input', cEdit); $cardCfgs.addEventListener('change', cEdit);
