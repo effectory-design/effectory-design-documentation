@@ -27,9 +27,13 @@
     /* scoped to beat the global `.content p` rule (specificity) */
     .announcement .ann-title { font-size: 16px; font-weight: 600; line-height: 1.5; margin: 0 0 8px; color: var(--content-base); } /* text-l5 */
     .announcement .ann-text  { font-size: 14px; font-weight: 400; line-height: 1.6; margin: 0; color: var(--content-secondary); }
-    /* actions stack full-width: primary on top, dismiss below */
+    /* actions stack full-width (primary CTA only; dismiss is now an icon button over the illustration) */
     .ann-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
     .ann-actions .btn { width: 100%; }
+    /* dismiss: small secondary icon button pinned top-right over the illustration */
+    .ann-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+    /* when there's no illustration the close sits over the body — keep the title clear of it */
+    .ann-close + .ann-body .ann-title { padding-right: 28px; }
 
     /* canonical button set (matches the Button page) */
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .1s; text-decoration: none; }
@@ -102,13 +106,13 @@
           <p class="section-lead">A compact card with a full-bleed illustration, a title, a body, and two stacked full-width actions.</p>
           <div class="anatomy-fig">
             <div class="announcement" style="pointer-events:none;">
+              <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
               <div class="ann-media"><i data-icon="image" class="ann-media-ph"></i></div>
               <div class="ann-body">
                 <p class="ann-title">Dynamic reporting is here!</p>
                 <p class="ann-text">A new look, new features, and even more functionality to explore.</p>
                 <div class="ann-actions">
                   <button class="btn btn-primary">Learn more</button>
-                  <button class="btn btn-tertiary">Close</button>
                 </div>
               </div>
             </div>
@@ -118,7 +122,7 @@
             <div class="anatomy-item"><div class="anatomy-num">2</div><div><span class="anatomy-term">Title</span> — A short, bold headline that names the new thing.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">3</div><div><span class="anatomy-term">Body</span> — One or two sentences explaining the value.</div></div>
             <div class="anatomy-item"><div class="anatomy-num">4</div><div><span class="anatomy-term">Call-to-action</span> — A full-width primary button that takes the user to the feature.</div></div>
-            <div class="anatomy-item"><div class="anatomy-num">5</div><div><span class="anatomy-term">Dismiss</span> — A low-emphasis "Close" (tertiary) button underneath to put it away.</div></div>
+            <div class="anatomy-item"><div class="anatomy-num">5</div><div><span class="anatomy-term">Dismiss</span> — A small icon button in the top-right corner, over the illustration, that puts the card away.</div></div>
           </div>
         </section>
 
@@ -131,11 +135,12 @@
             <div class="dd-card">
               <div class="ann-prev">
                 <div class="announcement" style="pointer-events:none; width:280px;">
+                  <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
                   <div class="ann-media" style="height:120px;"><i data-icon="image" class="ann-media-ph"></i></div>
                   <div class="ann-body">
                     <p class="ann-title">Meet the new dashboard</p>
                     <p class="ann-text">See all your surveys in one place.</p>
-                    <div class="ann-actions"><button class="btn btn-primary">Explore</button><button class="btn btn-tertiary">Close</button></div>
+                    <div class="ann-actions"><button class="btn btn-primary">Explore</button></div>
                   </div>
                 </div>
               </div>
@@ -147,10 +152,11 @@
             <div class="dd-card">
               <div class="ann-prev">
                 <div class="announcement" style="pointer-events:none; width:280px;">
+                  <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
                   <div class="ann-body">
                     <p class="ann-title">Your session will expire in 60s</p>
                     <p class="ann-text">Save your work now to avoid losing changes.</p>
-                    <div class="ann-actions"><button class="btn btn-primary">Stay signed in</button><button class="btn btn-tertiary">Close</button></div>
+                    <div class="ann-actions"><button class="btn btn-primary">Stay signed in</button></div>
                   </div>
                 </div>
               </div>
@@ -166,8 +172,8 @@
             <div class="dd-card">
               <div class="ann-prev">
                 <div class="ann-deck" style="pointer-events:none;">
-                  <div class="announcement ann-b1" style="width:264px;"><div class="ann-media" style="height:90px; background:#0a9d99;"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:15px;">Bulk export</p></div></div>
-                  <div class="announcement ann-front" style="width:264px;"><div class="ann-media" style="height:90px; background:#6c5ce7;"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:15px;">Comments are live</p><p class="ann-text" style="font-size:13px;">Leave feedback on any question.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div></div></div>
+                  <div class="announcement ann-b1" style="width:264px;"><div class="ann-media" style="height:90px; background:#0a9d99;"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Bulk export</p></div></div>
+                  <div class="announcement ann-front" style="width:264px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-media" style="height:90px; background:#6c5ce7;"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Comments are live</p><p class="ann-text" style="font-size:12px;">Leave feedback on any question.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div>
                 </div>
               </div>
               <div class="dd-cap do">
@@ -196,11 +202,12 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="announcement" style="width:280px;">
+                  <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
                   <div class="ann-media" style="height:130px;"><i data-icon="image" class="ann-media-ph"></i></div>
                   <div class="ann-body">
                     <p class="ann-title">Dynamic reporting is here!</p>
                     <p class="ann-text">A new look, new features, and more to explore.</p>
-                    <div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div>
+                    <div class="ann-actions"><button class="btn btn-primary">Learn more</button></div>
                   </div>
                 </div>
               </div>
@@ -209,10 +216,11 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="announcement" style="width:280px;">
+                  <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
                   <div class="ann-body">
                     <p class="ann-title">Filters moved to the toolbar</p>
                     <p class="ann-text">Your filters now live in the toolbar so they're easier to reach.</p>
-                    <div class="ann-actions"><button class="btn btn-primary">Show me</button><button class="btn btn-tertiary">Close</button></div>
+                    <div class="ann-actions"><button class="btn btn-primary">Show me</button></div>
                   </div>
                 </div>
               </div>
@@ -224,16 +232,17 @@
                   <div class="announcement ann-b2" style="width:280px;"><div class="ann-media" style="height:130px; background:#ec9f06;"></div></div>
                   <div class="announcement ann-b1" style="width:280px;"><div class="ann-media" style="height:130px; background:#0a9d99;"></div></div>
                   <div class="announcement ann-front" style="width:280px;">
+                    <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
                     <div class="ann-media" style="height:130px; background:#6c5ce7;"></div>
                     <div class="ann-body">
                       <p class="ann-title">Dynamic reporting is here!</p>
                       <p class="ann-text">A new look, new features, and more to explore.</p>
-                      <div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div>
+                      <div class="ann-actions"><button class="btn btn-primary">Learn more</button></div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>Stacked</strong> — When several teams have something to promote on the same page, queue the announcements as a deck: the cards behind peek out so the user sees there's more. "Close" reveals the next card; the front one drops away and the next rises into its place.</div>
+              <div class="variant-row-desc"><strong>Stacked</strong> — When several teams have something to promote on the same page, queue the announcements as a deck: the cards behind peek out so the user sees there's more. Dismissing the front card reveals the next — it drops away and the next rises into its place.</div>
             </div>
           </div>
         </section>
@@ -247,11 +256,11 @@
             <p>The title names the feature; the body gives the reason to care in one short sentence.</p>
             <div class="dd-grid">
               <div class="dd-card">
-                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><div class="ann-body"><p class="ann-title">Export your results</p><p class="ann-text">Download every response as a spreadsheet in one click.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div></div></div></div>
+                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-body"><p class="ann-title">Export your results</p><p class="ann-text">Download every response as a spreadsheet in one click.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div></div>
                 <div class="dd-cap do"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>Clear headline, one benefit-led sentence.</div>
               </div>
               <div class="dd-card">
-                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><div class="ann-body"><p class="ann-title">Update</p><p class="ann-text">We've shipped a number of changes across the product that we think you're going to love, so take a look whenever you get the chance.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div></div></div></div>
+                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-body"><p class="ann-title">Update</p><p class="ann-text">We've shipped a number of changes across the product that we think you're going to love, so take a look whenever you get the chance.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div></div>
                 <div class="dd-cap dont"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>Vague title and a long, unfocused body.</div>
               </div>
             </div>
@@ -262,11 +271,11 @@
             <p>The primary action should describe where it leads, not just say "OK".</p>
             <div class="dd-grid">
               <div class="dd-card">
-                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><div class="ann-body"><p class="ann-title">Meet the new dashboard</p><p class="ann-text">See all your surveys in one place.</p><div class="ann-actions"><button class="btn btn-primary">View dashboard</button><button class="btn btn-tertiary">Close</button></div></div></div></div>
+                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-body"><p class="ann-title">Meet the new dashboard</p><p class="ann-text">See all your surveys in one place.</p><div class="ann-actions"><button class="btn btn-primary">View dashboard</button></div></div></div></div>
                 <div class="dd-cap do"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#16a34a"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Do</div>An action verb + the destination.</div>
               </div>
               <div class="dd-card">
-                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><div class="ann-body"><p class="ann-title">Meet the new dashboard</p><p class="ann-text">See all your surveys in one place.</p><div class="ann-actions"><button class="btn btn-primary">OK</button><button class="btn btn-tertiary">Close</button></div></div></div></div>
+                <div class="ann-prev"><div class="announcement" style="pointer-events:none; width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-body"><p class="ann-title">Meet the new dashboard</p><p class="ann-text">See all your surveys in one place.</p><div class="ann-actions"><button class="btn btn-primary">OK</button></div></div></div></div>
                 <div class="dd-cap dont"><div class="dd-cap-hd"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#dc2626"/><path d="M6 6l6 6M12 6l-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>Don't</div>A generic label that says nothing about what happens.</div>
               </div>
             </div>
@@ -300,7 +309,7 @@
           <div class="a11y-list">
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Don't steal focus.</strong> Unlike a dialog or spotlight, it appears without moving focus, so the user can keep working uninterrupted.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Announce politely.</strong> Place it in a live region with <code>aria-live="polite"</code> (or a labelled <code>role="region"</code>) so screen-reader users hear it without being interrupted.</div></div>
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Primary first.</strong> The call-to-action comes before the dismiss button in the DOM, matching the visual order for keyboard and screen-reader users.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Label the dismiss.</strong> The close control is an icon-only button, so give it an accessible name ("Close") and make sure it's keyboard-reachable and large enough to hit comfortably.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>No auto-dismiss.</strong> It stays until the user acts, so nobody misses it or has to read against a timer.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>The illustration is decorative.</strong> It carries no information, so hide it from assistive tech (empty <code>alt</code> / <code>aria-hidden</code>).</div></div>
           </div>
@@ -371,10 +380,18 @@
         <section class="section" id="dev-usage">
           <h2 class="text-l3">Usage</h2>
           <p class="section-lead">Toggle the dialog from a signal and anchor it to a target element. The <code>with-svg</code> class plus <code>[svgUrl]</code> gives it the illustration.</p>
+          <div class="dev-gap">
+            <span class="dev-gap-icon">⚠️</span>
+            <div class="dev-gap-body">
+              <span class="dev-gap-label">Figma gap — dismiss is now an icon button</span>
+              <span class="dev-gap-text">The design dismisses the card with a small secondary <strong>icon button</strong> in the top-right corner of the illustration (shown in the preview). The current <code>&lt;eff-tooltip-dialog&gt;</code> only exposes a text dismiss link via <code>[dialogLinkButtonText]</code> (kept in the snippet below). Confirm with engineering whether to add a top-right icon-close to the component before relying on this in code.</span>
+            </div>
+          </div>
           <div class="dev-preview" style="padding:40px 24px;">
             <div class="announcement" style="width:280px;">
+              <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
               <div class="ann-media" style="height:130px;"><i data-icon="image" class="ann-media-ph"></i></div>
-              <div class="ann-body"><p class="ann-title">Dynamic reporting is here!</p><p class="ann-text">A new look, new features, and more to explore.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button><button class="btn btn-tertiary">Close</button></div></div>
+              <div class="ann-body"><p class="ann-title">Dynamic reporting is here!</p><p class="ann-text">A new look, new features, and more to explore.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div>
             </div>
           </div>
           <div class="dev-code-wrap">
@@ -447,7 +464,7 @@
           <p class="section-lead">Treat it as a non-modal, polite live region.</p>
           <div class="a11y-list">
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>aria-live="polite"</strong> (or a labelled <code>role="region"</code>) so it's announced without interrupting; never move focus to it on open.</div></div>
-            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Primary before dismiss</strong> in the DOM, matching the visual order; both actions are keyboard-reachable.</div></div>
+            <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Icon-only dismiss needs a label</strong> — give the close button an <code>aria-label="Close"</code>; both it and the call-to-action are keyboard-reachable.</div></div>
             <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Decorative illustration</strong> is hidden from assistive tech (<code>aria-hidden</code> / empty <code>alt</code>).</div></div>
           </div>
         </section>
@@ -507,8 +524,9 @@
     function inner(s, p){
       const d = content(s, p);
       const cta = s.ctaOn ? `<button class="btn btn-primary" data-next>${esc(d.cta)}</button>` : '';
-      return `${media(s,p)}<div class="ann-body"><p class="ann-title">${esc(d.title)}</p><p class="ann-text">${esc(d.body)}</p>`+
-        `<div class="ann-actions">${cta}<button class="btn btn-tertiary" data-next>Close</button></div></div>`;
+      const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
+      const close = `<button class="ann-close ib ib-24 ib-secondary" data-next aria-label="Close"><i data-icon="cross"></i></button>`;
+      return `${close}${media(s,p)}<div class="ann-body"><p class="ann-title">${esc(d.title)}</p><p class="ann-text">${esc(d.body)}</p>${actions}</div>`;
     }
     function render(){
       const s = st();

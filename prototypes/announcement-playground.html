@@ -63,6 +63,8 @@
     @keyframes annIn { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
     /* close uses the real design-system Icon Button (.ib .ib-secondary); this only positions it top-right of the illustration */
     #announcement .ann-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+    /* when there's no illustration the close sits over the body — keep the title clear of it */
+    #announcement .ann-close + .ann-body .ann-title { padding-right: 28px; }
 
     /* ── Dialog: centred modal ── */
     #dialog-host { position: fixed; inset: 0; z-index: 1100; display: none; align-items: center; justify-content: center; background: rgba(25,39,67,.4); padding: 24px; }
@@ -219,7 +221,7 @@
     function cCard(i, cls){
       const c = CARDS[i];
       const media = `<div class="ann-media ${c.media?'':'is-collapsed'}" style="background:${C_BG[i]}; color:rgba(255,255,255,.85);">${PH}</div>`;
-      const close = `<button class="ann-close ib ib-36 ib-secondary" data-cnext aria-label="Close"><i data-icon="cross"></i></button>`;
+      const close = `<button class="ann-close ib ib-24 ib-secondary" data-cnext aria-label="Close"><i data-icon="cross"></i></button>`;
       const cta = c.cta ? `<button class="btn btn-primary" data-cnext>${esc(c.ctaLabel)||'Learn more'}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
       return `<div class="announcement ${cls}">${close}${media}<div class="ann-body"><p class="ann-title">${esc(c.title)}</p><p class="ann-text">${esc(c.body)}</p>${actions}</div></div>`;

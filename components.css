@@ -2005,6 +2005,10 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* actions stack full-width: primary on top, dismiss below */
 .ann-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
 .ann-actions .btn { width: 100%; }
+/* dismiss: small secondary icon button pinned top-right over the illustration */
+.ann-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+/* when there's no illustration the close sits over the body — keep the title clear of it */
+.ann-close + .ann-body .ann-title { padding-right: 28px; }
 /* tertiary (ghost) dismiss */
 .btn-tertiary { background: transparent; border-color: transparent; color: var(--content-secondary); }
 .btn-tertiary:hover, .btn-tertiary.is-hover { background: var(--bg-base-hover); color: var(--content-base); }
