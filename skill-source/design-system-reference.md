@@ -774,6 +774,41 @@ Maten (breedte): default `.dialog` = 440 (XS), `.dialog-s` = 600, `.dialog-m` = 
 
 > ⚠️ **Dev gap:** de Angular-selector/inputs van de dialog (en de overlay/scrim-wiring) zijn nog niet bevestigd in de styleguide. Deze `.dialog`-classes zijn de prototype-structuur; verifieer de productie-API met engineering.
 
+### Side panel
+Een paneel dat rechts invliegt over een scrim: details, een formulier of een gerichte taak naast de huidige pagina. Maten: Default (800px) en Small (400px, `.sidepanel-sm`). Raakt de rechter-/boven-/onderrand van het scherm; `--radius-xl` (16px) alleen linksboven en linksonder, 0 rechts.
+
+```html
+<div class="sidepanel" role="dialog" aria-modal="true">       <!-- + .sidepanel-sm voor smal -->
+  <div class="sp-header">
+    <div class="sp-toolbar">
+      <div class="sp-nav"><i data-icon="arrow-up"></i><i data-icon="arrow-down"></i></div>  <!-- optioneel: advanced menu -->
+      <div class="sp-actions"><i data-icon="bookmark"></i><i data-icon="message"></i><i data-icon="clock"></i><i data-icon="more-vertical"></i><span class="sp-sep"></span><i data-icon="cross"></i></div>
+    </div>
+    <div class="sp-heading"><h3 class="sp-title">Title</h3><p class="sp-subtitle">Subtitle</p></div>  <!-- + .is-sm voor 18px titel -->
+    <div class="sp-tabs"><a class="sp-tab is-active"><i data-icon="box"></i> Item</a><a class="sp-tab"><i data-icon="box"></i> Item</a></div>  <!-- optioneel -->
+  </div>
+  <div class="sp-body">…content…</div>
+  <div class="sp-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-primary">Confirm</button></div>  <!-- optioneel -->
+</div>
+```
+Classes: `.sidepanel` (+ `.sidepanel-sm`), `.sp-header` met `.sp-toolbar` (`.sp-actions` rechts: standaard alléén de close-knop; het **advanced-menu** voegt links de `.sp-nav`-pijlen toe én rechts bookmark/comment/history + de kebab (⋮) met een `.sp-sep` vóór close), `.sp-heading` (+ `.is-sm` voor de kleine 18px-header) → `.sp-title`/`.sp-subtitle`; de kleine header gebruikt 24px padding overal (via `.sidepanel.is-sm-header`) i.p.v. 40px, en zet de acties op de titel-regel via `.sp-header.is-compact` (behalve bij advanced-menu). Optionele `.sp-tabs`/`.sp-tab` (`.is-active` = teal underline), `.sp-body` (scrollt), optionele `.sp-footer` (Button-component). Tokens: `--bg-base`, `--sh-dialogs`, `--border-base` (tabs/footer), `--content-base`/`--content-secondary`/`--content-action`, `--content-brand-base` (actieve tab). A11y: modal, `aria-labelledby` op de titel, focus-trap, Escape sluit, icon-only knoppen krijgen `aria-label`.
+
+> **Productie-API:** in code is dit de **`SidepanelService`** (`@effectory/branding-angular`): `sidepanelService.open(Component, data)`, `.close(data)`, `.afterClosed`. De paneel-component gebruikt `.title.text-l3`, `.subtitle`, `.icon-button.close-button` en `.actions-container` (met `.primary`/`.secondary`). De `.sidepanel`/`.sp-*`-classes hier zijn de prototype-structuur voor de visuele opbouw.
+
+### Tabs
+Wissel tussen secties van dezelfde view (altijd horizontaal); label optioneel met een icoon.
+
+```html
+<div class="tabs">
+  <a class="tab is-active"><i data-icon="home"></i> Overview</a>
+  <a class="tab">Open answers</a>
+  <a class="tab">Reports</a>
+</div>
+```
+Classes: `.tabs`, `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; optioneel een leading `<i data-icon>` en/of een `.tab-count`-badge vóór of na het label — blauwe pill `--bg-info-base`, witte 12px-tekst). Actieve tab: `--content-base` tekst + een 4px afgeronde bar `--content-brand-secondary` (via `.tab::after`); inactief `--content-secondary`; disabled `--content-disabled`; track `--border-base`. Typografie `body-14-M`. A11y: `role="tablist"`/`tab`/`tabpanel`, `aria-selected`, pijltjestoetsen + roving `tabindex`.
+
+> **Productie-API:** in code is dit Angular Material `mat-tab-group` met `class="tabs"` (`mat-align-tabs="start"`, `disableRipple`) en `mat-tab`-children (`label`, of een `<ng-template mat-tab-label>` met `eff-mat-icon class="tab-icon"`). De `.tabs`/`.tab`-classes hier zijn de prototype-structuur.
+
 ---
 
 ## 5. Iconen
