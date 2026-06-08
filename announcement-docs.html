@@ -382,6 +382,7 @@
                 <button class="pg-reset" id="pg-reset">Reset</button>
               </div>
               <div class="pg-panel pg-props-wrap" id="pg-panel-props">
+                <div class="pg-row"><div class="pg-row-name">colour <span style="display:block;font-size:11px;/* font-scale-exempt: matches the other pg-row sub-labels */color:var(--content-secondary);font-weight:400;">card, illustration &amp; button</span></div><div class="pg-row-ctrl"><select class="pg-select" id="pg-color"><option value="default" selected>Default</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="red">Red</option></select></div></div>
                 <div class="pg-row"><div class="pg-row-name">svgUrl <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">show illustration</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-media" checked><span class="pg-toggle-track"></span></label></div></div>
                 <div class="pg-row"><div class="pg-row-name">dialogTitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-title" value="Dynamic reporting is here!" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">dialogSubtitle</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-body" value="A new look, new features, and even more to explore." /></div></div>
@@ -514,9 +515,17 @@
   (function () {
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
-    const defaults = { media:true, title:'Dynamic reporting is here!', body:'A new look, new features, and even more to explore.', ctaOn:true, cta:'Learn more', stack:'1' };
+    const defaults = { media:true, title:'Dynamic reporting is here!', body:'A new look, new features, and even more to explore.', ctaOn:true, cta:'Learn more', stack:'1', color:'default' };
     const PH = '<i data-icon="image" class="ann-media-ph"></i>';
-    const BG = ['var(--bg-brand-base)', 'var(--bg-info-base)', 'var(--bg-positive-base)', 'var(--bg-warning-bold)', 'var(--bg-negative-base)'];
+    // colour options — values from the design-system palette tokens; Default = white card + brand (teal) button
+    const THEMES = {
+      default: { surface:'var(--bg-base)',           illu:'var(--bg-brand-base)' },
+      blue:    { surface:'var(--bg-info-subtle)',     illu:'var(--bg-info-base)',     btnBg:'var(--bg-info-base)',     btnBorder:'var(--border-info-base-hover)',     btnOn:'#fff' },
+      green:   { surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive-base)', btnBg:'var(--bg-positive-base)', btnBorder:'var(--border-positive-base-hover)', btnOn:'#fff' },
+      orange:  { surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning-bold)',  btnBg:'var(--bg-warning-bold)',  btnBorder:'var(--border-warning-base)',        btnOn:'var(--content-base)' },
+      red:     { surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative-base)', btnBg:'var(--bg-negative-base)', btnBorder:'var(--border-negative-base-hover)', btnOn:'#fff' },
+    };
+    const themeOf = s => THEMES[s.color] || THEMES.default;
     // sample queue used when stacked; index 0 is the editable card
     const SAMPLES = [null,
       { title:'Comments are now live', body:'Leave feedback right on any question, in real time.' },
@@ -532,6 +541,7 @@
       ctaOn:document.getElementById('pg-cta-on').checked,
       cta:document.getElementById('pg-cta').value,
       stack:parseInt(document.getElementById('pg-stack').value,10)||1,
+      color:document.getElementById('pg-color').value,
     };}
     function content(s, p){ // content for absolute queue position p (0 = editable card)
       if (p === 0) return { title:s.title, body:s.body, cta:s.cta || 'Learn more' };
@@ -540,33 +550,37 @@
     }
     function media(s, p){
       if (!s.media) return '';
-      if (s.stack <= 1) return `<div class="ann-media">${PH}</div>`; // single: grey placeholder
-      // each card keeps its own colour on every layer, so the colour is right the moment it promotes
-      return `<div class="ann-media" style="background:${BG[p % BG.length]}; color:rgba(255,255,255,.85);">${PH}</div>`;
+      const th = themeOf(s);
+      return `<div class="ann-media" style="background:${th.illu}; color:rgba(255,255,255,.92);">${PH}</div>`;
     }
     function inner(s, p){
       const d = content(s, p);
-      const cta = s.ctaOn ? `<button class="btn btn-primary" data-next>${esc(d.cta)}</button>` : '';
+      const th = themeOf(s);
+      // Default → plain brand (teal) button; colours retint the primary button via its own tokens
+      const btnStyle = th.btnBg ? `--bg-brand-base:${th.btnBg};--bg-brand-base-hover:${th.btnBorder};--bg-brand-base-pressed:${th.btnBorder};--border-brand-base:${th.btnBorder};--border-brand-base-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
+      const cta = s.ctaOn ? `<button class="btn btn-primary" data-next style="${btnStyle}">${esc(d.cta)}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
       const close = `<button class="ann-close ib ib-24 ib-secondary" data-next aria-label="Close"><i data-icon="cross"></i></button>`;
       return `${close}${media(s,p)}<div class="ann-body"><p class="ann-title">${esc(d.title)}</p><p class="ann-text">${esc(d.body)}</p>${actions}</div>`;
     }
+    // full card wrapper with the chosen surface tint
+    function card(s, p, cls){ return `<div class="announcement ${cls}" style="width:260px; background:${themeOf(s).surface};">${inner(s,p)}</div>`; }
     function render(){
       const s = st();
       document.getElementById('pg-cta-label-row').style.display = s.ctaOn ? '' : 'none';
       const total = s.stack;
       if (total <= 1) {
-        $preview.innerHTML = `<div class="announcement" style="width:260px;">${inner(s, 0)}</div>`;
+        $preview.innerHTML = card(s, 0, '');
       } else if (idx >= total) {
         $preview.innerHTML = `<div style="width:260px; text-align:center; font-family:'Poppins',sans-serif; font-size:14px; color:var(--content-secondary); padding:32px 0;">You're all caught up ✓<button id="pg-replay" style="display:block; margin:10px auto 0; background:none; border:none; color:var(--content-brand-base); font:inherit; cursor:pointer; text-decoration:underline;">Replay</button></div>`;
         document.getElementById('pg-replay').onclick = () => { idx = 0; render(); };
       } else {
         const layers = [];
-        if (idx + 4 < total) layers.push(`<div class="announcement ann-b4" style="width:260px;">${inner(s, idx+4)}</div>`);
-        if (idx + 3 < total) layers.push(`<div class="announcement ann-b3" style="width:260px;">${inner(s, idx+3)}</div>`);
-        if (idx + 2 < total) layers.push(`<div class="announcement ann-b2" style="width:260px;">${inner(s, idx+2)}</div>`);
-        if (idx + 1 < total) layers.push(`<div class="announcement ann-b1" style="width:260px;">${inner(s, idx+1)}</div>`);
-        layers.push(`<div class="announcement ann-front" style="width:260px;">${inner(s, idx)}</div>`);
+        if (idx + 4 < total) layers.push(card(s, idx+4, 'ann-b4'));
+        if (idx + 3 < total) layers.push(card(s, idx+3, 'ann-b3'));
+        if (idx + 2 < total) layers.push(card(s, idx+2, 'ann-b2'));
+        if (idx + 1 < total) layers.push(card(s, idx+1, 'ann-b1'));
+        layers.push(card(s, idx, 'ann-front'));
         $preview.innerHTML = `<div class="ann-deck" style="width:260px;">${layers.join('')}</div>`;
       }
       document.getElementById('pg-code').textContent = code(s);
@@ -586,7 +600,10 @@
       L.push("  [dialogPositionToTarget]=\"'after'\"");
       L.push('  (dialogClosedOutput)="showAnnouncement.set(false)">');
       L.push('</eff-tooltip-dialog>');
-      return (s.stack > 1 ? `<!-- ${s.stack} queued; your app shows one at a time and advances on close -->\n` : '') + L.join('\n');
+      const notes = [];
+      if (s.color !== 'default') notes.push(`<!-- '${s.color}' is a colour preset applied via host styling — not an input on eff-tooltip-dialog -->`);
+      if (s.stack > 1) notes.push(`<!-- ${s.stack} queued; your app shows one at a time and advances on close -->`);
+      return notes.length ? notes.join('\n') + '\n' + L.join('\n') : L.join('\n');
     }
     // advance the deck with the promote animation: front falls, the cards behind move up one step
     function advance(){
@@ -603,8 +620,8 @@
       const b = e.target.closest('[data-next]'); if (!b) return;
       if (st().stack > 1) advance(); // page through the deck
     });
-    ['pg-media','pg-title','pg-body','pg-cta-on','pg-cta','pg-stack'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const fn=()=>{ if(id==='pg-stack') idx=0; render(); };el.addEventListener('input',fn);el.addEventListener('change',fn);});
-    document.getElementById('pg-reset')?.addEventListener('click',()=>{idx=0;document.getElementById('pg-media').checked=defaults.media;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-body').value=defaults.body;document.getElementById('pg-cta-on').checked=defaults.ctaOn;document.getElementById('pg-cta').value=defaults.cta;document.getElementById('pg-stack').value=defaults.stack;render();});
+    ['pg-media','pg-title','pg-body','pg-cta-on','pg-cta','pg-stack','pg-color'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const fn=()=>{ if(id==='pg-stack') idx=0; render(); };el.addEventListener('input',fn);el.addEventListener('change',fn);});
+    document.getElementById('pg-reset')?.addEventListener('click',()=>{idx=0;document.getElementById('pg-media').checked=defaults.media;document.getElementById('pg-title').value=defaults.title;document.getElementById('pg-body').value=defaults.body;document.getElementById('pg-cta-on').checked=defaults.ctaOn;document.getElementById('pg-cta').value=defaults.cta;document.getElementById('pg-stack').value=defaults.stack;document.getElementById('pg-color').value=defaults.color;render();});
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
     document.querySelectorAll('.dev-copy-btn').forEach(b=>{ if(b.id==='pg-copy')return; b.addEventListener('click',()=>{const c=b.parentElement.querySelector('code');if(c)navigator.clipboard.writeText(c.textContent);}); });
