@@ -408,7 +408,8 @@
       document.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.dataset.panel===tab));
       if (tab === 'card') { dClose(); cReshow(); }
       else { $ann.innerHTML=''; dClose(); }   // dialog stays closed until "Show dialog"
-      if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+      // include the page path so the bare hash isn't resolved against the <base href> (which points at the site root)
+      if (location.hash !== '#' + tab) history.replaceState(null, '', location.pathname + location.search + '#' + tab);
     }
     document.querySelectorAll('.tabs-top button').forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
     window.addEventListener('hashchange', () => activate(location.hash.slice(1)));
