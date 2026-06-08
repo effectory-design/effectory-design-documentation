@@ -234,6 +234,7 @@
     function cRenderDeck(){
       if (tab !== 'card' || cCount <= 0 || cIdx >= cCount) { $ann.innerHTML=''; updateFab(); return; }
       const layers=[];
+      if (cIdx+3 < cCount) layers.push(cCard(cIdx+3,'ann-b3'));
       if (cIdx+2 < cCount) layers.push(cCard(cIdx+2,'ann-b2'));
       if (cIdx+1 < cCount) layers.push(cCard(cIdx+1,'ann-b1'));
       layers.push(cCard(cIdx,'ann-front'));
@@ -248,6 +249,7 @@
       front.classList.add('is-leaving');
       const b1=$ann.querySelector('.ann-b1'); if(b1)b1.classList.add('is-promoting');
       const b2=$ann.querySelector('.ann-b2'); if(b2)b2.classList.add('is-promoting');
+      const b3=$ann.querySelector('.ann-b3'); if(b3)b3.classList.add('is-promoting');
       setTimeout(()=>{ cIdx+=1; cRenderDeck(); }, DUR);
     }
     function cReshow(){ cIdx=0; cFirst=true; cRenderDeck(); }
