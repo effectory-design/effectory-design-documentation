@@ -47,16 +47,18 @@
     /* ── stacked: real cards behind the front one (card deck) ── */
     .ann-deck { position: relative; width: 300px; }
     .ann-deck .announcement { transition: transform .42s cubic-bezier(.3,.1,.3,1), opacity .42s ease; }
-    .ann-front { position: relative; z-index: 4; }
-    /* cards behind sit progressively higher (gaps 12 → 10 → 8px) and fade the deeper they go */
-    .ann-b1 { position: absolute; inset: 0; z-index: 3; transform: translateY(-12px) scale(.95); transform-origin: top center; opacity: .85; pointer-events: none; }
-    .ann-b2 { position: absolute; inset: 0; z-index: 2; transform: translateY(-22px) scale(.90); transform-origin: top center; opacity: .7; pointer-events: none; }
-    .ann-b3 { position: absolute; inset: 0; z-index: 1; transform: translateY(-30px) scale(.85); transform-origin: top center; opacity: .55; pointer-events: none; }
+    .ann-front { position: relative; z-index: 5; }
+    /* cards behind sit progressively higher (gaps 12 → 10 → 8 → 6px) and fade the deeper they go */
+    .ann-b1 { position: absolute; inset: 0; z-index: 4; transform: translateY(-12px) scale(.95); transform-origin: top center; opacity: .85; pointer-events: none; }
+    .ann-b2 { position: absolute; inset: 0; z-index: 3; transform: translateY(-22px) scale(.90); transform-origin: top center; opacity: .7; pointer-events: none; }
+    .ann-b3 { position: absolute; inset: 0; z-index: 2; transform: translateY(-30px) scale(.85); transform-origin: top center; opacity: .55; pointer-events: none; }
+    .ann-b4 { position: absolute; inset: 0; z-index: 1; transform: translateY(-36px) scale(.80); transform-origin: top center; opacity: .4; pointer-events: none; }
     /* advancing — every layer promotes one step at once, all motion downward */
     .ann-front.is-leaving { transform: translateY(150px); opacity: 0; pointer-events: none; }
     .ann-b1.is-promoting  { transform: translateY(0) scale(1); opacity: 1; }
     .ann-b2.is-promoting  { transform: translateY(-12px) scale(.95); opacity: .85; }
     .ann-b3.is-promoting  { transform: translateY(-22px) scale(.90); opacity: .7; }
+    .ann-b4.is-promoting  { transform: translateY(-30px) scale(.85); opacity: .55; }
     @media (prefers-reduced-motion: reduce) { .ann-deck .announcement { transition: none; } }
 
     .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: 12px; padding: 48px 40px; margin-bottom: 24px; display: flex; justify-content: center; }
@@ -232,6 +234,7 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="ann-deck" style="width:280px; pointer-events:none;">
+                  <div class="announcement ann-b4" style="width:280px;"><div class="ann-media" style="height:130px; background:#e0518a;"></div></div>
                   <div class="announcement ann-b3" style="width:280px;"><div class="ann-media" style="height:130px; background:#3174db;"></div></div>
                   <div class="announcement ann-b2" style="width:280px;"><div class="ann-media" style="height:130px; background:#ec9f06;"></div></div>
                   <div class="announcement ann-b1" style="width:280px;"><div class="ann-media" style="height:130px; background:#0a9d99;"></div></div>
@@ -370,7 +373,7 @@
                 <div class="pg-row"><div class="pg-row-name">dialogButtonText <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;">primary CTA — on/off</span></div><div class="pg-row-ctrl"><label class="pg-toggle"><input type="checkbox" id="pg-cta-on" checked><span class="pg-toggle-track"></span></label></div></div>
                 <div class="pg-row" id="pg-cta-label-row"><div class="pg-row-name">button label</div><div class="pg-row-ctrl"><input class="pg-input" type="text" id="pg-cta" value="Learn more" /></div></div>
                 <div class="pg-row"><div class="pg-row-name">stacked <span style="display:block;font-size:11px;color:var(--content-secondary);font-weight:400;"># queued in the deck</span></div><div class="pg-row-ctrl">
-                  <select class="pg-select" id="pg-stack"><option value="1" selected>off (single)</option><option value="2">2 announcements</option><option value="3">3 announcements</option><option value="4">4 announcements</option></select>
+                  <select class="pg-select" id="pg-stack"><option value="1" selected>off (single)</option><option value="2">2 announcements</option><option value="3">3 announcements</option><option value="4">4 announcements</option><option value="5">5 announcements</option></select>
                 </div></div>
               </div>
               <div class="pg-panel pg-code-wrap" id="pg-panel-code" hidden>
@@ -498,7 +501,7 @@
     if (!$preview) return;
     const defaults = { media:true, title:'Dynamic reporting is here!', body:'A new look, new features, and even more to explore.', ctaOn:true, cta:'Learn more', stack:'1' };
     const PH = '<i data-icon="image" class="ann-media-ph"></i>';
-    const BG = ['#6c5ce7', '#0a9d99', '#ec9f06', '#3174db'];
+    const BG = ['#6c5ce7', '#0a9d99', '#ec9f06', '#3174db', '#e0518a'];
     // sample queue used when stacked; index 0 is the editable card
     const SAMPLES = [null,
       { title:'Comments are now live', body:'Leave feedback right on any question, in real time.' },
@@ -543,6 +546,7 @@
         document.getElementById('pg-replay').onclick = () => { idx = 0; render(); };
       } else {
         const layers = [];
+        if (idx + 4 < total) layers.push(`<div class="announcement ann-b4" style="width:280px;">${inner(s, idx+4)}</div>`);
         if (idx + 3 < total) layers.push(`<div class="announcement ann-b3" style="width:280px;">${inner(s, idx+3)}</div>`);
         if (idx + 2 < total) layers.push(`<div class="announcement ann-b2" style="width:280px;">${inner(s, idx+2)}</div>`);
         if (idx + 1 < total) layers.push(`<div class="announcement ann-b1" style="width:280px;">${inner(s, idx+1)}</div>`);
@@ -576,6 +580,7 @@
       const b1 = $preview.querySelector('.ann-b1'); if (b1) b1.classList.add('is-promoting');
       const b2 = $preview.querySelector('.ann-b2'); if (b2) b2.classList.add('is-promoting');
       const b3 = $preview.querySelector('.ann-b3'); if (b3) b3.classList.add('is-promoting');
+      const b4 = $preview.querySelector('.ann-b4'); if (b4) b4.classList.add('is-promoting');
       setTimeout(() => { idx += 1; render(); }, FALL_MS);
     }
     $preview.addEventListener('click', (e) => {

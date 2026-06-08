@@ -2016,15 +2016,17 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* Stacked = card deck: real cards behind the front one, promoting one step on advance */
 .ann-deck { position: relative; width: 300px; }
 .ann-deck .announcement { transition: transform .42s cubic-bezier(.3,.1,.3,1), opacity .42s ease; }
-.ann-front { position: relative; z-index: 4; }
-/* cards behind sit progressively higher (gaps 12 → 10 → 8px) and fade the deeper they go */
-.ann-b1 { position: absolute; inset: 0; z-index: 3; transform: translateY(-12px) scale(.95); transform-origin: top center; opacity: .85; pointer-events: none; }
-.ann-b2 { position: absolute; inset: 0; z-index: 2; transform: translateY(-22px) scale(.90); transform-origin: top center; opacity: .7; pointer-events: none; }
-.ann-b3 { position: absolute; inset: 0; z-index: 1; transform: translateY(-30px) scale(.85); transform-origin: top center; opacity: .55; pointer-events: none; }
+.ann-front { position: relative; z-index: 5; }
+/* cards behind sit progressively higher (gaps 12 → 10 → 8 → 6px) and fade the deeper they go */
+.ann-b1 { position: absolute; inset: 0; z-index: 4; transform: translateY(-12px) scale(.95); transform-origin: top center; opacity: .85; pointer-events: none; }
+.ann-b2 { position: absolute; inset: 0; z-index: 3; transform: translateY(-22px) scale(.90); transform-origin: top center; opacity: .7; pointer-events: none; }
+.ann-b3 { position: absolute; inset: 0; z-index: 2; transform: translateY(-30px) scale(.85); transform-origin: top center; opacity: .55; pointer-events: none; }
+.ann-b4 { position: absolute; inset: 0; z-index: 1; transform: translateY(-36px) scale(.80); transform-origin: top center; opacity: .4; pointer-events: none; }
 .ann-front.is-leaving { transform: translateY(150px); opacity: 0; pointer-events: none; }
 .ann-b1.is-promoting  { transform: translateY(0) scale(1); opacity: 1; }
 .ann-b2.is-promoting  { transform: translateY(-12px) scale(.95); opacity: .85; }
 .ann-b3.is-promoting  { transform: translateY(-22px) scale(.90); opacity: .7; }
+.ann-b4.is-promoting  { transform: translateY(-30px) scale(.85); opacity: .55; }
 @media (prefers-reduced-motion: reduce) { .ann-deck .announcement { transition: none; } }
 
 /* ── Main Navigation (app sidebar) ── */

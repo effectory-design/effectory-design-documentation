@@ -118,7 +118,7 @@
           <div class="lbl"><div class="t">Number of announcements</div><div class="d">How many cards are queued in the deck.</div></div>
           <div class="ctrl">
             <div class="tf-num-wrap count">
-              <input class="tf-num" id="c-count" type="number" value="3" min="1" max="4" />
+              <input class="tf-num" id="c-count" type="number" value="3" min="1" max="5" />
               <div class="tf-num-stepper">
                 <button class="tf-num-btn" data-cstep="1" aria-label="More"><i data-icon="chevron-up"></i></button>
                 <button class="tf-num-btn" data-cstep="-1" aria-label="Fewer"><i data-icon="chevron-down"></i></button>
@@ -193,7 +193,7 @@
     }
 
     /* ══════════════ CARD ══════════════ */
-    const C_BG = ['#6c5ce7', '#0a9d99', '#ec9f06', '#3174db'];
+    const C_BG = ['#6c5ce7', '#0a9d99', '#ec9f06', '#3174db', '#e0518a'];
     const DUR = 560, EASE = 'cubic-bezier(.4,0,.2,1)';
     const $ann = document.getElementById('announcement');
     const $cardCfgs = document.getElementById('card-cfgs');
@@ -203,6 +203,7 @@
       { title:'Compare across groups',      body:'Benchmark any team against the company in one click.', media:false, cta:true,  ctaLabel:'View groups' },
       { title:'Export to PowerPoint',       body:'Download a ready-made results deck for your meeting.',  media:false, cta:true,  ctaLabel:'Try export' },
       { title:'New: Topics & Ideas',        body:'See the themes employees suggest most often.',          media:true,  cta:false, ctaLabel:'Learn more' },
+      { title:'Schedule recurring pulses',   body:'Set a cadence once and let surveys go out on autopilot.', media:false, cta:true,  ctaLabel:'Set up' },
     ];
     let cCount = 3, cIdx = 0, cFirst = true;
 
@@ -234,6 +235,7 @@
     function cRenderDeck(){
       if (tab !== 'card' || cCount <= 0 || cIdx >= cCount) { $ann.innerHTML=''; updateFab(); return; }
       const layers=[];
+      if (cIdx+4 < cCount) layers.push(cCard(cIdx+4,'ann-b4'));
       if (cIdx+3 < cCount) layers.push(cCard(cIdx+3,'ann-b3'));
       if (cIdx+2 < cCount) layers.push(cCard(cIdx+2,'ann-b2'));
       if (cIdx+1 < cCount) layers.push(cCard(cIdx+1,'ann-b1'));
@@ -250,10 +252,11 @@
       const b1=$ann.querySelector('.ann-b1'); if(b1)b1.classList.add('is-promoting');
       const b2=$ann.querySelector('.ann-b2'); if(b2)b2.classList.add('is-promoting');
       const b3=$ann.querySelector('.ann-b3'); if(b3)b3.classList.add('is-promoting');
+      const b4=$ann.querySelector('.ann-b4'); if(b4)b4.classList.add('is-promoting');
       setTimeout(()=>{ cIdx+=1; cRenderDeck(); }, DUR);
     }
     function cReshow(){ cIdx=0; cFirst=true; cRenderDeck(); }
-    function cSetCount(n){ cCount=Math.max(1,Math.min(4,n)); el('c-count').value=cCount; cRenderForm(); cReshow(); }
+    function cSetCount(n){ cCount=Math.max(1,Math.min(5,n)); el('c-count').value=cCount; cRenderForm(); cReshow(); }
 
     $ann.addEventListener('click', e => { if (e.target.closest('[data-cnext]')) cAdvance(); });
     el('c-count').addEventListener('input', () => cSetCount(parseInt(el('c-count').value,10)||1));
