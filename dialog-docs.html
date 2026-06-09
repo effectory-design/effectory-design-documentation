@@ -82,9 +82,10 @@
     /* Real modal overlay opened from the playground */
     .dlg-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(25,39,67,.45); animation: dlg-fade .12s ease-out; }
     .dlg-overlay[hidden] { display: none; }
-    .dlg-overlay .dialog { animation: dlg-pop .14s ease-out; }
+    .dlg-overlay .dialog { animation: dlg-pop .15s cubic-bezier(0, 0, 0.2, 1); transform-origin: center; }
     @keyframes dlg-fade { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes dlg-pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+    /* matches the styleguide: the surface scales up from 80% to 100% */
+    @keyframes dlg-pop { from { transform: scale(.8); } to { transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -299,6 +300,11 @@
           </table>
         </section>
 
+        <section class="section" id="motion">
+          <h2 class="text-l3">Motion</h2>
+          <p class="section-lead">Opening a dialog is quick and subtle: the surface scales up from slightly smaller to full size while the backdrop fades in. There's no slide or bounce — the scale keeps focus on the dialog without feeling heavy. Try it from the <strong>Open dialog</strong> button in the Developer tab's playground.</p>
+        </section>
+
         <section class="section" id="content-guidelines">
           <h2 class="text-l3">Content guidelines</h2>
           <p class="section-lead">A dialog should be readable in seconds: a specific title, lean supporting text, and action labels that say what they do.</p>
@@ -378,6 +384,7 @@
           <a class="toc-link" href="#anatomy">Anatomy</a>
           <a class="toc-link" href="#usage">Usage</a>
           <a class="toc-link" href="#variants">Variants</a>
+          <a class="toc-link" href="#motion">Motion</a>
           <a class="toc-link" href="#content-guidelines">Content guidelines</a>
           <a class="toc-link" href="#tokens">Design Tokens</a>
           <a class="toc-link" href="#accessibility">Accessibility</a>
@@ -478,6 +485,15 @@ openDialog() {
 
           <h3 class="text-l4">Visual header &amp; footer shadow</h3>
           <p>Add a <code>.card-illustration-container</code> for a hero image, and <code>.with-shadow</code> on <code>.action-container</code> when the body scrolls under the footer. Centred actions: add <code>"center-action-btns"</code> to <code>panelClass</code>. Fullscreen variants use <code>"dialog-fullscreen"</code> with <code>with-header</code> / <code>with-footer</code> / <code>with-progress-bar</code> (Material <code>mat-dialog-content</code> / <code>mat-dialog-actions</code>).</p>
+          <h3 class="text-l4">Open animation</h3>
+          <p>Material drives the enter animation: the dialog surface scales from 80% to 100% over 150ms while the backdrop fades in. Opacity stays on the surface — only the transform animates. These are the values the styleguide uses, if you replicate it outside Material:</p>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ca">.mdc-dialog__surface</span> {
+  <span class="ca">transition</span>: <span class="cv">transform 0.15s cubic-bezier(0, 0, 0.2, 1)</span>;
+}
+<span class="cc">/* enter: scale(0.8) → scale(1); backdrop fades in */</span></code></pre>
+          </div>
         </section>
 
         <section class="section" id="dev-props">
