@@ -24,9 +24,11 @@ A survey results **Reports** page where a user downloads reports. Two groups:
 - **The list row reflects it right away** (not only after the dialog closes): the download button is replaced by a loader + label
   - one language → **"Generating in {language}"**
   - multiple at once → **"Generating in {n} languages"**
-- **Download dialog** is informational and has **no footer buttons** — it closes via the **✕**, backdrop click, or `Esc`.
-  - *Generating* state: grey file icon + spinner, copy explains it may take a while.
+- **Download dialog** opens the same way for **all** report types — same copy ("We are working hard to generate your file…") and the grey-file + spinner *Generating* state.
+  - *Generating* state: grey file icon + spinner.
   - *Done* state: green file icon + **"Done! The report will download automatically"** with a **"Download does not start? Click here"** fallback link.
+  - **Longer-running hint (raw data):** if generation is still running after **10 seconds** (`LONGER_HINT_MS`), the dialog reveals an extra line — *"This is taking longer than expected. You can close this window and we'll notify you when your file is ready to download."* — plus a **Close** button. (Essential reports finish before 10s, so they never show it.)
+  - Otherwise the dialog has no footer buttons; it also closes via the **✕**, backdrop click, or `Esc`.
 - **Stay in the dialog until ready** → it switches to the *Done* state (file downloads automatically).
 - **Close the dialog before ready** (raw data) → generation continues **in the background**; when finished a **system notification** appears **top-right** with a **Download** action.
 - **No regeneration / caching** — once a (report, language) is generated it is remembered. Requesting that same language again → **downloads directly** (the dialog opens straight in the *Done* state, no generating step).

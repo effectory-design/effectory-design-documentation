@@ -141,6 +141,7 @@
       .scrim:not([hidden]),
       .scrim:not([hidden]) .dialog,
       .toast-region:not([hidden]) .sysnotif { animation: none; }
+      .gen-longer { transition: none; }
     }
 
     /* Language list inside the dialog */
@@ -237,8 +238,22 @@
       text-decoration: none;
     }
     .gen-fallback:hover { text-decoration: underline; }
-    /* .dialog-footer forces display:flex, so [hidden] needs a higher-specificity reset */
-    #gen-footer[hidden] { display: none; }
+    /* "Taking longer" block — expands smoothly instead of popping in */
+    .gen-longer {
+      overflow: hidden;
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: max-height .35s ease, opacity .3s ease, transform .3s ease, margin-top .35s ease;
+    }
+    .gen-longer.is-shown {
+      max-height: 220px;
+      margin-top: var(--spacing-base);
+      opacity: 1;
+      transform: none;
+    }
+    .gen-longer-actions { display: flex; justify-content: flex-end; margin-top: var(--spacing-base); }
 
     /* Row generating state */
     .report-gen {
@@ -538,10 +553,10 @@
           <a class="gen-fallback" href="#">Download does not start? Click here</a>
         </div>
       </div>
-    </div>
-    <div class="dialog-footer" id="gen-footer">
-      <button class="btn btn-secondary" id="gen-cancel">Cancel</button>
-      <button class="btn btn-primary" id="gen-gotit">Got it</button>
+      <div class="gen-longer" id="gen-longer">
+        <p class="dialog-subtitle">This is taking longer than expected. You can close this window and we’ll notify you when your file is ready to download.</p>
+        <div class="gen-longer-actions"><button class="btn btn-secondary" id="gen-close-btn">Close</button></div>
+      </div>
     </div>
   </div>
 </div>
@@ -562,7 +577,9 @@
     var genSubtitle = document.getElementById('gen-subtitle');
     var genSub = document.getElementById('gen-sub');
     var genPanel = document.getElementById('gen-panel');
-    var genFooter = document.getElementById('gen-footer');
+    var genLonger = document.getElementById('gen-longer');
+    var LONGER_HINT_MS = 10000;   // after this, raw-data dialog offers to close & be notified
+    var longerTimer = null;
     var toast = document.getElementById('ready-toast');
     var toastName = document.getElementById('ready-name');
 
@@ -570,8 +587,7 @@
     var current = null; // { row, name, isRaw }
 
     var COPY = {
-      standard: 'We are working hard to generate your file, please wait, your file will be downloaded once finished.',
-      raw: 'Generating this report can take up to 10 minutes. You can close this window and keep working — we’ll notify you when your file is ready to download.'
+      standard: 'We are working hard to generate your file, please wait, your file will be downloaded once finished.'
     };
 
     // Per-row generation state: which languages are generating / already generated (ready)
@@ -646,12 +662,24 @@
       langScrim.hidden = false;
     }
     function closeLang() { langScrim.hidden = true; }
-    function closeGen() { genScrim.hidden = true; }
+    function closeGen() {
+      genScrim.hidden = true;
+      if (longerTimer) { clearTimeout(longerTimer); longerTimer = null; }
+      genLonger.classList.remove('is-shown');
+    }
 
-    function openGenDialog(isRaw, ready) {
-      genSubtitle.textContent = isRaw ? COPY.raw : COPY.standard;
-      genSub.textContent = isRaw ? 'This can take up to 10 minutes' : 'In your selected language';
-      genFooter.hidden = true;                 // download dialog has no footer — close via the X
+    // Raw data starts with the same dialog/copy as the other files. If it's still
+    // running after LONGER_HINT_MS, reveal a "this takes longer" note + a Close button.
+    function showLonger() {
+      longerTimer = null;
+      if (genScrim.hidden || genPanel.classList.contains('is-done')) return;
+      genLonger.classList.add('is-shown');
+    }
+
+    function openGenDialog(ready) {
+      genSubtitle.textContent = COPY.standard;
+      genSub.textContent = 'In your selected language';
+      genLonger.classList.remove('is-shown');
       genPanel.classList.toggle('is-done', !!ready);
       genScrim.hidden = false;
     }
@@ -679,7 +707,7 @@
 
       // Already generated in this language → no need to regenerate, download directly
       if (s.ready.indexOf(lang) !== -1) {
-        openGenDialog(isRaw, true);
+        openGenDialog(true);
         return;
       }
 
@@ -690,7 +718,11 @@
         updateRowLabel(row);
         scheduleGeneration(row, name, lang, isRaw);
       }
-      openGenDialog(isRaw, false);
+      openGenDialog(false);
+
+      // Raw data can take a while — after 10s, offer to close and be notified
+      if (longerTimer) { clearTimeout(longerTimer); longerTimer = null; }
+      if (isRaw) longerTimer = setTimeout(showLonger, LONGER_HINT_MS);
     });
 
     document.getElementById('lang-close').addEventListener('click', closeLang);
@@ -699,9 +731,8 @@
 
     // The download dialog is informational — generation already runs in the background —
     // so every dismissal (Got it / X / Cancel / backdrop / Esc) just closes it.
-    document.getElementById('gen-gotit').addEventListener('click', closeGen);
     document.getElementById('gen-close').addEventListener('click', closeGen);
-    document.getElementById('gen-cancel').addEventListener('click', closeGen);
+    document.getElementById('gen-close-btn').addEventListener('click', closeGen);
     genScrim.addEventListener('click', function (e) { if (e.target === genScrim) closeGen(); });
 
     document.addEventListener('keydown', function (e) {
@@ -732,7 +763,8 @@
         // Still in the dialog for this report → show "Done"; otherwise notify via toast
         if (!genScrim.hidden && current && current.row === row) {
           genPanel.classList.add('is-done');
-          genFooter.hidden = true;
+          if (longerTimer) { clearTimeout(longerTimer); longerTimer = null; }
+          genLonger.classList.remove('is-shown');
         } else {
           showToast(name);
         }
