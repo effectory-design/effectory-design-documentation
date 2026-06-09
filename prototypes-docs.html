@@ -191,7 +191,7 @@
 <div class="page-header-row">
   <div class="page-header">
     <div class="page-badges">
-      <span class="page-updated">Updated May 2026</span>
+      <span class="page-updated">Updated June 2026</span>
     </div>
     <h1 class="text-l1">Get started</h1>
     <p class="page-desc">Build realistic product screens that look exactly like the real app — by describing what you want in plain language, directly in Claude Code.</p>
@@ -250,10 +250,62 @@
     </div>
   </section>
 
+  <!-- ── Org-skill path ── -->
+  <section class="section" id="org">
+    <h2 class="text-l3">Add it to a Claude organization</h2>
+    <p class="section-lead">Run your own Claude.ai organization? Upload the packaged skill once and everyone on your team gets it — in the browser and the desktop app. This is the same build the Effectory account uses.</p>
+
+    <div style="margin:var(--spacing-base) 0 var(--spacing-loose);">
+      <a class="gs-download-btn" href="https://github.com/jenteinsing123/effectory-design-documentation/releases/download/skill-latest/effectory-design-system.zip">
+        <i data-icon="download"></i>
+        Download the skill (.zip)
+      </a>
+      <span style="display:block; font-size:14px; color:var(--content-secondary);">Always the latest build. Direct link — re-download any time to get the newest version (same URL).</span>
+    </div>
+
+    <div class="gs-steps">
+
+      <div class="gs-step">
+        <div class="gs-step-num">1</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Download the packaged skill</div>
+          <div class="gs-step-desc">Use the button above. The link always serves the newest release, so you never have to hunt for a version.</div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">2</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Enable code execution</div>
+          <div class="gs-step-desc">In Claude.ai, go to <strong>Settings → Capabilities</strong> and turn on <em>Code execution and file creation</em>. The skill needs it to build and preview prototypes.</div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">3</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Upload it as an organization skill</div>
+          <div class="gs-step-desc">Go to <strong>Settings → Skills → + Add</strong> and select the <code>.zip</code> you just downloaded. Once it's added, it's available to everyone in the organization.</div>
+        </div>
+      </div>
+
+      <div class="gs-step">
+        <div class="gs-step-num">4</div>
+        <div class="gs-step-body">
+          <div class="gs-step-title">Start building</div>
+          <div class="gs-step-desc">Open a new chat and describe a screen — words like <em>prototype</em>, <em>design</em>, <em>scherm</em> or <em>pagina</em> load the skill automatically. Same flow as the Effectory team above.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top:var(--spacing-base); font-size:14px; color:var(--content-secondary);">When a new version ships, re-download from the link above and re-upload to replace the old build.</p>
+  </section>
+
   <!-- ── External users path ── -->
   <section class="section" id="external">
     <h2 class="text-l3">For everyone else</h2>
-    <p class="section-lead">Outside Effectory? Install the skill from the public GitHub repo.</p>
+    <p class="section-lead">Prefer to work locally in Claude Code? Install the skill from the public GitHub repo.</p>
 
     <div class="gs-steps">
 
@@ -448,6 +500,7 @@
     <div class="toc-title">ON THIS PAGE</div>
     <a class="toc-link" href="#what">What is it</a>
     <a class="toc-link" href="#team">For Effectory designers</a>
+    <a class="toc-link" href="#org">Add it to a Claude organization</a>
     <a class="toc-link" href="#external">For everyone else</a>
     <a class="toc-link" href="#open">Viewing your prototype</a>
     <a class="toc-link" href="#rules">How it works</a>
