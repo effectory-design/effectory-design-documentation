@@ -1,6 +1,67 @@
 {
-  "count": 577,
+  "count": 584,
   "entries": [
+    {
+      "hash": "04119c6",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: drop selected state, per-item playground, submenu example",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "7b67338",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: use a 32px avatar in menu items",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "0d7b463",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: document icon size variant (16/24/32px)",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "46b1fb8",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Get started: remove the \"Add it to a Claude organization\" section",
+      "pages": [
+        "prototypes-docs.html"
+      ]
+    },
+    {
+      "hash": "423369b",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Get started: let individuals upload the skill themselves",
+      "pages": [
+        "prototypes-docs.html"
+      ]
+    },
+    {
+      "hash": "3dc3781",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Get started: add direct skill link + org-skill tutorial",
+      "pages": [
+        "prototypes-docs.html"
+      ]
+    },
+    {
+      "hash": "fc61b9a",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Add changelog: per-page tab + global changelog page",
+      "pages": []
+    },
     {
       "hash": "22ac983",
       "author": "Jente Insing",

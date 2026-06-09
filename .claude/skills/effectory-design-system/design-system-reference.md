@@ -40,6 +40,20 @@ Do NOT invent names. If something isn't listed here, it does not exist.
 
 ## 2. Foundation-variabelen (`foundation.css`)
 
+### Grid & layout
+Geen formeel kolomgrid. Layout = **page padding** (responsive margin rondom de content) + **container max-width** + een vaste **gutter**.
+| Property | Waarde |
+|---|---|
+| Page padding — mobile (`<576px`) | `16px` (alle zijden) |
+| Page padding — tablet (`576–1199px`) | `24px` (alle zijden) |
+| Page padding — desktop (`≥1200px`) | `64px` (alle zijden) |
+| Container — narrow | `max-width: 960px` (lezen, formulieren, focus-flows) |
+| Container — wide | `max-width: 1200px` (standaard app-pagina's, card-grids, dashboards) |
+| Container — full width | geen max-width (data-zware tabellen / complexe UI's) |
+| Default gutter | `24px` tussen elementen |
+| Sidebar (desktop) | `240px` breed |
+| Nav switch | op `1200px` wisselt sidebar ↔ hamburger-header |
+
 ### Spacing
 | Token | Waarde |
 |---|---|

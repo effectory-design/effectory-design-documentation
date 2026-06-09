@@ -3,36 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grid & Layout — Engage Design System</title>
+  <title>Grid &amp; Layout — Engage Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Poppins:wght@300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Grid & Layout demos ── */
+    .gl-frame { border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-secondary); overflow: hidden; }
+    .gl-pad-demo { padding: 24px; }
+
+    /* Container-width bars */
+    .gl-containers { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+    .gl-cwrap { background: var(--bg-secondary); border: 1px solid var(--border-base); border-radius: var(--radius-lg); padding: 12px; }
+    .gl-cbar { height: 56px; border-radius: var(--radius-md); background: var(--bg-brand-subtle); border: 1px solid var(--border-brand-base); display: flex; align-items: center; justify-content: center; margin: 0 auto; color: var(--content-brand-base); font-size: 14px; font-weight: 600; }
+    .gl-cbar.full { width: 100%; }
+    .gl-cbar.wide { width: 80%; }
+    .gl-cbar.narrow { width: 62%; }
+    .gl-clbl { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--content-secondary); margin-top: 8px; }
+
+    /* Page padding demo */
+    .gl-page { position: relative; background: #cfe0ff; border-radius: var(--radius-lg); padding: 40px; }
+    .gl-page-inner { background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: 24px; font-size: 14px; color: var(--content-secondary); text-align: center; }
+    .gl-page-tag { position: absolute; top: 8px; left: 12px; font-size: 12px; font-weight: 600; color: #2557c7; }
+
+    /* Gutter demo */
+    .gl-gutter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .gl-gcard { background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); height: 84px; }
+    .gl-gnote { font-size: 12px; color: var(--content-secondary); margin-top: 10px; }
+
+    /* App-shell demo */
+    .gl-shell { display: flex; height: 220px; }
+    .gl-shell-side { width: 160px; flex-shrink: 0; background: var(--bg-base); border-right: 1px solid var(--border-base); padding: 16px; }
+    .gl-shell-side .gl-skel { height: 12px; border-radius: var(--radius-sm); background: var(--bg-secondary); margin-bottom: 10px; }
+    .gl-shell-side .gl-skel:first-child { background: var(--bg-brand-subtle); }
+    .gl-shell-main { flex: 1; padding: 20px; }
+    .gl-shell-bar { height: 14px; border-radius: var(--radius-sm); background: var(--bg-secondary); margin-bottom: 12px; }
+    .gl-shell-bar.w60 { width: 60%; }
+    .gl-shell-bar.w40 { width: 40%; }
+    .gl-shell-cap { font-size: 12px; color: var(--content-secondary); padding: 0 20px 16px; }
+  </style>
 </head>
 <body>
 
 <div id="topnav-placeholder"></div>
-
 <div class="shell">
 <div id="sidebar-placeholder"></div>
 
 <div class="content-wrap">
 <div class="page-header-row">
-<div class="page-header">
+  <div class="page-header">
     <div class="page-badges">
+      <span class="page-updated">Updated June 2026</span>
     </div>
-    <h1 class="text-l1">Grid & Layout</h1>
-    <p class="page-desc">Documentation for this component is being written.</p>
+    <h1 class="text-l1">Grid &amp; Layout</h1>
+    <p class="page-desc">Engage doesn't use a strict column grid. Layout is shaped by three things: a responsive page padding, a content container width, and a consistent gutter between elements.</p>
   </div>
 </div><!-- /page-header-row -->
+
 <div class="content-cols">
 <article class="content">
 
+  <!-- APPROACH -->
+  <section class="section" id="approach">
+    <h2 class="text-l3">Approach</h2>
+    <p class="section-lead">There is no formal 12-column grid. Compose layouts from these primitives instead:</p>
+    <div class="a11y-list">
+      <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Page padding.</strong> A responsive margin around the content that grows with the viewport — 16px on mobile up to 64px on desktop.</div></div>
+      <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Container width.</strong> A max-width on the content: narrow, wide, or full — pick the one that fits the content type.</div></div>
+      <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Gutter.</strong> The space between elements — 24px by default. Keep it consistent within a view.</div></div>
+    </div>
+  </section>
 
-  <div class="coming-soon-box">
-    <p>✍️ This page is a placeholder. Documentation will be added here.</p>
-  </div>
+  <!-- BREAKPOINTS -->
+  <section class="section" id="breakpoints">
+    <h2 class="text-l3">Breakpoints</h2>
+    <p class="section-lead">Three ranges drive the responsive page padding and the navigation mode. The navigation switches between the sidebar and a header (hamburger) at 1200px.</p>
+    <table class="token-table">
+      <thead>
+        <tr><th>Breakpoint</th><th>Range</th><th>Page padding</th><th>Navigation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Mobile</strong></td><td>&lt; 576px</td><td>16px (all sides)</td><td>Hamburger menu</td></tr>
+        <tr><td><strong>Tablet</strong></td><td>576 – 1199px</td><td>24px (all sides)</td><td>Hamburger menu</td></tr>
+        <tr><td><strong>Desktop</strong></td><td>≥ 1200px</td><td>64px (all sides)</td><td>Sidebar, always visible</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CONTAINER WIDTHS -->
+  <section class="section" id="container">
+    <h2 class="text-l3">Container widths</h2>
+    <p class="section-lead">The content sits in a centred container. Choose the width that matches the content — not every screen should be full-bleed.</p>
+
+    <div class="gl-containers">
+      <div class="gl-cwrap">
+        <div class="gl-cbar narrow">960px</div>
+        <div class="gl-clbl"><span><strong>Narrow</strong> — 960px max-width</span><span>Reading, forms, focused single-column flows</span></div>
+      </div>
+      <div class="gl-cwrap">
+        <div class="gl-cbar wide">1200px</div>
+        <div class="gl-clbl"><span><strong>Wide</strong> — 1200px max-width</span><span>Standard app pages, card grids, dashboards</span></div>
+      </div>
+      <div class="gl-cwrap">
+        <div class="gl-cbar full">100%</div>
+        <div class="gl-clbl"><span><strong>Full width</strong> — no max-width</span><span>Data-heavy tables and complex UIs that need the room</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE PADDING -->
+  <section class="section" id="padding">
+    <h2 class="text-l3">Page padding</h2>
+    <p class="section-lead">The padding between the viewport edge (or sidebar) and the content grows with screen size. On desktop it's 64px on all sides; the blue area below is the padding zone.</p>
+    <div class="gl-page">
+      <span class="gl-page-tag">64px padding (desktop)</span>
+      <div class="gl-page-inner">Content container</div>
+    </div>
+  </section>
+
+  <!-- GUTTER -->
+  <section class="section" id="gutter">
+    <h2 class="text-l3">Gutter</h2>
+    <p class="section-lead">Use a 24px gutter between elements by default — cards in a row, columns, stacked blocks. Keep one consistent value within a view rather than mixing gaps.</p>
+    <div class="gl-frame gl-pad-demo">
+      <div class="gl-gutter">
+        <div class="gl-gcard"></div>
+        <div class="gl-gcard"></div>
+        <div class="gl-gcard"></div>
+      </div>
+    </div>
+    <p class="gl-gnote">Three cards with a 24px gutter between them.</p>
+  </section>
+
+  <!-- APP SHELL -->
+  <section class="section" id="shell">
+    <h2 class="text-l3">App shell</h2>
+    <p class="section-lead">On desktop (≥1200px) a 240px sidebar is always visible and the content takes the remaining width. Below 1200px the sidebar collapses into a header with a hamburger menu, and the content goes full width.</p>
+    <div class="gl-frame">
+      <div class="gl-shell">
+        <div class="gl-shell-side">
+          <div class="gl-skel"></div>
+          <div class="gl-skel"></div>
+          <div class="gl-skel"></div>
+          <div class="gl-skel"></div>
+        </div>
+        <div class="gl-shell-main">
+          <div class="gl-shell-bar w40"></div>
+          <div class="gl-shell-bar"></div>
+          <div class="gl-shell-bar w60"></div>
+        </div>
+      </div>
+      <div class="gl-shell-cap">Sidebar 240px · content fills the rest · 64px page padding around the content.</div>
+    </div>
+  </section>
+
+  <!-- REFERENCE -->
+  <section class="section" id="reference">
+    <h2 class="text-l3">Reference</h2>
+    <p class="section-lead">The values at a glance.</p>
+    <table class="token-table">
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Page padding — mobile (&lt;576px)</td><td>16px</td></tr>
+        <tr><td>Page padding — tablet (576–1199px)</td><td>24px</td></tr>
+        <tr><td>Page padding — desktop (≥1200px)</td><td>64px</td></tr>
+        <tr><td>Container — narrow</td><td>max-width 960px</td></tr>
+        <tr><td>Container — wide</td><td>max-width 1200px</td></tr>
+        <tr><td>Container — full width</td><td>no max-width</td></tr>
+        <tr><td>Default gutter</td><td>24px</td></tr>
+        <tr><td>Sidebar width (desktop)</td><td>240px</td></tr>
+        <tr><td>Navigation switch point</td><td>1200px (sidebar ↔ hamburger)</td></tr>
+      </tbody>
+    </table>
+  </section>
 
 </article>
+
+<div class="toc-col">
+  <nav class="toc">
+    <div class="toc-title">ON THIS PAGE</div>
+    <a class="toc-link" href="#approach">Approach</a>
+    <a class="toc-link" href="#breakpoints">Breakpoints</a>
+    <a class="toc-link" href="#container">Container widths</a>
+    <a class="toc-link" href="#padding">Page padding</a>
+    <a class="toc-link" href="#gutter">Gutter</a>
+    <a class="toc-link" href="#shell">App shell</a>
+    <a class="toc-link" href="#reference">Reference</a>
+  </nav>
+</div>
+
 </div><!-- /content-cols -->
 </div><!-- /content-wrap -->
 </div><!-- /shell -->
