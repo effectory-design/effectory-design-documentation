@@ -12,6 +12,14 @@
   --radius-full:  999px;
   --radius:       var(--radius-md);
 
+  /* Motion — standard durations + easings for component animations */
+  --motion-fast:     75ms;   /* exits, quick fades */
+  --motion-base:     150ms;  /* dialog open, standard enters */
+  --motion-slow:     300ms;  /* larger surfaces — side panel slide */
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);    /* decelerate — enters */
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);    /* accelerate — exits */
+  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);  /* move on screen */
+
   /* Spacing — from Spacing docs (4 px base) */
   --spacing-extra-tight:       4px;
   --spacing-tight:             8px;

@@ -113,6 +113,15 @@ En gebruik root-relatieve paden voor alle assets:
 Bovendien: open prototypes altijd via `python3 serve.py` → `http://localhost:<poort>/...`.
 Nooit via dubbelklik (`file://`) — CSS-masks voor het Toggle-vinkje werken dan ook niet.
 
+### 8. Animaties via motion-tokens en `.overlay`
+Verzin geen eigen duraties of easings — gebruik de motion-tokens (`--motion-fast/base/slow`, `--ease-out/in/standard`; zie reference sectie 2 → Motion).
+Toon een dialog of side panel altijd in een `.overlay`, dan komt de juiste enter-animatie automatisch mee:
+```html
+<div class="overlay"><div class="dialog dialog-s"> … </div></div>        <!-- scale 0.8→1, backdrop fade -->
+<div class="overlay is-right"><div class="sidepanel"> … </div></div>     <!-- slide van rechts -->
+```
+De backdrop gebruikt `--bg-interface-overlay`. `prefers-reduced-motion` is al afgevangen.
+
 ---
 
 ## Workflow

@@ -2180,3 +2180,24 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .bc-link:active, .bc-link.is-pressed { background: var(--bg-secondary); }
 .bc-link:focus-visible, .bc-link.is-focus { outline: 2px solid var(--border-brand-base); outline-offset: 1px; }
 .bc-current { padding: 2px 6px; font-size: 14px; font-weight: 500; line-height: 22px; color: var(--content-base); white-space: nowrap; }
+
+/* ── Motion: overlay + component enter animations ──
+   Wrap a .dialog or .sidepanel in .overlay and it animates in automatically.
+   Matches the styleguide: dialog surface scales 0.8 → 1; side panel slides
+   in from the right; the backdrop (bg/interface/overlay) fades in. */
+.overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: var(--bg-interface-overlay);
+  animation: overlay-fade var(--motion-base) var(--ease-out);
+}
+.overlay.is-right { justify-content: flex-end; align-items: stretch; padding: 0; }
+.overlay > .dialog   { animation: dialog-pop var(--motion-base) var(--ease-out); transform-origin: center; }
+.overlay > .sidepanel { animation: sidepanel-slide var(--motion-slow) var(--ease-out); }
+@keyframes overlay-fade     { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dialog-pop       { from { transform: scale(0.8); } to { transform: scale(1); } }
+@keyframes sidepanel-slide  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .overlay, .overlay > .dialog, .overlay > .sidepanel { animation: none; }
+}

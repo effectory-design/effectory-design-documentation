@@ -90,6 +90,26 @@ Geen formeel kolomgrid. Layout = **page padding** (responsive margin rondom de c
 | `--sh-footer` | Footer bars |
 | `--sh-slide-panel` | Slide-in panels |
 
+### Motion
+Gebruik altijd deze tokens voor animaties; verzin geen eigen duraties/easings.
+| Token | Waarde | Gebruik |
+|---|---|---|
+| `--motion-fast` | `75ms` | exits, snelle fades |
+| `--motion-base` | `150ms` | dialog open, standaard enters |
+| `--motion-slow` | `300ms` | grotere surfaces (side panel slide) |
+| `--ease-out` | `cubic-bezier(0,0,.2,1)` | enters (decelerate) |
+| `--ease-in` | `cubic-bezier(.4,0,1,1)` | exits (accelerate) |
+| `--ease-standard` | `cubic-bezier(.4,0,.2,1)` | bewegen op het scherm |
+
+**Overlays animeren automatisch.** Wikkel een `.dialog` of `.sidepanel` in `.overlay` (gebruik `.overlay.is-right` voor een side panel) en de juiste enter-animatie wordt toegepast:
+```html
+<div class="overlay"><div class="dialog dialog-s"> … </div></div>
+<div class="overlay is-right"><div class="sidepanel"> … </div></div>
+```
+- Dialog: surface scaleert `0.8 → 1` in `--motion-base` met `--ease-out`; backdrop (`--bg-interface-overlay`) fade't in.
+- Side panel: slidet van rechts in (`translateX(100%) → 0`) in `--motion-slow`.
+- `prefers-reduced-motion` zet de animaties uit (al ingebouwd).
+
 ### Typografie-utility-classes
 ```
 .text-l1   42px / 600 / -.03em    heading niveau 1
