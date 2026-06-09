@@ -1,6 +1,96 @@
 {
-  "count": 584,
+  "count": 594,
   "entries": [
+    {
+      "hash": "13450c5",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dialog: use --bg-interface-overlay for the backdrop",
+      "pages": [
+        "dialog-docs.html"
+      ]
+    },
+    {
+      "hash": "56a2ca0",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dialog: document the open scale-up animation",
+      "pages": [
+        "dialog-docs.html"
+      ]
+    },
+    {
+      "hash": "f107f1f",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Breadcrumb: set vertical spacing to 16px + flag Figma/dev gap",
+      "pages": [
+        "breadcrumb-docs.html"
+      ]
+    },
+    {
+      "hash": "0797e98",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Add multi-colour file-type icons",
+      "pages": [
+        "iconography-docs.html"
+      ]
+    },
+    {
+      "hash": "67c23a3",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Add from-to icon to the library",
+      "pages": [
+        "iconography-docs.html"
+      ]
+    },
+    {
+      "hash": "5487a70",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: reframe disabled-state note as a Figma gap",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "189d148",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: note there's no disabled state in design",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "5686e75",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown: grow-to-content width with max-width + ellipsis",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "48b4c1b",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Dropdown playground: editable items, count, nicer config UI",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "9323b69",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Build the Grid & Layout documentation page",
+      "pages": [
+        "grid-layout-docs.html"
+      ]
+    },
     {
       "hash": "04119c6",
       "author": "Jente Insing",
