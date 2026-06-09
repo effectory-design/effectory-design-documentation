@@ -2212,8 +2212,11 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .sysnotif.is-warning { border-left-color: var(--border-warning-base); }
 .sysnotif-title { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse-base); }
 .sysnotif-desc  { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-inverse-secondary); }
-.sysnotif-action { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0 0 2px; border: 0; border-bottom: 2px solid var(--border-white); background: none; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse-secondary); cursor: pointer; text-decoration: none; }
-.sysnotif-action:hover, .sysnotif-action.is-hover { color: var(--content-inverse-base); }
+/* Action takes the notification's sentiment colour (see Figma/dev gap in docs). */
+.sysnotif-action { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0 0 2px; border: 0; border-bottom: 2px solid var(--border-positive-base); background: none; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--border-positive-base); cursor: pointer; text-decoration: none; }
+.sysnotif.is-error .sysnotif-action   { color: var(--border-negative-base); border-bottom-color: var(--border-negative-base); }
+.sysnotif.is-warning .sysnotif-action { color: var(--border-warning-base);  border-bottom-color: var(--border-warning-base); }
+.sysnotif-action:hover, .sysnotif-action.is-hover { opacity: .85; }
 .sysnotif-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; border-radius: var(--radius-base); color: var(--content-inverse-secondary); cursor: pointer; }
 .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse-base); }
 .sysnotif-close i[data-icon] { width: 16px; height: 16px; display: flex; }

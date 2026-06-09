@@ -20,8 +20,10 @@
     .sysnotif.is-warning { border-left-color: var(--border-warning-base); }
     .sysnotif-title { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse-base); }
     .sysnotif-desc  { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-inverse-secondary); }
-    .sysnotif-action { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0 0 2px; border: 0; border-bottom: 2px solid var(--border-white); background: none; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse-secondary); cursor: pointer; text-decoration: none; }
-    .sysnotif-action:hover, .sysnotif-action.is-hover { color: var(--content-inverse-base); }
+    .sysnotif-action { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0 0 2px; border: 0; border-bottom: 2px solid var(--border-positive-base); background: none; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--border-positive-base); cursor: pointer; text-decoration: none; }
+    .sysnotif.is-error .sysnotif-action   { color: var(--border-negative-base); border-bottom-color: var(--border-negative-base); }
+    .sysnotif.is-warning .sysnotif-action { color: var(--border-warning-base);  border-bottom-color: var(--border-warning-base); }
+    .sysnotif-action:hover, .sysnotif-action.is-hover { opacity: .85; }
     .sysnotif-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; border-radius: var(--radius-base); color: var(--content-inverse-secondary); cursor: pointer; }
     .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse-base); }
     .sysnotif-close i[data-icon] { width: 16px; height: 16px; display: flex; }
@@ -132,6 +134,13 @@
               <div class="variant-row-desc"><strong>Warning</strong> — A caution or heads-up that doesn't block the user, like a session about to expire.</div>
             </div>
           </div>
+          <div class="dev-gap">
+            <span class="dev-gap-icon">⚠️</span>
+            <div class="dev-gap-body">
+              <span class="dev-gap-label">Figma gap — action colour</span>
+              <span class="dev-gap-text">The action link takes the notification's sentiment colour (green / red / orange). In Figma the action is drawn in white/secondary — align Figma ↔ code on the action colour.</span>
+            </div>
+          </div>
         </section>
 
         <section class="section" id="placement">
@@ -177,8 +186,8 @@
               <tr><td><code>--border-negative-base</code></td><td>Accent — Error</td><td>#b9252a</td></tr>
               <tr><td><code>--border-warning-base</code></td><td>Accent — Warning</td><td>#ec6e0a</td></tr>
               <tr><td><code>--content-inverse-base</code></td><td>Title</td><td>#ffffff</td></tr>
-              <tr><td><code>--content-inverse-secondary</code></td><td>Description &amp; action</td><td>rgba(255,255,255,.8)</td></tr>
-              <tr><td><code>--border-white</code></td><td>Action underline</td><td>#ffffff</td></tr>
+              <tr><td><code>--content-inverse-secondary</code></td><td>Description</td><td>rgba(255,255,255,.8)</td></tr>
+              <tr><td><code>--border-positive-base</code> / <code>--border-negative-base</code> / <code>--border-warning-base</code></td><td>Action link (matches the sentiment)</td><td>—</td></tr>
               <tr><td><code>--sh-popovers</code></td><td>Card shadow</td><td>0 2px 12px rgba(25,39,67,.08)</td></tr>
               <tr><td><code>--radius-md</code></td><td>Corner radius</td><td>8px</td></tr>
             </tbody>
@@ -318,9 +327,8 @@
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
               <tr><td><code>--bg-inverse-base</code></td><td>Card surface</td></tr>
-              <tr><td><code>--border-positive-base</code> · <code>--border-negative-base</code> · <code>--border-warning-base</code></td><td>Accent bar per sentiment</td></tr>
-              <tr><td><code>--content-inverse-base</code> · <code>--content-inverse-secondary</code></td><td>Title / description &amp; action</td></tr>
-              <tr><td><code>--border-white</code></td><td>Action underline</td></tr>
+              <tr><td><code>--border-positive-base</code> · <code>--border-negative-base</code> · <code>--border-warning-base</code></td><td>Accent bar + action link (per sentiment)</td></tr>
+              <tr><td><code>--content-inverse-base</code> · <code>--content-inverse-secondary</code></td><td>Title / description</td></tr>
               <tr><td><code>--sh-popovers</code></td><td>Card shadow</td></tr>
             </tbody>
           </table>

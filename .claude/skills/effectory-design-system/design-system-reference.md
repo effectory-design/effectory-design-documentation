@@ -720,7 +720,8 @@ Donkere, systeem-brede melding (uitkomst van een achtergrond-proces of systeem-e
 </div>
 ```
 - Sentiment via modifier op `.sysnotif`: default = Success (accent `--border-positive-base`), `is-error` (`--border-negative-base`), `is-warning` (`--border-warning-base`).
-- Donkere surface `--bg-inverse-base`; titel `--content-inverse-base`; desc + action `--content-inverse-secondary`; action-underline `--border-white`; shadow `--sh-popovers`; radius `--radius-md`; 8px accent-balk links.
+- Donkere surface `--bg-inverse-base`; titel `--content-inverse-base`; desc `--content-inverse-secondary`; shadow `--sh-popovers`; radius `--radius-md`; 8px accent-balk links.
+- De action-link neemt de **sentiment-kleur** over (`--border-positive/negative/warning-base`). ⚠️ Figma/dev gap: Figma tekent de action wit/secondary — nog gelijk te trekken.
 - a11y: `role="status"` (Success) / `role="alert"` (Error/Warning); `aria-label` op de close-knop.
 - Onderdelen: `.sysnotif-title`, `.sysnotif-desc`, `.sysnotif-action`, `.sysnotif-close`.
 - **Plaatsing:** altijd rechtsboven in het scherm, gestapeld. Mount ze in `.sysnotif-stack` (fixed, `inset:0`, `align-items:flex-end`, 8px padding, `pointer-events:none`; de notificaties zelf weer `pointer-events:auto`).
