@@ -380,18 +380,37 @@ States: `.is-hover` `.is-pressed` `.is-focus`
   <div class="menu-empty">Geen resultaten</div>
 </div>
 
-<!-- Met groepslabel -->
+<!-- Header, groepslabel, subtitel, avatar, label, submenu, checkmark -->
 <div class="menu">
-  <div class="menu-group-lbl">Groep A</div>
+  <div class="menu-header">Choose option</div>
   <div class="menu-item">
+    <i data-icon="box" class="menu-item-icon"></i>
     <span class="menu-item-body">
       <span class="menu-item-title">Titel</span>
       <span class="menu-item-sub">Subtitel</span>
     </span>
   </div>
+  <div class="menu-group-lbl">Groep A</div>
+  <div class="menu-item">
+    <span class="av av-24 av-yellow">JT</span>
+    <span class="menu-item-body"><span class="menu-item-title">Met avatar</span></span>
+  </div>
+  <div class="menu-divider"></div>
+  <div class="menu-item">
+    <i data-icon="box" class="menu-item-icon"></i>
+    <span class="menu-item-body"><span class="menu-item-title">Met label</span></span>
+    <span class="menu-label">beta</span>
+  </div>
+  <div class="menu-item">
+    <i data-icon="box" class="menu-item-icon"></i>
+    <span class="menu-item-body"><span class="menu-item-title">Submenu</span></span>
+    <i data-icon="chevron-right" class="menu-chevron"></i>
+  </div>
 </div>
 ```
-States op `.menu-item`: `.is-selected` `.is-focus`
+States op `.menu-item`: `.is-hover` `.is-selected` `.is-focus` `.is-disabled`.
+Echte Angular-API: Material `mat-menu` met `[matMenuTriggerFor]`; items `<button mat-menu-item disableRipple>` (icoon + `<span>`) of `<a mat-menu-item class="icon-before">` voor links.
+Onderdelen: `.menu-header` (titel), `.menu-group-lbl`, `.menu-divider`, `.menu-item` (+ `.menu-item-icon` / `.av` avatar, `.menu-item-body` → `.menu-item-title` + `.menu-item-sub`), trailing `.menu-item-check` / `.menu-chevron` / `.menu-label`.
 
 ### Checkbox
 ```html
