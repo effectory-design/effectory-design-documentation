@@ -1,6 +1,129 @@
 {
-  "count": 596,
+  "count": 611,
   "entries": [
+    {
+      "hash": "a3bbd12",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: playground shows only the trigger button",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "d759c83",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: flag description support as a Figma/dev gap",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "7b656f8",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: add functionality & rules summary for developers",
+      "pages": []
+    },
+    {
+      "hash": "af11284",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: use relative base href so the prototype works on GitHub Pages",
+      "pages": []
+    },
+    {
+      "hash": "65f0333",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: survey reports page prototype with language + generation flow",
+      "pages": []
+    },
+    {
+      "hash": "2b54b97",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Add .nojekyll to fix failing GitHub Pages build",
+      "pages": []
+    },
+    {
+      "hash": "1d2d33e",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: add a trigger button in the playground",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "d50f6f1",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: action is a Link Button recoloured per sentiment",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "94e7dfd",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: action link takes the sentiment colour",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "88eef85",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: show stacking in the placement demo",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "1a83fdd",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "System notifications: top-right placement + enter animation",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "c710e38",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Match Figma text rendering with grayscale font smoothing",
+      "pages": []
+    },
+    {
+      "hash": "282a238",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Revert unsolicited av-purple avatar colour",
+      "pages": [
+        "dropdown-menu-docs.html"
+      ]
+    },
+    {
+      "hash": "1c435fc",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Add System Notifications documentation page",
+      "pages": [
+        "system-notifications-docs.html"
+      ]
+    },
+    {
+      "hash": "35a4632",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Release skill v1.5.0",
+      "pages": []
+    },
     {
       "hash": "535cd92",
       "author": "Jente Insing",

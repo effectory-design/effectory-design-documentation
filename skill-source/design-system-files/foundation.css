@@ -61,3 +61,6 @@
 /* spacing inside buttons and absolutely-positioned icon containers.           */
 /* Mirrors styles.css rule 253; omitted during initial extraction.             */
 [data-icon] { display: contents; }
+
+/* Match Figma text rendering — grayscale antialiasing (text looks thinner/crisper) */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
