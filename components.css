@@ -2095,6 +2095,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .av-green { background: var(--bg-accent-green-subtle); color: var(--content-accent-green-base); }
 .av-orange { background: var(--bg-accent-orange-subtle); color: var(--content-accent-orange-base); }
 .av-red { background: var(--bg-accent-red-subtle); color: var(--content-accent-red-base); }
+.av-purple { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
 .av-yellow { background: var(--bg-accent-yellow-subtle); color: var(--content-accent-yellow-base); }
 .av-grey { background: var(--bg-secondary); color: var(--content-secondary); }
 
