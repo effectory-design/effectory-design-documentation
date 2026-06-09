@@ -34,7 +34,6 @@
     .av-blue      { background: var(--bg-accent-blue-subtle);      color: var(--content-accent-blue-base); }
     .av-green     { background: var(--bg-accent-green-subtle);     color: var(--content-accent-green-base); }
     .av-orange    { background: var(--bg-accent-orange-subtle);    color: var(--content-accent-orange-base); }
-    .av-purple    { background: var(--bg-accent-purple-subtle);    color: var(--content-accent-purple-base); }
     .av-turquoise { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise-base); }
     .av-red       { background: var(--bg-accent-red-subtle);       color: var(--content-accent-red-base); }
 
@@ -531,7 +530,7 @@
     const $preview = document.getElementById('pg-preview');
     if (!$preview) return;
 
-    const AV_COLORS = ['av-blue','av-green','av-orange','av-purple','av-turquoise','av-red','av-yellow'];
+    const AV_COLORS = ['av-blue','av-turquoise','av-green','av-orange','av-red','av-yellow'];
     const ICONS = ['user','users','share','gear','globe','bell','mail','link'];
     const MAX_ITEMS = 6;
     function defItem(i){ return { label:'New item', sub:'', icon: ICONS[i % ICONS.length], leading:'icon', trailing:'none' }; }
