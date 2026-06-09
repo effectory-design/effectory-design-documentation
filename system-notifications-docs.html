@@ -29,6 +29,15 @@
     .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse-base); }
     .sysnotif-close i[data-icon] { width: 16px; height: 16px; display: flex; }
 
+    /* live top-right stack (playground trigger) */
+    .sysnotif-stack { position: fixed; inset: 0; z-index: 2000; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding: 8px; pointer-events: none; }
+    .sysnotif-stack > .sysnotif { pointer-events: auto; }
+    .sysnotif.is-leaving { animation: sysnotif-out .15s ease-in forwards; }
+    @keyframes sysnotif-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+    .sn-trigger { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--radius-base); border: 1px solid var(--border-action); background: var(--bg-base); color: var(--content-secondary); box-shadow: var(--sh-action); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .sn-trigger:hover { border-color: var(--border-action-hover); color: var(--content-base); }
+    .sn-trigger i[data-icon] { width: 16px; height: 16px; display: flex; }
+
     .anatomy-fig { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 48px; margin-bottom: 24px; display: flex; justify-content: center; }
     .anatomy-fig .sysnotif { pointer-events: none; }
     .dd-prev .sysnotif, .variant-row-btn .sysnotif, .state-col .sysnotif { pointer-events: none; }
@@ -234,9 +243,9 @@
 
         <section class="section" id="dev-playground">
           <h2 class="text-l3">Playground</h2>
-          <p class="section-lead">Configure the notification and copy the markup.</p>
+          <p class="section-lead">Configure the notification, then hit <strong>Show notification</strong> to trigger it in the top-right of the screen (it stacks and auto-dismisses; errors stay until closed).</p>
           <div class="pg-card">
-            <div class="pg-preview" id="pg-preview" style="padding:40px; justify-content:center; background:var(--bg-secondary);"></div>
+            <div class="pg-preview" id="pg-preview" style="padding:40px; flex-direction:column; justify-content:center; align-items:center; background:var(--bg-secondary);"></div>
             <div class="pg-bottom">
               <div class="pg-tab-bar">
                 <button class="pg-tab is-active" data-pgtab="props">Properties</button>
@@ -393,11 +402,38 @@
     }
     function render(){
       const s = state();
-      $preview.innerHTML = buildMenu(s);
+      $preview.innerHTML =
+        '<button class="sn-trigger" id="pg-trigger"><i data-icon="bell"></i> Show notification (top-right)</button>' +
+        '<div style="margin-top:20px;">' + buildMenu(s) + '</div>';
+      $preview.querySelector('.sysnotif').style.animation = 'none';   // inline preview shouldn't replay the enter anim
       document.getElementById('pg-code').textContent = buildCode(s);
       if (window.Icons && window.Icons.render) window.Icons.render($preview);
     }
+
+    // ── live top-right stack ──
+    let stack = null;
+    function getStack(){
+      if (!stack){ stack = document.createElement('div'); stack.className = 'sysnotif-stack'; document.body.appendChild(stack); }
+      return stack;
+    }
+    function dismiss(node){
+      node.classList.add('is-leaving');
+      setTimeout(()=>node.remove(), 160);
+    }
+    function trigger(){
+      const s = state();
+      const wrap = document.createElement('div');
+      wrap.innerHTML = buildMenu(s);
+      const node = wrap.firstElementChild;
+      getStack().appendChild(node);
+      if (window.Icons && window.Icons.render) window.Icons.render(node);
+      node.querySelector('.sysnotif-close').addEventListener('click', ()=>dismiss(node));
+      // auto-dismiss success/warning; errors stay until dismissed
+      if (s.sentiment !== 'error') setTimeout(()=>{ if (node.isConnected) dismiss(node); }, 5000);
+    }
+
     ['pg-sentiment','pg-desc','pg-action'].forEach(id=>document.getElementById(id).addEventListener('change', render));
+    $preview.addEventListener('click', e=>{ if (e.target.closest('#pg-trigger')) trigger(); });
     document.getElementById('pg-reset')?.addEventListener('click',()=>{ document.getElementById('pg-sentiment').value=defaults.sentiment; document.getElementById('pg-desc').checked=defaults.desc; document.getElementById('pg-action').checked=defaults.action; render(); });
     document.querySelectorAll('.pg-tab[data-pgtab]').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('is-active'));tab.classList.add('is-active');const w=tab.dataset.pgtab;document.getElementById('pg-panel-props').hidden=w!=='props';document.getElementById('pg-panel-code').hidden=w!=='code';});});
     document.getElementById('pg-copy')?.addEventListener('click',()=>navigator.clipboard.writeText(document.getElementById('pg-code').textContent));
