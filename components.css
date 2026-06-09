@@ -2147,9 +2147,12 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .sp-header.is-compact .sp-heading { grid-column: 1; grid-row: 1; padding: 0; }
 .sp-header.is-compact .sp-tabs { grid-column: 1 / -1; grid-row: 2; margin: 8px -24px 0; padding: 0 24px; }
 .sp-tabs { display: flex; gap: 28px; margin: 4px 0 0; padding: 0 40px; border-bottom: 1px solid var(--border-base); overflow-x: auto; }
-.sp-tab { display: inline-flex; align-items: center; gap: 6px; padding: 10px 0; font-size: 14px; font-weight: 500; color: var(--content-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; cursor: pointer; }
+.sp-tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 14px; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); white-space: nowrap; cursor: pointer; }
 .sp-tab i[data-icon] { width: 16px; height: 16px; display: flex; }
-.sp-tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-base); }
+.sp-tab:hover, .sp-tab.is-hover { color: var(--content-base); }
+.sp-tab.is-active { color: var(--content-base); }
+.sp-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: var(--radius-full); background: transparent; }
+.sp-tab.is-active::after { background: var(--content-brand-secondary); }
 .sp-body { flex: 1; overflow: auto; padding: 24px 40px; font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
 .sp-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 24px 40px 40px; flex-shrink: 0; }
 

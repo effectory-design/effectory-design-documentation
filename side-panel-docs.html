@@ -38,9 +38,12 @@
     .sp-header.is-compact .sp-tabs { grid-column: 1 / -1; grid-row: 2; margin: 8px -24px 0; padding: 0 24px; }
 
     .sp-tabs { display: flex; gap: 28px; margin: 4px 0 0; padding: 0 40px; border-bottom: 1px solid var(--border-base); overflow-x: auto; }
-    .sp-tab { display: inline-flex; align-items: center; gap: 6px; padding: 10px 0; font-size: 14px; font-weight: 500; color: var(--content-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; cursor: pointer; }
+    .sp-tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 14px; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); white-space: nowrap; cursor: pointer; }
     .sp-tab i[data-icon] { width: 16px; height: 16px; display: flex; }
-    .sp-tab.is-active { color: var(--content-base); border-bottom-color: var(--content-brand-base); }
+    .sp-tab:hover, .sp-tab.is-hover { color: var(--content-base); }
+    .sp-tab.is-active { color: var(--content-base); }
+    .sp-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: var(--radius-full); background: transparent; }
+    .sp-tab.is-active::after { background: var(--content-brand-secondary); }
 
     .sp-body { flex: 1; overflow: auto; padding: 24px 40px; font-size: 16px; line-height: 1.5; color: var(--content-secondary); }
     .sp-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 24px 40px 40px; flex-shrink: 0; }
@@ -332,7 +335,7 @@
               <tr><td><code>--content-base</code></td><td>Title + active tab</td><td>#192743</td></tr>
               <tr><td><code>--content-secondary</code></td><td>Subtitle + body + inactive tabs</td><td>rgba(25,39,67,.80)</td></tr>
               <tr><td><code>--content-action</code></td><td>Toolbar + nav icons</td><td>rgba(25,39,67,.80)</td></tr>
-              <tr><td><code>--content-brand-base</code></td><td>Active tab underline</td><td>#166764</td></tr>
+              <tr><td><code>--content-brand-secondary</code></td><td>Active tab indicator</td><td>#0c827f</td></tr>
             </tbody>
           </table>
           <p style="margin-top:10px; font-size:14px; color:var(--content-secondary);">Typography: title <code>text-l3</code> (26px) — or 18px when small; subtitle &amp; tabs <code>body-14</code>; body <code>body-16</code>.</p>
