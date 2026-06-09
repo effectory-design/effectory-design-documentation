@@ -202,7 +202,21 @@
     <div class="note" id="no-results" style="display:none;">No icons match your search. Try a different term, or browse the full set in <a href="https://www.figma.com/design/pQwaTgTOFsS96zxIPZ6SHm/%F0%9F%8D%91-Assets?node-id=2958-169" target="_blank">Figma</a>.</div>
   </section>
 
-  
+  <!-- FILE TYPE ICONS -->
+  <section class="section" id="file-types">
+    <h2 class="text-l3">File type icons</h2>
+    <p style="font-size:14px; color:var(--content-secondary); line-height:1.6; margin-bottom:16px;">Multi-colour icons for file attachments and uploads. Unlike the general library, these keep their own brand colours, so embed them with an <span class="g-code">&lt;img&gt;</span> tag rather than <span class="g-code">&lt;i data-icon&gt;</span> (which would recolour them to <span class="g-code">currentColor</span>).</p>
+    <div class="icon-grid">
+      <div class="icon-cell"><img src="assets/icons/pdf-file.svg" alt="PDF file" style="width:32px;height:40px;flex-shrink:0;" /><span class="icon-cell-name">pdf-file</span></div>
+      <div class="icon-cell"><img src="assets/icons/xls-file.svg" alt="Excel file" style="width:32px;height:40px;flex-shrink:0;" /><span class="icon-cell-name">xls-file</span></div>
+      <div class="icon-cell"><img src="assets/icons/ppt-file.svg" alt="PowerPoint file" style="width:32px;height:40px;flex-shrink:0;" /><span class="icon-cell-name">ppt-file</span></div>
+      <div class="icon-cell"><img src="assets/icons/unknown-file.svg" alt="Unknown file type" style="width:32px;height:40px;flex-shrink:0;" /><span class="icon-cell-name">unknown-file</span></div>
+    </div>
+    <div class="dev-code-wrap" style="margin-top:16px;">
+      <button class="dev-copy-btn">Copy</button>
+      <pre><code><span class="ct">&lt;img</span> <span class="ca">src</span>=<span class="cv">"assets/icons/pdf-file.svg"</span> <span class="ca">alt</span>=<span class="cv">"PDF file"</span> <span class="ca">width</span>=<span class="cv">"32"</span> <span class="ca">height</span>=<span class="cv">"40"</span> <span class="ct">/&gt;</span></code></pre>
+    </div>
+  </section>
 
   <!-- USAGE -->
   <section class="section" id="usage">
@@ -326,6 +340,7 @@
     <div class="toc-title">ON THIS PAGE</div>
     <a class="toc-link" href="#sizes">Sizes</a>
     <a class="toc-link" href="#library">Library</a>
+    <a class="toc-link" href="#file-types">File type icons</a>
     <a class="toc-link" href="#usage">Usage</a>
     <a class="toc-link" href="#guidance">Guidance</a>
   </nav>
