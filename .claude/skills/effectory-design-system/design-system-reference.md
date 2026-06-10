@@ -272,6 +272,7 @@ Vierkante knop met alleen een icoon. Maat via `.ib-36` (16px icoon, radius `--ra
 <button class="ib ib-24 ib-tertiary" aria-label="Meer"><i data-icon="more-horizontal"></i></button>
 ```
 Secondary = witte vulling + 1px `--border-action` + subtiele `--sh-action` (bijv. de close-knop op een dialog). States: `.is-hover` `.is-pressed` `.is-disabled`.
+> **Altijd een tooltip** (zie SKILL-regel 9): een icoon-only knop krijgt naast `aria-label` ook een tooltip met dezelfde tekst — wikkel 'm in een `.tt-demo` met een `.tooltip`-bubble (Angular: `matTooltip`).
 
 ### Text Field
 ```html

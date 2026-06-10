@@ -93,6 +93,20 @@ Toon een dialog of side panel altijd in een `.overlay`, dan komt de juiste enter
 ```
 De backdrop gebruikt `--bg-interface-overlay`. `prefers-reduced-motion` is al afgevangen.
 
+### 9. Icon buttons hebben ALTIJD een tooltip
+Een icoon-only knop (`.ib` / icon button) is zonder label niet te begrijpen. Geef elke icon button **altijd** een tooltip die het doel benoemt, plus een `aria-label` met dezelfde tekst.
+```html
+<!-- ✅ tooltip via de .tt-demo wrapper + .tooltip bubble; aria-label = dezelfde tekst -->
+<div class="tt-demo">
+  <button class="ib ib-secondary" aria-label="Edit"><i data-icon="edit"></i></button>
+  <div class="tooltip is-above">Edit</div>
+</div>
+
+<!-- ❌ nooit een naakte icon button zonder label/tooltip -->
+<button class="ib"><i data-icon="edit"></i></button>
+```
+Geldt voor elke icon-only knop (toolbar-acties, close-knoppen die alleen een icoon tonen, kebab-menu's, enz.). Knoppen mét zichtbare tekst hebben geen tooltip nodig. In Angular: de `matTooltip`-directive op de knop.
+
 ---
 
 ## Workflow
