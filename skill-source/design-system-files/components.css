@@ -2188,7 +2188,8 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
   position: fixed; inset: 0; z-index: 1000;
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
-  background: var(--bg-interface-overlay);
+  /* Figma token --bg-interface-overlay is .50, the styleguide renders .65 — using .60 until aligned. */
+  background: rgba(25, 39, 67, 0.6);
   animation: overlay-fade var(--motion-base) var(--ease-out);
 }
 .overlay.is-right { justify-content: flex-end; align-items: stretch; padding: 0; }
@@ -2221,3 +2222,27 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .sysnotif-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; border-radius: var(--radius-base); color: var(--content-inverse-secondary); cursor: pointer; }
 .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse-base); }
 .sysnotif-close i[data-icon] { width: 16px; height: 16px; display: flex; }
+
+/* ── Segmented Control — compact group of mutually exclusive options ── */
+.segctl { display: inline-flex; align-items: flex-start; gap: 4px; padding: 4px; background: var(--bg-tertiary); border-radius: var(--radius-base); font-family: 'Poppins', sans-serif; }
+.segctl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; border: 0; background: transparent; border-radius: var(--radius-base); font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); cursor: pointer; white-space: nowrap; }
+.segctl-btn:hover, .segctl-btn.is-hover { background: var(--bg-secondary); color: var(--content-base); }
+.segctl-btn.is-active, .segctl-btn.is-active:hover { background: var(--bg-base); color: var(--content-action-pressed); box-shadow: var(--sh-card); cursor: default; }
+.segctl-btn i[data-icon] { width: 16px; height: 16px; display: flex; }
+
+/* ── Loading — spinner (block + inline) ── */
+@keyframes loadingspin { to { transform: rotate(360deg); } }
+.spinner { --thk: 4px; display: inline-block; box-sizing: border-box; width: 24px; height: 24px; border-radius: var(--radius-full); background: radial-gradient(farthest-side, var(--content-base) 98%, transparent) 50% 0 / var(--thk) var(--thk) no-repeat, radial-gradient(farthest-side, var(--content-base) 98%, transparent) 100% 50% / var(--thk) var(--thk) no-repeat, conic-gradient(transparent 25%, var(--content-base) 0), var(--border-base); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thk)), #000 0); mask: radial-gradient(farthest-side, transparent calc(100% - var(--thk)), #000 0); animation: loadingspin .8s linear infinite; }
+.spinner-sm { width: 16px; height: 16px; --thk: 3px; }
+.spinner-lg { width: 32px; height: 32px; --thk: 4px; }
+.block-loader { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: var(--content-secondary); }
+.loader-inline { display: inline-block; box-sizing: border-box; width: 16px; height: 16px; border: 2px solid var(--content-base); border-top-color: transparent; border-radius: var(--radius-full); animation: loadingspin .8s ease infinite; vertical-align: middle; }
+
+/* ── Skeleton — placeholder shapes that mimic content while it loads ── */
+@keyframes skeleton-pulse { 0%, 100% { background-color: var(--border-base); } 50% { background-color: var(--bg-base-pressed); } }
+.skeleton { background-color: var(--border-base); border-radius: var(--radius-base); animation: skeleton-pulse 1s ease-in infinite; }
+.skeleton-text   { height: 12px; border-radius: var(--radius-sm); }
+.skeleton-title  { height: 20px; border-radius: var(--radius-sm); }
+.skeleton-circle { border-radius: var(--radius-full); flex-shrink: 0; }
+.skeleton-block  { border-radius: var(--radius-md); }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }

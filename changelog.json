@@ -1,6 +1,184 @@
 {
-  "count": 611,
+  "count": 633,
   "entries": [
+    {
+      "hash": "7f66f43",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Skill: require a tooltip on every icon-only button",
+      "pages": []
+    },
+    {
+      "hash": "2c72664",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Announcement dialog: intro has no wave divider by default",
+      "pages": []
+    },
+    {
+      "hash": "57ea4ed",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Announcement dialog: transparent outro with fade, refreshed illustrations, type/colour tweaks",
+      "pages": []
+    },
+    {
+      "hash": "bb810c9",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Announcement dialog: outro illustration, icon-button Previous, honest outro footer",
+      "pages": []
+    },
+    {
+      "hash": "32f7c0b",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Skeleton: match the styleguide loader (darker, pulse not shimmer)",
+      "pages": [
+        "skeleton-docs.html"
+      ]
+    },
+    {
+      "hash": "0be485e",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Add Skeleton documentation page",
+      "pages": [
+        "skeleton-docs.html"
+      ]
+    },
+    {
+      "hash": "09dbde9",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Announcement dialog: story progress, per-step colour/background, illustrations",
+      "pages": []
+    },
+    {
+      "hash": "57e88ce",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Loading: round both ends of the spinner arc",
+      "pages": [
+        "loading-docs.html"
+      ]
+    },
+    {
+      "hash": "d4306f0",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Loading: round the spinner arc cap",
+      "pages": [
+        "loading-docs.html"
+      ]
+    },
+    {
+      "hash": "88b5fbb",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Loading: thicker spinner stroke (4px)",
+      "pages": [
+        "loading-docs.html"
+      ]
+    },
+    {
+      "hash": "d5ea5cd",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Add Loading (spinner) documentation page",
+      "pages": [
+        "loading-docs.html"
+      ]
+    },
+    {
+      "hash": "ead8bc5",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Segmented control: flag the naming difference in the Design tab too",
+      "pages": [
+        "segmented-control-docs.html"
+      ]
+    },
+    {
+      "hash": "d2d76de",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Segmented control: bg-secondary hover, rework variants, more room",
+      "pages": [
+        "segmented-control-docs.html"
+      ]
+    },
+    {
+      "hash": "24dc2a6",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Add Segmented Control documentation page",
+      "pages": [
+        "segmented-control-docs.html"
+      ]
+    },
+    {
+      "hash": "a610434",
+      "author": "Jente Insing",
+      "date": "2026-06-10",
+      "subject": "Remove Drawer from navigation (covered by Side Panel)",
+      "pages": [
+        "drawer-docs.html",
+        "side-panel-docs.html"
+      ]
+    },
+    {
+      "hash": "d7d2bbe",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: rewrite spec as clear when→then rules",
+      "pages": []
+    },
+    {
+      "hash": "47d4bdd",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: show the \"Notify me\" hint after 2s",
+      "pages": []
+    },
+    {
+      "hash": "ea3d5a1",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: tighten build spec — shorter, developer-focused",
+      "pages": []
+    },
+    {
+      "hash": "c96aa66",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: refine raw-data dialog, language labels & ready notification",
+      "pages": []
+    },
+    {
+      "hash": "b52981b",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Overlay backdrop to .60 + flag Figma/dev gap on dialog & side panel",
+      "pages": [
+        "dialog-docs.html",
+        "side-panel-docs.html"
+      ]
+    },
+    {
+      "hash": "36373c4",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Reports: raw-data dialog shows a \"taking longer\" hint after 10s",
+      "pages": []
+    },
+    {
+      "hash": "5fc2b48",
+      "author": "Jente Insing",
+      "date": "2026-06-09",
+      "subject": "Release skill v1.5.1",
+      "pages": []
+    },
     {
       "hash": "a3bbd12",
       "author": "Jente Insing",

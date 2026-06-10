@@ -106,7 +106,8 @@ Gebruik altijd deze tokens voor animaties; verzin geen eigen duraties/easings.
 <div class="overlay"><div class="dialog dialog-s"> … </div></div>
 <div class="overlay is-right"><div class="sidepanel"> … </div></div>
 ```
-- Dialog: surface scaleert `0.8 → 1` in `--motion-base` met `--ease-out`; backdrop (`--bg-interface-overlay`) fade't in.
+- Dialog: surface scaleert `0.8 → 1` in `--motion-base` met `--ease-out`; backdrop fade't in.
+- Backdrop-kleur: `rgba(25,39,67,.6)`. ⚠️ Figma/dev gap: Figma-token `--bg-interface-overlay` = `.50`, styleguide rendert `.65`; we gebruiken `.60` tot het is gelijkgetrokken.
 - Side panel: slidet van rechts in (`translateX(100%) → 0`) in `--motion-slow`.
 - `prefers-reduced-motion` zet de animaties uit (al ingebouwd).
 
@@ -271,6 +272,7 @@ Vierkante knop met alleen een icoon. Maat via `.ib-36` (16px icoon, radius `--ra
 <button class="ib ib-24 ib-tertiary" aria-label="Meer"><i data-icon="more-horizontal"></i></button>
 ```
 Secondary = witte vulling + 1px `--border-action` + subtiele `--sh-action` (bijv. de close-knop op een dialog). States: `.is-hover` `.is-pressed` `.is-disabled`.
+> **Altijd een tooltip** (zie SKILL-regel 9): een icoon-only knop krijgt naast `aria-label` ook een tooltip met dezelfde tekst — wikkel 'm in een `.tt-demo` met een `.tooltip`-bubble (Angular: `matTooltip`).
 
 ### Text Field
 ```html
@@ -585,6 +587,20 @@ On-state: `input.tgl:checked` (native) of `.tgl-track.is-on` (statisch)
 States op `.tgl-track`: `.is-on` `.is-hover` `.is-disabled`
 States op wrappers: `.is-disabled`
 
+### Segmented Control
+Compacte groep van 2–3 opties waarvan er altijd precies één geselecteerd is — voor het wisselen van views/modes binnen dezelfde pagina (chart/table, week/maand). Méér dan 3 opties → Select; aan/uit → Toggle; navigatie → Tabs.
+```html
+<div class="segctl">
+  <button class="segctl-btn is-active"><i data-icon="box"></i> Chart</button>
+  <button class="segctl-btn"><i data-icon="box"></i> Table</button>
+</div>
+```
+- Track: `--bg-tertiary`, 4px padding, 4px gap, `--radius-base`.
+- Segment: 6px 16px padding, 8px icon-gap, `body-14` Medium; icoon 16px (optioneel — alle segmenten of geen).
+- Geselecteerd (`.is-active`): `--bg-base` + `--sh-card`, tekst `--content-action-pressed`. Niet-geselecteerd: transparant, `--content-secondary`. Hover (`.is-hover`): `--bg-secondary` achtergrond + tekst `--content-base`.
+- Echte Angular-API: Material `mat-button-toggle-group` + `mat-button-toggle [value] checked` (styleguide: Toggles → "Button toggles"); icoon via `eff-svg-* class="icon"` + `<span>`.
+> ⚠️ Figma/dev gap: de styleguide kent ook `multiple` (meerdere segmenten tegelijk aan); Figma dekt alleen single select met 2–3 buttons.
+
 ### Date Picker
 ```html
 <!-- Trigger knop -->
@@ -746,6 +762,34 @@ Kleine, niet-interactieve donkere bubble die op hover/focus verschijnt. Alleen k
 Positie-classes: `.is-above` `.is-below` `.is-left` `.is-right`. Bubble = `--bg-inverse-base` (#192743), witte tekst, Poppins Medium 14, `--radius-md`. Tekst wrapt op max-width ~240px. Gebruik nooit voor essentiële info of interactieve content → dan een Spotlight of dialog.
 
 > ⚠️ **Dev/Figma gap:** Figma gebruikt **Medium (500)** voor de tooltip-tekst; de Material `matTooltip` rendert **Normal (400)**. Nog gelijk te trekken.
+
+### Loading (spinner)
+Geanimeerde spinner voor een onbepaalde wachttijd. Voor content die in een bekende layout laadt → Skeleton; voor meetbare voortgang → Progress Bar.
+```html
+<!-- Block loader: spinner + optioneel label -->
+<div class="block-loader"><span class="spinner" role="status" aria-label="Loading"></span> Loading</div>
+
+<!-- Inline loader (in tekst/knop) -->
+<span class="loader-inline"></span>
+```
+- Block-spinner `.spinner` (24px) + sizes `.spinner-sm` (16px) / `.spinner-lg` (32px): track `--border-base`, arc `--content-base`, `border-radius: var(--radius-full)`, rotatie `.8s` linear.
+- `.loader-inline` (16px): border `--content-base` met `border-top-color: transparent` (geen track), `.8s` ease.
+- Echte Angular-API: block = `<eff-loader />`; inline = `<div class="loader-inline">`; (loading bar = `<eff-loading-bar>` → zie Progress Bar). Styleguide: Loaders.
+- a11y: `role="status"` + `aria-label="Loading"` als er geen zichtbaar label is; haal de loader uit de DOM zodra klaar.
+
+### Skeleton
+Placeholder-vormen die de content-layout nabootsen tijdens het laden (met shimmer). Gebruik bij een bekende layout (lijsten, cards, tabellen); korte/onbekende wachttijd → Loading spinner; meetbare voortgang → Progress Bar.
+```html
+<div aria-busy="true" aria-label="Loading">
+  <div class="skeleton skeleton-circle" style="width:40px;height:40px"></div>
+  <div class="skeleton skeleton-text" style="width:80%"></div>
+  <div class="skeleton skeleton-text" style="width:60%"></div>
+</div>
+```
+- Basis `.skeleton` (pulse tussen `--border-base` en `--bg-base-pressed`, ~1s ease-in, respecteert `prefers-reduced-motion`) + shape: `.skeleton-text` (12px), `.skeleton-title` (20px), `.skeleton-circle` (`--radius-full`), `.skeleton-block` (`--radius-md`). Zet breedte/hoogte inline, passend bij de echte content.
+- In een `mat-table` vult de styleguide elke cel met een pulserende `.loading-bar` (zelfde pulse, ~12px hoog, 8px radius).
+- a11y: shapes `aria-hidden="true"`; regio `aria-busy="true"` + zichtbaar/verborgen "Loading"-status; zelfde maat als de content (geen layout-shift).
+> ⚠️ Figma/dev gap: de styleguide gebruikt een pulserende `.loading-bar` voor table-loading, maar heeft geen algemene skeleton-component voor willekeurige layouts. Bovenstaande `.skeleton`-classes zijn het design-system-pattern — stem een gedeelde `.loading-bar` / `eff-skeleton` af met engineering.
 
 ### Spotlight
 Interactieve coach-mark/onboarding-overlay (Angular: `<eff-tooltip-dialog>`). Donkere card met optionele NEW-badge, titel, body, en footer met óf één primary knop (single-step) óf paginatie-dots + "Next" (multi-step).
