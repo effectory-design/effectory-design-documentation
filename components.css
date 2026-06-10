@@ -2226,6 +2226,6 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 /* ── Segmented Control — compact group of mutually exclusive options ── */
 .segctl { display: inline-flex; align-items: flex-start; gap: 4px; padding: 4px; background: var(--bg-tertiary); border-radius: var(--radius-base); font-family: 'Poppins', sans-serif; }
 .segctl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; border: 0; background: transparent; border-radius: var(--radius-base); font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); cursor: pointer; white-space: nowrap; }
-.segctl-btn:hover, .segctl-btn.is-hover { color: var(--content-base); }
+.segctl-btn:hover, .segctl-btn.is-hover { background: var(--bg-secondary); color: var(--content-base); }
 .segctl-btn.is-active, .segctl-btn.is-active:hover { background: var(--bg-base); color: var(--content-action-pressed); box-shadow: var(--sh-card); cursor: default; }
 .segctl-btn i[data-icon] { width: 16px; height: 16px; display: flex; }

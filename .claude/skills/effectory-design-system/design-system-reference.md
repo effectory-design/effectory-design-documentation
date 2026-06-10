@@ -596,7 +596,7 @@ Compacte groep van 2–3 opties waarvan er altijd precies één geselecteerd is 
 ```
 - Track: `--bg-tertiary`, 4px padding, 4px gap, `--radius-base`.
 - Segment: 6px 16px padding, 8px icon-gap, `body-14` Medium; icoon 16px (optioneel — alle segmenten of geen).
-- Geselecteerd (`.is-active`): `--bg-base` + `--sh-card`, tekst `--content-action-pressed`. Niet-geselecteerd: transparant, `--content-secondary`. Hover: `.is-hover` → `--content-base`.
+- Geselecteerd (`.is-active`): `--bg-base` + `--sh-card`, tekst `--content-action-pressed`. Niet-geselecteerd: transparant, `--content-secondary`. Hover (`.is-hover`): `--bg-secondary` achtergrond + tekst `--content-base`.
 - Echte Angular-API: Material `mat-button-toggle-group` + `mat-button-toggle [value] checked` (styleguide: Toggles → "Button toggles"); icoon via `eff-svg-* class="icon"` + `<span>`.
 > ⚠️ Figma/dev gap: de styleguide kent ook `multiple` (meerdere segmenten tegelijk aan); Figma dekt alleen single select met 2–3 buttons.
 

@@ -11,13 +11,15 @@
     /* ── Segmented Control — a compact group of mutually exclusive options ── */
     .segctl { display: inline-flex; align-items: flex-start; gap: 4px; padding: 4px; background: var(--bg-tertiary); border-radius: var(--radius-base); font-family: 'Poppins', sans-serif; }
     .segctl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; border: 0; background: transparent; border-radius: var(--radius-base); font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); cursor: pointer; white-space: nowrap; }
-    .segctl-btn:hover, .segctl-btn.is-hover { color: var(--content-base); }
+    .segctl-btn:hover, .segctl-btn.is-hover { background: var(--bg-secondary); color: var(--content-base); }
     .segctl-btn.is-active, .segctl-btn.is-active:hover { background: var(--bg-base); color: var(--content-action-pressed); box-shadow: var(--sh-card); cursor: default; }
     .segctl-btn i[data-icon] { width: 16px; height: 16px; display: flex; }
 
     .anatomy-fig { position: relative; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 48px; margin-bottom: 24px; display: flex; justify-content: center; }
     .anatomy-fig .segctl { pointer-events: none; }
     .dd-prev .segctl, .state-col .segctl { pointer-events: none; }
+    /* more breathing room around the live component in the Variants section */
+    .variant-row-btn { padding: 28px 32px; }
   </style>
 </head>
 <body>
@@ -112,35 +114,25 @@
 
         <section class="section" id="variants">
           <h2 class="text-l3">Variants</h2>
-          <p class="section-lead">The Amount property sets two or three segments; each segment can carry an optional icon.</p>
+          <p class="section-lead">Segments are either text only or paired with a leading icon. A control holds two or three segments — set that in code, not as a separate visual style.</p>
           <div class="variant-rows">
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="segctl" data-live="1">
-                  <button class="segctl-btn is-active"><i data-icon="box"></i> Button label</button>
-                  <button class="segctl-btn"><i data-icon="box"></i> Button label</button>
+                  <button class="segctl-btn is-active">Chart</button>
+                  <button class="segctl-btn">Table</button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>2 buttons</strong> — The most common form: a binary view switch, like chart/table or desktop/mobile.</div>
+              <div class="variant-row-desc"><strong>Text only</strong> — The default. Use it when the labels are clear on their own.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="segctl" data-live="1">
-                  <button class="segctl-btn is-active"><i data-icon="box"></i> Button label</button>
-                  <button class="segctl-btn"><i data-icon="box"></i> Button label</button>
-                  <button class="segctl-btn"><i data-icon="box"></i> Button label</button>
+                  <button class="segctl-btn is-active"><i data-icon="desktop"></i> Desktop</button>
+                  <button class="segctl-btn"><i data-icon="mobile"></i> Mobile</button>
                 </div>
               </div>
-              <div class="variant-row-desc"><strong>3 buttons</strong> — The maximum. Three parallel views or time ranges; beyond this, switch to a Select.</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-row-btn">
-                <div class="segctl" data-live="1">
-                  <button class="segctl-btn is-active">Button label</button>
-                  <button class="segctl-btn">Button label</button>
-                </div>
-              </div>
-              <div class="variant-row-desc"><strong>Text only</strong> — Leave the icon off when the labels are self-explanatory. Use icons consistently: all segments or none.</div>
+              <div class="variant-row-desc"><strong>With icon</strong> — A leading icon reinforces the option. Apply icons consistently: all segments or none.</div>
             </div>
           </div>
         </section>
@@ -184,6 +176,7 @@
               <tr><td><code>--sh-card</code></td><td>Selected segment shadow</td><td>0 2px 4px rgba(25,39,67,.04)</td></tr>
               <tr><td><code>--content-action-pressed</code></td><td>Selected label + icon</td><td>rgba(25,39,67,.95)</td></tr>
               <tr><td><code>--content-secondary</code></td><td>Unselected label + icon</td><td>rgba(25,39,67,.80)</td></tr>
+              <tr><td><code>--bg-secondary</code></td><td>Unselected segment hover</td><td>#f8f8f9</td></tr>
               <tr><td><code>--radius-base</code></td><td>Track + segment radius</td><td>6px</td></tr>
             </tbody>
           </table>
