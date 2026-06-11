@@ -532,7 +532,7 @@
   <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="gen-title">
     <button class="dialog-close" id="gen-close" aria-label="Close"><i data-icon="cross"></i></button>
     <div class="dialog-header is-sm">
-      <h3 class="dialog-title" id="gen-title">Download reports</h3>
+      <h3 class="dialog-title" id="gen-title">Generating report</h3>
       <p class="dialog-subtitle" id="gen-subtitle">File is being generated. File generation might take longer due to translations. Your file will be downloaded once finished, please wait.</p>
     </div>
     <div class="dialog-body">
@@ -584,6 +584,7 @@
     var langRows = langScrim.querySelectorAll('.lang-row');
 
     var genScrim = document.getElementById('gen-scrim');
+    var genTitle = document.getElementById('gen-title');
     var genSubtitle = document.getElementById('gen-subtitle');
     var genSub = document.getElementById('gen-sub');
     var genPanel = document.getElementById('gen-panel');
@@ -597,7 +598,10 @@
     var current = null; // { row, name, isRaw }
 
     var COPY = {
-      standard: 'We are working hard to generate your file, please wait, your file will be downloaded once finished.'
+      genTitle: 'Generating report',
+      genBody: 'We are working hard to generate your file, please wait, your file will be downloaded once finished.',
+      doneTitle: 'Your report is ready',
+      doneBody: 'Your download will start automatically.'
     };
 
     // Per-row generation state: which languages are generating / already generated (ready)
@@ -695,9 +699,10 @@
     }
 
     function openGenDialog(ready, lang) {
-      genSubtitle.textContent = COPY.standard;
       genSub.textContent = lang || 'In your selected language';
       genLonger.classList.remove('is-shown');
+      genTitle.textContent = ready ? COPY.doneTitle : COPY.genTitle;
+      genSubtitle.textContent = ready ? COPY.doneBody : COPY.genBody;
       genPanel.classList.toggle('is-done', !!ready);
       genScrim.hidden = false;
     }
@@ -782,6 +787,8 @@
         // Still in the dialog for this report → show "Done"; otherwise notify via toast
         if (!genScrim.hidden && current && current.row === row) {
           genPanel.classList.add('is-done');
+          genTitle.textContent = COPY.doneTitle;
+          genSubtitle.textContent = COPY.doneBody;
           if (longerTimer) { clearTimeout(longerTimer); longerTimer = null; }
           genLonger.classList.remove('is-shown');
         } else {
