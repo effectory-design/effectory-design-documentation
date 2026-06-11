@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.7.0
+**Version:** 1.8.0
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
@@ -35,6 +35,21 @@ De skill levert alle design-system bestanden mee:
    mkdir -p assets && tar -xzf design-system-files/icons.tar.gz -C assets/
    ```
    Sla deze stap over als de bestanden al bestaan (check of `tokens.css` en `assets/icons/` al aanwezig zijn).
+
+---
+
+## Referentie-prototypes (bekende schermen)
+
+In `reference-prototypes/` staan volledig uitgewerkte schermen die al een vaste, goedgekeurde vorm hebben. Vraagt iemand om zo'n scherm bij naam ("maak een prototype van de **reports pagina**"), dan is dat scherm **niet vrij in te vullen** — lees de referentie en neem die exact over:
+
+1. Lees `reference-prototypes/<naam>.md` (layout, states, gedrag, regels).
+2. Kopieer `reference-prototypes/<naam>.html` naar de werkdirectory en pas alleen aan wat de gebruiker vraagt. Verzin geen afwijkende layout of states.
+
+| Scherm | Trigger | Bestanden |
+|---|---|---|
+| Reports pagina | "reports pagina", "reports prototype", "download reports" | `reference-prototypes/reports.md` + `reports.html` |
+
+Staat het gevraagde scherm hier niet bij, bouw dan normaal volgens de reference.
 
 ---
 

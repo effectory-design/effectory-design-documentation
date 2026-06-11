@@ -1,6 +1,20 @@
 {
-  "count": 641,
+  "count": 643,
   "entries": [
+    {
+      "hash": "6207c6f",
+      "author": "Jente Insing",
+      "date": "2026-06-11",
+      "subject": "Skill: add Reports page as a reference prototype",
+      "pages": []
+    },
+    {
+      "hash": "f37d07d",
+      "author": "Jente Insing",
+      "date": "2026-06-11",
+      "subject": "Release skill v1.7.0",
+      "pages": []
+    },
     {
       "hash": "ec1f5d4",
       "author": "Jente Insing",
