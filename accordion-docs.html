@@ -21,8 +21,10 @@
     .acc-meta { display: flex; align-items: center; gap: 12px; font-weight: 400; color: var(--content-secondary); white-space: nowrap; }
     .acc-chevron { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-base); transition: transform .15s ease; }
     .acc-item.is-open .acc-chevron { transform: rotate(180deg); }
-    .acc-body { padding: 0 24px 16px; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .acc-item:not(.is-open) .acc-body { display: none; }
+    .acc-body { max-height: 0; overflow: hidden; padding: 0 24px; opacity: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); transition: max-height .24s ease, padding-bottom .24s ease, opacity .18s ease; }
+    .acc-item.is-open .acc-body { max-height: 1000px; padding-bottom: 16px; opacity: 1; }
+    /* dashed content slot — signals "your content goes here" (docs only) */
+    .acc-slot { border: 1.5px dashed var(--border-action); border-radius: var(--radius-md); padding: 20px 16px; text-align: center; font-size: 14px; color: var(--content-subtle); }
     .acc-item.is-selected { border-color: var(--border-brand-base); }
     .acc-item.is-borderless { border: 0; border-radius: 0; }
 
@@ -34,8 +36,8 @@
     .cb-wrap::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
     .cb-wrap:has(input:checked)::after { opacity: 1; background-color: var(--content-on-brand-base); -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E"); -webkit-mask-size: 12px 12px; mask-size: 12px 12px; }
     .acc-item.is-borderless .acc-header { padding: 16px 0; }
-    .acc-item.is-borderless .acc-body { padding: 0 0 16px; }
-    @media (prefers-reduced-motion: reduce) { .acc-chevron { transition: none; } }
+    .acc-item.is-borderless .acc-body { padding-left: 0; padding-right: 0; }
+    @media (prefers-reduced-motion: reduce) { .acc-chevron, .acc-body { transition: none; } }
 
     .anatomy-fig { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 24px; display: flex; justify-content: center; }
     .anatomy-fig .acc { max-width: 460px; }
@@ -85,7 +87,7 @@
             <div class="acc">
               <div class="acc-item is-open">
                 <button class="acc-header" tabindex="-1"><div class="acc-titles"><span class="acc-title">Accordion header</span><span class="acc-desc">Optional description under the title</span></div><i data-icon="chevron-down" class="acc-chevron"></i></button>
-                <div class="acc-body">This is the content of the panel. Keep it to what belongs under this section — a form step, details, or a longer explanation.</div>
+                <div class="acc-body"><div class="acc-slot">Your content goes here</div></div>
               </div>
               <div class="acc-item">
                 <button class="acc-header" tabindex="-1"><span class="acc-title">Accordion header</span><i data-icon="chevron-down" class="acc-chevron"></i></button>
@@ -140,7 +142,7 @@
           <p class="section-lead">Variations on the same panel — a leading icon, trailing metadata, a selection checkbox, or a borderless "hidden" header.</p>
           <div class="variant-rows">
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" data-live="1" style="width:100%;">
                   <div class="acc-item is-open"><button class="acc-header"><span class="acc-title">Accordion header</span><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">The default — a title and content.</div></div>
                 </div>
@@ -148,7 +150,7 @@
               <div class="variant-row-desc"><strong>Default</strong> — A header with a title and a content area. The most common form.</div>
             </div>
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" data-live="1" style="width:100%;">
                   <div class="acc-item is-open"><button class="acc-header"><i data-icon="box" class="acc-icon"></i><span class="acc-title">Accordion header</span><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">A leading icon helps scanning when sections have distinct types.</div></div>
                 </div>
@@ -156,7 +158,7 @@
               <div class="variant-row-desc"><strong>With icon</strong> — A leading icon before the title.</div>
             </div>
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" data-live="1" style="width:100%;">
                   <div class="acc-item is-open"><button class="acc-header"><div class="acc-titles"><span class="acc-title">12 coordinators will be assigned</span><span class="acc-desc">Once results are available they get an e-mail invitation.</span></div><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">The description sits under the title, in secondary text.</div></div>
                 </div>
@@ -164,7 +166,7 @@
               <div class="variant-row-desc"><strong>With description</strong> — A second line under the title for extra context, in secondary text.</div>
             </div>
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" data-live="1" style="width:100%;">
                   <div class="acc-item is-open"><button class="acc-header"><span class="acc-title">Collapsible header</span><span class="acc-meta">4 questions <span class="badge badge-brand">Power</span></span><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">Counts and tags sit on the right of the header.</div></div>
                 </div>
@@ -172,7 +174,7 @@
               <div class="variant-row-desc"><strong>With trailing metadata</strong> — A count, tag or other meta on the right of the header. (This is what Figma calls the "Expansion panel".)</div>
             </div>
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" style="width:100%;">
                   <div class="acc-item is-selected is-open"><div class="acc-header" style="cursor:default;"><span class="cb-wrap"><input type="checkbox" class="cb" checked tabindex="-1"></span><span class="acc-title">Accordion header</span><i data-icon="chevron-down" class="acc-chevron"></i></div><div class="acc-body">A checkbox in the header lets the user select the panel; the selected panel gets a brand-coloured border.</div></div>
                 </div>
@@ -180,7 +182,7 @@
               <div class="variant-row-desc"><strong>With selection</strong> — A checkbox in the header to select the panel. The selected panel is highlighted with a brand border.</div>
             </div>
             <div class="variant-row">
-              <div class="variant-row-btn" style="padding:24px; align-items:stretch;">
+              <div class="variant-row-btn" style="padding:32px 40px; align-items:stretch;">
                 <div class="acc" data-live="1" style="width:100%;">
                   <div class="acc-item is-borderless is-open"><button class="acc-header"><span class="acc-title">Accordion header</span><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">No border and no side padding — just the title, chevron and content. For embedding inside a row or card that already has its own frame.</div></div>
                 </div>
@@ -310,7 +312,7 @@
           <p class="section-lead">In production this is Angular Material's <code>mat-expansion-panel</code> (group several in a <code>mat-accordion</code>). The styleguide documents it as <a class="link-inline" href="https://styleguide.effectory.com/components/accordions" target="_blank">Accordions</a>.</p>
 
           <h3 class="text-l4">Single panel</h3>
-          <div class="dev-preview" style="padding:24px; align-items:stretch;">
+          <div class="dev-preview" style="padding:32px 40px; align-items:stretch;">
             <div class="acc" data-live="1" style="width:100%;">
               <div class="acc-item is-open"><button class="acc-header"><span class="acc-title">Example accordion</span><i data-icon="chevron-down" class="acc-chevron"></i></button><div class="acc-body">This is the primary content of the panel.</div></div>
             </div>

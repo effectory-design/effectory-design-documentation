@@ -949,7 +949,7 @@ Stapel van inklapbare secties (header + content) voor progressive disclosure. **
   </div>
 </div>
 ```
-- Panel `.acc-item` (witte `--bg-base`, 1px `--border-action`, `--radius-md`), 16px tussen panels; header `.acc-header` (16px 24px, hover `--bg-base-hover`); titel `.acc-title` = `text-l5` (16px/600); body `.acc-body` (0 24px 16px, `--content-secondary`); chevron `.acc-chevron` roteert 180° bij `.is-open`. De border verandert niet bij open.
+- Panel `.acc-item` (witte `--bg-base`, 1px `--border-action`, `--radius-md`), 16px tussen panels; header `.acc-header` (16px 24px, hover `--bg-base-hover`); titel `.acc-title` = `text-l5` (16px/600); body `.acc-body` (0 24px 16px, `--content-secondary`); chevron `.acc-chevron` roteert 180° bij `.is-open`. De border verandert niet bij open. Open/dicht animeert smooth (max-height + opacity, ~0.24s; respecteert `prefers-reduced-motion`).
 - Open zetten: `.acc-item.is-open`. Single-open gedrag = groepslogica (in Angular: `mat-accordion`).
 - Varianten: leading icon (`.acc-icon`), **beschrijving** (titel + `.acc-desc` onder elkaar in `.acc-titles`), trailing meta (`.acc-meta`), **selectie** (checkbox `<span class="cb-wrap"><input class="cb">` in de header + `.acc-item.is-selected` → brand-border), en **borderless/hidden header** (`.acc-item.is-borderless` → geen border/zijpadding, alleen titel + chevron).
 - Echte Angular-API: `mat-expansion-panel` (+ `mat-expansion-panel-header`, `ng-template matExpansionPanelContent`), groepeer in `mat-accordion`. Styleguide: Accordions.
