@@ -2327,6 +2327,9 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .acc-header:hover, .acc-header.is-hover { background: var(--bg-base-hover); }
 .acc-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
 .acc-title { flex: 1; min-width: 0; }
+.acc-titles { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.acc-titles .acc-title { flex: initial; }
+.acc-desc { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-secondary); }
 .acc-meta { display: flex; align-items: center; gap: 12px; font-weight: 400; color: var(--content-secondary); white-space: nowrap; }
 .acc-chevron { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-base); transition: transform .15s ease; }
 .acc-item.is-open .acc-chevron { transform: rotate(180deg); }

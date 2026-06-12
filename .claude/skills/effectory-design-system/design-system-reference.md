@@ -951,7 +951,7 @@ Stapel van inklapbare secties (header + content) voor progressive disclosure. **
 ```
 - Panel `.acc-item` (witte `--bg-base`, 1px `--border-base`, `--radius-md`), 16px tussen panels; header `.acc-header` (16px 24px, `--content-base`, hover `--bg-base-hover`); body `.acc-body` (0 24px 16px, `--content-secondary`); chevron `.acc-chevron` roteert 180° bij `.is-open`.
 - Open zetten: `.acc-item.is-open`. Single-open gedrag = groepslogica (in Angular: `mat-accordion`).
-- Varianten: leading icon (`.acc-icon`), trailing meta (`.acc-meta`), **selectie** (checkbox `<span class="cb-wrap"><input class="cb">` in de header + `.acc-item.is-selected` → brand-border), en **borderless/hidden header** (`.acc-item.is-borderless` → geen border/zijpadding, alleen titel + chevron).
+- Varianten: leading icon (`.acc-icon`), **beschrijving** (titel + `.acc-desc` onder elkaar in `.acc-titles`), trailing meta (`.acc-meta`), **selectie** (checkbox `<span class="cb-wrap"><input class="cb">` in de header + `.acc-item.is-selected` → brand-border), en **borderless/hidden header** (`.acc-item.is-borderless` → geen border/zijpadding, alleen titel + chevron).
 - Echte Angular-API: `mat-expansion-panel` (+ `mat-expansion-panel-header`, `ng-template matExpansionPanelContent`), groepeer in `mat-accordion`. Styleguide: Accordions.
 > ⚠️ Figma/dev gap: Accordion en Expansion panel zijn in code hetzelfde `mat-expansion-panel`.
 
