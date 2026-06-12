@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.8.1
+**Version:** 1.8.2
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
@@ -47,7 +47,7 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen die al een vaste,
 
 | Scherm | Trigger | Bestanden |
 |---|---|---|
-| Reports pagina | "reports pagina", "reports prototype", "download reports", "reports (pagina) in het result(s) dashboard", "results dashboard reports" | `reference-prototypes/reports.md` + `reports.html` |
+| Reports pagina | NL: "reports pagina", "reports prototype", "download reports", "reports (pagina) in het result(s) dashboard" · EN: "reports page", "make a prototype of the reports page", "reports page in the result(s) dashboard", "results dashboard reports" | `reference-prototypes/reports.md` + `reports.html` |
 
 Staat het gevraagde scherm hier niet bij, bouw dan normaal volgens de reference.
 
