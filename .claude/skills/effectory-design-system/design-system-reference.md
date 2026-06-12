@@ -934,6 +934,26 @@ Classes: `.tabs`, `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; option
 
 ---
 
+### Accordion
+Stapel van inklapbare secties (header + content) voor progressive disclosure. **Let op:** Figma noemt dit "Accordion" én "Expansion panel", maar in code is het één component (`mat-expansion-panel`); de "expansion panel" is een accordion met een rijkere header (counts/tags, pop-out).
+```html
+<div class="acc">
+  <div class="acc-item is-open">
+    <button class="acc-header">
+      <i data-icon="box" class="acc-icon"></i>           <!-- optioneel leading icon -->
+      <span class="acc-title">Accordion header</span>
+      <span class="acc-meta">4 questions</span>          <!-- optioneel trailing meta (expansion-panel stijl) -->
+      <i data-icon="chevron-down" class="acc-chevron"></i>
+    </button>
+    <div class="acc-body">Content van het paneel.</div>
+  </div>
+</div>
+```
+- Panel `.acc-item` (witte `--bg-base`, 1px `--border-base`, `--radius-md`), 16px tussen panels; header `.acc-header` (16px 24px, `--content-base`, hover `--bg-base-hover`); body `.acc-body` (0 24px 16px, `--content-secondary`); chevron `.acc-chevron` roteert 180° bij `.is-open`.
+- Open zetten: `.acc-item.is-open`. Single-open gedrag = groepslogica (in Angular: `mat-accordion`).
+- Echte Angular-API: `mat-expansion-panel` (+ `mat-expansion-panel-header`, `ng-template matExpansionPanelContent`), groepeer in `mat-accordion`. Styleguide: Accordions.
+> ⚠️ Figma/dev gap: Accordion en Expansion panel zijn in code hetzelfde `mat-expansion-panel`.
+
 ### Breadcrumb
 Toont waar de gebruiker zit in de hiërarchie en laat hem omhoog stappen. Een **Back**-actie leidt de balk, gevolgd door het pad van pagina's.
 

@@ -2319,3 +2319,17 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .dlg-footer { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
 .dlg-footer .btn-primary { flex: 1 0 0; }
 @media (prefers-reduced-motion: reduce) { .dlg-hero, .confetti, .dlg-spark-deco, .dlg-media img { animation: none; } }
+
+/* ── Accordion — collapsible header + content (a.k.a. expansion panel) ── */
+.acc { display: flex; flex-direction: column; gap: 16px; width: 100%; font-family: 'Poppins', sans-serif; }
+.acc-item { border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); overflow: hidden; }
+.acc-header { display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px 24px; background: none; border: 0; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-base); cursor: pointer; text-align: left; }
+.acc-header:hover, .acc-header.is-hover { background: var(--bg-base-hover); }
+.acc-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
+.acc-title { flex: 1; min-width: 0; }
+.acc-meta { display: flex; align-items: center; gap: 12px; font-weight: 400; color: var(--content-secondary); white-space: nowrap; }
+.acc-chevron { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-base); transition: transform .15s ease; }
+.acc-item.is-open .acc-chevron { transform: rotate(180deg); }
+.acc-body { padding: 0 24px 16px; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+.acc-item:not(.is-open) .acc-body { display: none; }
+@media (prefers-reduced-motion: reduce) { .acc-chevron { transition: none; } }
