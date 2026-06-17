@@ -378,6 +378,26 @@
       gap: var(--spacing-base); margin-bottom: var(--spacing-base);
     }
 
+    /* Comparisons filter dropdown */
+    .efp-filter-wrap { position: relative; }
+    .efp-filter {
+      position: absolute; top: calc(100% + 6px); left: 0; z-index: 50;
+      min-width: 240px; box-sizing: border-box;
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-md); box-shadow: var(--sh-popovers);
+      padding: var(--spacing-tight);
+      display: flex; flex-direction: column;
+    }
+    .efp-filter[hidden] { display: none; }
+    .efp-filter-row {
+      display: flex; align-items: center; gap: var(--spacing-tight);
+      padding: var(--spacing-tight);
+      border-radius: var(--radius-sm); cursor: pointer;
+    }
+    .efp-filter-row:hover { background: var(--bg-base-hover); }
+    .efp-filter-label { flex: 1; min-width: 0; font-size: 14px; line-height: 1.6; color: var(--content-base); }
+    .efp-filter-row > i[data-icon] { display: flex; width: 16px; height: 16px; color: var(--content-secondary); flex-shrink: 0; }
+
     /* Matrix */
     /* The matrix fills the full content width (aligned with the rest of the
        panel); the y-axis label is pulled out into the side-panel padding. */

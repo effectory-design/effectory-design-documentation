@@ -648,11 +648,30 @@ function shell(d) {
       </div>
 
       <div class="efp-controls">
-        <button class="sel-btn">
-          <span class="sel-btn-name">Comparisons:</span>
-          <span class="sel-btn-value">${d.efpComparisons}</span>
-          <i data-icon="chevron-down"></i>
-        </button>
+        <div class="efp-filter-wrap">
+          <button class="sel-btn" id="efp-cmp-btn" type="button">
+            <span class="sel-btn-name">Comparisons:</span>
+            <span class="sel-btn-value" id="efp-cmp-count">${d.efpComparisons}</span>
+            <i data-icon="chevron-down"></i>
+          </button>
+          <div class="efp-filter" id="efp-filter" hidden>
+            <label class="efp-filter-row">
+              <span class="cb-wrap"><input type="checkbox" class="cb" data-variant="is-org" checked></span>
+              <span class="efp-filter-label">Organization Level</span>
+              <i data-icon="building"></i>
+            </label>
+            <label class="efp-filter-row">
+              <span class="cb-wrap"><input type="checkbox" class="cb" data-variant="is-previous" checked></span>
+              <span class="efp-filter-label">Previous survey</span>
+              <i data-icon="rotate-backward"></i>
+            </label>
+            <label class="efp-filter-row">
+              <span class="cb-wrap"><input type="checkbox" class="cb" data-variant="is-peer" checked></span>
+              <span class="efp-filter-label">Group Level below</span>
+              <i data-icon="sort-descending"></i>
+            </label>
+          </div>
+        </div>
         <div class="segctl">
           <button class="segctl-btn is-active"><i data-icon="table"></i> Matrix</button>
           <button class="segctl-btn"><i data-icon="list-unordered"></i> List</button>
@@ -912,6 +931,27 @@ function renderOverview(variant) {
   };
   wirePanel('efp-overlay', 'efp-close', '.fx-card');
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
+
+  /* Comparisons filter dropdown (effectiveness panel) */
+  const cmpBtn = document.getElementById('efp-cmp-btn');
+  const cmpMenu = document.getElementById('efp-filter');
+  const cmpCount = document.getElementById('efp-cmp-count');
+  if (cmpBtn && cmpMenu) {
+    const applyFilter = () => {
+      let n = 0;
+      cmpMenu.querySelectorAll('input.cb').forEach(b => {
+        if (b.checked) n++;
+        document.querySelectorAll('.efp-marker.' + b.dataset.variant)
+          .forEach(el => { el.style.display = b.checked ? '' : 'none'; });
+      });
+      cmpCount.textContent = n + ' selected';
+    };
+    cmpBtn.addEventListener('click', (e) => { e.stopPropagation(); cmpMenu.hidden = !cmpMenu.hidden; });
+    cmpMenu.addEventListener('click', (e) => e.stopPropagation());
+    cmpMenu.querySelectorAll('input.cb').forEach(b => b.addEventListener('change', applyFilter));
+    document.addEventListener('click', () => { cmpMenu.hidden = true; });
+    applyFilter();
+  }
 
   /* AI summary show more / less */
   const aiSummary = document.getElementById('ai-summary');
