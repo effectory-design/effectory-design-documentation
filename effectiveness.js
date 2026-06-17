@@ -163,8 +163,9 @@ const DATA = {
     ],
 
     fxMarkers: [
-      { variant: 'is-org',     chip: 'is-chip-below', icon: 'building', label: 'Novanta', x: 80, y: 70 },
-      { variant: 'is-current', chip: 'is-chip-above', icon: 'group',    label: 'Team IT', x: 67, y: 80 }
+      { variant: 'is-org',      chip: 'is-chip-below', icon: 'building',         label: 'Novanta', x: 80, y: 70 },
+      { variant: 'is-previous', chip: 'is-chip-above', icon: 'rotate-backward',  label: 'Previous survey', x: 27, y: 24 },
+      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',            label: 'Team IT', x: 67, y: 80 }
     ],
 
     engValue: '67%', engTrend: '11%', engTrendIcon: 'Trend-up', engBench: '70%', engBenchW: 70,
