@@ -17,10 +17,20 @@
     /* Animated switch between views (View Transitions API): a soft focus-pull —
        the whole screen blurs out and the new view sharpens back into focus. */
     @view-transition { navigation: auto; }
-    ::view-transition-old(root) { animation: vt-blur-out 2s var(--ease-in) both; }
-    ::view-transition-new(root) { animation: vt-blur-in 2s var(--ease-out) both; }
-    @keyframes vt-blur-out { to { filter: blur(18px); opacity: 0; transform: scale(1.03); } }
-    @keyframes vt-blur-in { from { filter: blur(18px); opacity: 0; transform: scale(1.03); } }
+    ::view-transition-old(root) { animation: vt-blur-out 2.6s linear both; }
+    ::view-transition-new(root) { animation: vt-blur-in 2.6s linear both; }
+    /* fast blur-in (~0.2s) -> hold blurred (~2s) -> fast sharpen (~0.4s) */
+    @keyframes vt-blur-out {
+      0%   { filter: blur(0);    opacity: 1; transform: scale(1); }
+      8%   { filter: blur(32px); opacity: 0; transform: scale(1.06); }
+      100% { filter: blur(32px); opacity: 0; transform: scale(1.06); }
+    }
+    @keyframes vt-blur-in {
+      0%   { filter: blur(32px); opacity: 0; transform: scale(1.06); }
+      8%   { filter: blur(32px); opacity: 1; transform: scale(1.06); }
+      85%  { filter: blur(32px); opacity: 1; transform: scale(1.06); }
+      100% { filter: blur(0);    opacity: 1; transform: scale(1); }
+    }
     @media (prefers-reduced-motion: reduce) {
       ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
     }
