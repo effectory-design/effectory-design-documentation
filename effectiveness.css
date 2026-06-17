@@ -553,6 +553,7 @@
     .efp-score-badge.is-bench { background: var(--bg-scores-negative); color: var(--content-accent-red-base); }
     .efp-score-badge.is-bench-pos { background: var(--bg-scores-positive); color: var(--content-accent-green-base); }
     .efp-score-badge.is-bench-neg { background: var(--bg-scores-very-negative); color: var(--content-accent-red-base); }
+    .efp-score-badge.is-bench-neutral { background: var(--bg-info-subtle); color: var(--content-info-base); }
     .efp-scores-intro { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-base); }
     .efp-score-cols { display: flex; gap: var(--spacing-base); flex-shrink: 0; }
     .efp-col-icon { width: 48px; display: flex; align-items: center; justify-content: center; }

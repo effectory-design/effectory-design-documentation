@@ -198,25 +198,24 @@ const DATA = {
     ],
 
     efpLeadPre: 'Team IT is ', efpLeadEm: 'effective', efpLeadEmClass: 'is-pos',
-    efpLeadDesc: 'Both engagement and the performance environment are in a healthy place. Employees feel energized by their work and well-supported by how the team is organized. Focus on sustaining and building on these strengths.',
+    efpLeadDesc: 'The team has both the energy and the foundations in place to perform well. Engagement and the performance environment reinforce each other, creating the conditions for strong and sustainable results.',
     efpComparisons: '3 selected',
     efpHasPrevious: true,
     efpBench: '68%',
-    efpFocusIntro: 'The team is in a strong position. The goal now is to sustain momentum and protect what is working, while staying alert to early signals. Rather than launching big changes, keep doing what works and fine-tune where useful.',
+    efpFocusIntro: 'Here, a light-touch follow-up is enough. Take time to reflect on the results together and acknowledge what is going well. The goal is to keep momentum and avoid overcomplicating something that already works.',
     efpFocusBullets: [
-      { t: 'Celebrate &amp; recognize:', d: 'Share the results with the team and acknowledge the behaviours behind them.' },
-      { t: 'Sustain &amp; document:', d: 'Capture the practices driving these scores so they can be maintained over time.' },
-      { t: 'Monitor &amp; anticipate:', d: 'Keep a light cadence of check-ins to spot early signals before they grow.' },
-      { t: 'Stretch &amp; grow:', d: 'Set ambitious yet realistic goals together to keep building on the momentum.' }
+      'Reflect on the strengths that stand out in the results.',
+      'Discuss what helps the team perform at its best.',
+      'Consider where successful practices could inspire others.'
     ],
-    efpFocusClosing: 'Consistent recognition, clear ownership and steady follow-up help the team sustain its effectiveness over time.',
+    efpFocusClosing: 'Keep attention on what works well and continue building on it. Use the survey results as an opportunity to reinforce the practices that help the team perform at its best.',
     efpScores: [
-      { name: 'Engagement', desc: 'Employees that are inspired and energized by their work', cur: '67%', bench: '68%', benchClass: 'is-bench' },
-      { name: 'Performance environment', desc: 'Important basic conditions which enable employees to work effectively and efficiently', cur: '80%', bench: '68%', benchClass: 'is-bench-pos' },
-      { name: 'Providing Direction', sub: true, cur: '76%', bench: '64%', benchClass: 'is-bench-pos' },
-      { name: 'Leading change', sub: true, cur: '84%', bench: '67%', benchClass: 'is-bench-pos' },
-      { name: 'Managing People', sub: true, cur: '79%', bench: '67%', benchClass: 'is-bench-pos' },
-      { name: 'Managing Systems', sub: true, cur: '71%', bench: '72%', benchClass: 'is-bench' }
+      { name: 'Engagement', desc: 'Employees that are inspired and energized by their work', cur: '81%', bench: '68%', benchClass: 'is-bench-pos' },
+      { name: 'Performance environment', desc: 'Important basic conditions which enable employees to work effectively and efficiently', cur: '71%', bench: '68%', benchClass: 'is-bench-neutral' },
+      { name: 'Providing Direction', sub: true, cur: '74%', bench: '64%', benchClass: 'is-bench-pos' },
+      { name: 'Leading change', sub: true, cur: '81%', bench: '67%', benchClass: 'is-bench-pos' },
+      { name: 'Managing People', sub: true, cur: '66%', bench: '67%', benchClass: 'is-bench-neutral' },
+      { name: 'Managing Systems', sub: true, cur: '65%', bench: '72%', benchClass: 'is-bench-neutral' }
     ],
     efpMarkers: [
       { variant: 'is-peer',    icon: 'building', label: 'Finance Operations',    x: 33, y: 82 },
@@ -291,7 +290,7 @@ function shell(d) {
   const topicTile = (t) => `<button class="tp-tile ${t.color}"><span class="tp-tile-fill" style="width:${Math.round(t.count / tpMax * 90)}%"></span><p class="tp-tile-name">${t.name}</p><span class="tp-tile-meta"><i data-icon="users"></i>${t.count} times selected</span><span class="tp-tile-chevron"><i data-icon="chevron-right"></i></span></button>`;
   const qsRow = (s) => `<div class="qs-row"><p class="qs-row-q">${s.q}</p><span class="qs-row-score">${s.s}%</span></div>`;
   const efpScoreRow = (r) => `<div class="efp-score-row${r.sub ? ' is-sub' : ''}"><div class="efp-score-meta"><div class="efp-score-name">${r.name}</div>${r.desc ? `<div class="efp-score-desc">${r.desc}</div>` : ''}</div><span class="efp-score-badge is-current">${r.cur}</span><span class="efp-score-badge ${r.benchClass}">${r.bench}</span></div>`;
-  const focusBullet = (b) => `<li><strong>${b.t}</strong> ${b.d}</li>`;
+  const focusBullet = (b) => typeof b === 'string' ? `<li>${b}</li>` : `<li><strong>${b.t}</strong> ${b.d}</li>`;
   const engpCard = (c) => `<div class="engp-card-item"><div class="engp-card-lbl">${c.lbl}</div><div class="engp-card-val">${c.val}</div></div>`;
   const themeRow = (r) => `<div class="engp-q-row"><span class="engp-q-text">${r.q}</span><span class="engp-q-score">${r.s}</span></div>`;
   const corrRow = (r, i) => `<div class="engp-q-row"><span class="engp-q-num">${i + 1}</span><span class="engp-q-text">${r.q}</span><span class="engp-q-score">${r.s}</span></div>`;
