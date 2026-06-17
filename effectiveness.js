@@ -37,6 +37,9 @@ const DATA = {
     /* Engagement card */
     engValue: '56%', engTrend: '11%', engTrendIcon: 'Trend-up', engBench: '70%', engBenchW: 70,
 
+    /* Focus View extras */
+    fvEngTrend: null, fvPerform: '58%', fvPerformTrend: null, npsTrend: null,
+
     /* eNPS */
     npsPromoters: 42, npsPassives: 28, npsDetractors: 30,
     npsPromCount: 237, npsPassCount: 158, npsDetrCount: 170,
@@ -166,6 +169,9 @@ const DATA = {
 
     engValue: '67%', engTrend: '11%', engTrendIcon: 'Trend-up', engBench: '70%', engBenchW: 70,
 
+    /* Focus View extras */
+    fvEngTrend: '11%', fvPerform: '71%', fvPerformTrend: '13%', npsTrend: '19',
+
     npsPromoters: 52, npsPassives: 27, npsDetractors: 21,
     npsPromCount: 329, npsPassCount: 171, npsDetrCount: 132,
 
@@ -253,6 +259,137 @@ const DATA = {
     ]
   }
 };
+
+/* ---------- Focus View (second tab) ---------- */
+function focusView(d) {
+  const npsValue = d.npsPromoters - d.npsDetractors;
+  /* Theme labels per question — questions match the overview's Highest/Lowest cards */
+  const THEME = {
+    'I know how to carry out my tasks': 'Providing Direction',
+    'I receive enough feedback on my work': 'Managing People',
+    'I am satisfied with my work': 'Engagement',
+    'I feel comfortable within the team': 'Engagement',
+    'Our team trusts one another': 'Collaboration',
+    'During a team meeting, everyone has a fair chance to speak up': 'Collaboration'
+  };
+  const fxMarker = (m) => `<div class="fx-marker ${m.variant} ${m.chip}" style="left:${m.x}%;top:${100 - m.y}%"><div class="fx-dot"></div><div class="fx-chip"><i data-icon="${m.icon}"></i>${m.label}</div></div>`;
+  const trend = (val) => val ? `<span class="fv-trend"><i data-icon="Trend-up"></i> ${val} vs previous survey</span>` : '';
+  const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
+
+  const focusCard = (s) => `
+    <div class="fv-card">
+      <div class="fv-card-top">
+        <div class="fv-card-q">
+          <p class="fv-card-question">${s.q}</p>
+          <span class="fv-card-theme">${THEME[s.q] || ''}</span>
+        </div>
+        <span class="fv-score is-focus">${s.s}%</span>
+      </div>
+      <div class="fv-relevance">
+        <a class="fv-rel-btn is-yes"><i data-icon="check"></i> This is relevant</a>
+        <a class="fv-rel-btn"><i data-icon="cross"></i> This focus area is not relevant right now</a>
+      </div>
+      <div class="fv-approach">
+        <div class="fv-approach-lbl"><i data-icon="lightbulb"></i> Pick an approach to see the recommended action:</div>
+        <div class="fv-approach-chips">
+          <button class="fv-chip">Team action</button>
+          <button class="fv-chip">1:1 action</button>
+          <button class="fv-chip">Process change</button>
+          <button class="fv-chip">Personal action</button>
+        </div>
+        <a class="fv-create"><i data-icon="plus"></i> Create new action</a>
+      </div>
+    </div>`;
+
+  const winCard = (s) => `
+    <div class="fv-win-card">
+      <div class="fv-card-q">
+        <p class="fv-card-question">${s.q}</p>
+        <span class="fv-card-theme">${THEME[s.q] || ''}</span>
+      </div>
+      <span class="fv-score is-win">${s.s}%</span>
+    </div>`;
+
+  return `
+  <div class="fv-stats">
+    <div class="fv-stat-pill">
+      <span class="fv-stat-pill-lbl">Response rate</span>
+      <span class="fv-stat-pill-val">${d.rrValue}%</span>
+      <span class="fv-stat-pill-trend"><i data-icon="Trend-up"></i> ${d.rrTrend}</span>
+    </div>
+    <div class="fv-stat-pill">
+      <span class="fv-stat-pill-lbl">eNPS</span>
+      <span class="fv-stat-pill-val">${npsValue}</span>
+      ${d.npsTrend ? `<span class="fv-stat-pill-trend"><i data-icon="Trend-up"></i> ${d.npsTrend}</span>` : ''}
+    </div>
+  </div>
+
+  <div class="fv-glance">
+    <div class="fv-glance-left">
+      <span class="fv-eyebrow is-glance">At first glance</span>
+      <h2 class="fv-verdict ${verdictClass}">Your team is <span class="fv-verdict-word">${d.efpLeadEm}</span></h2>
+      <div class="fv-stat-cards">
+        <div class="fv-stat-card">
+          <div class="fv-stat-text">
+            <p class="fv-stat-main"><span class="fv-stat-val">${d.engValue}</span> is engaged</p>
+            ${trend(d.fvEngTrend)}
+          </div>
+          <a class="fv-explore">Explore <i data-icon="chevron-right"></i></a>
+        </div>
+        <div class="fv-stat-card">
+          <div class="fv-stat-text">
+            <p class="fv-stat-main"><span class="fv-stat-val">${d.fvPerform}</span> can perform effectively</p>
+            ${trend(d.fvPerformTrend)}
+          </div>
+          <a class="fv-explore">Explore <i data-icon="chevron-right"></i></a>
+        </div>
+      </div>
+      <div class="fv-meaning">
+        <div class="fv-meaning-hd"><i data-icon="info"></i> What does this mean?</div>
+        <p>${d.efpLeadDesc}</p>
+      </div>
+    </div>
+    <div class="fv-glance-matrix">
+      <p class="fx-axis">Performance environment</p>
+      <div class="fx-matrix">
+        <div class="fx-quad is-detached">Detached</div>
+        <div class="fx-quad is-effective">Effective</div>
+        <div class="fx-quad is-ineffective">Ineffective</div>
+        <div class="fx-quad is-not-utilized">Not fully utilized</div>
+        <span class="fx-scale is-top-left">100%</span>
+        <span class="fx-scale is-bottom-left">0%</span>
+        <span class="fx-scale is-bottom-right">100%</span>
+        ${d.fxMarkers.map(fxMarker).join('')}
+      </div>
+      <p class="fx-axis is-x">Engagement score</p>
+    </div>
+  </div>
+
+  <div class="fv-block fv-focus">
+    <div class="fv-block-head">
+      <div>
+        <span class="fv-eyebrow is-focus">What needs focus</span>
+        <h2 class="fv-section-title">This is where your attention matters most</h2>
+        <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
+      </div>
+      <a class="fv-why"><i data-icon="info"></i> Why these focus areas?</a>
+    </div>
+    <div class="fv-cards">${d.lowScores.slice(0, 3).map(focusCard).join('')}</div>
+  </div>
+
+  <div class="fv-block fv-wins">
+    <div class="fv-block-head">
+      <div>
+        <span class="fv-eyebrow is-wins">Celebrate your wins</span>
+        <h2 class="fv-section-title">Your team is already getting this right</h2>
+        <p class="fv-section-desc">These are the areas where your team is performing well. Share these wins with your team to keep the momentum going!</p>
+      </div>
+      <a class="fv-why"><i data-icon="info"></i> Why these successes?</a>
+    </div>
+    <div class="fv-win-cards">${d.highScores.slice(0, 3).map(winCard).join('')}</div>
+  </div>
+  `;
+}
 
 /* ---------- markup template ---------- */
 function shell(d) {
@@ -354,8 +491,8 @@ function shell(d) {
           </div>
         </div>
         <div class="tabs">
-          <a class="tab is-active">Overview</a>
-          <a class="tab"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
+          <a class="tab is-active" data-view="overview">Overview</a>
+          <a class="tab" data-view="focus"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
           <a class="tab">Themes</a>
           <a class="tab">Questions</a>
           <a class="tab">Open answers</a>
@@ -366,6 +503,8 @@ function shell(d) {
       </div>
 
       <div class="overview-wrap">
+
+<div class="view" id="view-overview">
 
 <div class="ai-summary" id="ai-summary">
   <div class="ai-head">
@@ -629,6 +768,12 @@ function shell(d) {
   </div>
 
 </div><!-- /ov-grid -->
+
+</div><!-- /view-overview -->
+
+<div class="view" id="view-focus" hidden>
+${focusView(d)}
+</div><!-- /view-focus -->
 
       </div><!-- /overview-wrap -->
     </div><!-- /main-scroll -->
@@ -956,6 +1101,19 @@ function renderOverview(variant) {
     document.addEventListener('click', () => { cmpMenu.hidden = true; });
     applyFilter();
   }
+
+  /* Overview ↔ Focus View tab switching */
+  const viewTabs = document.querySelectorAll('.tab[data-view]');
+  const views = { overview: document.getElementById('view-overview'), focus: document.getElementById('view-focus') };
+  viewTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const v = tab.dataset.view;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      Object.entries(views).forEach(([k, el]) => { if (el) el.hidden = (k !== v); });
+      document.querySelector('.main-scroll').scrollTop = 0;
+    });
+  });
 
   /* AI summary show more / less */
   const aiSummary = document.getElementById('ai-summary');
