@@ -800,7 +800,7 @@
     .fv-stat-val { color: var(--content-info-secondary); }
     .fv-explore {
       display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
-      font-size: 12px; font-weight: 500; color: var(--content-base); cursor: pointer; white-space: nowrap;
+      font-size: 14px; font-weight: 500; color: var(--content-base); cursor: pointer; white-space: nowrap;
     }
     .fv-explore i { display: flex; width: 16px; height: 16px; }
 
