@@ -789,30 +789,6 @@ function shell(d) {
     </div>
   </div>
 
-  <div class="card qs-card is-high">
-    <div class="qs-header">
-      <img class="qs-illu" src="assets/illustrations/win-small.svg" alt="" />
-      <p class="qs-title text-l5">Highest scores</p>
-      <div class="qs-icons">
-        <div class="tt-demo"><button class="ib ib-36 ib-tertiary" aria-label="Pin card"><i data-icon="pin"></i></button><div class="tooltip is-above">Pin card</div></div>
-        <div class="tt-demo"><button class="ib ib-36 ib-tertiary" aria-label="More information"><i data-icon="info"></i></button><div class="tooltip is-above">More information</div></div>
-      </div>
-    </div>
-    <div class="qs-rows">${d.highScores.map(qsRow).join('')}</div>
-  </div>
-
-  <div class="card qs-card is-low">
-    <div class="qs-header">
-      <img class="qs-illu" src="assets/illustrations/improve-small.svg" alt="" />
-      <p class="qs-title text-l5">Lowest scores</p>
-      <div class="qs-icons">
-        <div class="tt-demo"><button class="ib ib-36 ib-tertiary" aria-label="Pin card"><i data-icon="pin"></i></button><div class="tooltip is-above">Pin card</div></div>
-        <div class="tt-demo"><button class="ib ib-36 ib-tertiary" aria-label="More information"><i data-icon="info"></i></button><div class="tooltip is-above">More information</div></div>
-      </div>
-    </div>
-    <div class="qs-rows">${d.lowScores.map(qsRow).join('')}</div>
-  </div>
-
 </div><!-- /ov-grid -->
 
 </div><!-- /view-overview -->
