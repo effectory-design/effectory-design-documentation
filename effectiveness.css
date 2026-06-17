@@ -736,6 +736,7 @@
        Focus View (second tab)
        ════════════════════════════════════════════════ */
     #view-focus { display: flex; flex-direction: column; gap: var(--spacing-super-loose); }
+    #view-focus[hidden], #view-overview[hidden] { display: none; }
 
     /* Top-right mini stats — sits 24px above the first section */
     .fv-stats {
