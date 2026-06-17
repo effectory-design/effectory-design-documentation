@@ -454,12 +454,12 @@
     .efp-chip i { display: flex; width: 12px; height: 12px; flex-shrink: 0; }
     .efp-marker.is-org .efp-dot,
     .efp-marker.is-peer .efp-dot { background: var(--content-secondary); }
-    .efp-marker.is-org .efp-chip,
-    .efp-marker.is-peer .efp-chip { background: var(--bg-base); color: var(--content-base); }
+    .efp-marker.is-org .efp-chip { background: var(--bg-tertiary); color: var(--content-base); }
+    .efp-marker.is-peer .efp-chip { background: var(--bg-secondary); color: var(--content-base); }
     .efp-marker.is-current .efp-dot { background: var(--content-info-secondary); }
-    .efp-marker.is-current .efp-chip { background: var(--bg-info-base); color: var(--content-inverse-base); }
+    .efp-marker.is-current .efp-chip { background: var(--bg-info-base-hover); color: var(--content-inverse-base); }
     .efp-marker.is-previous .efp-dot { background: var(--content-info-base); }
-    .efp-marker.is-previous .efp-chip { background: var(--bg-accent-blue-subtle); color: var(--content-info-base); }
+    .efp-marker.is-previous .efp-chip { background: var(--bg-info-subtle); color: var(--content-info-base); }
 
     /* Hover: dot + chip take on the quadrant colour, marker lifts forward */
     .efp-marker { cursor: pointer; }

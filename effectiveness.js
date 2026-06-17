@@ -258,15 +258,17 @@ function shell(d) {
     if (!eng && !perf) return { q: 'var(--bg-negative-base)', s: 'var(--bg-accent-red-subtle)' };       // Ineffective
     return { q: 'var(--bg-highlight-base)', s: 'var(--bg-accent-yellow-subtle)' };                      // Not fully utilized
   };
-  const tipEyebrow = (m) => m.variant === 'is-current' ? 'Current group' : m.variant === 'is-org' ? 'Organization' : 'Group level below';
+  /* Icon + label-type per marker variant (Figma label logic) */
+  const markerIcon = (m) => ({ 'is-current': 'group', 'is-org': 'building', 'is-previous': 'rotate-backward' }[m.variant] || 'sort-descending');
+  const tipEyebrow = (m) => ({ 'is-current': 'Current group', 'is-org': 'Organization level', 'is-previous': 'Previous survey' }[m.variant] || 'Group level below');
   const efpMarker = (m) => { const c = quad(m); return `<div class="efp-marker ${m.variant}${m.y >= 50 ? ' tip-below' : ''}" style="left:${m.x}%;top:${100 - m.y}%;--q:${c.q};--qs:${c.s}">
     <div class="efp-dot"></div>
-    <div class="efp-chip"><i data-icon="${m.icon}"></i>${m.label}</div>
+    <div class="efp-chip"><i data-icon="${markerIcon(m)}"></i>${m.label}</div>
     <div class="efp-tip">
       <span class="efp-tip-bar"></span>
       <div class="efp-tip-body">
         <div class="efp-tip-head">
-          <span class="efp-tip-eyebrow"><i data-icon="sort-ascending"></i> ${tipEyebrow(m)}</span>
+          <span class="efp-tip-eyebrow"><i data-icon="${markerIcon(m)}"></i> ${tipEyebrow(m)}</span>
           <span class="efp-tip-name">${m.label}</span>
         </div>
         <div class="efp-tip-rows">
