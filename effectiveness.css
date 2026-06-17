@@ -40,6 +40,7 @@
     }
     .date-range i { color: var(--content-subtle); }
     .results-head .tabs { padding: 0 var(--results-side); margin: 0 calc(-1 * var(--results-side)); }
+    .results-head .tab .tab-spark { width: 18px; height: 18px; color: var(--bg-highlight-base); }
 
     /* ── Overview content — centred column ── */
     .overview-wrap {

@@ -355,6 +355,7 @@ function shell(d) {
         </div>
         <div class="tabs">
           <a class="tab is-active">Overview</a>
+          <a class="tab"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
           <a class="tab">Themes</a>
           <a class="tab">Questions</a>
           <a class="tab">Open answers</a>
