@@ -360,6 +360,8 @@ function focusView(d) {
           <span class="fx-scale is-top-left">100%</span>
           <span class="fx-scale is-bottom-left">0%</span>
           <span class="fx-scale is-bottom-right">100%</span>
+          <div class="efp-bench-badge"><i data-icon="benchmark-up"></i> ${d.engBench}<div class="tooltip is-above">Benchmark ${d.engBench}</div></div>
+          <div class="efp-bench-badge is-left">${d.efpBench} <i data-icon="benchmark-up"></i><div class="tooltip is-above">Benchmark ${d.efpBench}</div></div>
           ${d.fxMarkers.map(fxMarker).join('')}
         </div>
       </div>

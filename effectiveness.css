@@ -760,9 +760,9 @@
       border-radius: var(--radius-full);
       font-size: 12px; font-weight: 600; line-height: 18px; letter-spacing: 0.8px; text-transform: uppercase;
     }
-    .fv-eyebrow.is-glance { background: var(--bg-info-subtle); color: var(--content-info-base); }
-    .fv-eyebrow.is-focus { background: var(--bg-accent-orange-subtle); color: var(--content-accent-orange-base); }
-    .fv-eyebrow.is-wins { background: var(--bg-accent-green-subtle); color: var(--content-accent-green-base); }
+    .fv-eyebrow.is-glance { background: var(--bg-info-base); color: var(--content-inverse-base); }
+    .fv-eyebrow.is-focus { background: var(--bg-warning-bold); color: var(--content-inverse-base); }
+    .fv-eyebrow.is-wins { background: var(--bg-positive-base); color: var(--content-inverse-base); }
 
     /* ──── At first glance ──── */
     .fv-glance {
