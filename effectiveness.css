@@ -22,13 +22,13 @@
     /* fast blur-in (~0.2s) -> hold blurred (~2s) -> fast sharpen (~0.4s) */
     @keyframes vt-blur-out {
       0%   { filter: blur(0);    opacity: 1; transform: scale(1); }
-      8%   { filter: blur(32px); opacity: 0; transform: scale(1.06); }
-      100% { filter: blur(32px); opacity: 0; transform: scale(1.06); }
+      8%   { filter: blur(20px); opacity: 0; transform: scale(1.06); }
+      100% { filter: blur(20px); opacity: 0; transform: scale(1.06); }
     }
     @keyframes vt-blur-in {
-      0%   { filter: blur(32px); opacity: 0; transform: scale(1.06); }
-      8%   { filter: blur(32px); opacity: 1; transform: scale(1.06); }
-      85%  { filter: blur(32px); opacity: 1; transform: scale(1.06); }
+      0%   { filter: blur(20px); opacity: 0; transform: scale(1.06); }
+      8%   { filter: blur(20px); opacity: 1; transform: scale(1.06); }
+      85%  { filter: blur(20px); opacity: 1; transform: scale(1.06); }
       100% { filter: blur(0);    opacity: 1; transform: scale(1); }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -666,7 +666,7 @@
 
     .engp-dist { display: flex; flex-direction: column; gap: var(--spacing-tight); }
 
-    .engp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
+    .engp-cards { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--spacing-base); }
     .engp-card-item { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base); }
     .engp-card-lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--content-secondary); }
     .engp-card-val { margin-top: var(--spacing-tight); font-size: 32px; font-weight: 600; line-height: 38px; color: var(--content-info-secondary); }
@@ -959,5 +959,5 @@
     /* Very small screens — shrink the tall side-panel matrix */
     @media (max-width: 480px) {
       .efp-matrix { height: 340px; }
-      .engp-cards { grid-template-columns: 1fr; }
+      .engp-cards { grid-auto-flow: row; grid-template-columns: 1fr; }
     }
