@@ -6,8 +6,9 @@
 
 /* ---------- per-variant data ---------- */
 const DATA = {
-  before: {
+  'team-it-before': {
     groupName: 'Team IT',
+    surveyName: 'Engagement Survey 2026 Q2',
     dateFrom: '22 Apr 2026', dateTo: '22 May 2026',
     /* AI summary */
     aiIntro: "The IT team’s results indicate several challenges impacting overall effectiveness and employee experience. Engagement (56%) and retention (57%) are below desired levels, suggesting employees may feel disconnected from the organization and uncertain about their long-term future within the team. Workload scores are particularly low at 38%, highlighting concerns around capacity, prioritization, and sustainable ways of working. While the eNPS score of 12 remains positive, it indicates only moderate advocacy and suggests there is significant room for improvement in employee satisfaction and loyalty.",
@@ -134,9 +135,10 @@ const DATA = {
     ]
   },
 
-  after: {
+  'team-it-after': {
     groupName: 'Team IT',
-    dateFrom: '22 Nov 2026', dateTo: '22 Oct 2026',
+    surveyName: 'Engagement Survey 2026 Q3',
+    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026',
     /* AI summary */
     aiIntro: "The IT team's latest survey results show a significant improvement across key engagement and employee experience indicators. Engagement has increased to 67%, while retention has risen to 73%, indicating that employees are more committed to both their current role and the organization. The team also achieved an eNPS of 31, reflecting a strong increase in employee advocacy and a greater willingness to recommend the organization as a place to work.",
     aiMore: [
@@ -258,10 +260,11 @@ const DATA = {
     ]
   },
 
-  org: {
+  'novanta-after': {
     groupName: 'Novanta',
     fvVerdictPre: 'Novanta is',
-    dateFrom: '22 Nov 2026', dateTo: '22 Oct 2026',
+    surveyName: 'Engagement Survey 2026 Q3',
+    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026',
     aiIntro: "Across Novanta, this survey shows a healthy and stable picture. Organization-wide engagement stands at 72% and retention at 76%, indicating that most employees feel committed to their work and intend to stay. An eNPS of 30 reflects solid advocacy, and a strong response rate of 81% gives a reliable view of how the organization is doing.",
     aiMore: [
       "Most departments sit in the effective quadrant, where engagement and the performance environment reinforce each other. A few teams still have room to grow — particularly around workload and development opportunities — but the overall foundation is strong.",
@@ -378,6 +381,128 @@ const DATA = {
       { q: 'Novanta is a good organisation to work for', s: '90%' },
       { q: 'The vision for the future of Novanta inspires me', s: '80%' },
       { q: 'Novanta uses employees’ ideas and suggestions to do better', s: '75%' }
+    ]
+  },
+
+  'novanta-before': {
+    groupName: 'Novanta',
+    fvVerdictPre: 'Novanta is',
+    surveyName: 'Engagement Survey 2026 Q2',
+    dateFrom: '22 Apr 2026', dateTo: '22 May 2026',
+    aiIntro: "Across Novanta, this survey points to a mixed picture. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but energy is not yet translating into a supportive performance environment everywhere. An eNPS of 20 and a response rate of 77% give a workable read on where the organization stands.",
+    aiMore: [
+      "Several departments sit in the not-fully-utilized quadrant: people are motivated, but workload pressure and unclear ways of working hold them back. A focused effort on the performance environment is likely to unlock the engagement that is already there.",
+      "Prioritizing workload, clarity and manager support across the lower-scoring teams will help Novanta convert this potential into stronger, more sustainable results."
+    ],
+    aiStrengths: [
+      "Engagement (66%) is reasonable organization-wide and provides a base to build on.",
+      "Retention (70%) shows most employees still intend to stay with Novanta.",
+      "A response rate of 77% gives a workable view of the organization."
+    ],
+    aiGrowth: [
+      "Workload (54%) is under pressure in many departments and is a key barrier.",
+      "The performance environment lags engagement, suggesting unclear ways of working.",
+      "Development opportunities score low and need attention."
+    ],
+    aiActions: [
+      "Tackle workload and prioritization in the most pressured departments first.",
+      "Give managers clearer guidance and support to improve the performance environment.",
+      "Increase transparency around priorities and decision-making.",
+      "Create more room for development and recognition.",
+      "Set measurable goals per department and revisit them next cycle."
+    ],
+
+    fxMarkers: [
+      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta', x: 70, y: 44 }
+    ],
+
+    engValue: '66%', engTrend: '0%', engTrendIcon: 'Trend-up', engBench: '75%', engBenchW: 75,
+
+    fvEngTrend: null, fvPerform: '58%', fvPerformTrend: null, npsTrend: null,
+
+    npsPromoters: 44, npsPassives: 32, npsDetractors: 24,
+    npsPromCount: 2090, npsPassCount: 1520, npsDetrCount: 1140,
+
+    swCurrent: [66, 64, 68, 82, 70, 75],
+    swPrevious: [63, 61, 65, 80, 68, 72],
+
+    rrValue: 77, rrPartDone: 3650, rrPartTotal: 4740, rrTrend: '0%', rrTrendIcon: 'Trend-up', rrBench: 84,
+
+    kpiWorkload: 54, kpiRetention: 70, kpiWellbeing: 73,
+
+    topics: [
+      { name: 'Collaboration between teams', count: 540, color: 'is-green' },
+      { name: 'Our feedback culture very long example', count: 384, color: 'is-turquoise' },
+      { name: 'Our feedback culture', count: 146, color: 'is-blue' }
+    ],
+
+    highScores: [
+      { q: 'I feel comfortable within the team', s: 90 },
+      { q: 'Our team trusts one another', s: 87 },
+      { q: 'During a team meeting, everyone has a fair chance to speak up', s: 85 },
+      { q: 'There is a relaxed atmosphere within our team', s: 83 },
+      { q: 'I enjoy my work', s: 82 }
+    ],
+    lowScores: [
+      { q: 'I see ample opportunities to develop further', s: 58 },
+      { q: 'I know how to carry out my tasks', s: 61 },
+      { q: 'I receive enough feedback on my work', s: 63 },
+      { q: 'I am satisfied with my work', s: 64 },
+      { q: 'We honour agreements in our team', s: 66 }
+    ],
+
+    efpLeadPre: 'Novanta is ', efpLeadEm: 'not fully utilized', efpLeadEmClass: '',
+    efpLeadDesc: 'Employees across the organization are motivated, but the performance environment is not yet keeping up. Improving workload, clarity and support will help this engagement translate into stronger results.',
+    efpComparisons: '2 selected',
+    efpHasPrevious: false,
+    efpHasOrg: false,
+    efpBench: '75%',
+    efpFocusIntro: 'Focus organization-wide on the performance environment. Help departments reduce workload pressure and create clarity, so the energy that is already there can be put to use.',
+    efpFocusBullets: [
+      'Identify the departments under the most workload pressure.',
+      'Give managers clearer priorities and support.',
+      'Track a few shared improvements across teams.'
+    ],
+    efpFocusClosing: 'Small, consistent improvements to how work is organized will lift the whole organization over time.',
+    efpScores: [
+      { name: 'Engagement', desc: 'Employees that are inspired and energized by their work', cur: '66%', bench: '75%', benchClass: 'is-bench' },
+      { name: 'Performance environment', desc: 'Important basic conditions which enable employees to work effectively and efficiently', cur: '58%', bench: '68%', benchClass: 'is-bench' },
+      { name: 'Providing Direction', sub: true, cur: '60%', bench: '64%', benchClass: 'is-bench' },
+      { name: 'Leading change', sub: true, cur: '64%', bench: '67%', benchClass: 'is-bench' },
+      { name: 'Managing People', sub: true, cur: '59%', bench: '67%', benchClass: 'is-bench' },
+      { name: 'Managing Systems', sub: true, cur: '55%', bench: '72%', benchClass: 'is-bench-neg' }
+    ],
+    efpMarkers: [
+      { variant: 'is-peer',     icon: 'building',        label: 'Team IT',           x: 26, y: 26 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Marketing',         x: 52, y: 58 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Sales',             x: 78, y: 48 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Finance',           x: 44, y: 52 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Human Resources',   x: 66, y: 64 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Operations',        x: 34, y: 38 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Product',           x: 84, y: 60 },
+      { variant: 'is-peer',     icon: 'building',        label: 'Customer Success',  x: 58, y: 32 },
+      { variant: 'is-current',  icon: 'group',           label: 'Novanta',           x: 70, y: 44 }
+    ],
+
+    engpDist: { dis: 10, pot: 31, eng: 59 },
+    engpCards: [
+      { lbl: 'Novanta B.V.', val: '66%' },
+      { lbl: 'Team IT', val: '56%' },
+      { lbl: 'Benchmark', val: '75%' }
+    ],
+    engpLine: { labels: ['Jun 2025', 'May 2026'], data: [67, 66] },
+    engpTheme: [
+      { q: 'Doing my work gives me energy', s: '74%' },
+      { q: 'I enjoy doing my work / tasks', s: '77%' },
+      { q: 'I am proud to work at Novanta', s: '82%' },
+      { q: 'I feel that I fit in at Novanta', s: '81%' }
+    ],
+    engpCorr: [
+      { q: 'My skills and abilities fit in well with my job', s: '83%' },
+      { q: 'I identify with the culture of Novanta', s: '80%' },
+      { q: 'Novanta is a good organisation to work for', s: '85%' },
+      { q: 'The vision for the future of Novanta inspires me', s: '72%' },
+      { q: 'Novanta uses employees’ ideas and suggestions to do better', s: '68%' }
     ]
   }
 };
@@ -644,7 +769,7 @@ function shell(d) {
     <div class="main-scroll">
 
       <div class="results-head">
-        <h1 class="text-l3 results-title">Engagement Survey 2026</h1>
+        <h1 class="text-l3 results-title">${d.surveyName}</h1>
         <div class="results-filters">
           <button class="sel-btn" id="hdr-filter" type="button">
             <i data-icon="filter"></i>
@@ -1149,7 +1274,7 @@ function gauge(id, pct, colorVar, opts) {
 
 /* ---------- render ---------- */
 function renderOverview(variant, initialView) {
-  const d = DATA[variant] || DATA.before;
+  const d = DATA[variant] || DATA['team-it-after'];
   document.getElementById('root').innerHTML = shell(d);
 
   /* Charts — wait for Poppins so radar labels are not clipped */
@@ -1288,14 +1413,16 @@ function renderOverview(variant, initialView) {
     if (ft) ft.click();
   }
 
-  /* Header filter: toggle between team level (Team IT) and organization level (Novanta) */
+  /* Header filter: toggle between team level (Team IT) and organization level (Novanta),
+     keeping the survey period (before/after) and the active view (overview/focus). */
   const hdrFilter = document.getElementById('hdr-filter');
   if (hdrFilter) {
     hdrFilter.addEventListener('click', () => {
-      const target = variant === 'org' ? 'after' : 'org';
+      const period = variant.endsWith('-before') ? 'before' : 'after';
+      const group = variant.startsWith('novanta') ? 'team-it' : 'novanta';
       const activeTab = document.querySelector('.tab.is-active[data-view]');
       const view = activeTab ? activeTab.dataset.view : 'overview';
-      location.href = `${view}-${target}.html`;
+      location.href = `${group}-${period}-${view}.html`;
     });
   }
 
