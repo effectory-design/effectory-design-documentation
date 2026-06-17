@@ -273,31 +273,31 @@ function focusView(d) {
     'During a team meeting, everyone has a fair chance to speak up': 'Collaboration'
   };
   const fxMarker = (m) => `<div class="fx-marker ${m.variant} ${m.chip}" style="left:${m.x}%;top:${100 - m.y}%"><div class="fx-dot"></div><div class="fx-chip"><i data-icon="${m.icon}"></i>${m.label}</div></div>`;
-  const trend = (val) => val ? `<span class="fv-trend"><i data-icon="Trend-up"></i> ${val} vs previous survey</span>` : '';
+  const trend = (val) => val ? `<div class="fv-trend-row"><span class="fv-trend">${val} <i data-icon="arrow-up"></i></span><span class="fv-trend-note">vs previous survey</span></div>` : '';
   const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
+  const approach = (i) => ['Team action', '1:1 action', 'Process change', 'Personal action']
+    .map(a => `<button class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" name="appr-${i}"></span>${a}</button>`).join('');
 
-  const focusCard = (s) => `
+  const focusCard = (s, i) => `
     <div class="fv-card">
-      <div class="fv-card-top">
-        <div class="fv-card-q">
-          <p class="fv-card-question">${s.q}</p>
-          <span class="fv-card-theme">${THEME[s.q] || ''}</span>
+      <div class="fv-card-head">
+        <div class="fv-card-top">
+          <div class="fv-card-q">
+            <p class="fv-card-question">${s.q}</p>
+            <span class="fv-card-theme">${THEME[s.q] || ''}</span>
+          </div>
+          <span class="fv-score is-focus">${s.s}%</span>
         </div>
-        <span class="fv-score is-focus">${s.s}%</span>
+        <div class="fv-relevance">
+          <a class="fv-rel-btn"><i data-icon="up-vote"></i> This is relevant</a>
+          <a class="fv-rel-btn"><i data-icon="down-vote"></i> This focus area is not relevant right now</a>
+        </div>
       </div>
-      <div class="fv-relevance">
-        <a class="fv-rel-btn is-yes"><i data-icon="check"></i> This is relevant</a>
-        <a class="fv-rel-btn"><i data-icon="cross"></i> This focus area is not relevant right now</a>
-      </div>
+      <div class="fv-divider"></div>
       <div class="fv-approach">
         <div class="fv-approach-lbl"><i data-icon="lightbulb"></i> Pick an approach to see the recommended action:</div>
-        <div class="fv-approach-chips">
-          <button class="btn btn-secondary">Team action</button>
-          <button class="btn btn-secondary">1:1 action</button>
-          <button class="btn btn-secondary">Process change</button>
-          <button class="btn btn-secondary">Personal action</button>
-        </div>
-        <button class="btn btn-link"><i data-icon="plus"></i> Create new action</button>
+        <div class="fv-approach-chips">${approach(i)}</div>
+        <a class="fv-create"><i data-icon="plus"></i> Create new action</a>
       </div>
     </div>`;
 
@@ -315,12 +315,12 @@ function focusView(d) {
     <div class="fv-stat-pill">
       <span class="fv-stat-pill-lbl">Response rate</span>
       <span class="fv-stat-pill-val">${d.rrValue}%</span>
-      <span class="fv-stat-pill-trend"><i data-icon="Trend-up"></i> ${d.rrTrend}</span>
+      <span class="fv-trend">${d.rrTrend} <i data-icon="arrow-up"></i></span>
     </div>
     <div class="fv-stat-pill">
       <span class="fv-stat-pill-lbl">eNPS</span>
       <span class="fv-stat-pill-val">${npsValue}</span>
-      ${d.npsTrend ? `<span class="fv-stat-pill-trend"><i data-icon="Trend-up"></i> ${d.npsTrend}</span>` : ''}
+      ${d.npsTrend ? `<span class="fv-trend">${d.npsTrend} <i data-icon="arrow-up"></i></span>` : ''}
     </div>
   </div>
 

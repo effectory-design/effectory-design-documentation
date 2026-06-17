@@ -745,13 +745,18 @@
     .fv-stat-pill {
       display: inline-flex; align-items: center; gap: var(--spacing-tight);
       padding: var(--spacing-tight) var(--spacing-base-tight);
-      background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-full);
-      font-size: 14px; line-height: 1.6; box-shadow: var(--sh-card);
+      background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-base);
+      box-shadow: var(--sh-action);
     }
-    .fv-stat-pill-lbl { color: var(--content-secondary); }
-    .fv-stat-pill-val { font-weight: 600; color: var(--content-base); }
-    .fv-stat-pill-trend { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-weight: 500; color: var(--content-positive-base); }
-    .fv-stat-pill-trend i { display: flex; width: 14px; height: 14px; }
+    .fv-stat-pill-lbl { font-size: 14px; font-weight: 600; color: var(--content-secondary); }
+    .fv-stat-pill-val { font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .fv-stat-pill .fv-trend { font-size: 12px; }
+
+    /* Trend (value + arrow-up) — shared by stat cards and mini stats */
+    .fv-trend { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 14px; font-weight: 500; color: var(--content-positive-base); white-space: nowrap; }
+    .fv-trend i { display: flex; width: 14px; height: 14px; }
+    .fv-trend-row { display: flex; align-items: center; gap: var(--spacing-extra-tight); }
+    .fv-trend-note { font-size: 14px; font-weight: 500; color: var(--content-secondary); }
 
     /* Eyebrow pills */
     .fv-eyebrow {
@@ -781,16 +786,14 @@
     .fv-stat-card {
       display: flex; align-items: center; gap: var(--spacing-base);
       padding: var(--spacing-loose);
-      background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg);
+      background: var(--bg-base); border: 1px solid var(--bg-base-pressed); border-radius: var(--radius-md);
     }
     .fv-stat-text { flex: 1; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
-    .fv-stat-main { margin: 0; font-size: 20px; font-weight: 500; line-height: 28px; color: var(--content-base); }
-    .fv-stat-val { font-size: 20px; font-weight: 600; color: var(--content-info-secondary); }
-    .fv-trend { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 500; color: var(--content-positive-base); }
-    .fv-trend i { display: flex; width: 14px; height: 14px; }
+    .fv-stat-main { margin: 0; font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
+    .fv-stat-val { color: var(--content-info-secondary); }
     .fv-explore {
       display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
-      font-size: 14px; font-weight: 600; color: var(--content-secondary); cursor: pointer; white-space: nowrap;
+      font-size: 12px; font-weight: 500; color: var(--content-base); cursor: pointer; white-space: nowrap;
     }
     .fv-explore i { display: flex; width: 16px; height: 16px; }
 
@@ -827,41 +830,48 @@
     }
     .fv-why i { display: flex; width: 16px; height: 16px; }
 
-    .fv-cards, .fv-win-cards { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .fv-cards, .fv-win-cards { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
 
     /* Focus question card */
     .fv-card {
-      display: flex; flex-direction: column; gap: var(--spacing-base-tight);
-      padding: var(--spacing-base); background: var(--bg-base); border-radius: var(--radius-lg);
+      display: flex; flex-direction: column; gap: var(--spacing-loose);
+      padding: var(--spacing-base); background: var(--bg-base);
+      border: 1px solid var(--border-base); border-radius: var(--radius-lg);
     }
-    .fv-card-top { display: flex; align-items: flex-start; gap: var(--spacing-base); }
-    .fv-card-q { flex: 1; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
-    .fv-card-question { margin: 0; font-size: 16px; font-weight: 600; line-height: 24px; color: var(--content-base); }
-    .fv-card-theme { font-size: 12px; line-height: 18px; color: var(--content-secondary); }
+    .fv-card-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .fv-card-top { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); }
+    .fv-card-q { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
+    .fv-card-question { margin: 0; font-size: 14px; font-weight: 600; line-height: 22px; color: var(--content-base); }
+    .fv-card-theme { font-size: 12px; line-height: 19px; color: var(--content-secondary); }
     .fv-score {
-      flex-shrink: 0; padding: var(--spacing-extra-tight) var(--spacing-tight);
+      flex-shrink: 0; min-width: 48px; display: inline-flex; align-items: center; justify-content: center;
+      padding: var(--spacing-extra-tight) var(--spacing-tight);
       border-radius: var(--radius-base); font-size: 14px; font-weight: 600; line-height: 22px;
     }
     .fv-score.is-focus { background: var(--bg-warning-bold); color: var(--content-inverse-base); }
     .fv-score.is-win { background: var(--bg-positive-base); color: var(--content-inverse-base); }
 
-    .fv-relevance { display: flex; flex-wrap: wrap; gap: var(--spacing-base); }
-    .fv-rel-btn { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; }
-    .fv-rel-btn.is-yes { color: var(--content-positive-base); }
-    .fv-rel-btn i { display: flex; width: 16px; height: 16px; }
+    .fv-relevance { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-base); }
+    .fv-rel-btn { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 500; color: var(--content-secondary); cursor: pointer; }
+    .fv-rel-btn i { display: flex; width: 12px; height: 12px; }
 
-    .fv-approach { display: flex; flex-direction: column; gap: var(--spacing-tight); padding-top: var(--spacing-base-tight); border-top: 1px solid var(--border-base); }
-    .fv-approach-lbl { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-base); }
-    .fv-approach-lbl i { display: flex; width: 16px; height: 16px; color: var(--content-highlight-secondary); }
-    .fv-approach-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
-    .fv-approach .btn-link { align-self: flex-start; }
+    .fv-divider { height: 1px; width: 100%; background: var(--border-base); }
+
+    .fv-approach { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .fv-approach-lbl { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 400; color: var(--content-base); }
+    .fv-approach-lbl i { display: flex; width: 20px; height: 20px; color: var(--content-highlight-secondary); }
+    .fv-approach-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); }
+    .fv-create { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); align-self: flex-start; font-size: 12px; font-weight: 500; color: var(--content-base); cursor: pointer; }
+    .fv-create i { display: flex; width: 16px; height: 16px; }
 
     /* Win card (simpler) */
     .fv-win-card {
-      display: flex; align-items: center; gap: var(--spacing-base);
-      padding: var(--spacing-base); background: var(--bg-base); border-radius: var(--radius-lg);
+      display: flex; align-items: center; gap: var(--spacing-base-tight);
+      padding: var(--spacing-base); background: var(--bg-base);
+      border: 1px solid var(--border-positive-subtle); border-radius: var(--radius-lg); box-shadow: var(--sh-card);
     }
     .fv-win-card .fv-card-q { flex: 1; }
+    .fv-win-card .fv-card-theme { font-size: 14px; line-height: 22px; }
 
     /* ──────────────────────────────────────────────
        Responsiveness
