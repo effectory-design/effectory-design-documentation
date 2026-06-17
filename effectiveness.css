@@ -735,10 +735,13 @@
     /* ════════════════════════════════════════════════
        Focus View (second tab)
        ════════════════════════════════════════════════ */
-    #view-focus { display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    #view-focus { display: flex; flex-direction: column; gap: var(--spacing-super-loose); }
 
-    /* Top-right mini stats */
-    .fv-stats { display: flex; justify-content: flex-end; gap: var(--spacing-tight); flex-wrap: wrap; }
+    /* Top-right mini stats — sits 24px above the first section */
+    .fv-stats {
+      display: flex; justify-content: flex-end; gap: var(--spacing-tight); flex-wrap: wrap;
+      margin-bottom: calc(-1 * (var(--spacing-super-loose) - var(--spacing-loose)));
+    }
     .fv-stat-pill {
       display: inline-flex; align-items: center; gap: var(--spacing-tight);
       padding: var(--spacing-tight) var(--spacing-base-tight);
@@ -763,10 +766,10 @@
 
     /* ──── At first glance ──── */
     .fv-glance {
-      display: grid; grid-template-columns: 1fr 380px; gap: var(--spacing-extra-loose); align-items: start;
-      padding: var(--spacing-loose); background: var(--bg-secondary); border-radius: var(--radius-xl);
+      display: flex; justify-content: space-between; gap: var(--spacing-super-extra-loose); align-items: flex-start;
+      padding: var(--spacing-super-extra-loose); background: var(--bg-secondary); border-radius: var(--radius-xl);
     }
-    .fv-glance-left { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .fv-glance-left { flex: 0 1 517px; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-base); }
     .fv-verdict { margin: 0; font-size: 32px; font-weight: 600; line-height: 38px; color: var(--content-base); }
     .fv-verdict-word { text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 4px; }
     .fv-verdict.is-effective .fv-verdict-word { text-decoration-color: var(--bg-positive-base); }
@@ -777,11 +780,11 @@
     .fv-stat-cards { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fv-stat-card {
       display: flex; align-items: center; gap: var(--spacing-base);
-      padding: var(--spacing-base-tight) var(--spacing-base);
+      padding: var(--spacing-loose);
       background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg);
     }
     .fv-stat-text { flex: 1; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
-    .fv-stat-main { margin: 0; font-size: 16px; font-weight: 500; line-height: 24px; color: var(--content-base); }
+    .fv-stat-main { margin: 0; font-size: 20px; font-weight: 500; line-height: 28px; color: var(--content-base); }
     .fv-stat-val { font-size: 20px; font-weight: 600; color: var(--content-info-secondary); }
     .fv-trend { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 500; color: var(--content-positive-base); }
     .fv-trend i { display: flex; width: 14px; height: 14px; }
@@ -796,23 +799,25 @@
     .fv-meaning-hd i { display: flex; width: 16px; height: 16px; }
     .fv-meaning p { margin: var(--spacing-tight) 0 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
 
-    .fv-glance-matrix { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .fv-matrix-row { display: flex; align-items: stretch; gap: var(--spacing-tight); }
-    .fv-matrix-row .fx-matrix { flex: 1 1 auto; height: 305px; }
+    .fv-glance-matrix { flex: none; width: 445px; max-width: 100%; display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .fv-matrix-row { position: relative; }
+    .fv-matrix-row .fx-matrix { width: 100%; height: 383px; }
     .fv-y-axis {
+      position: absolute; left: calc(-1 * var(--spacing-extra-loose)); top: 0; height: 383px;
+      display: flex; align-items: center; justify-content: center;
       writing-mode: vertical-rl; transform: rotate(180deg);
-      font-size: 14px; line-height: 1.6; color: var(--content-secondary); text-align: center;
+      font-size: 14px; line-height: 1.6; color: var(--content-secondary);
     }
-    .fv-x-axis { margin: 0; padding-left: var(--spacing-loose); font-size: 14px; line-height: 1.6; color: var(--content-secondary); text-align: center; }
+    .fv-x-axis { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); text-align: center; }
 
     /* ──── Focus / Wins blocks ──── */
     .fv-block {
-      display: grid; grid-template-columns: 280px 1fr; gap: var(--spacing-extra-loose);
-      padding: var(--spacing-loose); border-radius: var(--radius-xl);
+      display: grid; grid-template-columns: 339px 1fr; gap: var(--spacing-extra-loose);
+      padding: var(--spacing-super-extra-loose); border-radius: var(--radius-xl);
     }
     .fv-focus { background: var(--bg-accent-orange-subtle); }
     .fv-wins { background: var(--bg-accent-green-subtle); }
-    .fv-block-aside { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .fv-block-aside { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
     .fv-block-main { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fv-section-title { margin: 0; font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
     .fv-section-desc { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
