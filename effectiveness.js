@@ -646,7 +646,7 @@ function shell(d) {
       <div class="results-head">
         <h1 class="text-l3 results-title">Engagement Survey 2026</h1>
         <div class="results-filters">
-          <button class="sel-btn">
+          <button class="sel-btn" id="hdr-filter" type="button">
             <i data-icon="filter"></i>
             <span class="sel-btn-name">Filter</span>
             <span class="sel-btn-value">${d.groupName}</span>
@@ -1286,6 +1286,17 @@ function renderOverview(variant, initialView) {
   if (initialView === 'focus' || (typeof location !== 'undefined' && location.hash === '#focus')) {
     const ft = document.querySelector('.tab[data-view="focus"]');
     if (ft) ft.click();
+  }
+
+  /* Header filter: toggle between team level (Team IT) and organization level (Novanta) */
+  const hdrFilter = document.getElementById('hdr-filter');
+  if (hdrFilter) {
+    hdrFilter.addEventListener('click', () => {
+      const target = variant === 'org' ? 'after' : 'org';
+      const activeTab = document.querySelector('.tab.is-active[data-view]');
+      const view = activeTab ? activeTab.dataset.view : 'overview';
+      location.href = `${view}-${target}.html`;
+    });
   }
 
   /* Focus View: 'Explore' opens the effectiveness side panel */
