@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── Card — a surface that groups related content ── */
-    .card { display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid transparent; border-radius: var(--radius-lg); overflow: hidden; font-family: 'Poppins', sans-serif; }
+    .card { display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid transparent; border-radius: var(--radius-md); overflow: hidden; font-family: 'Poppins', sans-serif; }
     .card-elevated { box-shadow: var(--sh-card); }
     .card-outlined { border-color: var(--border-base); }
     .card-filled   { background: var(--bg-secondary); }
@@ -172,7 +172,7 @@
               <tr><td><code>--border-base</code></td><td>Border (outlined)</td><td>#e1e4e8</td></tr>
               <tr><td><code>--sh-card</code></td><td>Shadow (elevated, rest)</td><td>0 2px 4px rgba(25,39,67,.04)</td></tr>
               <tr><td><code>--sh-card-hover</code></td><td>Shadow (elevated, hover)</td><td>—</td></tr>
-              <tr><td><code>--radius-lg</code></td><td>Corner radius</td><td>12px</td></tr>
+              <tr><td><code>--radius-md</code></td><td>Corner radius</td><td>8px</td></tr>
               <tr><td><code>--content-base</code> · <code>--content-secondary</code></td><td>Title / supporting text</td><td>—</td></tr>
             </tbody>
           </table>
@@ -277,11 +277,23 @@
             <pre><code><span class="ct">&lt;a</span> <span class="ca">class</span>=<span class="cv">"card card-elevated is-interactive"</span> <span class="ca">href</span>=<span class="cv">"…"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/a&gt;</span></code></pre>
           </div>
 
+          <h3 class="text-l4">Production card (Angular styleguide)</h3>
+          <p>The Angular styleguide ships a single <code>.card</code> (border + shadow, 8px radius) built from a <code>.card-title-container</code> (with a bottom divider) and a <code>.card-content-container</code> — both 24px padding. The title is an <code>&lt;h2 class="card-title text-l5"&gt;</code>.</p>
+          <div class="dev-code-wrap">
+            <button class="dev-copy-btn">Copy</button>
+            <pre><code><span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card-title-container"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;h2</span> <span class="ca">class</span>=<span class="cv">"card-title text-l5"</span><span class="ct">&gt;</span>Card title<span class="ct">&lt;/h2&gt;</span>
+  <span class="ct">&lt;/div&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card-content-container"</span><span class="ct">&gt;</span> … <span class="ct">&lt;/div&gt;</span>
+<span class="ct">&lt;/div&gt;</span></code></pre>
+          </div>
+
           <div class="dev-gap">
             <span class="dev-gap-icon">⚠️</span>
             <div class="dev-gap-body">
               <span class="dev-gap-label">Figma / styleguide gap</span>
-              <span class="dev-gap-text">This is a proposed pattern (Material/Atlassian-style: elevated / outlined / filled). The Angular styleguide already has a <strong>Cards</strong> section and Figma may define its own card spec — reconcile the variant names and tokens with those before standardising.</span>
+              <span class="dev-gap-text">The Angular styleguide currently has <strong>one</strong> card (the production markup above: border + shadow, a title-container with a divider + a content-container) plus a <code>with-border</code> flag — there's no elevated / outlined / filled split. The three variants on this page are a <strong>proposed</strong> Material/Atlassian-style extension; reconcile the variant names, the title-divider and the slot names (<code>card-body</code> vs <code>card-content-container</code>) with the styleguide and Figma before standardising.</span>
             </div>
           </div>
         </section>

@@ -890,10 +890,10 @@ Surface die gerelateerde content groepeert. Drie varianten (Material/Atlassian-s
   <div class="card-actions"><button class="btn btn-secondary">Actie</button></div>   <!-- optioneel; .has-divider voor topborder -->
 </div>
 ```
-- `.card` (basis: `--bg-base`, `--radius-lg`, overflow hidden) + variant: `.card-elevated` (`--sh-card`), `.card-outlined` (`--border-base`), `.card-filled` (`--bg-secondary`).
+- `.card` (basis: `--bg-base`, `--radius-md`, overflow hidden) + variant: `.card-elevated` (`--sh-card`), `.card-outlined` (`--border-base`), `.card-filled` (`--bg-secondary`).
 - Klikbare hele kaart: `.card.is-interactive` (op een `<a>`/`<button>`), lift op hover (`--sh-card-hover`).
 - Slots: `.card-media` (full-bleed), `.card-body` (20px padding) → `.card-title` (`text-l5`) + `.card-text` (`body-14`), `.card-actions`.
-> ⚠️ Figma/dev gap: voorgesteld patroon; verzoen variantnamen/tokens nog met de bestaande **Cards** in de styleguide/Figma.
+> ⚠️ Figma/dev gap: de Angular-styleguide heeft **één** `.card` (border + `--sh-card`, radius 8) met `.card-title-container` (onderlijn) + `.card-content-container` (24px), titel `h2.card-title.text-l5`; géén elevated/outlined/filled-splitsing. De drie varianten hierboven zijn een **voorstel** (Material/Atlassian) — nog te verzoenen met styleguide/Figma.
 
 ### Avatar
 Ronde avatar met initialen of een icoon. Gebruik altijd deze gedocumenteerde component — bouw nooit een eigen avatar-class.
