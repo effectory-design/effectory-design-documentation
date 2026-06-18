@@ -2319,3 +2319,59 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .dlg-footer { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
 .dlg-footer .btn-primary { flex: 1 0 0; }
 @media (prefers-reduced-motion: reduce) { .dlg-hero, .confetti, .dlg-spark-deco, .dlg-media img { animation: none; } }
+
+/* ── Accordion — collapsible header + content (a.k.a. expansion panel) ── */
+.acc { display: flex; flex-direction: column; gap: 16px; width: 100%; font-family: 'Poppins', sans-serif; }
+.acc-item { border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); overflow: hidden; }
+.acc-header { display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px 24px; background: none; border: 0; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-base); cursor: pointer; text-align: left; }
+.acc-header:hover, .acc-header.is-hover { background: var(--bg-base-hover); }
+.acc-item.is-open .acc-header:hover, .acc-item.is-open .acc-header.is-hover { background: none; }
+.acc-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
+.acc-title { flex: 1; min-width: 0; font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--content-base); }
+.acc-titles { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.acc-titles .acc-title { flex: initial; }
+.acc-desc { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-secondary); }
+.acc-meta { display: flex; align-items: center; gap: 12px; font-weight: 400; color: var(--content-secondary); white-space: nowrap; }
+.acc-chevron { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-base); transition: transform .15s ease; }
+.acc-item.is-open .acc-chevron { transform: rotate(180deg); }
+/* Smooth open/close via grid-template-rows 0fr→1fr; content goes in .acc-body-inner */
+.acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .26s ease; }
+.acc-item.is-open .acc-body { grid-template-rows: 1fr; }
+.acc-body-inner { overflow: hidden; padding: 0 24px; opacity: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); transition: opacity .2s ease; }
+.acc-item.is-open .acc-body-inner { padding-bottom: 16px; opacity: 1; }
+.acc-item.is-selected { border-color: var(--border-brand-base); }
+.acc-item.is-borderless { border: 0; border-radius: 0; }
+.acc-item.is-borderless .acc-header { padding: 16px 0; }
+.acc-item.is-borderless .acc-body-inner { padding-left: 0; padding-right: 0; }
+@media (prefers-reduced-motion: reduce) { .acc-chevron, .acc-body, .acc-body-inner { transition: none; } }
+
+/* ── Sentiment Button — a button coloured by sentiment (warning/info/positive/negative) ── */
+.sbtn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 6px 12px; border: 1px solid transparent; border-radius: var(--radius-base); background: var(--bg-base); box-shadow: var(--sh-action); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; line-height: 22px; color: var(--content-base); cursor: pointer; white-space: nowrap; }
+.sbtn i[data-icon] { width: 16px; height: 16px; display: flex; }
+.sbtn.is-warning  { border-color: var(--border-warning-base); }
+.sbtn.is-info     { border-color: var(--border-info-base); }
+.sbtn.is-positive { border-color: var(--border-positive-base); }
+.sbtn.is-negative { border-color: var(--border-negative-base); }
+.sbtn.is-warning:hover,  .sbtn.is-warning.is-hover  { border-color: var(--border-warning-base-hover);  box-shadow: var(--sh-action-hover); }
+.sbtn.is-info:hover,     .sbtn.is-info.is-hover      { border-color: var(--border-info-base-hover);     box-shadow: var(--sh-action-hover); }
+.sbtn.is-positive:hover, .sbtn.is-positive.is-hover  { border-color: var(--border-positive-base-hover); box-shadow: var(--sh-action-hover); }
+.sbtn.is-negative:hover, .sbtn.is-negative.is-hover  { border-color: var(--border-negative-base-hover); box-shadow: var(--sh-action-hover); }
+.sbtn.is-warning:active,  .sbtn.is-warning.is-pressed  { background: var(--bg-warning-subtle);  box-shadow: none; }
+.sbtn.is-info:active,     .sbtn.is-info.is-pressed      { background: var(--bg-info-subtle);     box-shadow: none; }
+.sbtn.is-positive:active, .sbtn.is-positive.is-pressed  { background: var(--bg-positive-subtle); box-shadow: none; }
+.sbtn.is-negative:active, .sbtn.is-negative.is-pressed  { background: var(--bg-negative-subtle); box-shadow: none; }
+.sbtn.is-primary { color: var(--content-on-brand-base); }
+.sbtn.is-primary.is-warning  { background: var(--bg-warning-bold); border-color: var(--border-warning-base); color: var(--content-base); }
+.sbtn.is-primary.is-info     { background: var(--bg-info-base);     border-color: var(--border-info-base); }
+.sbtn.is-primary.is-positive { background: var(--bg-positive-base); border-color: var(--border-positive-base); }
+.sbtn.is-primary.is-negative { background: var(--bg-negative-base); border-color: var(--border-negative-base); }
+.sbtn.is-primary.is-warning:hover,  .sbtn.is-primary.is-warning.is-hover   { background: var(--border-warning-base); box-shadow: var(--sh-action-hover); }
+.sbtn.is-primary.is-info:hover,     .sbtn.is-primary.is-info.is-hover       { background: var(--bg-info-base-hover);     border-color: var(--border-info-base-hover);     box-shadow: var(--sh-action-hover); }
+.sbtn.is-primary.is-positive:hover, .sbtn.is-primary.is-positive.is-hover   { background: var(--bg-positive-base-hover); border-color: var(--border-positive-base-hover); box-shadow: var(--sh-action-hover); }
+.sbtn.is-primary.is-negative:hover, .sbtn.is-primary.is-negative.is-hover   { background: var(--bg-negative-base-hover); border-color: var(--border-negative-base-hover); box-shadow: var(--sh-action-hover); }
+.sbtn.is-primary.is-warning:active,  .sbtn.is-primary.is-warning.is-pressed  { background: var(--border-warning-base); box-shadow: none; }
+.sbtn.is-primary.is-info:active,     .sbtn.is-primary.is-info.is-pressed      { background: var(--bg-info-base-hover);     box-shadow: none; }
+.sbtn.is-primary.is-positive:active, .sbtn.is-primary.is-positive.is-pressed  { background: var(--bg-positive-base-hover); box-shadow: none; }
+.sbtn.is-primary.is-negative:active, .sbtn.is-primary.is-negative.is-pressed  { background: var(--bg-negative-base-pressed); box-shadow: none; }
+.sbtn.is-disabled, .sbtn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; pointer-events: none; }
+.sbtn.is-disabled:not(.is-primary) { color: var(--content-disabled); }

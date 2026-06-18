@@ -264,6 +264,18 @@ States: `.is-hover` `.is-pressed` `.is-disabled`
 ```
 States: `.is-hover` `.is-pressed` `.is-disabled`
 
+### Sentiment Button
+Knop gekleurd naar sentiment voor een actie die die lading draagt (approve, delete, …). Gewone acties → gewone Button; sentiment-kleur verliest betekenis als alles gekleurd is.
+```html
+<button class="sbtn is-positive">Approve</button>      <!-- secondary (outline) -->
+<button class="sbtn is-primary is-negative">Delete</button>  <!-- primary (filled) -->
+```
+- Sentiment: `is-positive` / `is-negative` / `is-info` / `is-warning` — zet de border (secondary) of fill (`.is-primary`).
+- Secondary: witte fill + sentiment-border + `--content-base`; hover = `-base-hover` border + `--sh-action-hover`; pressed = `--bg-{sent}-subtle`.
+- Primary: gevuld met `--bg-{sent}-base` (warning = `--bg-warning-bold`, **donkere tekst**; info/positive/negative = witte tekst `--content-on-brand-base`).
+- Hoogte 36, radius `--radius-base`, `--sh-action`, label `body-14` Medium. States: `.is-hover` `.is-pressed` `.is-disabled`.
+> ⚠️ Figma/dev gap: Figma heeft een losse sentiment-knop met secondary én **filled primary**; de Angular-styleguide kent 'm momenteel alleen als **secondary** sentiment-actie binnen een Inline notification (`buttonMessages` / `messageType`). Standalone filled-primary nog te bevestigen.
+
 ### Icon Button
 Vierkante knop met alleen een icoon. Maat via `.ib-36` (16px icoon, radius `--radius-md`) of `.ib-24` (12px icoon, radius `--radius-base`); variant via `.ib-primary` / `.ib-secondary` / `.ib-tertiary`. Altijd een `aria-label` meegeven.
 ```html
@@ -933,6 +945,27 @@ Classes: `.tabs`, `.tab` (states `.is-hover`/`.is-active`/`.is-disabled`; option
 > **Productie-API:** in code is dit Angular Material `mat-tab-group` met `class="tabs"` (`mat-align-tabs="start"`, `disableRipple`) en `mat-tab`-children (`label`, of een `<ng-template mat-tab-label>` met `eff-mat-icon class="tab-icon"`). De `.tabs`/`.tab`-classes hier zijn de prototype-structuur.
 
 ---
+
+### Accordion
+Stapel van inklapbare secties (header + content) voor progressive disclosure. **Let op:** Figma noemt dit "Accordion" én "Expansion panel", maar in code is het één component (`mat-expansion-panel`); de "expansion panel" is een accordion met een rijkere header (counts/tags, pop-out).
+```html
+<div class="acc">
+  <div class="acc-item is-open">
+    <button class="acc-header">
+      <i data-icon="box" class="acc-icon"></i>           <!-- optioneel leading icon -->
+      <span class="acc-title">Accordion header</span>
+      <span class="acc-meta">4 questions</span>          <!-- optioneel trailing meta (expansion-panel stijl) -->
+      <i data-icon="chevron-down" class="acc-chevron"></i>
+    </button>
+    <div class="acc-body"><div class="acc-body-inner">Content van het paneel.</div></div>
+  </div>
+</div>
+```
+- Panel `.acc-item` (witte `--bg-base`, 1px `--border-base`, `--radius-md`), 16px tussen panels; header `.acc-header` (16px 24px, hover `--bg-base-hover`); titel `.acc-title` = `text-l5` (16px/600); body `.acc-body` (0 24px 16px, `--content-secondary`); chevron `.acc-chevron` roteert 180° bij `.is-open`. De border verandert niet bij open. Open/dicht animeert smooth via `grid-template-rows 0fr→1fr` op `.acc-body` (content in `.acc-body-inner`, ~0.26s; respecteert `prefers-reduced-motion`).
+- Open zetten: `.acc-item.is-open`. Single-open gedrag = groepslogica (in Angular: `mat-accordion`).
+- Varianten: leading icon (`.acc-icon`), **beschrijving** (titel + `.acc-desc` onder elkaar in `.acc-titles`), trailing meta (`.acc-meta`), **selectie** (checkbox `<span class="cb-wrap"><input class="cb">` in de header + `.acc-item.is-selected` → brand-border), en **borderless/hidden header** (`.acc-item.is-borderless` → geen border/zijpadding, alleen titel + chevron).
+- Echte Angular-API: `mat-expansion-panel` (+ `mat-expansion-panel-header`, `ng-template matExpansionPanelContent`), groepeer in `mat-accordion`. Styleguide: Accordions.
+> ⚠️ Figma/dev gap: Accordion en Expansion panel zijn in code hetzelfde `mat-expansion-panel`.
 
 ### Breadcrumb
 Toont waar de gebruiker zit in de hiërarchie en laat hem omhoog stappen. Een **Back**-actie leidt de balk, gevolgd door het pad van pagina's.

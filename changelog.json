@@ -1,6 +1,515 @@
 {
-  "count": 646,
+  "count": 715,
   "entries": [
+    {
+      "hash": "065da56",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Add Sentiment Button documentation page",
+      "pages": [
+        "sentiment-button-docs.html"
+      ]
+    },
+    {
+      "hash": "a47d6b2",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Add short team-level alias URLs (before/after-overview, before/after-focus)",
+      "pages": []
+    },
+    {
+      "hash": "75a5554",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Update GitHub username jenteinsing123 → effectory-design in URLs and remote",
+      "pages": [
+        "prototypes-docs.html"
+      ]
+    },
+    {
+      "hash": "227479f",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Add EN/NL/DE language switcher and full page translation",
+      "pages": []
+    },
+    {
+      "hash": "2fa26c6",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Deprecate Toast in favour of System Notification",
+      "pages": [
+        "toast-docs.html"
+      ]
+    },
+    {
+      "hash": "9ae0fbd",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Engagement panel: softer blur (20px) + result cards split evenly full-width",
+      "pages": []
+    },
+    {
+      "hash": "0aa78e7",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Engagement panel (org view): drop the Team IT comparison card",
+      "pages": []
+    },
+    {
+      "hash": "f9b559f",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Switch animation: fast blur-in, ~2s blurred hold, fast sharpen, stronger blur",
+      "pages": []
+    },
+    {
+      "hash": "19ea7be",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Switch animation: lengthen the blur transition to 2s",
+      "pages": []
+    },
+    {
+      "hash": "a8b4f66",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Switch animation: full-screen blur focus-pull instead of the bloom",
+      "pages": []
+    },
+    {
+      "hash": "4c1363d",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Clicking the survey name or date range switches survey period (Q2<->Q3)",
+      "pages": []
+    },
+    {
+      "hash": "27dce57",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Switch animation: circular bloom-reveal from the filter button",
+      "pages": []
+    },
+    {
+      "hash": "c30bd32",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Restructure into 2x2 (Team IT / Novanta x Q2 / Q3), full-page slide switch",
+      "pages": []
+    },
+    {
+      "hash": "d96bb2e",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Animate the team/org filter switch with a View Transition",
+      "pages": []
+    },
+    {
+      "hash": "ee7f2bd",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Header filter toggles between Team IT and Novanta (org) views",
+      "pages": []
+    },
+    {
+      "hash": "b04098e",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add organization-level (Novanta) overview + focus view pages",
+      "pages": []
+    },
+    {
+      "hash": "c6a5c08",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add consistently-named overview pages (overview-before/after.html)",
+      "pages": []
+    },
+    {
+      "hash": "003476f",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Effectiveness panel: use the six provided IT team names",
+      "pages": []
+    },
+    {
+      "hash": "ca469d3",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Fix: hide the Focus View on the overview (display:flex overrode [hidden])",
+      "pages": []
+    },
+    {
+      "hash": "02e7e05",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Revert \"Overview: remove Highest/Lowest scores cards (now live in Focus View)\"",
+      "pages": []
+    },
+    {
+      "hash": "04fe528",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Overview: remove Highest/Lowest scores cards (now live in Focus View)",
+      "pages": []
+    },
+    {
+      "hash": "89de097",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "After overview: show Previous survey marker in the small Effectiveness card",
+      "pages": []
+    },
+    {
+      "hash": "25c01c3",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Effectiveness panel: make comparison groups real IT subteams",
+      "pages": []
+    },
+    {
+      "hash": "9c13cac",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: recommendation card title 16px, 8px gap to description",
+      "pages": []
+    },
+    {
+      "hash": "0e5f815",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: remove padding from the 'Create new action' link button",
+      "pages": []
+    },
+    {
+      "hash": "b93227f",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add separate Focus View pages (focus-before/after.html)",
+      "pages": []
+    },
+    {
+      "hash": "5cf3377",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: 'Explore' opens the effectiveness side panel",
+      "pages": []
+    },
+    {
+      "hash": "78657ca",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: bump Explore link to 14px so it balances with its chevron",
+      "pages": []
+    },
+    {
+      "hash": "8f86d03",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: gradient backgrounds for the focus and wins sections",
+      "pages": []
+    },
+    {
+      "hash": "fdf607c",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: reveal recommended-action card when an approach is selected",
+      "pages": []
+    },
+    {
+      "hash": "49b21f8",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: align win cards with focus cards (L5 title, 12px theme, 24px padding)",
+      "pages": []
+    },
+    {
+      "hash": "952233a",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: align glance columns, hand-drawn underline, L3 section titles",
+      "pages": []
+    },
+    {
+      "hash": "610acf9",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: 12px gap between theme label and relevance links",
+      "pages": []
+    },
+    {
+      "hash": "8734311",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: refine focus card per feedback",
+      "pages": []
+    },
+    {
+      "hash": "787a005",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: match component details to Figma specs",
+      "pages": []
+    },
+    {
+      "hash": "0e6e225",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: solid eyebrow pills + benchmark badges to match Figma",
+      "pages": []
+    },
+    {
+      "hash": "3745a08",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: align spacing and sizing to Figma measurements",
+      "pages": []
+    },
+    {
+      "hash": "3db999b",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: match Figma layout (two-column sections, vertical matrix axis)",
+      "pages": []
+    },
+    {
+      "hash": "d9cb46c",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Focus View: use design-system components, fix collapsed matrix",
+      "pages": []
+    },
+    {
+      "hash": "2ee4336",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add Focus View tab (focus areas + wins) to the effectiveness dashboard",
+      "pages": []
+    },
+    {
+      "hash": "464e887",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "After effectiveness card: keep Novanta marker at its score, move only its label below the dot to clear the Team IT dot",
+      "pages": []
+    },
+    {
+      "hash": "7e8547e",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Reposition Novanta marker in after effectiveness card so its label no longer overlaps the Team IT dot",
+      "pages": []
+    },
+    {
+      "hash": "f991e19",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add Focus View tab (gold sparkle) between Overview and Themes",
+      "pages": []
+    },
+    {
+      "hash": "4bc360d",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "After response rate: 499 of 632 participants (79%)",
+      "pages": []
+    },
+    {
+      "hash": "b5ff8e8",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Update after effectiveness panel text + scores from dashboard",
+      "pages": []
+    },
+    {
+      "hash": "6684620",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Align after AI summary retention to 73% (match the KPI tile)",
+      "pages": []
+    },
+    {
+      "hash": "768a1d3",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Update after-survey data (improved results)",
+      "pages": []
+    },
+    {
+      "hash": "7121e8d",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Show 'Previous survey' only in after (where a prior survey exists)",
+      "pages": []
+    },
+    {
+      "hash": "f2a7e9a",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add comparisons filter dropdown to the effectiveness panel",
+      "pages": []
+    },
+    {
+      "hash": "372bf17",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Apply Figma label icon + colour logic to matrix markers",
+      "pages": []
+    },
+    {
+      "hash": "20288af",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Refine matrix marker hover: light bg tint + tooltip clear of the label",
+      "pages": []
+    },
+    {
+      "hash": "6a19b39",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Add hover state to effectiveness matrix markers",
+      "pages": []
+    },
+    {
+      "hash": "def963d",
+      "author": "Jente Insing",
+      "date": "2026-06-17",
+      "subject": "Effectiveness matrix: drop duplicate Revenue Operations, left-align matrix",
+      "pages": []
+    },
+    {
+      "hash": "09ab132",
+      "author": "Jente Insing",
+      "date": "2026-06-16",
+      "subject": "Align AI summary width with the card grid at every breakpoint",
+      "pages": []
+    },
+    {
+      "hash": "d28b3b2",
+      "author": "Jente Insing",
+      "date": "2026-06-16",
+      "subject": "Improve responsiveness of the effectiveness overview",
+      "pages": []
+    },
+    {
+      "hash": "8581ca0",
+      "author": "Jente Insing",
+      "date": "2026-06-16",
+      "subject": "Refactor before/after into shared template + per-variant DATA",
+      "pages": []
+    },
+    {
+      "hash": "8785261",
+      "author": "Jente Insing",
+      "date": "2026-06-16",
+      "subject": "Add Effectiveness group comparison 'before' overview page",
+      "pages": []
+    },
+    {
+      "hash": "268ee53",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: no header hover state when open",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "1cf50b9",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: smoother open/close via grid-template-rows",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "0878baf",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: revert panel border to --border-base",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "354f682",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: widen variant previews + show content slot in playground",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "dd660ab",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: dashed content slot, smooth open/close, roomier variants",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "8b2427e",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: panel border uses --border-action, no colour change on open",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "ec1e760",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: match Figma styling + use the real checkbox",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "783f09a",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: add header description + playground description toggle",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "7e5824b",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Accordion: rename meta variant + add selection & borderless variants",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "5b0f294",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Add Accordion documentation page (= Expansion panel)",
+      "pages": [
+        "accordion-docs.html"
+      ]
+    },
+    {
+      "hash": "ab5a4b7",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Skill: document how to add a reference prototype",
+      "pages": []
+    },
+    {
+      "hash": "85d480d",
+      "author": "Jente Insing",
+      "date": "2026-06-12",
+      "subject": "Release skill v1.8.3",
+      "pages": []
+    },
     {
       "hash": "1a6be24",
       "author": "Jente Insing",
