@@ -656,14 +656,14 @@
 
     /* Distribution bar (shared by tile + panel) */
     .dist-ends { display: flex; align-items: center; justify-content: space-between; }
-    .dist-end { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
-    .dist-end i { display: flex; width: 16px; height: 16px; }
-    .dist-end.is-dis { color: var(--bg-distribution-strongly-disagree); }
+    .dist-end { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; line-height: 22px; }
+    .dist-end i { display: flex; width: 24px; height: 24px; }
+    .dist-end.is-dis { color: var(--content-negative-base); }
     .dist-end.is-eng { color: var(--content-positive-base); }
-    .dist-bar { display: flex; height: 32px; border-radius: var(--radius-sm); overflow: hidden; }
-    .dist-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--content-inverse-base); }
+    .dist-bar { display: flex; gap: var(--spacing-extra-tight); height: 40px; }
+    .dist-seg { display: flex; align-items: center; justify-content: center; min-width: 0; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; color: var(--content-inverse-base); }
     .dist-seg.is-dis { background: var(--bg-distribution-strongly-disagree); }
-    .dist-seg.is-pot { background: var(--bg-distribution-neither-agree-disagree); }
+    .dist-seg.is-pot { background: var(--bg-distribution-neither-agree-disagree); color: var(--content-base); }
     .dist-seg.is-eng { background: var(--bg-distribution-strongly-agree); }
     .eng-dist { display: flex; flex-direction: column; gap: var(--spacing-tight); }
 
