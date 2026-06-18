@@ -2,7 +2,7 @@
 # Build the skill bundle and publish it to the rolling "skill-latest" GitHub
 # release, so the shareable download URL always serves the newest build:
 #
-#   https://github.com/jenteinsing123/effectory-design-documentation/releases/download/skill-latest/effectory-design-system.zip
+#   https://github.com/effectory-design/effectory-design-documentation/releases/download/skill-latest/effectory-design-system.zip
 #
 # Usage:  ./release-skill.sh
 # Token:  uses $GITHUB_TOKEN if set, otherwise the stored github.com git credential.
@@ -10,7 +10,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-OWNER="jenteinsing123"
+OWNER="effectory-design"
 REPO="effectory-design-documentation"
 TAG="skill-latest"
 ASSET="effectory-design-system.zip"

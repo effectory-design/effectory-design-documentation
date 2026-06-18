@@ -1,6 +1,6 @@
 # Reports page — build spec
 
-Prototype: [`reports.html`](reports.html) · [live](https://jenteinsing123.github.io/effectory-design-documentation/prototypes/reports.html)
+Prototype: [`reports.html`](reports.html) · [live](https://effectory-design.github.io/effectory-design-documentation/prototypes/reports.html)
 
 Report list with two groups: **Essential** (PPT/PDF, fast) and **Raw Data** (XLS, slow — can take ~10 min).
 
