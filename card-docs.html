@@ -10,7 +10,7 @@
   <style>
     /* ── Card — a surface that groups related content ── */
     .card { display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid transparent; border-radius: var(--radius-md); overflow: hidden; font-family: 'Poppins', sans-serif; }
-    .card-elevated { box-shadow: var(--sh-card); }
+    .card-elevated { border-color: var(--border-base); box-shadow: var(--sh-card); }
     .card-outlined { border-color: var(--border-base); }
     .card-filled   { background: var(--bg-secondary); }
     /* interactive (clickable) card */
@@ -135,7 +135,7 @@
               <div class="variant-row-btn" style="padding:28px;">
                 <div class="card card-elevated"><div class="card-body"><span class="card-title">Elevated</span><span class="card-text">Raised on a soft shadow.</span></div></div>
               </div>
-              <div class="variant-row-desc"><strong>Elevated</strong> — A soft shadow lifts the card off the page. Use for standalone or clickable cards that should stand out.</div>
+              <div class="variant-row-desc"><strong>Elevated</strong> — A hairline border <em>and</em> a soft shadow lift the card off the page (the styleguide default). Use for standalone or clickable cards that should stand out.</div>
             </div>
             <div class="variant-row">
               <div class="variant-row-btn" style="padding:28px;">
@@ -169,7 +169,7 @@
             <tbody>
               <tr><td><code>--bg-base</code></td><td>Surface (elevated / outlined)</td><td>#ffffff</td></tr>
               <tr><td><code>--bg-secondary</code></td><td>Surface (filled)</td><td>#f8f8f9</td></tr>
-              <tr><td><code>--border-base</code></td><td>Border (outlined)</td><td>#e1e4e8</td></tr>
+              <tr><td><code>--border-base</code></td><td>Border (elevated + outlined)</td><td>#e1e4e8</td></tr>
               <tr><td><code>--sh-card</code></td><td>Shadow (elevated, rest)</td><td>0 2px 4px rgba(25,39,67,.04)</td></tr>
               <tr><td><code>--sh-card-hover</code></td><td>Shadow (elevated, hover)</td><td>—</td></tr>
               <tr><td><code>--radius-md</code></td><td>Corner radius</td><td>8px</td></tr>

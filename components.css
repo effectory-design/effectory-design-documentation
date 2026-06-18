@@ -2378,7 +2378,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 
 /* ── Card — surface that groups related content (Elevated / Outlined / Filled) ── */
 .card { display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid transparent; border-radius: var(--radius-md); overflow: hidden; font-family: 'Poppins', sans-serif; }
-.card-elevated { box-shadow: var(--sh-card); }
+.card-elevated { border-color: var(--border-base); box-shadow: var(--sh-card); }
 .card-outlined { border-color: var(--border-base); }
 .card-filled   { background: var(--bg-secondary); }
 .card.is-interactive { cursor: pointer; transition: box-shadow .15s ease, border-color .15s ease; }
