@@ -545,7 +545,7 @@ function focusView(d) {
   const trend = (val) => val ? `<div class="fv-trend-row"><span class="fv-trend">${val} <i data-icon="arrow-up"></i></span><span class="fv-trend-note">vs previous survey</span></div>` : '';
   const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
   const approach = (i) => ['Team action', '1:1 action', 'Process change', 'Personal action']
-    .map(a => `<button class="rb-btn-bordered"><span class="rb-wrap"><input type="radio" class="rb" name="appr-${i}"></span>${a}</button>`).join('');
+    .map(a => `<button class="rb-btn-bordered" data-appr="${a}"><span class="rb-wrap"><input type="radio" class="rb" name="appr-${i}"></span>${a}</button>`).join('');
 
   const focusCard = (s, i) => `
     <div class="fv-card">
@@ -714,7 +714,7 @@ function shell(d) {
       </div>
     </div>
   </div>`; };
-  const topicTile = (t) => `<button class="tp-tile ${t.color}"><span class="tp-tile-fill" style="width:${Math.round(t.count / tpMax * 90)}%"></span><p class="tp-tile-name">${t.name}</p><span class="tp-tile-meta"><i data-icon="users"></i>${t.count} times selected</span><span class="tp-tile-chevron"><i data-icon="chevron-right"></i></span></button>`;
+  const topicTile = (t) => `<button class="tp-tile ${t.color}"><span class="tp-tile-fill" style="width:${Math.round(t.count / tpMax * 90)}%"></span><p class="tp-tile-name">${t.name}</p><span class="tp-tile-meta"><i data-icon="users"></i>${t.count} <span>times selected</span></span><span class="tp-tile-chevron"><i data-icon="chevron-right"></i></span></button>`;
   const qsRow = (s) => `<div class="qs-row"><p class="qs-row-q">${s.q}</p><span class="qs-row-score">${s.s}%</span></div>`;
   const efpScoreRow = (r) => `<div class="efp-score-row${r.sub ? ' is-sub' : ''}"><div class="efp-score-meta"><div class="efp-score-name">${r.name}</div>${r.desc ? `<div class="efp-score-desc">${r.desc}</div>` : ''}</div><span class="efp-score-badge is-current">${r.cur}</span><span class="efp-score-badge ${r.benchClass}">${r.bench}</span></div>`;
   const focusBullet = (b) => typeof b === 'string' ? `<li>${b}</li>` : `<li><strong>${b.t}</strong> ${b.d}</li>`;
@@ -743,13 +743,18 @@ function shell(d) {
     <div class="mn-foot">
       <a class="mn-item"><i data-icon="book-open"></i> Support wiki</a>
       <div class="mn-foot-divider"></div>
-      <div class="mn-user">
+      <div class="mn-user" id="mn-user-btn" role="button" tabindex="0">
         <div class="av av-36 av-blue">JI</div>
         <div class="mn-meta">
           <div class="mn-name">Jente Insing</div>
           <div class="mn-org">Novanta B.V.</div>
         </div>
         <i data-icon="chevron-down"></i>
+        <div class="lang-pop" id="lang-pop" hidden>
+          <button class="lang-opt" data-lang="en">English</button>
+          <button class="lang-opt" data-lang="nl">Nederlands</button>
+          <button class="lang-opt" data-lang="de">Deutsch</button>
+        </div>
       </div>
     </div>
   </div>
@@ -964,7 +969,7 @@ function shell(d) {
         <canvas id="rr-chart" width="136" height="136" role="img" aria-label="Response rate ${d.rrValue}%"></canvas>
         <div class="rr-gauge-value">${d.rrValue}%</div>
       </div>
-      <div class="rr-participants"><b>${d.rrPartDone}</b>/${d.rrPartTotal} Participants</div>
+      <div class="rr-participants"><b>${d.rrPartDone}</b>/${d.rrPartTotal} <span>Participants</span></div>
       <div class="rr-trend">${d.rrTrend} <i data-icon="${d.rrTrendIcon}"></i></div>
     </div>
     <div class="rr-bench">
@@ -1272,7 +1277,7 @@ function gauge(id, pct, colorVar, opts) {
 
 /* ---------- render ---------- */
 function renderOverview(variant, initialView) {
-  const d = DATA[variant] || DATA['team-it-after'];
+  const d = (window.translateData ? translateData(DATA[variant] || DATA['team-it-after']) : (DATA[variant] || DATA['team-it-after']));
   document.getElementById('root').innerHTML = shell(d);
 
   /* Charts — wait for Poppins so radar labels are not clipped */
@@ -1302,7 +1307,7 @@ function renderOverview(variant, initialView) {
     new Chart(document.getElementById('sw-chart'), {
       type: 'radar',
       data: {
-        labels: ['Engagement', 'Diversity', 'Employer-ship', 'Customer focus', 'Alignment', 'Leadership'],
+        labels: ['Engagement', 'Diversity', 'Employer-ship', 'Customer focus', 'Alignment', 'Leadership'].map(s => window.tr ? tr(s) : s),
         datasets: [
           { label: 'Previous', data: d.swPrevious, backgroundColor: rgba(swPrev, 0.54), borderColor: swPrev, borderWidth: 1, pointBackgroundColor: css('--bg-base'), pointBorderColor: css('--border-highlight-base'), pointBorderWidth: 2, pointRadius: 5 },
           { label: 'Current', data: d.swCurrent, backgroundColor: rgba(swCur, 0.47), borderColor: swCur, borderWidth: 1, pointBackgroundColor: css('--bg-base'), pointBorderColor: css('--border-info-base'), pointBorderWidth: 2, pointRadius: 5 }
@@ -1383,7 +1388,7 @@ function renderOverview(variant, initialView) {
         document.querySelectorAll('.efp-marker.' + b.dataset.variant)
           .forEach(el => { el.style.display = b.checked ? '' : 'none'; });
       });
-      cmpCount.textContent = n + ' selected';
+      cmpCount.textContent = n + ' ' + (window.tr ? tr('selected') : 'selected');
     };
     cmpBtn.addEventListener('click', (e) => { e.stopPropagation(); cmpMenu.hidden = !cmpMenu.hidden; });
     cmpMenu.addEventListener('click', (e) => e.stopPropagation());
@@ -1451,12 +1456,13 @@ function renderOverview(variant, initialView) {
         if (input) input.checked = true;
         card.querySelectorAll('.rb-btn-bordered').forEach(c => c.classList.toggle('is-checked', c === chip));
         card.classList.add('is-active');
-        const r = RECO[chip.textContent.trim()] || RECO['1:1 action'];
-        reco.querySelector('.fv-reco-eyebrow').textContent = r.eyebrow;
-        reco.querySelector('.fv-reco-title').textContent = r.title;
-        reco.querySelector('.fv-reco-body').textContent = r.body;
+        const T2 = (s) => window.tr ? tr(s) : s;
+        const r = RECO[chip.dataset.appr] || RECO['1:1 action'];
+        reco.querySelector('.fv-reco-eyebrow').textContent = T2(r.eyebrow);
+        reco.querySelector('.fv-reco-title').textContent = T2(r.title);
+        reco.querySelector('.fv-reco-body').textContent = T2(r.body);
         const eff = reco.querySelector('.fv-reco-effort');
-        eff.textContent = r.effort;
+        eff.textContent = T2(r.effort);
         eff.className = 'fv-reco-effort ' + r.effortClass;
         reco.hidden = false;
       });
@@ -1470,6 +1476,26 @@ function renderOverview(variant, initialView) {
     const open = aiSummary.classList.toggle('is-open');
     aiToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
+
+  /* Translate the fixed UI text (nav, tabs, headings, buttons …) */
+  if (window.translateDOM) translateDOM(document.getElementById('root'));
+
+  /* Language popover (click the user's name in the sidebar) */
+  const userBtn = document.getElementById('mn-user-btn');
+  const langPop = document.getElementById('lang-pop');
+  if (userBtn && langPop) {
+    langPop.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.lang === (window.LANG || 'en'));
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (window.setLang) setLang(b.dataset.lang);
+        const av = document.querySelector('.tab.is-active[data-view]');
+        renderOverview(variant, av ? av.dataset.view : 'overview');
+      });
+    });
+    userBtn.addEventListener('click', (e) => { e.stopPropagation(); langPop.hidden = !langPop.hidden; });
+    document.addEventListener('click', () => { langPop.hidden = true; });
+  }
 
   /* Icons */
   if (window.Icons) Icons.render(document);
