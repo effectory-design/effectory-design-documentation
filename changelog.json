@@ -1,6 +1,27 @@
 {
-  "count": 766,
+  "count": 769,
   "entries": [
+    {
+      "hash": "1520591",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Skill v1.9.16: 24px left padding on eNPS donut (rebuild refs)",
+      "pages": []
+    },
+    {
+      "hash": "da1986a",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "eNPS card: add 24px left padding to the donut graph row",
+      "pages": []
+    },
+    {
+      "hash": "ae3d838",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Sync skill-source bundle + changelog for v1.9.15",
+      "pages": []
+    },
     {
       "hash": "7da84ca",
       "author": "Jente Insing",
