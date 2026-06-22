@@ -1,6 +1,47 @@
 {
-  "count": 723,
+  "count": 728,
   "entries": [
+    {
+      "hash": "bf3386c",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Dashboard cards: clip-proof tooltips + blue Engagement tile",
+      "pages": []
+    },
+    {
+      "hash": "9592d46",
+      "author": "Jente Insing",
+      "date": "2026-06-19",
+      "subject": "Card: drop media slot, make body fully dynamic, add density scale",
+      "pages": [
+        "card-docs.html"
+      ]
+    },
+    {
+      "hash": "4ecf3f6",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Card: elevated is outline + shadow",
+      "pages": [
+        "card-docs.html"
+      ]
+    },
+    {
+      "hash": "c6003e8",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Card: reconcile with the styleguide",
+      "pages": [
+        "card-docs.html"
+      ]
+    },
+    {
+      "hash": "9e1d7c2",
+      "author": "Jente Insing",
+      "date": "2026-06-18",
+      "subject": "Sync skill-source bundle + changelog for v1.9.1",
+      "pages": []
+    },
     {
       "hash": "0e11718",
       "author": "Jente Insing",
