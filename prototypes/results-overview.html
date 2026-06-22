@@ -999,15 +999,15 @@
     }
 
     /* ════ eNPS side panel (redesign) ════ */
-    #npsp-overlay .sp-body { display: flex; flex-direction: column; gap: var(--spacing-base); }
-    .npsp-section { margin-top: 0; }
+    .npsp-section { margin-top: var(--spacing-super-loose); }
+    .npsp-section:first-child { margin-top: 0; }
     /* Section header → content spacing is always 12px (--spacing-base-tight); title → subtitle stays tight at 4px */
     .npsp-h { margin: 0 0 var(--spacing-base-tight); font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
     .npsp-h:has(+ .npsp-sub) { margin-bottom: var(--spacing-extra-tight); }
     .npsp-sub { margin: 0 0 var(--spacing-base-tight); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
 
     /* Your scores — calculation row */
-    .npsp-calc { display: flex; align-items: stretch; gap: var(--spacing-tight); }
+    .npsp-calc { display: flex; align-items: stretch; gap: var(--spacing-base); }
     .npsp-card { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-extra-tight); padding: var(--spacing-base) var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); text-align: center; }
     .npsp-card-icon { width: 24px; height: 24px; display: flex; }
     .npsp-card.is-promoter  .npsp-card-icon { color: var(--bg-distribution-agree); }

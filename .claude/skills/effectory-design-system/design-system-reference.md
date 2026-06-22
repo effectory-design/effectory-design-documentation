@@ -66,7 +66,11 @@ Geen formeel kolomgrid. Layout = **page padding** (responsive margin rondom de c
 | `--spacing-super-loose` | `40px` |
 | `--spacing-super-extra-loose` | `56px` |
 
-**Sectie-spacing (vaste regel):** tussen een **sectieheader en de sectiecontent** zit altijd **12px** (`--spacing-base-tight`) — dus tussen de titel/subtitel-kop van een blok en de eerste content eronder (bars, kaarten, lijst, grid). Heeft een sectie zowel een titel als een subtitel, dan blijft de titel→subtitel-afstand klein (`--spacing-extra-tight`, 4px) en geldt de 12px tussen de subtitel en de content. Houd dit consistent in elk prototype; varieer niet per sectie.
+**Sectie-spacing (vaste regels):**
+- Tussen een **sectieheader en de sectiecontent** zit altijd **12px** (`--spacing-base-tight`) — dus tussen de titel/subtitel-kop van een blok en de eerste content eronder (bars, kaarten, lijst, grid). Heeft een sectie zowel een titel als een subtitel, dan blijft de titel→subtitel-afstand klein (`--spacing-extra-tight`, 4px) en geldt de 12px tussen de subtitel en de content.
+- Tussen **opeenvolgende secties** (in side panels / `.sp-body`) zit altijd **40px** (`--spacing-super-loose`). Pas dit consistent toe op elk side-panel (Effectiveness, Engagement, eNPS, …); varieer niet per panel.
+
+Houd dit consistent in elk prototype; varieer niet per sectie.
 
 ### Border radius
 | Token | Waarde |
