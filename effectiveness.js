@@ -750,6 +750,35 @@ function shell(d) {
       </div>
     </div>
   </div>`; };
+  /* Effectiveness panel — List view: comparison groups grouped by quadrant */
+  const efpListRow = (m) => `<div class="efp-li-row">
+    <span class="efp-li-icon ${m.variant}"><i data-icon="${markerIcon(m)}"></i></span>
+    <div class="efp-li-text">
+      <div class="efp-li-name">${m.label}</div>
+      <div class="efp-li-meta"><span>Engagement</span>: ${m.x}% • <span>Performance environment</span>: ${m.y}%</div>
+    </div>
+  </div>`;
+  const efpListView = () => {
+    const quads = [
+      { name: 'Effective',         cls: 'is-effective',    test: (m) => m.x >= 50 && m.y >= 50 },
+      { name: 'Not fully utilized', cls: 'is-not-utilized', test: (m) => m.x >= 50 && m.y < 50 },
+      { name: 'Detached',          cls: 'is-detached',     test: (m) => m.x < 50 && m.y >= 50 },
+      { name: 'Ineffective',       cls: 'is-ineffective',  test: (m) => m.x < 50 && m.y < 50 }
+    ];
+    const current = d.efpMarkers.find((m) => m.variant === 'is-current');
+    return quads.map((q) => {
+      const items = d.efpMarkers.filter(q.test);
+      if (!items.length) return '';
+      const hasCurrent = current && q.test(current);
+      return `<div class="efp-acc ${q.cls}${hasCurrent ? ' is-open' : ''}">
+        <button class="efp-acc-hd" type="button">
+          <span class="efp-acc-label"><span class="efp-acc-title">${q.name}</span><span class="efp-acc-count">${items.length} <span>groups</span></span></span>
+          <span class="efp-acc-right">${hasCurrent ? `<span class="efp-acc-chip"><i data-icon="group"></i>${current.label}</span>` : ''}<i data-icon="chevron-down" class="efp-acc-chev"></i></span>
+        </button>
+        <div class="efp-acc-body">${items.map(efpListRow).join('')}</div>
+      </div>`;
+    }).join('');
+  };
   const topicTile = (t) => `<button class="tp-tile ${t.color}"><span class="tp-tile-fill" style="width:${Math.round(t.count / tpMax * 90)}%"></span><p class="tp-tile-name">${t.name}</p><span class="tp-tile-meta"><i data-icon="users"></i>${t.count} <span>times selected</span></span><span class="tp-tile-chevron"><i data-icon="chevron-right"></i></span></button>`;
   const qsRow = (s) => `<div class="qs-row"><p class="qs-row-q">${s.q}</p><span class="qs-row-score">${s.s}%</span></div>`;
   const efpScoreRow = (r) => `<div class="efp-score-row${r.sub ? ' is-sub' : ''}"><div class="efp-score-meta"><div class="efp-score-name">${r.name}</div>${r.desc ? `<div class="efp-score-desc">${r.desc}</div>` : ''}</div><span class="efp-score-badge is-current">${r.cur}</span><span class="efp-score-badge ${r.benchClass}">${r.bench}</span></div>`;
@@ -1153,11 +1182,12 @@ ${focusView(d)}
           </div>
         </div>
         <div class="segctl">
-          <button class="segctl-btn is-active"><i data-icon="table"></i> Matrix</button>
-          <button class="segctl-btn"><i data-icon="list-unordered"></i> List</button>
+          <button class="segctl-btn is-active" data-seg="matrix"><i data-icon="table"></i> Matrix</button>
+          <button class="segctl-btn" data-seg="list"><i data-icon="list-unordered"></i> List</button>
         </div>
       </div>
 
+      <div class="efp-view" id="efp-view-matrix">
       <div class="efp-matrix-row">
         <div class="efp-y-axis"><span>Performance environment →</span></div>
         <div class="efp-matrix" id="efp-matrix">
@@ -1174,6 +1204,15 @@ ${focusView(d)}
         </div>
       </div>
       <p class="efp-x-axis">Engagement score →</p>
+      </div>
+
+      <div class="efp-view" id="efp-view-list" hidden>
+        <div class="efp-bench-row">
+          <span class="efp-bench-stat"><i data-icon="benchmark-up"></i> Benchmark <span>Engagement</span> ${d.engBench}</span>
+          <span class="efp-bench-stat"><i data-icon="benchmark-up"></i> Benchmark <span>Performance environment</span> ${d.efpBench}</span>
+        </div>
+        <div class="efp-list">${efpListView()}</div>
+      </div>
 
       <div class="efp-section">
         <h3 class="efp-section-title">Suggested focus</h3>
@@ -1411,6 +1450,21 @@ function renderOverview(variant, initialView) {
   };
   wirePanel('efp-overlay', 'efp-close', '.fx-card');
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
+
+  /* Effectiveness panel: Matrix / List segmented control + list accordions */
+  const segBtns = document.querySelectorAll('#efp-overlay .segctl-btn');
+  const mView = document.getElementById('efp-view-matrix');
+  const lView = document.getElementById('efp-view-list');
+  segBtns.forEach((b) => b.addEventListener('click', () => {
+    segBtns.forEach((x) => x.classList.remove('is-active'));
+    b.classList.add('is-active');
+    const isList = b.dataset.seg === 'list';
+    if (mView) mView.hidden = isList;
+    if (lView) lView.hidden = !isList;
+  }));
+  document.querySelectorAll('#efp-view-list .efp-acc-hd').forEach((hd) => {
+    hd.addEventListener('click', () => hd.closest('.efp-acc').classList.toggle('is-open'));
+  });
 
   /* Comparisons filter dropdown (effectiveness panel) */
   const cmpBtn = document.getElementById('efp-cmp-btn');

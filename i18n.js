@@ -114,6 +114,7 @@
     "Current group": { nl: "Huidige groep", de: "Aktuelle Gruppe" },
     "Matrix": { nl: "Matrix", de: "Matrix" },
     "List": { nl: "Lijst", de: "Liste" },
+    "groups": { nl: "groepen", de: "Gruppen" },
     "selected": { nl: "geselecteerd", de: "ausgewählt" },
     "Suggested focus": { nl: "Voorgestelde focus", de: "Empfohlener Fokus" },
     "Areas to focus on": { nl: "Aandachtsgebieden", de: "Schwerpunktbereiche" },
