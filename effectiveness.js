@@ -1518,6 +1518,9 @@ function renderOverview(variant, initialView) {
     tip.style.transform = 'none';
     tip.style.left = '0';
     tip.style.top = '0';
+    tip.style.right = 'auto';
+    tip.style.bottom = 'auto';
+    tip.style.height = 'auto';
     const t = demo.getBoundingClientRect();
     const tw = tip.offsetWidth, th = tip.offsetHeight;
     const vw = window.innerWidth, vh = window.innerHeight;
