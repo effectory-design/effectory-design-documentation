@@ -839,6 +839,8 @@
       background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-base);
       box-shadow: var(--sh-action);
     }
+    .fv-stat-pill.is-clickable { cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out); }
+    .fv-stat-pill.is-clickable:hover { border-color: var(--border-action-hover); box-shadow: var(--sh-card); }
     .fv-stat-pill-lbl { font-size: 14px; font-weight: 600; color: var(--content-secondary); }
     .fv-stat-pill-val { font-size: 16px; font-weight: 600; color: var(--content-base); }
     .fv-stat-pill .fv-trend { font-size: 12px; }

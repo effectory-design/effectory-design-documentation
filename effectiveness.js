@@ -604,7 +604,7 @@ function focusView(d) {
       <span class="fv-stat-pill-val">${d.rrValue}%</span>
       <span class="fv-trend">${d.rrTrend} <i data-icon="arrow-up"></i></span>
     </div>
-    <div class="fv-stat-pill">
+    <div class="fv-stat-pill is-clickable fv-nps-pill" role="button" tabindex="0" aria-label="Open eNPS details">
       <span class="fv-stat-pill-lbl">eNPS</span>
       <span class="fv-stat-pill-val">${npsValue}</span>
       ${d.npsTrend ? `<span class="fv-trend">${d.npsTrend} <i data-icon="arrow-up"></i></span>` : ''}
@@ -1670,6 +1670,13 @@ function renderOverview(variant, initialView) {
   /* Focus View: 'Explore' and the glance matrix open the effectiveness side panel */
   document.querySelectorAll('#view-focus .fv-explore, #view-focus .fv-glance-matrix').forEach(el => {
     el.addEventListener('click', () => { document.getElementById('efp-overlay').hidden = false; });
+  });
+
+  /* Focus View: the eNPS stat pill opens the eNPS side panel */
+  document.querySelectorAll('#view-focus .fv-nps-pill').forEach(el => {
+    const open = () => { document.getElementById('npsp-overlay').hidden = false; };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
   });
 
   /* Focus View: 'Why these …?' opens an explainer dialog */
