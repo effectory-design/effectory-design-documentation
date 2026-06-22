@@ -1,6 +1,27 @@
 {
-  "count": 743,
+  "count": 746,
   "entries": [
+    {
+      "hash": "3e74de2",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Skill v1.9.8: rebuild reference prototypes with the effectiveness List view",
+      "pages": []
+    },
+    {
+      "hash": "5b5bdc1",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Effectiveness panel: add the List view (Matrix/List toggle)",
+      "pages": []
+    },
+    {
+      "hash": "db10796",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Sync skill-source bundle + changelog for v1.9.7",
+      "pages": []
+    },
     {
       "hash": "61fd7cf",
       "author": "Jente Insing",
