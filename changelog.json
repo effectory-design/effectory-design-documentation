@@ -1,6 +1,27 @@
 {
-  "count": 751,
+  "count": 754,
   "entries": [
+    {
+      "hash": "35d01de",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Skill v1.9.11: rebuild all reference prototypes from source (eNPS panel now in source)",
+      "pages": []
+    },
+    {
+      "hash": "fcc8f37",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Add the eNPS side panel to the source dashboard (was only in the built refs)",
+      "pages": []
+    },
+    {
+      "hash": "bab5355",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Update changelog for v1.9.10",
+      "pages": []
+    },
     {
       "hash": "aa8a426",
       "author": "Jente Insing",
