@@ -1500,3 +1500,51 @@ function renderOverview(variant, initialView) {
   /* Icons */
   if (window.Icons) Icons.render(document);
 }
+
+/* ---------- Tooltip auto-position ----------
+   Render the bubble in a fixed layer so no overflow:hidden ancestor (cards,
+   scroll containers) can clip it. Delegated on document so it survives the
+   in-place re-renders of #root. On hover/focus: measure the trigger, pick the
+   first direction that fits (preferred side first, then above > below > right
+   > left), and place the bubble with position:fixed, clamped to the viewport.
+   See design-system-reference.md → Tooltip. */
+(function () {
+  const GAP = 10, PAD = 8;
+  const place = (demo) => {
+    const tip = demo.querySelector('.tooltip');
+    if (!tip) return;
+    tip.style.position = 'fixed';
+    tip.style.margin = '0';
+    tip.style.transform = 'none';
+    tip.style.left = '0';
+    tip.style.top = '0';
+    const t = demo.getBoundingClientRect();
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const pref = tip.classList.contains('is-below') ? 'below'
+      : tip.classList.contains('is-left') ? 'left'
+      : tip.classList.contains('is-right') ? 'right' : 'above';
+    const fits = {
+      above: t.top - th - GAP >= PAD,
+      below: t.bottom + th + GAP <= vh - PAD,
+      left:  t.left - tw - GAP >= PAD,
+      right: t.right + tw + GAP <= vw - PAD
+    };
+    const dir = [pref, 'above', 'below', 'right', 'left'].find(d => fits[d]) || pref;
+    let x, y;
+    if (dir === 'above')      { x = t.left + t.width / 2 - tw / 2; y = t.top - th - GAP; }
+    else if (dir === 'below') { x = t.left + t.width / 2 - tw / 2; y = t.bottom + GAP; }
+    else if (dir === 'left')  { x = t.left - tw - GAP; y = t.top + t.height / 2 - th / 2; }
+    else                      { x = t.right + GAP; y = t.top + t.height / 2 - th / 2; }
+    tip.style.left = Math.max(PAD, Math.min(x, vw - tw - PAD)) + 'px';
+    tip.style.top = Math.max(PAD, Math.min(y, vh - th - PAD)) + 'px';
+    tip.classList.remove('is-above', 'is-below', 'is-left', 'is-right');
+    tip.classList.add('is-' + dir);
+  };
+  const onEnter = (e) => {
+    const demo = e.target.closest && e.target.closest('.tt-demo');
+    if (demo) place(demo);
+  };
+  document.addEventListener('mouseover', onEnter);
+  document.addEventListener('focusin', onEnter);
+})();
