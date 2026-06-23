@@ -22,7 +22,7 @@
     .gl-clbl { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--content-secondary); margin-top: 8px; }
 
     /* Page padding demo */
-    .gl-page { position: relative; background: #cfe0ff; border-radius: var(--radius-lg); padding: 40px; }
+    .gl-page { position: relative; background: #cfe0ff; border-radius: var(--radius-lg); padding: 48px 64px; }
     .gl-page-inner { background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: 24px; font-size: 14px; color: var(--content-secondary); text-align: center; }
     .gl-page-tag { position: absolute; top: 8px; left: 12px; font-size: 12px; font-weight: 600; color: #2557c7; }
 
@@ -68,7 +68,7 @@
     <h2 class="text-l3">Approach</h2>
     <p class="section-lead">There is no formal 12-column grid. Compose layouts from these primitives instead:</p>
     <div class="a11y-list">
-      <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Page padding.</strong> A responsive margin around the content that grows with the viewport — 16px on mobile up to 64px on desktop.</div></div>
+      <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Page padding.</strong> A responsive margin around the content that grows with the viewport. Vertical and horizontal differ — on desktop it's 48px vertical / 64px horizontal, down to 24px / 16px on mobile.</div></div>
       <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Container width.</strong> A max-width on the content: narrow, wide, or full — pick the one that fits the content type.</div></div>
       <div class="a11y-item"><span class="a11y-arrow">→</span><div><strong>Gutter.</strong> The space between elements — 24px by default. Keep it consistent within a view.</div></div>
     </div>
@@ -83,9 +83,9 @@
         <tr><th>Breakpoint</th><th>Range</th><th>Page padding</th><th>Navigation</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Mobile</strong></td><td>&lt; 576px</td><td>16px (all sides)</td><td>Hamburger menu</td></tr>
-        <tr><td><strong>Tablet</strong></td><td>576 – 1199px</td><td>24px (all sides)</td><td>Hamburger menu</td></tr>
-        <tr><td><strong>Desktop</strong></td><td>≥ 1200px</td><td>64px (all sides)</td><td>Sidebar, always visible</td></tr>
+        <tr><td><strong>Mobile</strong></td><td>&lt; 576px</td><td>24px vertical · 16px horizontal</td><td>Hamburger menu</td></tr>
+        <tr><td><strong>Tablet</strong></td><td>576 – 1199px</td><td>32px vertical · 24px horizontal</td><td>Hamburger menu</td></tr>
+        <tr><td><strong>Desktop</strong></td><td>≥ 1200px</td><td>48px vertical · 64px horizontal</td><td>Sidebar, always visible</td></tr>
       </tbody>
     </table>
   </section>
@@ -114,9 +114,9 @@
   <!-- PAGE PADDING -->
   <section class="section" id="padding">
     <h2 class="text-l3">Page padding</h2>
-    <p class="section-lead">The padding between the viewport edge (or sidebar) and the content grows with screen size. On desktop it's 64px on all sides; the blue area below is the padding zone.</p>
+    <p class="section-lead">The padding between the viewport edge (or sidebar) and the content grows with screen size. On desktop it's 48px vertical / 64px horizontal; the blue area below is the padding zone.</p>
     <div class="gl-page">
-      <span class="gl-page-tag">64px padding (desktop)</span>
+      <span class="gl-page-tag">48px vertical · 64px horizontal (desktop)</span>
       <div class="gl-page-inner">Content container</div>
     </div>
   </section>
@@ -153,7 +153,7 @@
           <div class="gl-shell-bar w60"></div>
         </div>
       </div>
-      <div class="gl-shell-cap">Sidebar 240px · content fills the rest · 64px page padding around the content.</div>
+      <div class="gl-shell-cap">Sidebar 240px · content fills the rest · 48px vertical / 64px horizontal page padding around the content.</div>
     </div>
   </section>
 
@@ -164,9 +164,9 @@
     <table class="token-table">
       <thead><tr><th>Property</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td>Page padding — mobile (&lt;576px)</td><td>16px</td></tr>
-        <tr><td>Page padding — tablet (576–1199px)</td><td>24px</td></tr>
-        <tr><td>Page padding — desktop (≥1200px)</td><td>64px</td></tr>
+        <tr><td>Page padding — mobile (&lt;576px)</td><td>24px vertical · 16px horizontal</td></tr>
+        <tr><td>Page padding — tablet (576–1199px)</td><td>32px vertical · 24px horizontal</td></tr>
+        <tr><td>Page padding — desktop (≥1200px)</td><td>48px vertical · 64px horizontal</td></tr>
         <tr><td>Container — narrow</td><td>max-width 960px</td></tr>
         <tr><td>Container — wide</td><td>max-width 1200px</td></tr>
         <tr><td>Container — full width</td><td>no max-width</td></tr>

@@ -21,7 +21,10 @@ Do NOT invent names. If something isn't listed here, it does not exist.
   <link rel="stylesheet" href="/foundation.css" />
   <link rel="stylesheet" href="/components.css" />
   <style>
-    body { background: var(--bg-interface-body); color: var(--content-base); font-family: 'Poppins', sans-serif; }
+    /* De base reset (box-sizing, body-margin, font, kleur) zit in foundation.css —
+       die laad je hierboven, dus die hoef je hier NIET te herhalen. Zet hier alleen
+       pagina-specifieke stijl, zoals de achtergrond. */
+    body { background: var(--bg-interface-body); }
   </style>
 </head>
 <body>
@@ -44,9 +47,9 @@ Do NOT invent names. If something isn't listed here, it does not exist.
 Geen formeel kolomgrid. Layout = **page padding** (responsive margin rondom de content) + **container max-width** + een vaste **gutter**.
 | Property | Waarde |
 |---|---|
-| Page padding — mobile (`<576px`) | `16px` (alle zijden) |
-| Page padding — tablet (`576–1199px`) | `24px` (alle zijden) |
-| Page padding — desktop (`≥1200px`) | `64px` (alle zijden) |
+| Page padding — desktop (`≥1200px`) | `48px` verticaal · `64px` horizontaal — nav (sidebar 240px) altijd zichtbaar |
+| Page padding — tablet (`576–1199px`) | `32px` verticaal · `24px` horizontaal — nav als hamburger |
+| Page padding — mobile (`<576px`) | `24px` verticaal · `16px` horizontaal — nav als hamburger |
 | Container — narrow | `max-width: 960px` (lezen, formulieren, focus-flows) |
 | Container — wide | `max-width: 1200px` (standaard app-pagina's, card-grids, dashboards) |
 | Container — full width | geen max-width (data-zware tabellen / complexe UI's) |
@@ -54,7 +57,7 @@ Geen formeel kolomgrid. Layout = **page padding** (responsive margin rondom de c
 | Sidebar (desktop) | `240px` breed |
 | Nav switch | op `1200px` wisselt sidebar ↔ hamburger-header |
 
-> ⚠️ **Paginabreedte komt uit deze regel, niet uit de Figma-artboard.** De Figma-frame (bijv. 1440/1920px) is canvas, geen container. Kies de container op basis van het type pagina: **wide = `max-width: 1200px`** is de default voor app-pagina's, card-grids en dashboards. De `max-width` is letterlijk 1200px — tel er geen padding bij op; gebruik `box-sizing: border-box` als de container interne padding heeft zodat hij exact 1200px blijft. Een resultaten-dashboard en al z'n tabs zijn **wide (1200px)** en even breed. Bereken de breedte nooit als `artboard − sidebar`. Zie ook SKILL-regel 10.
+> ⚠️ **Layout-maten komen uit deze regel, niet uit de Figma-artboard** (1440/1920px is canvas; reken nooit `artboard − sidebar`). De **page padding hierboven geldt voor de héle pagina** — breadcrumb, header, tabs én content gebruiken dezelfde horizontale padding (desktop **64px**, tablet 24px, mobile 16px) zodat alles uitlijnt. App-pagina's, card-grids én **dashboards zijn wide = 1200px** (gecentreerde kolom met de page-padding als gutter), niet full-width; **narrow (960px)** voor lezen/formulieren; **full-width** alleen voor data-zware tabellen. ⚠️ Onder de globale `* { box-sizing: border-box }`-reset telt een cap de padding mee: voor 1200px content mét padding gebruik `max-width: calc(1200px + 2 × page-padding)` + `margin-inline: auto`; zet dus nooit `max-width: 1200px` op een gepadde wrapper (content wordt dan te smal). Zie ook SKILL-regel 10.
 
 ### Spacing
 | Token | Waarde |

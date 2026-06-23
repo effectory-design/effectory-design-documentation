@@ -155,18 +155,25 @@ Een icoon-only knop (`.ib` / icon button) is zonder label niet te begrijpen. Gee
 ```
 Geldt voor elke icon-only knop (toolbar-acties, close-knoppen die alleen een icoon tonen, kebab-menu's, enz.). Knoppen mét zichtbare tekst hebben geen tooltip nodig. In Angular: de `matTooltip`-directive op de knop.
 
-### 10. Paginabreedte — uit de container-regel, nooit uit de Figma-artboard
-De breedte van een pagina of contentkolom komt **altijd** uit de container-regel in `design-system-reference.md` §2 — **nooit** uit de breedte van de Figma-frame/artboard. Die artboard (bijv. 1440 of 1920px) is alleen canvas, geen productie-breedte.
+### 10. Paginabreedte & padding — uit de grid-regel, nooit uit de Figma-artboard
+Layout-maten komen **altijd** uit de grid/layout-regel in `design-system-reference.md` §2 — **nooit** uit de Figma-frame/artboard (1440/1920px is canvas; reken nooit `artboard − sidebar`).
 
-| Container | max-width | Wanneer |
-|---|---|---|
-| narrow | 960px | lezen, formulieren, focus-flows |
-| **wide** | **1200px** | **standaard app-pagina's, card-grids, dashboards** (default) |
-| full-width | geen | alleen data-zware tabellen / complexe UI's |
+**Page padding is responsive en geldt voor de héle pagina** (breadcrumb, header, tabs én content gebruiken dezelfde horizontale padding, zodat alles op één lijn begint):
 
-- Twijfel je? Kies **wide**: `max-width: 1200px`, `margin: 0 auto`. Gebruik je interne padding op die container, zet dan `box-sizing: border-box` zodat de container **exact 1200px** blijft — niet 1200 + padding. De `max-width` is letterlijk de waarde uit de tabel; tel er geen padding bij op.
-- Een resultaten-dashboard of een nieuw tabblad daarvan is **wide (1200px)** — alle tabs van hetzelfde scherm zijn even breed.
-- Toont een Figma op een 1920-artboard bijv. 1560px content, dan betekent dat **niet** een 1560px container — map naar de dichtstbijzijnde regel-container (meestal wide/1200). Reken de breedte nooit terug uit `artboard − sidebar`.
+| Breakpoint | Horizontaal | Verticaal | Navigatie |
+|---|---|---|---|
+| Desktop ≥1200px | **64px** | 48px | sidebar 240px, altijd zichtbaar |
+| Tablet 576–1199px | 24px | 32px | hamburger |
+| Mobile <576px | 16px | 24px | hamburger |
+
+Token-gebaseerd: 64 = `--spacing-extra-loose × 2`, 48 = `--spacing-loose × 2`, 24 = `--spacing-loose`, 32 = `--spacing-extra-loose`, 16 = `--spacing-base`. Zet ze in responsive CSS-vars en gebruik die overal (`padding: var(--pad-y) var(--pad-x)`).
+
+**Content-breedte (los van de page-padding):**
+- **wide 1200px — de default voor app-pagina's, card-grids én dashboards** → een gecentreerde kolom van max. 1200px content, met de page-padding als gutter. Een resultaten-dashboard(-tab) is **wide**, géén full-width.
+- **narrow 960px** → lezen, formulieren, focus-flows.
+- **full-width (geen cap)** → alléén data-zware tabellen / complexe UI's die de volle breedte echt nodig hebben.
+
+> ⚠️ Onder de globale `* { box-sizing: border-box }`-reset (boilerplate §1) telt een max-width-cap de padding mee. Voor 1200px content **mét** page-padding: `max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto;`. Zet **nooit** `max-width: 1200px` op een wrapper die zelf horizontale padding heeft — dan wordt de content `1200 − 2×padding` (bijv. 1152 of 1072) en oogt er te veel ruimte aan de zijkanten. (Dit ging eerder mis.)
 
 ---
 

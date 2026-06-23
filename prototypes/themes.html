@@ -12,13 +12,13 @@
   <link rel="stylesheet" href="/components.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
   <style>
+    /* Base reset (box-sizing, body-margin, font, kleur) komt uit foundation.css. */
     body {
       background: var(--bg-interface-body);
-      color: var(--content-base);
-      font-family: 'Poppins', sans-serif;
-      /* Results page container padding (Figma: results/padding) — built from spacing tokens */
-      --results-side: calc(var(--spacing-super-loose) * 2); /* 80px — container-sides */
-      --results-top: calc(var(--spacing-loose) * 2);        /* 48px — container-top-bot */
+      /* Page padding (design-system grid, desktop): 64px horizontaal, 48px verticaal.
+         Responsive waarden (24/32 tablet, 16/24 mobile) staan in de media queries onderaan. */
+      --results-side: calc(var(--spacing-extra-loose) * 2); /* 64px — page padding horizontaal */
+      --results-top: calc(var(--spacing-loose) * 2);        /* 48px — page padding verticaal */
     }
 
     /* ── App shell (matches the results dashboard) ── */
@@ -41,13 +41,12 @@
     .tt-demo .tooltip { opacity: 0; pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out); }
     .tt-demo:hover .tooltip, .tt-demo:focus-within .tooltip { opacity: 1; }
 
-    /* ── Themes view — "wide" results container = 1200px (design-system-reference §2).
-       box-sizing: border-box so the container stays exactly 1200px incl. padding. ── */
+    /* ── Themes view — "wide" container: 1200px content, gecentreerd, met de page-padding
+       als gutter. Onder border-box telt de padding mee, dus max-width = 1200 + 2×padding. ── */
     .themes-wrap {
-      max-width: 1200px;
-      box-sizing: border-box;
-      margin: 0 auto;
-      padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose);
+      max-width: calc(1200px + 2 * var(--results-side));  /* = 1200 content + page padding */
+      margin-inline: auto;
+      padding: var(--results-top) var(--results-side);
       display: flex;
       flex-direction: column;
       gap: var(--spacing-extra-loose);
@@ -110,10 +109,17 @@
     /* small ghost icon button for the pin / gear (composes the Icon Button sizing) */
     .icon-ghost { color: var(--content-action); }
 
-    /* ── Responsive ── */
-    @media (max-width: 1280px) { .themes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 1100px) { .mainnav { display: none; } body { --results-side: var(--spacing-loose); } }
-    @media (max-width: 720px)  { .themes-grid { grid-template-columns: minmax(0, 1fr); } }
+    /* ── Responsive (design-system grid): desktop ≥1200 = 64/48 + nav zichtbaar;
+       tablet 576–1199 = 24/32 + hamburger; mobile <576 = 16/24 + hamburger. ── */
+    @media (max-width: 1199px) {
+      body { --results-side: var(--spacing-loose); --results-top: var(--spacing-extra-loose); } /* 24 / 32 */
+      .mainnav { display: none; } /* < 1200 → hamburger-menu (niet gebouwd in dit prototype) */
+      .themes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 575px) {
+      body { --results-side: var(--spacing-base); --results-top: var(--spacing-loose); } /* 16 / 24 */
+      .themes-grid { grid-template-columns: minmax(0, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -179,14 +185,14 @@
           </div>
         </div>
         <div class="tabs" role="tablist">
-          <a class="tab" role="tab" href="#">Overview</a>
-          <a class="tab" role="tab" href="#"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
-          <a class="tab is-active" role="tab" aria-selected="true" href="#">Themes</a>
-          <a class="tab" role="tab" href="#">Questions</a>
-          <a class="tab" role="tab" href="#">Open answers</a>
-          <a class="tab" role="tab" href="#">Topics &amp; Ideas</a>
-          <a class="tab" role="tab" href="#">Reports</a>
-          <a class="tab" role="tab" href="#">Actions</a>
+          <a class="tab" role="tab">Overview</a>
+          <a class="tab" role="tab"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
+          <a class="tab is-active" role="tab" aria-selected="true">Themes</a>
+          <a class="tab" role="tab">Questions</a>
+          <a class="tab" role="tab">Open answers</a>
+          <a class="tab" role="tab">Topics &amp; Ideas</a>
+          <a class="tab" role="tab">Reports</a>
+          <a class="tab" role="tab">Actions</a>
         </div>
       </div>
 

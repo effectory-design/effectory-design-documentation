@@ -2160,7 +2160,7 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 
 /* ── Tabs ── */
 .tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--border-base); font-family: 'Poppins', sans-serif; }
-.tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 14px; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); background: none; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 14px; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); background: none; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; text-decoration: none; }
 .tab:hover, .tab.is-hover { color: var(--content-base); }
 .tab.is-active { color: var(--content-base); }
 .tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; border-radius: var(--radius-full); background: transparent; }
