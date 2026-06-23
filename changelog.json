@@ -1,6 +1,27 @@
 {
-  "count": 769,
+  "count": 772,
   "entries": [
+    {
+      "hash": "4f60fc1",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Skill v1.9.17: engagement card uses blue results/info color (rebuild refs)",
+      "pages": []
+    },
+    {
+      "hash": "f19684e",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Engagement card: use the blue results/info color, not green",
+      "pages": []
+    },
+    {
+      "hash": "c06a3db",
+      "author": "Jente Insing",
+      "date": "2026-06-22",
+      "subject": "Sync skill-source bundle + changelog for v1.9.16",
+      "pages": []
+    },
     {
       "hash": "1520591",
       "author": "Jente Insing",
