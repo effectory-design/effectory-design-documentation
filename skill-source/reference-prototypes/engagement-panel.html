@@ -1615,11 +1615,11 @@ const DATA = {
       { q: 'I enjoy my work', s: 75 }
     ],
     lowScores: [
-      { q: 'I know how to carry out my tasks', s: 43 },
-      { q: 'I receive enough feedback on my work', s: 51 },
-      { q: 'I am satisfied with my work', s: 52 },
-      { q: 'We honour agreements in our team', s: 54 },
-      { q: 'I see ample opportunities to develop further', s: 60 }
+      { q: 'I know what results are expected of me at work', s: 43 },
+      { q: 'Doing my work gives me energy', s: 51 },
+      { q: 'I am provided with good work resources', s: 52 },
+      { q: 'My skills and abilities fit in well with my job', s: 54 },
+      { q: 'I enjoy doing my work / tasks', s: 60 }
     ],
 
     /* Effectiveness side panel */
@@ -1743,11 +1743,11 @@ const DATA = {
       { q: 'I enjoy my work', s: 86 }
     ],
     lowScores: [
-      { q: 'I know how to carry out my tasks', s: 68 },
-      { q: 'I receive enough feedback on my work', s: 70 },
-      { q: 'I am satisfied with my work', s: 71 },
-      { q: 'We honour agreements in our team', s: 72 },
-      { q: 'I see ample opportunities to develop further', s: 73 }
+      { q: 'I know what results are expected of me at work', s: 68 },
+      { q: 'Doing my work gives me energy', s: 70 },
+      { q: 'I am provided with good work resources', s: 71 },
+      { q: 'My skills and abilities fit in well with my job', s: 72 },
+      { q: 'I enjoy doing my work / tasks', s: 73 }
     ],
 
     efpLeadPre: 'Team IT is ', efpLeadEm: 'effective', efpLeadEmClass: 'is-pos',
@@ -1866,11 +1866,11 @@ const DATA = {
       { q: 'I enjoy my work', s: 85 }
     ],
     lowScores: [
-      { q: 'I know how to carry out my tasks', s: 66 },
-      { q: 'I receive enough feedback on my work', s: 68 },
-      { q: 'I see ample opportunities to develop further', s: 69 },
-      { q: 'I am satisfied with my work', s: 70 },
-      { q: 'We honour agreements in our team', s: 71 }
+      { q: 'I know what results are expected of me at work', s: 66 },
+      { q: 'Doing my work gives me energy', s: 68 },
+      { q: 'I am provided with good work resources', s: 69 },
+      { q: 'My skills and abilities fit in well with my job', s: 70 },
+      { q: 'I enjoy doing my work / tasks', s: 71 }
     ],
 
     efpLeadPre: 'Novanta is ', efpLeadEm: 'effective', efpLeadEmClass: 'is-pos',
@@ -1989,11 +1989,11 @@ const DATA = {
       { q: 'I enjoy my work', s: 82 }
     ],
     lowScores: [
-      { q: 'I see ample opportunities to develop further', s: 58 },
-      { q: 'I know how to carry out my tasks', s: 61 },
-      { q: 'I receive enough feedback on my work', s: 63 },
-      { q: 'I am satisfied with my work', s: 64 },
-      { q: 'We honour agreements in our team', s: 66 }
+      { q: 'I know what results are expected of me at work', s: 58 },
+      { q: 'Doing my work gives me energy', s: 61 },
+      { q: 'I am provided with good work resources', s: 63 },
+      { q: 'My skills and abilities fit in well with my job', s: 64 },
+      { q: 'I enjoy doing my work / tasks', s: 66 }
     ],
 
     efpLeadPre: 'Novanta is ', efpLeadEm: 'not fully utilized', efpLeadEmClass: '',
@@ -2052,26 +2052,39 @@ const DATA = {
 };
 
 /* Recommended action per approach — 1:1 uses the Figma copy, the rest are placeholders */
+/* Recommended actions per survey item — keyed by survey item, then by recommendation type.
+   Source: Effectory assessment "Recommendations" sheet (title + recommendation per type). */
+const APPROACHES = ['Self directed', '1 on 1 action', 'Team level action', 'Process / structural action'];
 const RECO = {
-  'Team action': {
-    eyebrow: 'Team session', effort: 'High effort', effortClass: 'is-high',
-    title: 'Run a short team session on this theme',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bring the team together to name what gets in the way, then agree on one concrete change to try over the next few weeks.'
+  'I enjoy doing my work / tasks': {
+    'Self directed': { title: 'Notice which tasks you protect or postpone', body: 'For one week, track which recurring tasks you protect, delay, delegate last, or complain about. Use the pattern to adjust one draining task in the next planning cycle.' },
+    '1 on 1 action': { title: 'Run a task enjoyment map in 1:1s', body: 'In your next 1:1s, ask each person which recurring tasks energise them, feel neutral, or drain them. Agree one small adjustment for the next four weeks.' },
+    'Team level action': { title: 'Rotate or pair the least-liked recurring work', body: 'Pick one recurring task the team dislikes and test a better setup for one month: rotate it, pair people, batch it, or add a checklist.' },
+    'Process / structural action': { title: 'Remove or simplify one low-value recurring task', body: 'Review recurring meetings, reports, approvals, checks, and handovers. Remove or simplify one that no longer improves decisions, quality, or service.' }
   },
-  '1:1 action': {
-    eyebrow: '1:1 conversation', effort: 'Medium effort', effortClass: 'is-medium',
-    title: 'Ask each person where their strengths are underused',
-    body: 'Your team signalled their skills do not fully fit their roles. In your next 1:1s, ask what each person does best and where they feel stretched too thin — or not enough. Small adjustments to who owns what can close the fit gap surprisingly quickly.'
+  'I am provided with good work resources': {
+    'Self directed': { title: 'Separate fixable friction from escalation issues', body: 'Sort resource issues into three groups: you can fix, the team can work around, and needs escalation. Start with one issue you can fix this week.' },
+    '1 on 1 action': { title: "Ask what resource gap slows this person's work most", body: 'In each 1:1, ask which tool, material, permission, instruction, or workspace issue slows the person down most often. Capture a specific example.' },
+    'Team level action': { title: 'Build a resource friction log and close one item weekly', body: 'Create a simple resource issue list and review it weekly with the team. Close at least one item you control each week.' },
+    'Process / structural action': { title: 'Escalate repeated resource gaps with evidence', body: 'Set a clear rule for when a resource issue must be escalated, such as repeated blockers, safety or quality risk, material time loss, customer impact, workaround cost, or unequal access. Escalate with facts: affected work, frequency, impact, current workaround, and support needed.' }
   },
-  'Process change': {
-    eyebrow: 'Process change', effort: 'High effort', effortClass: 'is-high',
-    title: 'Adjust how work flows through the team',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Review the current workflow and remove the step that adds the least value.'
+  'My skills and abilities fit in well with my job': {
+    'Self directed': { title: 'Check whether you are using people for availability instead of fit', body: 'Review recent assignments and spot where work went to whoever was available rather than whoever was best fitted or ready to grow. Adjust one upcoming assignment.' },
+    '1 on 1 action': { title: 'Run a skills-to-work fit review', body: 'Ask each person which parts of the role use their strengths, underuse them, or stretch them too far. Agree one practical adjustment or support step.' },
+    'Team level action': { title: 'Map critical task coverage without exposing weaknesses', body: 'Map recurring work against coverage: covered, workable with support, risky if only one person knows it, needs clearer standard, or needs training. Choose one pairing, cross-training, checklist, or backup action.' },
+    'Process / structural action': { title: 'Create a support rule for new or difficult work', body: 'For new, difficult, or risky work, give five basics before assigning it: expected output, good example, check-in moment, support person, and fallback option.' }
   },
-  'Personal action': {
-    eyebrow: 'Personal action', effort: 'Low effort', effortClass: 'is-low',
-    title: 'Reflect on your own role in this theme',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Take a moment to consider one small thing you can change in how you support the team this week.'
+  'I know what results are expected of me at work': {
+    'Self directed': { title: 'State trade-offs, not only tasks', body: 'At the start of each week or shift cycle, state what matters most and what can wait or be done lighter if pressure rises.' },
+    '1 on 1 action': { title: 'Confirm one outcome expectation per person', body: 'In each 1:1, choose one important piece of work and ask what a good result looks like. Correct unclear expectations immediately.' },
+    'Team level action': { title: 'Run a weekly priority reset', body: "Run a weekly priority reset. Share the team's top three priorities and one piece of work that should receive less attention right now." },
+    'Process / structural action': { title: 'Use definition-of-done for recurring ambiguous work', body: 'Define the minimum standard for recurring ambiguous work before it starts: output, quality level, deadline, handover format, and exception rule.' }
+  },
+  'Doing my work gives me energy': {
+    'Self directed': { title: 'Look for energy drains you may be causing', body: 'Check whether your routines create avoidable interruptions, unclear priorities, rework, last-minute pressure, or tension. Change one behaviour for the next two weeks.' },
+    '1 on 1 action': { title: 'Map personal energisers and drainers', body: 'Ask each person what gives them energy and what drains more energy than it should. Agree one local fix for the draining item.' },
+    'Team level action': { title: 'Run an energy drain audit with a fixability filter', body: 'Ask the team to list energy drains, rank them by frequency and fixability, and change one high-frequency drain for four weeks.' },
+    'Process / structural action': { title: 'Make repeated hidden work visible before reallocating it', body: 'Track hidden work for two weeks, such as error fixing, informal coordination, handover clean-up, last-minute cover, admin recovery, customer follow-up, or emotional support after difficult incidents. Then rebalance one recurring task.' }
   }
 };
 
@@ -2080,21 +2093,27 @@ function focusView(d) {
   const npsValue = d.npsPromoters - d.npsDetractors;
   /* Theme labels per question — questions match the overview's Highest/Lowest cards */
   const THEME = {
-    'I know how to carry out my tasks': 'Providing Direction',
-    'I receive enough feedback on my work': 'Managing People',
-    'I am satisfied with my work': 'Engagement',
+    /* focus items (lowest scores) */
+    'I know what results are expected of me at work': 'Work performance',
+    'Doing my work gives me energy': 'Wellbeing and workload',
+    'I am provided with good work resources': 'Work enablement',
+    'My skills and abilities fit in well with my job': 'Work performance',
+    'I enjoy doing my work / tasks': 'Work enjoyment',
+    /* wins items (highest scores) */
     'I feel comfortable within the team': 'Engagement',
     'Our team trusts one another': 'Collaboration',
-    'During a team meeting, everyone has a fair chance to speak up': 'Collaboration'
+    'During a team meeting, everyone has a fair chance to speak up': 'Collaboration',
+    'There is a relaxed atmosphere within our team': 'Wellbeing and workload',
+    'I enjoy my work': 'Work enjoyment'
   };
   const fxMarker = (m) => `<div class="fx-marker ${m.variant} ${m.chip}" style="left:${m.x}%;top:${100 - m.y}%"><div class="fx-dot"></div><div class="fx-chip"><i data-icon="${m.icon}"></i>${m.label}</div></div>`;
   const trend = (val) => val ? `<div class="fv-trend-row"><span class="fv-trend">${val} <i data-icon="arrow-up"></i></span><span class="fv-trend-note">vs previous survey</span></div>` : '';
   const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
-  const approach = (i) => ['Team action', '1:1 action', 'Process change', 'Personal action']
+  const approach = (i) => APPROACHES
     .map(a => `<button class="rb-btn-bordered" data-appr="${a}"><span class="rb-wrap"><input type="radio" class="rb" name="appr-${i}"></span>${a}</button>`).join('');
 
   const focusCard = (s, i) => `
-    <div class="fv-card">
+    <div class="fv-card" data-q="${s.q}">
       <div class="fv-card-head">
         <div class="fv-card-top">
           <div class="fv-card-q">
@@ -2119,7 +2138,6 @@ function focusView(d) {
                 <span class="fv-reco-eyebrow"></span>
                 <p class="fv-reco-title"></p>
               </div>
-              <span class="fv-reco-effort"></span>
             </div>
             <p class="fv-reco-body"></p>
           </div>
@@ -3268,13 +3286,12 @@ function renderOverview(variant, initialView) {
         card.querySelectorAll('.rb-btn-bordered').forEach(c => c.classList.toggle('is-checked', c === chip));
         card.classList.add('is-active');
         const T2 = (s) => window.tr ? tr(s) : s;
-        const r = RECO[chip.dataset.appr] || RECO['1:1 action'];
-        reco.querySelector('.fv-reco-eyebrow').textContent = T2(r.eyebrow);
+        const byItem = RECO[card.dataset.q];
+        const r = byItem && byItem[chip.dataset.appr];
+        if (!r) { reco.hidden = true; return; }
+        reco.querySelector('.fv-reco-eyebrow').textContent = T2(chip.dataset.appr);
         reco.querySelector('.fv-reco-title').textContent = T2(r.title);
         reco.querySelector('.fv-reco-body').textContent = T2(r.body);
-        const eff = reco.querySelector('.fv-reco-effort');
-        eff.textContent = T2(r.effort);
-        eff.className = 'fv-reco-effort ' + r.effortClass;
         reco.hidden = false;
       });
     });
