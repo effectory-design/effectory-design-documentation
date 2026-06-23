@@ -1,6 +1,27 @@
 {
-  "count": 781,
+  "count": 784,
   "entries": [
+    {
+      "hash": "fd84e1c",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Skill v1.9.21: translate focus-view recommendations to NL/DE (rebuild refs)",
+      "pages": []
+    },
+    {
+      "hash": "8c6b62b",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "i18n: translate the focus-view recommendations to NL/DE",
+      "pages": []
+    },
+    {
+      "hash": "fd6deda",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Sync skill-source bundle + changelog for v1.9.20",
+      "pages": []
+    },
     {
       "hash": "60b7775",
       "author": "Jente Insing",
