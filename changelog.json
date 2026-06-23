@@ -1,6 +1,22 @@
 {
-  "count": 784,
+  "count": 786,
   "entries": [
+    {
+      "hash": "29d3127",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Skill v1.9.22: prototype base reset in foundation.css + Themes tab & grid/width fixes",
+      "pages": [
+        "grid-layout-docs.html"
+      ]
+    },
+    {
+      "hash": "869d067",
+      "author": "Jente Insing",
+      "date": "2026-06-23",
+      "subject": "Sync skill-source bundle + changelog for v1.9.21",
+      "pages": []
+    },
     {
       "hash": "fd84e1c",
       "author": "Jente Insing",
