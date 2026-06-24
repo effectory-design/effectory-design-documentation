@@ -1,6 +1,27 @@
 {
-  "count": 789,
+  "count": 792,
   "entries": [
+    {
+      "hash": "de86690",
+      "author": "Jente Insing",
+      "date": "2026-06-24",
+      "subject": "Skill v1.9.23: reports page i18n + rebuild refs",
+      "pages": []
+    },
+    {
+      "hash": "906abaf",
+      "author": "Jente Insing",
+      "date": "2026-06-24",
+      "subject": "Reports page: make it i18n-aware (NL/DE) like the rest of the GTM prototype",
+      "pages": []
+    },
+    {
+      "hash": "8e28e2b",
+      "author": "Jente Insing",
+      "date": "2026-06-24",
+      "subject": "Sync skill-source bundle + changelog for v1.9.22",
+      "pages": []
+    },
     {
       "hash": "1c961b4",
       "author": "Jente Insing",
