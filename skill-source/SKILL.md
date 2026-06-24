@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.9.22
+**Version:** 1.9.24
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
@@ -67,6 +67,9 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen met een vaste, go
 
 - **Resultaten-dashboard — kaart-bibliotheek** → `reference-prototypes/dashboard-cards.md` + `dashboard-cards.html`
   Alle losse dashboard-kaarten in een grid (zonder chrome), om één kaart te hergebruiken of te kiezen welke kaarten een dashboard moet tonen.
+
+- **Resultaten-dashboard — Themes** → `reference-prototypes/themes.md` + `themes.html`
+  Het Themes-tabblad in het resultaten-dashboard: een theme-comparison kaart (Current/Previous/Benchmark bargroepen met **"Select filter"** icon button) en een grid met thema-kaarten (titel, pin, beschrijving, org-score, "View insights"). Voor "themes pagina", "thema's pagina", "themes view" of "thema-vergelijking" — in welke taal of bewoording dan ook.
 
 **Bij een resultaten-dashboard (Overview of Focus View): vraag eerst**
 1. **welke kaarten** op het overzicht moeten staan (standaard: alle bovengenoemde kaarten), en

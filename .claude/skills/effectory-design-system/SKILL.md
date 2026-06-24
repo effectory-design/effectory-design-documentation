@@ -39,6 +39,9 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen met een vaste, go
 - **Resultaten-dashboard — kaart-bibliotheek** → `reference-prototypes/dashboard-cards.md` + `dashboard-cards.html`
   Alle losse dashboard-kaarten in een grid (zonder chrome), om één kaart te hergebruiken of te kiezen welke kaarten een dashboard moet tonen.
 
+- **Resultaten-dashboard — Themes** → `reference-prototypes/themes.md` + `themes.html`
+  Het Themes-tabblad in het resultaten-dashboard: een theme-comparison kaart (Current/Previous/Benchmark bargroepen met **"Select filter"** icon button) en een grid met thema-kaarten (titel, pin, beschrijving, org-score, "View insights"). Voor "themes pagina", "thema's pagina", "themes view" of "thema-vergelijking" — in welke taal of bewoording dan ook.
+
 **Bij een resultaten-dashboard (Overview of Focus View): vraag eerst**
 1. **welke kaarten** op het overzicht moeten staan (standaard: alle bovengenoemde kaarten), en
 2. of de bijbehorende **side panels** ook gemaakt moeten worden. Elk side panel opent vanuit zijn kaart, dus bied een panel alléén aan als die kaart op het dashboard staat: **Effectiveness-kaart → Effectiveness panel**, **Engagement-kaart → Engagement panel**, **eNPS-kaart → eNPS panel**. (Staat de eNPS-kaart op het overzicht, vraag dan dus expliciet of het eNPS side panel ook gebouwd moet worden.)

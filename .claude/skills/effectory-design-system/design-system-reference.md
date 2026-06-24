@@ -289,7 +289,7 @@ Knop gekleurd naar sentiment. **Voornamelijk gebruikt binnen een container die z
 > ⚠️ Figma/dev gap: sommige states zijn in Figma met **primitieve** tokens gekleurd (`color/orange/700`, `color/blue/900`, …). Gebruik altijd de **semantische** tokens (`--bg-{sentiment}-base/-hover/-pressed`, `--border-{sentiment}-base/-hover`); de Figma-lagen moeten daar nog op gebonden worden.
 
 ### Icon Button
-Vierkante knop met alleen een icoon. Maat via `.ib-36` (16px icoon, radius `--radius-md`) of `.ib-24` (12px icoon, radius `--radius-base`); variant via `.ib-primary` / `.ib-secondary` / `.ib-tertiary`. Altijd een `aria-label` meegeven.
+Vierkante knop met alleen een icoon. Maat via `.ib-36` (36px knop, 16px icoon, radius `--radius-md`) of `.ib-24` (24px knop, **16px icoon**, 4px padding, radius `--radius-base`); variant via `.ib-primary` / `.ib-secondary` / `.ib-tertiary`. Beide maten gebruiken een 16px icoon — het verschil is de knop-grootte/padding. Altijd een `aria-label` meegeven.
 ```html
 <button class="ib ib-36 ib-secondary" aria-label="Sluiten"><i data-icon="cross"></i></button>
 <button class="ib ib-36 ib-primary" aria-label="Toevoegen"><i data-icon="plus"></i></button>

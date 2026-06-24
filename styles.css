@@ -258,7 +258,7 @@ h6 { font-size: 12px; font-weight: 600; color: var(--content-subtle); letter-spa
 .ib { display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-md); cursor: pointer; flex-shrink: 0; transition: all .1s; }
 .ib svg { display: block; pointer-events: none; }
 .ib-36 { width: 36px; height: 36px; } .ib-36 svg { width: 16px; height: 16px; }
-.ib-24 { width: 24px; height: 24px; border-radius: var(--radius-base); } .ib-24 svg { width: 12px; height: 12px; }
+.ib-24 { width: 24px; height: 24px; border-radius: var(--radius-base); } .ib-24 svg { width: 16px; height: 16px; }
 .ib-primary { background: var(--bg-brand-base); border: 1px solid var(--border-brand-base); box-shadow: var(--sh-action); color: var(--content-on-brand-base); }
 .ib-primary:hover { background: var(--bg-brand-base-hover); }
 .ib-primary:active { background: var(--bg-brand-base-pressed); }

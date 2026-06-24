@@ -5,10 +5,11 @@
    De docs-site levert deze globale baseline via styles.css; prototypes laden
    alleen tokens/foundation/components (NIET styles.css). Zonder deze reset
    renderen componenten die erop rekenen verkeerd — bijv. .mn-item (width:100% +
-   padding) loopt over zonder border-box, en de 8px UA body-margin duwt de hele
-   app-shell van de rand. Houd 'm in sync met de reset bovenin styles.css. */
-*, *::before, *::after { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; }
+   padding) loopt over zonder border-box, de 8px UA body-margin duwt de app-shell
+   van de rand, en UA-marges op <p>/<h*>/<ul> geven extra ruimte. Dit is exact de
+   reset bovenin styles.css; houd ze in sync. */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   color: var(--content-base);

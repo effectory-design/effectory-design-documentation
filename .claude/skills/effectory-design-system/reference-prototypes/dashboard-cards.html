@@ -2540,10 +2540,10 @@ function shell(d) {
           <a class="tab is-active" data-view="overview">Overview</a>
           <a class="tab" data-view="focus"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
           <a class="tab">Themes</a>
-          <a class="tab">Questions</a>
+          <a class="tab">Scores</a>
           <a class="tab">Open answers</a>
           <a class="tab">Topics &amp; Ideas</a>
-          <a class="tab">Reports</a>
+          <a class="tab" data-view="reports">Reports</a>
           <a class="tab">Actions</a>
         </div>
       </div>
@@ -3307,6 +3307,13 @@ function renderOverview(variant, initialView) {
   viewTabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const v = tab.dataset.view;
+      /* Reports is a separate page in the GTM prototype — navigate to it for this variant.
+         Only the GTM root pages load effectiveness.js as an external script and ship a
+         reports.html alongside; the bundled skill references inline it, so there it's a no-op. */
+      if (v === 'reports') {
+        if (document.querySelector('script[src$="effectiveness.js"]')) location.href = `reports.html?v=${variant}`;
+        return;
+      }
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
       tab.classList.add('is-active');
       Object.entries(views).forEach(([k, el]) => { if (el) el.hidden = (k !== v); });
