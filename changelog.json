@@ -1,6 +1,20 @@
 {
-  "count": 787,
+  "count": 789,
   "entries": [
+    {
+      "hash": "1c961b4",
+      "author": "Jente Insing",
+      "date": "2026-06-24",
+      "subject": "Skill v1.9.22: rebuild refs (reports nav gated to no-op in refs)",
+      "pages": []
+    },
+    {
+      "hash": "96c677d",
+      "author": "Jente Insing",
+      "date": "2026-06-24",
+      "subject": "GTM prototype: add the Reports page, reachable from the dashboard",
+      "pages": []
+    },
     {
       "hash": "129c0e3",
       "author": "Jente Insing",
