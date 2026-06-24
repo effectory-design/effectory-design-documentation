@@ -10,13 +10,12 @@ const DATA = {
   'team-it-before': {
     groupName: 'Team IT',
     surveyName: 'Engagement Survey 2026 Q2',
-    dateFrom: '22 Apr 2026', dateTo: '22 May 2026',
+    dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
     /* AI summary */
     aiIntro: "The IT team’s results indicate several challenges impacting overall effectiveness and employee experience. Engagement (56%) and retention (57%) are below desired levels, suggesting employees may feel disconnected from the organization and uncertain about their long-term future within the team. Workload scores are particularly low at 38%, highlighting concerns around capacity, prioritization, and sustainable ways of working. While the eNPS score of 12 remains positive, it indicates only moderate advocacy and suggests there is significant room for improvement in employee satisfaction and loyalty.",
     aiMore: ["As the team falls within the ineffective quadrant, focused action is required to address workload pressures, strengthen leadership support, and improve employee engagement. Creating greater clarity around priorities, improving resource allocation, and increasing opportunities for employee feedback may help rebuild trust and team effectiveness."],
     aiStrengths: [
-      "eNPS remains positive at 12, indicating that a portion of employees are still willing to recommend the organization as a place to work.",
-      "Retention sentiment (57%) suggests that more than half of employees currently see themselves remaining with the organization."
+      "eNPS remains positive at 12, indicating that a portion of employees are still willing to recommend the organization as a place to work."
     ],
     aiGrowth: [
       "Workload (38%) is significantly below desired levels and appears to be a key driver of employee dissatisfaction.",
@@ -33,7 +32,7 @@ const DATA = {
 
     /* Effectiveness card markers (x = Engagement, y = Performance environment) */
     fxMarkers: [
-      { variant: 'is-org',     chip: 'is-chip-above', icon: 'building', label: 'Novanta', x: 72, y: 76 },
+      { variant: 'is-org',     chip: 'is-chip-above', icon: 'building', label: 'Novanta B.V.', x: 70, y: 44 },
       { variant: 'is-current', chip: 'is-chip-above', icon: 'group',    label: 'Team IT', x: 26, y: 26 }
     ],
 
@@ -140,7 +139,7 @@ const DATA = {
   'team-it-after': {
     groupName: 'Team IT',
     surveyName: 'Engagement Survey 2026 Q3',
-    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026',
+    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
     /* AI summary */
     aiIntro: "The IT team's latest survey results show a significant improvement across key engagement and employee experience indicators. Engagement has increased to 67%, while retention has risen to 73%, indicating that employees are more committed to both their current role and the organization. The team also achieved an eNPS of 31, reflecting a strong increase in employee advocacy and a greater willingness to recommend the organization as a place to work.",
     aiMore: [
@@ -167,7 +166,7 @@ const DATA = {
     ],
 
     fxMarkers: [
-      { variant: 'is-org',      chip: 'is-chip-below', icon: 'building',         label: 'Novanta', x: 80, y: 70 },
+      { variant: 'is-org',      chip: 'is-chip-below', icon: 'building',         label: 'Novanta B.V.', x: 74, y: 75 },
       { variant: 'is-previous', chip: 'is-chip-above', icon: 'rotate-backward',  label: 'Previous survey', x: 27, y: 24 },
       { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',            label: 'Team IT', x: 67, y: 80 }
     ],
@@ -264,10 +263,10 @@ const DATA = {
   },
 
   'novanta-after': {
-    groupName: 'Novanta',
+    groupName: 'Novanta B.V.',
     fvVerdictPre: 'Novanta is',
     surveyName: 'Engagement Survey 2026 Q3',
-    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026',
+    dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
     aiIntro: "Across Novanta, this survey shows a healthy and stable picture. Organization-wide engagement stands at 72% and retention at 76%, indicating that most employees feel committed to their work and intend to stay. An eNPS of 30 reflects solid advocacy, and a strong response rate of 81% gives a reliable view of how the organization is doing.",
     aiMore: [
       "Most departments sit in the effective quadrant, where engagement and the performance environment reinforce each other. A few teams still have room to grow — particularly around workload and development opportunities — but the overall foundation is strong.",
@@ -293,7 +292,7 @@ const DATA = {
 
     fxMarkers: [
       { variant: 'is-previous', chip: 'is-chip-below', icon: 'rotate-backward', label: 'Previous survey', x: 66, y: 66 },
-      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta', x: 74, y: 75 }
+      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta B.V.', x: 74, y: 75 }
     ],
 
     engValue: '72%', engTrend: '4%', engTrendIcon: 'Trend-up', engBench: '75%', engBenchW: 75,
@@ -388,10 +387,10 @@ const DATA = {
   },
 
   'novanta-before': {
-    groupName: 'Novanta',
+    groupName: 'Novanta B.V.',
     fvVerdictPre: 'Novanta is',
     surveyName: 'Engagement Survey 2026 Q2',
-    dateFrom: '22 Apr 2026', dateTo: '22 May 2026',
+    dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
     aiIntro: "Across Novanta, this survey points to a mixed picture. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but energy is not yet translating into a supportive performance environment everywhere. An eNPS of 20 and a response rate of 77% give a workable read on where the organization stands.",
     aiMore: [
       "Several departments sit in the not-fully-utilized quadrant: people are motivated, but workload pressure and unclear ways of working hold them back. A focused effort on the performance environment is likely to unlock the engagement that is already there.",
@@ -416,7 +415,7 @@ const DATA = {
     ],
 
     fxMarkers: [
-      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta', x: 70, y: 44 }
+      { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta B.V.', x: 70, y: 44 }
     ],
 
     engValue: '66%', engTrend: '0%', engTrendIcon: 'Trend-up', engBench: '75%', engBenchW: 75,
@@ -778,10 +777,10 @@ function reportsView(d) {
       <button class="ib ib-36 ib-tertiary" aria-label="Download ${name}"><i data-icon="download"></i></button>
     </div>`;
   return `
-  <div class="reports-intro">
+  <div class="rd-intro">
     <h2 class="text-l3">Reports</h2>
-    <span class="reports-intro-sep"></span>
-    <span class="reports-intro-desc">View and download your reports</span>
+    <span class="rd-bar"></span>
+    <span class="rd-sub">View and download your reports</span>
   </div>
   <div class="report-group">
     <h3 class="text-l5 report-group-title">Essential reports</h3>
@@ -885,63 +884,249 @@ function reportsDialogs() {
 </div>`;
 }
 
+/* Per-question side panel (opens from a Scores row) — same look as the engagement panel */
+function scorePanel() {
+  return `
+<div class="overlay is-right" id="scp-overlay" hidden>
+  <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="scp-title">
+    <div class="sp-header">
+      <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="scp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
+      <div class="sp-heading"><h2 class="sp-title" id="scp-title">Question</h2></div>
+      <div class="sp-tabs engp-tabs">
+        <a class="sp-tab is-active" data-scptab="insights"><i data-icon="category"></i> Insights</a>
+        <a class="sp-tab" data-scptab="tips"><i data-icon="lightbulb"></i> Tips &amp; Best practices</a>
+        <a class="sp-tab" data-scptab="actions"><i data-icon="target"></i> Actions</a>
+      </div>
+    </div>
+    <div class="sp-body">
+      <div class="scp-tabpanel" data-scptab="insights">
+        <div class="engp-section">
+          <h3 class="engp-section-title">Distribution of answers</h3>
+          <p>Knowing the distribution of answers can help you understand the sentiment behind the score. It gives you a quick look at how most respondents feel about this question.</p>
+          <div class="engp-dist">
+            <div class="dist-ends">
+              <span class="dist-end is-dis"><i data-icon="net-promoter-score-detractor"></i> Disagree</span>
+              <span class="dist-end is-eng">Agree <i data-icon="net-promoter-score"></i></span>
+            </div>
+            <div class="dist-bar">
+              <div class="dist-seg is-pot" id="scp-dis"></div>
+              <div class="dist-seg is-eng" id="scp-agree"></div>
+            </div>
+          </div>
+        </div>
+        <div class="engp-section">
+          <h3 class="engp-section-title">Score comparison</h3>
+          <p>See how your group scores compared to the top-level group and benchmark. If your group scores close or higher than the benchmark, that is great! If your group is falling far behind, you should look closer into this topic.</p>
+          <div class="engp-cards" id="scp-cards"></div>
+          <div class="engp-chart-card" style="margin-top: var(--spacing-base);">
+            <div class="engp-chart-hd">Score over time <span class="engp-chart-dot"></span> <span id="scp-chart-grp"></span></div>
+            <div class="engp-chart-wrap"><canvas id="scp-chart" role="img" aria-label="Score over time"></canvas></div>
+          </div>
+        </div>
+        <div class="engp-section" id="scp-theme-section" hidden>
+          <h3 class="engp-section-title">This question is part of a theme <span class="scp-theme-tag" id="scp-theme-tag"></span></h3>
+          <p>Compare how your group scores on the other questions that belong to the same theme</p>
+          <div id="scp-theme-rows" style="margin-top:var(--spacing-base);"></div>
+        </div>
+      </div>
+      <div class="scp-tabpanel" data-scptab="tips" hidden>
+        <div class="engp-section">
+          <h3 class="engp-section-title">Tips</h3>
+          <ul class="scp-tips" id="scp-tips"></ul>
+        </div>
+        <div class="engp-section">
+          <h3 class="engp-section-title">Best practice</h3>
+          <p class="scp-bp" id="scp-bp"></p>
+        </div>
+      </div>
+      <div class="scp-tabpanel" data-scptab="actions" hidden>
+        <div class="engp-section">
+          <p>No actions have been created for this question yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
 /* ---------- Scores (tab) ---------- */
 /* All survey questions grouped by theme, with the group score, the Effectory Index
    (external benchmark) and the previous-survey score. Illustrative data. */
-const SCORES = [
+/* Single source of truth: per question a score for each group (team-it / novanta) and
+   period (before = Q2 / after = Q3), plus a fixed benchmark (Effectory Index). Everything
+   else is derived so the same number shows everywhere:
+   - group score = v[group][period]
+   - Previous survey = the previous period's value (Q3 → Q2; Q2 has none → "–")
+   - Organization score = the Novanta-wide value (v.novanta[period])
+   - Benchmark = bench
+   Current (Q3) values match the Focus View cards/lowest-highest scores for the same question. */
+const SCORES_GROUPS = [
   { theme: 'Work enjoyment', rows: [
-    { q: 'I enjoy doing my work / tasks', s: 74, idx: 71, prev: 70 },
-    { q: 'Doing my work gives me energy', s: 68, idx: 70, prev: 64 }
+    { q: 'I enjoy doing my work / tasks', bench: 71, v: { 'team-it': { before: 60, after: 72 }, 'novanta': { before: 66, after: 68 } } }
+  ] },
+  { theme: 'Loyalty', rows: [
+    { q: 'I would recommend my team as a good place to work', bench: 5.6, scale: '10', v: { 'team-it': { before: 6.4, after: 7.1 }, 'novanta': { before: 6.6, after: 7.3 } } },
+    { q: 'I see myself working here in two years', bench: 6.6, scale: '10', v: { 'team-it': { before: null, after: 6.4 }, 'novanta': { before: null, after: 6.8 } } }
   ] },
   { theme: 'Work enablement', rows: [
-    { q: 'I am provided with good work resources', s: 71, idx: 73, prev: 67 },
-    { q: 'Important information is readily accessible for me', s: 69, idx: 72, prev: 66 }
+    { q: 'I am provided with good work resources', bench: 73, v: { 'team-it': { before: 52, after: 71 }, 'novanta': { before: 64, after: 71 } } },
+    { q: 'Important information is readily accessible for me', bench: 72, v: { 'team-it': { before: 63, after: 68 }, 'novanta': { before: 63, after: 70 } } }
   ] },
   { theme: 'Work performance', rows: [
-    { q: 'I know what results are expected of me at work', s: 72, idx: 74, prev: 65 },
-    { q: 'My skills and abilities fit in well with my job', s: 76, idx: 75, prev: 72 }
+    { q: 'I know what results are expected of me at work', bench: 74, v: { 'team-it': { before: 43, after: 73 }, 'novanta': { before: 61, after: 72 } } },
+    { q: 'My skills and abilities fit in well with my job', bench: 75, v: { 'team-it': { before: 54, after: 71 }, 'novanta': { before: 60, after: 66 } } }
   ] },
   { theme: 'Wellbeing and workload', rows: [
-    { q: 'I am able to maintain a good balance between working and relaxing', s: 66, idx: 69, prev: 61 },
-    { q: 'Doing my work gives me energy', s: 68, idx: 70, prev: 64 }
+    { q: 'Doing my work gives me energy', bench: 70, v: { 'team-it': { before: 51, after: 68 }, 'novanta': { before: 66, after: 69 } } },
+    { q: 'I am able to maintain a good balance between working and relaxing', bench: 69, v: { 'team-it': { before: 60, after: 70 }, 'novanta': { before: 58, after: 64 } } }
   ] },
   { theme: 'Team collaboration and performance', rows: [
-    { q: 'I feel comfortable within the team', s: 91, idx: 84, prev: 89 },
-    { q: 'Our team trusts one another', s: 88, idx: 82, prev: 85 },
-    { q: 'During a team meeting, everyone has a fair chance to speak up', s: 85, idx: 80, prev: 83 }
+    { q: 'I feel comfortable within the team', bench: 80, v: { 'team-it': { before: 95, after: 95 }, 'novanta': { before: 90, after: 92 } } },
+    { q: 'Our team trusts one another', bench: 82, v: { 'team-it': { before: 88, after: 92 }, 'novanta': { before: 87, after: 89 } } },
+    { q: 'During a team meeting, everyone has a fair chance to speak up', bench: 84, v: { 'team-it': { before: 84, after: 90 }, 'novanta': { before: 85, after: 88 } } }
   ] }
 ];
+const groupKey = (d) => /Novanta/.test(d.groupName) ? 'novanta' : 'team-it';
+const periodKey = (d) => /Q3/.test(d.surveyName) ? 'after' : 'before';
+
+/* Segments (demographic crossings) the user can compare by. Age is the interactive one;
+   selecting it adds a column per category to the Scores table. */
+const AGE_CATS = [
+  { key: '35-39', label: '35 - 39 years', n: 40, delta: 7 },
+  { key: '30-34', label: '30 - 34 years', n: 55, delta: -7 },
+  { key: '25-29', label: '25 - 29 years', n: 34, delta: -1 },
+  { key: '40-44', label: '40 - 44 years', n: 15, delta: 6 },
+  { key: 'u25', label: 'Younger than 25 years', n: 12, delta: -4 },
+  { key: '45+', label: '45+ years', n: 15, delta: 1 }
+];
+const SEGMENTS = [
+  { key: 'age', name: 'Age', cats: AGE_CATS },
+  { key: 'los', name: 'Length of Service', count: 6 },
+  { key: 'loc', name: 'Location', count: 3 },
+  { key: 'gender', name: 'Gender', count: 2 }
+];
+const ORG_LABEL = 'Novanta B.V.';
+
+function scoresFor(group, period) {
+  return SCORES_GROUPS.map(g => ({
+    theme: g.theme,
+    rows: g.rows.map(r => {
+      const s = r.v[group][period];
+      const scale = r.scale || '%';
+      const mx = scale === '10' ? 10 : 100, u = scale === '10' ? 0.1 : 1;
+      const age = {};
+      AGE_CATS.forEach(c => { age[c.key] = (c.hidden || s == null) ? null : Math.max(0, Math.min(mx, Math.round((s + c.delta * u) * 10) / 10)); });
+      return {
+        q: r.q, scale: r.scale,
+        s, idx: r.bench,
+        prev: period === 'after' ? r.v[group].before : null,
+        org: r.v.novanta[period],
+        age
+      };
+    })
+  }));
+}
+
+/* Which questions belong to a theme — shown in the per-question side panel (per-variant
+   scores, consistent with the Scores table). Questions not listed are not part of a theme. */
+const PANEL_THEMES = {
+  'Engagement': [
+    { q: 'Doing my work gives me energy', v: { 'team-it': { before: 51, after: 68 }, 'novanta': { before: 66, after: 69 } } },
+    { q: 'I enjoy doing my work / tasks', v: { 'team-it': { before: 60, after: 72 }, 'novanta': { before: 66, after: 68 } } },
+    { q: 'I am proud to work at Novanta B.V.', v: { 'team-it': { before: 90, after: 100 }, 'novanta': { before: 88, after: 95 } } },
+    { q: 'I feel that I fit in at Effectory', v: { 'team-it': { before: 74, after: 78 }, 'novanta': { before: 80, after: 82 } } }
+  ]
+};
+const QUESTION_THEME = {};
+Object.keys(PANEL_THEMES).forEach(th => PANEL_THEMES[th].forEach(x => { QUESTION_THEME[x.q] = th; }));
+
+/* Tips & Best practices per question — shown in the question side panel's second tab. */
+const TIPS = {
+  'I enjoy doing my work / tasks': {
+    tips: [
+      'Make sure your team members’ experience is a match for their job duties and preferences. Take the actions needed when one of your team members experiences a mismatch, for example, spend a little more time with the team member, provide the team member with more help, or provide a training. In some situations, you might need to look for a more suitable position (inside or outside of the organization).',
+      'Get to know your colleagues and make sure that they are continuing to develop their skills. It might be time to offer them a bigger challenge, a change in position or work tasks, or to set them on a path towards a promotion.',
+      'Talk with your colleagues about the biggest obstacles you all encounter in your day to day work, and try to come up with solutions. Frustration diminishes job satisfaction, so take the time to remove obstacles when you can.',
+      'Talk with your colleagues about what energizes them the most on the job (this may vary from person to person). Take this into account when allocating tasks amongst your team members.',
+      'Work to maintain a pleasant atmosphere in the workplace. Lay down some ground rules and invest in team building exercises (for example, a team outing, lunch, joint training course, etc.).'
+    ],
+    bp: '“At the end of each shift, our team members wrote down what kind of day they had, that is, what they enjoyed and what they didn’t. After two weeks, everyone had a good picture of what gave them energy and what sapped their energy. We now take this into account when we allocate work duties.”'
+  },
+  'I am provided with good work resources': {
+    tips: [
+      'Talk with your team about the equipment and materials that are available to you. You don’t want anyone to feel like they aren’t allowed to perform at their best because of a lack of equipment or poor-quality equipment.',
+      'Talk with your team members to determine whether necessary equipment is missing or if it’s time for something to be replaced. Decide as a team which improvements or investments could have a big impact while remaining cost effective. By engaging your team in the decision making process, you can establish a sense of ownership.',
+      'If certain investments are cost prohibitive or are not possible for other reasons, discuss this openly as a team to avoid frustration.'
+    ],
+    bp: '“At a large vegetable and seed supplier, employees use bicycles to get around the fields and greenhouses. An employee survey revealed that the top complaint among employees was the poor condition of the bicycles. They were quite old and punctures in the tires had to be repaired weekly, wasting everyone’s time and energy. By investing in new bicycles, the organization was able to drastically improve employee morale while increasing overall efficiency.”'
+  }
+};
 
 function scoresView(d) {
-  const scoreRow = (r) => `
-    <div class="sc-row">
-      <div class="sc-q">${r.q}</div>
-      <div class="sc-actions">
-        <button class="btn btn-secondary sc-insights">Insights</button>
-        <div class="tt-demo"><button class="ib ib-36 ib-secondary" aria-label="Pin question"><i data-icon="pin"></i></button><div class="tooltip is-above">Pin question</div></div>
+  /* Colour a comparison cell by how the current group compares to it
+     (group − comparison): higher = green, lower = red. Thresholds match the legend. */
+  const T2 = (s) => window.tr ? tr(s) : s;
+  /* A question is either a 0–100 percentage or a 0–10 score; the colour thresholds differ. */
+  const fmt = (v, scale) => v == null ? '–' : (scale === '10' ? Number(v).toFixed(1) : scale === 'nps' ? String(Math.round(v)) : v + '%');
+  const diffClass = (delta, scale) => {
+    if (delta == null) return '';
+    const [pos, vpos] = scale === '10' ? [0.7, 1.5] : [10, 20];
+    return delta >= vpos ? ' is-vpos' : delta >= pos ? ' is-pos' : delta <= -vpos ? ' is-vneg' : delta <= -pos ? ' is-neg' : '';
+  };
+  const cmpTip = (delta, label, scale) => {
+    const L = T2(label), r2 = Math.round(delta * 10) / 10;
+    if (r2 === 0) return T2('{group} scores the same as {label}').replace('{group}', d.groupName).replace('{label}', L);
+    const usePoints = scale === '10' || scale === 'nps';
+    const tpl = usePoints
+      ? (delta > 0 ? '{group} scores {n} points higher than {label}' : '{group} scores {n} points lower than {label}')
+      : (delta > 0 ? '{group} scores {n}% point higher than {label}' : '{group} scores {n}% point lower than {label}');
+    const n = scale === '10' ? Math.abs(r2).toFixed(1) : Math.abs(Math.round(r2));
+    return T2(tpl).replace('{group}', d.groupName).replace('{n}', n).replace('{label}', L);
+  };
+  const cmpCell = (val, groupVal, label, scale, extra = '', attrs = '') => {
+    if (val == null) return `<div class="sc-cell${extra}"${attrs}><span class="sc-fill">–</span></div>`;
+    const delta = groupVal - val;
+    return `<div class="sc-cell${diffClass(delta, scale)}${extra}"${attrs}><span class="sc-fill tt-demo">${fmt(val, scale)}<div class="tooltip is-above">${cmpTip(delta, label, scale)}</div></span></div>`;
+  };
+  /* age-segment cells (one per age category) — hidden until the Age segment is applied */
+  const ageCells = (r) => AGE_CATS.map(c => c.hidden
+    ? `<div class="sc-cell sc-grp-age" data-age="${c.key}"><span class="sc-fill sc-fill-na"><i data-icon="eye-off"></i></span></div>`
+    : cmpCell(r.age ? r.age[c.key] : null, r.s, T2(c.label), r.scale || '%', ' sc-grp-age', ` data-age="${c.key}"`)).join('');
+  const scoreRow = (r) => {
+    const scale = r.scale || '%';
+    return `
+    <div class="sc-row" data-q="${r.q}" data-group="${r.s == null ? '' : r.s}" data-bench="${r.idx}" data-org="${r.org == null ? '' : r.org}"${r.prev == null ? '' : ` data-prev="${r.prev}"`}${scale === '10' ? ' data-scale="10"' : ''}${r.enps ? ' data-enps="1"' : ''}>
+      <div class="sc-q"><span class="sc-q-text">${r.q}</span>
+        <div class="sc-actions">
+          <button class="btn btn-secondary sc-insights">Insights</button>
+          <div class="tt-demo"><button class="ib ib-36 ib-secondary" aria-label="Pin question"><i data-icon="pin"></i></button><div class="tooltip is-above">Pin question</div></div>
+        </div>
       </div>
-      <div class="sc-cell is-current">${r.s}%</div>
-      <div class="sc-cell is-index">${r.idx}%</div>
-      <div class="sc-cell">${r.prev}%</div>
+      <div class="sc-cell is-current"><span class="sc-fill">${fmt(r.s, scale)}</span></div>
+      ${cmpCell(r.idx, r.s, 'Effectory Index', scale, ' sc-grp-default', ' data-col="index"')}
+      ${cmpCell(r.prev, r.s, 'Previous survey', scale, ' sc-grp-default', ' data-col="prev"')}
+      ${cmpCell(r.org, r.s, ORG_LABEL, scale, '', ' data-col="org"')}
+      ${ageCells(r)}
     </div>`;
+  };
+  const colHead = (icon, label, extra = '', attrs = '') => `<div class="sc-col-head${extra}"${attrs}><i data-icon="${icon}"></i><span class="sc-col-lbl tt-demo">${label}<div class="tooltip is-above">${label}</div></span></div>`;
   const group = (g) => `
     <div class="sc-group" data-open="true">
       <div class="sc-head">
         <button class="sc-head-title"><i data-icon="chevron-down" class="sc-chev"></i> ${g.theme}</button>
-        <div class="sc-col-head is-current"><i data-icon="hierarchy"></i> ${d.groupName}</div>
-        <div class="sc-col-head is-index">
-          <i data-icon="hierarchy"></i> Effectory Index
-          <i data-icon="chevron-down" class="sc-col-chev"></i>
-        </div>
-        <div class="sc-col-head"><i data-icon="rotate-backward"></i> Previous survey</div>
+        ${colHead('hierarchy', d.groupName, ' is-current')}
+        ${colHead('benchmark-up', 'Effectory Index', ' is-index sc-grp-default', ' data-col="index"')}
+        ${colHead('rotate-backward', 'Previous survey', ' sc-grp-default', ' data-col="prev"')}
+        ${colHead('hierarchy', ORG_LABEL, '', ' data-col="org"')}
+        ${AGE_CATS.map(c => colHead('segments', T2(c.label), ' sc-grp-age', ` data-age="${c.key}"`)).join('')}
       </div>
       <div class="sc-rows">${g.rows.map(scoreRow).join('')}</div>
     </div>`;
   return `
-  <div class="sc-intro">
+  <div class="rd-intro">
     <h2 class="text-l3">Scores</h2>
-    <span class="sc-accent"></span>
-    <span class="sc-subtitle">All survey questions &amp; scores</span>
+    <span class="rd-bar"></span>
+    <span class="rd-sub">All survey questions &amp; scores</span>
   </div>
   <div class="sc-toolbar">
     <label class="sc-search">
@@ -950,10 +1135,75 @@ function scoresView(d) {
     </label>
     <button class="sc-filter-btn" type="button"><i data-icon="sort-descending"></i><span class="sc-filter-lbl">Sort by:</span><span class="sc-filter-val">Default</span></button>
     <span class="sc-tb-divider"></span>
-    <button class="sc-filter-btn" type="button"><i data-icon="sort-descending"></i><span class="sc-filter-lbl">Comparisons:</span><span class="sc-filter-val">2 selected</span></button>
+    <div class="sc-cmp-wrap">
+      <button class="sc-filter-btn" id="sc-cmp-btn" type="button" aria-haspopup="true"><i data-icon="segments"></i><span class="sc-filter-lbl">Comparisons:</span><span class="sc-filter-val" id="sc-cmp-count">${T2('{n} selected').replace('{n}', '2')}</span></button>
+      <div class="sc-pop" id="sc-cmp-pop" hidden>
+        <div class="sc-pop-view" data-cmpview="main">
+          <div class="sc-pop-sect">
+            <div class="sc-pop-lbl">Quick comparisons</div>
+            <div class="sc-quick">
+              <button class="sc-quick-chip is-active" type="button" data-qcol="prev"><i data-icon="rotate-backward"></i> Previous survey</button>
+              <button class="sc-quick-chip is-active" type="button" data-qcol="index"><i data-icon="benchmark-up"></i> Effectory Index</button>
+              ${groupKey(d) === 'novanta' ? '' : '<button class="sc-quick-chip" type="button" data-qcol="org"><i data-icon="hierarchy"></i> Organization level</button>'}
+            </div>
+          </div>
+          <div class="sc-pop-divider"></div>
+          <div class="sc-pop-sect">
+            <div class="sc-pop-lbl">All comparisons</div>
+            <div class="sc-pop-rows">
+              <button class="sc-pop-row" type="button"><i data-icon="hierarchy"></i><span class="sc-pop-row-name">Groups</span><span class="sc-pop-row-meta">${T2('{n} applied').replace('{n}', '1')}</span><i data-icon="chevron-right" class="sc-pop-row-arrow"></i></button>
+              <button class="sc-pop-row" type="button" data-cmpgoto="segments"><i data-icon="segments"></i><span class="sc-pop-row-name">Segments</span><span class="sc-pop-row-meta" id="sc-seg-applied">${T2('{n} applied').replace('{n}', '0')}</span><i data-icon="chevron-right" class="sc-pop-row-arrow"></i></button>
+              <button class="sc-pop-row" type="button"><i data-icon="benchmark-up"></i><span class="sc-pop-row-name">Benchmarks</span><span class="sc-pop-row-meta">${T2('{n} applied').replace('{n}', '1')}</span><i data-icon="chevron-right" class="sc-pop-row-arrow"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="sc-pop-view" data-cmpview="segments" hidden>
+          <div class="sc-pop-head">
+            <button class="sc-pop-back" id="sc-cmp-back" type="button"><i data-icon="arrow-left"></i> <span class="sc-pop-back-lbl">Segments</span></button>
+            <p class="sc-pop-sub">Compare results across different employee demographics</p>
+          </div>
+          <div class="sc-pop-divider"></div>
+          <div class="sc-seg-list">
+          ${SEGMENTS.map(seg => `
+          <div class="sc-seg" data-seg="${seg.key}">
+            <div class="sc-seg-head">
+              <span class="cb-wrap"><input type="checkbox" class="cb"${seg.key === 'age' ? ' id="sc-seg-age-cb"' : ' disabled'}></span>
+              <button class="sc-seg-title" type="button">
+                <span class="sc-seg-info">
+                  <span class="sc-seg-name">${T2(seg.name)}</span>
+                  <span class="sc-seg-count">${(seg.cats ? seg.cats.length : seg.count)} ${T2('categories')}${seg.note ? ` · <span class="sc-seg-note">${T2(seg.note)}</span>` : ''}</span>
+                </span>
+                <i data-icon="chevron-down" class="sc-seg-chev"></i>
+              </button>
+            </div>
+            ${seg.cats ? `<div class="sc-seg-cats"><div class="sc-seg-cats-inner">${seg.cats.map(c => `<label class="sc-seg-cat${c.hidden ? ' is-hidden' : ''}"><span class="cb-wrap"><input type="checkbox" class="cb"${seg.key === 'age' ? ` data-cat="${c.key}"` : ''}${c.hidden ? ' disabled' : ''}></span><span class="sc-seg-cat-name">${T2(c.label)}</span>${c.hidden ? '<i data-icon="eye-off" class="sc-seg-cat-hidden"></i>' : ''}<span class="sc-seg-cat-n">${c.n}</span></label>`).join('')}</div></div>` : ''}
+          </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
     <button class="sc-reset" type="button" disabled><i data-icon="rotate-backward"></i> Reset</button>
   </div>
-  <div class="sc-table">${SCORES.map(group).join('')}</div>`;
+  <div class="sc-table">${[...scoresFor(groupKey(d), periodKey(d)), {
+    theme: 'eNPS', rows: [{
+      q: 'How likely is it that you would recommend Novanta B.V. as an employer to others?',
+      s: d.npsPromoters - d.npsDetractors, idx: d.npsBench, prev: d.npsPrev, scale: 'nps', enps: true
+    }]
+  }].map(group).join('')}</div>
+  <div class="sc-legend">
+    <span class="sc-legend-label">Legend</span>
+    <span class="sc-legend-side is-higher">${(window.tr ? tr('{group} scores higher') : '{group} scores higher').replace('{group}', d.groupName)}</span>
+    <div class="sc-legend-scale">
+      <span class="sc-legend-sw is-vpos">+20%</span>
+      <span class="sc-legend-sw is-pos">+10%</span>
+      <span class="sc-legend-sw is-neutral"></span>
+      <span class="sc-legend-sw is-neg">-10%</span>
+      <span class="sc-legend-sw is-vneg">-20%</span>
+    </div>
+    <span class="sc-legend-side is-lower">Lower</span>
+    <span class="sc-legend-div"></span>
+    <span class="sc-legend-sig"><span class="sc-legend-star">✱</span> Statistical significance</span>
+  </div>`;
 }
 
 /* ---------- markup template ---------- */
@@ -1663,7 +1913,7 @@ ${scoresView(d)}
 
       <div class="npsp-section">
         <div class="npsp-qcard">
-          <p class="npsp-q">&ldquo;How likely are you to recommend your company to others?&rdquo;</p>
+          <p class="npsp-q">&ldquo;How likely is it that you would recommend Novanta B.V. as an employer to others?&rdquo;</p>
           <div class="npsp-cells">${npsCells()}</div>
           <div class="npsp-legend">
             <span class="npsp-leg is-det"><span class="npsp-dot"></span>Detractors (1–6)</span>
@@ -1707,6 +1957,7 @@ ${scoresView(d)}
 </div><!-- /overlay -->
 
 ${reportsDialogs()}
+${scorePanel()}
 `;
 }
 
@@ -1715,6 +1966,34 @@ const css = (name) => getComputedStyle(document.documentElement).getPropertyValu
 const rgba = (hex, a) => {
   const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
   return `rgba(${r},${g},${b},${a})`;
+};
+/* Shared "score over time" line chart — used by the engagement panel and the per-question
+   panel so both look identical: angular line, content-base semibold axis labels with extra
+   spacing, dashed blue grid, area gradient. */
+const makeLineChart = (cv, labels, data, { max = 100, unit = '%' } = {}) => {
+  const info = css('--bg-info-base');
+  const gridBlue = css('--border-info-subtle');
+  const tickFont = { family: 'Poppins', size: 12, weight: 600 };
+  const areaFill = (context) => {
+    const { ctx, chartArea } = context.chart;
+    if (!chartArea) return rgba(info, 0.18);
+    const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, rgba(info, 0.35));
+    g.addColorStop(1, rgba(info, 0));
+    return g;
+  };
+  return new Chart(cv, {
+    type: 'line',
+    data: { labels, datasets: [{ data, borderColor: info, borderWidth: 3, tension: 0, fill: true, backgroundColor: areaFill, pointBackgroundColor: info, pointBorderColor: css('--bg-base'), pointBorderWidth: 3, pointRadius: 7, pointHoverRadius: 7, clip: false }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, layout: { padding: { top: 8, right: 12 } }, events: [],
+      animation: { duration: 800, easing: 'easeOutQuart' }, plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        y: { min: 0, max, ticks: { stepSize: max / 2, color: css('--content-base'), font: tickFont, callback: (v) => v + unit, padding: 12 }, grid: { color: gridBlue, lineWidth: 1, borderDash: [5, 5], drawTicks: false }, border: { color: gridBlue } },
+        x: { offset: false, ticks: { align: 'inner', color: css('--content-base'), font: tickFont, padding: 12 }, grid: { color: gridBlue, lineWidth: 1, borderDash: [5, 5], drawTicks: false }, border: { color: gridBlue } }
+      }
+    }
+  });
 };
 const endDot = (colorVar, radius, lineWidth) => ({
   id: 'endDot',
@@ -1804,33 +2083,7 @@ function renderOverview(variant, initialView) {
 
     /* Engagement panel: score over time (line) */
     const engLine = document.getElementById('engp-chart');
-    if (engLine) {
-      const info = css('--bg-info-base');
-      const gridBlue = css('--border-info-subtle');
-      const areaFill = (context) => {
-        const { ctx, chartArea } = context.chart;
-        if (!chartArea) return rgba(info, 0.18);
-        const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-        g.addColorStop(0, rgba(info, 0.35));
-        g.addColorStop(1, rgba(info, 0));
-        return g;
-      };
-      new Chart(engLine, {
-        type: 'line',
-        data: {
-          labels: d.engpLine.labels,
-          datasets: [{ data: d.engpLine.data, borderColor: info, borderWidth: 3, tension: 0.4, fill: true, backgroundColor: areaFill, pointBackgroundColor: info, pointBorderColor: css('--bg-base'), pointBorderWidth: 3, pointRadius: 7, pointHoverRadius: 7, clip: false }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false, layout: { padding: { top: 8, right: 12 } }, events: [],
-          animation: { duration: 800, easing: 'easeOutQuart' }, plugins: { legend: { display: false }, tooltip: { enabled: false } },
-          scales: {
-            y: { min: 0, max: 100, ticks: { stepSize: 50, color: css('--content-subtle'), font: { family: 'Poppins', size: 12, weight: 500 }, callback: (v) => v + '%', padding: 8 }, grid: { color: gridBlue, lineWidth: 1, borderDash: [5, 5], drawTicks: false }, border: { color: gridBlue } },
-            x: { ticks: { color: css('--content-base'), font: { family: 'Poppins', size: 12, weight: 500 }, padding: 8 }, grid: { color: gridBlue, lineWidth: 1, borderDash: [5, 5], drawTicks: false }, border: { color: gridBlue } }
-          }
-        }
-      });
-    }
+    if (engLine) makeLineChart(engLine, [d.prevDateTo, d.dateTo], d.engpLine.data.slice(-2), { max: 100, unit: '%' });
   });
 
   /* Panel open/close wiring */
@@ -1901,6 +2154,7 @@ function renderOverview(variant, initialView) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
       tab.classList.add('is-active');
       Object.entries(views).forEach(([k, el]) => { if (el) el.hidden = (k !== v); });
+      document.querySelector('.overview-wrap')?.classList.toggle('is-full', v === 'scores');
       document.querySelector('.main-scroll').scrollTop = 0;
       /* keep the URL in sync with the active view (no reload) */
       const path = location.pathname.replace(/(overview|focus|reports|scores)(\.html)?$/, (m, _g1, ext) => v + (ext || ''));
@@ -2120,12 +2374,55 @@ function renderOverview(variant, initialView) {
   (function wireScores() {
     const table = document.getElementById('view-scores');
     if (!table) return;
+    /* one continuous frozen-column divider — CSS sticky pins it natively (no scroll lag);
+       its height tracks the full table content via a negative margin so it adds no flow space */
+    const scTable = table.querySelector('.sc-table');
+    if (scTable) {
+      const line = document.createElement('div');
+      line.className = 'sc-frozen-line';
+      scTable.insertBefore(line, scTable.firstChild);
+      const fit = () => { const h = scTable.scrollHeight; line.style.height = h + 'px'; line.style.marginBottom = (-h) + 'px'; };
+      fit();
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(scTable);
+      scTable.addEventListener('scroll', () => { scTable.classList.toggle('is-scrolled', scTable.scrollLeft > 0); });
+    }
     table.querySelectorAll('.sc-head-title').forEach(btn => {
       btn.addEventListener('click', () => {
         const g = btn.closest('.sc-group');
         g.dataset.open = g.dataset.open === 'true' ? 'false' : 'true';
       });
     });
+    /* Legend numbers reflect the scale of the row you hover: 0–100 (%) by default,
+       0–10 score thresholds (±1.5 / ±0.7) while hovering a 0–10 question. */
+    const legend = table.querySelector('.sc-legend');
+    if (legend) {
+      const PCT = { 'is-vpos': '+20%', 'is-pos': '+10%', 'is-neg': '-10%', 'is-vneg': '-20%' };
+      const TEN = { 'is-vpos': '+1.5', 'is-pos': '+0.7', 'is-neg': '-0.7', 'is-vneg': '-1.5' };
+      const setLegend = (map) => Object.keys(map).forEach(k => { const e = legend.querySelector('.sc-legend-sw.' + k); if (e) e.textContent = map[k]; });
+      /* Animate the swap: drop the bar below the fold, swap the numbers, slide it back up. */
+      let swapTimer = null;
+      legend.dataset.lscale = 'pct';
+      const swapLegend = (key, map) => {
+        if (legend.dataset.lscale === key) return;   // already showing this scale — no animation
+        legend.dataset.lscale = key;
+        legend.classList.add('is-swapping');
+        clearTimeout(swapTimer);
+        swapTimer = setTimeout(() => { setLegend(map); legend.classList.remove('is-swapping'); }, 160);
+      };
+      /* The legend reflects the scale of the question you hover, and only changes when you
+         hover a question of a different scale — it stays put when you leave a row. A short
+         hover-intent delay avoids swapping while you just scroll/skim past rows. */
+      let hoverTimer = null;
+      table.querySelectorAll('.sc-row').forEach(row => {
+        const ten = row.dataset.scale === '10';
+        row.addEventListener('mouseenter', () => {
+          clearTimeout(hoverTimer);
+          hoverTimer = setTimeout(() => swapLegend(ten ? 'ten' : 'pct', ten ? TEN : PCT), 250);
+        });
+        row.addEventListener('mouseleave', () => clearTimeout(hoverTimer));
+      });
+    }
+
     const search = table.querySelector('.sc-search-input');
     if (search) {
       search.addEventListener('input', () => {
@@ -2141,6 +2438,145 @@ function renderOverview(variant, initialView) {
         });
       });
     }
+
+    /* Comparisons popover: open it, drill into Segments, apply the Age segment */
+    const cmpBtn = document.getElementById('sc-cmp-btn');
+    const pop = document.getElementById('sc-cmp-pop');
+    if (cmpBtn && pop) {
+      const showView = (v) => pop.querySelectorAll('.sc-pop-view').forEach(pv => { pv.hidden = pv.dataset.cmpview !== v; });
+      cmpBtn.addEventListener('click', (e) => { e.stopPropagation(); pop.hidden = !pop.hidden; if (!pop.hidden) showView('main'); });
+      pop.addEventListener('click', (e) => e.stopPropagation());
+      document.addEventListener('click', () => { pop.hidden = true; });
+      pop.querySelector('[data-cmpgoto="segments"]')?.addEventListener('click', () => showView('segments'));
+      pop.querySelector('#sc-cmp-back')?.addEventListener('click', () => showView('main'));
+      /* applying the Age segment adds the age columns to the table */
+      const ageCb = document.getElementById('sc-seg-age-cb');
+      const ageSeg = pop.querySelector('.sc-seg[data-seg="age"]');
+      const ageCats = ageSeg ? ageSeg.querySelectorAll('.sc-seg-cat .cb') : [];
+      const cmpCount = document.getElementById('sc-cmp-count');
+      const segApplied = document.getElementById('sc-seg-applied');
+      const T3 = (s) => window.tr ? tr(s) : s;
+      const quickChips = pop.querySelectorAll('.sc-quick-chip');
+      /* "X selected" = active quick comparisons + the Age segment when applied */
+      const recomputeCount = () => {
+        const active = pop.querySelectorAll('.sc-quick-chip.is-active').length + (ageCb && ageCb.checked ? 1 : 0);
+        cmpCount.textContent = T3('{n} selected').replace('{n}', String(active));
+      };
+      const hideAgeCol = (key, hidden) => {
+        table.querySelectorAll(`[data-age="${key}"]`).forEach(el => { el.style.display = hidden ? 'none' : ''; });
+      };
+      const applyAge = () => {
+        const on = ageCb.checked;
+        table.classList.toggle('seg-age', on);
+        ageSeg.classList.toggle('is-selected', on);
+        if (on) ageSeg.classList.add('is-open');
+        ageCats.forEach(c => { c.checked = on; if (c.dataset.cat) hideAgeCol(c.dataset.cat, !on); });   /* sub-categories follow the crossing */
+        segApplied.textContent = T3('{n} applied').replace('{n}', on ? '1' : '0');
+        recomputeCount();
+      };
+      ageCb?.addEventListener('change', applyAge);
+      /* quick comparisons toggle their column in the table on/off */
+      const setColVisible = (col, vis) => { table.querySelectorAll(`[data-col="${col}"]`).forEach(el => { el.style.display = vis ? 'flex' : 'none'; }); };
+      quickChips.forEach(chip => {
+        if (chip.dataset.qcol) setColVisible(chip.dataset.qcol, chip.classList.contains('is-active'));   /* initial state */
+        chip.addEventListener('click', () => {
+          chip.classList.toggle('is-active');
+          if (chip.dataset.qcol) setColVisible(chip.dataset.qcol, chip.classList.contains('is-active'));
+          recomputeCount();
+        });
+      });
+      /* a single sub-category toggles just its own column in the scores table */
+      ageCats.forEach(c => c.addEventListener('change', () => {
+        if (c.dataset.cat) hideAgeCol(c.dataset.cat, !c.checked);
+      }));
+      /* expand/collapse a segment by clicking its title; opening Age auto-selects it + all categories */
+      pop.querySelectorAll('.sc-seg-title').forEach(t => t.addEventListener('click', () => {
+        const seg = t.closest('.sc-seg');
+        const opening = !seg.classList.contains('is-open');
+        seg.classList.toggle('is-open');
+        if (opening && seg.dataset.seg === 'age' && ageCb && !ageCb.checked) { ageCb.checked = true; applyAge(); }
+      }));
+    }
+  })();
+
+  /* Per-question side panel: open from a Scores row, populate, draw the chart */
+  (function wireScorePanel() {
+    const scp = document.getElementById('scp-overlay');
+    if (!scp) return;
+    const T2 = (s) => window.tr ? tr(s) : s;
+    let scpChart = null;
+    const clamp = (v, max) => Math.max(0, Math.min(max, v));
+    const open = (row) => {
+      /* The eNPS question has its own dedicated side panel */
+      if (row.dataset.enps) { const np = document.getElementById('npsp-overlay'); if (np) np.hidden = false; return; }
+      const q = row.dataset.q;
+      const scale = row.dataset.scale === '10' ? '10' : '%';
+      const max = scale === '10' ? 10 : 100;
+      const group = parseFloat(row.dataset.group);
+      const bench = parseFloat(row.dataset.bench);
+      const org = row.dataset.org !== '' ? parseFloat(row.dataset.org) : group;
+      const fmtv = (v) => scale === '10' ? Number(v).toFixed(1) : Math.round(v) + '%';
+      document.getElementById('scp-title').textContent = T2(q);
+      /* distribution (always shown as %) */
+      const agree = Math.round(scale === '10' ? group * 10 : group);
+      const dis = 100 - agree;
+      const disEl = document.getElementById('scp-dis'), agEl = document.getElementById('scp-agree');
+      disEl.style.width = dis + '%'; disEl.textContent = dis + '%';
+      agEl.style.width = agree + '%'; agEl.textContent = agree + '%';
+      /* comparison cards — skip "Organization score" when the group already IS the organization (Novanta) */
+      const cards = [{ lbl: d.groupName, val: fmtv(group) }];
+      if (groupKey(d) !== 'novanta') cards.push({ lbl: T2('Organization score'), val: fmtv(org) });
+      cards.push({ lbl: T2('Benchmark'), val: fmtv(bench) });
+      document.getElementById('scp-cards').innerHTML = cards.map(c => `<div class="engp-card-item"><div class="engp-card-lbl">${c.lbl}</div><div class="engp-card-val">${c.val}</div></div>`).join('');
+      document.getElementById('scp-chart-grp').textContent = d.groupName;
+      /* theme section (only if the question belongs to a theme) */
+      const theme = QUESTION_THEME[q];
+      const sec = document.getElementById('scp-theme-section');
+      if (theme) {
+        sec.hidden = false;
+        const g = groupKey(d), p = periodKey(d);
+        document.getElementById('scp-theme-tag').textContent = T2(theme);
+        document.getElementById('scp-theme-rows').innerHTML = PANEL_THEMES[theme].map(x =>
+          `<div class="engp-q-row"><span class="engp-q-text">${T2(x.q)}</span><span class="engp-q-score">${x.v[g][p]}%</span></div>`).join('');
+      } else { sec.hidden = true; }
+      /* Tips & Best practices tab content */
+      const tip = TIPS[q];
+      const tipsUl = document.getElementById('scp-tips'), bpEl = document.getElementById('scp-bp');
+      if (tip) {
+        tipsUl.innerHTML = tip.tips.map(t => `<li>${T2(t)}</li>`).join('');
+        bpEl.textContent = T2(tip.bp);
+      } else {
+        tipsUl.innerHTML = `<li>${T2('No tips available for this question yet.')}</li>`;
+        bpEl.textContent = '';
+      }
+      /* always open on the Insights tab */
+      scp.querySelectorAll('.sp-tab').forEach(t => t.classList.toggle('is-active', t.dataset.scptab === 'insights'));
+      scp.querySelectorAll('.scp-tabpanel').forEach(pn => { pn.hidden = pn.dataset.scptab !== 'insights'; });
+      scp.hidden = false;
+      /* score-over-time chart */
+      if (scpChart) { scpChart.destroy(); scpChart = null; }
+      /* Only the current survey and (if present) the previous survey, labelled by end date */
+      const hasPrev = row.dataset.prev != null;
+      const labels = hasPrev ? [d.prevDateTo, d.dateTo] : [d.dateTo];
+      const series = (hasPrev ? [parseFloat(row.dataset.prev), group] : [group]).map(v => clamp(v, max));
+      scpChart = makeLineChart(document.getElementById('scp-chart'), labels, series, { max, unit: scale === '10' ? '' : '%' });
+    };
+    document.querySelectorAll('#view-scores .sc-row').forEach(row => {
+      row.querySelector('.sc-q')?.addEventListener('click', () => open(row));
+      row.querySelector('.sc-insights')?.addEventListener('click', (e) => { e.stopPropagation(); open(row); });
+    });
+    /* Tab switching inside the panel (Insights / Tips & Best practices / Actions) */
+    scp.querySelectorAll('.sp-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const t = tab.dataset.scptab;
+        scp.querySelectorAll('.sp-tab').forEach(x => x.classList.toggle('is-active', x === tab));
+        scp.querySelectorAll('.scp-tabpanel').forEach(pn => { pn.hidden = pn.dataset.scptab !== t; });
+      });
+    });
+    const closeScp = () => { scp.hidden = true; };
+    document.getElementById('scp-close').addEventListener('click', closeScp);
+    scp.addEventListener('click', (e) => { if (e.target === scp) closeScp(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !scp.hidden) closeScp(); });
   })();
 
   /* AI summary show more / less */
