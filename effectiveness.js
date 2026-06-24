@@ -1176,7 +1176,7 @@ function scoresView(d) {
                 <i data-icon="chevron-down" class="sc-seg-chev"></i>
               </button>
             </div>
-            ${seg.cats ? `<div class="sc-seg-cats"><div class="sc-seg-cats-inner">${seg.cats.map(c => `<label class="sc-seg-cat${c.hidden ? ' is-hidden' : ''}"><span class="cb-wrap"><input type="checkbox" class="cb"${seg.key === 'age' ? ` data-cat="${c.key}"` : ''}${c.hidden ? ' disabled' : ''}></span><span class="sc-seg-cat-name">${T2(c.label)}</span>${c.hidden ? '<i data-icon="eye-off" class="sc-seg-cat-hidden"></i>' : ''}<span class="sc-seg-cat-n">${c.n}</span></label>`).join('')}</div></div>` : ''}
+            ${seg.cats ? `<div class="sc-seg-cats"><div class="sc-seg-cats-inner"><div class="sc-seg-cats-pad">${seg.cats.map(c => `<label class="sc-seg-cat${c.hidden ? ' is-hidden' : ''}"><span class="cb-wrap"><input type="checkbox" class="cb"${seg.key === 'age' ? ` data-cat="${c.key}"` : ''}${c.hidden ? ' disabled' : ''}></span><span class="sc-seg-cat-name">${T2(c.label)}</span>${c.hidden ? '<i data-icon="eye-off" class="sc-seg-cat-hidden"></i>' : ''}<span class="sc-seg-cat-n">${c.n}</span></label>`).join('')}</div></div></div>` : ''}
           </div>`).join('')}
           </div>
         </div>

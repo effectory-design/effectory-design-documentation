@@ -1038,7 +1038,9 @@
     .sc-seg.is-open .sc-seg-chev { transform: rotate(180deg); }
     .sc-seg-cats { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-base) var(--ease-out); }
     .sc-seg.is-open .sc-seg-cats { grid-template-rows: 1fr; }
-    .sc-seg-cats-inner { overflow: hidden; min-height: 0; display: flex; flex-direction: column; gap: var(--spacing-base-tight); padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight) calc(var(--spacing-tight) + 16px + var(--spacing-base-tight)); }
+    /* inner = pure clipper (no padding, so the 0fr track collapses fully); padding lives on the content wrapper inside it */
+    .sc-seg-cats-inner { overflow: hidden; min-height: 0; }
+    .sc-seg-cats-pad { display: flex; flex-direction: column; gap: var(--spacing-base-tight); padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight) calc(var(--spacing-tight) + 16px + var(--spacing-base-tight)); }
     .sc-seg-cat { display: flex; align-items: flex-start; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-base); cursor: pointer; }
     .sc-seg-cat-name { flex: 1; min-width: 0; }
     .sc-seg-cat-n { color: var(--content-secondary); font-size: 12px; font-weight: 500; flex: none; }
