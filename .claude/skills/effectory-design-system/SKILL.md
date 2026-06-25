@@ -41,6 +41,8 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen met een vaste, go
 
 - **Resultaten-dashboard — Themes** → `reference-prototypes/themes.md` + `themes.html`
   Het Themes-tabblad in het resultaten-dashboard: een theme-comparison kaart (Current/Previous/Benchmark bargroepen met **"Select filter"** icon button) en een grid met thema-kaarten (titel, pin, beschrijving, org-score, "View insights"). Voor "themes pagina", "thema's pagina", "themes view" of "thema-vergelijking" — in welke taal of bewoording dan ook.
+- **Resultaten-dashboard — Scores** → `reference-prototypes/scores.md` + `scores.html`
+  Het Scores-tabblad: een full-width tabel met alle vragen gegroepeerd per thema, met een bevroren vraagkolom (Asana-stijl scheidingslijn) + horizontaal scrollende, heatmap-gekleurde vergelijkingskolommen, een Comparisons-popover (Quick comparisons chips + Segments/Age-crossing met kolommen), een zwevende legenda, en een vraag-side-panel (5-punts antwoorddistributie met "X% agree"-bracket, score-vergelijkingskaarten, score-over-time grafiek, thema-vragen). Voor "scores pagina", "scores view", "scores prototype" of "vragen & scores tabel" — in welke taal of bewoording dan ook.
 
 **Bij een resultaten-dashboard (Overview of Focus View): vraag eerst**
 1. **welke kaarten** op het overzicht moeten staan (standaard: alle bovengenoemde kaarten), en
