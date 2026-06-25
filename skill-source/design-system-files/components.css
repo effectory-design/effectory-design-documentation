@@ -52,14 +52,14 @@
 .btn-link-delete.is-disabled { background: transparent !important; border-color: transparent !important; color: var(--content-disabled) !important; }
 
 /* Disabled */
-.btn.is-disabled {
+.btn:disabled, .btn.is-disabled {
   color: var(--content-disabled) !important; box-shadow: none !important; cursor: not-allowed;
 }
-.btn-secondary.is-disabled { background: var(--bg-base) !important; border-color: var(--border-base) !important; }
-.btn-tertiary.is-disabled  { background: var(--bg-disabled) !important; border-color: transparent !important; }
-.btn-link.is-disabled      { background: transparent !important; border-color: transparent !important; }
+.btn-secondary:disabled, .btn-secondary.is-disabled { background: var(--bg-base) !important; border-color: var(--border-base) !important; }
+.btn-tertiary:disabled, .btn-tertiary.is-disabled  { background: var(--bg-disabled) !important; border-color: transparent !important; }
+.btn-link:disabled, .btn-link.is-disabled      { background: transparent !important; border-color: transparent !important; }
 .btn-primary:disabled, .btn-primary.is-disabled,
-.btn-danger:disabled, .btn-danger.is-disabled { border-color: transparent !important; }
+.btn-danger:disabled, .btn-danger.is-disabled { background: var(--bg-disabled) !important; border-color: transparent !important; }
 
 /* ── Icon Button ── */
 .ib { display: inline-flex; align-items: center; justify-content: center; border: 1px solid transparent; background: transparent; border-radius: var(--radius-md); cursor: pointer; flex-shrink: 0; transition: all .1s; }

@@ -895,7 +895,7 @@ function scorePanel() {
       <div class="sp-tabs engp-tabs">
         <a class="sp-tab is-active" data-scptab="insights"><i data-icon="category"></i> Insights</a>
         <a class="sp-tab" data-scptab="tips"><i data-icon="lightbulb"></i> Tips &amp; Best practices</a>
-        <a class="sp-tab" data-scptab="actions"><i data-icon="target"></i> Actions</a>
+        <a class="sp-tab" data-scptab="actions"><i data-icon="target"></i> Actions <span class="act-count engp-tab-count" hidden>0</span></a>
       </div>
     </div>
     <div class="sp-body">
@@ -943,14 +943,175 @@ function scorePanel() {
           <p class="scp-bp" id="scp-bp"></p>
         </div>
       </div>
-      <div class="scp-tabpanel" data-scptab="actions" hidden>
-        <div class="engp-section">
-          <p>No actions have been created for this question yet.</p>
-        </div>
-      </div>
+      <div class="scp-tabpanel" data-scptab="actions" hidden>${actionsPanelInner()}</div>
     </div>
   </div>
 </div>`;
+}
+
+/* ---------- Actions tab (shared by the side panels) ---------- */
+/* Score is read-only (the question/theme score). Picking a goal enables "Add action";
+   each action is a checkable to-do that drives the progress bar + the tab count. */
+function actionsPanelInner() {
+  return `
+  <div class="act-props">
+    <div class="act-row"><span class="act-row-lbl"><i data-icon="benchmark-up"></i> Score</span><span class="act-row-val act-score">–</span></div>
+    <div class="act-row"><span class="act-row-lbl"><i data-icon="goals"></i> Goal</span>
+      <div class="act-goal-wrap">
+        <button class="act-goal-trigger" type="button"><span class="act-goal-current">Select a goal</span> <i data-icon="chevron-down"></i></button>
+        <div class="menu act-goal-menu" hidden>
+          <div class="menu-item act-goal-opt" role="option" tabindex="0" data-goal="improve"><span class="goal-chip is-improve"><i data-icon="barchart-2"></i> Improve</span></div>
+          <div class="menu-item act-goal-opt" role="option" tabindex="0" data-goal="promote"><span class="goal-chip is-promote"><i data-icon="win"></i> Promote</span></div>
+          <div class="menu-item act-goal-opt" role="option" tabindex="0" data-goal="contemplate"><span class="goal-chip is-contemplate"><i data-icon="message"></i> Contemplate</span></div>
+          <div class="menu-divider act-goal-remove-sep"></div>
+          <div class="menu-item act-goal-remove" role="button" tabindex="0"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">Remove goal &amp; actions</span></div>
+        </div>
+      </div></div>
+    <div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> Description</span>
+      <textarea class="act-desc tf-inline" rows="1" placeholder="Add a relevant description"></textarea></div>
+  </div>
+  <div class="act-prog-head">
+    <h3 class="engp-section-title" style="margin:0;">Action progress</h3>
+    <div class="tt-demo act-add-wrap"><button class="btn btn-primary act-add" disabled><i data-icon="plus"></i> Add action</button><div class="tooltip is-below">Select a goal before adding actions</div></div>
+  </div>
+  <div class="act-prog-bar"><div class="act-prog-fill"></div></div>
+  <div class="act-list"></div>
+  <div class="act-empty">
+    <svg class="act-empty-ico" width="51" height="65" viewBox="0 0 51 65" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#act-empty-clip)"><path d="M0 4.05C0 1.81325 1.81325 0 4.05 0H35.4375L43.5375 8.1L50.625 15.1875V60.75C50.625 62.9868 48.8118 64.8 46.575 64.8H4.05C1.81325 64.8 0 62.9868 0 60.75V4.05Z" fill="#F5F7FA"/><path d="M35.4375 0L43.0313 7.59375L50.625 15.1875H37.4625C36.3441 15.1875 35.4375 14.2809 35.4375 13.1625V0Z" fill="#E6E9EE"/><rect x="25.3125" y="38.4746" width="17.2125" height="3.0375" rx="1.51875" fill="#D8DBE2"/><rect x="25.3125" y="25.3125" width="17.2125" height="3.0375" rx="1.51875" fill="#D8DBE2"/><rect x="9.83813" y="24.8027" width="5.41559" height="2.36247" rx="1.18123" transform="rotate(47.3691 9.83813 24.8027)" fill="#D8DBE2"/><rect x="10.3721" y="28.9355" width="10.1744" height="2.36247" rx="1.18123" transform="rotate(-45 10.3721 28.9355)" fill="#D8DBE2"/><rect x="25.3125" y="51.6367" width="17.2125" height="3.0375" rx="1.51875" fill="#D8DBE2"/><circle cx="12.6563" cy="39.9938" r="3.54375" stroke="#D8DBE2" stroke-width="2.025"/><circle cx="12.6563" cy="53.1559" r="3.54375" stroke="#D8DBE2" stroke-width="2.025"/></g><defs><clipPath id="act-empty-clip"><rect width="50.625" height="64.8" fill="white"/></clipPath></defs></svg>
+    <p>Start working towards your goal<br>Plan your first action!</p>
+  </div>`;
+}
+/* Actions state, kept PER subject (question / theme / engagement / eNPS) so each has its own goal,
+   description and to-do list. Keyed by overlay.__actKey set in loadActions(). */
+const ACT_STORE = {};
+const actState = (key) => ACT_STORE[key] || (ACT_STORE[key] = { goal: '', desc: '', actions: [] });
+const GOAL_CHIPS = {
+  improve: { cls: 'is-improve', icon: 'barchart-2', label: 'Improve' },
+  promote: { cls: 'is-promote', icon: 'win', label: 'Promote' },
+  contemplate: { cls: 'is-contemplate', icon: 'message', label: 'Contemplate' }
+};
+const goalChipHTML = (key) => {
+  const T2 = (s) => window.tr ? tr(s) : s;
+  const g = GOAL_CHIPS[key];
+  return g ? `<span class="goal-chip ${g.cls}"><i data-icon="${g.icon}"></i> ${T2(g.label)}</span>` : T2('Select a goal');
+};
+const autoGrow = (ta) => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; };
+function renderActList(overlay) {
+  const T2 = (s) => window.tr ? tr(s) : s;
+  const st = actState(overlay.__actKey);
+  const list = overlay.querySelector('.act-list');
+  list.innerHTML = st.actions.map((a, i) => `<div class="act-item${a.done ? ' is-done' : ''}"><span class="cb-wrap"><input type="checkbox" class="cb" data-i="${i}"${a.done ? ' checked' : ''}></span><input type="text" class="act-item-text" data-i="${i}" placeholder="${T2('Describe the action')}"></div>`).join('');
+  st.actions.forEach((a, i) => { const ti = list.querySelector(`.act-item-text[data-i="${i}"]`); if (ti) ti.value = a.text || ''; });
+  if (window.Icons) window.Icons.render(list);
+  const done = st.actions.filter(a => a.done).length;
+  overlay.querySelector('.act-prog-fill').style.width = st.actions.length ? (done / st.actions.length * 100) + '%' : '0';
+  const badge = overlay.querySelector('.act-count');
+  if (badge) { badge.textContent = st.actions.length; badge.hidden = st.actions.length === 0; }
+}
+/* Point a panel's Actions tab at a subject: restore its state + set the score. */
+function loadActions(overlay, key, scoreText) {
+  if (!overlay) return;
+  overlay.__actKey = key;
+  const st = actState(key);
+  const sc = overlay.querySelector('.act-score'); if (sc) sc.textContent = scoreText;
+  const cur = overlay.querySelector('.act-goal-current'); if (cur) { cur.innerHTML = goalChipHTML(st.goal); if (window.Icons) window.Icons.render(cur); }
+  const menu = overlay.querySelector('.act-goal-menu'); if (menu) { menu.hidden = true; menu.classList.toggle('has-goal', !!st.goal); }
+  overlay.querySelectorAll('.act-goal-opt').forEach(o => o.classList.toggle('is-selected', o.dataset.goal === st.goal));
+  const desc = overlay.querySelector('.act-desc'); if (desc) { desc.value = st.desc; autoGrow(desc); }
+  const addBtn = overlay.querySelector('.act-add'); if (addBtn) addBtn.disabled = !st.goal;
+  renderActList(overlay);
+}
+function wireActions(overlay) {
+  if (!overlay || overlay.dataset.actWired) return;
+  const trigger = overlay.querySelector('.act-goal-trigger');
+  const menu = overlay.querySelector('.act-goal-menu');
+  const desc = overlay.querySelector('.act-desc');
+  const addBtn = overlay.querySelector('.act-add');
+  const list = overlay.querySelector('.act-list');
+  if (!trigger || !addBtn || !list) return;
+  overlay.dataset.actWired = '1';
+  /* custom goal dropdown (Improve / Promote / Contemplate chips) */
+  trigger.addEventListener('click', (e) => { e.stopPropagation(); menu.hidden = !menu.hidden; });
+  menu.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', () => { menu.hidden = true; });
+  menu.querySelectorAll('.act-goal-opt').forEach(opt => opt.addEventListener('click', () => {
+    actState(overlay.__actKey).goal = opt.dataset.goal;
+    const cur = overlay.querySelector('.act-goal-current'); cur.innerHTML = goalChipHTML(opt.dataset.goal); if (window.Icons) window.Icons.render(cur);
+    menu.querySelectorAll('.act-goal-opt').forEach(o => o.classList.toggle('is-selected', o === opt));
+    menu.classList.add('has-goal');
+    addBtn.disabled = false; menu.hidden = true;
+  }));
+  const removeItem = overlay.querySelector('.act-goal-remove');
+  if (removeItem) removeItem.addEventListener('click', () => { menu.hidden = true; openRemoveDialog(overlay); });
+  desc.addEventListener('input', () => { actState(overlay.__actKey).desc = desc.value; autoGrow(desc); });
+  addBtn.addEventListener('click', () => {
+    if (addBtn.disabled) return;
+    actState(overlay.__actKey).actions.push({ text: '', done: false });
+    renderActList(overlay);
+    const last = list.querySelector('.act-item:last-child .act-item-text'); if (last) last.focus();
+  });
+  list.addEventListener('input', (e) => { const ti = e.target.closest('.act-item-text'); if (ti) actState(overlay.__actKey).actions[+ti.dataset.i].text = ti.value; });
+  list.addEventListener('change', (e) => { const cb = e.target.closest('.cb'); if (cb) { actState(overlay.__actKey).actions[+cb.dataset.i].done = cb.checked; renderActList(overlay); } });
+}
+/* Generic Insights/Actions tab switching for a side panel (uses .sp-tab[data-scptab] + .scp-tabpanel). */
+function wirePanelTabs(overlay) {
+  if (!overlay || overlay.dataset.tabsWired) return;
+  overlay.dataset.tabsWired = '1';
+  overlay.querySelectorAll('.sp-tab[data-scptab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const t = tab.dataset.scptab;
+      overlay.querySelectorAll('.sp-tab').forEach(x => x.classList.toggle('is-active', x === tab));
+      overlay.querySelectorAll('.scp-tabpanel').forEach(pn => { pn.hidden = pn.dataset.scptab !== t; });
+    });
+  });
+}
+function resetPanelTabs(overlay) {
+  if (!overlay) return;
+  overlay.querySelectorAll('.sp-tab[data-scptab]').forEach(t => t.classList.toggle('is-active', t.dataset.scptab === 'insights'));
+  overlay.querySelectorAll('.scp-tabpanel').forEach(pn => { pn.hidden = pn.dataset.scptab !== 'insights'; });
+}
+/* Confirmation dialog shown before clearing a subject's goal + actions */
+function actRemoveDialog() {
+  return `
+<div class="overlay" id="act-remove-dialog" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="act-rm-title">
+    <button class="dialog-close" id="act-rm-close" aria-label="Close"><i data-icon="cross"></i></button>
+    <div class="dialog-header is-sm">
+      <h3 class="dialog-title" id="act-rm-title">Remove goal</h3>
+      <p class="dialog-subtitle">Are you sure you want to remove this goal? All actions attached to it will be deleted.</p>
+    </div>
+    <div class="dialog-body act-rm-body">
+      <label class="act-rm-skip"><span class="cb-wrap"><input type="checkbox" class="cb" id="act-rm-skip"></span> Don't show this message again</label>
+    </div>
+    <div class="dialog-footer"><button class="btn btn-secondary" id="act-rm-cancel">Cancel</button><button class="btn btn-danger" id="act-rm-confirm">Remove</button></div>
+  </div>
+</div>`;
+}
+let actRemoveTarget = null;
+let actSkipRemoveConfirm = false;
+function actClearGoal(overlay) {
+  ACT_STORE[overlay.__actKey] = { goal: '', desc: '', actions: [] };
+  loadActions(overlay, overlay.__actKey, overlay.querySelector('.act-score').textContent);
+}
+function openRemoveDialog(overlay) {
+  if (actSkipRemoveConfirm) { actClearGoal(overlay); return; }
+  actRemoveTarget = overlay;
+  const dlg = document.getElementById('act-remove-dialog'); if (dlg) dlg.hidden = false;
+}
+function wireActRemoveDialog() {
+  const dlg = document.getElementById('act-remove-dialog');
+  if (!dlg || dlg.dataset.wired) return;
+  dlg.dataset.wired = '1';
+  const close = () => { dlg.hidden = true; };
+  document.getElementById('act-rm-close').addEventListener('click', close);
+  document.getElementById('act-rm-cancel').addEventListener('click', close);
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !dlg.hidden) close(); });
+  document.getElementById('act-rm-confirm').addEventListener('click', () => {
+    if (document.getElementById('act-rm-skip').checked) actSkipRemoveConfirm = true;
+    if (actRemoveTarget) actClearGoal(actRemoveTarget);
+    close();
+  });
 }
 
 /* ---------- Scores (tab) ---------- */
@@ -1913,12 +2074,13 @@ ${scoresView(d)}
       <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="engp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
       <div class="sp-heading"><h2 class="sp-title" id="engp-title">Engagement</h2></div>
       <div class="sp-tabs engp-tabs">
-        <a class="sp-tab is-active"><i data-icon="category"></i> Insights</a>
-        <a class="sp-tab"><i data-icon="target"></i> Actions <span class="engp-tab-count">4</span></a>
+        <a class="sp-tab is-active" data-scptab="insights"><i data-icon="category"></i> Insights</a>
+        <a class="sp-tab" data-scptab="actions"><i data-icon="target"></i> Actions <span class="act-count engp-tab-count" hidden>0</span></a>
       </div>
     </div>
 
     <div class="sp-body">
+      <div class="scp-tabpanel" data-scptab="insights">
 
       <div class="engp-section">
         <h3 class="engp-section-title">What does &ldquo;Engagement&rdquo; mean?</h3>
@@ -1965,6 +2127,8 @@ ${scoresView(d)}
         <div style="margin-top:var(--spacing-base);">${d.engpCorr.map(corrRow).join('')}</div>
       </div>
 
+      </div><!-- /insights panel -->
+      <div class="scp-tabpanel" data-scptab="actions" hidden>${actionsPanelInner()}</div>
     </div><!-- /sp-body -->
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
@@ -1976,11 +2140,12 @@ ${scoresView(d)}
       <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="thp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
       <div class="sp-heading"><h2 class="sp-title" id="thp-title"></h2></div>
       <div class="sp-tabs engp-tabs">
-        <a class="sp-tab is-active"><i data-icon="category"></i> Insights</a>
-        <a class="sp-tab"><i data-icon="target"></i> Actions</a>
+        <a class="sp-tab is-active" data-scptab="insights"><i data-icon="category"></i> Insights</a>
+        <a class="sp-tab" data-scptab="actions"><i data-icon="target"></i> Actions <span class="act-count engp-tab-count" hidden>0</span></a>
       </div>
     </div>
     <div class="sp-body">
+      <div class="scp-tabpanel" data-scptab="insights">
       <div class="engp-section">
         <h3 class="engp-section-title" id="thp-mean-title"></h3>
         <p id="thp-desc"></p>
@@ -2001,6 +2166,8 @@ ${scoresView(d)}
         </div>
         <div id="thp-questions"></div>
       </div>
+      </div><!-- /insights panel -->
+      <div class="scp-tabpanel" data-scptab="actions" hidden>${actionsPanelInner()}</div>
     </div><!-- /sp-body -->
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
@@ -2015,12 +2182,13 @@ ${scoresView(d)}
         <p class="sp-subtitle">The eNPS shows you to what extent your employees would recommend your organization as a good employer.</p>
       </div>
       <div class="sp-tabs engp-tabs">
-        <a class="sp-tab is-active"><i data-icon="category"></i> Insights</a>
-        <a class="sp-tab"><i data-icon="pin"></i> Actions</a>
+        <a class="sp-tab is-active" data-scptab="insights"><i data-icon="category"></i> Insights</a>
+        <a class="sp-tab" data-scptab="actions"><i data-icon="pin"></i> Actions <span class="act-count engp-tab-count" hidden>0</span></a>
       </div>
     </div>
 
     <div class="sp-body">
+      <div class="scp-tabpanel" data-scptab="insights">
 
       <div class="npsp-section">
         <h3 class="npsp-h">Your scores</h3>
@@ -2112,12 +2280,15 @@ ${scoresView(d)}
         <button class="btn btn-link npsp-learn">Learn why the eNPS is important <i data-icon="external-link"></i></button>
       </div>
 
+      </div><!-- /insights panel -->
+      <div class="scp-tabpanel" data-scptab="actions" hidden>${actionsPanelInner()}</div>
     </div><!-- /sp-body -->
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
 
 ${reportsDialogs()}
 ${scorePanel()}
+${actRemoveDialog()}
 `;
 }
 
@@ -2250,7 +2421,7 @@ function renderOverview(variant, initialView) {
   const wirePanel = (overlayId, closeId, cardSel) => {
     const overlay = document.getElementById(overlayId);
     const card = document.querySelector(cardSel);
-    const open = () => { overlay.hidden = false; };
+    const open = () => { resetPanelTabs(overlay); overlay.hidden = false; };
     const close = () => { overlay.hidden = true; };
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
@@ -2263,6 +2434,13 @@ function renderOverview(variant, initialView) {
   wirePanel('efp-overlay', 'efp-close', '.fx-card');
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
   wirePanel('npsp-overlay', 'npsp-close', '.nps-card');
+
+  /* interactive Actions tab on the Engagement + eNPS panels (score = the card's score) */
+  wireActRemoveDialog();
+  const engOv = document.getElementById('engp-overlay');
+  if (engOv) { wirePanelTabs(engOv); wireActions(engOv); loadActions(engOv, 'engagement', (d.engpCards[0] || {}).val || '–'); }
+  const npOv = document.getElementById('npsp-overlay');
+  if (npOv) { wirePanelTabs(npOv); wireActions(npOv); loadActions(npOv, 'enps', String(d.npsPromoters - d.npsDetractors)); }
 
   /* Themes view: a theme card's "View insights" opens the theme side panel (same look as the engagement panel) */
   (function wireThemePanel() {
@@ -2288,6 +2466,8 @@ function renderOverview(variant, initialView) {
         ];
         document.getElementById('thp-cards').innerHTML = cards.map(c => `<div class="engp-card-item"><div class="engp-card-lbl">${c.lbl}</div><div class="engp-card-val">${c.val}</div></div>`).join('');
         document.getElementById('thp-questions').innerHTML = (t.questions || []).map(r => `<div class="engp-q-row"><span class="engp-q-text">${T2(r.q)}</span><span class="engp-q-score">${r.s}</span></div>`).join('');
+        loadActions(overlay, 'theme:' + t.name, current + '%');   /* Actions tab: per-theme state + score */
+        resetPanelTabs(overlay);
         overlay.hidden = false;
         if (window.Icons) window.Icons.render(overlay);
         /* build the chart only once the panel is visible so the canvas has a measured size */
@@ -2301,6 +2481,7 @@ function renderOverview(variant, initialView) {
     document.getElementById('thp-close').addEventListener('click', close);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) close(); });
+    wirePanelTabs(overlay); wireActions(overlay);
   })();
 
   /* Effectiveness panel: Matrix / List segmented control + list accordions */
@@ -2720,6 +2901,7 @@ function renderOverview(variant, initialView) {
       const org = row.dataset.org !== '' ? parseFloat(row.dataset.org) : group;
       const fmtv = (v) => scale === '10' ? Number(v).toFixed(1) : Math.round(v) + '%';
       document.getElementById('scp-title').textContent = T2(q);
+      loadActions(scp, q, fmtv(group));   /* Actions tab: per-question goal/description/actions + score */
       /* distribution — always a 5-point scale; the two "agree" buckets sum to the score */
       const agreeTotal = Math.round(scale === '10' ? group * 10 : group);
       const sAgree = Math.round(agreeTotal * 0.65);
@@ -2796,6 +2978,7 @@ function renderOverview(variant, initialView) {
     document.getElementById('scp-close').addEventListener('click', closeScp);
     scp.addEventListener('click', (e) => { if (e.target === scp) closeScp(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !scp.hidden) closeScp(); });
+    wireActions(scp);
   })();
 
   /* AI summary show more / less */

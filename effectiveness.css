@@ -1121,6 +1121,57 @@
     .scp-tips li { font-size: 14px; line-height: 1.6; color: var(--content-base); }
     .scp-bp { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
 
+    /* ════ Actions tab (shared across side panels) ════ */
+    .act-count[hidden] { display: none; }
+    .act-props { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
+    .act-row { display: flex; align-items: center; gap: var(--spacing-base); min-height: 28px; }
+    .act-row-lbl { display: flex; align-items: center; gap: var(--spacing-tight); width: 132px; flex: none; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .act-row-lbl i { display: flex; width: 16px; height: 16px; color: var(--content-secondary); }
+    .act-row-val { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    /* custom goal dropdown */
+    .act-goal-wrap { position: relative; }
+    .act-goal-trigger { display: inline-flex; align-items: center; gap: var(--spacing-tight); border: 0; background: none; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; padding: var(--spacing-extra-tight) 0; }
+    .act-goal-trigger > i { display: flex; width: 16px; height: 16px; color: var(--content-secondary); }
+    /* positioning only — the menu itself uses the design-system .menu / .menu-item component */
+    .act-goal-menu { position: absolute; top: calc(100% + var(--spacing-extra-tight)); left: 0; z-index: 40; width: max-content; min-width: 180px; }
+    .act-goal-menu[hidden] { display: none; }
+    .goal-chip { display: inline-flex; align-items: center; gap: var(--spacing-tight); padding: var(--spacing-extra-tight) var(--spacing-tight); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; line-height: 18px; letter-spacing: 0.8px; text-transform: uppercase; }
+    .goal-chip i { display: flex; width: 14px; height: 14px; }
+    .goal-chip.is-improve { background: var(--bg-warning-bold); color: var(--content-inverse-base); }
+    .goal-chip.is-promote { background: var(--bg-positive-base); color: var(--content-inverse-base); }
+    .goal-chip.is-contemplate { background: var(--bg-disabled); color: var(--content-base); }
+    /* "Remove goal & actions" — only shown once a goal is set */
+    .act-goal-remove-sep, .act-goal-remove { display: none; }
+    .act-goal-menu.has-goal .act-goal-remove-sep { display: block; }
+    .act-goal-menu.has-goal .act-goal-remove { display: flex; }
+    .act-goal-remove .menu-item-icon, .act-goal-remove .menu-item-title { color: var(--content-negative-base); }
+    .act-goal-remove:hover { background: var(--bg-negative-subtle); }
+    /* remove-goal confirmation dialog body (text + "don't show again" above the footer) */
+    .act-rm-body { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .act-rm-body p { margin: 0; }
+    .act-rm-skip { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; color: var(--content-base); cursor: pointer; }
+    /* Description = inline textarea (the design system only ships input.tf-inline; mirror it for textarea) */
+    .act-row-desc { align-items: flex-start; }
+    .act-row-desc .act-row-lbl { margin-top: 7px; }
+    textarea.act-desc { flex: 1; min-width: 0; margin-left: -8px; min-height: 36px; padding: 7px 8px; border: 1px solid transparent; border-radius: var(--radius-base); background: transparent; font-family: inherit; font-size: 14px; line-height: 1.5; color: var(--content-base); outline: none; resize: none; overflow: hidden; transition: border-color .1s, background .1s; }
+    textarea.act-desc::placeholder { color: var(--content-placeholder); }
+    textarea.act-desc:hover { border-color: var(--border-action-hover); background: var(--bg-input-hover); }
+    textarea.act-desc:focus { border-color: var(--border-brand-base); background: var(--bg-input); }
+    .act-prog-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); margin-top: var(--spacing-super-loose); }
+    /* hide the "select a goal first" tooltip once a goal is chosen (button enabled) */
+    .act-add-wrap:has(.act-add:not([disabled])) .tooltip { display: none; }
+    .act-add i { display: flex; width: 16px; height: 16px; }
+    .act-prog-bar { margin-top: var(--spacing-base); height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
+    .act-prog-fill { height: 100%; width: 0; background: var(--bg-brand-base); border-radius: var(--radius-full); transition: width var(--motion-base) var(--ease-out); }
+    .act-list { display: flex; flex-direction: column; margin-top: var(--spacing-base); }
+    .act-item { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) 0; border-top: 1px solid var(--border-base); }
+    .act-item-text { flex: 1; min-width: 0; font-family: inherit; font-size: 14px; line-height: 1.6; color: var(--content-base); border: 0; background: none; outline: none; }
+    .act-item.is-done .act-item-text { color: var(--content-secondary); text-decoration: line-through; }
+    .act-empty { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-base); padding: var(--spacing-super-extra-loose) 0; text-align: center; }
+    .act-empty-ico { display: block; width: auto; height: 64px; }
+    .act-empty p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .act-list:not(:empty) + .act-empty { display: none; }
+
     /* Floating legend */
     .sc-legend {
       position: fixed; bottom: var(--spacing-loose); left: calc(50% + 120px); transform: translateX(-50%);
