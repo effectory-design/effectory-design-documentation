@@ -905,12 +905,16 @@ function scorePanel() {
           <p>Knowing the distribution of answers can help you understand the sentiment behind the score. It gives you a quick look at how most respondents feel about this question.</p>
           <div class="engp-dist">
             <div class="dist-ends">
-              <span class="dist-end is-dis"><i data-icon="net-promoter-score-detractor"></i> Disagree</span>
-              <span class="dist-end is-eng">Agree <i data-icon="net-promoter-score"></i></span>
+              <span class="dist-end is-dis"><i data-icon="net-promoter-score-detractor"></i> Strongly disagree</span>
+              <span class="dist-end is-eng">Strongly agree <i data-icon="net-promoter-score"></i></span>
             </div>
-            <div class="dist-bar">
-              <div class="dist-seg is-pot" id="scp-dis"></div>
-              <div class="dist-seg is-eng" id="scp-agree"></div>
+            <div class="dist-bar" id="scp-dist-bar"></div>
+            <div class="scp-agree-row">
+              <div class="scp-agree-bracket" id="scp-agree-bracket">
+                <span class="scp-br-cap is-left"></span>
+                <span class="scp-br-lbl" id="scp-agree-lbl"></span>
+                <span class="scp-br-cap is-right"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -1206,6 +1210,122 @@ function scoresView(d) {
   </div>`;
 }
 
+/* ---------- Themes (in-page view) ---------- */
+/* Per theme: benchmark (Effectory Index) + the group's score per survey period (0–100). */
+const THEMES = [
+  { name: 'Customer Focus', bench: 71, v: { 'team-it': { before: 45, after: 62 }, 'novanta': { before: 55, after: 64 } },
+    desc: "In essence, customer focus is about identifying the customer's wishes and requirements, anticipating these wishes and acting on them to build lasting relationships.",
+    questions: [
+      { q: 'We put the customer at the centre of what we do', s: '64%' },
+      { q: 'I understand how my work affects our customers', s: '68%' },
+      { q: 'We act on customer feedback to improve', s: '54%' }
+    ] },
+  { name: 'Vitality', bench: 86, v: { 'team-it': { before: 71, after: 75 }, 'novanta': { before: 78, after: 80 } },
+    desc: "Vitality covers both the mental and physical vitality of employees. Mental vitality refers to the mental state of an employee and their ability to recover and stay resilient.",
+    questions: [
+      { q: 'I have enough energy to do my work well', s: '78%' },
+      { q: 'I can recover well after a busy period', s: '73%' },
+      { q: 'My workload is manageable', s: '69%' }
+    ] },
+  { name: 'Efficiency', bench: 46, v: { 'team-it': { before: 26, after: 57 }, 'novanta': { before: 50, after: 58 } },
+    desc: "On top of effectiveness, it's important that employees are given the ability to work efficiently. Efficiency is about the capacity to achieve results with minimal wasted effort.",
+    questions: [
+      { q: 'I can do my work without unnecessary obstacles', s: '55%' },
+      { q: 'Our processes help me work efficiently', s: '59%' },
+      { q: 'We avoid duplicate or wasted work', s: '52%' }
+    ] },
+  { name: 'Engagement', bench: 70, v: { 'team-it': { before: 48, after: 62 }, 'novanta': { before: 60, after: 66 } },
+    desc: "Engagement is the degree to which your employees feel inspired and energized by their work. It reflects their positive connection to your organization and their willingness to go the extra mile.",
+    questions: [
+      { q: 'Doing my work gives me energy', s: '64%' },
+      { q: 'I am proud of the work I do', s: '67%' },
+      { q: 'I feel committed to our goals', s: '58%' }
+    ] },
+  { name: 'Satisfaction', bench: 85, v: { 'team-it': { before: 70, after: 76 }, 'novanta': { before: 75, after: 80 } },
+    desc: "Employee satisfaction is the sense of well-being that employees experience because of their job. A satisfied employee is content with their role, conditions and environment.",
+    questions: [
+      { q: 'I am satisfied with my job', s: '78%' },
+      { q: 'I am happy with my working conditions', s: '74%' },
+      { q: 'I would recommend us as a place to work', s: '72%' }
+    ] },
+  { name: 'Willingness to change', bench: 47, v: { 'team-it': { before: 30, after: 56 }, 'novanta': { before: 48, after: 60 } },
+    desc: "Willingness to change reflects how open and ready employees are to adapt to new ways of working, embrace improvements and support the organization through change.",
+    questions: [
+      { q: 'I am open to new ways of working', s: '58%' },
+      { q: 'I embrace improvements in how we work', s: '55%' },
+      { q: 'I support the organization through change', s: '54%' }
+    ] },
+];
+
+function themesView(d) {
+  const T2 = (s) => window.tr ? tr(s) : s;
+  const g = groupKey(d), p = periodKey(d);
+  const rows = THEMES.map(t => ({
+    name: t.name, desc: t.desc,
+    current: t.v[g][p],
+    previous: p === 'after' ? t.v[g].before : null,   /* previous survey only exists from Q3 onward */
+    benchmark: t.bench
+  }));
+  /* each bar carries a hover tooltip with its series label + score */
+  const bar = (cls, label, val) => `<div class="cmp-bar ${cls} tt-demo" style="height:${val}%"><div class="tooltip is-above">${T2(label)}: ${val}%</div></div>`;
+  const bars = (r) => `
+    <div class="cmp-bargroup">
+      ${bar('is-current', 'Current', r.current)}
+      ${r.previous != null ? bar('is-previous', 'Previous', r.previous) : ''}
+      ${bar('is-benchmark', 'Benchmark', r.benchmark)}
+    </div>`;
+  const card = (r, i) => `
+    <div class="card card-elevated t-panel tc">
+      <div class="tc-top">
+        <div class="tc-head">
+          <span class="tc-title text-l5">${r.name}</span>
+          <div class="tt-demo"><button class="ib ib-36 ib-tertiary icon-ghost" aria-label="Pin theme"><i data-icon="pin"></i></button><div class="tooltip is-above">Pin theme</div></div>
+        </div>
+        <p class="tc-desc">${r.desc}</p>
+      </div>
+      <div class="tc-scores">
+        <div class="score">
+          <div class="score-label"><span class="score-name">${d.groupName}</span><span class="score-val">${r.current}%</span></div>
+          <div class="score-track"><div class="score-fill is-current" style="right:${100 - r.current}%"></div></div>
+        </div>
+      </div>
+      <button class="btn btn-link tc-link" data-theme="${i}">View insights <i data-icon="chevron-right"></i></button>
+    </div>`;
+  return `
+  <div class="rd-intro">
+    <h2 class="text-l3">Themes</h2>
+    <span class="rd-bar"></span>
+    <span class="rd-sub">Scores per theme to know what to focus on</span>
+  </div>
+  <div class="card card-elevated t-panel cmp-card">
+    <div class="cmp-head">
+      <span class="cmp-title text-l5">Theme comparison</span>
+      <div class="cmp-head-right">
+        <div class="cmp-legend">
+          <span class="lg-item"><span class="lg-dot is-current"></span> Current</span>
+          ${p === 'after' ? '<span class="lg-item"><span class="lg-dot is-previous"></span> Previous</span>' : ''}
+          <span class="lg-item"><span class="lg-dot is-benchmark"></span> Benchmark</span>
+        </div>
+        <div class="tt-demo"><button class="ib ib-36 ib-tertiary icon-ghost" aria-label="Select filter"><i data-icon="gear"></i></button><div class="tooltip is-above">Select filter</div></div>
+      </div>
+    </div>
+    <div class="cmp-chart">
+      <div class="cmp-area">
+        <div class="cmp-yaxis"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div>
+        <div class="cmp-plot">
+          <div class="cmp-lines"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="cmp-groups">${rows.map(bars).join('')}</div>
+        </div>
+      </div>
+      <div class="cmp-xaxis">${rows.map(r => `<span class="cmp-xlabel">${r.name}</span>`).join('')}</div>
+    </div>
+  </div>
+  <div class="themes-section">
+    <span class="themes-label text-l6">ALL THEMES</span>
+    <div class="themes-grid">${rows.map(card).join('')}</div>
+  </div>`;
+}
+
 /* ---------- markup template ---------- */
 function shell(d) {
   const npsValue = d.npsPromoters - d.npsDetractors;
@@ -1365,7 +1485,7 @@ function shell(d) {
         <div class="tabs">
           <a class="tab is-active" data-view="overview">Overview</a>
           <a class="tab" data-view="focus"><i data-icon="featured" class="tab-spark"></i> Focus View</a>
-          <a class="tab">Themes</a>
+          <a class="tab" data-view="themes">Themes</a>
           <a class="tab" data-view="scores">Scores</a>
           <a class="tab">Open answers</a>
           <a class="tab">Topics &amp; Ideas</a>
@@ -1667,6 +1787,10 @@ ${focusView(d)}
 ${reportsView(d)}
 </div><!-- /view-reports -->
 
+<div class="view" id="view-themes" hidden>
+${themesView(d)}
+</div><!-- /view-themes -->
+
 <div class="view" id="view-scores" hidden>
 ${scoresView(d)}
 </div><!-- /view-scores -->
@@ -1841,6 +1965,42 @@ ${scoresView(d)}
         <div style="margin-top:var(--spacing-base);">${d.engpCorr.map(corrRow).join('')}</div>
       </div>
 
+    </div><!-- /sp-body -->
+  </div><!-- /sidepanel -->
+</div><!-- /overlay -->
+
+<!-- Theme side panel (opens from a theme card's "View insights") -->
+<div class="overlay is-right" id="thp-overlay" hidden>
+  <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="thp-title">
+    <div class="sp-header">
+      <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="thp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
+      <div class="sp-heading"><h2 class="sp-title" id="thp-title"></h2></div>
+      <div class="sp-tabs engp-tabs">
+        <a class="sp-tab is-active"><i data-icon="category"></i> Insights</a>
+        <a class="sp-tab"><i data-icon="target"></i> Actions</a>
+      </div>
+    </div>
+    <div class="sp-body">
+      <div class="engp-section">
+        <h3 class="engp-section-title" id="thp-mean-title"></h3>
+        <p id="thp-desc"></p>
+      </div>
+      <div class="engp-section">
+        <h3 class="engp-section-title">What are the results?</h3>
+        <p id="thp-results-lead"></p>
+        <div class="engp-cards" id="thp-cards"></div>
+        <div class="engp-chart-card" style="margin-top: var(--spacing-base);">
+          <div class="engp-chart-hd">Score over time <span class="engp-chart-dot"></span> <span id="thp-chart-grp"></span></div>
+          <div class="engp-chart-wrap"><canvas id="thp-chart" role="img" aria-label="Theme score over time"></canvas></div>
+        </div>
+      </div>
+      <div class="engp-section">
+        <div class="engp-section-head">
+          <h3 class="engp-section-title" style="margin:0;">Theme questions</h3>
+          <span class="engp-grouplbl">Group score</span>
+        </div>
+        <div id="thp-questions"></div>
+      </div>
     </div><!-- /sp-body -->
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
@@ -2104,6 +2264,45 @@ function renderOverview(variant, initialView) {
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
   wirePanel('npsp-overlay', 'npsp-close', '.nps-card');
 
+  /* Themes view: a theme card's "View insights" opens the theme side panel (same look as the engagement panel) */
+  (function wireThemePanel() {
+    const overlay = document.getElementById('thp-overlay');
+    if (!overlay) return;
+    const T2 = (s) => window.tr ? tr(s) : s;
+    const g = groupKey(d), p = periodKey(d);
+    let thChart = null;
+    document.querySelectorAll('#view-themes .tc-link[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = THEMES[+btn.dataset.theme];
+        const current = t.v[g][p];
+        const previous = p === 'after' ? t.v[g].before : null;
+        document.getElementById('thp-title').textContent = T2(t.name);
+        document.getElementById('thp-mean-title').textContent = T2('What does {theme} mean?').replace('{theme}', T2(t.name));
+        document.getElementById('thp-desc').textContent = T2(t.desc);
+        document.getElementById('thp-results-lead').textContent = T2('See how your group scored on this theme compared to other groups.');
+        document.getElementById('thp-chart-grp').textContent = d.groupName;
+        const cards = [
+          { lbl: d.groupName, val: current + '%' },
+          ...(previous != null ? [{ lbl: T2('Previous survey'), val: previous + '%' }] : []),
+          { lbl: T2('Effectory Index'), val: t.bench + '%' }
+        ];
+        document.getElementById('thp-cards').innerHTML = cards.map(c => `<div class="engp-card-item"><div class="engp-card-lbl">${c.lbl}</div><div class="engp-card-val">${c.val}</div></div>`).join('');
+        document.getElementById('thp-questions').innerHTML = (t.questions || []).map(r => `<div class="engp-q-row"><span class="engp-q-text">${T2(r.q)}</span><span class="engp-q-score">${r.s}</span></div>`).join('');
+        overlay.hidden = false;
+        if (window.Icons) window.Icons.render(overlay);
+        /* build the chart only once the panel is visible so the canvas has a measured size */
+        if (thChart) { thChart.destroy(); thChart = null; }
+        const labels = previous != null ? [d.prevDateTo, d.dateTo] : [d.dateTo];
+        const series = previous != null ? [previous, current] : [current];
+        requestAnimationFrame(() => { thChart = makeLineChart(document.getElementById('thp-chart'), labels, series, { max: 100, unit: '%' }); });
+      });
+    });
+    const close = () => { overlay.hidden = true; };
+    document.getElementById('thp-close').addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) close(); });
+  })();
+
   /* Effectiveness panel: Matrix / List segmented control + list accordions */
   const segBtns = document.querySelectorAll('#efp-overlay .segctl-btn');
   const mView = document.getElementById('efp-view-matrix');
@@ -2145,6 +2344,7 @@ function renderOverview(variant, initialView) {
   const views = {
     overview: document.getElementById('view-overview'),
     focus: document.getElementById('view-focus'),
+    themes: document.getElementById('view-themes'),
     reports: document.getElementById('view-reports'),
     scores: document.getElementById('view-scores')
   };
@@ -2157,7 +2357,7 @@ function renderOverview(variant, initialView) {
       document.querySelector('.overview-wrap')?.classList.toggle('is-full', v === 'scores');
       document.querySelector('.main-scroll').scrollTop = 0;
       /* keep the URL in sync with the active view (no reload) */
-      const path = location.pathname.replace(/(overview|focus|reports|scores)(\.html)?$/, (m, _g1, ext) => v + (ext || ''));
+      const path = location.pathname.replace(/(overview|focus|themes|reports|scores)(\.html)?$/, (m, _g1, ext) => v + (ext || ''));
       if (path !== location.pathname) history.replaceState(null, '', path + location.search + location.hash);
     });
   });
@@ -2166,6 +2366,9 @@ function renderOverview(variant, initialView) {
   if (initialView === 'focus' || (typeof location !== 'undefined' && location.hash === '#focus')) {
     const ft = document.querySelector('.tab[data-view="focus"]');
     if (ft) ft.click();
+  } else if (initialView === 'themes') {
+    const tt = document.querySelector('.tab[data-view="themes"]');
+    if (tt) tt.click();
   } else if (initialView === 'reports') {
     const rt = document.querySelector('.tab[data-view="reports"]');
     if (rt) rt.click();
@@ -2517,12 +2720,22 @@ function renderOverview(variant, initialView) {
       const org = row.dataset.org !== '' ? parseFloat(row.dataset.org) : group;
       const fmtv = (v) => scale === '10' ? Number(v).toFixed(1) : Math.round(v) + '%';
       document.getElementById('scp-title').textContent = T2(q);
-      /* distribution (always shown as %) */
-      const agree = Math.round(scale === '10' ? group * 10 : group);
-      const dis = 100 - agree;
-      const disEl = document.getElementById('scp-dis'), agEl = document.getElementById('scp-agree');
-      disEl.style.width = dis + '%'; disEl.textContent = dis + '%';
-      agEl.style.width = agree + '%'; agEl.textContent = agree + '%';
+      /* distribution — always a 5-point scale; the two "agree" buckets sum to the score */
+      const agreeTotal = Math.round(scale === '10' ? group * 10 : group);
+      const sAgree = Math.round(agreeTotal * 0.65);
+      const agree = agreeTotal - sAgree;
+      const rest = 100 - agreeTotal;
+      const sDis = Math.round(rest * 0.25);
+      const disagree = Math.round(rest * 0.40);
+      const neutral = rest - sDis - disagree;
+      const segs = [
+        { cls: 'is-sdis', v: sDis }, { cls: 'is-disagree', v: disagree }, { cls: 'is-neutral', v: neutral },
+        { cls: 'is-agree', v: agree }, { cls: 'is-sagree', v: sAgree }
+      ];
+      document.getElementById('scp-dist-bar').innerHTML = segs.map(s => `<div class="dist-seg ${s.cls}" style="width:${s.v}%">${s.v >= 12 ? s.v + '%' : ''}</div>`).join('');
+      const br = document.getElementById('scp-agree-bracket');
+      br.style.width = agreeTotal + '%';
+      document.getElementById('scp-agree-lbl').textContent = T2('{n}% agree with this statement').replace('{n}', agreeTotal);
       /* comparison cards — skip "Organization score" when the group already IS the organization (Novanta) */
       const cards = [{ lbl: d.groupName, val: fmtv(group) }];
       if (groupKey(d) !== 'novanta') cards.push({ lbl: T2('Organization score'), val: fmtv(org) });
@@ -2553,6 +2766,12 @@ function renderOverview(variant, initialView) {
       scp.querySelectorAll('.sp-tab').forEach(t => t.classList.toggle('is-active', t.dataset.scptab === 'insights'));
       scp.querySelectorAll('.scp-tabpanel').forEach(pn => { pn.hidden = pn.dataset.scptab !== 'insights'; });
       scp.hidden = false;
+      /* align the agree bracket to the real left edge of the "agree" segment (gaps make the %-width imprecise) */
+      (() => {
+        const bar = document.getElementById('scp-dist-bar');
+        const ag = bar.querySelector('.is-agree') || bar.querySelector('.is-sagree');
+        if (ag) { const bR = bar.getBoundingClientRect(), aR = ag.getBoundingClientRect(); br.style.width = Math.max(0, Math.round(bR.right - aR.left)) + 'px'; }
+      })();
       /* score-over-time chart */
       if (scpChart) { scpChart.destroy(); scpChart = null; }
       /* Only the current survey and (if present) the previous survey, labelled by end date */
