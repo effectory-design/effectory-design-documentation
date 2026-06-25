@@ -966,7 +966,7 @@ const SCORES_GROUPS = [
   ] },
   { theme: 'Loyalty', rows: [
     { q: 'I would recommend my team as a good place to work', bench: 5.6, scale: '10', v: { 'team-it': { before: 6.4, after: 7.1 }, 'novanta': { before: 6.6, after: 7.3 } } },
-    { q: 'I see myself working here in two years', bench: 6.6, scale: '10', v: { 'team-it': { before: null, after: 6.4 }, 'novanta': { before: null, after: 6.8 } } }
+    { q: 'I see myself working here in two years', bench: 6.6, scale: '10', v: { 'team-it': { before: 5.9, after: 6.4 }, 'novanta': { before: 6.3, after: 6.8 } } }
   ] },
   { theme: 'Work enablement', rows: [
     { q: 'I am provided with good work resources', bench: 73, v: { 'team-it': { before: 52, after: 71 }, 'novanta': { before: 64, after: 71 } } },
