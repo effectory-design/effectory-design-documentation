@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.9.28
+**Version:** 1.9.29
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
@@ -100,6 +100,8 @@ Verzin geen nieuwe class, token, icoon of variant — ook niet als workaround.
 
 Als iets ontbreekt: **stop en meld het expliciet** vóór je verder bouwt.
 > Voorbeeld: "De component `Badge` bestaat niet in `components.css`. Wil je dat ik een ticket aanmaak, of bouw je de Badge-stijl zelf?"
+
+**Het design system is de source of truth.** `components.css`, `tokens.css` en `design-system-reference.md` zijn leidend voor styling — radius, font-size, spacing, states en structuur. Figma en screenshots zijn **referenties, geen autoriteit**. Pak altijd eerst het bestaande component/patroon uit het design system en neem de exacte styling daarvan over (gebruik de echte DS-classes, bijv. `.menu` / `.menu-item` voor een single-select, `.dialog` / `.dialog-subtitle` voor een confirm-dialog). Wijkt Figma af van het design system, volg dan het design system en **meld** dat Figma niet helemaal consistent is.
 
 ### 2. HTML-boilerplate
 Gebruik de boilerplate uit `design-system-reference.md` sectie 1, met deze links in volgorde:
