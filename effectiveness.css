@@ -1283,6 +1283,8 @@
     .is-not-utilized .fv-verdict-underline,
     .is-not-fully-utilized .fv-verdict-underline { background-color: var(--bg-highlight-base); }
     .is-detached .fv-verdict-underline { background-color: var(--border-action-hover); }
+    /* The side-panel lead is a smaller heading, so use a thinner underline there. */
+    .efp-lead-em .fv-verdict-underline { height: 5px; bottom: -3px; }
 
     .fv-stat-cards { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fv-stat-card {
