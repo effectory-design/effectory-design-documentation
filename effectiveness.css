@@ -1279,7 +1279,8 @@
     }
     .fv-verdict.is-effective .fv-verdict-underline { background-color: var(--bg-positive-base); }
     .fv-verdict.is-ineffective .fv-verdict-underline { background-color: var(--bg-negative-base); }
-    .fv-verdict.is-not-utilized .fv-verdict-underline { background-color: var(--bg-highlight-base); }
+    .fv-verdict.is-not-utilized .fv-verdict-underline,
+    .fv-verdict.is-not-fully-utilized .fv-verdict-underline { background-color: var(--bg-highlight-base); }
     .fv-verdict.is-detached .fv-verdict-underline { background-color: var(--border-action-hover); }
 
     .fv-stat-cards { display: flex; flex-direction: column; gap: var(--spacing-tight); }
