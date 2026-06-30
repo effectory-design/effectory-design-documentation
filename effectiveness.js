@@ -2863,12 +2863,12 @@ function wireFeedback() {
   wrap.innerHTML = `
     <button class="fb-fab" id="fb-btn" type="button"><i data-icon="message"></i> ${T2('Feedback')}</button>
     <div class="scrim" id="fb-scrim" hidden>
-      <div class="dialog fb-dialog${embed ? ' is-embed' : ''}" role="dialog" aria-modal="true" aria-labelledby="fb-title">
+      <div class="dialog fb-dialog${embed ? ' is-embed' : ''}" role="dialog" aria-modal="true" ${embed ? `aria-label="${T2('Share feedback')}"` : 'aria-labelledby="fb-title"'}>
         <button class="dialog-close" id="fb-close" aria-label="${T2('Cancel')}"><i data-icon="cross"></i></button>
-        <div class="dialog-header is-sm">
+        ${embed ? '' : `<div class="dialog-header is-sm">
           <h3 class="dialog-title" id="fb-title">${T2('Share feedback')}</h3>
           <p class="dialog-subtitle">${T2('Help us improve this prototype — tell us what could be better.')}</p>
-        </div>
+        </div>`}
         <div class="dialog-body">
           ${embed ? embedForm : nativeForm}
           <div class="fb-done" id="fb-done" hidden><div class="fb-done-ico"><i data-icon="check"></i></div><h4>${T2('Thanks for your feedback!')}</h4><p>${T2("We'll use it to improve the prototype.")}</p></div>

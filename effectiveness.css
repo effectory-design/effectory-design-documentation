@@ -1602,7 +1602,7 @@
     .fb-fab i { width: 16px; height: 16px; display: flex; }
     .scrim .dialog.fb-dialog { width: 460px; max-width: 100%; }
     .scrim .dialog.fb-dialog.is-embed { width: 680px; }
-    .fb-dialog.is-embed .fb-iframe { height: 68vh; }
+    .fb-dialog.is-embed .fb-iframe { height: 68vh; margin-top: var(--spacing-base); }
     .fb-field { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); margin-bottom: var(--spacing-base); }
     .fb-field > label { font-size: 12px; font-weight: 600; color: var(--content-secondary); }
     .fb-field textarea, .fb-field select { width: 100%; font: inherit; font-size: 14px; color: var(--content-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-tight) var(--spacing-base); }
