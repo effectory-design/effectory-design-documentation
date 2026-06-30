@@ -1954,6 +1954,7 @@ function themesView(d) {
 /* ---------- markup template ---------- */
 function shell(d) {
   const T2 = (s) => window.tr ? tr(s) : s;
+  const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
   const npsValue = d.npsPromoters - d.npsDetractors;
   /* eNPS card: small trend badge comparing the current eNPS with a reference (previous survey / benchmark) */
   const npsTrendBadge = (delta) => {
@@ -2447,8 +2448,8 @@ ${actionsView(d)}
 
     <div class="sp-body">
 
-      <div class="efp-lead">
-        <h3 class="efp-lead-title">${d.efpLeadPre}<span class="efp-lead-em ${d.efpLeadEmClass}">${d.efpLeadEm}</span></h3>
+      <div class="efp-lead ${verdictClass}">
+        <h3 class="efp-lead-title">${d.efpLeadPre}<span class="efp-lead-em">${d.efpLeadEm}<span class="fv-verdict-underline"></span></span></h3>
         <p class="efp-lead-desc">${d.efpLeadDesc}</p>
       </div>
 

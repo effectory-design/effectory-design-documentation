@@ -673,7 +673,7 @@
     .efp-col-icon { width: 48px; display: flex; align-items: center; justify-content: center; }
     .efp-col-icon i { display: flex; width: 18px; height: 18px; color: var(--content-secondary); }
     .efp-col-icon.is-group i { color: var(--content-info-base); }
-    .efp-lead-em { text-decoration: underline; text-decoration-thickness: 3px; text-decoration-color: var(--bg-accent-red-subtle); text-underline-offset: 4px; }
+    .efp-lead-em { position: relative; }
 
     /* Legend */
     .efp-legend-item { display: flex; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) 0; }
@@ -1277,11 +1277,12 @@
       -webkit-mask: url(assets/illustrations/verdict-underline.svg) no-repeat center / 100% 100%;
       mask: url(assets/illustrations/verdict-underline.svg) no-repeat center / 100% 100%;
     }
-    .fv-verdict.is-effective .fv-verdict-underline { background-color: var(--bg-positive-base); }
-    .fv-verdict.is-ineffective .fv-verdict-underline { background-color: var(--bg-negative-base); }
-    .fv-verdict.is-not-utilized .fv-verdict-underline,
-    .fv-verdict.is-not-fully-utilized .fv-verdict-underline { background-color: var(--bg-highlight-base); }
-    .fv-verdict.is-detached .fv-verdict-underline { background-color: var(--border-action-hover); }
+    /* Colour applies in any verdict context (Focus View heading + side-panel lead). */
+    .is-effective .fv-verdict-underline { background-color: var(--bg-positive-base); }
+    .is-ineffective .fv-verdict-underline { background-color: var(--bg-negative-base); }
+    .is-not-utilized .fv-verdict-underline,
+    .is-not-fully-utilized .fv-verdict-underline { background-color: var(--bg-highlight-base); }
+    .is-detached .fv-verdict-underline { background-color: var(--border-action-hover); }
 
     .fv-stat-cards { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fv-stat-card {
