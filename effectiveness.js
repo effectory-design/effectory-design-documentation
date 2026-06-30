@@ -786,6 +786,7 @@ function reportsView(d) {
     <h3 class="text-l5 report-group-title">Essential reports</h3>
     <div class="report-card">
       ${row('ppt-file', 'sgr', 'Standard Group Results', 'Includes response rate, themes, question performance and group deep-dives. Includes eNPS and Organizational Effectiveness when available.')}
+      ${row('ppt-file', 'mgmt', 'Management Summary', 'A leadership-ready summary of key outcomes, strengths, improvement areas, and the main takeaways.')}
       ${row('pdf-file', 'onepager', 'Results One-Pager Summary', 'A concise overview of the key results and highlights to share quickly.')}
     </div>
   </div>`;
@@ -3424,9 +3425,9 @@ function renderOverview(variant, initialView) {
     const readyTitle = document.getElementById('ready-title');
     let longerTimer = null, current = null;
     /* Real downloadable files per report + language (only the 3 supported languages have files). */
-    const REPORT_FILE_BASE = { sgr: 'reports/standard-group-results-', onepager: 'reports/one-pager-summary-' };
-    const REPORT_FILE_NAME = { sgr: 'Standard Group Results', onepager: 'Results One-Pager Summary' };
-    const REPORT_FILE_EXT = { sgr: 'pptx', onepager: 'pdf' };
+    const REPORT_FILE_BASE = { sgr: 'reports/standard-group-results-', mgmt: 'reports/management-summary-', onepager: 'reports/one-pager-summary-' };
+    const REPORT_FILE_NAME = { sgr: 'Standard Group Results', mgmt: 'Management Summary', onepager: 'Results One-Pager Summary' };
+    const REPORT_FILE_EXT = { sgr: 'pptx', mgmt: 'pptx', onepager: 'pdf' };
     const LANG_FILE = { Dutch: 'nl', English: 'en', German: 'de' };
     const LANG_FILE_NAME = { nl: 'Nederlands', en: 'English', de: 'Deutsch' };
     const fileFor = (key, lang) => {
