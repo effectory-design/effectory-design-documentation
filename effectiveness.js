@@ -2861,7 +2861,7 @@ function wireFeedback() {
   const embedForm = `
     <iframe class="fb-iframe" id="fb-iframe" title="${T2('Share feedback')}"></iframe>`;
   wrap.innerHTML = `
-    <button class="btn btn-secondary fb-fab" id="fb-btn" type="button"><i data-icon="message"></i> ${T2('Feedback')}</button>
+    <button class="btn btn-tertiary fb-fab is-attn" id="fb-btn" type="button"><i data-icon="message"></i> ${T2('Feedback')}</button>
     <div class="scrim" id="fb-scrim" hidden>
       <div class="dialog fb-dialog${embed ? ' is-embed' : ''}" role="dialog" aria-modal="true" ${embed ? `aria-label="${T2('Share feedback')}"` : 'aria-labelledby="fb-title"'}>
         <button class="dialog-close" id="fb-close" aria-label="${T2('Cancel')}"><i data-icon="cross"></i></button>
@@ -2879,6 +2879,10 @@ function wireFeedback() {
   document.body.appendChild(wrap);
   if (window.Icons) window.Icons.render(wrap);
 
+  const fab = wrap.querySelector('#fb-btn');
+  const stopAttn = () => fab.classList.remove('is-attn');
+  setTimeout(stopAttn, 4500);   /* attention border runs for a few seconds on load */
+
   const scrim = wrap.querySelector('#fb-scrim');
   const setPage = () => { const el = wrap.querySelector('#fb-page'); if (el) el.textContent = currentPageLabel(); };
   const reset = () => {
@@ -2889,6 +2893,7 @@ function wireFeedback() {
     const pr = wrap.querySelector('#fb-priority'); if (pr) pr.value = 'Medium';
   };
   const open = () => {
+    stopAttn();
     if (!embed) reset();
     setPage();
     if (embed) {
