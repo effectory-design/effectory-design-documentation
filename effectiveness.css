@@ -1225,7 +1225,11 @@
     .sc-legend-sw.is-neg { background: var(--bg-scores-negative); color: var(--content-negative-base); }
     .sc-legend-sw.is-vneg { background: var(--bg-scores-very-negative); color: var(--content-negative-base); }
     .sc-legend-div { width: 1px; height: 20px; background: var(--border-base); }
-    .sc-legend-sig { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); color: var(--content-secondary); }
+    .sc-legend-sig-wrap { display: inline-flex; }
+    .sc-legend-sig { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); color: var(--content-secondary); text-decoration: none; cursor: pointer; }
+    .sc-legend-sig:hover { color: var(--content-base); }
+    .sc-legend-sig:hover .sc-legend-sig-text { text-decoration: underline; text-underline-offset: 2px; }
+    .sc-legend-sig i { width: 12px; height: 12px; display: flex; }
     .sc-legend-star { color: var(--content-base); }
 
     /* Top-right mini stats — sits 24px above the first section */

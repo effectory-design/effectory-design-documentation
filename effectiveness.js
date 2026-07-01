@@ -1817,7 +1817,7 @@ function scoresView(d) {
     </div>
     <span class="sc-legend-side is-lower">Lower</span>
     <span class="sc-legend-div"></span>
-    <span class="sc-legend-sig"><span class="sc-legend-star">✱</span> Statistical significance</span>
+    <span class="tt-demo sc-legend-sig-wrap"><a class="sc-legend-sig" href="#" aria-label="Statistical significance"><span class="sc-legend-star">✱</span> <span class="sc-legend-sig-text">Statistical significance</span> <i data-icon="external-link"></i></a><span class="tooltip is-above">Learn how it works</span></span>
   </div>`;
 }
 
@@ -3581,6 +3581,8 @@ function renderOverview(variant, initialView) {
        0–10 score thresholds (±1.5 / ±0.7) while hovering a 0–10 question. */
     const legend = table.querySelector('.sc-legend');
     if (legend) {
+      /* significance explainer link lives in the legend now (no separate notification) */
+      legend.querySelector('.sc-legend-sig')?.addEventListener('click', (e) => e.preventDefault());
       const PCT = { 'is-vpos': '+20%', 'is-pos': '+10%', 'is-neg': '-10%', 'is-vneg': '-20%' };
       const TEN = { 'is-vpos': '+1.5', 'is-pos': '+0.7', 'is-neg': '-0.7', 'is-vneg': '-1.5' };
       const setLegend = (map) => Object.keys(map).forEach(k => { const e = legend.querySelector('.sc-legend-sw.' + k); if (e) e.textContent = map[k]; });

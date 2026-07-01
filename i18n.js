@@ -242,6 +242,8 @@
     "I am proud to work at Novanta B.V.": { nl: "Ik ben trots om bij Novanta B.V. te werken", de: "Ich bin stolz, bei Novanta B.V. zu arbeiten" },
     "I feel that I fit in at Effectory": { nl: "Ik heb het gevoel dat ik bij Effectory pas", de: "Ich habe das Gefühl, dass ich zu Effectory passe" },
     "{group} scores higher": { nl: "{group} scoort hoger", de: "{group} schneidet besser ab" },
+    "Statistical significance": { nl: "Statistische significantie", de: "Statistische Signifikanz" },
+    "Learn how it works": { nl: "Lees hoe het werkt", de: "So funktioniert es" },
     "{group} scores {n}% point higher than {label}": { nl: "{group} scoort {n}%-punt hoger dan {label}", de: "{group} schneidet {n} Prozentpunkte besser ab als {label}" },
     "{group} scores {n}% point lower than {label}": { nl: "{group} scoort {n}%-punt lager dan {label}", de: "{group} schneidet {n} Prozentpunkte schlechter ab als {label}" },
     "{group} scores the same as {label}": { nl: "{group} scoort gelijk aan {label}", de: "{group} schneidet genauso ab wie {label}" },
