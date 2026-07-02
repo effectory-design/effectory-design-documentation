@@ -12,7 +12,7 @@ const DATA = {
     surveyName: 'Your voice 2026 Q2',
     dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
     /* AI summary */
-    aiIntro: { en: "Team IT's results reflect a situation that is recognizable across the acquired business: motivated and capable people working in conditions that are not yet set up to bring out their best.", nl: "De resultaten van Team IT weerspiegelen een situatie die binnen het overgenomen bedrijf breed herkenbaar is: gemotiveerde en bekwame medewerkers die werken onder omstandigheden die nog niet optimaal zijn ingericht om het beste uit hen naar boven te halen." },
+    aiIntro: { en: "Team IT's results reflect a situation that is recognizable across the acquired business: motivated and capable people working in conditions that are not yet set up to bring out their best.", nl: "De resultaten van Team IT weerspiegelen een situatie die binnen het overgenomen bedrijf breed herkenbaar is: gemotiveerde en bekwame medewerkers die werken onder omstandigheden die nog niet optimaal zijn ingericht om het beste uit hen naar boven te halen.", de: "Die Ergebnisse von Team IT spiegeln eine Situation wider, die im übernommenen Unternehmen weit verbreitet ist: motivierte und kompetente Mitarbeitende arbeiten unter Bedingungen, die noch nicht optimal darauf ausgerichtet sind, ihr volles Potenzial zu entfalten." },
     aiMore: {
       en: [
         "Engagement in Team IT sits at 58%, below the organization average. What stands out most is the gap between how the team feels about their work and how well-equipped they feel to do it. Workload manageability and clarity of direction are the two dimensions pulling the overall score down most significantly.",
@@ -21,6 +21,10 @@ const DATA = {
       nl: [
         "De bevlogenheid binnen Team IT bedraagt 58%, onder het organisatiegemiddelde. Het meest opvallend is het verschil tussen hoe medewerkers hun werk ervaren en hoe goed zij zich toegerust voelen om dat werk uit te voeren. Beheersbaarheid van de werkdruk en duidelijkheid over richting zijn de dimensies die de totaalscore het meest negatief beïnvloeden.",
         "Dit is geen team dat heeft opgegeven. Het responspercentage bedraagt 91%. Medewerkers hebben deelgenomen omdat zij gehoord willen worden en geloven dat er iets kan veranderen."
+      ],
+      de: [
+        "Das Engagement in Team IT liegt bei 58 % und damit unter dem Organisationsdurchschnitt. Besonders auffällig ist die Diskrepanz zwischen der Wahrnehmung der Arbeit und dem Gefühl, ausreichend ausgestattet zu sein, um diese erfolgreich auszuführen. Die Beherrschbarkeit der Arbeitsbelastung und die Klarheit der Ausrichtung sind die Dimensionen, die die Gesamtbewertung am stärksten belasten.",
+        "Dies ist kein Team, das aufgegeben hat. Die Rücklaufquote liegt bei 91 %. Die Mitarbeitenden haben teilgenommen, weil sie gehört werden möchten und daran glauben, dass Veränderungen möglich sind."
       ]
     },
     aiStrengths: {
@@ -33,6 +37,11 @@ const DATA = {
         "Met een responspercentage van 91% ligt Team IT ruim boven het organisatiegemiddelde, wat laat zien dat het team betrokken wil zijn bij dit proces.",
         "Het team toont oprechte motivatie en betrokkenheid bij het werk; het probleem zit in de omstandigheden, niet in de houding.",
         "De onderlinge samenwerking en relaties binnen het team vormen een sterke basis voor verdere verbetering."
+      ],
+      de: [
+        "Mit einer Rücklaufquote von 91 % liegt Team IT deutlich über dem Organisationsdurchschnitt und zeigt damit seine Bereitschaft, sich aktiv an diesem Prozess zu beteiligen.",
+        "Das Team zeigt echte Motivation und Engagement für seine Arbeit; das Problem liegt in den Rahmenbedingungen, nicht in der Einstellung.",
+        "Die Zusammenarbeit und die Beziehungen innerhalb des Teams bilden eine starke Grundlage für weitere Verbesserungen."
       ]
     },
     aiGrowth: {
@@ -47,6 +56,12 @@ const DATA = {
         "Werkdruk (onder het organisatiegemiddelde) wordt door een aanzienlijk deel van het team als onbeheersbaar ervaren en vormt de belangrijkste belemmering voor prestaties.",
         "Ondersteuning door de leidinggevende wordt gewaardeerd maar als inconsistent ervaren; duidelijkere begeleiding en regelmatige check-ins zouden veel verschil maken.",
         "Ontwikkelmogelijkheden scoren laag en vormen op termijn een risico voor behoud van medewerkers."
+      ],
+      de: [
+        "Die Klarheit über die Ausrichtung ist die am niedrigsten bewertete Dimension und damit die höchste Priorität. Ohne Klarheit lassen sich Arbeitsbelastung und Prioritäten nur schwer steuern.",
+        "Die Arbeitsbelastung (unter dem Organisationsdurchschnitt) wird von einem erheblichen Teil des Teams als nicht beherrschbar wahrgenommen und stellt die größte Hürde für Leistung dar.",
+        "Die Unterstützung durch die Führungskraft wird geschätzt, jedoch als uneinheitlich erlebt; klarere Orientierung und regelmäßige Check-ins würden einen spürbaren Unterschied machen.",
+        "Entwicklungsmöglichkeiten werden niedrig bewertet und stellen langfristig ein Risiko für die Mitarbeiterbindung dar."
       ]
     },
     aiActions: {
@@ -61,6 +76,12 @@ const DATA = {
         "Escaleer het werkdrukvraagstuk formeel; dit betreft een structureel probleem dat boven teamniveau ligt en om een gesprek met het leiderschap vraagt.",
         "Bepaal één of twee concrete verbeteringen die de grootste impact hebben op de dagelijkse werkervaring en committeer hieraan vóór de volgende meting.",
         "Creëer een vast moment waarop het team prioriteiten en knelpunten kan bespreken; voorspelbare communicatie is net zo belangrijk als de inhoud zelf."
+      ],
+      de: [
+        "Ein strukturiertes Teamgespräch über die Ausrichtung durchführen: Was versteht das Team? Was ist noch unklar? Was wird benötigt, um mit Zuversicht voranzukommen?",
+        "Das Thema Arbeitsbelastung formell eskalieren; es handelt sich um ein strukturelles Problem auf einer höheren Ebene, das eine Diskussion mit der Führungsebene erfordert.",
+        "Ein oder zwei konkrete Verbesserungen definieren, die den größten Einfluss auf die tägliche Arbeitserfahrung haben, und diese vor der nächsten Befragung verbindlich umsetzen.",
+        "Einen festen Rahmen schaffen, in dem das Team regelmäßig Prioritäten und Hindernisse ansprechen kann; Vorhersehbarkeit in der Kommunikation ist genauso wichtig wie deren Inhalt."
       ]
     },
 
@@ -175,7 +196,7 @@ const DATA = {
     surveyName: 'Your voice 2026 Q3',
     dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
     /* AI summary */
-    aiIntro: { en: "The movement in Team IT's results is significant. Engagement has risen from 58% to 69% — an 11-point improvement that places the team above the acquired-business average and within range of the organization benchmark. Workload scores have improved from a low base to a level where people feel they can manage. The direction clarity question, which was the lowest-scoring item in the first survey, has risen by 14 points.", nl: "De ontwikkeling in de resultaten van Team IT is aanzienlijk. De bevlogenheid is gestegen van 58% naar 69% — een verbetering van 11 procentpunten waarmee het team boven het gemiddelde van het overgenomen bedrijf uitkomt en dicht bij het organisatiegemiddelde ligt. Ook de werkdrukscore is vanuit een laag uitgangspunt duidelijk verbeterd. De vraag over duidelijkheid van richting, die in het eerste onderzoek de laagste score had, is met 14 punten gestegen." },
+    aiIntro: { en: "The movement in Team IT's results is significant. Engagement has risen from 58% to 69% — an 11-point improvement that places the team above the acquired-business average and within range of the organization benchmark. Workload scores have improved from a low base to a level where people feel they can manage. The direction clarity question, which was the lowest-scoring item in the first survey, has risen by 14 points.", nl: "De ontwikkeling in de resultaten van Team IT is aanzienlijk. De bevlogenheid is gestegen van 58% naar 69% — een verbetering van 11 procentpunten waarmee het team boven het gemiddelde van het overgenomen bedrijf uitkomt en dicht bij het organisatiegemiddelde ligt. Ook de werkdrukscore is vanuit een laag uitgangspunt duidelijk verbeterd. De vraag over duidelijkheid van richting, die in het eerste onderzoek de laagste score had, is met 14 punten gestegen.", de: "Die Entwicklung der Ergebnisse von Team IT ist bemerkenswert. Das Engagement ist von 58 % auf 69 % gestiegen – eine Verbesserung um 11 Prozentpunkte, wodurch das Team über dem Durchschnitt des übernommenen Unternehmens liegt und sich dem Organisationsbenchmark annähert. Auch die Bewertung der Arbeitsbelastung hat sich von einem niedrigen Ausgangsniveau deutlich verbessert. Die Frage zur Klarheit der Ausrichtung, die in der ersten Befragung den niedrigsten Wert aufwies, ist um 14 Punkte gestiegen." },
     aiMore: {
       en: [
         "These results reflect what happened after the first survey. The team results were shared openly. The workload issue was escalated. Honest conversations happened about what was getting in the way. The scores show that those actions had a real and measurable effect.",
@@ -184,6 +205,10 @@ const DATA = {
       nl: [
         "Deze resultaten weerspiegelen wat er na het eerste onderzoek is gebeurd. De resultaten zijn openlijk gedeeld, het werkdrukvraagstuk is geëscaleerd en er zijn eerlijke gesprekken gevoerd over de barrières die het team ervoer. De scores laten zien dat deze acties een meetbaar positief effect hebben gehad.",
         "Team IT is verschoven van het linksonder kwadrant van de Effectiviteitsmatrix naar de bovenste helft. Dat is precies de ontwikkeling die dit onderzoek zichtbaar moest maken."
+      ],
+      de: [
+        "Diese Ergebnisse spiegeln wider, was nach der ersten Befragung geschehen ist. Die Ergebnisse wurden offen geteilt, das Thema Arbeitsbelastung wurde eskaliert und es fanden ehrliche Gespräche über die Hindernisse statt, die das Team erlebt hat. Die Werte zeigen, dass diese Maßnahmen einen messbaren positiven Effekt hatten.",
+        "Team IT hat sich vom unteren linken Quadranten der Effektivitätsmatrix in die obere Hälfte bewegt. Genau diese Entwicklung sollte durch die Befragung sichtbar gemacht werden."
       ]
     },
     aiStrengths: {
@@ -198,6 +223,12 @@ const DATA = {
         "Duidelijkheid over richting verbeterde met 14 punten; de grootste vooruitgang van alle dimensies.",
         "Het responspercentage steeg naar 94%, wat wijst op groeiend vertrouwen in het proces.",
         "De sterke onderlinge relaties binnen het team fungeren nu actief als bron van ondersteuning in plaats van enkel als basisvoorwaarde."
+      ],
+      de: [
+        "Das Engagement (69 %) ist um 11 Punkte gestiegen und liegt nun über dem Durchschnitt des übernommenen Unternehmens.",
+        "Die Klarheit über die Ausrichtung verbesserte sich um 14 Punkte – die größte Verbesserung aller Dimensionen.",
+        "Die Rücklaufquote stieg auf 94 %, was auf wachsendes Vertrauen in den Prozess hinweist.",
+        "Die starken Beziehungen innerhalb des Teams fungieren nun aktiv als Quelle der Unterstützung und nicht mehr nur als grundlegende Voraussetzung."
       ]
     },
     aiGrowth: {
@@ -210,6 +241,11 @@ const DATA = {
         "Werkdruk (61%) is verbeterd maar blijft onder de benchmark; de structurele aanpassingen hebben geholpen, maar de onderliggende druk is nog niet volledig verdwenen.",
         "Ontwikkelmogelijkheden blijven laag en vormen mogelijk de volgende oorzaak van afnemende betrokkenheid als hier niets mee gebeurt.",
         "Waardering en erkenning zijn beperkt verbeterd, maar blijven achter; teamleden ervaren nog niet consequent dat hun bijdrage wordt gezien."
+      ],
+      de: [
+        "Die Arbeitsbelastung (61 %) hat sich verbessert, liegt jedoch weiterhin unter dem Benchmark; die strukturellen Anpassungen haben geholfen, aber der grundlegende Druck ist noch nicht vollständig beseitigt.",
+        "Entwicklungsmöglichkeiten bleiben niedrig bewertet und könnten zum nächsten Treiber sinkenden Engagements werden, wenn sie nicht adressiert werden.",
+        "Die Bewertung von Anerkennung und Wertschätzung hat sich zwar leicht verbessert, bleibt jedoch hinter den Erwartungen zurück; Teammitglieder haben nicht durchgängig das Gefühl, dass ihr Beitrag gesehen wird."
       ]
     },
     aiActions: {
@@ -226,6 +262,13 @@ const DATA = {
         "Maak ontwikkeling een vast onderdeel van de agenda en vertaal dit naar concrete vervolgstappen voor individuele medewerkers.",
         "Voer binnen drie maanden een gerichte check-in uit op werkdruk in plaats van te wachten op de volgende volledige meting; de verbetering is duidelijk, maar blijft kwetsbaar.",
         "Gebruik de ontwikkeling van Team IT als intern praktijkvoorbeeld in gesprekken met leiderschap over wat het overgenomen bedrijf nodig heeft om verder te groeien."
+      ],
+      de: [
+        "Weiterhin in strukturierte Teamgespräche investieren. Die Verbesserung der Ergebnisse ist ebenso auf die Qualität des Dialogs zurückzuführen wie auf die strukturellen Veränderungen.",
+        "Anerkennung und Wertschätzung im nächsten Befragungszyklus gezielt adressieren. Einfache und sichtbare Möglichkeiten schaffen, Beiträge auf Teamebene anzuerkennen – ohne auf formale Prozesse angewiesen zu sein.",
+        "Entwicklung zu einem festen Tagesordnungspunkt machen und in konkrete Entwicklungsschritte für einzelne Mitarbeitende übersetzen.",
+        "Innerhalb von drei Monaten einen gezielten Check-in zur Arbeitsbelastung durchführen, statt auf die nächste vollständige Befragung zu warten; die Verbesserung ist real, aber weiterhin fragil.",
+        "Die Entwicklung von Team IT als internes Erfolgsbeispiel in Gesprächen mit Führungskräften nutzen, um aufzuzeigen, was das übernommene Unternehmen benötigt, um sich weiterzuentwickeln."
       ]
     },
 
@@ -331,7 +374,7 @@ const DATA = {
     fvVerdictPre: 'Novanta is',
     surveyName: 'Your voice 2026 Q3',
     dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
-    aiIntro: { en: "Six months on, the data tells a different story. Engagement has risen to 72% and retention to 76%, both above the sector benchmark. The performance environment has seen the strongest movement: departments that clustered in the lower quadrants of the Effectiveness Matrix are shifting toward the Effective quadrant. The eNPS has moved from +20 to +31, and response rate has increased to 81% — a sign that trust in the process is growing.", nl: "Zes maanden later vertelt de data een ander verhaal. De bevlogenheid is gestegen naar 72% en de retentie naar 76%, beide boven de benchmark voor de sector. Ook de werkomgeving laat duidelijke vooruitgang zien: afdelingen die eerder in de onderste kwadranten van de Effectiviteitsmatrix stonden, bewegen richting het kwadrant Effectief. De eNPS is gestegen van +20 naar +31 en het responspercentage is toegenomen naar 81%, wat erop wijst dat het vertrouwen in het proces groeit." },
+    aiIntro: { en: "Six months on, the data tells a different story. Engagement has risen to 72% and retention to 76%, both above the sector benchmark. The performance environment has seen the strongest movement: departments that clustered in the lower quadrants of the Effectiveness Matrix are shifting toward the Effective quadrant. The eNPS has moved from +20 to +31, and response rate has increased to 81% — a sign that trust in the process is growing.", nl: "Zes maanden later vertelt de data een ander verhaal. De bevlogenheid is gestegen naar 72% en de retentie naar 76%, beide boven de benchmark voor de sector. Ook de werkomgeving laat duidelijke vooruitgang zien: afdelingen die eerder in de onderste kwadranten van de Effectiviteitsmatrix stonden, bewegen richting het kwadrant Effectief. De eNPS is gestegen van +20 naar +31 en het responspercentage is toegenomen naar 81%, wat erop wijst dat het vertrouwen in het proces groeit.", de: "Sechs Monate später erzählt die Datenlage eine andere Geschichte. Das Engagement ist auf 72 % und die Retention auf 76 % gestiegen – beide Werte liegen über dem Branchenbenchmark. Auch das Arbeitsumfeld hat sich deutlich verbessert: Abteilungen, die zuvor in den unteren Quadranten der Effektivitätsmatrix lagen, bewegen sich zunehmend in Richtung des Quadranten „Effektiv“. Der eNPS ist von +20 auf +31 gestiegen, und die Rücklaufquote hat sich auf 81 % erhöht – ein Zeichen dafür, dass das Vertrauen in den Prozess wächst." },
     aiMore: {
       en: [
         "The actions managers took after the first survey are visible in these results. Teams where managers created actions in the Action Planner and followed through show measurably higher scores on direction, workload, and engagement than teams where no action was taken. The gap between the two groups is the clearest finding in this round.",
@@ -340,6 +383,10 @@ const DATA = {
       nl: [
         "De acties die leidinggevenden na het eerste onderzoek hebben ondernomen zijn zichtbaar in deze resultaten. Teams waarvan leidinggevenden acties hebben aangemaakt in de Actieplanner en deze daadwerkelijk hebben uitgevoerd, scoren aantoonbaar hoger op richting, werkdruk en bevlogenheid dan teams waar geen opvolging heeft plaatsgevonden. Het verschil tussen beide groepen is de meest opvallende bevinding uit deze meting.",
         "Drie afdelingen binnen het overgenomen bedrijf bevinden zich nog steeds in de onderste kwadranten en vragen om gerichte aandacht vóór de volgende meetcyclus."
+      ],
+      de: [
+        "Die Maßnahmen, die Führungskräfte nach der ersten Befragung ergriffen haben, spiegeln sich deutlich in diesen Ergebnissen wider. Teams, deren Führungskräfte Maßnahmen im Action Planner erstellt und auch umgesetzt haben, erzielen nachweislich höhere Werte bei Ausrichtung, Arbeitsbelastung und Engagement als Teams ohne entsprechende Nachverfolgung. Der Unterschied zwischen diesen beiden Gruppen ist die auffälligste Erkenntnis dieser Befragungsrunde.",
+        "Drei Bereiche des übernommenen Unternehmens befinden sich weiterhin in den unteren Quadranten und benötigen vor dem nächsten Zyklus gezielte Aufmerksamkeit."
       ]
     },
     aiStrengths: {
@@ -352,6 +399,11 @@ const DATA = {
         "Leidinggevenden die actief met hun resultaten aan de slag gingen, realiseerden de grootste verbeteringen op teamniveau.",
         "Duidelijkheid over richting is sterk verbeterd binnen het overgenomen bedrijf; de aangepaste integratiecommunicatie uit maand drie is hierin zichtbaar.",
         "Werkdrukscores zijn verbeterd in afdelingen waar capaciteitsvraagstukken zijn besproken en aangepakt."
+      ],
+      de: [
+        "Führungskräfte, die aktiv mit ihren Ergebnissen gearbeitet haben, erzielten die größten Verbesserungen auf Teamebene.",
+        "Die Klarheit über die Ausrichtung hat sich im übernommenen Unternehmen deutlich verbessert; die Anpassungen in der Integrationskommunikation aus dem dritten Monat sind hier sichtbar.",
+        "Die Bewertungen zur Arbeitsbelastung haben sich in den Bereichen verbessert, in denen Kapazitätsfragen angesprochen und bearbeitet wurden."
       ]
     },
     aiGrowth: {
@@ -364,6 +416,11 @@ const DATA = {
         "Werkdruk (61%) is verbeterd, maar blijft de laagst scorende dimensie binnen de organisatie.",
         "Drie productieafdelingen bevinden zich nog steeds in het kwadrant Ineffectief en hebben meer nodig dan alleen een actieplan.",
         "Ontwikkelmogelijkheden (59%) nemen toe, maar blijven onder het sectorgemiddelde."
+      ],
+      de: [
+        "Die Arbeitsbelastung (61 %) hat sich verbessert, bleibt jedoch die niedrigst bewertete Dimension innerhalb der Organisation.",
+        "Drei Produktionsabteilungen befinden sich weiterhin im Quadranten „Ineffektiv“ und benötigen mehr als nur einen Maßnahmenplan.",
+        "Entwicklungsmöglichkeiten (59 %) verbessern sich, liegen jedoch weiterhin unter dem Branchendurchschnitt."
       ]
     },
     aiActions: {
@@ -378,6 +435,12 @@ const DATA = {
         "Deel de werkwijzen van teams die de grootste vooruitgang hebben geboekt als interne succesvoorbeelden.",
         "Voer binnen drie maanden een gerichte pulsemeting uit voor de achterblijvende afdelingen in plaats van te wachten op de volgende volledige meting.",
         "Koppel ontwikkeling aan zichtbare loopbaanpaden om retentie binnen het overgenomen bedrijf verder te versterken."
+      ],
+      de: [
+        "Den Ansatz in den drei Abteilungen mit niedrigen Werten in beiden Dimensionen vertiefen.",
+        "Die Vorgehensweisen der Teams mit den größten Fortschritten als interne Erfolgsbeispiele teilen.",
+        "Innerhalb der nächsten drei Monate eine gezielte Pulsbefragung für die zurückliegenden Bereiche durchführen, anstatt auf den nächsten vollständigen Befragungszyklus zu warten.",
+        "Entwicklungsmöglichkeiten stärker mit sichtbaren Karrierepfaden verknüpfen, um die Retention im übernommenen Unternehmen weiter zu stärken."
       ]
     },
 
@@ -482,7 +545,7 @@ const DATA = {
     fvVerdictPre: 'Novanta is',
     surveyName: 'Your voice 2026 Q2',
     dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
-    aiIntro: { en: "Across Novanta, this survey points to a mixed picture following the recent acquisition. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but that energy is not yet translating into a consistent performance environment. An eNPS of +20 and a response rate of 77% give a solid read on where the organization stands.", nl: "Binnen Novanta laat dit onderzoek een gemengd beeld zien na de recente overname. Organisatiebreed ligt de bevlogenheid op 66% en de retentie op 70% — de meeste medewerkers zijn redelijk betrokken, maar die energie vertaalt zich nog niet overal naar een consistente werkomgeving waarin prestaties optimaal mogelijk zijn. Met een eNPS van +20 en een responspercentage van 77% geeft het onderzoek een betrouwbaar beeld van de situatie." },
+    aiIntro: { en: "Across Novanta, this survey points to a mixed picture following the recent acquisition. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but that energy is not yet translating into a consistent performance environment. An eNPS of +20 and a response rate of 77% give a solid read on where the organization stands.", nl: "Binnen Novanta laat dit onderzoek een gemengd beeld zien na de recente overname. Organisatiebreed ligt de bevlogenheid op 66% en de retentie op 70% — de meeste medewerkers zijn redelijk betrokken, maar die energie vertaalt zich nog niet overal naar een consistente werkomgeving waarin prestaties optimaal mogelijk zijn. Met een eNPS van +20 en een responspercentage van 77% geeft het onderzoek een betrouwbaar beeld van de situatie.", de: "Diese Befragung zeigt bei Novanta nach der jüngsten Übernahme ein gemischtes Bild. Die organisationsweite Mitarbeiterbindung (Engagement) liegt bei 66 %, die Bindungsabsicht (Retention) bei 70 % – die meisten Mitarbeitenden sind grundsätzlich engagiert, doch diese Energie führt noch nicht überall zu einem Arbeitsumfeld, das optimale Leistungen ermöglicht. Mit einem eNPS von +20 und einer Rücklaufquote von 77 % liefert die Befragung ein verlässliches Bild der aktuellen Situation." },
     aiMore: {
       en: [
         "The data shows two Novanta organizations sitting side by side. Legacy teams are largely stable and performing. Teams from the acquired business cluster in the lower quadrants of the Effectiveness Matrix — motivated people working in conditions that do not yet fully support them. This pattern is most visible in unclear direction, workload pressure, and gaps in manager support.",
@@ -491,6 +554,10 @@ const DATA = {
       nl: [
         "De resultaten laten zien dat er als het ware twee Novanta-organisaties naast elkaar bestaan. De oorspronkelijke teams zijn over het algemeen stabiel en presteren goed. Teams uit het overgenomen bedrijf bevinden zich vooral in de onderste kwadranten van de Effectiviteitsmatrix: gemotiveerde medewerkers die werken onder omstandigheden die hen nog onvoldoende ondersteunen. Dit patroon is vooral zichtbaar op het gebied van richting en duidelijkheid, werkdruk en ondersteuning door leidinggevenden.",
         "Het goede nieuws: de betrokkenheid is aanwezig. De uitdaging ligt nu in het creëren van de juiste randvoorwaarden om die betrokkenheid volledig tot haar recht te laten komen."
+      ],
+      de: [
+        "Die Ergebnisse zeigen, dass bei Novanta gewissermaßen zwei Organisationen nebeneinander existieren. Die bestehenden Teams sind überwiegend stabil und leistungsfähig. Die Teams des übernommenen Unternehmens konzentrieren sich dagegen vor allem in den unteren Quadranten der Effektivitätsmatrix: motivierte Mitarbeitende, die unter Bedingungen arbeiten, die sie noch nicht ausreichend unterstützen. Dieses Muster zeigt sich besonders bei der Klarheit von Richtung und Strategie, der Arbeitsbelastung sowie der Unterstützung durch Führungskräfte.",
+        "Die gute Nachricht: Das Engagement ist vorhanden. Die Herausforderung besteht nun darin, die richtigen Rahmenbedingungen zu schaffen, damit dieses Engagement sein volles Potenzial entfalten kann."
       ]
     },
     aiStrengths: {
@@ -503,6 +570,11 @@ const DATA = {
         "Bevlogenheid (66%) vormt een solide basis, met name binnen de oorspronkelijke organisatie.",
         "Retentie (70%) laat zien dat de meeste medewerkers van plan zijn te blijven; de keuze om te vertrekken is nog niet gemaakt.",
         "Het responspercentage van 77% geeft aan dat medewerkers geloven dat hun stem ertoe doet."
+      ],
+      de: [
+        "Das Engagement (66 %) bildet eine solide Grundlage, insbesondere im ursprünglichen Unternehmen.",
+        "Die Retention (70 %) zeigt, dass die meisten Mitarbeitenden beabsichtigen zu bleiben; die Entscheidung zu gehen wurde noch nicht getroffen.",
+        "Die Rücklaufquote von 77 % deutet darauf hin, dass die Mitarbeitenden daran glauben, dass ihre Stimme etwas bewirken kann."
       ]
     },
     aiGrowth: {
@@ -515,6 +587,11 @@ const DATA = {
         "Richting en strategische duidelijkheid scoren laag binnen de teams van het overgenomen bedrijf; medewerkers weten niet altijd hoe hun werk aansluit op de nieuwe organisatie.",
         "Werkdruk (54%) staat onder druk in meerdere afdelingen en wordt het vaakst genoemd als belemmering voor prestaties.",
         "Ondersteuning door leidinggevenden en ontwikkelmogelijkheden blijven achter, vooral in teams die grote veranderingen doormaken."
+      ],
+      de: [
+        "Strategische Ausrichtung und Klarheit werden in den Teams des übernommenen Unternehmens niedrig bewertet; viele Mitarbeitende wissen nicht genau, wie ihre Arbeit zur neuen Organisation beiträgt.",
+        "Die Arbeitsbelastung (54 %) steht in mehreren Bereichen unter Druck und wird am häufigsten als Leistungshemmnis genannt.",
+        "Unterstützung durch Führungskräfte und Entwicklungsmöglichkeiten bleiben insbesondere in Teams, die größere Veränderungen durchlaufen, hinter den Erwartungen zurück."
       ]
     },
     aiActions: {
@@ -529,6 +606,12 @@ const DATA = {
         "Geef leidinggevenden in lager scorende teams een duidelijke structuur voor teamgesprekken.",
         "Pak de verdeling van werkdruk aan vóór de volgende meting; dit is waarschijnlijk de belangrijkste oorzaak van vroegtijdig vertrek.",
         "Stel meetbare doelstellingen per afdeling vast en volg de ontwikkeling in de volgende meting."
+      ],
+      de: [
+        "Die Kommunikation zur Unternehmensausrichtung für die Teams des übernommenen Unternehmens priorisieren; mehr Klarheit ist der schnellste Hebel für Verbesserungen.",
+        "Führungskräften in niedriger bewerteten Teams einen klaren Rahmen für Teamgespräche geben.",
+        "Die Verteilung der Arbeitsbelastung vor der nächsten Befragung adressieren; sie ist wahrscheinlich der wichtigste Treiber für vorzeitige Fluktuation.",
+        "Messbare Ziele je Abteilung festlegen und die Entwicklung in der nächsten Befragung verfolgen."
       ]
     },
 
