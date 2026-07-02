@@ -12,23 +12,57 @@ const DATA = {
     surveyName: 'Your voice 2026 Q2',
     dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
     /* AI summary */
-    aiIntro: "The IT team’s results indicate several challenges impacting overall effectiveness and employee experience. Engagement (56%) and retention (57%) are below desired levels, suggesting employees may feel disconnected from the organization and uncertain about their long-term future within the team. Workload scores are particularly low at 38%, highlighting concerns around capacity, prioritization, and sustainable ways of working. While the eNPS score of 12 remains positive, it indicates only moderate advocacy and suggests there is significant room for improvement in employee satisfaction and loyalty.",
-    aiMore: ["As the team falls within the ineffective quadrant, focused action is required to address workload pressures, strengthen leadership support, and improve employee engagement. Creating greater clarity around priorities, improving resource allocation, and increasing opportunities for employee feedback may help rebuild trust and team effectiveness."],
-    aiStrengths: [
-      "eNPS remains positive at 12, indicating that a portion of employees are still willing to recommend the organization as a place to work."
-    ],
-    aiGrowth: [
-      "Workload (38%) is significantly below desired levels and appears to be a key driver of employee dissatisfaction.",
-      "Engagement (56%) indicates employees may not feel fully connected to team goals or motivated by their current work environment.",
-      "Retention (57%) presents a potential risk for future turnover if underlying concerns are not addressed."
-    ],
-    aiActions: [
-      "Review team capacity, workload distribution, and project prioritization to reduce pressure on employees.",
-      "Conduct listening sessions to better understand the factors contributing to lower engagement and retention.",
-      "Increase transparency around team objectives, decision-making, and career development opportunities.",
-      "Equip managers with tools and training to support employee wellbeing, recognition, and performance conversations.",
-      "Develop a targeted action plan with measurable milestones to improve team effectiveness over the next survey cycle."
-    ],
+    aiIntro: { en: "Team IT's results reflect a situation that is recognizable across the acquired business: motivated and capable people working in conditions that are not yet set up to bring out their best.", nl: "De resultaten van Team IT weerspiegelen een situatie die binnen het overgenomen bedrijf breed herkenbaar is: gemotiveerde en bekwame medewerkers die werken onder omstandigheden die nog niet optimaal zijn ingericht om het beste uit hen naar boven te halen." },
+    aiMore: {
+      en: [
+        "Engagement in Team IT sits at 58%, below the organization average. What stands out most is the gap between how the team feels about their work and how well-equipped they feel to do it. Workload manageability and clarity of direction are the two dimensions pulling the overall score down most significantly.",
+        "This is not a team that has given up. The participation rate was 91%. People answered because they wanted to be heard — and because they believe something can change."
+      ],
+      nl: [
+        "De bevlogenheid binnen Team IT bedraagt 58%, onder het organisatiegemiddelde. Het meest opvallend is het verschil tussen hoe medewerkers hun werk ervaren en hoe goed zij zich toegerust voelen om dat werk uit te voeren. Beheersbaarheid van de werkdruk en duidelijkheid over richting zijn de dimensies die de totaalscore het meest negatief beïnvloeden.",
+        "Dit is geen team dat heeft opgegeven. Het responspercentage bedraagt 91%. Medewerkers hebben deelgenomen omdat zij gehoord willen worden en geloven dat er iets kan veranderen."
+      ]
+    },
+    aiStrengths: {
+      en: [
+        "A participation rate of 91% is above the organization average and signals that Team IT wants to engage with this process",
+        "The team shows genuine motivation and commitment to the work itself — the issue is conditions, not attitude",
+        "Relationships within the team score well, pointing to a strong foundation to build on"
+      ],
+      nl: [
+        "Met een responspercentage van 91% ligt Team IT ruim boven het organisatiegemiddelde, wat laat zien dat het team betrokken wil zijn bij dit proces.",
+        "Het team toont oprechte motivatie en betrokkenheid bij het werk; het probleem zit in de omstandigheden, niet in de houding.",
+        "De onderlinge samenwerking en relaties binnen het team vormen een sterke basis voor verdere verbetering."
+      ]
+    },
+    aiGrowth: {
+      en: [
+        "Direction clarity is the lowest-scoring dimension and the most urgent priority — without it, workload and priorities cannot be effectively managed",
+        "Workload (below organization average) is unmanageable for a significant part of the team and is the primary barrier to performance",
+        "Manager support, while valued, is experienced as inconsistent — clearer guidance and more regular check-ins would make a material difference",
+        "Development opportunities score low, which over time becomes a retention signal"
+      ],
+      nl: [
+        "Duidelijkheid over richting is de laagst scorende dimensie en daarmee de hoogste prioriteit. Zonder duidelijkheid zijn werkdruk en prioriteiten moeilijk te beheersen.",
+        "Werkdruk (onder het organisatiegemiddelde) wordt door een aanzienlijk deel van het team als onbeheersbaar ervaren en vormt de belangrijkste belemmering voor prestaties.",
+        "Ondersteuning door de leidinggevende wordt gewaardeerd maar als inconsistent ervaren; duidelijkere begeleiding en regelmatige check-ins zouden veel verschil maken.",
+        "Ontwikkelmogelijkheden scoren laag en vormen op termijn een risico voor behoud van medewerkers."
+      ]
+    },
+    aiActions: {
+      en: [
+        "Hold a structured team conversation about direction: what does the team understand, what is still unclear, and what do they need to move forward with confidence",
+        "Escalate the workload issue formally — this is a structural problem that sits above the team level and requires a resourcing conversation with leadership",
+        "Identify one or two concrete changes that would make the biggest difference to the team's day-to-day experience and commit to them before the next cycle",
+        "Create a regular moment for the team to raise priorities and blockers — predictability of communication is as important as the content"
+      ],
+      nl: [
+        "Organiseer een gestructureerd teamgesprek over richting: wat begrijpt het team, wat is nog onduidelijk en wat is nodig om met vertrouwen verder te gaan?",
+        "Escaleer het werkdrukvraagstuk formeel; dit betreft een structureel probleem dat boven teamniveau ligt en om een gesprek met het leiderschap vraagt.",
+        "Bepaal één of twee concrete verbeteringen die de grootste impact hebben op de dagelijkse werkervaring en committeer hieraan vóór de volgende meting.",
+        "Creëer een vast moment waarop het team prioriteiten en knelpunten kan bespreken; voorspelbare communicatie is net zo belangrijk als de inhoud zelf."
+      ]
+    },
 
     /* Effectiveness card markers (x = Engagement, y = Performance environment) */
     fxMarkers: [
@@ -141,29 +175,59 @@ const DATA = {
     surveyName: 'Your voice 2026 Q3',
     dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
     /* AI summary */
-    aiIntro: "The IT team's latest survey results show a significant improvement across key engagement and employee experience indicators. Engagement has increased to 67%, while retention has risen to 73%, indicating that employees are more committed to both their current role and the organization. The team also achieved an eNPS of 31, reflecting a strong increase in employee advocacy and a greater willingness to recommend the organization as a place to work.",
-    aiMore: [
-      "Workload perceptions have improved considerably, with 56% of employees reporting that their workload feels “just right.” Combined with a strong response rate of 79%, these results provide a reliable view of employee sentiment and suggest that recent actions have positively impacted the employee experience.",
-      "As a result of these improvements, the IT team has moved into the effective quadrant, demonstrating stronger organizational health, improved employee engagement, and a more sustainable work environment. Continued focus on employee development, recognition, and workload management will help maintain this positive momentum."
-    ],
-    aiStrengths: [
-      "Engagement (67%) has increased, indicating stronger commitment, motivation, and connection to team objectives.",
-      "Retention (73%) shows that a large majority of employees intend to remain in their current role.",
-      "eNPS (31) reflects a healthy level of employee advocacy and confidence in the organization.",
-      "Workload perceptions have improved, with 56% of employees reporting that their workload is appropriately balanced.",
-      "A response rate of 79% provides strong confidence in the reliability and representativeness of the survey results."
-    ],
-    aiGrowth: [
-      "While workload perceptions have improved, nearly half of employees still do not view their workload as optimal, presenting an opportunity for further refinement of prioritization and resource planning.",
-      "Engagement is trending positively but remains below top-performing team benchmarks, suggesting opportunities to further strengthen employee involvement and recognition."
-    ],
-    aiActions: [
-      "Continue monitoring workload distribution and team capacity to sustain improvements in employee wellbeing.",
-      "Build on the positive momentum by increasing opportunities for employee development, learning, and career growth.",
-      "Recognize and celebrate team achievements to reinforce engagement and advocacy.",
-      "Maintain regular employee feedback discussions to identify emerging concerns early and support continuous improvement.",
-      "Share progress updates on actions taken in response to employee feedback to strengthen trust and accountability."
-    ],
+    aiIntro: { en: "The movement in Team IT's results is significant. Engagement has risen from 58% to 69% — an 11-point improvement that places the team above the acquired-business average and within range of the organization benchmark. Workload scores have improved from a low base to a level where people feel they can manage. The direction clarity question, which was the lowest-scoring item in the first survey, has risen by 14 points.", nl: "De ontwikkeling in de resultaten van Team IT is aanzienlijk. De bevlogenheid is gestegen van 58% naar 69% — een verbetering van 11 procentpunten waarmee het team boven het gemiddelde van het overgenomen bedrijf uitkomt en dicht bij het organisatiegemiddelde ligt. Ook de werkdrukscore is vanuit een laag uitgangspunt duidelijk verbeterd. De vraag over duidelijkheid van richting, die in het eerste onderzoek de laagste score had, is met 14 punten gestegen." },
+    aiMore: {
+      en: [
+        "These results reflect what happened after the first survey. The team results were shared openly. The workload issue was escalated. Honest conversations happened about what was getting in the way. The scores show that those actions had a real and measurable effect.",
+        "Team IT has moved from the lower-left quadrant of the Effectiveness Matrix into the top half. That is the journey this survey was designed to track."
+      ],
+      nl: [
+        "Deze resultaten weerspiegelen wat er na het eerste onderzoek is gebeurd. De resultaten zijn openlijk gedeeld, het werkdrukvraagstuk is geëscaleerd en er zijn eerlijke gesprekken gevoerd over de barrières die het team ervoer. De scores laten zien dat deze acties een meetbaar positief effect hebben gehad.",
+        "Team IT is verschoven van het linksonder kwadrant van de Effectiviteitsmatrix naar de bovenste helft. Dat is precies de ontwikkeling die dit onderzoek zichtbaar moest maken."
+      ]
+    },
+    aiStrengths: {
+      en: [
+        "Engagement (69%) has risen 11 points and now sits above the acquired-business average",
+        "Direction clarity improved by 14 points — the most significant single-dimension improvement in the team",
+        "The team's participation rate increased to 94%, indicating growing trust in the process",
+        "Team relationships remain strong and now show up as an active source of support rather than just a baseline"
+      ],
+      nl: [
+        "Bevlogenheid (69%) is met 11 punten gestegen en ligt nu boven het gemiddelde van het overgenomen bedrijf.",
+        "Duidelijkheid over richting verbeterde met 14 punten; de grootste vooruitgang van alle dimensies.",
+        "Het responspercentage steeg naar 94%, wat wijst op groeiend vertrouwen in het proces.",
+        "De sterke onderlinge relaties binnen het team fungeren nu actief als bron van ondersteuning in plaats van enkel als basisvoorwaarde."
+      ]
+    },
+    aiGrowth: {
+      en: [
+        "Workload (61%) has improved but remains below benchmark — the structural adjustment helped, but underlying pressure has not fully resolved",
+        "Development opportunities remain low and are becoming the most likely next driver of disengagement if left unaddressed",
+        "Recognition scores have improved modestly but still lag — team members do not consistently feel their contribution is seen"
+      ],
+      nl: [
+        "Werkdruk (61%) is verbeterd maar blijft onder de benchmark; de structurele aanpassingen hebben geholpen, maar de onderliggende druk is nog niet volledig verdwenen.",
+        "Ontwikkelmogelijkheden blijven laag en vormen mogelijk de volgende oorzaak van afnemende betrokkenheid als hier niets mee gebeurt.",
+        "Waardering en erkenning zijn beperkt verbeterd, maar blijven achter; teamleden ervaren nog niet consequent dat hun bijdrage wordt gezien."
+      ]
+    },
+    aiActions: {
+      en: [
+        "Sustain the structured team conversations — the score improvement reflects the quality of dialogue as much as the structural changes, and it requires continued investment",
+        "Address recognition explicitly in the next cycle: identify simple, visible ways to acknowledge contribution at the team level without waiting for a formal process",
+        "Make development a standing agenda item — connect it to concrete next steps for individuals, not a general aspiration",
+        "Run a targeted check-in on workload within three months rather than waiting for the next full cycle — the improvement is real but the margin is still narrow",
+        "Use Team IT's journey as an internal example in conversations with leadership about what the acquired business needs to continue improving"
+      ],
+      nl: [
+        "Blijf investeren in gestructureerde teamgesprekken. De verbetering in scores komt net zo goed voort uit de kwaliteit van de dialoog als uit de structurele veranderingen.",
+        "Geef expliciet aandacht aan waardering en erkenning in de volgende meetcyclus. Zoek naar eenvoudige en zichtbare manieren om bijdragen te erkennen zonder afhankelijk te zijn van formele processen.",
+        "Maak ontwikkeling een vast onderdeel van de agenda en vertaal dit naar concrete vervolgstappen voor individuele medewerkers.",
+        "Voer binnen drie maanden een gerichte check-in uit op werkdruk in plaats van te wachten op de volgende volledige meting; de verbetering is duidelijk, maar blijft kwetsbaar.",
+        "Gebruik de ontwikkeling van Team IT als intern praktijkvoorbeeld in gesprekken met leiderschap over wat het overgenomen bedrijf nodig heeft om verder te groeien."
+      ]
+    },
 
     fxMarkers: [
       { variant: 'is-org',      chip: 'is-chip-below', icon: 'building',         label: 'Novanta B.V.', x: 74, y: 75 },
@@ -267,28 +331,55 @@ const DATA = {
     fvVerdictPre: 'Novanta is',
     surveyName: 'Your voice 2026 Q3',
     dateFrom: '22 Jul 2026', dateTo: '22 Sep 2026', prevDateTo: '22 May 2026',
-    aiIntro: "Across Novanta, this survey shows a healthy and stable picture. Organization-wide engagement stands at 72% and retention at 76%, indicating that most employees feel committed to their work and intend to stay. An eNPS of 30 reflects solid advocacy, and a strong response rate of 81% gives a reliable view of how the organization is doing.",
-    aiMore: [
-      "Most departments sit in the effective quadrant, where engagement and the performance environment reinforce each other. A few teams still have room to grow — particularly around workload and development opportunities — but the overall foundation is strong.",
-      "Continued investment in leadership, recognition and balanced workloads will help Novanta sustain this momentum and lift the teams that are not yet performing at their best."
-    ],
-    aiStrengths: [
-      "Engagement (72%) is healthy organization-wide and close to the external benchmark.",
-      "Retention (76%) shows that the large majority of employees intend to stay with Novanta.",
-      "eNPS (30) reflects solid advocacy across the organization.",
-      "A response rate of 81% gives strong confidence in the representativeness of the results."
-    ],
-    aiGrowth: [
-      "Workload (62%) varies between departments and remains an opportunity in several teams.",
-      "Development opportunities score lower than engagement, suggesting room to strengthen growth and career paths."
-    ],
-    aiActions: [
-      "Share organization-wide results transparently and let departments set their own focus areas.",
-      "Support managers of lower-scoring teams with targeted coaching and resources.",
-      "Continue investing in development, recognition and balanced workloads.",
-      "Monitor workload distribution across departments to protect wellbeing.",
-      "Reinforce what works in high-performing teams and spread those practices."
-    ],
+    aiIntro: { en: "Six months on, the data tells a different story. Engagement has risen to 72% and retention to 76%, both above the sector benchmark. The performance environment has seen the strongest movement: departments that clustered in the lower quadrants of the Effectiveness Matrix are shifting toward the Effective quadrant. The eNPS has moved from +20 to +31, and response rate has increased to 81% — a sign that trust in the process is growing.", nl: "Zes maanden later vertelt de data een ander verhaal. De bevlogenheid is gestegen naar 72% en de retentie naar 76%, beide boven de benchmark voor de sector. Ook de werkomgeving laat duidelijke vooruitgang zien: afdelingen die eerder in de onderste kwadranten van de Effectiviteitsmatrix stonden, bewegen richting het kwadrant Effectief. De eNPS is gestegen van +20 naar +31 en het responspercentage is toegenomen naar 81%, wat erop wijst dat het vertrouwen in het proces groeit." },
+    aiMore: {
+      en: [
+        "The actions managers took after the first survey are visible in these results. Teams where managers created actions in the Action Planner and followed through show measurably higher scores on direction, workload, and engagement than teams where no action was taken. The gap between the two groups is the clearest finding in this round.",
+        "Three departments in the acquired business remain in the lower quadrants and require targeted attention before the next cycle."
+      ],
+      nl: [
+        "De acties die leidinggevenden na het eerste onderzoek hebben ondernomen zijn zichtbaar in deze resultaten. Teams waarvan leidinggevenden acties hebben aangemaakt in de Actieplanner en deze daadwerkelijk hebben uitgevoerd, scoren aantoonbaar hoger op richting, werkdruk en bevlogenheid dan teams waar geen opvolging heeft plaatsgevonden. Het verschil tussen beide groepen is de meest opvallende bevinding uit deze meting.",
+        "Drie afdelingen binnen het overgenomen bedrijf bevinden zich nog steeds in de onderste kwadranten en vragen om gerichte aandacht vóór de volgende meetcyclus."
+      ]
+    },
+    aiStrengths: {
+      en: [
+        "Managers who engaged with their results drove the most significant team-level improvements",
+        "Direction clarity improved significantly across the acquired business — the integration communication changes made in month three are reflected here",
+        "Workload scores improved in departments where resourcing conversations were escalated and acted on"
+      ],
+      nl: [
+        "Leidinggevenden die actief met hun resultaten aan de slag gingen, realiseerden de grootste verbeteringen op teamniveau.",
+        "Duidelijkheid over richting is sterk verbeterd binnen het overgenomen bedrijf; de aangepaste integratiecommunicatie uit maand drie is hierin zichtbaar.",
+        "Werkdrukscores zijn verbeterd in afdelingen waar capaciteitsvraagstukken zijn besproken en aangepakt."
+      ]
+    },
+    aiGrowth: {
+      en: [
+        "Workload (61%) has improved but remains the lowest-scoring dimension across the organization",
+        "Three production departments still sit in the Ineffective quadrant and need a different kind of intervention, not just an action plan",
+        "Development opportunities (59%) are growing but remain below the sector average"
+      ],
+      nl: [
+        "Werkdruk (61%) is verbeterd, maar blijft de laagst scorende dimensie binnen de organisatie.",
+        "Drie productieafdelingen bevinden zich nog steeds in het kwadrant Ineffectief en hebben meer nodig dan alleen een actieplan.",
+        "Ontwikkelmogelijkheden (59%) nemen toe, maar blijven onder het sectorgemiddelde."
+      ]
+    },
+    aiActions: {
+      en: [
+        "Deepen the approach in the three departments still showing low scores on both dimensions",
+        "Share the practices of the highest-moving teams broadly — use them as internal proof points",
+        "Run a targeted pulse for the three lagging departments within the next three months rather than waiting for the full cycle",
+        "Connect development to visible career pathways to strengthen retention in the acquired business"
+      ],
+      nl: [
+        "Verdiep de aanpak in de drie afdelingen die nog laag scoren op beide dimensies.",
+        "Deel de werkwijzen van teams die de grootste vooruitgang hebben geboekt als interne succesvoorbeelden.",
+        "Voer binnen drie maanden een gerichte pulsemeting uit voor de achterblijvende afdelingen in plaats van te wachten op de volgende volledige meting.",
+        "Koppel ontwikkeling aan zichtbare loopbaanpaden om retentie binnen het overgenomen bedrijf verder te versterken."
+      ]
+    },
 
     fxMarkers: [
       { variant: 'is-previous', chip: 'is-chip-below', icon: 'rotate-backward', label: 'Previous survey', x: 66, y: 66 },
@@ -391,28 +482,55 @@ const DATA = {
     fvVerdictPre: 'Novanta is',
     surveyName: 'Your voice 2026 Q2',
     dateFrom: '22 Apr 2026', dateTo: '22 May 2026', prevDateTo: '22 Jan 2026',
-    aiIntro: "Across Novanta, this survey points to a mixed picture. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but energy is not yet translating into a supportive performance environment everywhere. An eNPS of 20 and a response rate of 77% give a workable read on where the organization stands.",
-    aiMore: [
-      "Several departments sit in the not-fully-utilized quadrant: people are motivated, but workload pressure and unclear ways of working hold them back. A focused effort on the performance environment is likely to unlock the engagement that is already there.",
-      "Prioritizing workload, clarity and manager support across the lower-scoring teams will help Novanta convert this potential into stronger, more sustainable results."
-    ],
-    aiStrengths: [
-      "Engagement (66%) is reasonable organization-wide and provides a base to build on.",
-      "Retention (70%) shows most employees still intend to stay with Novanta.",
-      "A response rate of 77% gives a workable view of the organization."
-    ],
-    aiGrowth: [
-      "Workload (54%) is under pressure in many departments and is a key barrier.",
-      "The performance environment lags engagement, suggesting unclear ways of working.",
-      "Development opportunities score low and need attention."
-    ],
-    aiActions: [
-      "Tackle workload and prioritization in the most pressured departments first.",
-      "Give managers clearer guidance and support to improve the performance environment.",
-      "Increase transparency around priorities and decision-making.",
-      "Create more room for development and recognition.",
-      "Set measurable goals per department and revisit them next cycle."
-    ],
+    aiIntro: { en: "Across Novanta, this survey points to a mixed picture following the recent acquisition. Organization-wide engagement stands at 66% with retention at 70% — most employees are reasonably committed, but that energy is not yet translating into a consistent performance environment. An eNPS of +20 and a response rate of 77% give a solid read on where the organization stands.", nl: "Binnen Novanta laat dit onderzoek een gemengd beeld zien na de recente overname. Organisatiebreed ligt de bevlogenheid op 66% en de retentie op 70% — de meeste medewerkers zijn redelijk betrokken, maar die energie vertaalt zich nog niet overal naar een consistente werkomgeving waarin prestaties optimaal mogelijk zijn. Met een eNPS van +20 en een responspercentage van 77% geeft het onderzoek een betrouwbaar beeld van de situatie." },
+    aiMore: {
+      en: [
+        "The data shows two Novanta organizations sitting side by side. Legacy teams are largely stable and performing. Teams from the acquired business cluster in the lower quadrants of the Effectiveness Matrix — motivated people working in conditions that do not yet fully support them. This pattern is most visible in unclear direction, workload pressure, and gaps in manager support.",
+        "The good news: the engagement is there. The task now is to build the conditions around it."
+      ],
+      nl: [
+        "De resultaten laten zien dat er als het ware twee Novanta-organisaties naast elkaar bestaan. De oorspronkelijke teams zijn over het algemeen stabiel en presteren goed. Teams uit het overgenomen bedrijf bevinden zich vooral in de onderste kwadranten van de Effectiviteitsmatrix: gemotiveerde medewerkers die werken onder omstandigheden die hen nog onvoldoende ondersteunen. Dit patroon is vooral zichtbaar op het gebied van richting en duidelijkheid, werkdruk en ondersteuning door leidinggevenden.",
+        "Het goede nieuws: de betrokkenheid is aanwezig. De uitdaging ligt nu in het creëren van de juiste randvoorwaarden om die betrokkenheid volledig tot haar recht te laten komen."
+      ]
+    },
+    aiStrengths: {
+      en: [
+        "Engagement (66%) is a workable foundation, particularly in the legacy business",
+        "Retention (70%) shows most people still intend to stay — the decision has not yet been made to leave",
+        "A response rate of 77% signals that employees believe their voice will lead to something"
+      ],
+      nl: [
+        "Bevlogenheid (66%) vormt een solide basis, met name binnen de oorspronkelijke organisatie.",
+        "Retentie (70%) laat zien dat de meeste medewerkers van plan zijn te blijven; de keuze om te vertrekken is nog niet gemaakt.",
+        "Het responspercentage van 77% geeft aan dat medewerkers geloven dat hun stem ertoe doet."
+      ]
+    },
+    aiGrowth: {
+      en: [
+        "Direction and strategic clarity score low across the acquired teams — people are unsure how their work fits the new organization",
+        "Workload (54%) is under pressure in multiple departments and is the most cited barrier to performance",
+        "Manager support and development opportunities both lag, particularly in teams going through structural change"
+      ],
+      nl: [
+        "Richting en strategische duidelijkheid scoren laag binnen de teams van het overgenomen bedrijf; medewerkers weten niet altijd hoe hun werk aansluit op de nieuwe organisatie.",
+        "Werkdruk (54%) staat onder druk in meerdere afdelingen en wordt het vaakst genoemd als belemmering voor prestaties.",
+        "Ondersteuning door leidinggevenden en ontwikkelmogelijkheden blijven achter, vooral in teams die grote veranderingen doormaken."
+      ]
+    },
+    aiActions: {
+      en: [
+        "Prioritize communication of direction to acquired-business teams — clarity is the fastest lever available",
+        "Give managers in the lower-scoring teams a structured starting point for their team conversations",
+        "Address workload distribution before the next cycle — it is the most likely driver of early attrition",
+        "Set measurable targets per department and track movement in the next scan"
+      ],
+      nl: [
+        "Geef prioriteit aan communicatie over de organisatiekoers richting teams uit het overgenomen bedrijf; meer duidelijkheid is de snelste manier om verbetering te realiseren.",
+        "Geef leidinggevenden in lager scorende teams een duidelijke structuur voor teamgesprekken.",
+        "Pak de verdeling van werkdruk aan vóór de volgende meting; dit is waarschijnlijk de belangrijkste oorzaak van vroegtijdig vertrek.",
+        "Stel meetbare doelstellingen per afdeling vast en volg de ontwikkeling in de volgende meting."
+      ]
+    },
 
     fxMarkers: [
       { variant: 'is-current',  chip: 'is-chip-above', icon: 'group',           label: 'Novanta B.V.', x: 70, y: 44 }
@@ -1952,6 +2070,8 @@ function shell(d) {
   };
   const tpMax = Math.max(...d.topics.map(t => t.count));
   const li = (arr) => arr.map(x => `<li>${x}</li>`).join('');
+  /* AI-summary content is stored per language ({en,nl,de}); pick the active language (fallback en). */
+  const aiL = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? (v[window.LANG] || v.en) : v;
   const fxMarker = (m) => `<div class="fx-marker ${m.variant} ${m.chip}" style="left:${m.x}%;top:${100 - m.y}%"><div class="fx-dot"></div><div class="fx-chip"><i data-icon="${m.icon}"></i>${m.label}</div></div>`;
   const quad = (m) => {
     const eng = m.x >= 50, perf = m.y >= 50;
@@ -2130,20 +2250,20 @@ function shell(d) {
       </div>
     </div>
   </div>
-  <p class="ai-intro">${d.aiIntro}</p>
+  <p class="ai-intro">${aiL(d.aiIntro)}</p>
   <div class="ai-more">
-    ${d.aiMore.map(p => `<p>${p}</p>`).join('')}
+    ${aiL(d.aiMore).map(p => `<p>${p}</p>`).join('')}
     <div class="ai-sec">
       <h4 class="ai-sec-title">Strengths</h4>
-      <ul class="ai-list">${li(d.aiStrengths)}</ul>
+      <ul class="ai-list">${li(aiL(d.aiStrengths))}</ul>
     </div>
     <div class="ai-sec">
       <h4 class="ai-sec-title">Growth Areas</h4>
-      <ul class="ai-list">${li(d.aiGrowth)}</ul>
+      <ul class="ai-list">${li(aiL(d.aiGrowth))}</ul>
     </div>
     <div class="ai-sec">
       <h4 class="ai-sec-title">Suggested actions</h4>
-      <ul class="ai-list">${li(d.aiActions)}</ul>
+      <ul class="ai-list">${li(aiL(d.aiActions))}</ul>
     </div>
     <div class="ai-foot">
       <div class="ai-feedback">
