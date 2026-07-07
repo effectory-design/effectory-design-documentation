@@ -447,6 +447,9 @@ States: `.is-hover` `.is-pressed` `.is-focus` `.is-filled`.
   <div class="menu-item">Resultaat</div>
   <div class="menu-empty">Geen resultaten</div>
 </div>
+```
+
+> ⚠️ **Selected state is verplicht — verzin er nooit een eigen.** Elk keuzemenu (taal, thema, filters, elk single-/multi-select dropdown) is het `.menu`-component met `.menu-item`'s. De geselecteerde optie(s) krijgen **`.menu-item.is-selected` + `<i data-icon="check" class="menu-item-check">`** (voeg `aria-checked` / `role="menuitemradio"` toe voor a11y). Bouw hiervoor **geen eigen popover met eigen knoppen** en gebruik **geen zelfbedachte selected-stijl** (dus geen los `font-weight`/kleur, geen custom `.is-active`). Toont een menu iets als geselecteerd zonder de trailing check, dan is het fout.
 
 <!-- Header, groepslabel, subtitel, avatar, label, submenu, checkmark -->
 <div class="menu">

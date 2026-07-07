@@ -1,6 +1,20 @@
 {
-  "count": 844,
+  "count": 846,
   "entries": [
+    {
+      "hash": "e35177b",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: user menu uses DS .menu with proper selected state (is-selected + check)",
+      "pages": []
+    },
+    {
+      "hash": "cc76787",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "Skill v1.9.34: publish release (changelog + re-tar bundle)",
+      "pages": []
+    },
     {
       "hash": "23a68d2",
       "author": "Jente Insing",
