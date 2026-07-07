@@ -1,6 +1,34 @@
 {
-  "count": 840,
+  "count": 844,
   "entries": [
+    {
+      "hash": "23a68d2",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: light/dark theme toggle in the user menu (default light)",
+      "pages": []
+    },
+    {
+      "hash": "07908ef",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: revise Novanta Q2 AI summary strengths + growth areas (all langs)",
+      "pages": []
+    },
+    {
+      "hash": "80b63c2",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: update Novanta Q2 AI intro retention to 56% (all langs)",
+      "pages": []
+    },
+    {
+      "hash": "bf57ded",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: Novanta Q2 retention 70%->56%, drop the retention strength (all langs)",
+      "pages": []
+    },
     {
       "hash": "c3248d0",
       "author": "Jente Insing",
