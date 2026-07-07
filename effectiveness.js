@@ -563,17 +563,14 @@ const DATA = {
     aiStrengths: {
       en: [
         "Engagement (66%) is a workable foundation, particularly in the legacy business",
-        "Retention (70%) shows most people still intend to stay — the decision has not yet been made to leave",
         "A response rate of 77% signals that employees believe their voice will lead to something"
       ],
       nl: [
         "Bevlogenheid (66%) vormt een solide basis, met name binnen de oorspronkelijke organisatie.",
-        "Retentie (70%) laat zien dat de meeste medewerkers van plan zijn te blijven; de keuze om te vertrekken is nog niet gemaakt.",
         "Het responspercentage van 77% geeft aan dat medewerkers geloven dat hun stem ertoe doet."
       ],
       de: [
         "Das Engagement (66 %) bildet eine solide Grundlage, insbesondere im ursprünglichen Unternehmen.",
-        "Die Retention (70 %) zeigt, dass die meisten Mitarbeitenden beabsichtigen zu bleiben; die Entscheidung zu gehen wurde noch nicht getroffen.",
         "Die Rücklaufquote von 77 % deutet darauf hin, dass die Mitarbeitenden daran glauben, dass ihre Stimme etwas bewirken kann."
       ]
     },
@@ -632,7 +629,7 @@ const DATA = {
 
     rrValue: 77, rrPartDone: 3650, rrPartTotal: 4740, rrTrend: '0%', rrTrendIcon: 'Trend-up', rrBench: 84,
 
-    kpiWorkload: 54, kpiRetention: 70, kpiWellbeing: 73,
+    kpiWorkload: 54, kpiRetention: 56, kpiWellbeing: 73,
 
     topics: [
       { name: 'Collaboration between teams', count: 540, color: 'is-green' },
