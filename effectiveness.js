@@ -563,32 +563,35 @@ const DATA = {
     aiStrengths: {
       en: [
         "Engagement (66%) is a workable foundation, particularly in the legacy business",
+        "Pride in the organization remains high, giving employees a reason to stay invested through the transition",
         "A response rate of 77% signals that employees believe their voice will lead to something"
       ],
       nl: [
-        "Bevlogenheid (66%) vormt een solide basis, met name binnen de oorspronkelijke organisatie.",
-        "Het responspercentage van 77% geeft aan dat medewerkers geloven dat hun stem ertoe doet."
+        "Bevlogenheid (66%) vormt een werkbare basis, met name in de bestaande organisatie",
+        "Trots op de organisatie blijft hoog, wat medewerkers een reden geeft om betrokken te blijven tijdens de transitie",
+        "Een respons van 77% laat zien dat medewerkers geloven dat hun stem tot iets leidt"
       ],
       de: [
-        "Das Engagement (66 %) bildet eine solide Grundlage, insbesondere im ursprünglichen Unternehmen.",
-        "Die Rücklaufquote von 77 % deutet darauf hin, dass die Mitarbeitenden daran glauben, dass ihre Stimme etwas bewirken kann."
+        "Engagement (66 %) bildet eine solide Grundlage, insbesondere im etablierten Unternehmensteil",
+        "Der Stolz auf die Organisation bleibt hoch und gibt den Mitarbeitenden einen Grund, sich während der Transformation weiterhin einzubringen",
+        "Eine Rücklaufquote von 77 % zeigt, dass die Mitarbeitenden glauben, dass ihre Stimme etwas bewirkt"
       ]
     },
     aiGrowth: {
       en: [
+        "Retention (56%) points to a growing intention to leave — fewer people are certain they want to stay",
         "Direction and strategic clarity score low across the acquired teams — people are unsure how their work fits the new organization",
-        "Workload (54%) is under pressure in multiple departments and is the most cited barrier to performance",
-        "Manager support and development opportunities both lag, particularly in teams going through structural change"
+        "Workload (54%) is under pressure in multiple departments, compounded by lagging manager support and development opportunities in teams going through structural change"
       ],
       nl: [
-        "Richting en strategische duidelijkheid scoren laag binnen de teams van het overgenomen bedrijf; medewerkers weten niet altijd hoe hun werk aansluit op de nieuwe organisatie.",
-        "Werkdruk (54%) staat onder druk in meerdere afdelingen en wordt het vaakst genoemd als belemmering voor prestaties.",
-        "Ondersteuning door leidinggevenden en ontwikkelmogelijkheden blijven achter, vooral in teams die grote veranderingen doormaken."
+        "Retentie (56%) wijst op een toenemende vertrekintentie: minder medewerkers zijn zeker dat ze willen blijven",
+        "Richting en strategische duidelijkheid scoren laag binnen de overgenomen teams: medewerkers weten niet goed hoe hun werk past binnen de nieuwe organisatie",
+        "Werkdruk (54%) staat in meerdere afdelingen onder druk, versterkt door achterblijvende managerondersteuning en ontwikkelmogelijkheden in teams die een structurele verandering doormaken"
       ],
       de: [
-        "Strategische Ausrichtung und Klarheit werden in den Teams des übernommenen Unternehmens niedrig bewertet; viele Mitarbeitende wissen nicht genau, wie ihre Arbeit zur neuen Organisation beiträgt.",
-        "Die Arbeitsbelastung (54 %) steht in mehreren Bereichen unter Druck und wird am häufigsten als Leistungshemmnis genannt.",
-        "Unterstützung durch Führungskräfte und Entwicklungsmöglichkeiten bleiben insbesondere in Teams, die größere Veränderungen durchlaufen, hinter den Erwartungen zurück."
+        "Die Bindung (56 %) deutet auf eine wachsende Wechselbereitschaft hin – weniger Mitarbeitende sind sich sicher, bleiben zu wollen",
+        "Richtung und strategische Klarheit werden in den übernommenen Teams niedrig bewertet – die Mitarbeitenden wissen nicht genau, wie ihre Arbeit in die neue Organisation passt",
+        "Die Arbeitsbelastung (54 %) steht in mehreren Abteilungen unter Druck, verstärkt durch mangelnde Führungsunterstützung und fehlende Entwicklungsmöglichkeiten in Teams, die einen strukturellen Wandel durchlaufen"
       ]
     },
     aiActions: {
