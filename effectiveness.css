@@ -15,27 +15,11 @@
 
     /* Language popover (sidebar user block) */
     .mn-user { position: relative; cursor: pointer; }
-    .lang-pop {
-      position: absolute; bottom: calc(100% + var(--spacing-tight)); left: 0; right: 0;
-      display: flex; flex-direction: column; gap: 2px;
-      padding: var(--spacing-extra-tight);
-      background: var(--bg-base); border: 1px solid var(--border-base);
-      border-radius: var(--radius-md); box-shadow: var(--sh-popovers); z-index: 60;
-    }
+    /* Positioning only — the DS .menu class provides the surface, and .menu-item
+       (with .is-selected + .menu-item-check) provides the correct selected state. */
+    .lang-pop { position: absolute; bottom: calc(100% + var(--spacing-tight)); left: 0; right: 0; z-index: 60; }
     .lang-pop[hidden] { display: none; }
-    .lang-opt {
-      display: flex; align-items: center;
-      padding: var(--spacing-tight) var(--spacing-base-tight);
-      border: 0; background: none; border-radius: var(--radius-base);
-      font-family: inherit; font-size: 14px; color: var(--content-base);
-      text-align: left; cursor: pointer;
-    }
-    .lang-opt:hover { background: var(--bg-secondary); }
-    .lang-opt.is-active { font-weight: 600; color: var(--content-brand-base); }
-    .lang-pop-label { padding: var(--spacing-extra-tight) var(--spacing-base-tight); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
-    .lang-pop-div { height: 1px; background: var(--border-base); margin: var(--spacing-extra-tight) 0; }
-    .theme-opt { gap: var(--spacing-base-tight); }
-    .theme-opt i { width: 16px; height: 16px; display: flex; }
+    .lang-pop .menu-item-check { margin-left: auto; }
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .main-scroll { flex: 1; overflow-y: auto; }
 

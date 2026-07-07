@@ -2143,6 +2143,8 @@ function themesView(d) {
 /* ---------- markup template ---------- */
 function shell(d) {
   const T2 = (s) => window.tr ? tr(s) : s;
+  const curLang = window.LANG || 'en';
+  const curTheme = (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme')) || 'light';
   const verdictClass = 'is-' + d.efpLeadEm.toLowerCase().replace(/\s+/g, '-');
   const npsValue = d.npsPromoters - d.npsDetractors;
   /* eNPS card: small trend badge comparing the current eNPS with a reference (previous survey / benchmark) */
@@ -2265,15 +2267,12 @@ function shell(d) {
           <div class="mn-org">Novanta B.V.</div>
         </div>
         <i data-icon="chevron-down"></i>
-        <div class="lang-pop" id="lang-pop" hidden>
-          <div class="lang-pop-label">${T2('Language')}</div>
-          <button class="lang-opt" data-lang="en">English</button>
-          <button class="lang-opt" data-lang="nl">Nederlands</button>
-          <button class="lang-opt" data-lang="de">Deutsch</button>
-          <div class="lang-pop-div"></div>
-          <div class="lang-pop-label">${T2('Theme')}</div>
-          <button class="lang-opt theme-opt" data-theme-opt="light"><i data-icon="sun"></i> ${T2('Light')}</button>
-          <button class="lang-opt theme-opt" data-theme-opt="dark"><i data-icon="moon"></i> ${T2('Dark')}</button>
+        <div class="menu lang-pop" id="lang-pop" role="menu" hidden>
+          <div class="menu-group-lbl">${T2('Language')}</div>
+          ${[['en', 'English'], ['nl', 'Nederlands'], ['de', 'Deutsch']].map(([c, l]) => `<div class="menu-item${c === curLang ? ' is-selected' : ''}" role="menuitemradio" aria-checked="${c === curLang}" tabindex="0" data-lang="${c}"><span class="menu-item-title">${l}</span>${c === curLang ? '<i data-icon="check" class="menu-item-check"></i>' : ''}</div>`).join('')}
+          <div class="menu-divider"></div>
+          <div class="menu-group-lbl">${T2('Theme')}</div>
+          ${[['light', 'sun', T2('Light')], ['dark', 'moon', T2('Dark')]].map(([t, ic, l]) => `<div class="menu-item${t === curTheme ? ' is-selected' : ''}" role="menuitemradio" aria-checked="${t === curTheme}" tabindex="0" data-theme-opt="${t}"><i data-icon="${ic}" class="menu-item-icon"></i><span class="menu-item-title">${l}</span>${t === curTheme ? '<i data-icon="check" class="menu-item-check"></i>' : ''}</div>`).join('')}
         </div>
       </div>
     </div>
@@ -4020,19 +4019,13 @@ function renderOverview(variant, initialView) {
   const userBtn = document.getElementById('mn-user-btn');
   const langPop = document.getElementById('lang-pop');
   if (userBtn && langPop) {
+    /* Selected state (is-selected + check) is rendered in the markup; re-render on change. */
     const rerender = () => { const av = document.querySelector('.tab.is-active[data-view]'); renderOverview(variant, av ? av.dataset.view : 'overview'); };
-    langPop.querySelectorAll('.lang-opt[data-lang]').forEach(b => {
-      b.classList.toggle('is-active', b.dataset.lang === (window.LANG || 'en'));
-      b.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (window.setLang) setLang(b.dataset.lang);
-        rerender();
-      });
+    langPop.querySelectorAll('[data-lang]').forEach(b => {
+      b.addEventListener('click', (e) => { e.stopPropagation(); if (window.setLang) setLang(b.dataset.lang); rerender(); });
     });
     /* Theme toggle (light / dark), persisted; re-render so canvas charts recolor. */
-    const curTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    langPop.querySelectorAll('.theme-opt').forEach(b => {
-      b.classList.toggle('is-active', b.dataset.themeOpt === curTheme);
+    langPop.querySelectorAll('[data-theme-opt]').forEach(b => {
       b.addEventListener('click', (e) => {
         e.stopPropagation();
         try { localStorage.setItem('effx-theme', b.dataset.themeOpt); } catch (err) {}
