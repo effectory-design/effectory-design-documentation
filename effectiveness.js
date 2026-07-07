@@ -2266,9 +2266,14 @@ function shell(d) {
         </div>
         <i data-icon="chevron-down"></i>
         <div class="lang-pop" id="lang-pop" hidden>
+          <div class="lang-pop-label">${T2('Language')}</div>
           <button class="lang-opt" data-lang="en">English</button>
           <button class="lang-opt" data-lang="nl">Nederlands</button>
           <button class="lang-opt" data-lang="de">Deutsch</button>
+          <div class="lang-pop-div"></div>
+          <div class="lang-pop-label">${T2('Theme')}</div>
+          <button class="lang-opt theme-opt" data-theme-opt="light"><i data-icon="sun"></i> ${T2('Light')}</button>
+          <button class="lang-opt theme-opt" data-theme-opt="dark"><i data-icon="moon"></i> ${T2('Dark')}</button>
         </div>
       </div>
     </div>
@@ -4015,13 +4020,24 @@ function renderOverview(variant, initialView) {
   const userBtn = document.getElementById('mn-user-btn');
   const langPop = document.getElementById('lang-pop');
   if (userBtn && langPop) {
-    langPop.querySelectorAll('.lang-opt').forEach(b => {
+    const rerender = () => { const av = document.querySelector('.tab.is-active[data-view]'); renderOverview(variant, av ? av.dataset.view : 'overview'); };
+    langPop.querySelectorAll('.lang-opt[data-lang]').forEach(b => {
       b.classList.toggle('is-active', b.dataset.lang === (window.LANG || 'en'));
       b.addEventListener('click', (e) => {
         e.stopPropagation();
         if (window.setLang) setLang(b.dataset.lang);
-        const av = document.querySelector('.tab.is-active[data-view]');
-        renderOverview(variant, av ? av.dataset.view : 'overview');
+        rerender();
+      });
+    });
+    /* Theme toggle (light / dark), persisted; re-render so canvas charts recolor. */
+    const curTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    langPop.querySelectorAll('.theme-opt').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.themeOpt === curTheme);
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        try { localStorage.setItem('effx-theme', b.dataset.themeOpt); } catch (err) {}
+        document.documentElement.setAttribute('data-theme', b.dataset.themeOpt);
+        rerender();
       });
     });
     userBtn.addEventListener('click', (e) => { e.stopPropagation(); langPop.hidden = !langPop.hidden; });

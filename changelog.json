@@ -1,6 +1,202 @@
 {
-  "count": 812,
+  "count": 840,
   "entries": [
+    {
+      "hash": "c3248d0",
+      "author": "Jente Insing",
+      "date": "2026-07-02",
+      "subject": "GTM prototype: add German AI summaries for all four variants",
+      "pages": []
+    },
+    {
+      "hash": "e979f2c",
+      "author": "Jente Insing",
+      "date": "2026-07-02",
+      "subject": "GTM prototype: update AI summaries (acquisition narrative), per-language content",
+      "pages": []
+    },
+    {
+      "hash": "5b107ca",
+      "author": "Jente Insing",
+      "date": "2026-07-01",
+      "subject": "GTM prototype: point Scores significance legend link to the support article",
+      "pages": []
+    },
+    {
+      "hash": "c7bdce1",
+      "author": "Jente Insing",
+      "date": "2026-07-01",
+      "subject": "GTM prototype: weave the significance explainer link into the Scores legend",
+      "pages": []
+    },
+    {
+      "hash": "c77a221",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: thinner hand-drawn underline in the effectiveness side panel",
+      "pages": []
+    },
+    {
+      "hash": "9edd107",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: replace best-effort Team IT one-pagers with clean exports",
+      "pages": []
+    },
+    {
+      "hash": "557ac82",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: Team IT report files + group-aware downloads",
+      "pages": []
+    },
+    {
+      "hash": "788ca55",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: keep Management Summary (PPT) alongside the One-Pager (PDF)",
+      "pages": []
+    },
+    {
+      "hash": "85e3f79",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: Management Summary → Results One-Pager Summary (PDF, NL/EN/DE)",
+      "pages": []
+    },
+    {
+      "hash": "87ad14c",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: report download filename prefix Novanta B.V. instead of EFFECTORY",
+      "pages": []
+    },
+    {
+      "hash": "736c54a",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: real report downloads (NL/EN/DE), drop deep-dive reports",
+      "pages": []
+    },
+    {
+      "hash": "2b3d325",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: hand-drawn underline in the effectiveness side panel lead",
+      "pages": []
+    },
+    {
+      "hash": "32ed550",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: fix focus verdict — underline for \"onderbenut\" + match matrix wording",
+      "pages": []
+    },
+    {
+      "hash": "13c2f84",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: translate effectiveness side-panel matrix axis labels",
+      "pages": []
+    },
+    {
+      "hash": "723def0",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: localize dates, rename survey title, NL tone + terminology, longer trend",
+      "pages": []
+    },
+    {
+      "hash": "850bf35",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: shimmer the feedback label + icon in dark gold during attention",
+      "pages": []
+    },
+    {
+      "hash": "877dc3c",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: thinner (1px) feedback attention border with more yellow contrast",
+      "pages": []
+    },
+    {
+      "hash": "e40b092",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: feedback attention border in Effectory yellow",
+      "pages": []
+    },
+    {
+      "hash": "cc5b840",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: feedback button as tertiary ghost + load-time gradient-border attention",
+      "pages": []
+    },
+    {
+      "hash": "b058787",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: feedback button uses the real DS .btn.btn-secondary component",
+      "pages": []
+    },
+    {
+      "hash": "f6e854c",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: align feedback button with the breadcrumb (match secondary button size + top)",
+      "pages": []
+    },
+    {
+      "hash": "25bfa00",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: feedback button uses standard button radius, not a pill",
+      "pages": []
+    },
+    {
+      "hash": "dfd9a6a",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: hide modal header in embedded feedback (form has its own title)",
+      "pages": []
+    },
+    {
+      "hash": "e8062e3",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: drop the Page row from the embedded feedback modal",
+      "pages": []
+    },
+    {
+      "hash": "48ce7d6",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: wire feedback modal to the Microsoft Form embed",
+      "pages": []
+    },
+    {
+      "hash": "cf3862f",
+      "author": "Jente Insing",
+      "date": "2026-06-30",
+      "subject": "GTM prototype: feedback button + modal for sales users",
+      "pages": []
+    },
+    {
+      "hash": "3397ed1",
+      "author": "Jente Insing",
+      "date": "2026-06-29",
+      "subject": "Skill v1.9.31: re-tar icons bundle from release build",
+      "pages": []
+    },
+    {
+      "hash": "20303dd",
+      "author": "Jente Insing",
+      "date": "2026-06-29",
+      "subject": "Update changelog for skill v1.9.31",
+      "pages": []
+    },
     {
       "hash": "c8257df",
       "author": "Jente Insing",

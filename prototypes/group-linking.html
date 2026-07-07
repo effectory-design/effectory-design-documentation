@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Previous survey links — Group linking</title>
+  <!-- resolve assets from the repo root — works locally (/) and on GitHub Pages (/repo-name/) -->
+  <script>document.write('<base href="' + location.pathname.replace(/prototypes\/.*$/, '') + '">');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="foundation.css" />
+  <link rel="stylesheet" href="components.css" />
+  <style>
+    body { background: var(--bg-interface-body); }
+
+    /* Responsive page padding (design-system §2): desktop 48/64, tablet 32/24, mobile 24/16 */
+    :root { --page-y: calc(var(--spacing-loose) * 2); --page-x: calc(var(--spacing-extra-loose) * 2); }
+    @media (max-width: 1199px) { :root { --page-y: var(--spacing-extra-loose); --page-x: var(--spacing-loose); } }
+    @media (max-width: 575px)  { :root { --page-y: var(--spacing-loose); --page-x: var(--spacing-base); } }
+
+    /* App shell: sidebar (full height) + scrolling content */
+    .app { display: flex; height: 100vh; overflow: hidden; }
+    .app .mainnav { height: 100%; }
+    .app-main { flex: 1; min-width: 0; height: 100vh; overflow-y: auto; }
+    .app-main-inner { max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto; padding: var(--page-y) var(--page-x) var(--spacing-super-extra-loose); }
+    /* Linking view = focus flow → narrow container */
+    .app-main-inner.is-narrow { max-width: calc(960px + 2 * var(--page-x)); }
+
+    /* ── Overview: survey status card ── */
+    .ov-status-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
+    .ov-status-left { display: flex; align-items: center; gap: var(--spacing-base); }
+    .ov-status-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-md); background: var(--bg-brand-subtle); color: var(--content-brand-base); display: flex; align-items: center; justify-content: center; }
+    .ov-status-icon i { width: 20px; height: 20px; display: flex; }
+    .ov-status-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .ov-status-sub { font-size: 14px; color: var(--content-secondary); margin-top: 2px; }
+
+    /* Timeline */
+    .ov-timeline { margin-top: var(--spacing-loose); border-top: 1px solid var(--border-base); padding-top: var(--spacing-loose); }
+    .ov-tl-zones { display: flex; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
+    .ov-tl-zone { flex: 1; display: flex; align-items: center; gap: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: var(--spacing-extra-tight) var(--spacing-base-tight); }
+    .ov-tl-zone.is-running { flex: 2; color: var(--content-warning-base); background: var(--bg-warning-subtle); }
+    .ov-tl-zone.is-done { color: var(--content-positive-base); background: var(--bg-positive-subtle); }
+    .ov-tl-zone i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
+    .ov-tl-dates { font-size: 12px; font-weight: 400; color: var(--content-secondary); margin-left: var(--spacing-tight); }
+    .ov-tl-track { position: relative; height: 4px; border-radius: var(--radius-full); background: var(--bg-tertiary); margin: var(--spacing-base) 0 var(--spacing-super-loose); }
+    .ov-tl-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 35%; border-radius: var(--radius-full); background: var(--bg-brand-base); }
+    .ov-tl-now { position: absolute; left: 35%; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: var(--radius-full); background: var(--bg-brand-base); box-shadow: 0 0 0 4px var(--bg-brand-subtle); }
+    .ov-tl-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); border: 2px solid var(--bg-base); }
+    .ov-tl-dot.is-past { background: var(--bg-brand-base); }
+    .ov-tl-ms { position: absolute; top: 12px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-extra-tight); }
+    .ov-tl-ms-icon { width: 28px; height: 28px; border-radius: var(--radius-base); border: 1px solid var(--border-base); background: var(--bg-base); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
+    .ov-tl-ms-icon i { width: 14px; height: 14px; display: flex; }
+    .ov-tl-ms.is-past .ov-tl-ms-icon { color: var(--content-brand-base); border-color: var(--border-brand-subtle); }
+
+    .ov-tip { margin-top: var(--spacing-loose); }
+
+    /* Overview: settings sections */
+    .ov-section { margin-top: var(--spacing-extra-loose); }
+    .ov-section-title { display: block; margin: 0 calc(-1 * var(--spacing-loose)) var(--spacing-base); padding: 0 var(--spacing-loose) var(--spacing-loose); border-bottom: 1px solid var(--border-base); }
+    .ov-row { display: flex; align-items: center; gap: var(--spacing-base); margin: 0 calc(-1 * var(--spacing-loose)); padding: var(--spacing-base) var(--spacing-loose); border-bottom: 1px solid var(--border-base); text-decoration: none; color: inherit; }
+    .ov-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .ov-row:first-of-type { padding-top: 0; }
+    .ov-row.is-link { cursor: pointer; }
+    .ov-row.is-link:hover { background: var(--bg-base-hover); }
+    .ov-row-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
+    .ov-row-icon i { width: 20px; height: 20px; display: flex; }
+    .ov-row.is-link .ov-row-icon { background: var(--bg-brand-subtle); color: var(--content-brand-base); }
+    /* coloured icon tiles (accent tokens, homepage Updates pattern) */
+    .tile-blue      { background: var(--bg-accent-blue-subtle);      color: var(--content-accent-blue-base); }
+    .tile-turquoise { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise-base); }
+    .tile-purple    { background: var(--bg-accent-purple-subtle);    color: var(--content-accent-purple-base); }
+    .tile-orange    { background: var(--bg-accent-orange-subtle);    color: var(--content-accent-orange-base); }
+    .tile-green     { background: var(--bg-accent-green-subtle);     color: var(--content-accent-green-base); }
+    .tile-yellow    { background: var(--bg-accent-yellow-subtle);    color: var(--content-accent-yellow-base); }
+    .tile-red       { background: var(--bg-accent-red-subtle);       color: var(--content-accent-red-base); }
+    .ov-row-body { flex: 1; min-width: 0; }
+    .ov-row-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .ov-row-sub { font-size: 14px; color: var(--content-secondary); margin-top: 2px; }
+    .ov-row-action { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-secondary); }
+    .ov-row-action i { width: 16px; height: 16px; display: flex; }
+
+    /* ── Linking view ── */
+    .gl-back { margin-bottom: var(--spacing-loose); }
+    .gl-ph-desc { font-size: 14px; color: var(--content-secondary); line-height: 1.6; max-width: 720px; margin-top: var(--spacing-extra-tight); }
+
+    /* Comparing-with card */
+    .gl-compare-card { margin-top: var(--spacing-loose); margin-bottom: var(--spacing-loose); }
+    .gl-cc-row { display: flex; align-items: center; gap: var(--spacing-base); }
+    .gl-cc-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-action); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
+    .gl-cc-icon i { width: 18px; height: 18px; display: flex; }
+    .gl-cc-main { flex: 1; min-width: 0; }
+    .gl-cc-label { font-size: 12px; font-weight: 500; color: var(--content-secondary); margin-bottom: 2px; }
+    .gl-survey-pick { position: relative; display: inline-block; }
+    .gl-survey-pick .rv-picker { position: absolute; top: 100%; left: 0; margin-top: var(--spacing-extra-tight); z-index: 60; min-width: 260px; }
+    .gl-cc-select { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: none; padding: 0; font-family: inherit; font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--content-base); cursor: pointer; }
+    .gl-cc-select:hover { color: var(--content-brand-base); }
+    .gl-cc-select i { width: 16px; height: 16px; display: flex; color: var(--content-subtle); }
+    .gl-cc-select:hover i { color: var(--content-brand-base); }
+    .gl-cc-history { flex-shrink: 0; }
+    .gl-history { margin-top: var(--spacing-loose); padding: var(--spacing-loose) 0 0; border-top: 1px solid var(--border-base); max-width: 520px; }
+    .gl-hist-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
+    .gl-hist-title { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--content-secondary); }
+    .gl-hist-info { display: flex; color: var(--content-subtle); }
+    .gl-hist-info i { width: 16px; height: 16px; display: flex; }
+    .gl-chain { position: relative; padding-left: var(--spacing-loose); }
+    .gl-chain::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--border-base); }
+    .gl-chain-item { position: relative; display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-tight) 0; font-size: 14px; color: var(--content-secondary); }
+    .gl-chain-item::before { content: ''; position: absolute; left: calc(-1 * var(--spacing-loose) + 1px); top: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--bg-positive-base); box-shadow: 0 0 0 3px var(--bg-base); }
+    .gl-chain-item.is-current { font-weight: 600; color: var(--content-base); }
+    .gl-chain-item.is-current::before { background: var(--bg-brand-base); }
+
+    /* Review card */
+    .gl-review { margin-top: var(--spacing-loose); }
+    .gl-review-head { display: flex; align-items: flex-start; gap: var(--spacing-base); }
+    .gl-review-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-md); background: var(--bg-brand-subtle); color: var(--content-brand-base); display: flex; align-items: center; justify-content: center; }
+    .gl-review-icon i { width: 20px; height: 20px; display: flex; }
+
+    /* Summary stat chips */
+    .gl-stats { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; margin-top: var(--spacing-tight); }
+    .gl-stat { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; padding: 2px var(--spacing-base-tight); border-radius: var(--radius-full); border: 1px solid transparent; background: none; font-family: inherit; cursor: pointer; }
+    .gl-stat.is-active { border-color: currentColor; }
+    .gl-stat i { width: 12px; height: 12px; display: flex; flex-shrink: 0; }
+    .gl-stat.is-auto { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
+    .gl-stat.is-todo { background: var(--bg-warning-subtle); color: var(--content-warning-base); }
+    .gl-stat.is-review { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .gl-stat.is-nolink { background: var(--bg-secondary); color: var(--content-secondary); }
+
+    /* Review call-to-action hero */
+    .gl-cta { display: flex; align-items: center; gap: var(--spacing-loose); padding: var(--spacing-loose); border-radius: var(--radius-lg); border: 1px solid var(--border-brand-subtle); background: var(--bg-brand-subtle); }
+    .gl-struct-divider { border-top: 1px solid var(--border-base); margin: var(--spacing-loose) 0; }
+    .gl-cta.is-done { border-color: var(--border-positive-base); background: var(--bg-positive-subtle); }
+    .gl-cta-ring { position: relative; width: 76px; height: 76px; flex-shrink: 0; }
+    .gl-cta-ring svg { transform: rotate(-90deg); display: block; }
+    .gl-cta-ring .ring-track { fill: none; stroke: var(--bg-base); stroke-width: 7; }
+    .gl-cta-ring .ring-fill { fill: none; stroke: var(--bg-brand-base); stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset var(--motion-slow) var(--ease-out); }
+    .gl-cta.is-done .ring-fill { stroke: var(--bg-positive-base); }
+    .gl-cta-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+    .gl-cta-pct { font-size: 16px; font-weight: 600; color: var(--content-brand-base); }
+    .gl-cta.is-done .gl-cta-pct { color: var(--content-positive-base); }
+    .gl-cta-pct-lbl { font-size: 10px; font-weight: 500; color: var(--content-secondary); margin-top: 2px; }
+    .gl-cta-check { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--content-positive-base); }
+    .gl-cta-check i { width: 32px; height: 32px; display: flex; }
+    .gl-cta-body { flex: 1; min-width: 0; }
+    .gl-cta-title { font-size: 20px; font-weight: 600; letter-spacing: -.01em; color: var(--content-base); }
+    .gl-cta-sub { font-size: 14px; color: var(--content-secondary); line-height: 1.5; margin-top: var(--spacing-extra-tight); }
+    .gl-cta-sub .link-inline { font-size: 14px; }
+    .gl-cta-actions { display: flex; flex-direction: column; align-items: stretch; gap: var(--spacing-tight); flex-shrink: 0; }
+    @media (max-width: 700px) {
+      .gl-cta { flex-wrap: wrap; }
+      .gl-cta-body { flex-basis: calc(100% - 76px - var(--spacing-loose)); }
+      .gl-cta-actions { flex-basis: 100%; }
+    }
+
+    /* Tabs row + controls */
+    .gl-tabs-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; margin-bottom: var(--spacing-loose); }
+    .gl-tabs-row .tabs { flex: 1; min-width: 280px; }
+    .gl-controls { display: flex; align-items: center; gap: var(--spacing-tight); padding-bottom: var(--spacing-tight); position: relative; }
+    .gl-filter-menu { position: absolute; top: 100%; right: 0; margin-top: var(--spacing-extra-tight); z-index: 60; }
+
+    /* Suggestion cards */
+    .gl-cards { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .gl-card { transition: border-color var(--motion-base) var(--ease-standard), box-shadow var(--motion-base) var(--ease-standard); }
+    .gl-card:hover { box-shadow: var(--sh-card-hover); }
+    .gl-card.is-selected { border-color: var(--border-brand-base); box-shadow: 0 0 0 3px var(--bg-brand-subtle); }
+    .gl-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-base); margin-bottom: var(--spacing-base-tight); }
+    .gl-card-tags { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; }
+    .gl-card-tags .cb-wrap { margin-right: var(--spacing-extra-tight); }
+    .gl-tag { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); padding: 2px var(--spacing-tight); border-radius: var(--radius-full); font-size: 12px; font-weight: 600; line-height: 1.5; }
+    .gl-tag i { width: 12px; height: 12px; display: flex; flex-shrink: 0; }
+    .gl-tag.is-match  { background: var(--bg-info-subtle); color: var(--content-info-base); }
+    .gl-tag.is-merge  { background: var(--bg-accent-orange-subtle); color: var(--content-accent-orange-base); }
+    .gl-tag.is-split  { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .gl-tag.is-new    { background: var(--bg-secondary); color: var(--content-secondary); }
+    .gl-tag.is-linked { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
+    .gl-tag.is-notlinked { background: var(--bg-secondary); color: var(--content-secondary); }
+    .gl-tag.is-review { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .gl-card-title { font-size: 16px; font-weight: 600; color: var(--content-base); line-height: 1.5; }
+    .gl-card-insight { font-size: 14px; color: var(--content-secondary); line-height: 1.6; margin-top: var(--spacing-extra-tight); }
+
+    /* Reviewer block (under review) */
+    .gl-reviewer { display: flex; flex-direction: column; gap: var(--spacing-base-tight); border: 1px dashed var(--border-accent-purple-base); background: var(--bg-accent-purple-subtle); border-radius: var(--radius-md); padding: var(--spacing-base); margin: var(--spacing-base) 0; }
+    .gl-reviewer-row { display: flex; align-items: center; gap: var(--spacing-base-tight); }
+    .gl-reviewer-meta { flex: 1; min-width: 0; }
+    .gl-reviewer-name { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .gl-reviewer-role { font-size: 12px; color: var(--content-secondary); }
+    .gl-reviewer-quote { background: var(--bg-base); border-radius: var(--radius-base); padding: var(--spacing-base-tight); font-size: 14px; color: var(--content-secondary); font-style: italic; }
+
+    /* Stacked suggestion card (side panel) — title above a grey card with white boxes */
+    .gl-scard { margin-bottom: var(--spacing-super-loose); }
+    .gl-scard-title { font-size: 16px; font-weight: 600; line-height: 1.45; color: var(--content-base); margin: 0 0 var(--spacing-base-tight); }
+
+    /* Comparison card */
+    .gl-compare { border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); box-shadow: var(--sh-card); overflow: hidden; transition: box-shadow var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard); }
+    .gl-scard.is-focus .gl-compare { border-color: var(--border-brand-subtle); box-shadow: var(--sh-card-hover); }
+    .gl-compare-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); padding: var(--spacing-base-tight) var(--spacing-base); border-bottom: 1px solid var(--border-base); }
+    .gl-compare-struct { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--content-secondary); }
+    .gl-compare-struct i { width: 14px; height: 14px; display: flex; }
+    .gl-compare-body { display: flex; align-items: stretch; gap: 0; padding: var(--spacing-loose) var(--spacing-base); }
+    .gl-compare-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .gl-compare-col-lbl { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--content-info-base); margin-bottom: var(--spacing-base-tight); }
+    .gl-compare-col.is-current .gl-compare-col-lbl { color: var(--content-brand-base); }
+    /* connector: bracket lines linking the two columns */
+    .gl-connector-wrap { align-self: stretch; display: flex; width: 56px; flex-shrink: 0; }
+    .gl-connector { position: relative; width: 100%; min-height: 44px; }
+    .gl-conn-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    .gl-conn-path { fill: none; stroke: var(--border-action); stroke-width: 1.5; }
+    .gl-col-groups { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: var(--spacing-base-tight); }
+    .gl-group-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-base); background: var(--bg-base); padding: var(--spacing-base-tight); font-size: 14px; font-weight: 500; color: var(--content-base); }
+    .gl-group-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .gl-group-row-actions { display: flex; align-items: center; gap: var(--spacing-extra-tight); flex-shrink: 0; }
+    .gl-count-badge { border: none; background: var(--bg-info-subtle); color: var(--content-info-base); font-family: inherit; font-size: 12px; font-weight: 600; padding: 2px var(--spacing-tight); border-radius: var(--radius-full); cursor: pointer; min-width: 28px; text-align: center; }
+    .gl-count-badge:hover { background: var(--bg-info-base); color: var(--content-inverse-base); }
+    .gl-members-btn { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); border: none; background: var(--bg-secondary); color: var(--content-secondary); font-family: inherit; font-size: 12px; font-weight: 500; padding: 2px var(--spacing-tight); border-radius: var(--radius-sm); cursor: pointer; flex-shrink: 0; }
+    .gl-members-btn:hover { background: var(--bg-base-pressed); color: var(--content-base); }
+    .gl-members-btn i { width: 12px; height: 12px; display: flex; }
+    .gl-group-remove { opacity: 0; }
+    .gl-group-row:hover .gl-group-remove { opacity: 1; }
+    .gl-nomatch { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-base-tight); border: 1px dashed var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); padding: var(--spacing-loose); font-size: 14px; color: var(--content-secondary); text-align: center; }
+    .gl-addlink { display: flex; align-items: center; justify-content: center; gap: var(--spacing-tight); border: 1px dashed var(--border-action); border-radius: var(--radius-base); background: none; color: var(--content-secondary); font-family: inherit; font-size: 12px; font-weight: 500; padding: var(--spacing-tight); cursor: pointer; }
+    .gl-addlink:hover { color: var(--content-brand-base); border-color: var(--border-brand-subtle); background: var(--bg-brand-subtle); }
+    .gl-addlink i { width: 14px; height: 14px; display: flex; }
+    /* card footer (inside the grey card) */
+    .gl-scard-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); padding: 0 var(--spacing-base) var(--spacing-base); }
+    .gl-scard-foot-actions { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .gl-reviewer { margin: 0 var(--spacing-base) var(--spacing-base); }
+    @media (max-width: 620px) { .gl-compare-body { flex-direction: column; gap: var(--spacing-tight); } .gl-connector-wrap { width: auto; height: 28px; } }
+    .gl-linksearch { position: relative; }
+    .gl-linksearch .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 220px; overflow-y: auto; }
+
+    /* Card note + footer */
+    .gl-note { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; color: var(--content-secondary); margin-top: var(--spacing-base-tight); }
+    .gl-note .tt-demo { display: flex; }
+    .gl-note-info { display: flex; color: var(--content-subtle); cursor: help; }
+    .gl-note-info i { width: 16px; height: 16px; display: flex; }
+    .gl-card-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); margin-top: var(--spacing-base); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); flex-wrap: wrap; }
+    .gl-card-foot-actions { display: flex; align-items: center; gap: var(--spacing-tight); margin-left: auto; }
+
+    /* Empty states */
+    .gl-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-tight); border: 1px dashed var(--border-action); border-radius: var(--radius-lg); padding: var(--spacing-super-extra-loose) var(--spacing-loose); text-align: center; }
+    .gl-empty-icon { width: 56px; height: 56px; border-radius: var(--radius-full); background: var(--bg-secondary); color: var(--content-subtle); display: flex; align-items: center; justify-content: center; margin-bottom: var(--spacing-tight); }
+    .gl-empty-illu { height: 72px; width: auto; display: block; margin-bottom: var(--spacing-tight); }
+    .gl-empty-icon i { width: 24px; height: 24px; display: flex; }
+    .gl-empty-icon.is-positive { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
+    .gl-empty-icon.is-review { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .gl-empty-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .gl-empty-body { font-size: 14px; color: var(--content-secondary); max-width: 420px; line-height: 1.6; }
+    .gl-empty .btn { margin-top: var(--spacing-base-tight); }
+
+    /* Bulk action bar */
+    .gl-bulkbar { position: fixed; bottom: var(--spacing-extra-loose); left: 50%; transform: translateX(-50%); z-index: 90; display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-inverse-base); color: var(--content-inverse-base); border-radius: var(--radius-lg); box-shadow: var(--sh-dialogs); padding: var(--spacing-base-tight) var(--spacing-base); animation: bulkbar-in var(--motion-base) var(--ease-out); }
+    @keyframes bulkbar-in { from { opacity: 0; transform: translate(-50%, 16px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    .gl-bulk-count { font-size: 14px; font-weight: 500; padding-right: var(--spacing-base); border-right: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; gap: var(--spacing-base-tight); }
+    .gl-bulk-selectall { background: none; border: none; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--content-inverse-base); text-decoration: underline; cursor: pointer; opacity: .85; padding: 0; }
+    .gl-bulk-selectall:hover { opacity: 1; }
+    .gl-bulk-close { background: none; border: none; color: var(--content-inverse-base); opacity: .7; cursor: pointer; display: flex; padding: var(--spacing-extra-tight); }
+    .gl-bulk-close:hover { opacity: 1; }
+    .gl-bulk-close i { width: 16px; height: 16px; display: flex; }
+
+
+    /* ── Structure (in-page) ── */
+    .tr-controls { display: flex; align-items: flex-end; gap: var(--spacing-base-tight); flex-wrap: wrap; padding: 0 0 var(--spacing-base); }
+    .tr-controls .search-wrap { flex: 1; min-width: 220px; }
+    .tr-ctl { position: relative; }
+    .tr-ctl .menu { position: absolute; top: 100%; right: 0; margin-top: var(--spacing-extra-tight); z-index: 60; }
+    .tr-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); padding: var(--spacing-tight) var(--spacing-base); border-top: 1px solid var(--border-base); border-bottom: 1px solid var(--border-base); background: var(--bg-secondary); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--content-secondary); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .tr-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); align-items: center; padding: var(--spacing-tight) var(--spacing-base); border-bottom: 1px solid var(--border-base); min-height: 52px; }
+    .tr-row.is-clickable { cursor: pointer; }
+    .tr-row.is-active { background: var(--bg-brand-subtle); box-shadow: inset 3px 0 0 var(--bg-brand-base); }
+    .tr-row:hover { background: var(--bg-base-hover); }
+    .tr-name { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
+    .tr-toggle { background: none; border: none; padding: 2px; display: flex; color: var(--content-subtle); cursor: pointer; border-radius: var(--radius-sm); flex-shrink: 0; }
+    .tr-toggle:hover { color: var(--content-base); background: var(--bg-base-pressed); }
+    .tr-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-base) var(--ease-standard); }
+    .tr-toggle.is-open i { transform: rotate(90deg); }
+    .tr-toggle-spacer { width: 20px; flex-shrink: 0; }
+    .tr-group { font-size: 14px; font-weight: 500; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tr-row.is-hit .tr-group { color: var(--content-brand-base); font-weight: 600; }
+    .tr-links { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; min-width: 0; }
+    .tr-chip { display: inline-flex; align-items: center; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-extra-tight) var(--spacing-tight) var(--spacing-extra-tight) var(--spacing-base-tight); font-size: 12px; font-weight: 500; color: var(--content-base); }
+    .tr-chip.is-linked { border-color: var(--border-positive-base); background: var(--bg-positive-subtle); color: var(--content-positive-base); }
+    .tr-chip-check { display: flex; width: 12px; height: 12px; flex-shrink: 0; }
+    .tr-chip.is-suggested { border-color: var(--border-highlight-base); background: var(--bg-highlight-subtle); color: var(--content-highlight-base); }
+    .tr-chip.is-review { border-color: var(--border-accent-purple-base); background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .tr-chip-body { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+    .tr-chip-name { font-weight: 600; }
+    .tr-chip-meta { font-size: 12px; font-weight: 400; opacity: .7; }
+    .tr-chip-conf { flex-shrink: 0; background: var(--bg-base); border-radius: var(--radius-full); padding: 0 var(--spacing-tight); font-size: 12px; font-weight: 700; }
+    .tr-chip-x { background: none; border: none; padding: 0; display: flex; color: var(--content-subtle); cursor: pointer; opacity: 0; align-self: center; }
+    .tr-chip:hover .tr-chip-x { opacity: 1; }
+    .tr-chip-x:hover { color: var(--content-negative-base); }
+    .tr-chip-x i { width: 12px; height: 12px; display: flex; }
+    .tr-why-chev { width: 14px; height: 14px; display: flex; flex-shrink: 0; color: var(--content-subtle); margin-left: var(--spacing-extra-tight); transition: transform var(--motion-base) var(--ease-standard); }
+    .tr-row.is-expanded .tr-why-chev { transform: rotate(180deg); color: var(--content-brand-base); }
+    .tr-row.is-clickable:hover { background: var(--bg-base-hover); }
+    /* Inline "why suggested" detail */
+    .tr-detail { grid-column: 1 / -1; background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); animation: tr-detail-in var(--motion-base) var(--ease-out); }
+    @keyframes tr-detail-in { from { opacity: 0; } to { opacity: 1; } }
+    .tr-detail-inner { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base) var(--spacing-loose); display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
+    .tr-detail-top { display: flex; align-items: center; gap: var(--spacing-loose); flex-wrap: wrap; }
+    .tr-detail-stat { font-size: 12px; color: var(--content-secondary); }
+    .tr-detail-stat-num { font-weight: 700; color: var(--content-base); }
+    .tr-detail-why { font-size: 14px; color: var(--content-secondary); line-height: 1.6; margin: 0; max-width: 640px; }
+    .tr-detail-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; margin-top: var(--spacing-extra-tight); }
+    .tr-detail-actions-main { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .tr-actions { display: flex; align-items: center; gap: var(--spacing-extra-tight); }
+    .tr-add { opacity: 0; margin-left: auto; }
+    .tr-row:hover .tr-add { opacity: 1; }
+    .tr-nolink { font-size: 12px; color: var(--content-subtle); font-style: italic; }
+    .tr-search-inline { position: relative; flex: 1; max-width: 260px; }
+    .tr-search-inline .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 200px; overflow-y: auto; }
+    .tr-empty { padding: var(--spacing-super-extra-loose) var(--spacing-loose); text-align: center; }
+
+    /* ── Suggestion side panel ── */
+    .sp-actions button { background: none; border: 0; padding: 0; display: flex; cursor: pointer; color: var(--content-action); font-family: inherit; }
+    .sp-actions button i { width: 18px; height: 18px; display: flex; }
+    #spBody { font-size: 14px; }
+    #spBody .gl-scard:last-child { margin-bottom: 0; }
+
+    /* ── Members dialog ── */
+    .mb-list { display: flex; flex-direction: column; }
+    .mb-row { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-tight) 0; border-bottom: 1px solid var(--border-base); }
+    .mb-row:last-child { border-bottom: none; }
+    .mb-meta { flex: 1; min-width: 0; }
+    .mb-name { font-size: 14px; font-weight: 500; color: var(--content-base); display: flex; align-items: center; gap: var(--spacing-tight); }
+    .mb-email { font-size: 12px; color: var(--content-secondary); }
+    .mb-role { font-size: 12px; color: var(--content-secondary); text-align: right; flex-shrink: 0; }
+    .mb-scroll { max-height: 48vh; overflow-y: auto; }
+    .mb-total { font-size: 14px; color: var(--content-secondary); margin-right: auto; }
+
+    /* ── Review dialog ── */
+    .rv-label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--content-secondary); margin-bottom: var(--spacing-tight); }
+    .rv-reviewer { display: flex; align-items: center; gap: var(--spacing-base-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base-tight); }
+    .rv-reviewer-meta { flex: 1; min-width: 0; }
+    .rv-reviewer-name { font-size: 14px; font-weight: 600; color: var(--content-base); display: flex; align-items: center; gap: var(--spacing-tight); }
+    .rv-reviewer-role { font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+    .rv-picker { position: relative; margin-top: var(--spacing-tight); }
+    .rv-picker .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; }
+    .rv-field { margin-top: var(--spacing-loose); }
+    .rv-privacy { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--spacing-base-tight); margin-top: var(--spacing-loose); font-size: 12px; color: var(--content-secondary); line-height: 1.5; }
+    .rv-privacy i { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); margin-top: 2px; }
+
+    /* hidden attribute must win over component display values */
+    [hidden] { display: none !important; }
+
+    /* tooltips: hidden until hover/focus (positioned via the auto-position script) */
+    .tt-demo { position: relative; display: inline-flex; }
+    .tt-demo .tooltip { opacity: 0; pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out); }
+    .tt-demo:hover .tooltip, .tt-demo:focus-within .tooltip { opacity: 1; }
+
+    /* View transition */
+    .view-fade { animation: view-in var(--motion-slow) var(--ease-out); }
+    @keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="mainnav">
+    <div class="mn-portal">
+      <span class="mn-logo"></span>
+      <button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
+    </div>
+    <nav class="mn-nav" aria-label="Main">
+      <a class="mn-item"><i data-icon="home"></i> Home</a>
+      <a class="mn-item is-active" aria-current="page"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-up" class="mn-chev"></i></a>
+      <div class="mn-sub">
+        <a class="mn-subitem">All surveys</a>
+        <a class="mn-subitem is-active">Projects</a>
+      </div>
+      <a class="mn-item"><i data-icon="refresh"></i> 360 Feedback</a>
+      <a class="mn-item"><i data-icon="structure"></i> Organization <i data-icon="chevron-down" class="mn-chev"></i></a>
+    </nav>
+    <div class="mn-foot">
+      <a class="mn-item"><i data-icon="help"></i> Help &amp; Learn</a>
+      <div class="mn-foot-divider"></div>
+      <div class="mn-user">
+        <div class="av av-36 av-red">JI</div>
+        <div class="mn-meta">
+          <div class="mn-name">Jente</div>
+          <div class="mn-org">The Company Inc.</div>
+        </div>
+        <i data-icon="chevron-up"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="app-main" id="appMain">
+
+    <!-- ══════════ VIEW: SURVEY OVERVIEW ══════════ -->
+    <div id="view-overview">
+      <div class="app-main-inner">
+
+        <div class="ph">
+          <div class="ph-eyebrow">Pulse 2026</div>
+          <div class="ph-row">
+            <div class="ph-left">
+              <h1 class="ph-title">2026 Engagement Survey</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Survey status card -->
+        <div class="card card-elevated" style="margin-top: var(--spacing-loose);">
+          <div class="card-body">
+            <div class="ov-status-head">
+              <div class="ov-status-left">
+                <div class="ov-status-icon"><i data-icon="activity"></i></div>
+                <div>
+                  <div class="ov-status-title">Your survey is running</div>
+                  <div class="ov-status-sub">See how responses are coming in</div>
+                </div>
+              </div>
+              <button class="btn btn-secondary"><i data-icon="barchart-2"></i> View response rate</button>
+            </div>
+
+            <!-- Timeline -->
+            <div class="ov-timeline">
+              <div class="ov-tl-zones">
+                <div class="ov-tl-zone"><i data-icon="edit"></i> Planned</div>
+                <div class="ov-tl-zone is-running"><i data-icon="activity"></i> Running <span class="ov-tl-dates">Jan 12 to Jan 30, 2026</span></div>
+                <div class="ov-tl-zone is-done"><i data-icon="check"></i> Completed</div>
+              </div>
+              <div class="ov-tl-track">
+                <div class="ov-tl-fill"></div>
+                <div class="ov-tl-dot is-past" style="left: 2%;"></div>
+                <div class="ov-tl-dot is-past" style="left: 20%;"></div>
+                <div class="ov-tl-ms is-past" style="left: 20%;"><div class="ov-tl-ms-icon"><i data-icon="file"></i></div></div>
+                <div class="ov-tl-dot is-past" style="left: 26%;"></div>
+                <div class="ov-tl-ms is-past" style="left: 26%;"><div class="ov-tl-ms-icon"><i data-icon="send"></i></div></div>
+                <div class="ov-tl-now"></div>
+                <div class="ov-tl-dot" style="left: 55%;"></div>
+                <div class="ov-tl-ms" style="left: 55%;"><div class="ov-tl-ms-icon"><i data-icon="bell"></i></div></div>
+                <div class="ov-tl-dot" style="left: 74%;"></div>
+                <div class="ov-tl-ms" style="left: 74%;"><div class="ov-tl-ms-icon"><i data-icon="bell"></i></div></div>
+                <div class="ov-tl-dot" style="left: 90%;"></div>
+                <div class="ov-tl-ms" style="left: 90%;"><div class="ov-tl-ms-icon"><i data-icon="check"></i></div></div>
+                <div class="ov-tl-dot" style="left: 99%;"></div>
+                <div class="ov-tl-ms" style="left: 99%;"><div class="ov-tl-ms-icon"><i data-icon="barchart-2"></i></div></div>
+              </div>
+            </div>
+
+            <!-- Tip -->
+            <div class="ov-tip" id="ovTip">
+              <div class="inline-notif is-subtle">
+                <span class="inline-notif-icon is-subtle"><i data-icon="lightbulb"></i></span>
+                <div class="inline-notif-content">
+                  <span class="inline-notif-text">
+                    <span class="inline-notif-title">See trends over time</span>
+                    <span class="inline-notif-msg">Link this survey to your previous survey so trend lines show in your results. <span id="ovTipCount"></span></span>
+                  </span>
+                  <div class="inline-notif-actions">
+                    <button class="btn btn-secondary" data-nav="linking">Review links</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Survey settings -->
+        <div class="card card-elevated ov-section">
+          <div class="card-body">
+            <span class="card-title ov-section-title">Survey settings</span>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-blue"><i data-icon="users"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Participants</div>
+                <div class="ov-row-sub">1,240 participants from 26 groups</div>
+              </div>
+              <div class="ov-row-action">View details <i data-icon="chevron-right"></i></div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-turquoise"><i data-icon="calendar"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Survey period</div>
+                <div class="ov-row-sub">Jan 12, 2026 to Jan 30, 2026</div>
+              </div>
+              <div class="ov-row-action">Extend period <i data-icon="chevron-right"></i></div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-purple"><i data-icon="message"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Questions</div>
+                <div class="ov-row-sub">41 questions · about 20 minutes to complete</div>
+              </div>
+              <div class="ov-row-action">View questions <i data-icon="chevron-right"></i></div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-orange"><i data-icon="palette"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Design</div>
+                <div class="ov-row-sub">Survey: Default · Email: Default</div>
+              </div>
+              <div class="ov-row-action">Preview <i data-icon="chevron-right"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparisons -->
+        <div class="card card-elevated ov-section">
+          <div class="card-body">
+            <span class="card-title ov-section-title">Comparisons</span>
+            <a class="ov-row is-link" data-nav="linking" id="ovLinkRow">
+              <div class="ov-row-icon"><i data-icon="link"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Previous survey links</div>
+                <div class="ov-row-sub" id="ovLinkSub"></div>
+              </div>
+              <div class="ov-row-action" id="ovLinkAction"></div>
+            </a>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-green"><i data-icon="benchmark-up"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Benchmarks</div>
+                <div class="ov-row-sub">Industry benchmark enabled</div>
+              </div>
+              <div class="ov-row-action">Configure <i data-icon="chevron-right"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sharing results -->
+        <div class="card card-elevated ov-section">
+          <div class="card-body">
+            <span class="card-title ov-section-title">Sharing results</span>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-yellow"><i data-icon="user-check"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Result access</div>
+                <div class="ov-row-sub">28 users have access</div>
+              </div>
+              <div class="ov-row-action">Edit <i data-icon="chevron-right"></i></div>
+            </div>
+            <div class="ov-row">
+              <div class="ov-row-icon tile-red"><i data-icon="version-history"></i></div>
+              <div class="ov-row-body">
+                <div class="ov-row-title">Phased release</div>
+                <div class="ov-row-sub">Choose how and when to share results</div>
+              </div>
+              <div class="ov-row-action">Set up <i data-icon="chevron-right"></i></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════ VIEW: PREVIOUS SURVEY LINKS ══════════ -->
+    <div id="view-linking" hidden>
+      <div class="app-main-inner is-narrow">
+
+        <div class="gl-back">
+          <button class="btn btn-secondary" data-nav="overview"><i data-icon="arrow-left"></i> Back to survey overview</button>
+        </div>
+
+        <div class="ph">
+          <div class="ph-row" style="padding-bottom: 0;">
+            <div class="ph-left">
+              <h1 class="ph-title">Previous survey links</h1>
+              <p class="gl-ph-desc">Compare this survey with a previous one to see how results change over time. We've matched your current groups to the groups in that survey — review the suggestions to keep comparisons accurate.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparing-with card -->
+        <div class="card card-outlined gl-compare-card">
+          <div class="card-body">
+            <div class="gl-cc-row">
+              <div class="gl-cc-icon"><i data-icon="link"></i></div>
+              <div class="gl-cc-main">
+                <div class="gl-cc-label">Comparing with previous survey</div>
+                <div class="gl-survey-pick">
+                  <button class="gl-cc-select" id="surveySelect">
+                    <span id="surveySelectVal">2025 Engagement Survey</span>
+                    <i data-icon="chevron-down"></i>
+                  </button>
+                  <div class="rv-picker" id="surveyMenuWrap" hidden>
+                    <div class="menu" id="surveyMenu"></div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-tertiary gl-cc-history" id="historyToggle">View survey history <i data-icon="chevron-down"></i></button>
+            </div>
+            <div class="gl-history" id="historyPanel" hidden>
+              <div class="gl-hist-head">
+                <span class="gl-hist-title">Survey links</span>
+                <div class="tt-demo">
+                  <span class="gl-hist-info" tabindex="0" aria-label="How survey links work"><i data-icon="info"></i></span>
+                  <div class="tooltip is-right">Surveys link in a chain — each survey connects to the one before it, so trends reach back as far as the chain goes</div>
+                </div>
+              </div>
+              <div class="gl-chain" id="historyChain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group links -->
+        <div class="card card-elevated" id="structSection">
+          <div class="card-body">
+            <div class="sh">
+              <div class="sh-row">
+                <div class="sh-left">
+                  <h2 class="sh-title">Group links</h2>
+                  <p class="sh-desc">Review the suggested links, then check your full structure below.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review call-to-action -->
+            <div class="gl-cta" id="sugBanner"></div>
+
+            <div class="gl-struct-divider"></div>
+
+            <div class="tr-controls">
+              <div class="search-wrap">
+                <span class="search-icon"><i data-icon="search"></i></span>
+                <input type="search" class="srch" id="treeSearch" placeholder="Search by group name" />
+              </div>
+              <div class="tr-ctl">
+                <button class="sel-btn" id="treeStatusBtn">
+                  <span class="sel-btn-name">Status</span>
+                  <span class="sel-btn-value" id="treeStatusVal">All</span>
+                  <i data-icon="chevron-down"></i>
+                </button>
+                <div class="menu" id="treeStatusMenu" hidden></div>
+              </div>
+              <div class="tr-ctl">
+                <button class="sel-btn" id="treeStructBtn">
+                  <span class="sel-btn-name">Structure</span>
+                  <span class="sel-btn-value is-filled" id="treeStructVal">Organizational</span>
+                  <i data-icon="chevron-down"></i>
+                </button>
+                <div class="menu" id="treeStructMenu" hidden></div>
+              </div>
+              <div class="tt-demo">
+                <button class="ib ib-36 ib-secondary" id="exportBtn" aria-label="Export mappings to Excel"><i data-icon="excel"></i></button>
+                <div class="tooltip is-above">Export mappings to Excel</div>
+              </div>
+            </div>
+            <div class="tr-cols"><span>Current group</span><span>Link to previous survey</span></div>
+            <div id="treeBody"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Suggestion side panel -->
+<div class="overlay is-right" id="panelOverlay" hidden>
+  <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="spTitle" tabindex="-1" data-autofocus>
+    <div class="sp-header">
+      <div class="sp-toolbar">
+        <div class="sp-actions">
+          <div class="tt-demo"><button data-close="panelOverlay" aria-label="Close"><i data-icon="cross"></i></button><div class="tooltip is-below">Close</div></div>
+        </div>
+      </div>
+      <div class="sp-heading is-sm"><h3 class="sp-title" id="spTitle">Review suggestions</h3><p class="sp-subtitle" id="spSubtitle"></p></div>
+    </div>
+    <div class="sp-body" id="spBody"></div>
+  </div>
+</div>
+
+<!-- Request review dialog -->
+<div class="overlay" id="reviewOverlay" hidden>
+  <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="review-title">
+    <button class="dialog-close" aria-label="Close" data-close="reviewOverlay"><i data-icon="cross"></i></button>
+    <div class="dialog-header">
+      <h3 class="dialog-title" id="review-title">Request a review</h3>
+      <p class="dialog-subtitle">Ask a colleague to check this suggestion before you confirm it.</p>
+    </div>
+    <div class="dialog-body">
+      <span class="rv-label">Reviewer</span>
+      <div id="rvReviewerBox"></div>
+      <div class="rv-picker" id="rvPickerWrap" hidden><div class="menu" id="rvPickerMenu"></div></div>
+      <div class="ta-wrap rv-field">
+        <label class="ta-lbl" for="rvMessage">Message (optional)</label>
+        <textarea class="ta" id="rvMessage" rows="4" placeholder="Add context or a question"></textarea>
+      </div>
+      <div class="rv-privacy">
+        <i data-icon="eye"></i>
+        <span>The reviewer only sees this suggestion — not your other links.</span>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn btn-secondary" data-close="reviewOverlay">Cancel</button>
+      <button class="btn btn-primary" id="rvSend"><i data-icon="send"></i> Send request</button>
+    </div>
+  </div>
+</div>
+
+<!-- Group members dialog -->
+<div class="overlay" id="membersOverlay" hidden>
+  <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="members-title">
+    <button class="dialog-close" aria-label="Close" data-close="membersOverlay"><i data-icon="cross"></i></button>
+    <div class="dialog-header is-sm">
+      <div class="dialog-header-top"><i class="dialog-header-icon" data-icon="users"></i><h3 class="dialog-title" id="members-title">Group members</h3></div>
+      <p class="dialog-subtitle" id="membersSubtitle"></p>
+    </div>
+    <div class="dialog-body">
+      <div class="mb-scroll"><div class="mb-list" id="membersList"></div></div>
+    </div>
+    <div class="dialog-footer">
+      <span class="mb-total" id="membersTotal"></span>
+      <button class="btn btn-secondary" data-close="membersOverlay">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="sysnotif-stack" id="toastStack"></div>
+
+<script src="icons.js"></script>
+<script>
+/* ═══════════════ DATA ═══════════════ */
+
+const STRUCTURES = ['Organizational structure', 'Geographical structure', 'Functional structure'];
+const SURVEYS = ['2025 Engagement Survey', '2024 Engagement Survey', '2023 Engagement Survey', '2022 Engagement Survey'];
+const CURRENT_SURVEY = '2026 Engagement Survey';
+
+const REVIEWERS = [
+  { id: 1, first: 'Sarah', last: 'Johnson', role: 'Engineering manager', av: 'av-red' },
+  { id: 2, first: 'Mark', last: 'Davis', role: 'Product lead', av: 'av-blue' },
+  { id: 3, first: 'Laura', last: 'Baker', role: 'HR director', av: 'av-turquoise' },
+];
+
+const HISTORICAL_GROUPS = [
+  { name: 'Engineering', size: 140, parent: 'Global Corp' }, { name: 'Core Engineering', size: 100, parent: 'Engineering' },
+  { name: 'Customer Success NA', size: 20, parent: 'Customer Success' }, { name: 'Customer Success EMEA', size: 15, parent: 'Customer Success' },
+  { name: 'Workplace Services', size: 10, parent: 'Operations' }, { name: 'UX Design', size: 12, parent: 'Product & Design' },
+  { name: 'Product Analytics', size: 10, parent: 'Product & Design' }, { name: 'Sales North America', size: 40, parent: 'Commercial' },
+  { name: 'Sales Europe', size: 30, parent: 'Commercial' }, { name: 'Marketing Global', size: 45, parent: 'Commercial' },
+  { name: 'Global Finance', size: 60, parent: 'Operations' }, { name: 'Core IT', size: 25, parent: 'Operations' },
+  { name: 'Human Resources', size: 15, parent: 'People Operations' }, { name: 'Legal Ops', size: 8, parent: 'Legal & Risk' },
+  { name: 'Compliance', size: 12, parent: 'Legal & Risk' }, { name: 'Global Corp', size: 500, parent: null },
+  { name: 'Office Ops', size: 5, parent: 'Operations' }, { name: 'Facility Management', size: 7, parent: 'Operations' },
+  { name: 'IT Security', size: 18, parent: 'Operations' },
+];
+
+// type: match | merge | split | new — status: pending | auto | approved | rejected | under_review
+let suggestions = [
+  { id: 1, type: 'match', status: 'auto', overlap: 93, structures: ['Organizational structure'], oldGroups: [{ name: 'UX Design', size: 12 }], newGroups: [{ name: 'UX Design', size: 14 }] },
+  { id: 2, type: 'merge', status: 'pending', overlap: 89, structures: ['Organizational structure'], oldGroups: [{ name: 'Customer Success NA', size: 20 }, { name: 'Customer Success EMEA', size: 15 }], newGroups: [{ name: 'Global Customer Success', size: 38 }] },
+  { id: 3, type: 'split', status: 'pending', overlap: 85, structures: ['Organizational structure'], oldGroups: [{ name: 'Engineering', size: 140 }], newGroups: [{ name: 'Product Engineering', size: 85 }, { name: 'Platform Engineering', size: 62 }] },
+  { id: 4, type: 'new', status: 'pending', overlap: 0, structures: ['Functional structure'], oldGroups: [], newGroups: [{ name: 'AI Research Labs', size: 8 }] },
+  { id: 5, type: 'match', status: 'auto', overlap: 78, structures: ['Functional structure'], oldGroups: [{ name: 'Workplace Services', size: 10 }], newGroups: [{ name: 'Workplace Experience', size: 12 }] },
+  { id: 13, type: 'merge', status: 'auto', overlap: 94, structures: ['Functional structure'], oldGroups: [{ name: 'Office Ops', size: 5 }, { name: 'Facility Management', size: 7 }], newGroups: [{ name: 'Operations Excellence', size: 12 }] },
+  { id: 14, type: 'split', status: 'auto', overlap: 91, structures: ['Organizational structure'], oldGroups: [{ name: 'Core IT', size: 40 }], newGroups: [{ name: 'Service Desk', size: 18 }, { name: 'Cloud Infrastructure', size: 22 }] },
+  { id: 6, type: 'split', status: 'auto', overlap: 92, structures: ['Functional structure'], oldGroups: [{ name: 'Marketing Global', size: 45 }], newGroups: [{ name: 'Product Marketing', size: 22 }, { name: 'Brand & Growth', size: 20 }] },
+  { id: 7, type: 'merge', status: 'pending', overlap: 74, sameManager: true, structures: ['Geographical structure'], oldGroups: [{ name: 'Sales North America', size: 40 }, { name: 'Sales Europe', size: 30 }], newGroups: [{ name: 'Atlantic Enterprise Sales', size: 65 }] },
+  { id: 8, type: 'match', status: 'auto', overlap: 92, structures: ['Functional structure'], oldGroups: [{ name: 'Core IT', size: 25 }], newGroups: [{ name: 'IT Infrastructure', size: 28 }] },
+  { id: 9, type: 'split', status: 'pending', overlap: 81, structures: ['Geographical structure'], oldGroups: [{ name: 'Global Finance', size: 60 }], newGroups: [{ name: 'APJ Finance', size: 25 }, { name: 'Americas Finance', size: 32 }] },
+  { id: 10, type: 'match', status: 'auto', overlap: 95, structures: ['Organizational structure'], oldGroups: [{ name: 'Human Resources', size: 15 }], newGroups: [{ name: 'People Operations', size: 18 }] },
+  { id: 11, type: 'new', status: 'pending', overlap: 0, structures: ['Functional structure'], oldGroups: [], newGroups: [{ name: 'Diversity & Inclusion', size: 4 }] },
+  { id: 12, type: 'merge', status: 'pending', overlap: 88, structures: ['Organizational structure'], oldGroups: [{ name: 'Legal Ops', size: 8 }, { name: 'Compliance', size: 12 }], newGroups: [{ name: 'Legal & Risk', size: 19 }] },
+];
+
+const SILENT_AUTO = 12; // identical groups linked automatically without a suggestion card
+
+// Trees — link status: linked | suggested | review
+const TREES = {
+  'Organizational structure': [
+    { id: '1', name: 'Global Corp', size: 500, links: [{ name: 'Global Corp', status: 'linked' }], children: [
+      { id: '1.1', name: 'Engineering', size: 140, links: [{ name: 'Engineering', status: 'linked' }], children: [
+        { id: '1.1.1', name: 'Product Engineering', size: 85, links: [{ name: 'Engineering', status: 'suggested' }] },
+        { id: '1.1.2', name: 'Platform Engineering', size: 62, links: [{ name: 'Engineering', status: 'suggested' }] },
+        { id: '1.1.3', name: 'Core Engineering', size: 100, links: [{ name: 'Core Engineering', status: 'linked' }] },
+      ]},
+      { id: '1.2', name: 'Customer Success', size: 38, links: [], children: [
+        { id: '1.2.1', name: 'Global Customer Success', size: 38, links: [{ name: 'Customer Success NA', status: 'suggested' }, { name: 'Customer Success EMEA', status: 'suggested' }] },
+      ]},
+      { id: '1.3', name: 'Product & Design', size: 26, links: [], children: [
+        { id: '1.3.1', name: 'UX Design', size: 14, links: [{ name: 'UX Design', status: 'linked' }] },
+        { id: '1.3.2', name: 'Product Analytics', size: 12, links: [{ name: 'Product Analytics', status: 'linked' }] },
+      ]},
+      { id: '1.4', name: 'Operations', size: 40, links: [], children: [
+        { id: '1.4.1', name: 'Workplace Experience', size: 12, links: [{ name: 'Workplace Services', status: 'suggested' }] },
+        { id: '1.4.2', name: 'Security Operations', size: 18, links: [{ name: 'IT Security', status: 'linked' }] },
+      ]},
+      { id: '1.5', name: 'Research & Development', size: 8, links: [], children: [
+        { id: '1.5.1', name: 'AI Research Labs', size: 8, links: [] },
+      ]},
+      { id: '1.6', name: 'Marketing', size: 42, links: [], children: [
+        { id: '1.6.1', name: 'Product Marketing', size: 22, links: [] },
+        { id: '1.6.2', name: 'Brand & Growth', size: 20, links: [] },
+      ]},
+      { id: '1.7', name: 'People Operations', size: 18, links: [{ name: 'Human Resources', status: 'suggested' }] },
+      { id: '1.8', name: 'Legal & Risk', size: 19, links: [{ name: 'Legal Ops', status: 'suggested' }, { name: 'Compliance', status: 'suggested' }] },
+    ]},
+  ],
+  'Geographical structure': [
+    { id: 'g1', name: 'Global Operations', size: 500, links: [{ name: 'Global Corp', status: 'linked' }], children: [
+      { id: 'g1.1', name: 'North America', size: 180, links: [{ name: 'Sales North America', status: 'linked' }], children: [
+        { id: 'g1.1.1', name: 'NA Engineering', size: 80, links: [{ name: 'Engineering', status: 'linked' }] },
+        { id: 'g1.1.2', name: 'Atlantic Enterprise Sales', size: 65, links: [{ name: 'Sales North America', status: 'suggested' }, { name: 'Sales Europe', status: 'suggested' }] },
+        { id: 'g1.1.3', name: 'Americas Finance', size: 32, links: [{ name: 'Global Finance', status: 'suggested' }] },
+      ]},
+      { id: 'g1.2', name: 'EMEA', size: 120, links: [], children: [
+        { id: 'g1.2.1', name: 'EMEA Customer Success', size: 15, links: [{ name: 'Customer Success EMEA', status: 'suggested' }] },
+        { id: 'g1.2.2', name: 'EMEA Engineering', size: 60, links: [{ name: 'Core Engineering', status: 'linked' }] },
+        { id: 'g1.2.3', name: 'EMEA Design', size: 14, links: [{ name: 'UX Design', status: 'suggested' }] },
+      ]},
+      { id: 'g1.3', name: 'APAC', size: 90, links: [], children: [
+        { id: 'g1.3.1', name: 'APAC Sales', size: 30, links: [{ name: 'Sales North America', status: 'linked' }] },
+        { id: 'g1.3.2', name: 'APAC Analytics', size: 12, links: [{ name: 'Product Analytics', status: 'linked' }] },
+        { id: 'g1.3.3', name: 'APJ Finance', size: 25, links: [{ name: 'Global Finance', status: 'suggested' }] },
+      ]},
+    ]},
+  ],
+  'Functional structure': [
+    { id: 'f1', name: 'Business Functions', size: 500, links: [], children: [
+      { id: 'f1.1', name: 'Product Excellence', size: 160, links: [], children: [
+        { id: 'f1.1.1', name: 'Core Product', size: 85, links: [{ name: 'Product Engineering', status: 'linked' }] },
+        { id: 'f1.1.2', name: 'Experience Design', size: 14, links: [{ name: 'UX Design', status: 'linked' }] },
+        { id: 'f1.1.3', name: 'Platform Innovation', size: 62, links: [{ name: 'Platform Engineering', status: 'suggested' }] },
+      ]},
+      { id: 'f1.2', name: 'Revenue & Growth', size: 110, links: [], children: [
+        { id: 'f1.2.1', name: 'Global Sales', size: 70, links: [{ name: 'Sales North America', status: 'suggested' }] },
+        { id: 'f1.2.2', name: 'Marketing', size: 42, links: [], children: [
+          { id: 'f1.2.2.1', name: 'Product Marketing', size: 22, links: [{ name: 'Marketing Global', status: 'suggested' }] },
+          { id: 'f1.2.2.2', name: 'Brand & Growth', size: 20, links: [{ name: 'Marketing Global', status: 'suggested' }] },
+        ]},
+      ]},
+      { id: 'f1.3', name: 'Enablement', size: 70, links: [], children: [
+        { id: 'f1.3.1', name: 'Legal & Risk', size: 19, links: [{ name: 'Global Corp', status: 'linked' }] },
+        { id: 'f1.3.2', name: 'Workplace Experience', size: 12, links: [{ name: 'Workplace Services', status: 'suggested' }] },
+        { id: 'f1.3.3', name: 'Operations Excellence', size: 12, links: [{ name: 'Office Ops', status: 'suggested' }, { name: 'Facility Management', status: 'suggested' }] },
+        { id: 'f1.3.4', name: 'IT Infrastructure', size: 28, links: [{ name: 'Core IT', status: 'suggested' }] },
+        { id: 'f1.3.5', name: 'Diversity & Inclusion', size: 4, links: [] },
+      ]},
+      { id: 'f1.4', name: 'Innovation', size: 8, links: [], children: [
+        { id: 'f1.4.1', name: 'AI Research Labs', size: 8, links: [] },
+      ]},
+    ]},
+  ],
+};
+
+const FIRST_NAMES = ['John Doe', 'Alice Smith', 'Robert King', 'Maria Lopez', 'Thomas Hall', 'Beth White', 'Kevin Pratt', 'Lisa Moon'];
+const ROLES = ['Product specialist', 'Senior architect', 'Lead designer', 'Backend engineer', 'Data analyst', 'Frontend developer', 'Project coordinator', 'QA lead'];
+const AV_COLORS = ['av-blue', 'av-turquoise', 'av-green', 'av-orange', 'av-yellow'];
+
+/* ═══════════════ STATE ═══════════════ */
+
+const state = {
+  view: 'overview',
+  tab: 'pending',
+  selected: new Set(),
+  structFilter: new Set(),
+  selectedSurvey: SURVEYS[0],
+  linkingCardId: null,          // suggestion with the open "add link" search
+  panelFocusId: null,           // suggestion scrolled to in the side panel
+  reviewTargetId: null,
+  reviewReviewer: null,
+  treeStructure: STRUCTURES[0],
+  treeSearch: '',
+  treeStatusFilter: new Set(),
+  treeCollapsed: new Set(),
+  treeExpanded: new Set(),
+  treeLinkingNodeId: null,
+};
+
+/* ═══════════════ HELPERS ═══════════════ */
+
+const $ = (sel) => document.querySelector(sel);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const icons = () => window.Icons && window.Icons.render();
+
+function toast(message) {
+  const stack = $('#toastStack');
+  const el = document.createElement('div');
+  el.className = 'sysnotif';
+  el.setAttribute('role', 'status');
+  el.innerHTML = '<div class="sysnotif-title">' + esc(message) + '</div><button class="sysnotif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>';
+  el.querySelector('.sysnotif-close').addEventListener('click', () => el.remove());
+  stack.appendChild(el);
+  icons();
+  setTimeout(() => el.remove(), 4000);
+}
+
+function joinNames(arr) {
+  const names = arr.map(g => g.name);
+  if (names.length <= 1) return names[0] || '';
+  return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+}
+
+function isDone(s) { return s.status === 'approved' || s.status === 'auto' || s.status === 'rejected'; }
+
+function counts() {
+  const pending = suggestions.filter(s => s.status === 'pending').length;
+  const review = suggestions.filter(s => s.status === 'under_review').length;
+  const completed = suggestions.filter(isDone).length + SILENT_AUTO;
+  const total = suggestions.length + SILENT_AUTO;
+  const mapped = suggestions.filter(isDone).length + SILENT_AUTO;
+  return { pending, review, completed, total, mapped };
+}
+
+function cardTitle(s) {
+  const done = s.status === 'approved' || s.status === 'auto';
+  const newName = s.newGroups[0].name;
+  if (s.status === 'rejected') return newName + ' is not linked';
+  switch (s.type) {
+    case 'match': return done ? newName + ' is a direct match' : newName + ' appears to be a direct match, is that correct?';
+    case 'merge': return done ? joinNames(s.oldGroups) + ' merged into ' + newName : joinNames(s.oldGroups) + ' have merged into ' + newName + ', is that correct?';
+    case 'split': return done ? s.oldGroups[0].name + ' split into ' + s.newGroups.length + ' groups' : s.oldGroups[0].name + ' has been split into ' + s.newGroups.length + ' groups, is that correct?';
+    case 'new':   return done ? newName + ' is a new group' : newName + ' appears to be a new group, is that correct?';
+  }
+}
+
+function cardInsight(s) {
+  const totalOld = s.oldGroups.reduce((a, g) => a + (g.size || 0), 0);
+  const matchCount = Math.round((totalOld * s.overlap) / 100);
+  const oldNames = joinNames(s.oldGroups);
+  const sameName = s.oldGroups.length === 1 && s.newGroups.length === 1 && s.oldGroups[0].name === s.newGroups[0].name;
+  switch (s.type) {
+    case 'match':
+      if (sameName && s.overlap >= 90) return 'The group name is identical and ' + matchCount + ' of ' + totalOld + ' members stayed the same.';
+      if (s.overlap >= 75) return 'Most members of ' + oldNames + ' (' + matchCount + ' of ' + totalOld + ') are now in this group, which points to a rename or direct transition.';
+      return matchCount + ' members of ' + oldNames + ' moved here, making it the most likely match.';
+    case 'merge': return 'These groups share ' + s.overlap + '% of their members — ' + matchCount + ' of the original ' + totalOld + ' people are now in the combined group.' + (s.sameManager ? ' Both original groups report to the same manager.' : '');
+    case 'split': return 'Together the new groups keep ' + matchCount + ' of the ' + totalOld + ' original members (' + s.overlap + '% overlap).';
+    case 'new':   return 'We couldn’t find a matching group in the previous survey, so this looks like a brand new group.';
+  }
+}
+
+/* ═══════════════ NAVIGATION ═══════════════ */
+
+function setView(view) {
+  state.view = view;
+  $('#view-overview').hidden = view !== 'overview';
+  $('#view-linking').hidden = view !== 'linking';
+  const shown = view === 'overview' ? $('#view-overview') : $('#view-linking');
+  shown.classList.remove('view-fade'); void shown.offsetWidth; shown.classList.add('view-fade');
+  $('#appMain').scrollTo(0, 0);
+  if (view === 'overview') renderOverview(); else renderLinking();
+}
+
+document.addEventListener('click', (e) => {
+  const nav = e.target.closest('[data-nav]');
+  if (nav) { setView(nav.dataset.nav); }
+});
+
+/* ═══════════════ OVERVIEW RENDER ═══════════════ */
+
+function renderOverview() {
+  const c = counts();
+  const toReview = c.pending + c.review;
+  $('#ovLinkSub').textContent = c.mapped + ' of ' + c.total + ' groups linked';
+  $('#ovLinkAction').innerHTML = (toReview > 0 ? esc(toReview + ' to review') : 'All linked') + ' <i data-icon="chevron-right"></i>';
+  $('#ovTip').hidden = toReview === 0;
+  $('#ovTipCount').textContent = toReview > 0 ? toReview + ' suggested links are waiting for your review.' : '';
+  icons();
+}
+
+/* ═══════════════ LINKING RENDER ═══════════════ */
+
+function openSuggestions() {
+  return suggestions.filter(s => s.status === 'pending' || s.status === 'under_review');
+}
+
+function renderLinking() {
+  $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
+  renderCards();
+  renderTree();
+  if (!$('#panelOverlay').hidden) renderPanel();
+  icons();
+}
+
+function typeTag(s) {
+  const map = {
+    match: ['is-match', 'zap', 'Direct match'],
+    merge: ['is-merge', 'aggregations', 'Merged'],
+    split: ['is-split', 'share-1', 'Split'],
+    new:   ['is-new', 'plus', 'New group'],
+  };
+  const [cls, icon, lbl] = map[s.type];
+  return '<span class="gl-tag ' + cls + '"><i data-icon="' + icon + '"></i> ' + lbl + '</span>';
+}
+
+function statusTag(s) {
+  if (s.status === 'auto') return '<span class="gl-tag is-linked"><i data-icon="check"></i> Linked automatically</span>';
+  if (s.status === 'approved') return '<span class="gl-tag is-linked"><i data-icon="check"></i> Linked</span>';
+  if (s.status === 'rejected') return '<span class="gl-tag is-notlinked">Not linked</span>';
+  if (s.status === 'under_review') return '<span class="gl-tag is-review"><i data-icon="eye"></i> Under review</span>';
+  return '';
+}
+
+function hashCode(str) { let h = 0; for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0; return h; }
+
+function avStackHTML(name, size) {
+  const h = hashCode(name);
+  let avs = '';
+  const n = Math.min(3, size);
+  for (let i = 0; i < n; i++) {
+    const full = FIRST_NAMES[(h + i) % FIRST_NAMES.length];
+    avs += '<span class="av av-20 ' + AV_COLORS[(h + i) % AV_COLORS.length] + '">' + full[0] + '</span>';
+  }
+  return '<button class="gl-avbtn" data-members="' + esc(name) + '" data-size="' + size + '" aria-label="View group members">' +
+    '<span class="gl-avstack">' + avs + '</span><span class="gl-avcount">' + size + '</span></button>';
+}
+
+function groupRowHTML(g, side, sugId, removable) {
+  return '<div class="gl-group-row"><span class="gl-group-name">' + esc(g.name) + '</span>' +
+    '<span class="gl-group-row-actions">' +
+    '<button class="gl-count-badge" data-members="' + esc(g.name) + '" data-size="' + (g.size || 10) + '" aria-label="View group members">' + (g.size || 10) + '</button>' +
+    (removable ? '<div class="tt-demo gl-group-remove"><button class="ib ib-24 ib-tertiary" data-removeold="' + sugId + '|' + esc(g.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>' : '') +
+    '</span></div>';
+}
+
+// Comparison block — previous survey (left) linked to current survey (right)
+function compareHTML(s) {
+  const editable = s.status === 'pending' || s.status === 'under_review';
+  const isLinkingHere = state.linkingCardId === s.id;
+
+  let prevCol;
+  if (isLinkingHere) {
+    prevCol = '<div class="gl-linksearch"><div class="search-wrap">' +
+      '<span class="search-icon"><i data-icon="search"></i></span>' +
+      '<input type="search" class="srch" id="cardLinkSearch" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" />' +
+      '</div><div class="menu" id="cardLinkMenu"></div></div>';
+  } else if (s.oldGroups.length === 0) {
+    prevCol = '<div class="gl-nomatch"><span>No match found in ' + esc(state.selectedSurvey) + '</span>' +
+      (editable ? '<button class="btn btn-secondary" data-addlink="' + s.id + '"><i data-icon="plus"></i> Add link</button>' : '') + '</div>';
+  } else {
+    let rows = s.oldGroups.map(g => groupRowHTML(g, 'old', s.id, editable)).join('');
+    if (editable && s.type !== 'merge' && s.type !== 'split') {
+      rows += '<button class="gl-addlink" data-addlink="' + s.id + '"><i data-icon="plus"></i> Link another group</button>';
+    }
+    prevCol = '<div class="gl-col-groups">' + rows + '</div>';
+  }
+
+  const connector = (s.oldGroups.length > 0 && !isLinkingHere)
+    ? '<div class="gl-connector-wrap"><div class="gl-connector"><svg class="gl-conn-svg" preserveAspectRatio="none" aria-hidden="true"></svg></div></div>'
+    : '<div class="gl-connector-wrap"></div>';
+
+  return '<div class="gl-compare-body">' +
+    '<div class="gl-compare-col"><span class="gl-compare-col-lbl">' + esc(state.selectedSurvey) + '</span>' + prevCol + '</div>' +
+    connector +
+    '<div class="gl-compare-col is-current"><span class="gl-compare-col-lbl">Current survey</span><div class="gl-col-groups">' + s.newGroups.map(g => groupRowHTML(g, 'new', s.id, false)).join('') + '</div></div>' +
+    '</div>';
+}
+
+/* ═══════════════ CARD ACTIONS ═══════════════ */
+
+function findSug(id) { return suggestions.find(s => s.id === Number(id)); }
+
+function syncTreesForSuggestion(s, action) {
+  // action: approve | reject
+  Object.keys(TREES).forEach(structId => {
+    if (!s.structures.includes(structId)) return;
+    const walk = (nodes) => nodes.forEach(n => {
+      if (s.newGroups.some(g => g.name === n.name)) {
+        if (action === 'approve') {
+          n.links.forEach(l => { if (s.oldGroups.some(g => g.name === l.name)) l.status = 'linked'; });
+          s.oldGroups.forEach(g => { if (!n.links.some(l => l.name === g.name)) n.links.push({ name: g.name, status: 'linked' }); });
+        } else {
+          n.links = n.links.filter(l => !s.oldGroups.some(g => g.name === l.name));
+        }
+      }
+      if (n.children) walk(n.children);
+    });
+    walk(TREES[structId]);
+  });
+}
+
+function approveSug(id) {
+  const s = findSug(id); if (!s) return;
+  s.status = 'approved';
+  state.selected.delete(s.id);
+  syncTreesForSuggestion(s, 'approve');
+  toast(s.oldGroups.length > 0 ? s.newGroups[0].name + ' linked' : s.newGroups[0].name + ' confirmed as a new group');
+  renderLinking();
+}
+
+function rejectSug(id) {
+  const s = findSug(id); if (!s) return;
+  s.status = 'rejected';
+  state.selected.delete(s.id);
+  syncTreesForSuggestion(s, 'reject');
+  toast(s.newGroups[0].name + ' not linked');
+  renderLinking();
+}
+
+/* ═══════════════ REVIEW CALL-TO-ACTION ═══════════════ */
+
+function ringHTML(pct, done) {
+  const R = 30, C = 2 * Math.PI * R;
+  const off = C - (pct / 100) * C;
+  return '<div class="gl-cta-ring">' +
+    '<svg viewBox="0 0 72 72" width="76" height="76" aria-hidden="true">' +
+    '<circle class="ring-track" cx="36" cy="36" r="' + R + '"></circle>' +
+    '<circle class="ring-fill" cx="36" cy="36" r="' + R + '" style="stroke-dasharray:' + C + ';stroke-dashoffset:' + off + '"></circle>' +
+    '</svg>' +
+    (done
+      ? '<span class="gl-cta-check"><i data-icon="check"></i></span>'
+      : '<span class="gl-cta-ring-label"><span class="gl-cta-pct">' + pct + '%</span><span class="gl-cta-pct-lbl">linked</span></span>') +
+    '</div>';
+}
+
+function renderCards() {
+  const banner = $('#sugBanner');
+  const c = counts();
+  const pct = Math.min(100, Math.round((c.mapped / c.total) * 100));
+  const pending = suggestions.filter(sg => sg.status === 'pending');
+  const inReview = suggestions.filter(sg => sg.status === 'under_review');
+  const autoCount = suggestions.filter(sg => sg.status === 'auto').length + SILENT_AUTO;
+  const noLinkCount = (function count(nodes) {
+    return nodes.reduce((acc, n) => acc + (n.links.length === 0 ? 1 : 0) + (n.children ? count(n.children) : 0), 0);
+  })(TREES[state.treeStructure]);
+
+  const noLinkLink = noLinkCount > 0
+    ? ' <button class="link-inline" style="text-decoration:none;" id="bannerNoLink">' + noLinkCount + ' groups don’t have a link yet.</button>'
+    : '';
+
+  let title, sub, actions, done = false;
+  if (pending.length > 0) {
+    title = pending.length + (pending.length === 1 ? ' group needs' : ' groups need') + ' your review';
+    sub = 'We linked ' + autoCount + ' groups automatically.' + noLinkLink +
+      (inReview.length > 0 ? ' ' + inReview.length + (inReview.length === 1 ? ' group is' : ' groups are') + ' with a reviewer.' : '');
+    actions = '<button class="btn btn-primary" id="bannerReview">Review suggestions <i data-icon="arrow-right"></i></button>';
+  } else if (inReview.length > 0) {
+    title = inReview.length + (inReview.length === 1 ? ' group is' : ' groups are') + ' with a reviewer';
+    sub = 'You can still confirm ' + (inReview.length === 1 ? 'it' : 'them') + ' yourself if you don’t want to wait.' + noLinkLink;
+    actions = '<button class="btn btn-primary" id="bannerReview">View requests <i data-icon="arrow-right"></i></button>';
+  } else {
+    done = true;
+    title = 'All groups are linked';
+    sub = autoCount + ' groups were linked automatically and the rest is confirmed — trends will show in your results.' + noLinkLink;
+    actions = '';
+  }
+
+  banner.className = 'gl-cta' + (done ? ' is-done' : '');
+  banner.innerHTML = ringHTML(pct, done) +
+    '<div class="gl-cta-body"><div class="gl-cta-title">' + esc(title) + '</div><div class="gl-cta-sub">' + sub + '</div></div>' +
+    (actions ? '<div class="gl-cta-actions">' + actions + '</div>' : '');
+
+  const btn = $('#bannerReview');
+  if (btn) btn.addEventListener('click', () => {
+    const open = openSuggestions();
+    if (open.length) openPanel(open[0].id);
+  });
+  const nl = $('#bannerNoLink');
+  if (nl) nl.addEventListener('click', () => {
+    state.treeStatusFilter.clear();
+    state.treeStatusFilter.add('nolink');
+    $('#treeStatusVal').textContent = '1 selected';
+    renderTree();
+    $('#structSection').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
+  icons();
+}
+
+/* ═══════════════ SUGGESTION SIDE PANEL ═══════════════ */
+
+function openPanel(id) {
+  state.linkingCardId = null;
+  state.panelFocusId = id != null ? Number(id) : null;
+  openOverlay('panelOverlay');
+  renderPanel();
+  if (state.panelFocusId != null) {
+    const card = document.querySelector('[data-scard="' + state.panelFocusId + '"]');
+    if (card) card.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+}
+
+function panelCardHTML(s) {
+  const editable = s.status === 'pending' || s.status === 'under_review';
+
+  let reviewer = '';
+  if (s.status === 'under_review' && s.reviewer) {
+    reviewer = '<div class="gl-reviewer"><div class="gl-reviewer-row">' +
+      '<div class="av av-36 ' + s.reviewer.av + '">' + s.reviewer.first[0] + s.reviewer.last[0] + '</div>' +
+      '<div class="gl-reviewer-meta"><div class="gl-reviewer-name">' + esc(s.reviewer.first + ' ' + s.reviewer.last) + '</div>' +
+      '<div class="gl-reviewer-role">Reviewer · request sent ' + esc(s.reviewSent || 'today') + '</div></div>' +
+      '<button class="btn btn-secondary" data-resend="' + s.id + '"><i data-icon="refresh"></i> Resend request</button></div>' +
+      (s.reviewMessage ? '<div class="gl-reviewer-quote">“' + esc(s.reviewMessage) + '”</div>' : '') +
+      '</div>';
+  }
+
+  const foot = '<div class="gl-scard-foot">' +
+    '<button class="btn btn-tertiary" data-review="' + s.id + '"><i data-icon="user-plus"></i> Request review</button>' +
+    '<div class="gl-scard-foot-actions">' +
+    (s.oldGroups.length > 0 ? '<button class="btn btn-secondary" data-reject="' + s.id + '">Don’t link</button>' : '') +
+    '<button class="btn btn-primary" data-approve="' + s.id + '"><i data-icon="check"></i> Confirm</button>' +
+    '</div></div>';
+
+  return '<div class="gl-scard' + (state.panelFocusId === s.id ? ' is-focus' : '') + '" data-scard="' + s.id + '">' +
+    '<h3 class="gl-scard-title">' + esc(cardTitle(s)) + '</h3>' +
+    '<div class="gl-compare">' +
+    '<div class="gl-compare-head">' +
+    '<span class="gl-compare-struct"><i data-icon="structure"></i> ' + esc(s.structures.join(' · ')) + '</span>' +
+    '<button class="btn btn-link" data-viewstruct="' + s.id + '">View in structure <i data-icon="arrow-right"></i></button>' +
+    '</div>' +
+    reviewer +
+    compareHTML(s) +
+    foot +
+    '</div></div>';
+}
+
+function renderPanel() {
+  const open = openSuggestions();
+  $('#spSubtitle').textContent = open.length === 0
+    ? 'You’ve reviewed every suggestion'
+    : open.length + (open.length === 1 ? ' group needs' : ' groups need') + ' your review · linking to ' + state.selectedSurvey;
+
+  if (open.length === 0) {
+    $('#spBody').innerHTML = '<div class="gl-empty" style="border:none;">' +
+      '<img class="gl-empty-illu" src="assets/illustrations/win-small.svg" alt="" />' +
+      '<div class="gl-empty-title">All suggestions reviewed</div>' +
+      '<div class="gl-empty-body">Your group links are up to date. You can close this and check the full structure.</div>' +
+      '<button class="btn btn-primary" data-close="panelOverlay">Done</button></div>';
+    bindPanel();
+    icons();
+    return;
+  }
+
+  $('#spBody').innerHTML = open.map(panelCardHTML).join('');
+  bindPanel();
+  icons();
+  requestAnimationFrame(() => drawConnectors($('#spBody')));
+  setTimeout(() => drawConnectors($('#spBody')), 160);
+}
+
+// keep the tree highlight in sync when the panel is hidden by any close path
+new MutationObserver(() => {
+  if ($('#panelOverlay').hidden && state.panelFocusId != null) { state.panelFocusId = null; renderTree(); }
+}).observe(document.getElementById('panelOverlay'), { attributes: true, attributeFilter: ['hidden'] });
+
+function bindPanel() {
+  const root = $('#spBody');
+  root.querySelectorAll('[data-approve]').forEach(b => b.addEventListener('click', () => { approveSug(b.dataset.approve); renderPanel(); }));
+  root.querySelectorAll('[data-reject]').forEach(b => b.addEventListener('click', () => { rejectSug(b.dataset.reject); renderPanel(); }));
+  root.querySelectorAll('[data-review]').forEach(b => b.addEventListener('click', () => openReview(Number(b.dataset.review))));
+  root.querySelectorAll('[data-resend]').forEach(b => b.addEventListener('click', () => {
+    const s = findSug(b.dataset.resend);
+    if (s && s.reviewer) toast('Review request sent to ' + s.reviewer.first + ' ' + s.reviewer.last);
+  }));
+  root.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
+  root.querySelectorAll('[data-viewstruct]').forEach(b => b.addEventListener('click', () => {
+    const s = findSug(b.dataset.viewstruct); if (!s) return;
+    if (!s.structures.includes(state.treeStructure)) { state.treeStructure = s.structures[0]; }
+    state.treeSearch = s.newGroups[0].name;
+    $('#treeSearch').value = state.treeSearch;
+    $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
+    $('#panelOverlay').hidden = true;
+    renderTree();
+    $('#structSection').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }));
+  root.querySelectorAll('[data-removeold]').forEach(b => b.addEventListener('click', () => {
+    const [id, name] = b.dataset.removeold.split('|');
+    const sug = findSug(id); if (!sug) return;
+    sug.oldGroups = sug.oldGroups.filter(g => g.name !== name);
+    if (sug.oldGroups.length <= 1 && sug.type === 'merge') sug.type = 'match';
+    toast('Link to ' + name + ' removed');
+    renderTree(); renderCards(); renderPanel();
+  }));
+  root.querySelectorAll('[data-addlink]').forEach(b => b.addEventListener('click', () => {
+    state.linkingCardId = Number(b.dataset.addlink);
+    renderPanel();
+  }));
+  root.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.close).hidden = true; }));
+  const input = $('#cardLinkSearch');
+  if (input) { renderCardLinkMenu(''); input.addEventListener('input', () => renderCardLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
+}
+
+// Bracket connector between the previous-survey column (left) and current-survey column (right).
+function drawConnectors(root) {
+  (root || document).querySelectorAll('.gl-connector').forEach(conn => {
+    const svg = conn.querySelector('.gl-conn-svg');
+    const body = conn.closest('.gl-compare-body');
+    if (!svg || !body) return;
+    const cols = body.querySelectorAll('.gl-compare-col');
+    if (cols.length < 2) { svg.innerHTML = ''; return; }
+    const leftBoxes = [...cols[0].querySelectorAll('.gl-group-row')];
+    const rightBoxes = [...cols[cols.length - 1].querySelectorAll('.gl-group-row')];
+    if (!leftBoxes.length || !rightBoxes.length) { svg.innerHTML = ''; return; }
+    const cr = conn.getBoundingClientRect();
+    const w = cr.width, h = cr.height;
+    const cy = (el) => { const r = el.getBoundingClientRect(); return r.top + r.height / 2 - cr.top; };
+    let d = '';
+    leftBoxes.forEach(li => {
+      const ly = cy(li);
+      rightBoxes.forEach(rj => {
+        const ry = cy(rj);
+        d += '<path class="gl-conn-path" d="M 0 ' + ly + ' C ' + (w * 0.5) + ' ' + ly + ', ' + (w * 0.5) + ' ' + ry + ', ' + w + ' ' + ry + '"/>';
+      });
+    });
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.innerHTML = d;
+  });
+}
+window.addEventListener('resize', () => { if (!$('#panelOverlay').hidden) drawConnectors($('#spBody')); });
+
+function renderCardLinkMenu(q) {
+  const menu = $('#cardLinkMenu'); if (!menu) return;
+  const s = findSug(state.linkingCardId); if (!s) return;
+  const hits = HISTORICAL_GROUPS.filter(g => g.name.toLowerCase().includes(q.toLowerCase()) && !s.oldGroups.some(o => o.name === g.name));
+  menu.innerHTML = hits.length === 0
+    ? '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>'
+    : hits.map(g => '<div class="menu-item" data-pick="' + esc(g.name) + '" data-size="' + g.size + '"><span class="menu-item-body"><span class="menu-item-title">' + esc(g.name) + '</span><span class="menu-item-sub">' + g.size + ' members</span></span></div>').join('');
+  menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
+    const name = mi.dataset.pick, size = Number(mi.dataset.size);
+    s.oldGroups.push({ name, size });
+    if (s.type === 'new') s.type = 'match';
+    else if (s.oldGroups.length > 1 && s.type === 'match') s.type = 'merge';
+    state.linkingCardId = null;
+    toast(name + ' linked to ' + s.newGroups[0].name);
+    renderLinking();
+  }));
+  icons();
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#surveyMenuWrap') && !e.target.closest('#surveySelect')) $('#surveyMenuWrap').hidden = true;
+  if (!e.target.closest('#treeStatusMenu') && !e.target.closest('#treeStatusBtn')) { const m = $('#treeStatusMenu'); if (m) m.hidden = true; }
+  if (!e.target.closest('#treeStructMenu') && !e.target.closest('#treeStructBtn')) { const m = $('#treeStructMenu'); if (m) m.hidden = true; }
+});
+
+/* ═══════════════ SURVEY SELECT + HISTORY ═══════════════ */
+
+$('#surveySelect').addEventListener('click', () => {
+  const wrap = $('#surveyMenuWrap');
+  if (!wrap.hidden) { wrap.hidden = true; return; }
+  $('#surveyMenu').innerHTML = SURVEYS.map(s =>
+    '<div class="menu-item' + (s === state.selectedSurvey ? ' is-selected' : '') + '" data-survey="' + esc(s) + '">' + esc(s) +
+    (s === state.selectedSurvey ? ' <i data-icon="check" class="menu-item-check"></i>' : '') + '</div>').join('');
+  wrap.hidden = false;
+  wrap.querySelectorAll('[data-survey]').forEach(mi => mi.addEventListener('click', () => {
+    state.selectedSurvey = mi.dataset.survey;
+    $('#surveySelectVal').textContent = state.selectedSurvey;
+    wrap.hidden = true;
+    renderHistory();
+    renderLinking();
+  }));
+  icons();
+});
+
+$('#historyToggle').addEventListener('click', () => {
+  const panel = $('#historyPanel');
+  panel.hidden = !panel.hidden;
+  $('#historyToggle').innerHTML = (panel.hidden ? 'View survey history <i data-icon="chevron-down"></i>' : 'Hide survey history <i data-icon="chevron-up"></i>');
+  if (!panel.hidden) renderHistory();
+  icons();
+});
+
+function renderHistory() {
+  const idx = SURVEYS.indexOf(state.selectedSurvey);
+  const chain = [CURRENT_SURVEY, ...SURVEYS.slice(idx === -1 ? 0 : idx)];
+  $('#historyChain').innerHTML = chain.map((s, i) =>
+    '<div class="gl-chain-item' + (i === 0 ? ' is-current' : '') + '">' + esc(s) +
+    (i === 0 ? ' <span class="gl-tag is-match">Current</span>' : '') + '</div>').join('');
+}
+
+/* ═══════════════ REVIEW DIALOG ═══════════════ */
+
+function openReview(id) {
+  const s = findSug(id); if (!s) return;
+  state.reviewTargetId = id;
+  state.reviewReviewer = s.reviewer || REVIEWERS[0];
+  $('#rvMessage').value = s.reviewMessage || '';
+  renderReviewer();
+  openOverlay('reviewOverlay');
+}
+
+function renderReviewer() {
+  const r = state.reviewReviewer;
+  const s = findSug(state.reviewTargetId);
+  const groupName = s ? s.newGroups[0].name : '';
+  const box = $('#rvReviewerBox');
+  if (!r) {
+    box.innerHTML = '<button class="btn btn-secondary" id="rvPick"><i data-icon="user-plus"></i> Choose a reviewer</button>';
+  } else {
+    box.innerHTML = '<div class="rv-reviewer">' +
+      '<div class="av av-36 ' + r.av + '">' + r.first[0] + r.last[0] + '</div>' +
+      '<div class="rv-reviewer-meta"><div class="rv-reviewer-name">' + esc(r.first + ' ' + r.last) +
+      ' <span class="gl-tag is-match"><i data-icon="zap"></i> Suggested</span></div>' +
+      '<div class="rv-reviewer-role">' + esc(r.role) + ' · manager of ' + esc(groupName) + '</div></div>' +
+      '<button class="btn btn-tertiary" id="rvPick">Change</button></div>';
+  }
+  box.querySelector('#rvPick').addEventListener('click', () => {
+    const wrap = $('#rvPickerWrap');
+    if (!wrap.hidden) { wrap.hidden = true; return; }
+    $('#rvPickerMenu').innerHTML = REVIEWERS.map(rv =>
+      '<div class="menu-item' + (state.reviewReviewer && state.reviewReviewer.id === rv.id ? ' is-selected' : '') + '" data-rv="' + rv.id + '">' +
+      '<span class="av av-24 ' + rv.av + '">' + rv.first[0] + rv.last[0] + '</span>' +
+      '<span class="menu-item-body"><span class="menu-item-title">' + esc(rv.first + ' ' + rv.last) + '</span><span class="menu-item-sub">' + esc(rv.role) + '</span></span>' +
+      (state.reviewReviewer && state.reviewReviewer.id === rv.id ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>').join('');
+    wrap.hidden = false;
+    wrap.querySelectorAll('[data-rv]').forEach(mi => mi.addEventListener('click', () => {
+      state.reviewReviewer = REVIEWERS.find(rv => rv.id === Number(mi.dataset.rv));
+      wrap.hidden = true;
+      renderReviewer();
+    }));
+    icons();
+  });
+  icons();
+}
+
+$('#rvSend').addEventListener('click', () => {
+  const s = findSug(state.reviewTargetId);
+  if (!s || !state.reviewReviewer) return;
+  s.status = 'under_review';
+  s.reviewer = state.reviewReviewer;
+  s.reviewMessage = $('#rvMessage').value.trim();
+  s.reviewSent = 'Jul 3, 2026';
+  $('#reviewOverlay').hidden = true;
+  toast('Review request sent to ' + s.reviewer.first + ' ' + s.reviewer.last);
+  renderLinking();
+});
+
+/* ═══════════════ MEMBERS DIALOG ═══════════════ */
+
+function openMembers(name, size) {
+  $('#membersSubtitle').textContent = name;
+  const n = Math.min(size, 12);
+  let rows = '';
+  for (let i = 0; i < n; i++) {
+    const full = FIRST_NAMES[i % FIRST_NAMES.length];
+    const initials = full.split(' ').map(w => w[0]).join('');
+    rows += '<div class="mb-row">' +
+      '<div class="av av-32 ' + AV_COLORS[i % AV_COLORS.length] + '">' + initials + '</div>' +
+      '<div class="mb-meta"><div class="mb-name">' + esc(full) + (i === 0 ? ' <span class="gl-tag is-match">Manager</span>' : '') + '</div>' +
+      '<div class="mb-email">user_' + (1000 + i) + '@company.com</div></div>' +
+      '<div class="mb-role">' + ROLES[i % ROLES.length] + '</div></div>';
+  }
+  if (size > n) rows += '<div class="mb-row"><div class="mb-meta"><div class="mb-email">+ ' + (size - n) + ' more members</div></div></div>';
+  $('#membersList').innerHTML = rows;
+  $('#membersTotal').textContent = size + ' members in total';
+  openOverlay('membersOverlay');
+  icons();
+}
+
+/* ═══════════════ STRUCTURE (in page) ═══════════════ */
+
+$('#treeSearch').addEventListener('input', () => { state.treeSearch = $('#treeSearch').value; renderTree(); });
+
+$('#treeStatusBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const menu = $('#treeStatusMenu');
+  if (!menu.hidden) { menu.hidden = true; return; }
+  const opts = [['suggested', 'Suggested'], ['review', 'Under review'], ['linked', 'Linked'], ['nolink', 'No link']];
+  menu.innerHTML = opts.map(([val, lbl]) =>
+    '<div class="menu-item' + (state.treeStatusFilter.has(val) ? ' is-selected' : '') + '" data-st="' + val + '">' +
+    '<span class="menu-cb"><i data-icon="check"></i></span>' +
+    '<span class="menu-item-body"><span class="menu-item-title">' + lbl + '</span></span></div>').join('') +
+    (state.treeStatusFilter.size > 0 ? '<div class="menu-divider"></div><div class="menu-item" data-clearst><span class="menu-item-body"><span class="menu-item-title">Clear filter</span></span></div>' : '');
+  menu.hidden = false;
+  menu.querySelectorAll('[data-st]').forEach(mi => mi.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const v = mi.dataset.st;
+    if (state.treeStatusFilter.has(v)) state.treeStatusFilter.delete(v); else state.treeStatusFilter.add(v);
+    $('#treeStatusVal').textContent = state.treeStatusFilter.size === 0 ? 'All' : state.treeStatusFilter.size + ' selected';
+    menu.hidden = true;
+    renderTree();
+  }));
+  const clear = menu.querySelector('[data-clearst]');
+  if (clear) clear.addEventListener('click', () => { state.treeStatusFilter.clear(); $('#treeStatusVal').textContent = 'All'; menu.hidden = true; renderTree(); });
+  icons();
+});
+
+$('#treeStructBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const menu = $('#treeStructMenu');
+  if (!menu.hidden) { menu.hidden = true; return; }
+  menu.innerHTML = STRUCTURES.map(st =>
+    '<div class="menu-item' + (st === state.treeStructure ? ' is-selected' : '') + '" data-struct="' + esc(st) + '">' + esc(st) +
+    (st === state.treeStructure ? ' <i data-icon="check" class="menu-item-check"></i>' : '') + '</div>').join('');
+  menu.hidden = false;
+  menu.querySelectorAll('[data-struct]').forEach(mi => mi.addEventListener('click', () => {
+    state.treeStructure = mi.dataset.struct;
+    $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
+    state.treeLinkingNodeId = null;
+    menu.hidden = true;
+    renderTree();
+  }));
+  icons();
+});
+
+function filterTree(nodes) {
+  const q = state.treeSearch.toLowerCase();
+  const sf = state.treeStatusFilter;
+  const normStatus = (l) => l.status === 'linked' ? 'linked' : l.status;
+  return nodes.map(n => {
+    const children = n.children ? filterTree(n.children) : [];
+    const nameHit = q && (n.name.toLowerCase().includes(q) || n.links.some(l => l.name.toLowerCase().includes(q)));
+    const statusHit = sf.size === 0 || n.links.some(l => sf.has(normStatus(l))) || (sf.has('nolink') && n.links.length === 0);
+    const selfMatch = q ? (nameHit && statusHit) : statusHit;
+    if (selfMatch || children.length > 0) return { ...n, children, _hit: q ? nameHit : false };
+    return null;
+  }).filter(Boolean);
+}
+
+function suggestionForNode(node) {
+  return suggestions.find(sg => sg.newGroups.some(g => g.name === node.name) && sg.structures.includes(state.treeStructure))
+    || suggestions.find(sg => sg.newGroups.some(g => g.name === node.name));
+}
+
+function treeRowHTML(n, level) {
+  const hasChildren = n.children && n.children.length > 0;
+  const isOpen = !state.treeCollapsed.has(n.id);
+  const indent = 'style="padding-left: calc(' + level + ' * var(--spacing-loose))"';
+  const isLinkingHere = state.treeLinkingNodeId === n.id;
+  const sug = suggestionForNode(n);
+  const isActive = sug && state.panelFocusId === sug.id && !$('#panelOverlay').hidden;
+
+  let linksHTML;
+  if (isLinkingHere) {
+    linksHTML = '<div class="tr-search-inline"><div class="search-wrap">' +
+      '<span class="search-icon"><i data-icon="search"></i></span>' +
+      '<input type="search" class="srch" id="treeLinkSearch" placeholder="Search groups" /></div>' +
+      '<div class="menu" id="treeLinkMenu"></div></div>' +
+      '<div class="tt-demo"><button class="ib ib-24 ib-tertiary" data-cancellink aria-label="Cancel"><i data-icon="cross"></i></button><div class="tooltip is-above">Cancel</div></div>';
+  } else {
+    const suggested = n.links.filter(l => l.status === 'suggested' || l.status === 'review');
+    const linked = n.links.filter(l => l.status === 'linked');
+    let parts = '';
+    linked.forEach(l => { parts += prevChipHTML(l, n, sug, false); });
+    suggested.forEach(l => { parts += prevChipHTML(l, n, sug, true); });
+    if (suggested.length > 0) {
+      parts += '<span class="tr-actions">' +
+        '<div class="tt-demo"><button class="ib ib-24 ib-primary" data-treeapprove="' + esc(n.id) + '" aria-label="Confirm link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
+        '<div class="tt-demo"><button class="ib ib-24 ib-secondary" data-treereject="' + esc(n.id) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>' +
+        '</span>';
+    }
+    if (n.links.length === 0) parts += '<span class="tr-nolink">No link</span>';
+    parts += '<div class="tt-demo tr-add"><button class="ib ib-24 ib-tertiary" data-treeadd="' + esc(n.id) + '" aria-label="Add link"><i data-icon="plus"></i></button><div class="tooltip is-above">Add link</div></div>';
+    linksHTML = parts;
+  }
+
+  const hasSuggestion = n.links.some(l => l.status === 'suggested' || l.status === 'review');
+  const expanded = state.treeExpanded.has(n.id);
+
+  let html = '<div class="tr-row' + (n._hit ? ' is-hit' : '') + (hasSuggestion ? ' is-clickable' : '') + (expanded ? ' is-expanded' : '') + '"' + (hasSuggestion ? ' data-sugrow="' + esc(n.id) + '"' : '') + '>' +
+    '<div class="tr-name" ' + indent + '>' +
+    (hasChildren
+      ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-right"></i></button>'
+      : '<span class="tr-toggle-spacer"></span>') +
+    '<span class="tr-group">' + esc(n.name) + '</span>' +
+    '<button class="gl-members-btn" data-members="' + esc(n.name) + '" data-size="' + (n.size || 10) + '"><i data-icon="users"></i> ' + (n.size || 10) + '</button>' +
+    (hasSuggestion ? '<i data-icon="chevron-down" class="tr-why-chev"></i>' : '') +
+    '</div><div class="tr-links">' + linksHTML + '</div></div>';
+
+  if (expanded && sug) html += treeDetailHTML(n, sug);
+
+  if (hasChildren && (isOpen || state.treeSearch)) {
+    html += n.children.map(c => treeRowHTML(c, level + 1)).join('');
+  }
+  return html;
+}
+
+// Rich chip for a previous-survey group: name + parent/level context + members + overlap
+function prevChipHTML(link, node, sug, isSuggested) {
+  const h = HISTORICAL_GROUPS.find(g => g.name === link.name);
+  const size = h ? h.size : (link.size || '');
+  const parent = h && h.parent ? h.parent : '';
+  const meta = [parent, size ? size + ' members' : ''].filter(Boolean).join(' · ');
+  const cls = isSuggested ? (link.status === 'review' ? 'is-review' : 'is-suggested') : 'is-linked';
+  const conf = isSuggested && sug && sug.overlap > 0 ? '<span class="tr-chip-conf">' + sug.overlap + '%</span>' : '';
+  const check = isSuggested ? '' : '<i data-icon="check" class="tr-chip-check"></i>';
+  const removeX = isSuggested ? '' : '<button class="tr-chip-x" data-treeunlink="' + esc(node.id) + '|' + esc(link.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button>';
+  return '<span class="tr-chip ' + cls + '">' + check +
+    '<span class="tr-chip-body"><span class="tr-chip-name">' + esc(link.name) + '</span>' +
+    (meta ? '<span class="tr-chip-meta">' + esc(meta) + '</span>' : '') + '</span>' +
+    conf + removeX + '</span>';
+}
+
+// Inline "why is this suggested" detail
+function treeDetailHTML(node, sug) {
+  const totalOld = sug.oldGroups.reduce((a, g) => a + (g.size || 0), 0);
+  const matchCount = Math.round((totalOld * sug.overlap) / 100);
+  const typeLabel = { match: 'Direct match', merge: 'Merged', split: 'Split', new: 'New group' }[sug.type];
+  const overlapBit = sug.overlap > 0
+    ? '<span class="tr-detail-stat"><span class="tr-detail-stat-num">' + sug.overlap + '%</span> member overlap</span>' +
+      '<span class="tr-detail-stat"><span class="tr-detail-stat-num">' + matchCount + ' of ' + totalOld + '</span> members matched</span>'
+    : '';
+  return '<div class="tr-detail"><div class="tr-detail-inner">' +
+    '<div class="tr-detail-top"><span class="gl-tag ' + ({match:'is-match',merge:'is-merge',split:'is-split',new:'is-new'}[sug.type]) + '"><i data-icon="' + ({match:'zap',merge:'aggregations',split:'share-1',new:'plus'}[sug.type]) + '"></i> ' + typeLabel + '</span>' + overlapBit + '</div>' +
+    '<p class="tr-detail-why">' + esc(cardInsight(sug)) + '</p>' +
+    '<div class="tr-detail-actions">' +
+    '<button class="btn btn-tertiary" data-detailreview="' + sug.id + '"><i data-icon="user-plus"></i> Request review</button>' +
+    '<div class="tr-detail-actions-main">' +
+    (sug.oldGroups.length > 0 ? '<button class="btn btn-secondary" data-treereject="' + esc(node.id) + '">Don’t link</button>' : '') +
+    '<button class="btn btn-primary" data-treeapprove="' + esc(node.id) + '"><i data-icon="check"></i> Confirm link</button>' +
+    '</div></div>' +
+    '</div></div>';
+}
+
+function renderTree() {
+  const body = $('#treeBody');
+  const data = filterTree(TREES[state.treeStructure]);
+  if (data.length === 0) {
+    body.innerHTML = '<div class="tr-empty"><div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>' +
+      '<div class="gl-empty-title" style="margin-top: var(--spacing-base-tight);">We couldn’t find any matches' + (state.treeSearch ? ' for “' + esc(state.treeSearch) + '”' : '') + '</div>' +
+      '<div class="gl-empty-body" style="margin-inline:auto;">Check the spelling or try another group name.</div></div>';
+    icons();
+    return;
+  }
+  body.innerHTML = data.map(n => treeRowHTML(n, 0)).join('');
+
+  body.querySelectorAll('[data-sugrow]').forEach(row => row.addEventListener('click', (e) => {
+    if (e.target.closest('button') || e.target.closest('input')) return;
+    const id = row.dataset.sugrow;
+    if (state.treeExpanded.has(id)) state.treeExpanded.delete(id); else state.treeExpanded.add(id);
+    renderTree();
+  }));
+  body.querySelectorAll('[data-detailreview]').forEach(b => b.addEventListener('click', () => openReview(Number(b.dataset.detailreview))));
+  body.querySelectorAll('[data-treetoggle]').forEach(b => b.addEventListener('click', () => {
+    const id = b.dataset.treetoggle;
+    if (state.treeCollapsed.has(id)) state.treeCollapsed.delete(id); else state.treeCollapsed.add(id);
+    renderTree();
+  }));
+  body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
+  body.querySelectorAll('[data-treeapprove]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treeapprove, 'approve')));
+  body.querySelectorAll('[data-treereject]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treereject, 'reject')));
+  body.querySelectorAll('[data-treeadd]').forEach(b => b.addEventListener('click', () => {
+    state.treeLinkingNodeId = b.dataset.treeadd;
+    renderTree();
+    const input = $('#treeLinkSearch');
+    if (input) { input.focus(); renderTreeLinkMenu(''); input.addEventListener('input', () => renderTreeLinkMenu(input.value)); }
+  }));
+  body.querySelectorAll('[data-cancellink]').forEach(b => b.addEventListener('click', () => { state.treeLinkingNodeId = null; renderTree(); }));
+  body.querySelectorAll('[data-treeunlink]').forEach(b => b.addEventListener('click', () => {
+    const [nodeId, linkName] = b.dataset.treeunlink.split('|');
+    const node = findTreeNode(nodeId);
+    if (node) {
+      node.links = node.links.filter(l => l.name !== linkName);
+      syncSuggestionForNode(node);
+      toast('Link to ' + linkName + ' removed');
+      renderTree(); renderLinking();
+    }
+  }));
+  const input = $('#treeLinkSearch');
+  if (input) { renderTreeLinkMenu(''); input.addEventListener('input', () => renderTreeLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
+  icons();
+}
+
+function findTreeNode(id, nodes) {
+  nodes = nodes || TREES[state.treeStructure];
+  for (const n of nodes) {
+    if (n.id === id) return n;
+    if (n.children) { const hit = findTreeNode(id, n.children); if (hit) return hit; }
+  }
+  return null;
+}
+
+function syncSuggestionForNode(node) {
+  const s = suggestions.find(sg => sg.newGroups.some(g => g.name === node.name));
+  if (!s) return;
+  if (node.links.length === 0) s.status = 'rejected';
+  else if (node.links.every(l => l.status === 'linked')) s.status = 'approved';
+  else s.status = 'pending';
+}
+
+function treeAction(nodeId, action) {
+  const node = findTreeNode(nodeId); if (!node) return;
+  if (action === 'approve') {
+    node.links.forEach(l => { if (l.status === 'suggested' || l.status === 'review') l.status = 'linked'; });
+    toast(node.name + ' linked');
+  } else {
+    node.links = node.links.filter(l => l.status !== 'suggested' && l.status !== 'review');
+    toast(node.name + ' not linked');
+  }
+  syncSuggestionForNode(node);
+  renderTree();
+  renderLinking();
+}
+
+function renderTreeLinkMenu(q) {
+  const menu = $('#treeLinkMenu'); if (!menu) return;
+  const node = findTreeNode(state.treeLinkingNodeId); if (!node) return;
+  const hits = HISTORICAL_GROUPS.filter(g => g.name.toLowerCase().includes(q.toLowerCase()) && !node.links.some(l => l.name === g.name));
+  menu.innerHTML = hits.length === 0
+    ? '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>'
+    : hits.map(g => '<div class="menu-item" data-pick="' + esc(g.name) + '"><span class="menu-item-body"><span class="menu-item-title">' + esc(g.name) + '</span><span class="menu-item-sub">' + g.size + ' members</span></span></div>').join('');
+  menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
+    node.links.push({ name: mi.dataset.pick, status: 'linked' });
+    state.treeLinkingNodeId = null;
+    syncSuggestionForNode(node);
+    toast(mi.dataset.pick + ' linked to ' + node.name);
+    renderTree();
+    renderLinking();
+  }));
+  icons();
+}
+
+/* ═══════════════ OVERLAYS ═══════════════ */
+
+function openOverlay(id) {
+  const ov = document.getElementById(id);
+  ov.hidden = false;
+  const focusable = ov.querySelector('[data-autofocus]') || ov.querySelector('input, textarea, button:not(.dialog-close)');
+  if (focusable) setTimeout(() => focusable.focus({ preventScroll: true }), 50);
+}
+function closeOverlays() {
+  document.querySelectorAll('.overlay').forEach(ov => { ov.hidden = true; });
+  state.treeLinkingNodeId = null;
+}
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.close).hidden = true; }));
+document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedown', (e) => { if (e.target === ov) ov.hidden = true; }));
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const vis = [...document.querySelectorAll('.overlay')].filter(o => !o.hidden);
+  if (vis.length) vis[vis.length - 1].hidden = true;
+});
+
+$('#exportBtn').addEventListener('click', () => toast('Mappings exported to Excel'));
+
+/* ═══════════════ TOOLTIP AUTO-POSITION ═══════════════ */
+(function () {
+  const GAP = 10, PAD = 8;
+  const place = (demo) => {
+    const tip = demo.querySelector('.tooltip');
+    if (!tip) return;
+    tip.style.position = 'fixed'; tip.style.margin = '0'; tip.style.transform = 'none';
+    tip.style.left = '0'; tip.style.top = '0'; tip.style.right = 'auto'; tip.style.bottom = 'auto'; tip.style.height = 'auto';
+    const t = demo.getBoundingClientRect();
+    const tw = tip.offsetWidth, th = tip.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+    const pref = tip.classList.contains('is-below') ? 'below' : tip.classList.contains('is-left') ? 'left' : tip.classList.contains('is-right') ? 'right' : 'above';
+    const fits = { above: t.top - th - GAP >= PAD, below: t.bottom + th + GAP <= vh - PAD, left: t.left - tw - GAP >= PAD, right: t.right + tw + GAP <= vw - PAD };
+    const dir = [pref, 'above', 'below', 'right', 'left'].find(dd => fits[dd]) || pref;
+    let x, y;
+    if (dir === 'above')      { x = t.left + t.width / 2 - tw / 2; y = t.top - th - GAP; }
+    else if (dir === 'below') { x = t.left + t.width / 2 - tw / 2; y = t.bottom + GAP; }
+    else if (dir === 'left')  { x = t.left - tw - GAP; y = t.top + t.height / 2 - th / 2; }
+    else                      { x = t.right + GAP; y = t.top + t.height / 2 - th / 2; }
+    tip.style.left = Math.max(PAD, Math.min(x, vw - tw - PAD)) + 'px';
+    tip.style.top = Math.max(PAD, Math.min(y, vh - th - PAD)) + 'px';
+    tip.classList.remove('is-above', 'is-below', 'is-left', 'is-right');
+    tip.classList.add('is-' + dir);
+  };
+  const onEnter = (e) => { const demo = e.target.closest && e.target.closest('.tt-demo'); if (demo) place(demo); };
+  document.addEventListener('mouseover', onEnter);
+  document.addEventListener('focusin', onEnter);
+})();
+
+/* ═══════════════ INIT ═══════════════ */
+renderHistory();
+renderOverview();
+renderLinking();
+icons();
+</script>
+</body>
+</html>

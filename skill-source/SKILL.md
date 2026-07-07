@@ -5,7 +5,7 @@ description: Bouw prototypes, mockups, designs, schermen, pagina's of losse comp
 
 # Skill: Effectory Design System
 
-**Version:** 1.9.31
+**Version:** 1.9.34
 
 Activeer deze skill wanneer iemand vraagt een **prototype**, **mockup**, **design**, **scherm**, **pagina** of **losse component-demo** te bouwen met onze design-system-componenten.
 
@@ -46,6 +46,9 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen met een vaste, go
 2. Kopieer `reference-prototypes/<naam>.html` naar de werkdirectory en pas alleen aan wat de gebruiker vraagt. Verzin geen afwijkende layout of states.
 
 **Beschikbare schermen**
+
+- **My Effectory homepage (Coordinator)** → `reference-prototypes/homepage.md` + `homepage.html`
+  De landings-/activiteiten-pagina die een coordinator bij inloggen ziet: app-shell (`.mainnav`) met een gecentreerde wide-kolom — welkomstheader ("Welcome {naam}!" + "Let's understand your people"), tabs (Activity/Resources/Getting ready/Webinars), een **Latest activities**-kaart (activiteitrijen met gekleurde icoontegels + actieknop), een **Updates**-kaart (illustratie-thumbnails + gekleurde labels) en **Helpful articles** (2-koloms interactieve kaarten met illustratie links). Voor "de My Effectory homepage", "coordinator home", "het homescherm" of "de startpagina" — in welke taal of bewoording dan ook.
 
 - **Reports pagina** → `reference-prototypes/reports.md` + `reports.html`
   Het scherm waar je survey-rapporten downloadt (essential + raw-data reports, taalkeuze, generate/download), onderdeel van het results-/result-dashboard. Bedoelt iemand de reports- of rapporten-pagina, "download reports", of het rapporten-overzicht in het results-dashboard — in NL of EN, hoe dan ook geformuleerd — dan is dit het scherm.
@@ -126,6 +129,14 @@ Gebruik de boilerplate uit `design-system-reference.md` sectie 1, met deze links
 Gebruik altijd design tokens of foundation-variabelen voor kleuren, spacing en shadows.
 Nooit: `color: #0a9d99`, `padding: 16px`, `box-shadow: 0 2px 4px ...`
 Altijd: `color: var(--content-brand-base)`, `padding: var(--spacing-base)`, `box-shadow: var(--sh-card)`
+
+### 3b. Let op contrast bij tekstkleuren
+Kies tekstkleuren op **leesbaarheid/contrast**, niet alleen op hiërarchie.
+- `--content-subtle` (50% opacity) is **alleen** voor niet-essentiële, decoratieve micro-tekst die bewust op de achtergrond mag vallen (bijv. een uitgegrijsde hint). Het haalt op een witte achtergrond **geen** WCAG AA-contrast voor normale tekst.
+- Voor **echte, leesbare content** — timestamps, meta-regels, sub-labels, omschrijvingen, helper text — gebruik **`--content-secondary`** (80% opacity). Dat is de default voor secundaire tekst.
+- Gebruik `--content-base` voor primaire tekst.
+
+Vuistregel: twijfel je tussen `--content-subtle` en `--content-secondary` voor tekst die de gebruiker moet kunnen lezen, kies dan **`--content-secondary`**. Reserveer `--content-subtle` voor puur decoratieve of bewust gedempte accenten.
 
 ### 4. UX-copy via de `ux-copy` skill
 Alle zichtbare tekst in een prototype (knoppen, labels, helper text, placeholders, errors, empty states, tooltips, dialog-titels, notificaties, microcopy in component-demo's) **moet** via de **`ux-copy`** skill geschreven of gereviewd worden, zodat de tekst in de Effectory tone of voice staat.
