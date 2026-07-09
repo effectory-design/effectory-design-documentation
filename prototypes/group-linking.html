@@ -27,37 +27,60 @@
     /* Linking view = focus flow → narrow container */
     .app-main-inner.is-narrow { max-width: calc(960px + 2 * var(--page-x)); }
 
-    /* ── Overview: survey status card ── */
-    .ov-status-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
-    .ov-status-left { display: flex; align-items: center; gap: var(--spacing-base); }
-    .ov-status-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-md); background: var(--bg-brand-subtle); color: var(--content-brand-base); display: flex; align-items: center; justify-content: center; }
-    .ov-status-icon i { width: 20px; height: 20px; display: flex; }
-    .ov-status-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
-    .ov-status-sub { font-size: 14px; color: var(--content-secondary); margin-top: 2px; }
+    /* ── Overview: breadcrumb + header actions ── */
+    .ov-crumbs { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-loose); font-size: 14px; }
+    .ov-crumb-back { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); background: var(--bg-base); border: 1px solid var(--border-action); border-radius: var(--radius-base); box-shadow: var(--sh-action); padding: var(--spacing-extra-tight) var(--spacing-base-tight); font-family: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; }
+    .ov-crumb-back:hover { border-color: var(--border-action-hover); color: var(--content-base); }
+    .ov-crumb-back i { width: 14px; height: 14px; display: flex; }
+    .ov-crumb-sep { color: var(--content-subtle); }
+    .ov-crumb-current { color: var(--content-secondary); }
+    .ph-actions { display: flex; align-items: center; gap: var(--spacing-base); }
+    .ph-actions-sep { width: 1px; height: 24px; background: var(--border-base); }
+    .ov-avatar { width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue-base); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
 
-    /* Timeline */
-    .ov-timeline { margin-top: var(--spacing-loose); border-top: 1px solid var(--border-base); padding-top: var(--spacing-loose); }
-    .ov-tl-zones { display: flex; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
-    .ov-tl-zone { flex: 1; display: flex; align-items: center; gap: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: var(--spacing-extra-tight) var(--spacing-base-tight); }
-    .ov-tl-zone.is-running { flex: 2; color: var(--content-warning-base); background: var(--bg-warning-subtle); }
-    .ov-tl-zone.is-done { color: var(--content-positive-base); background: var(--bg-positive-subtle); }
-    .ov-tl-zone i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
-    .ov-tl-dates { font-size: 12px; font-weight: 400; color: var(--content-secondary); margin-left: var(--spacing-tight); }
-    .ov-tl-track { position: relative; height: 4px; border-radius: var(--radius-full); background: var(--bg-tertiary); margin: var(--spacing-base) 0 var(--spacing-super-loose); }
-    .ov-tl-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 35%; border-radius: var(--radius-full); background: var(--bg-brand-base); }
-    .ov-tl-now { position: absolute; left: 35%; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: var(--radius-full); background: var(--bg-brand-base); box-shadow: 0 0 0 4px var(--bg-brand-subtle); }
-    .ov-tl-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); border: 2px solid var(--bg-base); }
-    .ov-tl-dot.is-past { background: var(--bg-brand-base); }
-    .ov-tl-ms { position: absolute; top: 12px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-extra-tight); }
-    .ov-tl-ms-icon { width: 28px; height: 28px; border-radius: var(--radius-base); border: 1px solid var(--border-base); background: var(--bg-base); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
+    /* ── Overview: survey status banner + timeline ── */
+    .ov-tl-card { margin-top: var(--spacing-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); overflow: hidden; }
+    .ov-banner { display: flex; align-items: center; gap: var(--spacing-base); padding: var(--spacing-base-tight) var(--spacing-loose); }
+    .ov-banner-icon { width: 24px; height: 24px; flex-shrink: 0; border-radius: var(--radius-sm); background: var(--bg-warning-bold); color: var(--content-inverse-base); display: flex; align-items: center; justify-content: center; box-shadow: var(--sh-action); }
+    .ov-banner-icon i { width: 14px; height: 14px; display: flex; }
+    .ov-banner-text { flex: 1; min-width: 0; font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .ov-banner-btn { flex-shrink: 0; }
+
+    /* coloured zone bands */
+    .ov-tl { position: relative; display: flex; height: 180px; border-top: 1px solid var(--border-base); }
+    .ov-tl-band { position: relative; box-sizing: border-box; }
+    .ov-tl-band + .ov-tl-band { border-left: 2px solid var(--bg-base); }
+    .ov-tl-band.is-planned { background: var(--bg-tertiary); }
+    .ov-tl-band.is-running { background: var(--bg-accent-yellow-subtle); }
+    .ov-tl-band.is-done { background: var(--bg-accent-green-subtle); }
+    .ov-tl-band-lbl { position: absolute; left: var(--spacing-loose); top: var(--spacing-base); display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .ov-tl-status { width: 16px; height: 16px; flex-shrink: 0; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+    .ov-tl-status i { width: 10px; height: 10px; display: flex; }
+    .ov-tl-status.is-planned { border: 2px solid var(--content-subtle); }
+    .ov-tl-status.is-running { background: var(--bg-warning-bold); color: var(--content-inverse-base); }
+    .ov-tl-status.is-done { background: var(--bg-positive-base); color: var(--content-inverse-base); }
+    .ov-tl-period { position: absolute; left: var(--spacing-loose); top: calc(var(--spacing-base) + 30px); display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; color: var(--content-base); }
+    .ov-tl-period i { width: 20px; height: 20px; display: flex; color: var(--content-subtle); }
+
+    /* track + progress + milestones (inset lane over the bands) */
+    .ov-tl-lane { position: absolute; left: var(--spacing-loose); right: var(--spacing-loose); top: 0; bottom: 0; }
+    .ov-tl-track { position: absolute; left: 0; right: 0; top: 94px; height: 4px; border-radius: var(--radius-full); background: var(--content-subtle); }
+    .ov-tl-fill { position: absolute; left: 0; top: 94px; height: 4px; border-radius: var(--radius-full); background: var(--content-info-secondary); }
+    .ov-tl-now { position: absolute; top: 96px; width: 16px; height: 16px; border-radius: var(--radius-full); background: var(--content-info-secondary); border: 3px solid var(--bg-base); transform: translate(-50%, -50%); box-shadow: var(--sh-action); z-index: 2; }
+    .ov-tl-ms { position: absolute; top: 92px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+    .ov-tl-ms-dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--content-info-secondary); }
+    .ov-tl-ms.is-future .ov-tl-ms-dot { background: var(--content-subtle); }
+    .ov-tl-ms-stem { width: 2px; height: 24px; margin-top: var(--spacing-extra-tight); background: var(--border-action); }
+    .ov-tl-ms-icon { margin-top: var(--spacing-extra-tight); width: 24px; height: 24px; border-radius: var(--radius-sm); background: var(--bg-base); box-shadow: var(--sh-card); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .ov-tl-ms-icon i { width: 14px; height: 14px; display: flex; }
-    .ov-tl-ms.is-past .ov-tl-ms-icon { color: var(--content-brand-base); border-color: var(--border-brand-subtle); }
 
-    .ov-tip { margin-top: var(--spacing-loose); }
+    .ov-tip { margin-top: 0; }
 
     /* Overview: settings sections */
     .ov-section { margin-top: var(--spacing-extra-loose); }
-    .ov-section-title { display: block; margin: 0 calc(-1 * var(--spacing-loose)) var(--spacing-base); padding: 0 var(--spacing-loose) var(--spacing-loose); border-bottom: 1px solid var(--border-base); }
+    .ov-section-title { display: flex; align-items: center; justify-content: space-between; margin: 0 calc(-1 * var(--spacing-loose)) var(--spacing-base); padding: 0 var(--spacing-loose) var(--spacing-loose); border-bottom: 1px solid var(--border-base); }
+    .ov-section-chev { display: flex; color: var(--content-secondary); cursor: pointer; }
+    .ov-section-chev i { width: 20px; height: 20px; display: flex; }
     .ov-row { display: flex; align-items: center; gap: var(--spacing-base); margin: 0 calc(-1 * var(--spacing-loose)); padding: var(--spacing-base) var(--spacing-loose); border-bottom: 1px solid var(--border-base); text-decoration: none; color: inherit; }
     .ov-row:last-child { border-bottom: none; padding-bottom: 0; }
     .ov-row:first-of-type { padding-top: 0; }
@@ -85,7 +108,7 @@
     .gl-ph-desc { font-size: 14px; color: var(--content-secondary); line-height: 1.6; max-width: 720px; margin-top: var(--spacing-extra-tight); }
 
     /* Comparing-with card */
-    .gl-compare-card { margin-top: var(--spacing-loose); margin-bottom: var(--spacing-loose); }
+    .gl-compare-card { margin-top: var(--spacing-loose); margin-bottom: var(--spacing-super-loose); box-shadow: var(--sh-card); }
     .gl-cc-row { display: flex; align-items: center; gap: var(--spacing-base); }
     .gl-cc-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-action); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .gl-cc-icon i { width: 18px; height: 18px; display: flex; }
@@ -93,6 +116,8 @@
     .gl-cc-label { font-size: 12px; font-weight: 500; color: var(--content-secondary); margin-bottom: 2px; }
     .gl-survey-pick { position: relative; display: inline-block; }
     .gl-survey-pick .rv-picker { position: absolute; top: 100%; left: 0; margin-top: var(--spacing-extra-tight); z-index: 60; min-width: 260px; }
+    .gl-survey-pick .rv-picker .menu { position: static; }
+    .gl-compare-card { overflow: visible; }
     .gl-cc-select { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: none; padding: 0; font-family: inherit; font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--content-base); cursor: pointer; }
     .gl-cc-select:hover { color: var(--content-brand-base); }
     .gl-cc-select i { width: 16px; height: 16px; display: flex; color: var(--content-subtle); }
@@ -263,51 +288,151 @@
     .tr-controls .search-wrap { flex: 1; min-width: 220px; }
     .tr-ctl { position: relative; }
     .tr-ctl .menu { position: absolute; top: 100%; right: 0; margin-top: var(--spacing-extra-tight); z-index: 60; }
-    .tr-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); padding: var(--spacing-tight) var(--spacing-base); border-top: 1px solid var(--border-base); border-bottom: 1px solid var(--border-base); background: var(--bg-secondary); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--content-secondary); border-radius: var(--radius-md) var(--radius-md) 0 0; }
-    .tr-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); align-items: center; padding: var(--spacing-tight) var(--spacing-base); border-bottom: 1px solid var(--border-base); min-height: 52px; }
-    .tr-row.is-clickable { cursor: pointer; }
-    .tr-row.is-active { background: var(--bg-brand-subtle); box-shadow: inset 3px 0 0 var(--bg-brand-base); }
-    .tr-row:hover { background: var(--bg-base-hover); }
-    .tr-name { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
+    /* Structure selector — subtle pill tabs inside the grey panel */
+    .struct-picker { margin-bottom: var(--spacing-loose); }
+    .struct-tabs { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
+    .struct-tab { font-family: inherit; display: flex; align-items: center; gap: var(--spacing-tight); background: transparent; border: 1px solid var(--border-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base); cursor: pointer; transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out); }
+    .struct-tab:hover { background: var(--bg-base); }
+    .struct-tab.is-active { background: var(--bg-base); border-color: var(--border-base-hover); box-shadow: var(--sh-card); }
+    .struct-tab-icon { width: 18px; height: 18px; display: flex; color: var(--content-secondary); flex-shrink: 0; }
+    .struct-tab.is-active .struct-tab-icon { color: var(--content-base); }
+    .struct-tab-name { font-size: 14px; font-weight: 500; color: var(--content-secondary); white-space: nowrap; }
+    .struct-tab.is-active .struct-tab-name { font-weight: 600; color: var(--content-base); }
+    .struct-tab-stat { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; }
+    .struct-tab-stat::before { content: ''; width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; }
+    .struct-tab-stat.is-all { color: var(--content-positive-base); }
+    .struct-tab-stat.is-partial { color: var(--content-brand-base); }
+    .struct-tab-stat.is-none { color: var(--content-subtle); }
+
+    .gl-struct-section { margin-top: var(--spacing-loose); background: var(--bg-secondary); border-radius: var(--radius-lg); padding: var(--spacing-super-loose); }
+    /* Column headers — two grey bars, aligned to the card columns */
+    /* Prototype-local until the token lands in Figma: subtle→hover step from
+       --bg-info-subtle (#e6f0fe) toward --bg-info-base, matching the system's
+       base→base-hover / secondary→secondary-hover logic. */
+    :root { --gl-gutter: 60px; --bg-info-subtle-hover: #d8e6fd; }
+    .tr-cols { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 calc(-1 * var(--spacing-super-loose)) var(--spacing-tight); padding: var(--spacing-base-tight) var(--spacing-super-loose) 0; background: var(--bg-secondary); box-shadow: 0 1px 0 var(--border-base); }
+    .tr-cols span { background: none; padding: 0 var(--spacing-base) var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); }
+    .tr-cols span:first-child { grid-column: 1; }
+    .tr-cols span:last-child { grid-column: 3; }
+
+    /* Two columns of cards + a middle connector column */
+    .tr-card { margin-bottom: var(--spacing-tight); position: relative; }
+    /* accordion: children container animates its height + opacity so rows below slide smoothly */
+    /* visible when open + settled so the inline link picker can overflow the row; clipped only while collapsed or animating */
+    .tr-children { overflow: visible; will-change: height; }
+    .tr-children.is-collapsed { height: 0; opacity: 0; overflow: hidden; }
+    .tr-children.is-animating { overflow: hidden; transition: height 360ms var(--ease-out), opacity 300ms var(--ease-out); }
+    @media (prefers-reduced-motion: reduce) { .tr-children.is-animating { transition: none; } }
+    .tr-card:hover { z-index: 20; }
+    .tr-card-grid { display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; align-items: stretch; }
+    .tr-leftcard { flex: 1; position: relative; z-index: 2; display: flex; align-items: flex-start; gap: var(--spacing-tight); min-width: 0; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-base-tight); transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
+    .tr-leftcol { display: flex; align-items: stretch; min-width: 0; }
+    .tr-add-slot.tt-demo { position: relative; z-index: 1; margin-left: -7px; display: flex; align-items: flex-start; flex-shrink: 0; }
+    /* space is reserved by .tr-add-slot; only the tab slides + fades in on hover/focus → no layout shift */
+    .tr-add-btn { display: flex; align-items: center; justify-content: center; width: 42px; height: 38px; margin-top: 6px; padding: 0 var(--spacing-tight) 0 15px; border: 1px solid var(--border-base); border-left: none; background: var(--bg-base); color: var(--content-secondary); border-radius: 0 var(--radius-base) var(--radius-base) 0; box-shadow: var(--sh-action); cursor: pointer; opacity: 0; pointer-events: none; transform: translateX(-10px); transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
+    .tr-card:hover .tr-add-btn, .tr-add-slot:focus-within .tr-add-btn { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    .tr-add-btn:hover { background: var(--bg-base-hover); color: var(--content-base); }
+    .tr-add-btn i { width: 18px; height: 18px; display: flex; }
+    .tr-card.is-hit .tr-leftcard { border-color: var(--border-brand-base); }
+    /* hover a row: light up both sides + the connector so the link is obvious.
+       neutral by default; blue only where the card is already blue (suggested) */
+    .tr-card:hover .tr-leftcard { border-color: var(--border-action-hover); background: var(--bg-base-hover); }
+    .tr-card:hover .tr-lrow:not(.is-empty) { border-color: var(--border-action-hover); background: var(--bg-base-hover); }
+    .tr-card:hover .tr-lrow.is-suggested { border-color: var(--border-info-base-hover); background: var(--bg-info-subtle-hover); }
+    .tr-card:hover .tr-conn-path.is-linked { stroke: var(--border-action-hover); }
+    .tr-card:hover .tr-conn-path.is-suggested { stroke: var(--border-info-base-hover); }
     .tr-toggle { background: none; border: none; padding: 2px; display: flex; color: var(--content-subtle); cursor: pointer; border-radius: var(--radius-sm); flex-shrink: 0; }
     .tr-toggle:hover { color: var(--content-base); background: var(--bg-base-pressed); }
     .tr-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-base) var(--ease-standard); }
-    .tr-toggle.is-open i { transform: rotate(90deg); }
+    .tr-toggle.is-open i { transform: rotate(0deg); }
+    .tr-toggle:not(.is-open) i { transform: rotate(-90deg); }
     .tr-toggle-spacer { width: 20px; flex-shrink: 0; }
-    .tr-group { font-size: 14px; font-weight: 500; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .tr-row.is-hit .tr-group { color: var(--content-brand-base); font-weight: 600; }
-    .tr-links { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; min-width: 0; }
-    .tr-chip { display: inline-flex; align-items: center; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-extra-tight) var(--spacing-tight) var(--spacing-extra-tight) var(--spacing-base-tight); font-size: 12px; font-weight: 500; color: var(--content-base); }
-    .tr-chip.is-linked { border-color: var(--border-positive-base); background: var(--bg-positive-subtle); color: var(--content-positive-base); }
-    .tr-chip-check { display: flex; width: 12px; height: 12px; flex-shrink: 0; }
-    .tr-chip.is-suggested { border-color: var(--border-highlight-base); background: var(--bg-highlight-subtle); color: var(--content-highlight-base); }
-    .tr-chip.is-review { border-color: var(--border-accent-purple-base); background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
-    .tr-chip-body { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
-    .tr-chip-name { font-weight: 600; }
-    .tr-chip-meta { font-size: 12px; font-weight: 400; opacity: .7; }
-    .tr-chip-conf { flex-shrink: 0; background: var(--bg-base); border-radius: var(--radius-full); padding: 0 var(--spacing-tight); font-size: 12px; font-weight: 700; }
-    .tr-chip-x { background: none; border: none; padding: 0; display: flex; color: var(--content-subtle); cursor: pointer; opacity: 0; align-self: center; }
-    .tr-chip:hover .tr-chip-x { opacity: 1; }
-    .tr-chip-x:hover { color: var(--content-negative-base); }
-    .tr-chip-x i { width: 12px; height: 12px; display: flex; }
-    .tr-why-chev { width: 14px; height: 14px; display: flex; flex-shrink: 0; color: var(--content-subtle); margin-left: var(--spacing-extra-tight); transition: transform var(--motion-base) var(--ease-standard); }
-    .tr-row.is-expanded .tr-why-chev { transform: rotate(180deg); color: var(--content-brand-base); }
-    .tr-row.is-clickable:hover { background: var(--bg-base-hover); }
-    /* Inline "why suggested" detail */
-    .tr-detail { grid-column: 1 / -1; background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); animation: tr-detail-in var(--motion-base) var(--ease-out); }
-    @keyframes tr-detail-in { from { opacity: 0; } to { opacity: 1; } }
-    .tr-detail-inner { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base) var(--spacing-loose); display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
-    .tr-detail-top { display: flex; align-items: center; gap: var(--spacing-loose); flex-wrap: wrap; }
-    .tr-detail-stat { font-size: 12px; color: var(--content-secondary); }
-    .tr-detail-stat-num { font-weight: 700; color: var(--content-base); }
-    .tr-detail-why { font-size: 14px; color: var(--content-secondary); line-height: 1.6; margin: 0; max-width: 640px; }
-    .tr-detail-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; margin-top: var(--spacing-extra-tight); }
-    .tr-detail-actions-main { display: flex; align-items: center; gap: var(--spacing-tight); }
-    .tr-actions { display: flex; align-items: center; gap: var(--spacing-extra-tight); }
-    .tr-add { opacity: 0; margin-left: auto; }
-    .tr-row:hover .tr-add { opacity: 1; }
-    .tr-nolink { font-size: 12px; color: var(--content-subtle); font-style: italic; }
-    .tr-search-inline { position: relative; flex: 1; max-width: 260px; }
+    .tr-group { font-size: 14px; font-weight: 600; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; min-width: 28px; }
+    .tr-card.is-hit .tr-group { color: var(--content-brand-base); }
+    /* count badge (blue) */
+    .tr-count { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); border: 1px solid var(--border-base); background: none; color: var(--content-secondary); font-family: inherit; font-size: 12px; font-weight: 500; padding: 2px var(--spacing-tight); border-radius: var(--radius-sm); cursor: pointer; flex-shrink: 0; }
+    .tr-count i { width: 12px; height: 12px; display: flex; }
+    .tr-unlinked { flex-shrink: 0; margin-left: auto; padding-left: var(--spacing-base); display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 500; color: var(--content-secondary); white-space: nowrap; align-self: center; }
+    .tr-unlinked i { width: 12px; height: 12px; display: flex; color: var(--content-warning-base); }
+    .tr-count:hover { border-color: var(--border-action-hover); background: var(--bg-base-hover); color: var(--content-base); }
+
+    /* middle connector column — branching bracket lines */
+    .tr-card-mid { position: relative; }
+    .tr-conn-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .tr-conn-path { fill: none; stroke-width: 1.5; transition: stroke var(--motion-fast) var(--ease-out); }
+    .tr-conn-path.is-linked { stroke: var(--border-action); }
+    .tr-conn-path.is-suggested { stroke: var(--border-info-base); stroke-dasharray: 4 3; }
+    .tr-conn-path.is-search { stroke: var(--border-action); stroke-dasharray: 4 3; }
+
+    /* right column: previous-survey link cards */
+    .tr-card-right { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
+    .tr-rrow { display: flex; align-items: center; min-width: 0; }
+    .tr-lrow { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-tight) var(--spacing-base-tight); font-size: 14px; min-height: 50px; transition: border-color var(--motion-fast) var(--ease-out); }
+    .tr-lrow.is-suggested { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
+    .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: flex-start; }
+    /* inline "link a group" picker (flow 1) */
+    .tr-linksearch { position: relative; flex: 1; min-width: 0; }
+    .tr-linksearch .search-wrap { width: 100%; }
+    /* match the link-card height (50px) so the picker lines up with the group cards */
+    .tr-linksearch .srch { min-height: 50px; }
+    .tr-linksearch .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 260px; overflow-y: auto; }
+    .tr-addlink { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: none; padding: var(--spacing-tight) var(--spacing-base-tight); font-family: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; border-radius: var(--radius-md); }
+    .tr-addlink:hover { color: var(--content-brand-base); background: var(--bg-base-hover); }
+    .tr-addlink i { width: 14px; height: 14px; display: flex; }
+    .tlm-item.is-disabled { opacity: .45; pointer-events: none; }
+    .tlm-item { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .tlm-chev { flex-shrink: 0; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; padding: 0; border: none; background: none; color: var(--content-subtle); cursor: pointer; border-radius: var(--radius-sm); }
+    .tlm-chev.is-leaf { cursor: default; }
+    .tlm-chev:hover:not(.is-leaf) { color: var(--content-base); background: var(--bg-base-pressed); }
+    .tlm-chev i { width: 14px; height: 14px; display: flex; transition: transform var(--motion-base) var(--ease-standard); }
+    .tlm-chev.is-collapsed i { transform: rotate(-90deg); }
+    .tlm-item.is-context .menu-item-title { color: var(--content-secondary); font-weight: 500; }
+    .tlm-item.is-context .menu-item-sub { color: var(--content-subtle); }
+    .tlm-name-row { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
+    .tr-lrow-main { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; flex: 0 1 auto; }
+    .tr-lrow-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
+    .tr-lrow.is-suggested .tr-lrow-icon { color: var(--content-info-base); }
+    .tr-lrow-name { font-weight: 500; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .tr-lrow-act { display: flex; align-items: center; gap: var(--spacing-extra-tight); flex-shrink: 0; }
+    .tr-act-btn { width: 30px; height: 30px; border-radius: var(--radius-base); } .tr-act-btn svg { width: 16px; height: 16px; }
+    .tr-act-btn.is-confirm { background: var(--bg-info-base); border-color: var(--border-info-base); color: var(--content-inverse-base); }
+    .tr-act-btn.is-confirm:hover { background: var(--bg-info-base-hover); border-color: var(--border-info-base-hover); }
+    .tr-act-btn.is-reject { background: var(--bg-info-subtle); border-color: var(--border-info-base); color: var(--content-info-base); }
+    .tr-act-btn.is-reject:hover { background: var(--bg-info-subtle); border-color: var(--border-info-base-hover); }
+    .tr-lrow-x { background: none; border: none; padding: 0; display: flex; color: var(--content-subtle); cursor: pointer; opacity: 0; }
+    .tr-lrow:hover .tr-lrow-x { opacity: 1; }
+    .tr-lrow-x:hover { color: var(--content-negative-base); }
+    .tr-lrow-x i { width: 14px; height: 14px; display: flex; }
+    .tr-lrow-add { border: 1px dashed var(--border-action); background: none; color: var(--content-secondary); border-radius: var(--radius-base); padding: var(--spacing-tight) var(--spacing-base-tight); font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; display: none; align-items: center; gap: var(--spacing-extra-tight); align-self: flex-start; }
+    .tr-card:hover .tr-lrow-add { display: inline-flex; }
+    .tr-lrow-add i { width: 14px; height: 14px; display: flex; }
+    .tr-confirm-all { align-self: flex-start; }
+
+    /* confidence score + hover popover */
+    .tr-conf { display: inline-flex; }
+    .tr-conf-badge { font-size: 12px; font-weight: 700; padding: 1px var(--spacing-tight); border-radius: var(--radius-full); cursor: help; }
+    .tr-conf-badge.is-high { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
+    .tr-conf-badge.is-mid { background: var(--bg-highlight-subtle); color: var(--content-highlight-base); }
+    .tr-conf-badge.is-low { background: var(--bg-base); color: var(--content-secondary); }
+    .tr-conf-tip { display: flex; flex-direction: column; gap: 3px; text-align: left; }
+    .tr-conf-tip b { font-weight: 600; margin-bottom: 2px; }
+    .tr-conf-tip .tr-conf-k { display: inline-block; min-width: 108px; opacity: .7; }
+    /* Interactive "why this match" hover card — shows the people in both groups */
+    .match-pop { position: fixed; z-index: 200; width: 300px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); padding: var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .mp-hd { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .mp-hd-icon { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
+    .mp-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .mp-sub { font-size: 12px; color: var(--content-secondary); }
+    .mp-list { display: flex; flex-direction: column; gap: var(--spacing-tight); margin-top: var(--spacing-extra-tight); }
+    .mp-row { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .mp-name { font-size: 14px; color: var(--content-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mp-more { font-size: 12px; font-weight: 500; color: var(--content-secondary); }
+    .mp-why { display: flex; gap: var(--spacing-tight); font-size: 12px; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--spacing-tight) var(--spacing-base-tight); }
+    .mp-why-icon { width: 14px; height: 14px; display: flex; flex-shrink: 0; margin-top: 1px; color: var(--content-secondary); }
+    .mp-foot { margin-top: var(--spacing-extra-tight); }
+    .mp-foot .btn { width: 100%; }
+
+    .tr-search-inline { position: relative; flex: 1; }
     .tr-search-inline .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 200px; overflow-y: auto; }
     .tr-empty { padding: var(--spacing-super-extra-loose) var(--spacing-loose); text-align: center; }
 
@@ -394,55 +519,66 @@
     <div id="view-overview">
       <div class="app-main-inner">
 
+        <div class="ov-crumbs">
+          <button class="ov-crumb-back"><i data-icon="arrow-left"></i> Back</button>
+          <span class="ov-crumb-sep">/</span>
+          <span class="ov-crumb-current">Thriving Workplace Pulse July 2026</span>
+        </div>
+
         <div class="ph">
-          <div class="ph-eyebrow">Pulse 2026</div>
+          <div class="ph-eyebrow">Pulse · July 2026</div>
           <div class="ph-row">
             <div class="ph-left">
-              <h1 class="ph-title">2026 Engagement Survey</h1>
+              <h1 class="ph-title">Thriving Workplace Pulse July 2026</h1>
+            </div>
+            <div class="ph-actions">
+              <button class="btn btn-secondary"><i data-icon="eye"></i> Demo questionnaire</button>
+              <span class="ph-actions-sep"></span>
+              <span class="chip chip-warning"><i data-icon="activity"></i> Running</span>
+              <span class="ov-avatar">JI</span>
+              <div class="tt-demo">
+                <button class="ib ib-36 ib-secondary" aria-label="More actions"><i data-icon="more-vertical" style="width:16px;height:16px;display:flex;"></i></button>
+                <div class="tooltip is-below">More actions</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Survey status card -->
+        <!-- Survey status banner + timeline -->
+        <div class="ov-tl-card">
+          <div class="ov-banner">
+            <span class="ov-banner-icon"><i data-icon="activity"></i></span>
+            <span class="ov-banner-text">Your survey is running — 292 of 384 people have responded (76%)</span>
+            <button class="btn btn-secondary ov-banner-btn"><i data-icon="barchart-2"></i> View response rate</button>
+          </div>
+          <div class="ov-tl">
+            <div class="ov-tl-band is-planned" style="width:20%;">
+              <span class="ov-tl-band-lbl"><span class="ov-tl-status is-planned"></span>Planned</span>
+            </div>
+            <div class="ov-tl-band is-running" style="width:60%;">
+              <span class="ov-tl-band-lbl"><span class="ov-tl-status is-running"><i data-icon="activity"></i></span>Running</span>
+              <span class="ov-tl-period">Jul 1, 2026 <i data-icon="from-to"></i> Jul 14, 2026</span>
+            </div>
+            <div class="ov-tl-band is-done" style="width:20%;">
+              <span class="ov-tl-band-lbl"><span class="ov-tl-status is-done"><i data-icon="check"></i></span>Completed</span>
+            </div>
+            <div class="ov-tl-lane">
+              <div class="ov-tl-track"></div>
+              <div class="ov-tl-fill" style="width:29%;"></div>
+              <div class="ov-tl-now" style="left:29%;"></div>
+              <div class="ov-tl-ms" style="left:2%;"><span class="ov-tl-ms-dot"></span></div>
+              <div class="ov-tl-ms" style="left:9%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="file"></i></span></div>
+              <div class="ov-tl-ms" style="left:19%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="send"></i></span></div>
+              <div class="ov-tl-ms is-future" style="left:41%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="bell"></i></span></div>
+              <div class="ov-tl-ms is-future" style="left:53%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="bell"></i></span></div>
+              <div class="ov-tl-ms is-future" style="left:81%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="check"></i></span></div>
+              <div class="ov-tl-ms is-future" style="left:88%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="barchart-2"></i></span></div>
+            </div>
+          </div>
+        </div>
+
         <div class="card card-elevated" style="margin-top: var(--spacing-loose);">
           <div class="card-body">
-            <div class="ov-status-head">
-              <div class="ov-status-left">
-                <div class="ov-status-icon"><i data-icon="activity"></i></div>
-                <div>
-                  <div class="ov-status-title">Your survey is running</div>
-                  <div class="ov-status-sub">See how responses are coming in</div>
-                </div>
-              </div>
-              <button class="btn btn-secondary"><i data-icon="barchart-2"></i> View response rate</button>
-            </div>
-
-            <!-- Timeline -->
-            <div class="ov-timeline">
-              <div class="ov-tl-zones">
-                <div class="ov-tl-zone"><i data-icon="edit"></i> Planned</div>
-                <div class="ov-tl-zone is-running"><i data-icon="activity"></i> Running <span class="ov-tl-dates">Jan 12 to Jan 30, 2026</span></div>
-                <div class="ov-tl-zone is-done"><i data-icon="check"></i> Completed</div>
-              </div>
-              <div class="ov-tl-track">
-                <div class="ov-tl-fill"></div>
-                <div class="ov-tl-dot is-past" style="left: 2%;"></div>
-                <div class="ov-tl-dot is-past" style="left: 20%;"></div>
-                <div class="ov-tl-ms is-past" style="left: 20%;"><div class="ov-tl-ms-icon"><i data-icon="file"></i></div></div>
-                <div class="ov-tl-dot is-past" style="left: 26%;"></div>
-                <div class="ov-tl-ms is-past" style="left: 26%;"><div class="ov-tl-ms-icon"><i data-icon="send"></i></div></div>
-                <div class="ov-tl-now"></div>
-                <div class="ov-tl-dot" style="left: 55%;"></div>
-                <div class="ov-tl-ms" style="left: 55%;"><div class="ov-tl-ms-icon"><i data-icon="bell"></i></div></div>
-                <div class="ov-tl-dot" style="left: 74%;"></div>
-                <div class="ov-tl-ms" style="left: 74%;"><div class="ov-tl-ms-icon"><i data-icon="bell"></i></div></div>
-                <div class="ov-tl-dot" style="left: 90%;"></div>
-                <div class="ov-tl-ms" style="left: 90%;"><div class="ov-tl-ms-icon"><i data-icon="check"></i></div></div>
-                <div class="ov-tl-dot" style="left: 99%;"></div>
-                <div class="ov-tl-ms" style="left: 99%;"><div class="ov-tl-ms-icon"><i data-icon="barchart-2"></i></div></div>
-              </div>
-            </div>
-
             <!-- Tip -->
             <div class="ov-tip" id="ovTip">
               <div class="inline-notif is-subtle">
@@ -464,12 +600,12 @@
         <!-- Survey settings -->
         <div class="card card-elevated ov-section">
           <div class="card-body">
-            <span class="card-title ov-section-title">Survey settings</span>
+            <span class="card-title ov-section-title">Survey settings<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <div class="ov-row">
               <div class="ov-row-icon tile-blue"><i data-icon="users"></i></div>
               <div class="ov-row-body">
                 <div class="ov-row-title">Participants</div>
-                <div class="ov-row-sub">1,240 participants from 26 groups</div>
+                <div class="ov-row-sub">384 participants from 126 groups</div>
               </div>
               <div class="ov-row-action">View details <i data-icon="chevron-right"></i></div>
             </div>
@@ -477,7 +613,7 @@
               <div class="ov-row-icon tile-turquoise"><i data-icon="calendar"></i></div>
               <div class="ov-row-body">
                 <div class="ov-row-title">Survey period</div>
-                <div class="ov-row-sub">Jan 12, 2026 to Jan 30, 2026</div>
+                <div class="ov-row-sub">Jul 1, 2026 to Jul 14, 2026</div>
               </div>
               <div class="ov-row-action">Extend period <i data-icon="chevron-right"></i></div>
             </div>
@@ -503,7 +639,7 @@
         <!-- Comparisons -->
         <div class="card card-elevated ov-section">
           <div class="card-body">
-            <span class="card-title ov-section-title">Comparisons</span>
+            <span class="card-title ov-section-title">Comparisons<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <a class="ov-row is-link" data-nav="linking" id="ovLinkRow">
               <div class="ov-row-icon"><i data-icon="link"></i></div>
               <div class="ov-row-body">
@@ -526,7 +662,7 @@
         <!-- Sharing results -->
         <div class="card card-elevated ov-section">
           <div class="card-body">
-            <span class="card-title ov-section-title">Sharing results</span>
+            <span class="card-title ov-section-title">Sharing results<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <div class="ov-row">
               <div class="ov-row-icon tile-yellow"><i data-icon="user-check"></i></div>
               <div class="ov-row-body">
@@ -551,7 +687,7 @@
 
     <!-- ══════════ VIEW: PREVIOUS SURVEY LINKS ══════════ -->
     <div id="view-linking" hidden>
-      <div class="app-main-inner is-narrow">
+      <div class="app-main-inner">
 
         <div class="gl-back">
           <button class="btn btn-secondary" data-nav="overview"><i data-icon="arrow-left"></i> Back to survey overview</button>
@@ -561,7 +697,7 @@
           <div class="ph-row" style="padding-bottom: 0;">
             <div class="ph-left">
               <h1 class="ph-title">Previous survey links</h1>
-              <p class="gl-ph-desc">Compare this survey with a previous one to see how results change over time. We've matched your current groups to the groups in that survey — review the suggestions to keep comparisons accurate.</p>
+              <p class="gl-ph-desc" id="glLead">Link your groups to Your Voice - Employee Listening ’25 so results can be compared over time.</p>
             </div>
           </div>
         </div>
@@ -575,7 +711,7 @@
                 <div class="gl-cc-label">Comparing with previous survey</div>
                 <div class="gl-survey-pick">
                   <button class="gl-cc-select" id="surveySelect">
-                    <span id="surveySelectVal">2025 Engagement Survey</span>
+                    <span id="surveySelectVal">Your Voice - Employee Listening ’25</span>
                     <i data-icon="chevron-down"></i>
                   </button>
                   <div class="rv-picker" id="surveyMenuWrap" hidden>
@@ -599,21 +735,25 @@
         </div>
 
         <!-- Group links -->
-        <div class="card card-elevated" id="structSection">
-          <div class="card-body">
-            <div class="sh">
+        <div id="structSection" class="gl-struct-section">
+          <div>
+
+            <!-- Review call-to-action -->
+            <div class="gl-cta" id="sugBanner" hidden></div>
+
+            <div class="sh" style="margin-bottom: var(--spacing-base);">
               <div class="sh-row">
                 <div class="sh-left">
-                  <h2 class="sh-title">Group links</h2>
-                  <p class="sh-desc">Review the suggested links, then check your full structure below.</p>
+                  <h2 class="sh-title">Link the groups from both surveys</h2>
+                  <p class="sh-desc">Pick a structure, then confirm the suggested links or add one where it’s missing.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Review call-to-action -->
-            <div class="gl-cta" id="sugBanner"></div>
-
-            <div class="gl-struct-divider"></div>
+            <!-- Structure picker -->
+            <div class="struct-picker">
+              <div class="struct-tabs" id="structCards"></div>
+            </div>
 
             <div class="tr-controls">
               <div class="search-wrap">
@@ -628,20 +768,12 @@
                 </button>
                 <div class="menu" id="treeStatusMenu" hidden></div>
               </div>
-              <div class="tr-ctl">
-                <button class="sel-btn" id="treeStructBtn">
-                  <span class="sel-btn-name">Structure</span>
-                  <span class="sel-btn-value is-filled" id="treeStructVal">Organizational</span>
-                  <i data-icon="chevron-down"></i>
-                </button>
-                <div class="menu" id="treeStructMenu" hidden></div>
-              </div>
               <div class="tt-demo">
                 <button class="ib ib-36 ib-secondary" id="exportBtn" aria-label="Export mappings to Excel"><i data-icon="excel"></i></button>
                 <div class="tooltip is-above">Export mappings to Excel</div>
               </div>
             </div>
-            <div class="tr-cols"><span>Current group</span><span>Link to previous survey</span></div>
+            <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
             <div id="treeBody"></div>
           </div>
         </div>
@@ -696,6 +828,8 @@
 </div>
 
 <!-- Group members dialog -->
+<div class="match-pop" id="matchPop" hidden></div>
+
 <div class="overlay" id="membersOverlay" hidden>
   <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="members-title">
     <button class="dialog-close" aria-label="Close" data-close="membersOverlay"><i data-icon="cross"></i></button>
@@ -720,9 +854,9 @@
 <script>
 /* ═══════════════ DATA ═══════════════ */
 
-const STRUCTURES = ['Organizational structure', 'Geographical structure', 'Functional structure'];
-const SURVEYS = ['2025 Engagement Survey', '2024 Engagement Survey', '2023 Engagement Survey', '2022 Engagement Survey'];
-const CURRENT_SURVEY = '2026 Engagement Survey';
+const STRUCTURES = ['Organizational structure', 'Location', 'Job family'];
+const SURVEYS = ['Your Voice - Employee Listening ’25', 'Your Voice - Employee Listening ’26'];
+const CURRENT_SURVEY = 'Thriving Workplace Pulse July 2026';
 
 const REVIEWERS = [
   { id: 1, first: 'Sarah', last: 'Johnson', role: 'Engineering manager', av: 'av-red' },
@@ -730,116 +864,530 @@ const REVIEWERS = [
   { id: 3, first: 'Laura', last: 'Baker', role: 'HR director', av: 'av-turquoise' },
 ];
 
-const HISTORICAL_GROUPS = [
-  { name: 'Engineering', size: 140, parent: 'Global Corp' }, { name: 'Core Engineering', size: 100, parent: 'Engineering' },
-  { name: 'Customer Success NA', size: 20, parent: 'Customer Success' }, { name: 'Customer Success EMEA', size: 15, parent: 'Customer Success' },
-  { name: 'Workplace Services', size: 10, parent: 'Operations' }, { name: 'UX Design', size: 12, parent: 'Product & Design' },
-  { name: 'Product Analytics', size: 10, parent: 'Product & Design' }, { name: 'Sales North America', size: 40, parent: 'Commercial' },
-  { name: 'Sales Europe', size: 30, parent: 'Commercial' }, { name: 'Marketing Global', size: 45, parent: 'Commercial' },
-  { name: 'Global Finance', size: 60, parent: 'Operations' }, { name: 'Core IT', size: 25, parent: 'Operations' },
-  { name: 'Human Resources', size: 15, parent: 'People Operations' }, { name: 'Legal Ops', size: 8, parent: 'Legal & Risk' },
-  { name: 'Compliance', size: 12, parent: 'Legal & Risk' }, { name: 'Global Corp', size: 500, parent: null },
-  { name: 'Office Ops', size: 5, parent: 'Operations' }, { name: 'Facility Management', size: 7, parent: 'Operations' },
-  { name: 'IT Security', size: 18, parent: 'Operations' },
-];
+const PREV_DATA = {
+  'Your Voice - Employee Listening ’25': { historical: [
+    { name: "Effectory B.V.", size: 388, parent: null },
+    { name: "CS Munich", size: 25, parent: "Effectory B.V." },
+    { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
+    { name: "Customer Support", size: 28, parent: "Effectory B.V." },
+    { name: "Essential Pro", size: 3, parent: "Effectory B.V." },
+    { name: "Internetspiegel", size: 7, parent: "Effectory B.V." },
+    { name: "CSM", size: 5, parent: "Internetspiegel" },
+    { name: "PSC", size: 2, parent: "Internetspiegel" },
+    { name: "Large Accounts CSM", size: 3, parent: "Effectory B.V." },
+    { name: "Leadership Team", size: 42, parent: "Effectory B.V." },
+    { name: "Marketing", size: 28, parent: "Effectory B.V." },
+    { name: "Office", size: 2, parent: "Effectory B.V." },
+    { name: "People & Culture", size: 20, parent: "Effectory B.V." },
+    { name: "Premium Medium", size: 6, parent: "Effectory B.V." },
+    { name: "Premium Small", size: 5, parent: "Effectory B.V." },
+    { name: "Product", size: 57, parent: "Effectory B.V." },
+    { name: "Product Hans", size: 5, parent: "Product" },
+    { name: "Product Sander", size: 4, parent: "Product" },
+    { name: "RevOps", size: 3, parent: "Effectory B.V." },
+    { name: "Sales Benelux", size: 12, parent: "Effectory B.V." },
+    { name: "Sales DACH", size: 14, parent: "Effectory B.V." },
+    { name: "Support", size: 6, parent: "Effectory B.V." },
+    { name: "Teamleads Christian", size: 6, parent: "Support" },
+    { name: "Team Leads", size: 10, parent: "Effectory B.V." },
+    { name: "Teamleads Don", size: 2, parent: "Team Leads" },
+    { name: "Teamleads Femke", size: 2, parent: "Team Leads" },
+    { name: "Team PSC", size: 3, parent: "Effectory B.V." },
+    { name: "Tech Leads", size: 3, parent: "Effectory B.V." },
+    { name: "TO", size: 30, parent: "Effectory B.V." },
+    { name: "Team Blue", size: 3, parent: "TO" },
+    { name: "Team Gray", size: 2, parent: "TO" },
+    { name: "Team Green", size: 5, parent: "TO" },
+    { name: "Team Lime", size: 6, parent: "TO" },
+    { name: "Team Orange", size: 4, parent: "TO" },
+    { name: "Team Pink", size: 2, parent: "TO" },
+    { name: "Team Red", size: 2, parent: "TO" },
+    { name: "Team Yellow", size: 6, parent: "TO" }
+  ], suggestions: [
+    { id: 101, type: "match", status: "pending", overlap: 61, structures: ["Organizational structure"], oldGroups: [{ name: "Team Leads", size: 10 }], newGroups: [{ name: "Customer Onboarding Team", size: 13 }] },
+    { id: 102, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
+    { id: 103, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
+    { id: 104, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
+    { id: 105, type: "match", status: "pending", overlap: 67, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Campaign Manager", size: 5 }] },
+    { id: 106, type: "match", status: "pending", overlap: 64, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Manager", size: 3 }] },
+    { id: 107, type: "match", status: "pending", overlap: 67, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Specialist", size: 5 }] },
+    { id: 108, type: "match", status: "pending", overlap: 62, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Principal Product Manager", size: 3 }] },
+    { id: 109, type: "match", status: "pending", overlap: 64, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Management Lead", size: 6 }] },
+    { id: 110, type: "match", status: "pending", overlap: 61, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Manager", size: 2 }] },
+    { id: 111, type: "match", status: "pending", overlap: 63, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Designer", size: 4 }] },
+    { id: 112, type: "match", status: "pending", overlap: 78, structures: ["Organizational structure"], oldGroups: [{ name: "Sales DACH", size: 14 }], newGroups: [{ name: "Sales", size: 32 }] },
+    { id: 113, type: "match", status: "pending", overlap: 73, structures: ["Organizational structure"], oldGroups: [{ name: "Sales Benelux", size: 12 }], newGroups: [{ name: "Sales Lead Benelux", size: 4 }] },
+    { id: 114, type: "match", status: "pending", overlap: 77, structures: ["Organizational structure"], oldGroups: [{ name: "Sales DACH", size: 14 }], newGroups: [{ name: "Sales Lead DACH", size: 6 }] },
+    { id: 115, type: "match", status: "pending", overlap: 63, structures: ["Organizational structure"], oldGroups: [{ name: "Tech Leads", size: 3 }], newGroups: [{ name: "Tech", size: 35 }] }
+  ], silentAuto: 19, links: {
+    "1": [{ name: "Effectory B.V.", status: "linked" }],
+    "1.1": [{ name: "Customer Growth", status: "linked" }],
+    "1.1.6": [{ name: "PSC", status: "linked" }],
+    "1.3.1": [{ name: "CS Munich", status: "linked" }],
+    "1.3.2": [{ name: "Team Leads", status: "suggested" }],
+    "1.3.4": [{ name: "Customer Support", status: "linked" }],
+    "1.3.4.2": [{ name: "Support", status: "linked" }],
+    "1.3.4.3": [{ name: "Support", status: "linked" }],
+    "1.3.4.5": [{ name: "Support", status: "linked" }],
+    "1.3.4.6": [{ name: "Support", status: "linked" }],
+    "1.3.5.2": [{ name: "CSM", status: "suggested" }],
+    "1.3.6": [{ name: "Internetspiegel", status: "linked" }],
+    "1.3.7.2": [{ name: "CSM", status: "suggested" }],
+    "1.3.8.2": [{ name: "CSM", status: "suggested" }],
+    "1.4": [{ name: "Office", status: "linked" }],
+    "1.6": [{ name: "Leadership Team", status: "linked" }],
+    "1.7": [{ name: "Marketing", status: "linked" }],
+    "1.7.3": [{ name: "Marketing", status: "suggested" }],
+    "1.7.4": [{ name: "Marketing", status: "suggested" }],
+    "1.7.5": [{ name: "Marketing", status: "suggested" }],
+    "1.8": [{ name: "People & Culture", status: "linked" }],
+    "1.8.3": [{ name: "Office", status: "linked" }],
+    "1.9": [{ name: "Product", status: "linked" }],
+    "1.9.3": [{ name: "Product", status: "linked" }],
+    "1.9.3.3": [{ name: "Product", status: "suggested" }],
+    "1.9.3.4": [{ name: "Product", status: "suggested" }],
+    "1.9.3.5": [{ name: "Product", status: "suggested" }],
+    "1.9.4.1": [{ name: "Product", status: "suggested" }],
+    "1.11": [{ name: "Sales DACH", status: "suggested" }],
+    "1.11.1": [{ name: "Sales Benelux", status: "linked" }],
+    "1.11.1.3": [{ name: "Sales Benelux", status: "suggested" }],
+    "1.11.2": [{ name: "Sales DACH", status: "linked" }],
+    "1.11.2.3": [{ name: "Sales DACH", status: "suggested" }],
+    "1.12": [{ name: "Tech Leads", status: "suggested" }]
+  } },
+  'Your Voice - Employee Listening ’26': { historical: [
+    { name: "Effectory B.V.", size: 388, parent: null },
+    { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
+    { name: "Customer Success Lead", size: 5, parent: "Customer Growth" },
+    { name: "Key Account Manager", size: 3, parent: "Customer Growth" },
+    { name: "People Strategy Consultant", size: 4, parent: "Customer Growth" },
+    { name: "Principal Key Account Manager - Team Lead", size: 2, parent: "Customer Growth" },
+    { name: "Principal People Strategy Consultant - Team Lead", size: 3, parent: "Customer Growth" },
+    { name: "Principal PSC", size: 3, parent: "Customer Growth" },
+    { name: "Customer Operations", size: 6, parent: "Effectory B.V." },
+    { name: "Customer Success Execution Lead", size: 6, parent: "Customer Operations" },
+    { name: "Revenue Officer", size: 5, parent: "Customer Operations" },
+    { name: "Customer Success", size: 102, parent: "Effectory B.V." },
+    { name: "CS Munich", size: 25, parent: "Customer Success" },
+    { name: "Customer Enablement Specialist", size: 4, parent: "CS Munich" },
+    { name: "Customer Success Manager", size: 5, parent: "CS Munich" },
+    { name: "Project Administrator", size: 6, parent: "CS Munich" },
+    { name: "Customer Onboarding Team", size: 12, parent: "Customer Success" },
+    { name: "Onboarding Specialist", size: 5, parent: "Customer Onboarding Team" },
+    { name: "Principal Onboarding Specialist", size: 2, parent: "Customer Onboarding Team" },
+    { name: "Solution Architect", size: 6, parent: "Customer Onboarding Team" },
+    { name: "Customer Support", size: 28, parent: "Customer Success" },
+    { name: "Customer Engineering II", size: 4, parent: "Customer Support" },
+    { name: "Customer Support Specialist", size: 6, parent: "Customer Support" },
+    { name: "Support Engineer", size: 3, parent: "Customer Support" },
+    { name: "Team Lead Customer Support", size: 5, parent: "Customer Support" },
+    { name: "Enterprise Team", size: 7, parent: "Customer Success" },
+    { name: "Principal CSM", size: 2, parent: "Enterprise Team" },
+    { name: "InternetSpiegel", size: 13, parent: "Customer Success" },
+    { name: "Mid-Market Team", size: 7, parent: "Customer Success" },
+    { name: "Scaled Team", size: 7, parent: "Customer Success" },
+    { name: "Tiger Team", size: 7, parent: "Customer Success" },
+    { name: "Executive Office", size: 4, parent: "Effectory B.V." },
+    { name: "Strategy & Execution Lead", size: 4, parent: "Executive Office" },
+    { name: "General & Administration", size: 22, parent: "Effectory B.V." },
+    { name: "Finance", size: 8, parent: "General & Administration" },
+    { name: "Accounting Lead", size: 3, parent: "Finance" },
+    { name: "Finance Specialist", size: 5, parent: "Finance" },
+    { name: "FP&A Analyst", size: 6, parent: "Finance" },
+    { name: "IT", size: 3, parent: "General & Administration" },
+    { name: "IT Lead", size: 3, parent: "IT" },
+    { name: "Legal", size: 9, parent: "General & Administration" },
+    { name: "Legal Counsel", size: 4, parent: "Legal" },
+    { name: "Leadership Team", size: 42, parent: "Effectory B.V." },
+    { name: "CEO", size: 5, parent: "Leadership Team" },
+    { name: "CFO", size: 5, parent: "Leadership Team" },
+    { name: "CHRO", size: 4, parent: "Leadership Team" },
+    { name: "CMO", size: 5, parent: "Leadership Team" },
+    { name: "COO", size: 4, parent: "Leadership Team" },
+    { name: "CSO", size: 3, parent: "Leadership Team" },
+    { name: "CTO", size: 6, parent: "Leadership Team" },
+    { name: "Executive & Internal Affairs Manager", size: 3, parent: "Leadership Team" },
+    { name: "Marketing", size: 28, parent: "Effectory B.V." },
+    { name: "Brand Advocacy Manager", size: 6, parent: "Marketing" },
+    { name: "Content Writer", size: 4, parent: "Marketing" },
+    { name: "Graphic Designer", size: 3, parent: "Marketing" },
+    { name: "Marketing Campaign Manager", size: 5, parent: "Marketing" },
+    { name: "Marketing Manager", size: 3, parent: "Marketing" },
+    { name: "Marketing Specialist", size: 5, parent: "Marketing" },
+    { name: "Online Marketeer", size: 5, parent: "Marketing" },
+    { name: "People & Culture", size: 20, parent: "Effectory B.V." },
+    { name: "Catering Coordinator", size: 2, parent: "People & Culture" },
+    { name: "Coach", size: 4, parent: "People & Culture" },
+    { name: "Office & Events Coordinator", size: 3, parent: "People & Culture" },
+    { name: "People Business Partner", size: 4, parent: "People & Culture" },
+    { name: "People Operations Specialist", size: 4, parent: "People & Culture" },
+    { name: "Talent Acquisition Specialist", size: 4, parent: "People & Culture" },
+    { name: "Total Rewards and HR Systems Specialist", size: 2, parent: "People & Culture" },
+    { name: "Product", size: 57, parent: "Effectory B.V." },
+    { name: "Information Security", size: 5, parent: "Product" },
+    { name: "Chief Information Security Officer", size: 4, parent: "Information Security" },
+    { name: "Offering Design Lead", size: 6, parent: "Product" },
+    { name: "Product Management", size: 29, parent: "Product" },
+    { name: "Customer Success Enablement Specialist", size: 5, parent: "Product Management" },
+    { name: "Localization Coordinator", size: 3, parent: "Product Management" },
+    { name: "Localization Specialist", size: 6, parent: "Product Management" },
+    { name: "Principal Product Manager", size: 3, parent: "Product Management" },
+    { name: "Product Management Lead", size: 6, parent: "Product Management" },
+    { name: "Product Manager", size: 2, parent: "Product Management" },
+    { name: "UX", size: 15, parent: "Product" },
+    { name: "Product Designer", size: 4, parent: "UX" },
+    { name: "UX Lead", size: 6, parent: "UX" },
+    { name: "UX Researcher", size: 6, parent: "UX" },
+    { name: "Revenue Operations", size: 16, parent: "Effectory B.V." },
+    { name: "BI Specialist", size: 5, parent: "Revenue Operations" },
+    { name: "Commerce Execution Lead", size: 3, parent: "Revenue Operations" },
+    { name: "GTM-Engineer", size: 2, parent: "Revenue Operations" },
+    { name: "Sales", size: 30, parent: "Effectory B.V." },
+    { name: "Sales Benelux", size: 12, parent: "Sales" },
+    { name: "Account Executive", size: 6, parent: "Sales Benelux" },
+    { name: "Sales Development Representative", size: 2, parent: "Sales Benelux" },
+    { name: "Sales Lead Benelux", size: 4, parent: "Sales Benelux" },
+    { name: "Sales DACH", size: 14, parent: "Sales" },
+    { name: "Sales Lead DACH", size: 6, parent: "Sales DACH" },
+    { name: "Sales International Markets", size: 6, parent: "Sales" },
+    { name: "Sales Lead International Markets", size: 5, parent: "Sales International Markets" },
+    { name: "Tech", size: 35, parent: "Effectory B.V." },
+    { name: "Team Data & AI", size: 15, parent: "Tech" },
+    { name: "Data & AI Engineer", size: 6, parent: "Team Data & AI" },
+    { name: "Data Analyst", size: 3, parent: "Team Data & AI" },
+    { name: "Technical Team Lead", size: 3, parent: "Team Data & AI" },
+    { name: "Team Managers", size: 5, parent: "Tech" },
+    { name: "Developer", size: 2, parent: "Team Managers" },
+    { name: "Team Platform", size: 5, parent: "Tech" },
+    { name: "Team Reporting", size: 4, parent: "Tech" },
+    { name: "Team Surveying", size: 5, parent: "Tech" }
+  ], suggestions: [
+    { id: 101, type: "match", status: "pending", overlap: 78, structures: ["Organizational structure"], oldGroups: [{ name: "Legal", size: 9 }], newGroups: [{ name: "Legal Lead", size: 4 }] },
+    { id: 102, type: "match", status: "pending", overlap: 70, structures: ["Organizational structure"], oldGroups: [{ name: "Data Analyst", size: 3 }], newGroups: [{ name: "Data Scientist", size: 3 }] }
+  ], silentAuto: 123, links: {
+    "1": [{ name: "Effectory B.V.", status: "linked" }],
+    "1.1": [{ name: "Customer Growth", status: "linked" }],
+    "1.1.1": [{ name: "Customer Success Lead", status: "linked" }],
+    "1.1.2": [{ name: "Key Account Manager", status: "linked" }],
+    "1.1.3": [{ name: "People Strategy Consultant", status: "linked" }],
+    "1.1.4": [{ name: "Principal Key Account Manager - Team Lead", status: "linked" }],
+    "1.1.5": [{ name: "Principal People Strategy Consultant - Team Lead", status: "linked" }],
+    "1.1.6": [{ name: "Principal PSC", status: "linked" }],
+    "1.2": [{ name: "Customer Operations", status: "linked" }],
+    "1.2.1": [{ name: "Customer Success Execution Lead", status: "linked" }],
+    "1.3": [{ name: "Customer Success", status: "linked" }],
+    "1.3.1": [{ name: "CS Munich", status: "linked" }],
+    "1.3.1.1": [{ name: "Customer Enablement Specialist", status: "linked" }],
+    "1.3.1.2": [{ name: "Customer Success Lead", status: "linked" }],
+    "1.3.1.3": [{ name: "Customer Success Manager", status: "linked" }],
+    "1.3.1.4": [{ name: "People Strategy Consultant", status: "linked" }],
+    "1.3.1.5": [{ name: "Project Administrator", status: "linked" }],
+    "1.3.2": [{ name: "Customer Onboarding Team", status: "linked" }],
+    "1.3.2.1": [{ name: "Onboarding Specialist", status: "linked" }],
+    "1.3.2.2": [{ name: "Principal Onboarding Specialist", status: "linked" }],
+    "1.3.2.3": [{ name: "Solution Architect", status: "linked" }],
+    "1.3.3": [{ name: "Customer Success Lead", status: "linked" }],
+    "1.3.4": [{ name: "Customer Support", status: "linked" }],
+    "1.3.4.1": [{ name: "Customer Engineering II", status: "linked" }],
+    "1.3.4.2": [{ name: "Support Engineer", status: "linked" }],
+    "1.3.4.3": [{ name: "Customer Support Specialist", status: "linked" }],
+    "1.3.4.4": [{ name: "Project Administrator", status: "linked" }],
+    "1.3.4.5": [{ name: "Support Engineer", status: "linked" }],
+    "1.3.4.6": [{ name: "Team Lead Customer Support", status: "linked" }],
+    "1.3.5": [{ name: "Enterprise Team", status: "linked" }],
+    "1.3.5.1": [{ name: "Customer Success Manager", status: "linked" }],
+    "1.3.5.2": [{ name: "Principal CSM", status: "linked" }],
+    "1.3.6": [{ name: "InternetSpiegel", status: "linked" }],
+    "1.3.6.1": [{ name: "Customer Success Lead", status: "linked" }],
+    "1.3.6.2": [{ name: "Customer Success Manager", status: "linked" }],
+    "1.3.6.3": [{ name: "People Strategy Consultant", status: "linked" }],
+    "1.3.7": [{ name: "Mid-Market Team", status: "linked" }],
+    "1.3.7.1": [{ name: "Customer Success Manager", status: "linked" }],
+    "1.3.7.2": [{ name: "Principal CSM", status: "linked" }],
+    "1.3.8": [{ name: "Scaled Team", status: "linked" }],
+    "1.3.8.1": [{ name: "Customer Success Manager", status: "linked" }],
+    "1.3.8.2": [{ name: "Principal CSM", status: "linked" }],
+    "1.4": [{ name: "Executive Office", status: "linked" }],
+    "1.4.1": [{ name: "Strategy & Execution Lead", status: "linked" }],
+    "1.5": [{ name: "General & Administration", status: "linked" }],
+    "1.5.1": [{ name: "Finance", status: "linked" }],
+    "1.5.1.1": [{ name: "Accounting Lead", status: "linked" }],
+    "1.5.1.2": [{ name: "Finance Specialist", status: "linked" }],
+    "1.5.2": [{ name: "IT", status: "linked" }],
+    "1.5.2.1": [{ name: "IT Lead", status: "linked" }],
+    "1.5.3": [{ name: "Legal", status: "linked" }],
+    "1.5.3.1": [{ name: "Legal Counsel", status: "linked" }],
+    "1.5.3.2": [{ name: "Legal", status: "suggested" }],
+    "1.6": [{ name: "Leadership Team", status: "linked" }],
+    "1.6.1": [{ name: "CEO", status: "linked" }],
+    "1.6.2": [{ name: "CFO", status: "linked" }],
+    "1.6.3": [{ name: "CHRO", status: "linked" }],
+    "1.6.4": [{ name: "CMO", status: "linked" }],
+    "1.6.5": [{ name: "COO", status: "linked" }],
+    "1.6.7": [{ name: "CSO", status: "linked" }],
+    "1.6.8": [{ name: "CTO", status: "linked" }],
+    "1.6.9": [{ name: "Executive & Internal Affairs Manager", status: "linked" }],
+    "1.7": [{ name: "Marketing", status: "linked" }],
+    "1.7.1": [{ name: "Brand Advocacy Manager", status: "linked" }],
+    "1.7.2": [{ name: "Content Writer", status: "linked" }],
+    "1.7.3": [{ name: "Marketing Campaign Manager", status: "linked" }],
+    "1.7.4": [{ name: "Marketing Manager", status: "linked" }],
+    "1.7.5": [{ name: "Marketing Specialist", status: "linked" }],
+    "1.7.6": [{ name: "Online Marketeer", status: "linked" }],
+    "1.8": [{ name: "People & Culture", status: "linked" }],
+    "1.8.1": [{ name: "Catering Coordinator", status: "linked" }],
+    "1.8.2": [{ name: "Coach", status: "linked" }],
+    "1.8.3": [{ name: "Office & Events Coordinator", status: "linked" }],
+    "1.8.4": [{ name: "People Business Partner", status: "linked" }],
+    "1.8.5": [{ name: "People Operations Specialist", status: "linked" }],
+    "1.8.6": [{ name: "Total Rewards and HR Systems Specialist", status: "linked" }],
+    "1.9": [{ name: "Product", status: "linked" }],
+    "1.9.1": [{ name: "Information Security", status: "linked" }],
+    "1.9.1.1": [{ name: "Chief Information Security Officer", status: "linked" }],
+    "1.9.2": [{ name: "Offering Design Lead", status: "linked" }],
+    "1.9.3": [{ name: "Product Management", status: "linked" }],
+    "1.9.3.1": [{ name: "Localization Coordinator", status: "linked" }],
+    "1.9.3.2": [{ name: "Localization Specialist", status: "linked" }],
+    "1.9.3.3": [{ name: "Principal Product Manager", status: "linked" }],
+    "1.9.3.4": [{ name: "Product Management Lead", status: "linked" }],
+    "1.9.3.5": [{ name: "Product Manager", status: "linked" }],
+    "1.9.3.7": [{ name: "Revenue Officer", status: "linked" }],
+    "1.9.4": [{ name: "UX", status: "linked" }],
+    "1.9.4.1": [{ name: "Product Designer", status: "linked" }],
+    "1.9.4.2": [{ name: "UX Lead", status: "linked" }],
+    "1.9.4.3": [{ name: "UX Researcher", status: "linked" }],
+    "1.10": [{ name: "Revenue Operations", status: "linked" }],
+    "1.10.1": [{ name: "BI Specialist", status: "linked" }],
+    "1.10.2": [{ name: "Commerce Execution Lead", status: "linked" }],
+    "1.10.3": [{ name: "GTM-Engineer", status: "linked" }],
+    "1.10.4": [{ name: "Revenue Officer", status: "linked" }],
+    "1.11": [{ name: "Sales", status: "linked" }],
+    "1.11.1": [{ name: "Sales Benelux", status: "linked" }],
+    "1.11.1.1": [{ name: "Account Executive", status: "linked" }],
+    "1.11.1.2": [{ name: "Sales Development Representative", status: "linked" }],
+    "1.11.1.3": [{ name: "Sales Lead Benelux", status: "linked" }],
+    "1.11.2": [{ name: "Sales DACH", status: "linked" }],
+    "1.11.2.1": [{ name: "Account Executive", status: "linked" }],
+    "1.11.2.2": [{ name: "Sales Development Representative", status: "linked" }],
+    "1.11.2.3": [{ name: "Sales Lead DACH", status: "linked" }],
+    "1.11.3": [{ name: "Sales International Markets", status: "linked" }],
+    "1.11.3.1": [{ name: "Sales Lead International Markets", status: "linked" }],
+    "1.12": [{ name: "Tech", status: "linked" }],
+    "1.12.1": [{ name: "Team Data & AI", status: "linked" }],
+    "1.12.1.1": [{ name: "Data & AI Engineer", status: "linked" }],
+    "1.12.1.2": [{ name: "Data Analyst", status: "linked" }],
+    "1.12.1.3": [{ name: "Data Analyst", status: "suggested" }],
+    "1.12.1.4": [{ name: "Technical Team Lead", status: "linked" }],
+    "1.12.2": [{ name: "Team Managers", status: "linked" }],
+    "1.12.2.1": [{ name: "Developer", status: "linked" }],
+    "1.12.2.2": [{ name: "Technical Team Lead", status: "linked" }],
+    "1.12.3": [{ name: "Team Platform", status: "linked" }],
+    "1.12.3.1": [{ name: "Developer", status: "linked" }],
+    "1.12.3.2": [{ name: "Technical Team Lead", status: "linked" }],
+    "1.12.4": [{ name: "Team Reporting", status: "linked" }],
+    "1.12.4.1": [{ name: "Developer", status: "linked" }],
+    "1.12.4.2": [{ name: "Technical Team Lead", status: "linked" }],
+    "1.12.5": [{ name: "Team Surveying", status: "linked" }],
+    "1.12.5.1": [{ name: "Developer", status: "linked" }],
+    "1.12.5.2": [{ name: "Technical Team Lead", status: "linked" }]
+  } },
+};
 
-// type: match | merge | split | new — status: pending | auto | approved | rejected | under_review
-let suggestions = [
-  { id: 1, type: 'match', status: 'auto', overlap: 93, structures: ['Organizational structure'], oldGroups: [{ name: 'UX Design', size: 12 }], newGroups: [{ name: 'UX Design', size: 14 }] },
-  { id: 2, type: 'merge', status: 'pending', overlap: 89, structures: ['Organizational structure'], oldGroups: [{ name: 'Customer Success NA', size: 20 }, { name: 'Customer Success EMEA', size: 15 }], newGroups: [{ name: 'Global Customer Success', size: 38 }] },
-  { id: 3, type: 'split', status: 'pending', overlap: 85, structures: ['Organizational structure'], oldGroups: [{ name: 'Engineering', size: 140 }], newGroups: [{ name: 'Product Engineering', size: 85 }, { name: 'Platform Engineering', size: 62 }] },
-  { id: 4, type: 'new', status: 'pending', overlap: 0, structures: ['Functional structure'], oldGroups: [], newGroups: [{ name: 'AI Research Labs', size: 8 }] },
-  { id: 5, type: 'match', status: 'auto', overlap: 78, structures: ['Functional structure'], oldGroups: [{ name: 'Workplace Services', size: 10 }], newGroups: [{ name: 'Workplace Experience', size: 12 }] },
-  { id: 13, type: 'merge', status: 'auto', overlap: 94, structures: ['Functional structure'], oldGroups: [{ name: 'Office Ops', size: 5 }, { name: 'Facility Management', size: 7 }], newGroups: [{ name: 'Operations Excellence', size: 12 }] },
-  { id: 14, type: 'split', status: 'auto', overlap: 91, structures: ['Organizational structure'], oldGroups: [{ name: 'Core IT', size: 40 }], newGroups: [{ name: 'Service Desk', size: 18 }, { name: 'Cloud Infrastructure', size: 22 }] },
-  { id: 6, type: 'split', status: 'auto', overlap: 92, structures: ['Functional structure'], oldGroups: [{ name: 'Marketing Global', size: 45 }], newGroups: [{ name: 'Product Marketing', size: 22 }, { name: 'Brand & Growth', size: 20 }] },
-  { id: 7, type: 'merge', status: 'pending', overlap: 74, sameManager: true, structures: ['Geographical structure'], oldGroups: [{ name: 'Sales North America', size: 40 }, { name: 'Sales Europe', size: 30 }], newGroups: [{ name: 'Atlantic Enterprise Sales', size: 65 }] },
-  { id: 8, type: 'match', status: 'auto', overlap: 92, structures: ['Functional structure'], oldGroups: [{ name: 'Core IT', size: 25 }], newGroups: [{ name: 'IT Infrastructure', size: 28 }] },
-  { id: 9, type: 'split', status: 'pending', overlap: 81, structures: ['Geographical structure'], oldGroups: [{ name: 'Global Finance', size: 60 }], newGroups: [{ name: 'APJ Finance', size: 25 }, { name: 'Americas Finance', size: 32 }] },
-  { id: 10, type: 'match', status: 'auto', overlap: 95, structures: ['Organizational structure'], oldGroups: [{ name: 'Human Resources', size: 15 }], newGroups: [{ name: 'People Operations', size: 18 }] },
-  { id: 11, type: 'new', status: 'pending', overlap: 0, structures: ['Functional structure'], oldGroups: [], newGroups: [{ name: 'Diversity & Inclusion', size: 4 }] },
-  { id: 12, type: 'merge', status: 'pending', overlap: 88, structures: ['Organizational structure'], oldGroups: [{ name: 'Legal Ops', size: 8 }, { name: 'Compliance', size: 12 }], newGroups: [{ name: 'Legal & Risk', size: 19 }] },
-];
+let HISTORICAL_GROUPS = PREV_DATA['Your Voice - Employee Listening ’25'].historical;
+let suggestions = PREV_DATA['Your Voice - Employee Listening ’25'].suggestions;
+let SILENT_AUTO = PREV_DATA['Your Voice - Employee Listening ’25'].silentAuto;
 
-const SILENT_AUTO = 12; // identical groups linked automatically without a suggestion card
-
-// Trees — link status: linked | suggested | review
 const TREES = {
   'Organizational structure': [
-    { id: '1', name: 'Global Corp', size: 500, links: [{ name: 'Global Corp', status: 'linked' }], children: [
-      { id: '1.1', name: 'Engineering', size: 140, links: [{ name: 'Engineering', status: 'linked' }], children: [
-        { id: '1.1.1', name: 'Product Engineering', size: 85, links: [{ name: 'Engineering', status: 'suggested' }] },
-        { id: '1.1.2', name: 'Platform Engineering', size: 62, links: [{ name: 'Engineering', status: 'suggested' }] },
-        { id: '1.1.3', name: 'Core Engineering', size: 100, links: [{ name: 'Core Engineering', status: 'linked' }] },
-      ]},
-      { id: '1.2', name: 'Customer Success', size: 38, links: [], children: [
-        { id: '1.2.1', name: 'Global Customer Success', size: 38, links: [{ name: 'Customer Success NA', status: 'suggested' }, { name: 'Customer Success EMEA', status: 'suggested' }] },
-      ]},
-      { id: '1.3', name: 'Product & Design', size: 26, links: [], children: [
-        { id: '1.3.1', name: 'UX Design', size: 14, links: [{ name: 'UX Design', status: 'linked' }] },
-        { id: '1.3.2', name: 'Product Analytics', size: 12, links: [{ name: 'Product Analytics', status: 'linked' }] },
-      ]},
-      { id: '1.4', name: 'Operations', size: 40, links: [], children: [
-        { id: '1.4.1', name: 'Workplace Experience', size: 12, links: [{ name: 'Workplace Services', status: 'suggested' }] },
-        { id: '1.4.2', name: 'Security Operations', size: 18, links: [{ name: 'IT Security', status: 'linked' }] },
-      ]},
-      { id: '1.5', name: 'Research & Development', size: 8, links: [], children: [
-        { id: '1.5.1', name: 'AI Research Labs', size: 8, links: [] },
-      ]},
-      { id: '1.6', name: 'Marketing', size: 42, links: [], children: [
-        { id: '1.6.1', name: 'Product Marketing', size: 22, links: [] },
-        { id: '1.6.2', name: 'Brand & Growth', size: 20, links: [] },
-      ]},
-      { id: '1.7', name: 'People Operations', size: 18, links: [{ name: 'Human Resources', status: 'suggested' }] },
-      { id: '1.8', name: 'Legal & Risk', size: 19, links: [{ name: 'Legal Ops', status: 'suggested' }, { name: 'Compliance', status: 'suggested' }] },
-    ]},
-  ],
-  'Geographical structure': [
-    { id: 'g1', name: 'Global Operations', size: 500, links: [{ name: 'Global Corp', status: 'linked' }], children: [
-      { id: 'g1.1', name: 'North America', size: 180, links: [{ name: 'Sales North America', status: 'linked' }], children: [
-        { id: 'g1.1.1', name: 'NA Engineering', size: 80, links: [{ name: 'Engineering', status: 'linked' }] },
-        { id: 'g1.1.2', name: 'Atlantic Enterprise Sales', size: 65, links: [{ name: 'Sales North America', status: 'suggested' }, { name: 'Sales Europe', status: 'suggested' }] },
-        { id: 'g1.1.3', name: 'Americas Finance', size: 32, links: [{ name: 'Global Finance', status: 'suggested' }] },
-      ]},
-      { id: 'g1.2', name: 'EMEA', size: 120, links: [], children: [
-        { id: 'g1.2.1', name: 'EMEA Customer Success', size: 15, links: [{ name: 'Customer Success EMEA', status: 'suggested' }] },
-        { id: 'g1.2.2', name: 'EMEA Engineering', size: 60, links: [{ name: 'Core Engineering', status: 'linked' }] },
-        { id: 'g1.2.3', name: 'EMEA Design', size: 14, links: [{ name: 'UX Design', status: 'suggested' }] },
-      ]},
-      { id: 'g1.3', name: 'APAC', size: 90, links: [], children: [
-        { id: 'g1.3.1', name: 'APAC Sales', size: 30, links: [{ name: 'Sales North America', status: 'linked' }] },
-        { id: 'g1.3.2', name: 'APAC Analytics', size: 12, links: [{ name: 'Product Analytics', status: 'linked' }] },
-        { id: 'g1.3.3', name: 'APJ Finance', size: 25, links: [{ name: 'Global Finance', status: 'suggested' }] },
-      ]},
-    ]},
-  ],
-  'Functional structure': [
-    { id: 'f1', name: 'Business Functions', size: 500, links: [], children: [
-      { id: 'f1.1', name: 'Product Excellence', size: 160, links: [], children: [
-        { id: 'f1.1.1', name: 'Core Product', size: 85, links: [{ name: 'Product Engineering', status: 'linked' }] },
-        { id: 'f1.1.2', name: 'Experience Design', size: 14, links: [{ name: 'UX Design', status: 'linked' }] },
-        { id: 'f1.1.3', name: 'Platform Innovation', size: 62, links: [{ name: 'Platform Engineering', status: 'suggested' }] },
-      ]},
-      { id: 'f1.2', name: 'Revenue & Growth', size: 110, links: [], children: [
-        { id: 'f1.2.1', name: 'Global Sales', size: 70, links: [{ name: 'Sales North America', status: 'suggested' }] },
-        { id: 'f1.2.2', name: 'Marketing', size: 42, links: [], children: [
-          { id: 'f1.2.2.1', name: 'Product Marketing', size: 22, links: [{ name: 'Marketing Global', status: 'suggested' }] },
-          { id: 'f1.2.2.2', name: 'Brand & Growth', size: 20, links: [{ name: 'Marketing Global', status: 'suggested' }] },
+      { id: "1", name: "Effectory B.V.", size: 384, links: [], children: [
+        { id: "1.1", name: "Customer Growth", size: 20, links: [], children: [
+          { id: "1.1.1", name: "Customer Success Lead", size: 5, links: [] },
+          { id: "1.1.2", name: "Key Account Manager", size: 3, links: [] },
+          { id: "1.1.3", name: "People Strategy Consultant", size: 4, links: [] },
+          { id: "1.1.4", name: "Principal Key Account Manager - Team Lead", size: 2, links: [] },
+          { id: "1.1.5", name: "Principal People Strategy Consultant - Team Lead", size: 3, links: [] },
+          { id: "1.1.6", name: "Principal PSC", size: 3, links: [] }
         ]},
+        { id: "1.2", name: "Customer Operations", size: 6, links: [], children: [
+          { id: "1.2.1", name: "Customer Success Execution Lead", size: 6, links: [] }
+        ]},
+        { id: "1.3", name: "Customer Success", size: 106, links: [], children: [
+          { id: "1.3.1", name: "CS Munich", size: 24, links: [], children: [
+            { id: "1.3.1.1", name: "Customer Enablement Specialist", size: 4, links: [] },
+            { id: "1.3.1.2", name: "Customer Success Lead", size: 5, links: [] },
+            { id: "1.3.1.3", name: "Customer Success Manager", size: 5, links: [] },
+            { id: "1.3.1.4", name: "People Strategy Consultant", size: 4, links: [] },
+            { id: "1.3.1.5", name: "Project Administrator", size: 6, links: [] }
+          ]},
+          { id: "1.3.2", name: "Customer Onboarding Team", size: 13, links: [], children: [
+            { id: "1.3.2.1", name: "Onboarding Specialist", size: 5, links: [] },
+            { id: "1.3.2.2", name: "Principal Onboarding Specialist", size: 2, links: [] },
+            { id: "1.3.2.3", name: "Solution Architect", size: 6, links: [] }
+          ]},
+          { id: "1.3.3", name: "Customer Success Lead", size: 5, links: [] },
+          { id: "1.3.4", name: "Customer Support", size: 29, links: [], children: [
+            { id: "1.3.4.1", name: "Customer Engineering II", size: 4, links: [] },
+            { id: "1.3.4.2", name: "Customer Support Engineer Assistant", size: 4, links: [] },
+            { id: "1.3.4.3", name: "Customer Support Specialist", size: 6, links: [] },
+            { id: "1.3.4.4", name: "Project Administrator", size: 6, links: [] },
+            { id: "1.3.4.5", name: "Support Engineer", size: 3, links: [] },
+            { id: "1.3.4.6", name: "Team Lead Customer Support", size: 6, links: [] }
+          ]},
+          { id: "1.3.5", name: "Enterprise Team", size: 7, links: [], children: [
+            { id: "1.3.5.1", name: "Customer Success Manager", size: 5, links: [] },
+            { id: "1.3.5.2", name: "Principal CSM", size: 2, links: [] }
+          ]},
+          { id: "1.3.6", name: "InternetSpiegel", size: 14, links: [], children: [
+            { id: "1.3.6.1", name: "Customer Success Lead", size: 5, links: [] },
+            { id: "1.3.6.2", name: "Customer Success Manager", size: 5, links: [] },
+            { id: "1.3.6.3", name: "People Strategy Consultant", size: 4, links: [] }
+          ]},
+          { id: "1.3.7", name: "Mid-Market Team", size: 7, links: [], children: [
+            { id: "1.3.7.1", name: "Customer Success Manager", size: 5, links: [] },
+            { id: "1.3.7.2", name: "Principal CSM", size: 2, links: [] }
+          ]},
+          { id: "1.3.8", name: "Scaled Team", size: 7, links: [], children: [
+            { id: "1.3.8.1", name: "Customer Success Manager", size: 5, links: [] },
+            { id: "1.3.8.2", name: "Principal CSM", size: 2, links: [] }
+          ]}
+        ]},
+        { id: "1.4", name: "Executive Office", size: 4, links: [], children: [
+          { id: "1.4.1", name: "Strategy & Execution Lead", size: 4, links: [] }
+        ]},
+        { id: "1.5", name: "General & Administration", size: 21, links: [], children: [
+          { id: "1.5.1", name: "Finance", size: 9, links: [], children: [
+            { id: "1.5.1.1", name: "Accounting Lead", size: 3, links: [] },
+            { id: "1.5.1.2", name: "Finance Specialist", size: 6, links: [] }
+          ]},
+          { id: "1.5.2", name: "IT", size: 3, links: [], children: [
+            { id: "1.5.2.1", name: "IT Lead", size: 3, links: [] }
+          ]},
+          { id: "1.5.3", name: "Legal", size: 9, links: [], children: [
+            { id: "1.5.3.1", name: "Legal Counsel", size: 5, links: [] },
+            { id: "1.5.3.2", name: "Legal Lead", size: 4, links: [] }
+          ]}
+        ]},
+        { id: "1.6", name: "Leadership Team", size: 41, links: [], children: [
+          { id: "1.6.1", name: "CEO", size: 5, links: [] },
+          { id: "1.6.2", name: "CFO", size: 5, links: [] },
+          { id: "1.6.3", name: "CHRO", size: 4, links: [] },
+          { id: "1.6.4", name: "CMO", size: 6, links: [] },
+          { id: "1.6.5", name: "COO", size: 4, links: [] },
+          { id: "1.6.6", name: "CPO", size: 5, links: [] },
+          { id: "1.6.7", name: "CSO", size: 3, links: [] },
+          { id: "1.6.8", name: "CTO", size: 6, links: [] },
+          { id: "1.6.9", name: "Executive & Internal Affairs Manager", size: 3, links: [] }
+        ]},
+        { id: "1.7", name: "Marketing", size: 28, links: [], children: [
+          { id: "1.7.1", name: "Brand Advocacy Manager", size: 6, links: [] },
+          { id: "1.7.2", name: "Content Writer", size: 4, links: [] },
+          { id: "1.7.3", name: "Marketing Campaign Manager", size: 5, links: [] },
+          { id: "1.7.4", name: "Marketing Manager", size: 3, links: [] },
+          { id: "1.7.5", name: "Marketing Specialist", size: 5, links: [] },
+          { id: "1.7.6", name: "Online Marketeer", size: 5, links: [] }
+        ]},
+        { id: "1.8", name: "People & Culture", size: 19, links: [], children: [
+          { id: "1.8.1", name: "Catering Coordinator", size: 2, links: [] },
+          { id: "1.8.2", name: "Coach", size: 4, links: [] },
+          { id: "1.8.3", name: "Office & Events Coordinator", size: 3, links: [] },
+          { id: "1.8.4", name: "People Business Partner", size: 4, links: [] },
+          { id: "1.8.5", name: "People Operations Specialist", size: 4, links: [] },
+          { id: "1.8.6", name: "Total Rewards and HR Systems Specialist", size: 2, links: [] }
+        ]},
+        { id: "1.9", name: "Product", size: 56, links: [], children: [
+          { id: "1.9.1", name: "Information Security", size: 5, links: [], children: [
+            { id: "1.9.1.1", name: "Chief Information Security Officer", size: 5, links: [] }
+          ]},
+          { id: "1.9.2", name: "Offering Design Lead", size: 6, links: [] },
+          { id: "1.9.3", name: "Product Management", size: 29, links: [], children: [
+            { id: "1.9.3.1", name: "Localization Coordinator", size: 3, links: [] },
+            { id: "1.9.3.2", name: "Localization Specialist", size: 6, links: [] },
+            { id: "1.9.3.3", name: "Principal Product Manager", size: 3, links: [] },
+            { id: "1.9.3.4", name: "Product Management Lead", size: 6, links: [] },
+            { id: "1.9.3.5", name: "Product Manager", size: 2, links: [] },
+            { id: "1.9.3.6", name: "Revenue Enablement Manager", size: 3, links: [] },
+            { id: "1.9.3.7", name: "Revenue Officer", size: 6, links: [] }
+          ]},
+          { id: "1.9.4", name: "UX", size: 16, links: [], children: [
+            { id: "1.9.4.1", name: "Product Designer", size: 4, links: [] },
+            { id: "1.9.4.2", name: "UX Lead", size: 6, links: [] },
+            { id: "1.9.4.3", name: "UX Researcher", size: 6, links: [] }
+          ]}
+        ]},
+        { id: "1.10", name: "Revenue Operations", size: 16, links: [], children: [
+          { id: "1.10.1", name: "BI Specialist", size: 5, links: [] },
+          { id: "1.10.2", name: "Commerce Execution Lead", size: 3, links: [] },
+          { id: "1.10.3", name: "GTM-Engineer", size: 2, links: [] },
+          { id: "1.10.4", name: "Revenue Officer", size: 6, links: [] }
+        ]},
+        { id: "1.11", name: "Sales", size: 32, links: [], children: [
+          { id: "1.11.1", name: "Sales Benelux", size: 12, links: [], children: [
+            { id: "1.11.1.1", name: "Account Executive", size: 6, links: [] },
+            { id: "1.11.1.2", name: "Sales Development Representative", size: 2, links: [] },
+            { id: "1.11.1.3", name: "Sales Lead Benelux", size: 4, links: [] }
+          ]},
+          { id: "1.11.2", name: "Sales DACH", size: 14, links: [], children: [
+            { id: "1.11.2.1", name: "Account Executive", size: 6, links: [] },
+            { id: "1.11.2.2", name: "Sales Development Representative", size: 2, links: [] },
+            { id: "1.11.2.3", name: "Sales Lead DACH", size: 6, links: [] }
+          ]},
+          { id: "1.11.3", name: "Sales International Markets", size: 6, links: [], children: [
+            { id: "1.11.3.1", name: "Sales Lead International Markets", size: 6, links: [] }
+          ]}
+        ]},
+        { id: "1.12", name: "Tech", size: 35, links: [], children: [
+          { id: "1.12.1", name: "Team Data & AI", size: 15, links: [], children: [
+            { id: "1.12.1.1", name: "Data & AI Engineer", size: 6, links: [] },
+            { id: "1.12.1.2", name: "Data Analyst", size: 3, links: [] },
+            { id: "1.12.1.3", name: "Data Scientist", size: 3, links: [] },
+            { id: "1.12.1.4", name: "Technical Team Lead", size: 3, links: [] }
+          ]},
+          { id: "1.12.2", name: "Team Managers", size: 5, links: [], children: [
+            { id: "1.12.2.1", name: "Developer", size: 2, links: [] },
+            { id: "1.12.2.2", name: "Technical Team Lead", size: 3, links: [] }
+          ]},
+          { id: "1.12.3", name: "Team Platform", size: 5, links: [], children: [
+            { id: "1.12.3.1", name: "Developer", size: 2, links: [] },
+            { id: "1.12.3.2", name: "Technical Team Lead", size: 3, links: [] }
+          ]},
+          { id: "1.12.4", name: "Team Reporting", size: 5, links: [], children: [
+            { id: "1.12.4.1", name: "Developer", size: 2, links: [] },
+            { id: "1.12.4.2", name: "Technical Team Lead", size: 3, links: [] }
+          ]},
+          { id: "1.12.5", name: "Team Surveying", size: 5, links: [], children: [
+            { id: "1.12.5.1", name: "Developer", size: 2, links: [] },
+            { id: "1.12.5.2", name: "Technical Team Lead", size: 3, links: [] }
+          ]}
+        ]}
       ]},
-      { id: 'f1.3', name: 'Enablement', size: 70, links: [], children: [
-        { id: 'f1.3.1', name: 'Legal & Risk', size: 19, links: [{ name: 'Global Corp', status: 'linked' }] },
-        { id: 'f1.3.2', name: 'Workplace Experience', size: 12, links: [{ name: 'Workplace Services', status: 'suggested' }] },
-        { id: 'f1.3.3', name: 'Operations Excellence', size: 12, links: [{ name: 'Office Ops', status: 'suggested' }, { name: 'Facility Management', status: 'suggested' }] },
-        { id: 'f1.3.4', name: 'IT Infrastructure', size: 28, links: [{ name: 'Core IT', status: 'suggested' }] },
-        { id: 'f1.3.5', name: 'Diversity & Inclusion', size: 4, links: [] },
-      ]},
-      { id: 'f1.4', name: 'Innovation', size: 8, links: [], children: [
-        { id: 'f1.4.1', name: 'AI Research Labs', size: 8, links: [] },
-      ]},
+  ],
+  'Location': [
+    { id: 'L1', name: 'All locations', size: 384, links: [], children: [
+      { id: 'L1.1', name: 'Amsterdam (HQ)', size: 168, links: [] },
+      { id: 'L1.2', name: 'Rotterdam', size: 74, links: [] },
+      { id: 'L1.3', name: 'Berlin', size: 63, links: [] },
+      { id: 'L1.4', name: 'London', size: 41, links: [] },
+      { id: 'L1.5', name: 'Remote', size: 38, links: [] },
+    ]},
+  ],
+  'Job family': [
+    { id: 'J1', name: 'All job families', size: 384, links: [{ name: 'All job families', status: 'linked', size: 388 }], children: [
+      { id: 'J1.1', name: 'Engineering', size: 96, links: [{ name: 'Engineering', status: 'linked', size: 92 }] },
+      { id: 'J1.2', name: 'Product', size: 42, links: [{ name: 'Product', status: 'linked', size: 40 }] },
+      { id: 'J1.3', name: 'Sales', size: 58, links: [{ name: 'Sales', status: 'linked', size: 61 }] },
+      { id: 'J1.4', name: 'Customer Success', size: 88, links: [{ name: 'Customer Success', status: 'linked', size: 90 }] },
+      { id: 'J1.5', name: 'Operations', size: 54, links: [{ name: 'Operations', status: 'linked', size: 52 }] },
+      { id: 'J1.6', name: 'People and Culture', size: 46, links: [{ name: 'People and Culture', status: 'linked', size: 44 }] },
     ]},
   ],
 };
+
+function applyPrevious(name) {
+  var pd = PREV_DATA[name]; if (!pd) return;
+  HISTORICAL_GROUPS = pd.historical; suggestions = pd.suggestions; SILENT_AUTO = pd.silentAuto;
+  (function walk(nodes){ nodes.forEach(function(n){ n.links = (pd.links[n.id] || []).map(function(l){ return { name: l.name, status: l.status }; }); if (n.children) walk(n.children); }); })(TREES['Organizational structure']);
+}
+applyPrevious('Your Voice - Employee Listening ’25');
 
 const FIRST_NAMES = ['John Doe', 'Alice Smith', 'Robert King', 'Maria Lopez', 'Thomas Hall', 'Beth White', 'Kevin Pratt', 'Lisa Moon'];
 const ROLES = ['Product specialist', 'Senior architect', 'Lead designer', 'Backend engineer', 'Data analyst', 'Frontend developer', 'Project coordinator', 'QA lead'];
@@ -863,6 +1411,8 @@ const state = {
   treeCollapsed: new Set(),
   treeExpanded: new Set(),
   treeLinkingNodeId: null,
+  linkPickerCollapsed: new Set(),
+  linkPickerExpanded: new Set(),
 };
 
 /* ═══════════════ HELPERS ═══════════════ */
@@ -964,10 +1514,49 @@ function openSuggestions() {
 }
 
 function renderLinking() {
-  $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
+  renderStructCards();
   renderCards();
   renderTree();
   if (!$('#panelOverlay').hidden) renderPanel();
+  icons();
+}
+
+// Prominent structure selector: shows every structure and how far its linking has progressed.
+const STRUCT_META = {
+  'Organizational structure': { icon: 'structure', primary: true },
+  'Location': { icon: 'building' },
+  'Job family': { icon: 'briefcase' },
+};
+function structProgress(name) {
+  let total = 0, linked = 0;
+  (function walk(nodes) {
+    (nodes || []).forEach(n => {
+      total++;
+      if (n.links && n.links.some(l => l.status === 'linked')) linked++;
+      if (n.children) walk(n.children);
+    });
+  })(TREES[name]);
+  return { total, linked, pct: total ? Math.round(linked / total * 100) : 0 };
+}
+function renderStructCards() {
+  const wrap = $('#structCards'); if (!wrap) return;
+  wrap.innerHTML = STRUCTURES.map(name => {
+    const m = STRUCT_META[name] || { icon: 'structure' };
+    const p = structProgress(name);
+    const st = p.pct === 100 ? 'is-all' : p.linked > 0 ? 'is-partial' : 'is-none';
+    return '<button class="struct-tab' + (name === state.treeStructure ? ' is-active' : '') + '" data-structcard="' + esc(name) + '">' +
+      '<span class="struct-tab-icon"><i data-icon="' + m.icon + '"></i></span>' +
+      '<span class="struct-tab-name">' + esc(name) + '</span>' +
+      '<span class="struct-tab-stat ' + st + '">' + p.linked + '/' + p.total + '</span>' +
+      '</button>';
+  }).join('');
+  wrap.querySelectorAll('[data-structcard]').forEach(b => b.addEventListener('click', () => {
+    if (state.treeStructure === b.dataset.structcard) return;
+    state.treeStructure = b.dataset.structcard;
+    state.treeLinkingNodeId = null;
+    renderStructCards();
+    renderTree();
+  }));
   icons();
 }
 
@@ -1246,8 +1835,8 @@ function bindPanel() {
     if (!s.structures.includes(state.treeStructure)) { state.treeStructure = s.structures[0]; }
     state.treeSearch = s.newGroups[0].name;
     $('#treeSearch').value = state.treeSearch;
-    $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
     $('#panelOverlay').hidden = true;
+    renderStructCards();
     renderTree();
     $('#structSection').scrollIntoView({ block: 'start', behavior: 'smooth' });
   }));
@@ -1319,6 +1908,10 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('#surveyMenuWrap') && !e.target.closest('#surveySelect')) $('#surveyMenuWrap').hidden = true;
   if (!e.target.closest('#treeStatusMenu') && !e.target.closest('#treeStatusBtn')) { const m = $('#treeStatusMenu'); if (m) m.hidden = true; }
   if (!e.target.closest('#treeStructMenu') && !e.target.closest('#treeStructBtn')) { const m = $('#treeStructMenu'); if (m) m.hidden = true; }
+  // close the inline link picker when clicking outside it
+  if (state.treeLinkingNodeId && !e.target.closest('.tr-linksearch') && !e.target.closest('[data-treeadd]')) {
+    state.treeLinkingNodeId = null; renderTree();
+  }
 });
 
 /* ═══════════════ SURVEY SELECT + HISTORY ═══════════════ */
@@ -1334,6 +1927,7 @@ $('#surveySelect').addEventListener('click', () => {
     state.selectedSurvey = mi.dataset.survey;
     $('#surveySelectVal').textContent = state.selectedSurvey;
     wrap.hidden = true;
+    applyPrevious(state.selectedSurvey);
     renderHistory();
     renderLinking();
   }));
@@ -1416,6 +2010,7 @@ $('#rvSend').addEventListener('click', () => {
 /* ═══════════════ MEMBERS DIALOG ═══════════════ */
 
 function openMembers(name, size) {
+  $('#members-title').textContent = 'Group members';
   $('#membersSubtitle').textContent = name;
   const n = Math.min(size, 12);
   let rows = '';
@@ -1463,24 +2058,6 @@ $('#treeStatusBtn').addEventListener('click', (e) => {
   icons();
 });
 
-$('#treeStructBtn').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const menu = $('#treeStructMenu');
-  if (!menu.hidden) { menu.hidden = true; return; }
-  menu.innerHTML = STRUCTURES.map(st =>
-    '<div class="menu-item' + (st === state.treeStructure ? ' is-selected' : '') + '" data-struct="' + esc(st) + '">' + esc(st) +
-    (st === state.treeStructure ? ' <i data-icon="check" class="menu-item-check"></i>' : '') + '</div>').join('');
-  menu.hidden = false;
-  menu.querySelectorAll('[data-struct]').forEach(mi => mi.addEventListener('click', () => {
-    state.treeStructure = mi.dataset.struct;
-    $('#treeStructVal').textContent = state.treeStructure.replace(' structure', '');
-    state.treeLinkingNodeId = null;
-    menu.hidden = true;
-    renderTree();
-  }));
-  icons();
-});
-
 function filterTree(nodes) {
   const q = state.treeSearch.toLowerCase();
   const sf = state.treeStatusFilter;
@@ -1502,92 +2079,151 @@ function suggestionForNode(node) {
 
 function treeRowHTML(n, level) {
   const hasChildren = n.children && n.children.length > 0;
-  const isOpen = !state.treeCollapsed.has(n.id);
-  const indent = 'style="padding-left: calc(' + level + ' * var(--spacing-loose))"';
-  const isLinkingHere = state.treeLinkingNodeId === n.id;
+  const isOpen = !state.treeCollapsed.has(n.id) || !!state.treeSearch;
   const sug = suggestionForNode(n);
-  const isActive = sug && state.panelFocusId === sug.id && !$('#panelOverlay').hidden;
 
-  let linksHTML;
-  if (isLinkingHere) {
-    linksHTML = '<div class="tr-search-inline"><div class="search-wrap">' +
-      '<span class="search-icon"><i data-icon="search"></i></span>' +
-      '<input type="search" class="srch" id="treeLinkSearch" placeholder="Search groups" /></div>' +
-      '<div class="menu" id="treeLinkMenu"></div></div>' +
-      '<div class="tt-demo"><button class="ib ib-24 ib-tertiary" data-cancellink aria-label="Cancel"><i data-icon="cross"></i></button><div class="tooltip is-above">Cancel</div></div>';
-  } else {
-    const suggested = n.links.filter(l => l.status === 'suggested' || l.status === 'review');
-    const linked = n.links.filter(l => l.status === 'linked');
-    let parts = '';
-    linked.forEach(l => { parts += prevChipHTML(l, n, sug, false); });
-    suggested.forEach(l => { parts += prevChipHTML(l, n, sug, true); });
-    if (suggested.length > 0) {
-      parts += '<span class="tr-actions">' +
-        '<div class="tt-demo"><button class="ib ib-24 ib-primary" data-treeapprove="' + esc(n.id) + '" aria-label="Confirm link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
-        '<div class="tt-demo"><button class="ib ib-24 ib-secondary" data-treereject="' + esc(n.id) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>' +
-        '</span>';
-    }
-    if (n.links.length === 0) parts += '<span class="tr-nolink">No link</span>';
-    parts += '<div class="tt-demo tr-add"><button class="ib ib-24 ib-tertiary" data-treeadd="' + esc(n.id) + '" aria-label="Add link"><i data-icon="plus"></i></button><div class="tooltip is-above">Add link</div></div>';
-    linksHTML = parts;
-  }
-
-  const hasSuggestion = n.links.some(l => l.status === 'suggested' || l.status === 'review');
-  const expanded = state.treeExpanded.has(n.id);
-
-  let html = '<div class="tr-row' + (n._hit ? ' is-hit' : '') + (hasSuggestion ? ' is-clickable' : '') + (expanded ? ' is-expanded' : '') + '"' + (hasSuggestion ? ' data-sugrow="' + esc(n.id) + '"' : '') + '>' +
-    '<div class="tr-name" ' + indent + '>' +
+  const cols = linkColumns(n, sug);
+  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + '" data-nodeid="' + esc(n.id) + '">' +
+    '<div class="tr-card-grid">' +
+    '<div class="tr-leftcol">' +
+    '<div class="tr-leftcard' + (n.links.some(l => l.status === 'linked') ? ' is-linked' : '') + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
     (hasChildren
-      ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-right"></i></button>'
+      ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
     '<span class="tr-group">' + esc(n.name) + '</span>' +
-    '<button class="gl-members-btn" data-members="' + esc(n.name) + '" data-size="' + (n.size || 10) + '"><i data-icon="users"></i> ' + (n.size || 10) + '</button>' +
-    (hasSuggestion ? '<i data-icon="chevron-down" class="tr-why-chev"></i>' : '') +
-    '</div><div class="tr-links">' + linksHTML + '</div></div>';
+    (n.size ? '<button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '"><i data-icon="users"></i>' + n.size + '</button>' : '') +
+    '</div>' +
+    (state.treeLinkingNodeId === n.id
+      ? '<div class="tr-add-slot tt-demo" style="visibility:hidden"><button class="tr-add-btn" tabindex="-1"><i data-icon="plus"></i></button></div>'
+      : '<div class="tr-add-slot tt-demo"><button class="tr-add-btn" data-treeadd="' + esc(n.id) + '" aria-label="' + (n.links.length ? 'Link another group' : 'Link a group') + '"><i data-icon="plus"></i></button><div class="tooltip is-below">' + (n.links.length ? 'Link another group' : 'Link a group') + '</div></div>') +
+    '</div>' +
+    '<div class="tr-card-mid">' + cols.mid + '</div>' +
+    '<div class="tr-card-right">' + cols.right + '</div>' +
+    '</div></div>';
 
-  if (expanded && sug) html += treeDetailHTML(n, sug);
-
-  if (hasChildren && (isOpen || state.treeSearch)) {
-    html += n.children.map(c => treeRowHTML(c, level + 1)).join('');
+  if (hasChildren) {
+    html += '<div class="tr-children' + (isOpen ? '' : ' is-collapsed') + '" data-childrenof="' + esc(n.id) + '">' +
+      n.children.map(c => treeRowHTML(c, level + 1)).join('') + '</div>';
   }
   return html;
 }
 
-// Rich chip for a previous-survey group: name + parent/level context + members + overlap
-function prevChipHTML(link, node, sug, isSuggested) {
-  const h = HISTORICAL_GROUPS.find(g => g.name === link.name);
-  const size = h ? h.size : (link.size || '');
-  const parent = h && h.parent ? h.parent : '';
-  const meta = [parent, size ? size + ' members' : ''].filter(Boolean).join(' · ');
-  const cls = isSuggested ? (link.status === 'review' ? 'is-review' : 'is-suggested') : 'is-linked';
-  const conf = isSuggested && sug && sug.overlap > 0 ? '<span class="tr-chip-conf">' + sug.overlap + '%</span>' : '';
-  const check = isSuggested ? '' : '<i data-icon="check" class="tr-chip-check"></i>';
-  const removeX = isSuggested ? '' : '<button class="tr-chip-x" data-treeunlink="' + esc(node.id) + '|' + esc(link.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button>';
-  return '<span class="tr-chip ' + cls + '">' + check +
-    '<span class="tr-chip-body"><span class="tr-chip-name">' + esc(link.name) + '</span>' +
-    (meta ? '<span class="tr-chip-meta">' + esc(meta) + '</span>' : '') + '</span>' +
-    conf + removeX + '</span>';
+// count descendants that don't have a confirmed link yet (for the collapsed-group hint)
+function countUnlinked(n) {
+  let c = 0;
+  (n.children || []).forEach(ch => {
+    if (!(ch.links && ch.links.some(l => l.status === 'linked'))) c++;
+    c += countUnlinked(ch);
+  });
+  return c;
 }
 
-// Inline "why is this suggested" detail
-function treeDetailHTML(node, sug) {
-  const totalOld = sug.oldGroups.reduce((a, g) => a + (g.size || 0), 0);
-  const matchCount = Math.round((totalOld * sug.overlap) / 100);
-  const typeLabel = { match: 'Direct match', merge: 'Merged', split: 'Split', new: 'New group' }[sug.type];
-  const overlapBit = sug.overlap > 0
-    ? '<span class="tr-detail-stat"><span class="tr-detail-stat-num">' + sug.overlap + '%</span> member overlap</span>' +
-      '<span class="tr-detail-stat"><span class="tr-detail-stat-num">' + matchCount + ' of ' + totalOld + '</span> members matched</span>'
-    : '';
-  return '<div class="tr-detail"><div class="tr-detail-inner">' +
-    '<div class="tr-detail-top"><span class="gl-tag ' + ({match:'is-match',merge:'is-merge',split:'is-split',new:'is-new'}[sug.type]) + '"><i data-icon="' + ({match:'zap',merge:'aggregations',split:'share-1',new:'plus'}[sug.type]) + '"></i> ' + typeLabel + '</span>' + overlapBit + '</div>' +
-    '<p class="tr-detail-why">' + esc(cardInsight(sug)) + '</p>' +
-    '<div class="tr-detail-actions">' +
-    '<button class="btn btn-tertiary" data-detailreview="' + sug.id + '"><i data-icon="user-plus"></i> Request review</button>' +
-    '<div class="tr-detail-actions-main">' +
-    (sug.oldGroups.length > 0 ? '<button class="btn btn-secondary" data-treereject="' + esc(node.id) + '">Don’t link</button>' : '') +
-    '<button class="btn btn-primary" data-treeapprove="' + esc(node.id) + '"><i data-icon="check"></i> Confirm link</button>' +
-    '</div></div>' +
-    '</div></div>';
+// Build the middle connector column (status icons) and the right link-card column, row-aligned.
+function linkColumns(n, sug) {
+  if (n.links.length === 0) {
+    if (state.treeLinkingNodeId === n.id) {
+      const right = '<div class="tr-rrow"><div class="tr-linksearch">' +
+        '<div class="search-wrap"><span class="search-icon"><i data-icon="search"></i></span>' +
+        '<input type="search" class="srch" id="treeLinkSearch" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" autocomplete="off" />' +
+        '</div><div class="menu" id="treeLinkMenu"></div></div></div>';
+      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+    }
+    const right = '<div class="tr-rrow"><div class="tr-lrow is-empty">No link yet</div></div>';
+    return { mid: '', right };
+  }
+  let right = '';
+  n.links.forEach(l => {
+    const hg = HISTORICAL_GROUPS.find(g => g.name === l.name);
+    const size = hg ? hg.size : (l.size || '');
+    const isS = l.status === 'suggested' || l.status === 'review';
+    const actions = isS
+      ? confBadge(sug) +
+        '<div class="tt-demo"><button class="ib tr-act-btn is-confirm" data-linkapprove="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Confirm this link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
+        '<div class="tt-demo"><button class="ib tr-act-btn is-reject" data-linkreject="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>'
+      : '<div class="tt-demo"><button class="tr-lrow-x" data-treeunlink="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>';
+    right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
+      '<span class="tr-lrow-main"><span class="tr-lrow-name">' + esc(l.name) + '</span>' +
+      (size !== '' ? '<span class="tr-count"><i data-icon="users"></i>' + size + '</span>' : '') +
+      '</span><span class="tr-lrow-act">' + actions + '</span></div></div>';
+  });
+  // add another previous-survey link (merge) — picker appears on demand, below the links
+  if (state.treeLinkingNodeId === n.id) {
+    right += '<div class="tr-rrow"><div class="tr-linksearch">' +
+      '<div class="search-wrap"><span class="search-icon"><i data-icon="search"></i></span>' +
+      '<input type="search" class="srch" id="treeLinkSearch" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" autocomplete="off" />' +
+      '</div><div class="menu" id="treeLinkMenu"></div></div></div>';
+  }
+  return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+}
+
+// Full path of a previous-survey group, walking up its parents
+function prevPath(name) {
+  const chain = []; let cur = name, guard = 0;
+  while (cur && guard++ < 10) {
+    chain.unshift(cur);
+    const h = HISTORICAL_GROUPS.find(g => g.name === cur);
+    cur = h && h.parent ? h.parent : null;
+  }
+  return chain;
+}
+
+// The people who appear in BOTH groups (synthetic, deterministic per group name).
+// The match % IS this member overlap, so the badge and the popover tell one story.
+function overlapMembers(sug) {
+  const a = sug.newGroups.reduce((s, g) => s + (g.size || 0), 0);   // this survey's group
+  const b = sug.oldGroups.reduce((s, g) => s + (g.size || 0), 0);   // previous survey's group
+  const ov = sug.overlap || 0;
+  const min = Math.min(a, b), max = Math.max(a, b);
+  // people in both groups can never exceed the smaller group
+  const shared = Math.max(1, Math.min(min, Math.round(min * ov / 100)));
+  const pct = Math.round(shared / min * 100);   // overlap as a share of the smaller group — this is the badge %
+  const cur = sug.newGroups[0] ? sug.newGroups[0].name : 'This group';
+  const prev = sug.oldGroups[0] ? sug.oldGroups[0].name : 'Previous group';
+  const smallerName = a <= b ? cur : prev;
+  const biggerName = a <= b ? prev : cur;
+  const h = hashCode(cur);
+  const list = [];
+  for (let i = 0; i < shared; i++) {
+    const full = FIRST_NAMES[(h + i) % FIRST_NAMES.length];
+    list.push({ name: full, initials: full.split(' ').map(w => w[0]).join(''), color: AV_COLORS[(h + i) % AV_COLORS.length] });
+  }
+  return { a, b, shared, pct, min, max, cur, prev, smallerName, biggerName, list };
+}
+
+// Confidence badge — the number is the member overlap, explained in full by the hover card
+function confBadge(sug) {
+  if (!sug) return '';
+  const o = overlapMembers(sug);
+  const lvl = o.pct >= 80 ? 'is-high' : o.pct >= 50 ? 'is-mid' : 'is-low';
+  return '<span class="tr-conf-badge ' + lvl + '" data-matchpop="' + sug.id + '" tabindex="0" aria-label="See why we suggest this link">' + o.pct + '%</span>';
+}
+
+function matchPopHTML(sug) {
+  const o = overlapMembers(sug);
+  const preview = o.list.slice(0, 4);
+  const rows = preview.map(m =>
+    '<div class="mp-row"><span class="av av-24 ' + m.color + '">' + m.initials + '</span><span class="mp-name">' + esc(m.name) + '</span></div>').join('');
+  const more = o.shared - preview.length;
+  return '<div class="mp-hd"><i class="mp-hd-icon" data-icon="users"></i><span class="mp-title">' + o.pct + '% member overlap</span></div>' +
+    '<div class="mp-sub">' + o.shared + ' of the ' + o.min + ' people in ' + esc(o.smallerName) + ' are also in ' + esc(o.biggerName) + '. That’s the ' + o.pct + '% match.</div>' +
+    '<div class="mp-list">' + rows + (more > 0 ? '<div class="mp-more">+ ' + more + ' more</div>' : '') + '</div>' +
+    '<div class="mp-why"><i class="mp-why-icon" data-icon="info"></i><span>Suggested, not linked automatically, because the names differ (' + esc(o.cur) + ' vs ' + esc(o.prev) + ').</span></div>' +
+    '<div class="mp-foot"><button class="btn btn-secondary" data-seeoverlap="' + sug.id + '">See overlapping people</button></div>';
+}
+
+// Full list of the overlapping people, reusing the members overlay.
+function openOverlapMembers(sug) {
+  const o = overlapMembers(sug);
+  $('#members-title').textContent = 'People in both groups';
+  $('#membersSubtitle').textContent = o.cur + ' ↔ ' + o.prev;
+  $('#membersList').innerHTML = o.list.map((m, i) =>
+    '<div class="mb-row"><div class="av av-32 ' + m.color + '">' + m.initials + '</div>' +
+    '<div class="mb-meta"><div class="mb-name">' + esc(m.name) + '</div>' +
+    '<div class="mb-email">user_' + (1000 + i) + '@company.com</div></div>' +
+    '<div class="mb-role">' + ROLES[i % ROLES.length] + '</div></div>').join('');
+  $('#membersTotal').textContent = o.shared + ' people in both groups';
+  openOverlay('membersOverlay');
+  icons();
 }
 
 function renderTree() {
@@ -1602,21 +2238,20 @@ function renderTree() {
   }
   body.innerHTML = data.map(n => treeRowHTML(n, 0)).join('');
 
-  body.querySelectorAll('[data-sugrow]').forEach(row => row.addEventListener('click', (e) => {
-    if (e.target.closest('button') || e.target.closest('input')) return;
-    const id = row.dataset.sugrow;
-    if (state.treeExpanded.has(id)) state.treeExpanded.delete(id); else state.treeExpanded.add(id);
-    renderTree();
-  }));
-  body.querySelectorAll('[data-detailreview]').forEach(b => b.addEventListener('click', () => openReview(Number(b.dataset.detailreview))));
   body.querySelectorAll('[data-treetoggle]').forEach(b => b.addEventListener('click', () => {
     const id = b.dataset.treetoggle;
-    if (state.treeCollapsed.has(id)) state.treeCollapsed.delete(id); else state.treeCollapsed.add(id);
-    renderTree();
+    const wrap = body.querySelector('.tr-children[data-childrenof="' + id + '"]');
+    const opening = state.treeCollapsed.has(id);
+    if (opening) state.treeCollapsed.delete(id); else state.treeCollapsed.add(id);
+    b.classList.toggle('is-open', opening);
+    if (!wrap) { renderTree(); return; }
+    accordion(wrap, opening);
   }));
   body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
   body.querySelectorAll('[data-treeapprove]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treeapprove, 'approve')));
   body.querySelectorAll('[data-treereject]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treereject, 'reject')));
+  body.querySelectorAll('[data-linkapprove]').forEach(b => b.addEventListener('click', () => { const [id, name] = b.dataset.linkapprove.split('|'); treeLinkAction(id, name, 'approve'); }));
+  body.querySelectorAll('[data-linkreject]').forEach(b => b.addEventListener('click', () => { const [id, name] = b.dataset.linkreject.split('|'); treeLinkAction(id, name, 'reject'); }));
   body.querySelectorAll('[data-treeadd]').forEach(b => b.addEventListener('click', () => {
     state.treeLinkingNodeId = b.dataset.treeadd;
     renderTree();
@@ -1636,7 +2271,129 @@ function renderTree() {
   }));
   const input = $('#treeLinkSearch');
   if (input) { renderTreeLinkMenu(''); input.addEventListener('input', () => renderTreeLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
+  const prevHead = $('#trColPrev'); if (prevHead) prevHead.textContent = state.selectedSurvey;
+  const glLead = $('#glLead'); if (glLead) glLead.textContent = 'Link your groups to ' + state.selectedSurvey + ' so results can be compared over time.';
   icons();
+  setTimeout(drawTreeConnectors, 0);
+}
+
+// Smoothly expand/collapse a children container (accordion) so rows below slide along.
+function accordion(wrap, opening) {
+  wrap.classList.add('is-animating');
+  if (opening) {
+    wrap.classList.remove('is-collapsed');
+    wrap.style.height = '0px'; wrap.style.opacity = '0';
+    void wrap.offsetHeight;                       // reflow at start state
+    wrap.style.height = wrap.scrollHeight + 'px'; wrap.style.opacity = '1';
+  } else {
+    wrap.style.height = wrap.scrollHeight + 'px'; wrap.style.opacity = '1';
+    void wrap.offsetHeight;
+    wrap.style.height = '0px'; wrap.style.opacity = '0';
+  }
+  const done = (e) => {
+    if (e.propertyName !== 'height') return;
+    wrap.removeEventListener('transitionend', done);
+    wrap.classList.remove('is-animating');
+    wrap.style.height = ''; wrap.style.opacity = '';
+    if (!opening) wrap.classList.add('is-collapsed');
+    drawTreeConnectors();
+  };
+  wrap.addEventListener('transitionend', done);
+  requestAnimationFrame(drawTreeConnectors);
+}
+
+// Draw the branching bracket lines between each left group card and its right link cards.
+function drawTreeConnectors() {
+  document.querySelectorAll('#treeBody .tr-card').forEach(card => {
+    const svg = card.querySelector('.tr-conn-svg');
+    if (!svg) return;
+    const mid = card.querySelector('.tr-card-mid');
+    const left = card.querySelector('.tr-leftcard');
+    const rows = [...card.querySelectorAll('.tr-card-right .tr-rrow[data-linkstatus]')];
+    const searchEl = card.querySelector('.tr-card-right .tr-linksearch');
+    if (!mid || !left || (!rows.length && !searchEl)) { svg.innerHTML = ''; return; }
+    const mr = mid.getBoundingClientRect();
+    const w = mr.width, h = mr.height;
+    if (!w || !h) return;
+    const cy = (el) => { const r = el.getBoundingClientRect(); return r.top + r.height / 2 - mr.top; };
+    // single link → straight line at the card centre; multiple links → branch off
+    // the group-name line so the bracket reads as splitting from the name
+    const multi = rows.length > 1;
+    const nameEl = left.querySelector('.tr-group') || left;
+    const trunkY = cy(nameEl);
+    const R = 8, mx = w - 16;
+    // start the line at the left card's right edge (negative x, drawn through the reserved
+    // add-tab gap thanks to overflow:visible) so the dashes reach the card
+    const sx = left.getBoundingClientRect().right - mr.left;
+    const statuses = rows.map(row => row.dataset.linkstatus === 'suggested' ? 'is-suggested' : 'is-linked');
+    const ys = rows.map(cy);
+    let d = '';
+    if (!rows.length) {
+      // no confirmed/suggested links, only the open search box → nothing to bracket here
+    } else if (!multi) {
+      d = '<path class="tr-conn-path ' + statuses[0] + '" d="M ' + sx + ' ' + ys[0] + ' H ' + w + '"/>';
+    } else if (statuses.every(s => s === statuses[0])) {
+      // all links share a status → one clean coloured bracket
+      rows.forEach((row, i) => {
+        const ry = ys[i];
+        let path;
+        if (Math.abs(ry - trunkY) < 2) {
+          path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
+        } else {
+          const dir = ry > trunkY ? 1 : -1;
+          const r = Math.min(R, Math.abs(ry - trunkY) / 2);
+          path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
+            ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
+            ' V ' + (ry - dir * r) +
+            ' Q ' + mx + ' ' + ry + ' ' + (mx + r) + ' ' + ry +
+            ' H ' + w;
+        }
+        d += '<path class="tr-conn-path ' + statuses[i] + '" d="' + path + '"/>';
+      });
+    } else {
+      // mixed statuses → neutral structural bracket, each leaf stub coloured by its own status
+      const yTop = Math.min(trunkY, ...ys), yBot = Math.max(trunkY, ...ys);
+      d += '<path class="tr-conn-path is-linked" d="M ' + sx + ' ' + trunkY + ' H ' + mx + '"/>';
+      d += '<path class="tr-conn-path is-linked" d="M ' + mx + ' ' + yTop + ' V ' + yBot + '"/>';
+      rows.forEach((row, i) => {
+        d += '<path class="tr-conn-path ' + statuses[i] + '" d="M ' + mx + ' ' + ys[i] + ' H ' + w + '"/>';
+      });
+    }
+    // dashed connector from the group card to the open search box
+    if (searchEl) {
+      const sy = cy(searchEl);
+      let path;
+      if (Math.abs(sy - trunkY) < 2) {
+        path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
+      } else {
+        const dir = sy > trunkY ? 1 : -1;
+        const r = Math.min(R, Math.abs(sy - trunkY) / 2);
+        path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
+          ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
+          ' V ' + (sy - dir * r) +
+          ' Q ' + mx + ' ' + sy + ' ' + (mx + r) + ' ' + sy +
+          ' H ' + w;
+      }
+      d += '<path class="tr-conn-path is-search" d="' + path + '"/>';
+    }
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.innerHTML = d;
+  });
+}
+window.addEventListener('resize', () => { if (!$('#view-linking').hidden) drawTreeConnectors(); });
+
+// confirm or reject a single previous-survey link on a node
+function treeLinkAction(nodeId, linkName, action) {
+  const node = findTreeNode(nodeId); if (!node) return;
+  if (action === 'approve') {
+    const l = node.links.find(x => x.name === linkName); if (l) l.status = 'linked';
+    toast(linkName + ' linked');
+  } else {
+    node.links = node.links.filter(x => x.name !== linkName);
+    toast(linkName + ' not linked');
+  }
+  syncSuggestionForNode(node);
+  renderTree(); renderLinking();
 }
 
 function findTreeNode(id, nodes) {
@@ -1670,13 +2427,95 @@ function treeAction(nodeId, action) {
   renderLinking();
 }
 
+// Build the previous-survey groups into a hierarchy (using their parent links),
+// filling in implied parent groups and summing member counts for those.
+function buildHistoryTree() {
+  const byName = {};
+  const ensure = name => (byName[name] = byName[name] || { name, size: null, children: [], parent: undefined, explicit: false });
+  HISTORICAL_GROUPS.forEach(g => { const n = ensure(g.name); n.size = g.size; n.parent = g.parent; n.explicit = true; });
+  HISTORICAL_GROUPS.forEach(g => { if (g.parent) ensure(g.parent); });
+  Object.values(byName).forEach(n => { if (n.parent && byName[n.parent]) byName[n.parent].children.push(n); });
+  const sizeOf = n => (n.explicit && n.size != null) ? n.size : n.children.reduce((a, c) => a + sizeOf(c), 0);
+  Object.values(byName).forEach(n => { if (!n.explicit) n.size = sizeOf(n); n.children.sort((a, b) => b.size - a.size); });
+  let roots = Object.values(byName).filter(n => !n.parent || !byName[n.parent]);
+  // treat top-level divisions as branches of Global Corp so there's one hierarchy
+  const gc = byName['Global Corp'];
+  if (gc) {
+    roots.filter(n => n !== gc).forEach(n => { n.parent = 'Global Corp'; gc.children.push(n); });
+    gc.children.sort((a, b) => b.size - a.size);
+    roots = [gc];
+  }
+  return roots;
+}
+
 function renderTreeLinkMenu(q) {
   const menu = $('#treeLinkMenu'); if (!menu) return;
   const node = findTreeNode(state.treeLinkingNodeId); if (!node) return;
-  const hits = HISTORICAL_GROUPS.filter(g => g.name.toLowerCase().includes(q.toLowerCase()) && !node.links.some(l => l.name === g.name));
-  menu.innerHTML = hits.length === 0
-    ? '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>'
-    : hits.map(g => '<div class="menu-item" data-pick="' + esc(g.name) + '"><span class="menu-item-body"><span class="menu-item-title">' + esc(g.name) + '</span><span class="menu-item-sub">' + g.size + ' members</span></span></div>').join('');
+  const ql = q.toLowerCase();
+  const linked = new Set(node.links.map(l => l.name));
+  const roots = buildHistoryTree();
+  // index the tree: node lookup + parent chain, so we can show a match's path and contents
+  const nodeByName = {}, parentByName = {};
+  (function index(list, parent) { list.forEach(n => { nodeByName[n.name] = n; parentByName[n.name] = parent; index(n.children, n.name); }); })(roots, null);
+  const ancestorsOf = name => { const a = []; let p = parentByName[name]; while (p) { a.unshift(p); p = parentByName[p]; } return a; };
+
+  let html = '';
+  const rowHTML = (n, depth, opts) => {
+    opts = opts || {};
+    const hasKids = n.children.length > 0;
+    const isLinked = linked.has(n.name);
+    const variant = opts.variant === 'match' ? ' is-match' : opts.variant === 'context' ? ' is-context' : '';
+    const chev = hasKids
+      ? '<button class="tlm-chev' + (opts.collapsed ? ' is-collapsed' : '') + '" data-pickertoggle="' + esc(n.name) + '" data-toggmode="' + (opts.mode || 'collapse') + '" aria-label="' + (opts.collapsed ? 'Expand' : 'Collapse') + '"><i data-icon="chevron-down"></i></button>'
+      : '<span class="tlm-chev is-leaf"></span>';
+    return '<div class="menu-item tlm-item' + variant + (isLinked ? ' is-disabled' : '') + '"' + (isLinked ? '' : ' data-pick="' + esc(n.name) + '"') +
+      ' style="padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));">' +
+      chev +
+      '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
+      '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span></span>' +
+      (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
+  };
+
+  if (ql) {
+    // Show matches inside the real structure: ancestors as context (open), the
+    // match highlighted and collapsed by default (expandable to reveal contents).
+    const matches = Object.keys(nodeByName).filter(nm => nm.toLowerCase().includes(ql));
+    const matchSet = new Set(matches);
+    const ancSet = new Set();
+    matches.forEach(m => ancestorsOf(m).forEach(a => ancSet.add(a)));
+    const renderSearch = (n, depth, forced) => {
+      const isM = matchSet.has(n.name);
+      const isAnc = ancSet.has(n.name); // on the path to a (possibly deeper) match
+      if (!forced && !isM && !isAnc) return;
+      let collapsed, mode;
+      if (isAnc) {
+        // ancestor of a match → open by default so nested matches surface
+        collapsed = state.linkPickerCollapsed.has(n.name); mode = 'collapse';
+      } else {
+        // a match with no matching descendants, or an expanded descendant → collapsed by default
+        collapsed = !state.linkPickerExpanded.has(n.name); mode = 'expand';
+      }
+      html += rowHTML(n, depth, { collapsed, mode, variant: (isAnc && !isM) ? 'context' : null });
+      if (!collapsed) n.children.forEach(c => renderSearch(c, depth + 1, !isAnc));
+    };
+    roots.forEach(r => renderSearch(r, 0, false));
+  } else {
+    const renderBrowse = (n, depth) => {
+      const collapsed = state.linkPickerCollapsed.has(n.name);
+      html += rowHTML(n, depth, { collapsed, mode: 'collapse' });
+      if (!collapsed) n.children.forEach(c => renderBrowse(c, depth + 1));
+    };
+    roots.forEach(r => renderBrowse(r, 0));
+  }
+  if (!html) html = '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>';
+  menu.innerHTML = html;
+  menu.querySelectorAll('[data-pickertoggle]').forEach(b => b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const name = b.dataset.pickertoggle;
+    const set = b.dataset.toggmode === 'expand' ? state.linkPickerExpanded : state.linkPickerCollapsed;
+    if (set.has(name)) set.delete(name); else set.add(name);
+    renderTreeLinkMenu(q);
+  }));
   menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
     node.links.push({ name: mi.dataset.pick, status: 'linked' });
     state.treeLinkingNodeId = null;
@@ -1710,6 +2549,56 @@ document.addEventListener('keydown', (e) => {
 
 $('#exportBtn').addEventListener('click', () => toast('Mappings exported to Excel'));
 
+/* ═══════════════ MATCH HOVER CARD ═══════════════ */
+(function () {
+  const pop = $('#matchPop');
+  let closeTimer = null, currentId = null;
+  const clear = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
+  const hide = () => { pop.hidden = true; currentId = null; };
+  const scheduleHide = () => { clear(); closeTimer = setTimeout(hide, 140); };
+  function position(anchor) {
+    const r = anchor.getBoundingClientRect();
+    const pw = pop.offsetWidth, ph = pop.offsetHeight;
+    let left = r.right - pw;
+    let top = r.bottom + 8;
+    if (top + ph > window.innerHeight - 8) top = r.top - ph - 8;   // flip above
+    pop.style.left = Math.max(8, Math.min(left, window.innerWidth - pw - 8)) + 'px';
+    pop.style.top = Math.max(8, top) + 'px';
+  }
+  function show(anchor) {
+    clear();
+    const id = Number(anchor.dataset.matchpop);
+    if (currentId === id && !pop.hidden) return;
+    const sug = suggestions.find(s => s.id === id);
+    if (!sug) return;
+    currentId = id;
+    pop.innerHTML = matchPopHTML(sug);
+    pop.hidden = false;
+    icons();
+    position(anchor);
+    const btn = pop.querySelector('[data-seeoverlap]');
+    if (btn) btn.addEventListener('click', () => { hide(); openOverlapMembers(sug); });
+  }
+  document.addEventListener('mouseover', (e) => {
+    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    if (a) show(a);
+  });
+  document.addEventListener('mouseout', (e) => {
+    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    if (!a) return;
+    const to = e.relatedTarget;
+    if (to && to.closest && (to.closest('[data-matchpop]') || to.closest('#matchPop'))) return;
+    scheduleHide();
+  });
+  pop.addEventListener('mouseenter', clear);
+  pop.addEventListener('mouseleave', scheduleHide);
+  document.addEventListener('focusin', (e) => {
+    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    if (a) show(a); else if (!e.target.closest || !e.target.closest('#matchPop')) scheduleHide();
+  });
+  window.addEventListener('scroll', hide, true);
+})();
+
 /* ═══════════════ TOOLTIP AUTO-POSITION ═══════════════ */
 (function () {
   const GAP = 10, PAD = 8;
@@ -1739,6 +2628,7 @@ $('#exportBtn').addEventListener('click', () => toast('Mappings exported to Exce
 })();
 
 /* ═══════════════ INIT ═══════════════ */
+// The current structure starts fully expanded.
 renderHistory();
 renderOverview();
 renderLinking();
