@@ -363,13 +363,17 @@
     .tr-conn-path.is-linked { stroke: var(--border-action); }
     .tr-conn-path.is-suggested { stroke: var(--border-info-base); stroke-dasharray: 4 3; }
     .tr-conn-path.is-search { stroke: var(--border-action); stroke-dasharray: 4 3; }
+    .tr-conn-path.is-empty { stroke: var(--border-base-hover); stroke-dasharray: 4 3; }
 
     /* right column: previous-survey link cards */
     .tr-card-right { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
     .tr-rrow { display: flex; align-items: center; min-width: 0; }
     .tr-lrow { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-tight) var(--spacing-base-tight); font-size: 14px; min-height: 50px; transition: border-color var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-suggested { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
-    .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: flex-start; }
+    .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: space-between; font-family: inherit; font-size: 14px; width: 100%; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
+    .tr-lrow.is-empty:hover { border-color: var(--border-action); background: var(--bg-secondary); color: var(--content-secondary); }
+    .tr-empty-plus { width: 16px; height: 16px; display: flex; flex-shrink: 0; opacity: 0; color: var(--content-action); transition: opacity var(--motion-fast) var(--ease-out); }
+    .tr-lrow.is-empty:hover .tr-empty-plus { opacity: 1; }
     /* inline "link a group" picker (flow 1) */
     .tr-linksearch { position: relative; flex: 1; min-width: 0; }
     .tr-linksearch .search-wrap { width: 100%; }
@@ -427,8 +431,6 @@
     .mp-row { display: flex; align-items: center; gap: var(--spacing-tight); }
     .mp-name { font-size: 14px; color: var(--content-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .mp-more { font-size: 12px; font-weight: 500; color: var(--content-secondary); }
-    .mp-why { display: flex; gap: var(--spacing-tight); font-size: 12px; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--spacing-tight) var(--spacing-base-tight); }
-    .mp-why-icon { width: 14px; height: 14px; display: flex; flex-shrink: 0; margin-top: 1px; color: var(--content-secondary); }
     .mp-foot { margin-top: var(--spacing-extra-tight); }
     .mp-foot .btn { width: 100%; }
 
@@ -2128,8 +2130,8 @@ function linkColumns(n, sug) {
         '</div><div class="menu" id="treeLinkMenu"></div></div></div>';
       return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
     }
-    const right = '<div class="tr-rrow"><div class="tr-lrow is-empty">No link yet</div></div>';
-    return { mid: '', right };
+    const right = '<div class="tr-rrow"><button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"><span>No link yet</span><i class="tr-empty-plus" data-icon="plus"></i></button></div>';
+    return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
   }
   let right = '';
   n.links.forEach(l => {
@@ -2205,9 +2207,8 @@ function matchPopHTML(sug) {
     '<div class="mp-row"><span class="av av-24 ' + m.color + '">' + m.initials + '</span><span class="mp-name">' + esc(m.name) + '</span></div>').join('');
   const more = o.shared - preview.length;
   return '<div class="mp-hd"><i class="mp-hd-icon" data-icon="users"></i><span class="mp-title">' + o.pct + '% member overlap</span></div>' +
-    '<div class="mp-sub">' + o.shared + ' of the ' + o.min + ' people in ' + esc(o.smallerName) + ' are also in ' + esc(o.biggerName) + '. That’s the ' + o.pct + '% match.</div>' +
+    '<div class="mp-sub">' + o.shared + ' of the ' + o.min + ' people in ' + esc(o.smallerName) + ' are also in ' + esc(o.biggerName) + '.</div>' +
     '<div class="mp-list">' + rows + (more > 0 ? '<div class="mp-more">+ ' + more + ' more</div>' : '') + '</div>' +
-    '<div class="mp-why"><i class="mp-why-icon" data-icon="info"></i><span>Suggested, not linked automatically, because the names differ (' + esc(o.cur) + ' vs ' + esc(o.prev) + ').</span></div>' +
     '<div class="mp-foot"><button class="btn btn-secondary" data-seeoverlap="' + sug.id + '">See overlapping people</button></div>';
 }
 
@@ -2311,7 +2312,9 @@ function drawTreeConnectors() {
     const left = card.querySelector('.tr-leftcard');
     const rows = [...card.querySelectorAll('.tr-card-right .tr-rrow[data-linkstatus]')];
     const searchEl = card.querySelector('.tr-card-right .tr-linksearch');
-    if (!mid || !left || (!rows.length && !searchEl)) { svg.innerHTML = ''; return; }
+    // faint preview line to the empty "No link yet" slot, only while it's hovered
+    const emptyEl = card.classList.contains('show-empty-link') ? card.querySelector('.tr-card-right .tr-lrow.is-empty') : null;
+    if (!mid || !left || (!rows.length && !searchEl && !emptyEl)) { svg.innerHTML = ''; return; }
     const mr = mid.getBoundingClientRect();
     const w = mr.width, h = mr.height;
     if (!w || !h) return;
@@ -2376,11 +2379,48 @@ function drawTreeConnectors() {
       }
       d += '<path class="tr-conn-path is-search" d="' + path + '"/>';
     }
+    // faint dashed preview line to the hovered empty slot
+    if (emptyEl) {
+      const ey = cy(emptyEl);
+      let path;
+      if (Math.abs(ey - trunkY) < 2) {
+        path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
+      } else {
+        const dir = ey > trunkY ? 1 : -1;
+        const r = Math.min(R, Math.abs(ey - trunkY) / 2);
+        path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
+          ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
+          ' V ' + (ey - dir * r) +
+          ' Q ' + mx + ' ' + ey + ' ' + (mx + r) + ' ' + ey +
+          ' H ' + w;
+      }
+      d += '<path class="tr-conn-path is-empty" d="' + path + '"/>';
+    }
     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
     svg.innerHTML = d;
   });
 }
 window.addEventListener('resize', () => { if (!$('#view-linking').hidden) drawTreeConnectors(); });
+
+// Show a faint dashed preview line from a group to its empty "No link yet" slot on hover.
+document.addEventListener('mouseover', (e) => {
+  const b = e.target.closest && e.target.closest('.tr-lrow.is-empty');
+  if (!b) return;
+  const card = b.closest('.tr-card');
+  if (!card || card.classList.contains('show-empty-link')) return;
+  card.classList.add('show-empty-link');
+  drawTreeConnectors();
+});
+document.addEventListener('mouseout', (e) => {
+  const b = e.target.closest && e.target.closest('.tr-lrow.is-empty');
+  if (!b) return;
+  const to = e.relatedTarget;
+  if (to && to.closest && to.closest('.tr-lrow.is-empty') === b) return;
+  const card = b.closest('.tr-card');
+  if (!card) return;
+  card.classList.remove('show-empty-link');
+  drawTreeConnectors();
+});
 
 // confirm or reject a single previous-survey link on a node
 function treeLinkAction(nodeId, linkName, action) {
