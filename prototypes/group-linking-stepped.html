@@ -120,17 +120,27 @@
     .gl-cc-select i { width: 16px; height: 16px; display: flex; color: var(--content-subtle); }
     .gl-cc-select:hover i { color: var(--content-brand-base); }
     .gl-cc-history { flex-shrink: 0; }
-    .gl-history { margin-top: var(--spacing-loose); padding: var(--spacing-loose) 0 0; border-top: 1px solid var(--border-base); max-width: 520px; }
-    .gl-hist-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
-    .gl-hist-title { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--content-secondary); }
-    .gl-hist-info { display: flex; color: var(--content-subtle); }
-    .gl-hist-info i { width: 16px; height: 16px; display: flex; }
+    /* Step 1: survey select field + connected-surveys timeline */
+    .ss-layout { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .ss-main { width: 100%; }
+    .ss-field { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .ss-label { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .ss-help { font-size: 12px; line-height: 1.5; color: var(--content-secondary); margin: 0 0 var(--spacing-extra-tight); }
+    .gl-hist-toggle { margin-top: var(--spacing-base); width: fit-content; justify-content: flex-start; margin-left: calc(-1 * var(--spacing-base-tight)); }
+    .gl-hist-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-fast) var(--ease-out); }
+    .gl-hist-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+    .gl-history { width: 100%; padding: var(--spacing-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); }
+    .gl-hist-lead { font-size: 14px; line-height: 1.55; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
     .gl-chain { position: relative; padding-left: var(--spacing-loose); }
-    .gl-chain::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--border-base); }
-    .gl-chain-item { position: relative; display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-tight) 0; font-size: 14px; color: var(--content-secondary); }
+    .gl-chain::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: 14px; width: 2px; background: var(--border-base); }
+    .gl-chain-item { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); padding: var(--spacing-tight) 0; }
     .gl-chain-item::before { content: ''; position: absolute; left: calc(-1 * var(--spacing-loose) + 1px); top: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--bg-positive-base); box-shadow: 0 0 0 3px var(--bg-base); }
-    .gl-chain-item.is-current { font-weight: 600; color: var(--content-base); }
-    .gl-chain-item.is-current::before { background: var(--bg-brand-base); }
+    .gl-chain-item.role-current::before { background: var(--bg-brand-base); }
+    .gl-chain-item.role-linked::before { background: var(--content-subtle); }
+    .gl-chain-main { display: flex; flex-direction: column; min-width: 0; }
+    .gl-chain-name { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .gl-chain-item.role-linked .gl-chain-name { font-weight: 500; color: var(--content-secondary); }
+    .gl-chain-meta { font-size: 12px; color: var(--content-secondary); }
 
     /* Review card */
     .gl-review { margin-top: var(--spacing-loose); }
@@ -287,7 +297,7 @@
     .tr-ctl .menu { position: absolute; top: 100%; right: 0; margin-top: var(--spacing-extra-tight); z-index: 60; }
     /* Structure selector — colored dropdown tinted by the structure's own colour, inside a grey bar with progress */
     .struct-picker { margin-bottom: var(--spacing-loose); }
-    .struct-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); background: var(--bg-secondary); border-radius: var(--radius-lg); padding: var(--spacing-base-tight); }
+    .struct-bar { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: var(--spacing-base); background: var(--bg-secondary); border-radius: var(--radius-lg); padding: var(--spacing-base-tight); }
     .struct-bar.is-blue { background: color-mix(in srgb, var(--bg-info-subtle) 55%, var(--bg-base)); }
     .struct-bar.is-green { background: color-mix(in srgb, var(--bg-positive-subtle) 55%, var(--bg-base)); }
     .struct-bar.is-orange { background: color-mix(in srgb, var(--bg-warning-subtle) 55%, var(--bg-base)); }
@@ -319,6 +329,73 @@
     .struct-mi-count.is-none { color: var(--content-subtle); }
     .struct-mi-check { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-brand-base); }
 
+    /* Stepped flow — select-a-survey step */
+    .step-card { background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-card); border-radius: var(--radius-lg); padding: var(--spacing-loose); margin-top: var(--spacing-base); }
+    .step-head { display: flex; align-items: flex-start; gap: var(--spacing-base); margin-bottom: var(--spacing-loose); }
+    .step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--bg-brand-base); color: var(--content-on-brand-base); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+    .step-title { font-size: 18px; font-weight: 600; color: var(--content-base); }
+    .step-sub { font-size: 14px; color: var(--content-secondary); margin-top: 2px; }
+    /* survey list item (All-surveys row style) + Change */
+    .ss-item { display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-base); }
+    .ss-item-body { flex: 1; min-width: 0; }
+    .ss-item-name { font-size: 14px; font-weight: 600; color: var(--content-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ss-item-prog { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+    .ss-item-prog i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
+    .ss-item .btn { flex-shrink: 0; }
+    /* survey status badge (rounded corners, not a pill) */
+    .ss-status { display: inline-flex; align-items: baseline; gap: var(--spacing-extra-tight); padding: 2px var(--spacing-tight); border-radius: var(--radius-base); font-size: 12px; font-weight: 600; line-height: 1.5; white-space: nowrap; flex-shrink: 0; }
+    .ss-status-sub { font-weight: 400; opacity: .85; }
+    .ss-status.is-completed { background: var(--bg-positive-base); color: var(--content-on-brand-base); }
+    .ss-status.is-running { background: var(--bg-warning-bold); color: var(--content-base); }
+    .ss-status.is-upcoming { background: var(--bg-inverse-base); color: var(--content-on-brand-base); }
+    .ss-status.is-draft { background: var(--bg-secondary); color: var(--content-secondary); }
+    /* survey response rate */
+    .ss-resp { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); width: 68px; flex-shrink: 0; }
+    .ss-resp-top { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); }
+    .ss-resp-top i { width: 14px; height: 14px; display: flex; }
+    .ss-resp-bar { height: 3px; border-radius: var(--radius-full); background: var(--bg-secondary); overflow: hidden; }
+    .ss-resp-bar span { display: block; height: 100%; border-radius: var(--radius-full); background: var(--bg-info-base); }
+    /* picker dialog list */
+    .ss-picker-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .surv-opts { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .surv-opt { font-family: inherit; text-align: left; width: 100%; display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base); cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
+    .surv-opt:hover { border-color: var(--border-action-hover); }
+    .surv-opt.is-selected { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
+    .surv-opt-radio { flex-shrink: 0; width: 18px; height: 18px; border-radius: var(--radius-full); border: 2px solid var(--border-base); position: relative; }
+    .surv-opt.is-selected .surv-opt-radio { border-color: var(--border-brand-base); }
+    .surv-opt.is-selected .surv-opt-radio::after { content: ''; position: absolute; inset: 3px; border-radius: var(--radius-full); background: var(--bg-brand-base); }
+    .surv-opt-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
+    .surv-opt-icon i { width: 18px; height: 18px; display: flex; }
+    .surv-opt-body { flex: 1; min-width: 0; }
+    .surv-opt-name { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .surv-opt-meta { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 1px; }
+    .step-actions { margin-top: var(--spacing-loose); display: flex; align-items: center; justify-content: flex-end; }
+
+    /* Accordion sections (stepped flow) */
+    .acc { background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-card); border-radius: var(--radius-lg); margin-top: var(--spacing-base); overflow: hidden; gap: 0; }
+    .acc-head { width: 100%; font-family: inherit; display: flex; align-items: center; gap: var(--spacing-base); padding: var(--spacing-loose); background: none; border: 0; cursor: pointer; text-align: left; }
+    .acc-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; background: var(--bg-secondary); color: var(--content-secondary); }
+    .acc.is-open .acc-num { background: var(--bg-brand-base); color: var(--content-on-brand-base); }
+    .acc-head-text { flex: 1; min-width: 0; }
+    .acc-title { display: block; font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .acc-summary { display: none; font-size: 14px; color: var(--content-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .acc:not(.is-open) .acc-summary { display: block; }
+    .acc-description { display: none; font-size: 14px; line-height: 1.5; color: var(--content-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .acc.is-open .acc-description { display: block; }
+    .acc-chev { width: 20px; height: 20px; display: flex; flex-shrink: 0; color: var(--content-secondary); transition: transform var(--motion-base) var(--ease-out); }
+    .acc.is-open .acc-chev { transform: rotate(180deg); }
+    .acc.is-open .acc-head { border-bottom: 1px solid var(--border-base); }
+    .acc.is-open { overflow: visible; }
+    #acc-select.is-open { overflow: hidden; }
+    /* height expand/collapse via grid-template-rows 0fr→1fr (same as the DS accordion) */
+    .sacc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
+    .acc.is-open .sacc-body { grid-template-rows: 1fr; }
+    .sacc-body-inner { overflow: hidden; opacity: 0; transition: opacity var(--motion-base) var(--ease-out); }
+    .acc.is-open .sacc-body-inner { opacity: 1; transition-delay: 60ms; }
+    .sacc-body-pad { padding: var(--spacing-loose); }
+    #acc-select .sacc-body-pad { background: var(--bg-secondary); }
+    .acc-lead { font-size: 14px; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
+
     /* In-page onboarding explainer card */
     .gl-explainer { display: flex; flex-direction: column; gap: var(--spacing-loose); margin-top: var(--spacing-base); background: var(--bg-warning-subtle); border: none; border-radius: var(--radius-lg); padding: var(--spacing-loose) var(--spacing-super-loose); overflow: hidden; }
     .gl-explainer-main { display: flex; align-items: center; gap: var(--spacing-loose); }
@@ -332,6 +409,10 @@
     .gl-explainer-art svg { width: 100%; height: auto; }
     @media (max-width: 720px) { .gl-explainer-art { display: none; } }
     /* expandable learn panel — Chrome-style bento feature cards */
+    .gl-learn-collapse { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
+    .gl-learn-collapse.is-open { grid-template-rows: 1fr; }
+    .gl-learn-clip { overflow: hidden; opacity: 0; transition: opacity var(--motion-base) var(--ease-out); }
+    .gl-learn-collapse.is-open .gl-learn-clip { opacity: 1; transition-delay: 60ms; }
     .gl-learn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); border-top: 1px solid var(--border-warning-base); padding-top: var(--spacing-loose); }
     .gl-learn-item { background: var(--bg-base); border-radius: var(--radius-xl); box-shadow: var(--sh-card); overflow: hidden; display: flex; flex-direction: column; }
     .gl-learn-item.is-wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
@@ -356,16 +437,22 @@
     /* search + filters + tree get 12px side padding (structure bar above stays flush) */
     .tr-scope { padding: 0 var(--spacing-base-tight); }
     /* prominent status filter chips with counts */
-    .tr-filters { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
+    .tr-filters { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
+    .struct-bar .tr-filters { flex: 1; min-width: 0; justify-content: flex-end; }
     .tr-filter { font-family: inherit; display: inline-flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-secondary); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base); cursor: pointer; transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
     .tr-filter:hover { border-color: var(--border-action-hover); }
     .tr-filter.is-active { color: var(--content-base); font-weight: 600; background: var(--bg-secondary); border-color: var(--border-base-hover); }
     .tr-filter.is-linked.is-active { background: var(--bg-positive-subtle); border-color: var(--border-positive-base); }
     .tr-filter.is-sug.is-active { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
-    .tr-filter-count { font-size: 12px; font-weight: 600; min-width: 20px; text-align: center; padding: 0 var(--spacing-extra-tight); border-radius: var(--radius-full); background: var(--bg-secondary); color: var(--content-secondary); }
+    .tr-filter-count { display: inline-block; font-size: 12px; font-weight: 600; min-width: 20px; text-align: center; padding: 0 var(--spacing-extra-tight); border-radius: var(--radius-full); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-filter.is-linked .tr-filter-count { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
     .tr-filter.is-sug .tr-filter-count { background: var(--bg-info-subtle); color: var(--content-info-base); }
     .tr-filter.is-active .tr-filter-count { background: var(--bg-base); }
+    .tr-filter-count.is-bump { animation: trCountBump var(--motion-slow) var(--ease-standard); }
+    @keyframes trCountBump { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.55); } }
+    /* row leaving the current filter (e.g. after linking in "No link yet") */
+    .tr-card.is-removing { overflow: hidden; pointer-events: none; animation: trRowOut var(--motion-slow) var(--ease-in) forwards; }
+    @keyframes trRowOut { from { opacity: 1; max-height: 140px; margin-bottom: var(--spacing-tight); transform: translateX(0); } to { opacity: 0; max-height: 0; margin-bottom: 0; transform: translateX(-16px); } }
     .gl-card-head { margin-bottom: var(--spacing-base); }
     .gl-card-head-main { flex: 1; min-width: 0; }
     .gl-card-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
@@ -826,13 +913,15 @@
           </div>
           </div><!-- /gl-explainer-main -->
 
-          <div class="gl-learn" id="glLearn" hidden>
+          <div class="gl-learn-collapse" id="glLearn">
+          <div class="gl-learn-clip">
+          <div class="gl-learn">
             <!-- Wide hero card: matching groups -->
             <div class="gl-learn-item is-info is-wide">
               <div class="gl-learn-copy">
                 <span class="gl-learn-step">Linking</span>
                 <h3 class="gl-learn-title">Match groups across both surveys</h3>
-                <p class="gl-learn-text">We suggest a link for each group based on its members. Confirm the ones that fit, adjust the rest, and add a link where a group is still missing one.</p>
+                <p class="gl-learn-text">Choose which survey to use as the previous one, then link this survey’s groups to its groups. That way you can still compare results, even when your organization has changed.</p>
               </div>
               <div class="gl-learn-media">
               <div class="gl-learn-screen" aria-hidden="true">
@@ -864,12 +953,39 @@
               </div>
             </div>
 
-            <!-- Trend card -->
+            <!-- Results card: previous survey score -->
             <div class="gl-learn-item is-brand is-wide">
               <div class="gl-learn-copy">
+                <span class="gl-learn-step">Results</span>
+                <h3 class="gl-learn-title">See previous survey scores in your results</h3>
+                <p class="gl-learn-text">In the results dashboard, every group shows its score from the previous survey — so you can quickly see what’s changed and where action is needed.</p>
+              </div>
+              <div class="gl-learn-media">
+              <div class="gl-learn-screen" aria-hidden="true">
+                <svg viewBox="0 0 300 156" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="8" y="8" width="284" height="140" rx="10" fill="var(--bg-base)" stroke="var(--border-base)" stroke-width="1.5"/>
+                  <rect x="20" y="20" width="86" height="9" rx="4" fill="var(--bg-secondary)"/>
+                  <rect x="20" y="34" width="130" height="6" rx="3" fill="var(--bg-secondary)"/>
+                  <!-- score gauge -->
+                  <circle cx="150" cy="78" r="28" fill="none" stroke="var(--bg-secondary)" stroke-width="7"/>
+                  <circle cx="150" cy="78" r="28" fill="none" stroke="var(--content-positive-base)" stroke-width="7" stroke-linecap="round" stroke-dasharray="154.8 175.9" transform="rotate(-90 150 78)"/>
+                  <text x="150" y="85" text-anchor="middle" font-size="20" font-weight="700" fill="var(--content-base)" font-family="'Poppins', sans-serif">88%</text>
+                  <!-- previous survey comparison -->
+                  <text x="20" y="130" font-size="12" font-weight="600" fill="var(--content-secondary)" font-family="'Poppins', sans-serif">Previous survey</text>
+                  <text x="280" y="130" text-anchor="end" font-size="12" font-weight="600" fill="var(--content-secondary)" font-family="'Poppins', sans-serif">54%</text>
+                  <rect x="20" y="136" width="260" height="4" rx="2" fill="var(--bg-secondary)"/>
+                  <rect x="20" y="136" width="140" height="4" rx="2" fill="var(--bg-brand-base)"/>
+                </svg>
+              </div>
+              </div>
+            </div>
+
+            <!-- Trends card -->
+            <div class="gl-learn-item is-positive is-wide">
+              <div class="gl-learn-copy">
                 <span class="gl-learn-step">Trends</span>
-                <h3 class="gl-learn-title">See the trend in your dashboard</h3>
-                <p class="gl-learn-text">Each linked score shows a trend line against the previous survey — so every team sees how they’ve moved since last time.</p>
+                <h3 class="gl-learn-title">See trends in your dashboard</h3>
+                <p class="gl-learn-text">When that previous survey is also linked to the one before it, you get a trend per question or theme — so you can follow each group’s longer-term direction.</p>
               </div>
               <div class="gl-learn-media">
               <div class="gl-learn-screen" aria-hidden="true">
@@ -892,77 +1008,62 @@
               </div>
               </div>
             </div>
-
-            <!-- History / continuity card -->
-            <div class="gl-learn-item is-positive is-wide">
-              <div class="gl-learn-copy">
-                <span class="gl-learn-step">History</span>
-                <h3 class="gl-learn-title">Keep history when groups change</h3>
-                <p class="gl-learn-text">Renamed, merged, or split — linking keeps each team’s results connected over time, so no history gets lost.</p>
-              </div>
-              <div class="gl-learn-media">
-              <div class="gl-learn-screen" aria-hidden="true">
-                <svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- two old groups (dashed) -->
-                  <rect x="8" y="26" width="112" height="30" rx="8" fill="var(--bg-base)" stroke="var(--border-base)" stroke-width="1.5" stroke-dasharray="4 3"/>
-                  <rect x="22" y="37" width="72" height="8" rx="4" fill="var(--bg-secondary)"/>
-                  <rect x="8" y="92" width="112" height="30" rx="8" fill="var(--bg-base)" stroke="var(--border-base)" stroke-width="1.5" stroke-dasharray="4 3"/>
-                  <rect x="22" y="103" width="56" height="8" rx="4" fill="var(--bg-secondary)"/>
-                  <!-- merge braces into one -->
-                  <path d="M120 41 C152 41 150 74 174 74" stroke="var(--content-positive-base)" stroke-width="2.5" fill="none"/>
-                  <path d="M120 107 C152 107 150 74 174 74" stroke="var(--content-positive-base)" stroke-width="2.5" fill="none"/>
-                  <!-- new merged group -->
-                  <rect x="182" y="56" width="110" height="36" rx="8" fill="var(--bg-positive-subtle)" stroke="var(--border-positive-base)" stroke-width="1.5"/>
-                  <circle cx="200" cy="74" r="7" fill="var(--content-positive-base)"/>
-                  <path d="M196.5 74 l2.5 2.5 l4.5 -5" stroke="var(--bg-base)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                  <rect x="214" y="70" width="64" height="8" rx="4" fill="var(--content-positive-base)" fill-opacity=".5"/>
-                </svg>
-              </div>
-              </div>
-            </div>
           </div><!-- /gl-learn -->
+          </div><!-- /gl-learn-clip -->
+          </div><!-- /gl-learn-collapse -->
         </div>
 
-        <!-- Comparing-with card -->
-        <div class="card card-outlined gl-compare-card">
-          <div class="card-body">
-            <div class="gl-cc-row">
-              <div class="gl-cc-icon"><i data-icon="link"></i></div>
-              <div class="gl-cc-main">
-                <div class="gl-cc-label">Comparing with previous survey</div>
-                <div class="gl-survey-pick">
-                  <button class="gl-cc-select" id="surveySelect">
-                    <span id="surveySelectVal">Your Voice - Employee Listening ’25</span>
-                    <i data-icon="chevron-down"></i>
-                  </button>
-                  <div class="rv-picker" id="surveyMenuWrap" hidden>
-                    <div class="menu" id="surveyMenu"></div>
+        <!-- Accordion step 1: select a survey -->
+        <div class="acc" id="acc-select">
+          <button class="acc-head" data-acctoggle="select" aria-expanded="false">
+            <span class="acc-num">1</span>
+            <span class="acc-head-text">
+              <span class="acc-title">Select a survey to compare with</span>
+              <span class="acc-summary" id="accSelectSummary"></span>
+            </span>
+            <i class="acc-chev" data-icon="chevron-down"></i>
+          </button>
+          <div class="sacc-body">
+          <div class="sacc-body-inner"><div class="sacc-body-pad">
+            <div class="ss-layout">
+              <div class="ss-main">
+                <div class="ss-field">
+                  <span class="ss-label">Previous survey</span>
+                  <p class="ss-help">Choose the survey you want to compare against. Its scores appear in your results next to this survey’s, so you can see how each group has changed.</p>
+                  <div class="ss-item">
+                    <div class="ss-item-body">
+                      <div class="ss-item-name" id="survSelectVal"></div>
+                      <div class="ss-item-prog" id="survSelectProg"></div>
+                    </div>
+                    <span id="survSelectStatus"></span>
+                    <span id="survSelectResp"></span>
+                    <button class="btn btn-secondary" id="survChangeBtn">Change</button>
                   </div>
                 </div>
+                <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false"><i data-icon="chevron-right"></i> View survey links</button>
               </div>
-              <button class="btn btn-tertiary gl-cc-history" id="historyToggle">View survey history <i data-icon="chevron-down"></i></button>
-            </div>
-            <div class="gl-history" id="historyPanel" hidden>
-              <div class="gl-hist-head">
-                <span class="gl-hist-title">Survey links</span>
-                <div class="tt-demo">
-                  <span class="gl-hist-info" tabindex="0" aria-label="How survey links work"><i data-icon="info"></i></span>
-                  <div class="tooltip is-right">Surveys link in a chain — each survey connects to the one before it, so trends reach back as far as the chain goes</div>
-                </div>
+              <div class="gl-history" id="historyPanel" hidden>
+                <p class="gl-hist-lead">Surveys connect in a chain — each one links to the survey before it, so trend lines reach back as far as the chain goes.</p>
+                <div class="gl-chain" id="historyChain"></div>
               </div>
-              <div class="gl-chain" id="historyChain"></div>
             </div>
+          </div></div><!-- /sacc-body-pad /sacc-body-inner -->
           </div>
         </div>
 
-        <!-- Group links -->
-        <div id="structSection" class="gl-links-card">
-          <div class="gl-card-head">
-            <div class="gl-card-head-main">
-              <div class="gl-card-title">Link the groups from both surveys</div>
-              <div class="gl-card-sub">Pick a structure, then confirm the suggested links or add one where it’s missing.</div>
-            </div>
-          </div>
+        <!-- Accordion step 2: link the groups -->
+        <div class="acc" id="acc-link">
+          <button class="acc-head" data-acctoggle="link" aria-expanded="false">
+            <span class="acc-num">2</span>
+            <span class="acc-head-text">
+              <span class="acc-title">Link the groups from both surveys</span>
+              <span class="acc-description">Link the groups from the current survey to the previous survey, so every group in your survey can show a previous-survey score.</span>
+              <span class="acc-summary" id="accLinkSummary"></span>
+            </span>
+            <i class="acc-chev" data-icon="chevron-down"></i>
+          </button>
+          <div class="sacc-body" id="structSection">
+          <div class="sacc-body-inner"><div class="sacc-body-pad">
           <div class="gl-card-content">
 
             <!-- Review call-to-action -->
@@ -975,27 +1076,25 @@
                   <button class="struct-select" id="structSelect" aria-haspopup="true"></button>
                   <div class="struct-menu" id="structMenu" hidden></div>
                 </div>
-                <div class="struct-progress" id="structProgress"></div>
+                <div class="tr-filters" id="treeFilters"></div>
               </div>
             </div>
 
             <div class="tr-scope">
-            <div class="tr-filters" id="treeFilters"></div>
             <div class="tr-controls">
               <div class="search-wrap">
                 <span class="search-icon"><i data-icon="search"></i></span>
                 <input type="search" class="srch" id="treeSearch" placeholder="Search by group name" />
-              </div>
-              <div class="tt-demo">
-                <button class="ib ib-36 ib-secondary" id="exportBtn" aria-label="Export mappings to Excel"><i data-icon="excel"></i></button>
-                <div class="tooltip is-above">Export mappings to Excel</div>
               </div>
             </div>
             <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
             <div id="treeBody"></div>
             </div><!-- /tr-scope -->
           </div>
+          </div></div><!-- /sacc-body-pad /sacc-body-inner -->
         </div>
+
+        </div><!-- /step-link -->
 
       </div>
     </div>
@@ -1081,6 +1180,24 @@
     </div>
     <div class="dialog-footer">
       <button class="btn btn-tertiary" data-linkcollapse><i data-icon="minimize"></i> Back to inline search</button>
+    </div>
+  </div>
+</div>
+
+<!-- Choose previous survey dialog -->
+<div class="overlay" id="survPickerOverlay" hidden>
+  <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="survPicker-title">
+    <button class="dialog-close" aria-label="Close" data-close="survPickerOverlay"><i data-icon="cross"></i></button>
+    <div class="dialog-header">
+      <h3 class="dialog-title" id="survPicker-title">Choose a previous survey</h3>
+      <p class="dialog-subtitle">We’ll bring its results in as trend lines to compare against.</p>
+    </div>
+    <div class="dialog-body">
+      <div class="ss-picker-list" id="survPickerList"></div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn btn-secondary" data-close="survPickerOverlay">Cancel</button>
+      <button class="btn btn-primary" id="survPickerConfirm">Select survey</button>
     </div>
   </div>
 </div>
@@ -1739,11 +1856,84 @@ function setView(view) {
   shown.classList.remove('view-fade'); void shown.offsetWidth; shown.classList.add('view-fade');
   $('#appMain').scrollTo(0, 0);
   if (view === 'overview') renderOverview(); else renderLinking();
+  if (view === 'linking') { openAcc('select', false); openAcc('link', false); }
 }
 
 document.addEventListener('click', (e) => {
   const nav = e.target.closest('[data-nav]');
   if (nav) { setView(nav.dataset.nav); }
+});
+
+/* ═══════════════ STEPPED FLOW: 1) select survey → 2) link groups ═══════════════ */
+const SURVEY_META = {
+  'Your Voice - Employee Listening ’25': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2025', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 22 Aug 2025', response: 91 },
+  'Your Voice - Employee Listening ’26': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2026', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 14 Jul 2026', response: 87 },
+};
+function statusBadge(info) {
+  if (!info) return '';
+  return '<span class="ss-status is-' + info.statusKey + '">' + info.statusLabel +
+    (info.statusSub ? ' <span class="ss-status-sub">' + info.statusSub + '</span>' : '') + '</span>';
+}
+function respRate(info) {
+  if (!info || info.response == null) return '';
+  return '<div class="ss-resp"><div class="ss-resp-top"><i data-icon="user"></i> ' + info.response + '%</div>' +
+    '<div class="ss-resp-bar"><span style="width:' + info.response + '%"></span></div></div>';
+}
+let pendingSurvey = null;
+function renderSurvSelect() {
+  const info = SURVEY_META[state.selectedSurvey];
+  const v = $('#survSelectVal'); if (v) v.textContent = state.selectedSurvey;
+  const p = $('#survSelectProg'); if (p) p.innerHTML = '<i data-icon="folder"></i> ' + esc((info && info.program) || '');
+  const st = $('#survSelectStatus'); if (st) st.innerHTML = statusBadge(info);
+  const rt = $('#survSelectResp'); if (rt) rt.innerHTML = respRate(info);
+  icons();
+}
+function renderSurvPicker() {
+  const list = $('#survPickerList'); if (!list) return;
+  list.innerHTML = SURVEYS.map(s => {
+    const info = SURVEY_META[s];
+    return '<button class="surv-opt' + (s === pendingSurvey ? ' is-selected' : '') + '" data-survpick="' + esc(s) + '">' +
+      '<span class="surv-opt-radio"></span>' +
+      '<span class="surv-opt-body"><span class="surv-opt-name">' + esc(s) + '</span>' +
+      '<span class="ss-item-prog"><i data-icon="folder"></i> ' + esc((info && info.program) || '') + '</span></span>' +
+      statusBadge(info) + respRate(info) +
+    '</button>';
+  }).join('');
+  icons();
+}
+function updateAccSummaries() {
+  const sSel = $('#accSelectSummary'); if (sSel) sSel.textContent = state.selectedSurvey;
+  const sLink = $('#accLinkSummary');
+  if (sLink) { const p = structProgress(state.treeStructure); sLink.textContent = p.linked + ' of ' + p.total + ' linked · ' + p.suggested + ' suggestion' + (p.suggested === 1 ? '' : 's'); }
+}
+function openAcc(which, open) {
+  const el = $('#acc-' + which); if (!el) return;
+  el.classList.toggle('is-open', open);
+  const head = el.querySelector('.acc-head'); if (head) head.setAttribute('aria-expanded', open);
+  if (which === 'select' && open) { pendingSurvey = state.selectedSurvey; renderSurvSelect(); }
+  updateAccSummaries();
+  if (which === 'link' && open) renderLinking();
+}
+document.addEventListener('click', (e) => {
+  if (e.target.closest && e.target.closest('#survChangeBtn')) { pendingSurvey = state.selectedSurvey; renderSurvPicker(); openOverlay('survPickerOverlay'); return; }
+  const pick = e.target.closest && e.target.closest('[data-survpick]');
+  if (pick) { pendingSurvey = pick.dataset.survpick; renderSurvPicker(); return; }
+  if (e.target.closest && e.target.closest('#survPickerConfirm')) {
+    if (pendingSurvey && pendingSurvey !== state.selectedSurvey) {
+      state.selectedSurvey = pendingSurvey;
+      applyPrevious(state.selectedSurvey);
+      renderSurvSelect(); renderHistory(); updateAccSummaries();
+    }
+    closeOverlays();
+    return;
+  }
+  const tog = e.target.closest && e.target.closest('[data-acctoggle]');
+  if (tog) {
+    const which = tog.dataset.acctoggle;
+    const willOpen = !$('#acc-' + which).classList.contains('is-open');
+    openAcc(which, willOpen);
+    if (willOpen) openAcc(which === 'select' ? 'link' : 'select', false);
+  }
 });
 
 /* ═══════════════ OVERVIEW RENDER ═══════════════ */
@@ -1765,6 +1955,7 @@ function openSuggestions() {
 }
 
 function renderLinking() {
+  renderSurvSelect();
   renderStructCards();
   renderCards();
   renderTree();
@@ -1814,12 +2005,6 @@ function renderStructCards() {
       (sel ? '<i class="struct-mi-check" data-icon="check"></i>' : '') +
       '</div>';
   }).join('');
-  // progress next to the dropdown, for the selected structure
-  const cp = structProgress(state.treeStructure);
-  $('#structProgress').innerHTML =
-    '<span class="struct-prog-item">' + cp.linked + ' of ' + cp.total + ' linked</span>' +
-    '<span class="struct-prog-sep">·</span>' +
-    '<span class="struct-prog-item">' + cp.suggested + ' suggestion' + (cp.suggested === 1 ? '' : 's') + '</span>';
   icons();
 }
 
@@ -2167,7 +2352,6 @@ function renderCardLinkMenu(q) {
 }
 
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('#surveyMenuWrap') && !e.target.closest('#surveySelect')) $('#surveyMenuWrap').hidden = true;
   // structure dropdown — toggle, select, or close on outside click
   const spick = e.target.closest('[data-structpick]');
   const structMenu = $('#structMenu');
@@ -2192,38 +2376,30 @@ document.addEventListener('click', (e) => {
 
 /* ═══════════════ SURVEY SELECT + HISTORY ═══════════════ */
 
-$('#surveySelect').addEventListener('click', () => {
-  const wrap = $('#surveyMenuWrap');
-  if (!wrap.hidden) { wrap.hidden = true; return; }
-  $('#surveyMenu').innerHTML = SURVEYS.map(s =>
-    '<div class="menu-item' + (s === state.selectedSurvey ? ' is-selected' : '') + '" data-survey="' + esc(s) + '">' + esc(s) +
-    (s === state.selectedSurvey ? ' <i data-icon="check" class="menu-item-check"></i>' : '') + '</div>').join('');
-  wrap.hidden = false;
-  wrap.querySelectorAll('[data-survey]').forEach(mi => mi.addEventListener('click', () => {
-    state.selectedSurvey = mi.dataset.survey;
-    $('#surveySelectVal').textContent = state.selectedSurvey;
-    wrap.hidden = true;
-    applyPrevious(state.selectedSurvey);
-    renderHistory();
-    renderLinking();
-  }));
-  icons();
-});
-
-$('#historyToggle').addEventListener('click', () => {
-  const panel = $('#historyPanel');
-  panel.hidden = !panel.hidden;
-  $('#historyToggle').innerHTML = (panel.hidden ? 'View survey history <i data-icon="chevron-down"></i>' : 'Hide survey history <i data-icon="chevron-up"></i>');
-  if (!panel.hidden) renderHistory();
-  icons();
+$('#historyToggle') && $('#historyToggle').addEventListener('click', () => {
+  const panel = $('#historyPanel'), btn = $('#historyToggle');
+  const open = panel.hidden;
+  panel.hidden = !open;
+  btn.setAttribute('aria-expanded', open);
+  if (open) renderHistory();
 });
 
 function renderHistory() {
-  const idx = SURVEYS.indexOf(state.selectedSurvey);
-  const chain = [CURRENT_SURVEY, ...SURVEYS.slice(idx === -1 ? 0 : idx)];
-  $('#historyChain').innerHTML = chain.map((s, i) =>
-    '<div class="gl-chain-item' + (i === 0 ? ' is-current' : '') + '">' + esc(s) +
-    (i === 0 ? ' <span class="gl-tag is-match">Current</span>' : '') + '</div>').join('');
+  const el = $('#historyChain'); if (!el) return;
+  const sel = state.selectedSurvey;
+  const items = [
+    { name: CURRENT_SURVEY, meta: 'Pulse survey · July 2026', role: 'current', tag: 'This survey', tagCls: 'is-match' },
+    { name: sel, meta: (SURVEY_META[sel] && SURVEY_META[sel].typeYear) || '', role: 'comparing', tag: 'Comparing with', tagCls: 'is-linked' },
+    ...SURVEYS.filter(s => s !== sel).map(s => ({ name: s, meta: (SURVEY_META[s] && SURVEY_META[s].typeYear) || '', role: 'linked', tag: 'Linked', tagCls: 'is-new' })),
+  ];
+  el.innerHTML = items.map(it =>
+    '<div class="gl-chain-item role-' + it.role + '">' +
+      '<div class="gl-chain-main">' +
+        '<span class="gl-chain-name">' + esc(it.name) + '</span>' +
+        (it.meta ? '<span class="gl-chain-meta">' + esc(it.meta) + '</span>' : '') +
+      '</div>' +
+      '<span class="gl-tag ' + it.tagCls + '">' + it.tag + '</span>' +
+    '</div>').join('');
 }
 
 /* ═══════════════ REVIEW DIALOG ═══════════════ */
@@ -2381,6 +2557,24 @@ function renderTreeFilters() {
   wrap.innerHTML = FILTER_DEFS.map(f =>
     '<button class="tr-filter ' + f.cls + (active === f.key ? ' is-active' : '') + '" data-filter="' + f.key + '">' +
     f.label + '<span class="tr-filter-count">' + counts[f.key] + '</span></button>').join('');
+}
+// briefly enlarge the Linked count to signal +1
+function bumpLinkedCount() {
+  const c = document.querySelector('#treeFilters [data-filter="linked"] .tr-filter-count');
+  if (!c) return;
+  c.classList.remove('is-bump'); void c.offsetWidth; c.classList.add('is-bump');
+}
+// after linking a group: animate its row out if the current filter no longer includes it, then re-render + bump
+function commitTreeLink(nodeId) {
+  const activeKey = activeFilterKey();
+  const leaving = activeKey === 'nolink' || activeKey === 'suggested';
+  const card = document.querySelector('#treeBody .tr-card[data-nodeid="' + String(nodeId).replace(/"/g, '\\"') + '"]');
+  if (leaving && card) {
+    card.classList.add('is-removing');
+    setTimeout(() => { renderTree(); renderLinking(); bumpLinkedCount(); }, 300);
+  } else {
+    renderTree(); renderLinking(); bumpLinkedCount();
+  }
 }
 $('#treeFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-filter]');
@@ -2981,8 +3175,7 @@ function renderTreeLinkMenu(q, menuSel) {
     syncSuggestionForNode(node);
     toast(mi.dataset.pick + ' linked to ' + node.name);
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
-    renderTree();
-    renderLinking();
+    commitTreeLink(node.id);
   }));
   icons();
 }
@@ -3009,7 +3202,6 @@ document.addEventListener('keydown', (e) => {
 
 $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') setView('overview'); });
 
-$('#exportBtn').addEventListener('click', () => toast('Mappings exported to Excel'));
 
 
 /* ═══════════════ MATCH HOVER CARD ═══════════════ */
@@ -3112,10 +3304,10 @@ document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#onbReopen')) { setExplainer(true); return; }
   if (e.target.closest && e.target.closest('#glLearnBtn')) {
     const btn = $('#glLearnBtn'), panel = $('#glLearn');
-    const open = panel.hidden;
-    panel.hidden = !open;
+    const open = btn.getAttribute('aria-expanded') !== 'true';
     btn.setAttribute('aria-expanded', open);
     btn.lastChild.textContent = open ? ' Show less' : ' Learn more about linking';
+    panel.classList.toggle('is-open', open);
   }
 });
 
