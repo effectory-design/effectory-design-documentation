@@ -29,7 +29,7 @@
 
     /* ── Overview: breadcrumb + header actions ── */
     /* DS breadcrumb, constrained + aligned to the content column (border spans content width) */
-    .gl-topbar { position: sticky; top: 0; z-index: 30; max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto; padding: 0 var(--page-x); background: var(--bg-interface-body); }
+    .gl-topbar { max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto; padding: 0 var(--page-x); background: var(--bg-interface-body); }
     .gl-topbar-inner { display: flex; align-items: center; gap: 6px; min-height: 64px; border-bottom: 1px solid var(--border-base); }
     .ph-actions { display: flex; align-items: center; gap: var(--spacing-base); }
     .ph-actions-sep { width: 1px; height: 24px; background: var(--border-base); }
@@ -75,13 +75,14 @@
 
     /* Overview: settings sections */
     .ov-section { margin-top: var(--spacing-extra-loose); }
-    .ov-section-title { display: flex; align-items: center; justify-content: space-between; margin: 0 calc(-1 * var(--spacing-loose)) var(--spacing-base); padding: 0 var(--spacing-loose) var(--spacing-loose); border-bottom: 1px solid var(--border-base); }
+    .ov-section-title { display: flex; align-items: center; justify-content: space-between; margin: 0 0 var(--spacing-base-tight); padding: 0 var(--spacing-extra-tight); }
     .ov-section-chev { display: flex; color: var(--content-secondary); cursor: pointer; }
     .ov-section-chev i { width: 20px; height: 20px; display: flex; }
-    .ov-row { display: flex; align-items: center; gap: var(--spacing-base); margin: 0 calc(-1 * var(--spacing-loose)); padding: var(--spacing-base) var(--spacing-loose); border-bottom: 1px solid var(--border-base); text-decoration: none; color: inherit; }
-    .ov-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .ov-row:first-of-type { padding-top: 0; }
-    .ov-row.is-link { cursor: pointer; }
+    .ov-section .card-body { padding: 0 var(--spacing-loose); gap: 0; }
+    .ov-row { display: flex; align-items: center; gap: var(--spacing-base); margin: 0 calc(-1 * var(--spacing-loose)); padding: var(--spacing-loose); border-bottom: 1px solid var(--border-base); text-decoration: none; color: inherit; }
+    .ov-row:last-child { border-bottom: none; }
+    .ov-row.is-link { cursor: pointer; transition: background var(--motion-fast) var(--ease-out); }
+    /* hover fills the whole row (card clips it to its rounded corners) */
     .ov-row.is-link:hover { background: var(--bg-base-hover); }
     .ov-row-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .ov-row-icon i { width: 20px; height: 20px; display: flex; }
@@ -123,7 +124,7 @@
     /* Step 1: survey select field + connected-surveys timeline */
     .ss-layout { display: flex; flex-direction: column; gap: var(--spacing-base); }
     .ss-main { width: 100%; }
-    .ss-field { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .ss-field { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
     .ss-label { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .ss-help { font-size: 12px; line-height: 1.5; color: var(--content-secondary); margin: 0 0 var(--spacing-extra-tight); }
     .gl-hist-toggle { margin-top: var(--spacing-base); width: fit-content; justify-content: flex-start; margin-left: calc(-1 * var(--spacing-base-tight)); }
@@ -275,6 +276,15 @@
     .gl-empty-icon i { width: 24px; height: 24px; display: flex; }
     .gl-empty-icon.is-positive { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
     .gl-empty-icon.is-review { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
+    .gl-empty-icon.is-celebrate { position: relative; overflow: visible; animation: celebratePop var(--motion-slow) var(--ease-out); }
+    @keyframes celebratePop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+    .gl-spark { position: absolute; display: flex; animation: sparkPop var(--motion-slow) var(--ease-out) 0.12s both; }
+    .gl-spark i { display: flex; }
+    .gl-spark-1 { top: -4px; right: -6px; color: var(--bg-warning-bold); }
+    .gl-spark-1 i { width: 14px; height: 14px; }
+    .gl-spark-2 { bottom: 0; left: -8px; color: var(--content-positive-base); }
+    .gl-spark-2 i { width: 10px; height: 10px; }
+    @keyframes sparkPop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
     .gl-empty-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
     .gl-empty-body { font-size: 14px; color: var(--content-secondary); max-width: 420px; line-height: 1.6; }
     .gl-empty .btn { margin-top: var(--spacing-base-tight); }
@@ -336,9 +346,10 @@
     .step-title { font-size: 18px; font-weight: 600; color: var(--content-base); }
     .step-sub { font-size: 14px; color: var(--content-secondary); margin-top: 2px; }
     /* survey list item (All-surveys row style) + Change */
-    .ss-item { display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-base); }
+    .ss-item { display: flex; align-items: center; gap: var(--spacing-super-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-loose); }
     .ss-item-body { flex: 1; min-width: 0; }
-    .ss-item-name { font-size: 14px; font-weight: 600; color: var(--content-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ss-item-name { font-size: 16px; font-weight: 600; color: var(--content-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ss-item-meta { display: flex; align-items: center; gap: var(--spacing-base); flex-shrink: 0; }
     .ss-item-prog { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
     .ss-item-prog i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
     .ss-item .btn { flex-shrink: 0; }
@@ -438,6 +449,21 @@
     .tr-scope { padding: 0 var(--spacing-base-tight); }
     /* prominent status filter chips with counts */
     .tr-filters { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
+    /* floating dark bulk action bar (shown while groups are selected) */
+    .bulk-bar { position: fixed; left: 50%; bottom: var(--spacing-loose); transform: translateX(-50%); z-index: 80; display: flex; align-items: center; gap: var(--spacing-tight); background: var(--bg-inverse-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base-tight); box-shadow: var(--sh-card-hover); }
+    .bulk-bar.bulk-in { animation: bulkJump var(--motion-slow) cubic-bezier(0.2, 0.9, 0.3, 1.4); }
+    @keyframes bulkJump { 0% { transform: translate(-50%, 160%); opacity: 0; } 70% { opacity: 1; } 100% { transform: translate(-50%, 0); opacity: 1; } }
+    .bulk-left { display: flex; align-items: center; gap: var(--spacing-tight); padding-left: var(--spacing-extra-tight); }
+    .bulk-clear { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: none; background: color-mix(in srgb, var(--content-on-brand-base) 14%, transparent); color: var(--content-on-brand-base); border-radius: var(--radius-sm); cursor: pointer; }
+    .bulk-clear:hover { background: color-mix(in srgb, var(--content-on-brand-base) 28%, transparent); }
+    .bulk-clear i { width: 14px; height: 14px; display: flex; }
+    .bulk-count { font-size: 14px; font-weight: 500; color: var(--content-on-brand-base); white-space: nowrap; }
+    .bulk-count strong { font-weight: 700; }
+    .bulk-divider { width: 1px; align-self: stretch; margin: var(--spacing-extra-tight) var(--spacing-extra-tight); background: color-mix(in srgb, var(--content-on-brand-base) 20%, transparent); }
+    .bulk-actions { display: flex; align-items: center; gap: var(--spacing-extra-tight); }
+    .bulk-actions .btn { background: transparent; border: none; box-shadow: none; color: var(--content-on-brand-base); font-weight: 500; }
+    .bulk-actions .btn:hover { background: color-mix(in srgb, var(--content-on-brand-base) 14%, transparent); }
+    .bulk-actions .btn i { width: 16px; height: 16px; display: flex; }
     .struct-bar .tr-filters { flex: 1; min-width: 0; justify-content: flex-end; }
     .tr-filter { font-family: inherit; display: inline-flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-secondary); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base); cursor: pointer; transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
     .tr-filter:hover { border-color: var(--border-action-hover); }
@@ -448,11 +474,10 @@
     .tr-filter.is-linked .tr-filter-count { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
     .tr-filter.is-sug .tr-filter-count { background: var(--bg-info-subtle); color: var(--content-info-base); }
     .tr-filter.is-active .tr-filter-count { background: var(--bg-base); }
-    .tr-filter-count.is-bump { animation: trCountBump var(--motion-slow) var(--ease-standard); }
-    @keyframes trCountBump { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.55); } }
-    /* row leaving the current filter (e.g. after linking in "No link yet") */
-    .tr-card.is-removing { overflow: hidden; pointer-events: none; animation: trRowOut var(--motion-slow) var(--ease-in) forwards; }
-    @keyframes trRowOut { from { opacity: 1; max-height: 140px; margin-bottom: var(--spacing-tight); transform: translateX(0); } to { opacity: 0; max-height: 0; margin-bottom: 0; transform: translateX(-16px); } }
+    .tr-filter-count.is-bump { animation: trCountBump var(--motion-slow) var(--ease-out); }
+    @keyframes trCountBump { 0% { transform: scale(1); } 35% { transform: scale(1.5); } 62% { transform: scale(0.94); } 100% { transform: scale(1); } }
+    /* row leaving the current filter (e.g. after linking in "No link yet") — height measured in JS */
+    .tr-card.is-removing { overflow: hidden; pointer-events: none; transition: height var(--motion-slow) var(--ease-standard), opacity var(--motion-base) var(--ease-out), margin-bottom var(--motion-slow) var(--ease-standard); }
     .gl-card-head { margin-bottom: var(--spacing-base); }
     .gl-card-head-main { flex: 1; min-width: 0; }
     .gl-card-title { font-size: 16px; font-weight: 600; color: var(--content-base); }
@@ -463,12 +488,12 @@
        --bg-info-subtle (#e6f0fe) toward --bg-info-base, matching the system's
        base→base-hover / secondary→secondary-hover logic. */
     :root { --gl-gutter: 60px; --bg-info-subtle-hover: #d8e6fd; }
-    .tr-cols { position: sticky; top: 64px; z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 0 var(--spacing-tight); padding: var(--spacing-base-tight) 0 var(--spacing-tight); background: var(--bg-interface-body); }
+    .tr-cols { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 0 var(--spacing-tight); padding: var(--spacing-base-tight) 0 var(--spacing-tight); background: var(--bg-interface-body); }
     .tr-cols.is-stuck { box-shadow: 0 1px 0 var(--border-base); }
-    .tr-cols span { background: none; padding: 0 var(--spacing-base) var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); }
-    /* align each header with its column's group names (past the chevron / status icon) */
-    .tr-cols span:first-child { grid-column: 1; padding-left: var(--spacing-extra-loose); }
-    .tr-cols span:last-child { grid-column: 3; padding-left: calc(var(--spacing-super-loose) + var(--spacing-base-tight)); }
+    .tr-cols span { background: none; padding: 0; font-size: 14px; font-weight: 600; color: var(--content-secondary); }
+    /* align each header with the left edge of its column's cards */
+    .tr-cols span:first-child { grid-column: 1; }
+    .tr-cols span:last-child { grid-column: 3; }
 
     /* Two columns of cards + a middle connector column */
     .tr-card { margin-bottom: var(--spacing-tight); position: relative; }
@@ -480,8 +505,20 @@
     @media (prefers-reduced-motion: reduce) { .tr-children.is-animating { transition: none; } }
     .tr-card:hover { z-index: 20; }
     .tr-card-grid { display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; align-items: stretch; }
-    .tr-leftcard { flex: 1; position: relative; z-index: 2; display: flex; align-items: flex-start; gap: var(--spacing-tight); min-width: 0; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-base-tight); transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
+    .tr-leftcard { flex: 1; position: relative; z-index: 2; display: flex; align-items: flex-start; gap: var(--spacing-extra-tight); min-width: 0; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-base-tight); transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
     .tr-leftcol { display: flex; align-items: stretch; min-width: 0; }
+    /* bulk-select checkbox — appears on hover, or always while selecting */
+    .tr-check { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; border: 1.5px solid var(--border-base); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--bg-base); background: var(--bg-base); cursor: pointer; opacity: 0; transition: opacity var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
+    .tr-check i { width: 12px; height: 12px; display: flex; transform: scale(0); transition: transform var(--motion-fast) var(--ease-out); }
+    .tr-card:hover .tr-check, #treeBody.is-selecting .tr-check, .tr-check.is-checked { opacity: 1; }
+    .tr-check:hover { border-color: var(--border-action-hover); }
+    .tr-check.is-checked { background: var(--bg-brand-base); border-color: var(--bg-brand-base); }
+    .tr-check.is-checked i { transform: scale(1); }
+    .tr-card.is-selected > .tr-card-grid .tr-leftcard { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
+    /* flash a just-linked row so you can spot where it landed */
+    .tr-card.is-flash > .tr-card-grid .tr-leftcard,
+    .tr-card.is-flash > .tr-card-grid .tr-card-right .tr-lrow:not(.is-empty) { animation: trFlash 0.8s var(--ease-out) 1; }
+    @keyframes trFlash { 0% { box-shadow: 0 0 0 0 var(--border-brand-base); } 100% { box-shadow: 0 0 0 6px transparent; } }
     .tr-add-slot.tt-demo { position: relative; z-index: 1; margin-left: -7px; display: flex; align-items: flex-start; flex-shrink: 0; }
     /* space is reserved by .tr-add-slot; only the tab slides + fades in on hover/focus → no layout shift */
     .tr-add-btn { display: flex; align-items: center; justify-content: center; width: 42px; height: 38px; margin-top: 6px; padding: 0 var(--spacing-tight) 0 15px; border: 1px solid var(--border-base); border-left: none; background: var(--bg-base); color: var(--content-secondary); border-radius: 0 var(--radius-base) var(--radius-base) 0; box-shadow: var(--sh-action); cursor: pointer; opacity: 0; pointer-events: none; transform: translateX(-10px); transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
@@ -525,6 +562,9 @@
     .tr-rrow { display: flex; align-items: center; min-width: 0; }
     .tr-lrow { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-tight) var(--spacing-base-tight); font-size: 14px; min-height: 50px; transition: border-color var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-suggested { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
+    /* suggested → left card also blue */
+    .tr-leftcard.is-suggested { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
+    .tr-card:hover .tr-leftcard.is-suggested { background: var(--bg-info-subtle-hover); border-color: var(--border-info-base-hover); }
     /* linked groups → light green */
     .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-base); }
     .tr-card:hover .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-card:hover .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-base-hover); }
@@ -538,11 +578,19 @@
     /* match the link-card height (50px) so the picker lines up with the group cards */
     .tr-linksearch .srch { min-height: 50px; }
     .tr-linksearch .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 300px; overflow-y: auto; }
+    .tr-linksearch .menu.is-flip { top: auto; bottom: 100%; margin-top: 0; margin-bottom: var(--spacing-extra-tight); }
     /* full-width "open in a bigger view" button, pinned to the bottom of the dropdown */
     .tlm-expand { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: center; gap: var(--spacing-tight); width: 100%; padding: var(--spacing-base-tight); border: none; border-top: 1px solid var(--border-base); background: var(--bg-base); color: var(--content-action); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
     .tlm-expand:hover { background: var(--bg-secondary); }
     .tlm-expand i { width: 16px; height: 16px; display: flex; }
-    .lp-menu { position: static; width: 100%; max-height: none; }
+    .lp-menu { position: static; width: 100%; max-height: none; border: none; box-shadow: none; background: none; padding: 0; }
+    /* wide "Link a group" dialog with card rows (like the tree overview) */
+    #linkPickerOverlay .dialog { width: 800px; max-width: calc(100vw - 2 * var(--spacing-loose)); }
+    #linkPickerMenu { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    #linkPickerMenu .tlm-item { background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base); transition: border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out); }
+    #linkPickerMenu .tlm-item:not(.is-disabled):hover { border-color: var(--border-action-hover); box-shadow: var(--sh-action); background: var(--bg-base); }
+    #linkPickerMenu .tlm-item.is-context { background: var(--bg-secondary); }
+    #linkPickerMenu .tlm-item.is-match { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
     .tr-addlink { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: none; padding: var(--spacing-tight) var(--spacing-base-tight); font-family: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; border-radius: var(--radius-md); }
     .tr-addlink:hover { color: var(--content-brand-base); background: var(--bg-base-hover); }
     .tr-addlink i { width: 14px; height: 14px; display: flex; }
@@ -711,18 +759,15 @@
 
 
         <div class="ph">
-          <div class="ph-eyebrow">Pulse · July 2026</div>
           <div class="ph-row">
             <div class="ph-left">
               <h1 class="ph-title">Thriving Workplace Pulse July 2026</h1>
             </div>
             <div class="ph-actions">
-              <button class="btn btn-secondary"><i data-icon="eye"></i> Demo questionnaire</button>
-              <span class="ph-actions-sep"></span>
               <span class="chip chip-warning"><i data-icon="activity"></i> Running</span>
               <span class="ov-avatar">JI</span>
               <div class="tt-demo">
-                <button class="ib ib-36 ib-secondary" aria-label="More actions"><i data-icon="more-vertical" style="width:16px;height:16px;display:flex;"></i></button>
+                <button class="ib ib-36 ib-tertiary" aria-label="More actions"><i data-icon="more-vertical" style="width:16px;height:16px;display:flex;"></i></button>
                 <div class="tooltip is-below">More actions</div>
               </div>
             </div>
@@ -762,30 +807,11 @@
           </div>
         </div>
 
-        <div class="card card-elevated" style="margin-top: var(--spacing-loose);">
-          <div class="card-body">
-            <!-- Tip -->
-            <div class="ov-tip" id="ovTip">
-              <div class="inline-notif is-subtle">
-                <span class="inline-notif-icon is-subtle"><i data-icon="lightbulb"></i></span>
-                <div class="inline-notif-content">
-                  <span class="inline-notif-text">
-                    <span class="inline-notif-title">See trends over time</span>
-                    <span class="inline-notif-msg">Link this survey to your previous survey so trend lines show in your results. <span id="ovTipCount"></span></span>
-                  </span>
-                  <div class="inline-notif-actions">
-                    <button class="btn btn-secondary" data-nav="linking">Review links</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Survey settings -->
-        <div class="card card-elevated ov-section">
+        <div class="ov-section">
+          <div class="card-title ov-section-title">Survey settings<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></div>
+          <div class="card card-elevated">
           <div class="card-body">
-            <span class="card-title ov-section-title">Survey settings<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <div class="ov-row">
               <div class="ov-row-icon tile-blue"><i data-icon="users"></i></div>
               <div class="ov-row-body">
@@ -819,12 +845,14 @@
               <div class="ov-row-action">Preview <i data-icon="chevron-right"></i></div>
             </div>
           </div>
+          </div>
         </div>
 
         <!-- Comparisons -->
-        <div class="card card-elevated ov-section">
+        <div class="ov-section">
+          <div class="card-title ov-section-title">Comparisons<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></div>
+          <div class="card card-elevated">
           <div class="card-body">
-            <span class="card-title ov-section-title">Comparisons<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <a class="ov-row is-link" data-nav="linking" id="ovLinkRow">
               <div class="ov-row-icon"><i data-icon="link"></i></div>
               <div class="ov-row-body">
@@ -842,12 +870,14 @@
               <div class="ov-row-action">Configure <i data-icon="chevron-right"></i></div>
             </div>
           </div>
+          </div>
         </div>
 
         <!-- Sharing results -->
-        <div class="card card-elevated ov-section">
+        <div class="ov-section">
+          <div class="card-title ov-section-title">Sharing results<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></div>
+          <div class="card card-elevated">
           <div class="card-body">
-            <span class="card-title ov-section-title">Sharing results<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></span>
             <div class="ov-row">
               <div class="ov-row-icon tile-yellow"><i data-icon="user-check"></i></div>
               <div class="ov-row-body">
@@ -864,6 +894,7 @@
               </div>
               <div class="ov-row-action">Set up <i data-icon="chevron-right"></i></div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -1033,11 +1064,12 @@
                   <div class="ss-item">
                     <div class="ss-item-body">
                       <div class="ss-item-name" id="survSelectVal"></div>
-                      <div class="ss-item-prog" id="survSelectProg"></div>
                     </div>
-                    <span id="survSelectStatus"></span>
-                    <span id="survSelectResp"></span>
-                    <button class="btn btn-secondary" id="survChangeBtn">Change</button>
+                    <div class="ss-item-meta">
+                      <span id="survSelectStatus"></span>
+                      <span id="survSelectResp"></span>
+                      <button class="btn btn-secondary" id="survChangeBtn">Change</button>
+                    </div>
                   </div>
                 </div>
                 <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false"><i data-icon="chevron-right"></i> View survey links</button>
@@ -1085,6 +1117,18 @@
               <div class="search-wrap">
                 <span class="search-icon"><i data-icon="search"></i></span>
                 <input type="search" class="srch" id="treeSearch" placeholder="Search by group name" />
+              </div>
+            </div>
+            <div class="bulk-bar" id="bulkBar" hidden>
+              <div class="bulk-left">
+                <button class="bulk-clear" id="bulkClear" aria-label="Clear selection"><i data-icon="cross"></i></button>
+                <span class="bulk-count"><strong id="bulkCount">0</strong> selected</span>
+              </div>
+              <div class="bulk-divider"></div>
+              <div class="bulk-actions">
+                <button class="btn btn-secondary" id="bulkLink"><i data-icon="link"></i> Add link to groups</button>
+                <button class="btn btn-secondary" id="bulkAdd" hidden><i data-icon="plus"></i> Add another group</button>
+                <button class="btn btn-secondary" id="bulkDelink" hidden><i data-icon="cross"></i> Remove link</button>
               </div>
             </div>
             <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
@@ -1178,9 +1222,6 @@
       <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="linkPickerSearch" placeholder="Search groups" autocomplete="off" /></div>
       <div class="mb-scroll"><div class="menu lp-menu" id="linkPickerMenu"></div></div>
     </div>
-    <div class="dialog-footer">
-      <button class="btn btn-tertiary" data-linkcollapse><i data-icon="minimize"></i> Back to inline search</button>
-    </div>
   </div>
 </div>
 
@@ -1198,6 +1239,21 @@
     <div class="dialog-footer">
       <button class="btn btn-secondary" data-close="survPickerOverlay">Cancel</button>
       <button class="btn btn-primary" id="survPickerConfirm">Select survey</button>
+    </div>
+  </div>
+</div>
+
+<!-- Warning: changing the previous survey clears the current links -->
+<div class="overlay" id="survWarnOverlay" hidden>
+  <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="survWarn-title">
+    <button class="dialog-close" aria-label="Close" data-close="survWarnOverlay"><i data-icon="cross"></i></button>
+    <div class="dialog-header">
+      <h3 class="dialog-title" id="survWarn-title">Change the previous survey?</h3>
+      <p class="dialog-subtitle">The group links you’ve made are tied to the current previous survey. Switching to <strong id="survWarnName"></strong> clears them and starts from its own suggestions.</p>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn btn-secondary" data-close="survWarnOverlay">Keep current survey</button>
+      <button class="btn btn-primary" id="survWarnConfirm">Change survey</button>
     </div>
   </div>
 </div>
@@ -1552,6 +1608,32 @@ let HISTORICAL_GROUPS = PREV_DATA['Your Voice - Employee Listening ’25'].histo
 let suggestions = PREV_DATA['Your Voice - Employee Listening ’25'].suggestions;
 let SILENT_AUTO = PREV_DATA['Your Voice - Employee Listening ’25'].silentAuto;
 
+// previous-survey groups per structure type — a Location structure links to the previous
+// survey's Location structure, Job family to Job family, etc. (org uses the per-survey data above)
+const HISTORICAL_BY_STRUCT = {
+  'Location': [
+    { name: 'All locations', size: 388, parent: null },
+    { name: 'Amsterdam', size: 172, parent: 'All locations' },
+    { name: 'Rotterdam', size: 70, parent: 'All locations' },
+    { name: 'Berlin', size: 60, parent: 'All locations' },
+    { name: 'London', size: 44, parent: 'All locations' },
+    { name: 'Home office', size: 42, parent: 'All locations' },
+  ],
+  'Job family': [
+    { name: 'All job families', size: 388, parent: null },
+    { name: 'Engineering', size: 92, parent: 'All job families' },
+    { name: 'Product', size: 40, parent: 'All job families' },
+    { name: 'Sales', size: 61, parent: 'All job families' },
+    { name: 'Customer Success', size: 90, parent: 'All job families' },
+    { name: 'Operations', size: 52, parent: 'All job families' },
+    { name: 'People and Culture', size: 44, parent: 'All job families' },
+  ],
+};
+// the previous-survey groups for the structure currently being linked
+function histGroups() {
+  return HISTORICAL_BY_STRUCT[state.treeStructure] || HISTORICAL_GROUPS;
+}
+
 const TREES = {
   'Organizational structure': [
       { id: "1", name: "Effectory B.V.", size: 384, links: [], children: [
@@ -1768,6 +1850,9 @@ const state = {
   treeLinkingNodeId: null,
   linkPickerCollapsed: new Set(),
   linkPickerExpanded: new Set(),
+  treeSelected: new Set(),   // node ids selected for bulk actions
+  treeSelectAnchor: null,    // last node id clicked (for shift-range)
+  bulkMode: null,            // 'replace' | 'add' while the bulk link picker is open
 };
 
 /* ═══════════════ HELPERS ═══════════════ */
@@ -1883,7 +1968,6 @@ let pendingSurvey = null;
 function renderSurvSelect() {
   const info = SURVEY_META[state.selectedSurvey];
   const v = $('#survSelectVal'); if (v) v.textContent = state.selectedSurvey;
-  const p = $('#survSelectProg'); if (p) p.innerHTML = '<i data-icon="folder"></i> ' + esc((info && info.program) || '');
   const st = $('#survSelectStatus'); if (st) st.innerHTML = statusBadge(info);
   const rt = $('#survSelectResp'); if (rt) rt.innerHTML = respRate(info);
   icons();
@@ -1900,6 +1984,14 @@ function renderSurvPicker() {
     '</button>';
   }).join('');
   icons();
+}
+function applySurveyChange() {
+  state.selectedSurvey = pendingSurvey;
+  applyPrevious(state.selectedSurvey);
+  state.treeSelected && state.treeSelected.clear && state.treeSelected.clear();
+  renderSurvSelect(); renderHistory(); updateAccSummaries();
+  if (state.view === 'linking') renderLinking();
+  toast('Now comparing with ' + state.selectedSurvey);
 }
 function updateAccSummaries() {
   const sSel = $('#accSelectSummary'); if (sSel) sSel.textContent = state.selectedSurvey;
@@ -1920,10 +2012,17 @@ document.addEventListener('click', (e) => {
   if (pick) { pendingSurvey = pick.dataset.survpick; renderSurvPicker(); return; }
   if (e.target.closest && e.target.closest('#survPickerConfirm')) {
     if (pendingSurvey && pendingSurvey !== state.selectedSurvey) {
-      state.selectedSurvey = pendingSurvey;
-      applyPrevious(state.selectedSurvey);
-      renderSurvSelect(); renderHistory(); updateAccSummaries();
+      // changing the survey clears the current links — confirm first
+      closeOverlays();
+      const nm = $('#survWarnName'); if (nm) nm.textContent = pendingSurvey;
+      openOverlay('survWarnOverlay');
+    } else {
+      closeOverlays();
     }
+    return;
+  }
+  if (e.target.closest && e.target.closest('#survWarnConfirm')) {
+    applySurveyChange();
     closeOverlays();
     return;
   }
@@ -1939,12 +2038,9 @@ document.addEventListener('click', (e) => {
 /* ═══════════════ OVERVIEW RENDER ═══════════════ */
 
 function renderOverview() {
-  const c = counts();
-  const toReview = c.pending + c.review;
-  $('#ovLinkSub').textContent = c.mapped + ' of ' + c.total + ' groups linked';
-  $('#ovLinkAction').innerHTML = (toReview > 0 ? esc(toReview + ' to review') : 'All linked') + ' <i data-icon="chevron-right"></i>';
-  $('#ovTip').hidden = toReview === 0;
-  $('#ovTipCount').textContent = toReview > 0 ? toReview + ' suggested links are waiting for your review.' : '';
+  const c = treeStatusCounts();  // real counts for the primary structure
+  $('#ovLinkSub').textContent = c.linked + ' of ' + c.total + ' groups linked';
+  $('#ovLinkAction').innerHTML = (c.suggested > 0 ? esc(c.suggested + ' to review') : 'All linked') + ' <i data-icon="chevron-right"></i>';
   icons();
 }
 
@@ -2359,6 +2455,8 @@ document.addEventListener('click', (e) => {
     if (state.treeStructure !== spick.dataset.structpick) {
       state.treeStructure = spick.dataset.structpick;
       state.treeLinkingNodeId = null;
+      state.treeStatusFilter.clear();   // reset the filter to "All groups" on structure switch
+      clearTreeSelection();
       renderStructCards(); renderTree();
     }
     if (structMenu) structMenu.hidden = true;
@@ -2569,11 +2667,22 @@ function commitTreeLink(nodeId) {
   const activeKey = activeFilterKey();
   const leaving = activeKey === 'nolink' || activeKey === 'suggested';
   const card = document.querySelector('#treeBody .tr-card[data-nodeid="' + String(nodeId).replace(/"/g, '\\"') + '"]');
+  // update the counts and pop the Linked count right away, synced with the row leaving
+  renderTreeFilters();
+  bumpLinkedCount();
+  const main = $('#appMain'); const scrollTop = main ? main.scrollTop : 0;
   if (leaving && card) {
+    card.style.height = card.offsetHeight + 'px';
     card.classList.add('is-removing');
-    setTimeout(() => { renderTree(); renderLinking(); bumpLinkedCount(); }, 300);
+    void card.offsetHeight; // commit the start height so the collapse animates
+    card.style.height = '0px';
+    card.style.opacity = '0';
+    card.style.marginBottom = '0px';
+    setTimeout(() => { renderTree(); renderLinking(); if (main) main.scrollTop = scrollTop; }, 320);
   } else {
-    renderTree(); renderLinking(); bumpLinkedCount();
+    renderTree(); renderLinking();
+    if (main) main.scrollTop = scrollTop;   // keep the page from jumping after the re-render
+    flashNodes([nodeId]);
   }
 }
 $('#treeFilters').addEventListener('click', (e) => {
@@ -2584,6 +2693,18 @@ $('#treeFilters').addEventListener('click', (e) => {
   state.treeStatusFilter.clear();
   def.statuses.forEach(s => state.treeStatusFilter.add(s));
   renderTree();
+});
+
+// bulk action bar
+$('#bulkClear') && $('#bulkClear').addEventListener('click', clearTreeSelection);
+$('#bulkLink') && $('#bulkLink').addEventListener('click', () => openBulkPicker('replace'));
+$('#bulkAdd') && $('#bulkAdd').addEventListener('click', () => openBulkPicker('add'));
+$('#bulkDelink') && $('#bulkDelink').addEventListener('click', () => {
+  const ids = [...state.treeSelected];
+  ids.forEach(id => { const nn = findTreeNode(id); if (nn) { nn.links = []; syncSuggestionForNode(nn); } });
+  clearTreeSelection();
+  renderTree(); renderLinking();
+  toast('Link' + (ids.length === 1 ? '' : 's') + ' removed from ' + ids.length + ' group' + (ids.length === 1 ? '' : 's'));
 });
 
 function filterTree(nodes) {
@@ -2611,10 +2732,15 @@ function treeRowHTML(n, level) {
   const sug = suggestionForNode(n);
 
   const cols = linkColumns(n, sug);
-  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + '" data-nodeid="' + esc(n.id) + '">' +
+  const isSel = state.treeSelected.has(n.id);
+  const hasLinked = n.links.some(l => l.status === 'linked');
+  const hasSuggested = !hasLinked && n.links.some(l => l.status === 'suggested' || l.status === 'review');
+  const leftState = hasLinked ? ' is-linked' : (hasSuggested ? ' is-suggested' : '');
+  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" data-nodeid="' + esc(n.id) + '">' +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
-    '<div class="tr-leftcard' + (n.links.some(l => l.status === 'linked') ? ' is-linked' : '') + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
+    '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
+    '<span class="tr-check' + (isSel ? ' is-checked' : '') + '" data-treecheck="' + esc(n.id) + '" role="checkbox" aria-checked="' + isSel + '" tabindex="0" aria-label="Select ' + esc(n.name) + '"><i data-icon="check"></i></span>' +
     (hasChildren
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
@@ -2666,7 +2792,7 @@ function linkColumns(n, sug) {
   }
   let right = '';
   n.links.forEach(l => {
-    const hg = HISTORICAL_GROUPS.find(g => g.name === l.name);
+    const hg = histGroups().find(g => g.name === l.name);
     const size = hg ? hg.size : (l.size || '');
     const isS = l.status === 'suggested' || l.status === 'review';
     const actions = isS
@@ -2699,7 +2825,7 @@ function prevPath(name) {
   const chain = []; let cur = name, guard = 0;
   while (cur && guard++ < 10) {
     chain.unshift(cur);
-    const h = HISTORICAL_GROUPS.find(g => g.name === cur);
+    const h = histGroups().find(g => g.name === cur);
     cur = h && h.parent ? h.parent : null;
   }
   return chain;
@@ -2815,9 +2941,35 @@ function renderTree() {
   const body = $('#treeBody');
   const data = filterTree(TREES[state.treeStructure]);
   if (data.length === 0) {
-    body.innerHTML = '<div class="tr-empty"><div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>' +
-      '<div class="gl-empty-title" style="margin-top: var(--spacing-base-tight);">We couldn’t find any matches' + (state.treeSearch ? ' for “' + esc(state.treeSearch) + '”' : '') + '</div>' +
-      '<div class="gl-empty-body" style="margin-inline:auto;">Check the spelling or try another group name.</div></div>';
+    const q = state.treeSearch;
+    const active = activeFilterKey();
+    let icon, title, sub;
+    const celebrate = (ic) => '<div class="gl-empty-icon is-positive is-celebrate" style="margin-inline:auto;"><i data-icon="' + ic + '"></i>' +
+      '<span class="gl-spark gl-spark-1"><i data-icon="star-filled"></i></span><span class="gl-spark gl-spark-2"><i data-icon="star-filled"></i></span></div>';
+    if (q) {
+      icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>';
+      title = 'We couldn’t find any matches for “' + esc(q) + '”';
+      sub = 'Check the spelling or try another group name.';
+    } else if (active === 'suggested') {
+      icon = celebrate('check');
+      title = 'You’re all caught up';
+      sub = 'Every suggested link has been reviewed — nothing left to confirm.';
+    } else if (active === 'nolink') {
+      icon = celebrate('love');
+      title = 'Every group is linked';
+      sub = 'Nice work — each group in this survey now has a previous-survey link.';
+    } else if (active === 'linked') {
+      icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="link"></i></div>';
+      title = 'No links yet';
+      sub = 'Confirm a suggestion or add a link, and it’ll appear here.';
+    } else {
+      icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>';
+      title = 'Nothing to show here';
+      sub = 'There are no groups in this view.';
+    }
+    body.innerHTML = '<div class="tr-empty">' + icon +
+      '<div class="gl-empty-title" style="margin-top: var(--spacing-base-tight);">' + title + '</div>' +
+      '<div class="gl-empty-body" style="margin-inline:auto;">' + sub + '</div></div>';
     icons();
     return;
   }
@@ -2839,9 +2991,10 @@ function renderTree() {
   body.querySelectorAll('[data-linkreject]').forEach(b => b.addEventListener('click', () => { const [id, name] = b.dataset.linkreject.split('|'); treeLinkAction(id, name, 'reject'); }));
   body.querySelectorAll('[data-treeadd]').forEach(b => b.addEventListener('click', () => {
     state.treeLinkingNodeId = b.dataset.treeadd;
+    state.bulkMode = null;
     renderTree();
     const input = $('#treeLinkSearch');
-    if (input) { input.focus(); renderTreeLinkMenu(''); input.addEventListener('input', () => renderTreeLinkMenu(input.value)); }
+    if (input) { input.focus({ preventScroll: true }); renderTreeLinkMenu(''); positionInlineLinkMenu(); drawTreeConnectors(); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); }
   }));
   body.querySelectorAll('[data-cancellink]').forEach(b => b.addEventListener('click', () => { state.treeLinkingNodeId = null; renderTree(); }));
   body.querySelectorAll('[data-treeunlink]').forEach(b => b.addEventListener('click', () => {
@@ -2854,11 +3007,85 @@ function renderTree() {
       renderTree(); renderLinking();
     }
   }));
+  body.querySelectorAll('[data-treecheck]').forEach(b => {
+    b.addEventListener('mousedown', (e) => { if (e.shiftKey) e.preventDefault(); }); // stop shift-text-selection
+    const run = (e) => {
+      const id = b.dataset.treecheck;
+      if (e.shiftKey && state.treeSelectAnchor) {
+        const order = [...body.querySelectorAll('.tr-card')].map(c => c.dataset.nodeid);
+        const a = order.indexOf(state.treeSelectAnchor), z = order.indexOf(id);
+        if (a !== -1 && z !== -1) { const lo = Math.min(a, z), hi = Math.max(a, z); for (let i = lo; i <= hi; i++) state.treeSelected.add(order[i]); }
+        else { state.treeSelected.has(id) ? state.treeSelected.delete(id) : state.treeSelected.add(id); }
+      } else {
+        state.treeSelected.has(id) ? state.treeSelected.delete(id) : state.treeSelected.add(id);
+      }
+      state.treeSelectAnchor = id;
+      syncSelectionUI(body);
+    };
+    b.addEventListener('click', run);
+    b.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); run(e); } });
+  });
   const input = $('#treeLinkSearch');
-  if (input) { renderTreeLinkMenu(''); input.addEventListener('input', () => renderTreeLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
+  if (input) { renderTreeLinkMenu(''); positionInlineLinkMenu(); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); setTimeout(() => input.focus({ preventScroll: true }), 0); }
   const prevHead = $('#trColPrev'); if (prevHead) prevHead.textContent = state.selectedSurvey;
+  syncSelectionUI(body);
   icons();
-  setTimeout(drawTreeConnectors, 0);
+  drawTreeConnectors();                          // draw immediately so the lines never blank out
+  requestAnimationFrame(drawTreeConnectors);     // redraw next frame to catch any layout shift
+}
+
+function syncSelectionUI(body) {
+  body = body || $('#treeBody'); if (!body) return;
+  body.classList.toggle('is-selecting', state.treeSelected.size > 0);
+  body.querySelectorAll('.tr-card').forEach(c => {
+    const sel = state.treeSelected.has(c.dataset.nodeid);
+    c.classList.toggle('is-selected', sel);
+    const chk = c.querySelector('.tr-check');
+    if (chk) { chk.classList.toggle('is-checked', sel); chk.setAttribute('aria-checked', sel); }
+  });
+  renderBulkBar();
+}
+function renderBulkBar() {
+  const bar = $('#bulkBar'); if (!bar) return;
+  const n = state.treeSelected.size;
+  const wasHidden = bar.hidden;
+  bar.hidden = n === 0;
+  if (n > 0 && wasHidden) { bar.classList.remove('bulk-in'); void bar.offsetWidth; bar.classList.add('bulk-in'); } // jump in on first appearance
+  const cnt = $('#bulkCount'); if (cnt) cnt.textContent = n;
+  if (n === 0) return;
+  // adapt actions to whether the selected groups already have links
+  let linkedCount = 0;
+  state.treeSelected.forEach(id => { const nn = findTreeNode(id); if (nn && nn.links && nn.links.length) linkedCount++; });
+  const anyLinked = linkedCount > 0;
+  const allLinked = linkedCount === n;
+  const linkBtn = $('#bulkLink'); if (linkBtn) linkBtn.lastChild.textContent = ' ' + (anyLinked ? 'Replace link' : 'Add link to groups');
+  const addBtn = $('#bulkAdd');
+  if (addBtn) { addBtn.hidden = !anyLinked; addBtn.lastChild.textContent = ' ' + (allLinked ? 'Add another group' : 'Add (another) group'); } // "(another)" when only some are linked
+  const delinkBtn = $('#bulkDelink'); if (delinkBtn) { delinkBtn.hidden = !anyLinked; delinkBtn.lastChild.textContent = ' ' + (n === 1 ? 'Remove link' : 'Remove links'); }
+}
+function clearTreeSelection() { state.treeSelected.clear(); state.treeSelectAnchor = null; syncSelectionUI(); }
+// briefly flash rows (and scroll the first into view) so you can see where a link landed
+function flashNodes(ids) {
+  const body = $('#treeBody'); if (!body) return;
+  ids.forEach(id => {
+    const card = body.querySelector('.tr-card[data-nodeid="' + String(id).replace(/"/g, '\\"') + '"]');
+    if (!card) return;
+    card.classList.remove('is-flash'); void card.offsetWidth; card.classList.add('is-flash');
+    card.addEventListener('animationend', () => card.classList.remove('is-flash'), { once: true });
+  });
+}
+function openBulkPicker(mode) {
+  if (state.treeSelected.size === 0) return;
+  state.bulkMode = mode;
+  state.treeLinkingNodeId = null;
+  renderTreeLinkMenu('', '#linkPickerMenu');
+  const nSel = state.treeSelected.size;
+  const title = $('#linkPicker-title'); if (title) title.textContent = mode === 'add' ? 'Add another group (merge)' : 'Set the link for the selected groups';
+  const sub = $('#linkPickerSub'); if (sub) sub.textContent = mode === 'add'
+    ? 'Pick a group to add to all ' + nSel + ' selected — kept alongside their current links, creating a merge.'
+    : 'Pick a group to link all ' + nSel + ' selected to. This replaces any group they’re already linked to.';
+  const search = $('#linkPickerSearch'); if (search) search.value = '';
+  openOverlay('linkPickerOverlay');
 }
 
 // Smoothly expand/collapse a children container (accordion) so rows below slide along.
@@ -3083,8 +3310,8 @@ function treeAction(nodeId, action) {
 function buildHistoryTree() {
   const byName = {};
   const ensure = name => (byName[name] = byName[name] || { name, size: null, children: [], parent: undefined, explicit: false });
-  HISTORICAL_GROUPS.forEach(g => { const n = ensure(g.name); n.size = g.size; n.parent = g.parent; n.explicit = true; });
-  HISTORICAL_GROUPS.forEach(g => { if (g.parent) ensure(g.parent); });
+  histGroups().forEach(g => { const n = ensure(g.name); n.size = g.size; n.parent = g.parent; n.explicit = true; });
+  histGroups().forEach(g => { if (g.parent) ensure(g.parent); });
   Object.values(byName).forEach(n => { if (n.parent && byName[n.parent]) byName[n.parent].children.push(n); });
   const sizeOf = n => (n.explicit && n.size != null) ? n.size : n.children.reduce((a, c) => a + sizeOf(c), 0);
   Object.values(byName).forEach(n => { if (!n.explicit) n.size = sizeOf(n); n.children.sort((a, b) => b.size - a.size); });
@@ -3099,12 +3326,23 @@ function buildHistoryTree() {
   return roots;
 }
 
+// flip the inline link dropdown above its search box when there isn't room below
+function positionInlineLinkMenu() {
+  const menu = $('#treeLinkMenu'); if (!menu) return;
+  const anchor = menu.closest('.tr-linksearch') || menu.parentElement; if (!anchor) return;
+  menu.classList.remove('is-flip');
+  const rect = anchor.getBoundingClientRect();
+  const needed = Math.min(320, menu.scrollHeight + 12);
+  const spaceBelow = window.innerHeight - rect.bottom;
+  if (spaceBelow < needed && rect.top > spaceBelow) menu.classList.add('is-flip');
+}
 function renderTreeLinkMenu(q, menuSel) {
   menuSel = menuSel || '#treeLinkMenu';
   const menu = $(menuSel); if (!menu) return;
-  const node = findTreeNode(state.treeLinkingNodeId); if (!node) return;
+  const node = state.treeLinkingNodeId ? findTreeNode(state.treeLinkingNodeId) : null;
+  if (!node && !state.bulkMode) return;
   const ql = q.toLowerCase();
-  const linked = new Set(node.links.map(l => l.name));
+  const linked = node ? new Set(node.links.map(l => l.name)) : new Set();
   const roots = buildHistoryTree();
   // index the tree: node lookup + parent chain, so we can show a match's path and contents
   const nodeByName = {}, parentByName = {};
@@ -3120,8 +3358,11 @@ function renderTreeLinkMenu(q, menuSel) {
     const chev = hasKids
       ? '<button class="tlm-chev' + (opts.collapsed ? ' is-collapsed' : '') + '" data-pickertoggle="' + esc(n.name) + '" data-toggmode="' + (opts.mode || 'collapse') + '" aria-label="' + (opts.collapsed ? 'Expand' : 'Collapse') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tlm-chev is-leaf"></span>';
+    const indent = (menuSel === '#linkPickerMenu')
+      ? 'margin-left: calc(' + depth + ' * var(--spacing-loose));'
+      : 'padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));';
     return '<div class="menu-item tlm-item' + variant + (isLinked ? ' is-disabled' : '') + '"' + (isLinked ? '' : ' data-pick="' + esc(n.name) + '"') +
-      ' style="padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));">' +
+      ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
       '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span></span>' +
@@ -3170,10 +3411,30 @@ function renderTreeLinkMenu(q, menuSel) {
     renderTreeLinkMenu(q, menuSel);
   }));
   menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
-    node.links.push({ name: mi.dataset.pick, status: 'linked', origin: 'manual' });
+    const picked = mi.dataset.pick;
+    if (state.bulkMode) {
+      const ids = [...state.treeSelected];
+      ids.forEach(id => {
+        const nn = findTreeNode(id); if (!nn) return;
+        if (state.bulkMode === 'replace') nn.links = [{ name: picked, status: 'linked', origin: 'manual' }];
+        else if (!nn.links.some(l => l.name === picked)) nn.links.push({ name: picked, status: 'linked', origin: 'manual' });
+        syncSuggestionForNode(nn);
+      });
+      const cnt = ids.length;
+      const wasAdd = state.bulkMode === 'add';
+      state.bulkMode = null;
+      clearTreeSelection();
+      const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
+      renderTree(); renderLinking();
+      flashNodes(ids);
+      const gp = cnt + ' group' + (cnt === 1 ? '' : 's');
+      toast(wasAdd ? (picked + ' added to ' + gp + ' (merge)') : (gp + ' now linked to ' + picked));
+      return;
+    }
+    node.links.push({ name: picked, status: 'linked', origin: 'manual' });
     state.treeLinkingNodeId = null;
     syncSuggestionForNode(node);
-    toast(mi.dataset.pick + ' linked to ' + node.name);
+    toast(picked + ' linked to ' + node.name);
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
     commitTreeLink(node.id);
   }));
@@ -3191,6 +3452,7 @@ function openOverlay(id) {
 function closeOverlays() {
   document.querySelectorAll('.overlay').forEach(ov => { ov.hidden = true; });
   state.treeLinkingNodeId = null;
+  state.bulkMode = null;
 }
 document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.close).hidden = true; }));
 document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedown', (e) => { if (e.target === ov) ov.hidden = true; }));
