@@ -331,7 +331,7 @@
     .tr-ctl { position: relative; }
     .tr-ctl .menu { position: absolute; top: 100%; right: 0; margin-top: var(--spacing-extra-tight); z-index: 60; }
     /* Structure selector — colored dropdown tinted by the structure's own colour, inside a grey bar with progress */
-    .struct-picker { margin-bottom: var(--spacing-loose); }
+    .struct-picker { position: sticky; top: 0; z-index: 25; background: var(--bg-base); padding-bottom: var(--spacing-base-tight); }
     .struct-bar { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: var(--spacing-base); background: var(--bg-secondary); border-radius: var(--radius-lg); padding: var(--spacing-base-tight); }
     .struct-bar.is-blue { background: color-mix(in srgb, var(--bg-info-subtle) 55%, var(--bg-base)); }
     .struct-bar.is-green { background: color-mix(in srgb, var(--bg-positive-subtle) 55%, var(--bg-base)); }
@@ -428,6 +428,8 @@
     .acc.is-open .sacc-body { grid-template-rows: 1fr; }
     .sacc-body-inner { overflow: hidden; opacity: 0; transition: opacity var(--motion-base) var(--ease-out); }
     .acc.is-open .sacc-body-inner { opacity: 1; transition-delay: 60ms; }
+    /* once open (after the expand animation), stop clipping so sticky headers can pin */
+    .acc.is-open.is-settled .sacc-body-inner { overflow: visible; }
     .sacc-body-pad { padding: var(--spacing-loose); }
     #acc-select .sacc-body-pad { background: var(--bg-secondary); }
     .acc-lead { font-size: 14px; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
@@ -474,6 +476,9 @@
     .tr-scope { padding: 0 var(--spacing-base-tight); }
     /* prominent status filter chips with counts */
     .tr-filters { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
+    /* per-tab description of the current view — plain text, tucked just under the tabs */
+    .tr-filter-desc { margin: 0 0 var(--spacing-base); font-size: 14px; line-height: 1.5; color: var(--content-secondary); }
+    .tr-filter-desc strong { color: var(--content-base); font-weight: 600; }
     /* floating dark bulk action bar (shown while groups are selected) */
     .bulk-bar { position: fixed; left: 50%; bottom: var(--spacing-loose); transform: translateX(-50%); z-index: 80; display: flex; align-items: center; gap: var(--spacing-tight); background: var(--bg-inverse-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base-tight); box-shadow: var(--sh-card-hover); }
     .bulk-bar.bulk-in { animation: bulkJump var(--motion-slow) cubic-bezier(0.2, 0.9, 0.3, 1.4); }
@@ -526,7 +531,7 @@
        --bg-info-subtle (#e6f0fe) toward --bg-info-base, matching the system's
        base→base-hover / secondary→secondary-hover logic. */
     :root { --gl-gutter: 60px; --bg-info-subtle-hover: #d8e6fd; }
-    .tr-cols { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 0 var(--spacing-tight); padding: var(--spacing-base-tight) 0 var(--spacing-tight); background: var(--bg-interface-body); }
+    .tr-cols { position: sticky; top: var(--gl-sticky-top, 0); z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 0 var(--spacing-tight); padding: var(--spacing-base-tight) 0 var(--spacing-tight); background: var(--bg-interface-body); }
     .tr-cols.is-stuck { box-shadow: 0 1px 0 var(--border-base); }
     .tr-cols span { background: none; padding: 0; font-size: 14px; font-weight: 600; color: var(--content-secondary); }
     /* align each header with the left edge of its column's cards */
@@ -612,17 +617,28 @@
     .tr-lrow.is-empty:hover { border-color: var(--border-action); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-empty-plus { width: 16px; height: 16px; display: flex; flex-shrink: 0; opacity: 0; color: var(--content-action); transition: opacity var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-empty:hover .tr-empty-plus { opacity: 1; }
+    /* resolved "no matching group" row */
+    .tr-nomatch { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; }
+    .tr-nomatch-main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-tight); justify-content: flex-start; height: 50px; padding: 0 var(--spacing-base); border: 1px dashed var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); font-size: 14px; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out); }
+    .tr-nomatch-main:hover { border-color: var(--border-action); }
+    .tr-nomatch-main i { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
+    .tr-nomatch-main span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     /* inline "link a group" picker (flow 1) */
     .tr-linksearch { position: relative; flex: 1; min-width: 0; }
     .tr-linksearch .search-wrap { width: 100%; }
     /* match the link-card height (50px) so the picker lines up with the group cards */
     .tr-linksearch .srch { min-height: 50px; }
-    .tr-linksearch .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 300px; overflow-y: auto; }
+    .tr-linksearch .menu { position: absolute; top: 100%; left: 0; right: 0; margin-top: var(--spacing-extra-tight); z-index: 70; max-height: 300px; overflow-y: auto; padding-bottom: 0; }
     .tr-linksearch .menu.is-flip { top: auto; bottom: 100%; margin-top: 0; margin-bottom: var(--spacing-extra-tight); }
     /* full-width "open in a bigger view" button, pinned to the bottom of the dropdown */
-    .tlm-expand { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: center; gap: var(--spacing-tight); width: 100%; padding: var(--spacing-base-tight); border: none; border-top: 1px solid var(--border-base); background: var(--bg-base); color: var(--content-action); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .tlm-expand { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; justify-content: center; gap: var(--spacing-tight); width: 100%; padding: var(--spacing-base-tight); border: none; border-top: 1px solid var(--border-base); background: var(--bg-base); color: var(--content-action); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
     .tlm-expand:hover { background: var(--bg-secondary); }
     .tlm-expand i { width: 16px; height: 16px; display: flex; }
+    /* "no matching group" escape option — pinned to the top of the picker, set apart by a divider */
+    .tlm-nomatch { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; padding: var(--spacing-base-tight) var(--spacing-base); margin-bottom: var(--spacing-tight); border: none; border-bottom: 1px solid var(--border-base); background: none; color: var(--content-secondary); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .tlm-nomatch:hover { background: var(--bg-secondary); color: var(--content-base); }
+    .tlm-nomatch:hover i { color: var(--content-base); }
+    .tlm-nomatch i { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
     .lp-menu { position: static; width: 100%; max-height: none; border: none; box-shadow: none; background: none; padding: 0; }
     /* wide "Link a group" dialog with card rows (like the tree overview) */
     #linkPickerOverlay .dialog { width: 800px; max-width: calc(100vw - 2 * var(--spacing-loose)); }
@@ -647,8 +663,6 @@
     /* name-based suggested match in the picker */
     .tlm-item.is-suggested { background: var(--bg-info-subtle); border-radius: var(--radius-md); }
     #linkPickerMenu .tlm-item.is-suggested { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
-    .tlm-suggest { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; }
-    .tlm-suggest i { width: 12px; height: 12px; display: flex; }
     .tr-lrow-main { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; flex: 0 1 auto; }
     .tr-lrow-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
     .tr-lrow.is-suggested .tr-lrow-icon { color: var(--content-info-base); }
@@ -750,7 +764,8 @@
 
     /* View transition */
     .view-fade { animation: view-in var(--motion-slow) var(--ease-out); }
-    @keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    /* opacity-only — a transform here would become the containing block and break the sticky headers */
+    @keyframes view-in { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
@@ -1176,6 +1191,7 @@
             </div>
 
             <div class="tr-scope">
+            <div class="tr-filter-desc" id="treeFilterDesc" hidden></div>
             <div class="tr-controls">
               <div class="search-wrap">
                 <span class="search-icon"><i data-icon="search"></i></span>
@@ -1189,6 +1205,7 @@
               </div>
               <div class="bulk-divider"></div>
               <div class="bulk-actions">
+                <button class="btn btn-secondary" id="bulkConfirm" hidden><i data-icon="check"></i> Confirm suggestions</button>
                 <button class="btn btn-secondary" id="bulkLink"><i data-icon="link"></i> Add link to groups</button>
                 <button class="btn btn-secondary" id="bulkAdd" hidden><i data-icon="plus"></i> Add another group</button>
                 <button class="btn btn-secondary" id="bulkDelink" hidden><i data-icon="cross"></i> Remove link</button>
@@ -1929,7 +1946,8 @@ const TREES = {
 };
 
 function applyPrevious(name) {
-  var pd = PREV_DATA[name]; if (!pd) return;
+  // For the demo: keep the same previous-survey structure/groups no matter which survey is chosen.
+  var pd = PREV_DATA[SURVEYS[0]] || PREV_DATA[name]; if (!pd) return;
   HISTORICAL_GROUPS = pd.historical; suggestions = pd.suggestions; SILENT_AUTO = pd.silentAuto;
   (function walk(nodes){ nodes.forEach(function(n){ n.links = (pd.links[n.id] || []).map(function(l){ return { name: l.name, status: l.status, origin: l.status === 'linked' ? 'auto' : null }; }); if (n.children) walk(n.children); }); })(TREES['Organizational structure']);
 }
@@ -2085,7 +2103,9 @@ function renderSurvSelect() {
 }
 function renderSurvPicker() {
   const list = $('#survPickerList'); if (!list) return;
-  list.innerHTML = SURVEYS.map(s => {
+  const yearOf = s => parseInt((((SURVEY_META[s] || {}).typeYear || '').match(/\d{4}/) || [0])[0], 10);
+  const ordered = [...SURVEYS].sort((a, b) => yearOf(b) - yearOf(a));   // newest survey first
+  list.innerHTML = ordered.map(s => {
     const info = SURVEY_META[s];
     return '<button class="surv-opt' + (s === pendingSurvey ? ' is-selected' : '') + '" data-survpick="' + esc(s) + '">' +
       '<span class="surv-opt-radio"></span>' +
@@ -2112,10 +2132,21 @@ function updateAccSummaries() {
 function openAcc(which, open) {
   const el = $('#acc-' + which); if (!el) return;
   el.classList.toggle('is-open', open);
+  if (!open) el.classList.remove('is-settled');   // re-clip so the collapse animation stays contained
   const head = el.querySelector('.acc-head'); if (head) head.setAttribute('aria-expanded', open);
   if (which === 'select' && open) { pendingSurvey = state.selectedSurvey; renderSurvSelect(); }
   updateAccSummaries();
-  if (which === 'link' && open) renderLinking();
+  if (which === 'link' && open) {
+    renderLinking();
+    // after the expand animation, un-clip so the sticky structure bar + column headers can pin
+    setTimeout(() => { if (el.classList.contains('is-open')) { el.classList.add('is-settled'); updateStickyOffsets(); } }, 340);
+  }
+}
+// keep the column headers pinned just below the sticky structure bar
+function updateStickyOffsets() {
+  const sp = document.querySelector('.struct-picker');
+  if (!sp) return;
+  document.documentElement.style.setProperty('--gl-sticky-top', Math.round(sp.getBoundingClientRect().height) + 'px');
 }
 document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#survChangeBtn')) { pendingSurvey = state.selectedSurvey; renderSurvPicker(); openOverlay('survPickerOverlay'); return; }
@@ -2559,6 +2590,13 @@ function renderCardLinkMenu(q) {
 }
 
 document.addEventListener('click', (e) => {
+  // jump to a status filter from an empty-state button
+  const setf = e.target.closest('[data-setfilter]');
+  if (setf) {
+    const def = FILTER_DEFS.find(f => f.key === setf.dataset.setfilter);
+    if (def) { state.treeStatusFilter.clear(); def.statuses.forEach(s => state.treeStatusFilter.add(s)); renderTree(); }
+    return;
+  }
   // structure dropdown — toggle, select, or close on outside click
   const spick = e.target.closest('[data-structpick]');
   const structMenu = $('#structMenu');
@@ -2734,7 +2772,7 @@ function treeStatusCounts() {
   const c = { total: 0, linked: 0, suggested: 0, nolink: 0 };
   const walk = (nodes) => nodes.forEach(n => {
     c.total++;
-    if (n.links.length === 0) c.nolink++;
+    if (n.links.length === 0) { if (!n.noMatch) c.nolink++; }   // "no match" groups are resolved, not pending
     else if (n.links.some(l => l.status === 'linked')) c.linked++;
     else c.suggested++;
     if (n.children) walk(n.children);
@@ -2826,6 +2864,22 @@ $('#treeFilters').addEventListener('click', (e) => {
 // bulk action bar
 $('#shiftTipClose') && $('#shiftTipClose').addEventListener('click', () => { state.shiftTipSeen = true; const t = $('#shiftTip'); if (t) t.hidden = true; });
 $('#bulkClear') && $('#bulkClear').addEventListener('click', clearTreeSelection);
+$('#bulkConfirm') && $('#bulkConfirm').addEventListener('click', () => {
+  const ids = [...state.treeSelected];
+  let confirmed = 0, firstPair = null;
+  ids.forEach(id => {
+    const nn = findTreeNode(id); if (!nn) return;
+    let did = false;
+    nn.links.forEach(l => { if (l.status === 'suggested' || l.status === 'review') { l.status = 'linked'; l.origin = 'manual'; did = true; if (!firstPair) firstPair = { cur: nn.name, prev: l.name }; } });
+    if (did) { confirmed++; syncSuggestionForNode(nn); }
+  });
+  if (firstPair) maybeCelebrateFirstMatch(firstPair.cur, firstPair.prev);   // set flag before re-render
+  clearTreeSelection();
+  renderTreeFilters(); bumpFilterCount('linked');
+  renderTree(); renderLinking();
+  flashNodes(ids);
+  toast(confirmed + ' suggestion' + (confirmed === 1 ? '' : 's') + ' confirmed');
+});
 $('#bulkLink') && $('#bulkLink').addEventListener('click', () => openBulkPicker('replace'));
 $('#bulkAdd') && $('#bulkAdd').addEventListener('click', () => openBulkPicker('add'));
 $('#bulkDelink') && $('#bulkDelink').addEventListener('click', () => {
@@ -2843,7 +2897,7 @@ function filterTree(nodes) {
   return nodes.map(n => {
     const children = n.children ? filterTree(n.children) : [];
     const nameHit = q && (n.name.toLowerCase().includes(q) || n.links.some(l => l.name.toLowerCase().includes(q)));
-    const statusHit = sf.size === 0 || n.links.some(l => sf.has(normStatus(l))) || (sf.has('nolink') && n.links.length === 0);
+    const statusHit = sf.size === 0 || n.links.some(l => sf.has(normStatus(l))) || (sf.has('nolink') && n.links.length === 0 && !n.noMatch);
     const selfMatch = q ? (nameHit && statusHit) : statusHit;
     if (selfMatch || children.length > 0) return { ...n, children, _hit: q ? nameHit : false };
     return null;
@@ -2914,6 +2968,14 @@ function linkColumns(n, sug) {
   if (n.links.length === 0) {
     if (state.treeLinkingNodeId === n.id) {
       const right = '<div class="tr-rrow">' + linkSearchBoxHTML() + '</div>';
+      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+    }
+    if (n.noMatch) {
+      // resolved as "no matching group" — off the to-do list, but changeable
+      const right = '<div class="tr-rrow"><div class="tr-nomatch">' +
+        '<button class="tr-nomatch-main" data-treeadd="' + esc(n.id) + '"><i data-icon="minus"></i><span>No matching group</span></button>' +
+        '<div class="tt-demo"><button class="tr-lrow-x" data-treerelink="' + esc(n.id) + '" aria-label="Put back on the list"><i data-icon="undo"></i></button><div class="tooltip is-above">Put back on the list</div></div>' +
+        '</div></div>';
       return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
     }
     const showTip = !state.firstMatchDone;   // onboarding tooltip only until the first match is made
@@ -3069,8 +3131,22 @@ document.addEventListener('click', (e) => {
 });
 $('#linkPickerSearch').addEventListener('input', (e) => renderTreeLinkMenu(e.target.value, '#linkPickerMenu'));
 
+const FILTER_DESC = {
+  all: { icon: 'list-unordered', html: 'Every group in this survey. Link each one to its match in your previous survey so you can compare results over time.' },
+  linked: { icon: 'link', html: 'Groups already connected to a previous-survey group — their scores now show up as a trend.' },
+  suggested: { icon: 'lightbulb', html: 'We found a likely match for these groups based on member overlap. Review each one and confirm it, or pick a different group.' },
+  nolink: { icon: 'info', html: 'These groups aren’t linked yet. Pick the matching group from your previous survey, or mark a group as no match to clear it from the list.' },
+};
+function renderTreeFilterDesc() {
+  const el = $('#treeFilterDesc'); if (!el) return;
+  const d = state.treeSearch ? null : FILTER_DESC[activeFilterKey()];
+  if (!d) { el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = d.html;
+}
 function renderTree() {
   renderTreeFilters();
+  renderTreeFilterDesc();
   const body = $('#treeBody');
   const data = filterTree(TREES[state.treeStructure]);
   if (data.length === 0) {
@@ -3087,23 +3163,34 @@ function renderTree() {
     });
     const continueBtn = nextStruct ? '<button class="btn btn-secondary" data-structpick="' + esc(nextStruct) +
       '"><i data-icon="' + ((STRUCT_META[nextStruct] || {}).icon || 'structure') + '"></i> Continue in ' + esc(nextStruct) + '</button>' : '';
+    const cur = treeStatusCounts();   // counts for the current structure (nolink excludes "no match")
+    const reviewNolinkBtn = '<button class="btn btn-secondary" data-setfilter="nolink"><i data-icon="link"></i> Review groups without a link</button>';
     if (q) {
       icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>';
       title = 'We couldn’t find any matches for “' + esc(q) + '”';
       sub = 'Check the spelling or try another group name.';
     } else if (active === 'suggested') {
-      icon = celebrate('check');
-      title = 'You’re all caught up';
-      sub = nextStruct
-        ? 'Every suggested link here has been reviewed. You can keep linking in another structure.'
-        : 'Every suggested link has been reviewed — nothing left to confirm.';
-      extra = continueBtn;
+      if (cur.nolink > 0) {
+        // suggestions done, but groups still need a link — send them there first, not to another structure
+        icon = '<div class="gl-empty-icon is-positive" style="margin-inline:auto;"><i data-icon="check"></i></div>';
+        title = 'All suggestions reviewed';
+        sub = 'Nice — no suggestions left to check. ' + (cur.nolink === 1 ? '1 group still has no link' : cur.nolink + ' groups still have no link') +
+          ', so review ' + (cur.nolink === 1 ? 'it' : 'them') + ' next — link a match or mark as no match.';
+        extra = reviewNolinkBtn;
+      } else {
+        icon = celebrate('check');
+        title = 'You’re all caught up';
+        sub = nextStruct
+          ? 'Every group here is linked or marked as no match. You can keep going in another structure.'
+          : 'Every suggested link has been reviewed — nothing left to confirm.';
+        extra = continueBtn;
+      }
     } else if (active === 'nolink') {
       icon = celebrate('love');
-      title = 'Every group is linked';
+      title = 'You’ve reviewed every group';
       sub = nextStruct
-        ? 'Nice work — this structure is fully linked. You can keep linking in another structure.'
-        : 'Nice work — each group in this survey now has a previous-survey link.';
+        ? 'Nice work — every group here is linked or marked as no match. You can keep going in another structure.'
+        : 'Nice work — every group is either linked or marked as having no match.';
       extra = continueBtn;
     } else if (active === 'linked') {
       icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="link"></i></div>';
@@ -3155,6 +3242,11 @@ function renderTree() {
       renderTree(); renderLinking();
     }
   }));
+  // undo "no matching group" — put the group back on the to-do list
+  body.querySelectorAll('[data-treerelink]').forEach(b => b.addEventListener('click', () => {
+    const node = findTreeNode(b.dataset.treerelink);
+    if (node) { node.noMatch = false; toast(node.name + ' is back on the list'); renderTree(); renderLinking(); }
+  }));
   body.querySelectorAll('[data-treecheck]').forEach(b => {
     b.addEventListener('mousedown', (e) => { if (e.shiftKey) e.preventDefault(); }); // stop shift-text-selection
     const run = (e) => {
@@ -3204,11 +3296,17 @@ function renderBulkBar() {
   if (n >= 2) state.shiftTipSeen = true;
   const tip = $('#shiftTip'); if (tip) { tip.hidden = !(n === 1 && !state.shiftTipSeen); positionShiftTip(); }
   if (n === 0) return;
-  // adapt actions to whether the selected groups already have links
-  let linkedCount = 0;
-  state.treeSelected.forEach(id => { const nn = findTreeNode(id); if (nn && nn.links && nn.links.length) linkedCount++; });
+  // adapt actions to the selection: confirmed links vs pending suggestions
+  let linkedCount = 0, suggestedCount = 0;
+  state.treeSelected.forEach(id => {
+    const nn = findTreeNode(id); if (!nn || !nn.links) return;
+    if (nn.links.some(l => l.status === 'linked')) linkedCount++;
+    if (nn.links.some(l => l.status === 'suggested' || l.status === 'review')) suggestedCount++;
+  });
   const anyLinked = linkedCount > 0;
   const allLinked = linkedCount === n;
+  const confirmBtn = $('#bulkConfirm');
+  if (confirmBtn) { confirmBtn.hidden = suggestedCount === 0; confirmBtn.lastChild.textContent = ' ' + (suggestedCount === 1 ? 'Confirm suggestion' : 'Confirm suggestions'); }
   const linkBtn = $('#bulkLink'); if (linkBtn) linkBtn.lastChild.textContent = ' ' + (anyLinked ? 'Replace link' : 'Add link to groups');
   const addBtn = $('#bulkAdd');
   if (addBtn) { addBtn.hidden = !anyLinked; addBtn.lastChild.textContent = ' ' + (allLinked ? 'Add another group' : 'Add (another) group'); } // "(another)" when only some are linked
@@ -3534,21 +3632,29 @@ function editDistance(a, b) {
 // suggest the previous-survey group whose name is closest to the current group's name
 const NAME_STOP = new Set(['team', 'teams', 'the', 'of', 'and', 'group', 'groups', 'dept', 'department', 'unit', 'de', 'div', 'division']);
 function nameTokens(s) { return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w && !NAME_STOP.has(w)); }
-function suggestMatchFor(name, candidates) {
-  const target = nameTokens(name); if (!target.length) return null;
-  const tset = new Set(target), a = name.toLowerCase();
-  let best = null, bestScore = 0;
-  candidates.forEach(c => {
-    const ct = nameTokens(c); if (!ct.length) return;
-    let shared = 0; ct.forEach(w => { if (tset.has(w)) shared++; });
-    const b = c.toLowerCase();
-    const contains = (a.includes(b) || b.includes(a)) ? 1 : 0;
-    const sim = 1 - editDistance(a, b) / Math.max(a.length, b.length, 1);
-    const score = shared * 2 + contains + sim;              // token overlap dominates, similarity breaks ties
-    if (score > bestScore) { bestScore = score; best = c; }
-  });
-  // only suggest when there's a real signal (a shared token, containment, or a close string)
-  return bestScore >= 1.4 ? best : null;
+function hashStr(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; }
+// deterministic pseudo member-overlap between a current group and a previous-survey group:
+// people are far more likely to have stayed together when the team name is retained, so name
+// retention drives the estimate, with a stable per-pair jitter and string closeness to break ties.
+function pairOverlapPct(curName, prevName) {
+  const t = nameTokens(curName), pset = new Set(nameTokens(prevName));
+  let shared = 0; t.forEach(w => { if (pset.has(w)) shared++; });
+  const denom = Math.max(1, Math.min(t.length, pset.size || 1));
+  const nameSim = shared / denom;
+  const strSim = 1 - editDistance(curName.toLowerCase(), prevName.toLowerCase()) / Math.max(curName.length, prevName.length, 1);
+  const jitter = hashStr(curName + '|' + prevName) % 16;   // 0..15, stable per pair
+  if (shared === 0 && strSim < 0.5) return Math.round(jitter * 0.6);          // no signal → low
+  return Math.min(94, Math.round(38 + nameSim * 42 + strSim * 8 + jitter * 0.5));
+}
+// pick the previous-survey group with the highest estimated employee overlap
+function bestOverlapMatch(node, candidateNames) {
+  const known = suggestionForNode(node);                   // known suggestions carry a real overlap %
+  if (known && known.oldGroups && known.oldGroups[0] && candidateNames.includes(known.oldGroups[0].name)) {
+    return { name: known.oldGroups[0].name, pct: known.overlap || 70 };
+  }
+  let best = null, bestPct = 0;
+  candidateNames.forEach(nm => { const p = pairOverlapPct(node.name, nm); if (p > bestPct) { bestPct = p; best = nm; } });
+  return bestPct >= 35 ? { name: best, pct: bestPct } : null;
 }
 function renderTreeLinkMenu(q, menuSel) {
   menuSel = menuSel || '#treeLinkMenu';
@@ -3563,10 +3669,12 @@ function renderTreeLinkMenu(q, menuSel) {
   (function index(list, parent) { list.forEach(n => { nodeByName[n.name] = n; parentByName[n.name] = parent; index(n.children, n.name); }); })(roots, null);
   const ancestorsOf = name => { const a = []; let p = parentByName[name]; while (p) { a.unshift(p); p = parentByName[p]; } return a; };
 
-  // browse mode: suggest the closest-named previous-survey group for this node
-  const suggestedName = (node && !ql)
-    ? suggestMatchFor(node.name, Object.keys(nodeByName).filter(nm => !linked.has(nm)))
+  // browse mode: suggest the previous-survey group with the highest estimated employee overlap
+  const sugMatch = (node && !ql)
+    ? bestOverlapMatch(node, Object.keys(nodeByName).filter(nm => !linked.has(nm)))
     : null;
+  const suggestedName = sugMatch ? sugMatch.name : null;
+  const suggestedPct = sugMatch ? sugMatch.pct : null;
   // make sure the suggestion is visible: expand its ancestors
   if (suggestedName) ancestorsOf(suggestedName).forEach(a => state.linkPickerCollapsed.delete(a));
 
@@ -3588,6 +3696,7 @@ function renderTreeLinkMenu(q, menuSel) {
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
+      (isSuggested && suggestedPct ? '<span class="tr-conf-badge ' + (suggestedPct >= 80 ? 'is-high' : suggestedPct >= 50 ? 'is-mid' : 'is-low') + '">' + suggestedPct + '%</span>' : '') +
       '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span></span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
@@ -3625,7 +3734,9 @@ function renderTreeLinkMenu(q, menuSel) {
   }
   if (!html) html = '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>';
   if (menuSel === '#treeLinkMenu') html += '<button class="tlm-expand" data-linkexpand><i data-icon="maximize"></i> Open in a bigger view</button>';
-  menu.innerHTML = html;
+  // "no matching group" pinned to the top, set apart from the group list
+  const nomatchTop = node ? '<button class="tlm-nomatch" data-treenomatch><i data-icon="minus"></i> No matching group — leave this one unlinked</button>' : '';
+  menu.innerHTML = nomatchTop + html;
   // scroll the suggested match into view when the picker opens (deferred so the menu is laid out)
   if (suggestedName) {
     const sugEl = menu.querySelector('.tlm-item[data-suggested]');
@@ -3633,8 +3744,10 @@ function renderTreeLinkMenu(q, menuSel) {
       let sc = sugEl.parentElement;                        // find the real scroll container
       while (sc && sc.scrollHeight <= sc.clientHeight + 4) sc = sc.parentElement;
       if (!sc) return;
+      const stick = sc.querySelector('.tlm-expand');       // reserve the sticky footer so the match isn't hidden behind it
+      const reserve = stick ? stick.offsetHeight : 0;
       const cr = sc.getBoundingClientRect(), sr = sugEl.getBoundingClientRect();
-      sc.scrollTop += (sr.top - cr.top) - (sc.clientHeight - sugEl.offsetHeight) / 2;
+      sc.scrollTop += (sr.top - cr.top) - (sc.clientHeight - reserve - sugEl.offsetHeight) / 2;
     }, 80);
   }
   menu.querySelectorAll('[data-pickertoggle]').forEach(b => b.addEventListener('click', (e) => {
@@ -3665,6 +3778,7 @@ function renderTreeLinkMenu(q, menuSel) {
       toast(wasAdd ? (picked + ' added to ' + gp + ' (merge)') : (gp + ' now linked to ' + picked));
       return;
     }
+    node.noMatch = false;                          // linking supersedes a previous "no match"
     node.links.push({ name: picked, status: 'linked', origin: 'manual' });
     state.treeLinkingNodeId = null;
     syncSuggestionForNode(node);
@@ -3672,6 +3786,21 @@ function renderTreeLinkMenu(q, menuSel) {
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
     maybeCelebrateFirstMatch(node.name, picked);   // set the flag before re-render so tooltips drop
     commitTreeLink(node.id);
+  }));
+  // "no matching group" — resolve this group off the to-do list without linking
+  menu.querySelectorAll('[data-treenomatch]').forEach(b => b.addEventListener('click', () => {
+    if (!node) return;
+    node.noMatch = true; node.links = [];
+    syncSuggestionForNode(node);
+    state.treeLinkingNodeId = null; state.bulkMode = null;
+    const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
+    toast(node.name + ' marked as no matching group');
+    if (activeFilterKey() === 'nolink') {          // it leaves the "No link yet" list — animate it out
+      renderTreeFilters();
+      collapseRowThen(node.id, () => { renderTree(); renderLinking(); });
+    } else {
+      renderTree(); renderLinking();
+    }
   }));
   icons();
 }
@@ -3779,15 +3908,28 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
   document.addEventListener('focusin', onEnter);
 })();
 
-// Show the sticky column-header divider only once it's actually pinned.
+// Show the sticky column-header divider only once it's actually pinned, and keep the
+// header offsets in sync with the (responsive, wrapping) structure bar height.
 (function () {
   const cols = document.querySelector('.tr-cols');
+  const sp = document.querySelector('.struct-picker');
   const scroller = document.querySelector('.app-main');
-  if (!cols || !scroller || !window.IntersectionObserver) return;
-  new IntersectionObserver(
-    ([e]) => cols.classList.toggle('is-stuck', e.intersectionRatio < 1),
-    { root: scroller, threshold: [1], rootMargin: '-65px 0px 0px 0px' }
-  ).observe(cols);
+  if (!cols || !sp || !scroller) return;
+  let obs = null;
+  const refresh = () => {
+    updateStickyOffsets();
+    if (!window.IntersectionObserver) return;
+    const h = Math.round(sp.getBoundingClientRect().height);
+    if (obs) obs.disconnect();
+    obs = new IntersectionObserver(
+      ([e]) => cols.classList.toggle('is-stuck', e.intersectionRatio < 1),
+      { root: scroller, threshold: [1], rootMargin: (-(h + 1)) + 'px 0px 0px 0px' }
+    );
+    obs.observe(cols);
+  };
+  if (window.ResizeObserver) new ResizeObserver(refresh).observe(sp);
+  window.addEventListener('resize', refresh);
+  refresh();
 })();
 
 /* ═══════════════ IN-PAGE ONBOARDING ═══════════════ */
