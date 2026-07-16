@@ -44,7 +44,7 @@
     .ov-banner-btn { flex-shrink: 0; }
 
     /* coloured zone bands */
-    .ov-tl { position: relative; display: flex; height: 180px; border-top: 1px solid var(--border-base); }
+    .ov-tl { position: relative; display: flex; height: 250px; border-top: 1px solid var(--border-base); }
     .ov-tl-band { position: relative; box-sizing: border-box; }
     .ov-tl-band + .ov-tl-band { border-left: 2px solid var(--bg-base); }
     .ov-tl-band.is-planned { background: var(--bg-tertiary); }
@@ -71,7 +71,32 @@
     .ov-tl-ms-icon { margin-top: var(--spacing-extra-tight); width: 24px; height: 24px; border-radius: var(--radius-sm); background: var(--bg-base); box-shadow: var(--sh-card); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .ov-tl-ms-icon i { width: 14px; height: 14px; display: flex; }
 
-    .ov-tip { margin-top: 0; }
+    /* tips carousel stuck to the bottom of the timeline card — Effectory accent yellow */
+    .ov-tips { display: flex; align-items: center; gap: var(--spacing-base); padding: var(--spacing-base) var(--spacing-loose); background: var(--p-color-yellow-100); border-top: 1px solid var(--p-color-yellow-300); }
+    .ov-tips-icon { flex-shrink: 0; width: 34px; height: 34px; border-radius: var(--radius-full); background: var(--p-color-yellow-400); color: var(--content-accent-yellow-base); display: flex; align-items: center; justify-content: center; box-shadow: var(--sh-card); }
+    .ov-tips-icon i { width: 18px; height: 18px; display: flex; }
+    .ov-tips-viewport { flex: 1; min-width: 0; }
+    .ov-tip-item { display: none; }
+    .ov-tip-item.is-active { display: block; animation: tipFade var(--motion-base) var(--ease-out); }
+    @keyframes tipFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .ov-tip-title { font-size: 14px; font-weight: 700; color: var(--content-base); }
+    .ov-tip-text { font-size: 14px; line-height: 1.5; color: var(--content-secondary); margin-top: var(--spacing-extra-tight); }
+    /* progress-style pill dots (active one stretches) */
+    .ov-tips-dots { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-extra-tight); }
+    .ov-tip-dot { height: 6px; width: 6px; padding: 0; border: none; border-radius: var(--radius-full); background: var(--p-color-yellow-600); opacity: 0.35; cursor: pointer; transition: width var(--motion-base) var(--ease-out), opacity var(--motion-base) var(--ease-out); }
+    .ov-tip-dot:hover { opacity: 0.6; }
+    .ov-tip-dot.is-active { width: 22px; opacity: 1; }
+
+    /* first-match celebration dialog */
+    .fm-dialog { text-align: center; }
+    .fm-celebrate { margin: var(--spacing-tight) 0 var(--spacing-base); }
+    .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 700; }
+    .fm-preview { text-align: left; border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-secondary); padding: var(--spacing-base); }
+    .fm-preview-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
+    .fm-preview-title { font-size: 14px; font-weight: 700; color: var(--content-base); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .fm-preview-delta { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 700; color: var(--content-positive-base); background: var(--bg-positive-subtle); padding: var(--spacing-extra-tight) var(--spacing-tight); border-radius: var(--radius-full); }
+    .fm-preview-delta i { width: 12px; height: 12px; display: flex; }
+    .fm-chart { width: 100%; height: auto; display: block; }
 
     /* Overview: settings sections */
     .ov-section { margin-top: var(--spacing-extra-loose); }
@@ -581,6 +606,8 @@
     /* linked groups → light green */
     .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-base); }
     .tr-card:hover .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-card:hover .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-base-hover); }
+    /* empty row — subtle placeholder that invites linking (plus appears on hover, right) */
+    .tr-empty-wrap { display: flex; width: 100%; }
     .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: space-between; font-family: inherit; font-size: 14px; width: 100%; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-empty:hover { border-color: var(--border-action); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-empty-plus { width: 16px; height: 16px; display: flex; flex-shrink: 0; opacity: 0; color: var(--content-action); transition: opacity var(--motion-fast) var(--ease-out); }
@@ -617,6 +644,11 @@
     .tlm-item.is-context .menu-item-title { color: var(--content-secondary); font-weight: 500; }
     .tlm-item.is-context .menu-item-sub { color: var(--content-subtle); }
     .tlm-name-row { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
+    /* name-based suggested match in the picker */
+    .tlm-item.is-suggested { background: var(--bg-info-subtle); border-radius: var(--radius-md); }
+    #linkPickerMenu .tlm-item.is-suggested { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
+    .tlm-suggest { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; }
+    .tlm-suggest i { width: 12px; height: 12px; display: flex; }
     .tr-lrow-main { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; flex: 0 1 auto; }
     .tr-lrow-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
     .tr-lrow.is-suggested .tr-lrow-icon { color: var(--content-info-base); }
@@ -817,6 +849,24 @@
               <div class="ov-tl-ms is-future" style="left:81%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="check"></i></span></div>
               <div class="ov-tl-ms is-future" style="left:88%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="barchart-2"></i></span></div>
             </div>
+          </div>
+          <div class="ov-tips">
+            <span class="ov-tips-icon"><i data-icon="lightbulb"></i></span>
+            <div class="ov-tips-viewport" id="ovTipsTrack">
+              <div class="ov-tip-item is-active">
+                <div class="ov-tip-title">Compare against a different benchmark</div>
+                <div class="ov-tip-text">Switch to another industry or country benchmark to see how your scores really compare.</div>
+              </div>
+              <div class="ov-tip-item">
+                <div class="ov-tip-title">Release results in phases</div>
+                <div class="ov-tip-text">Share results with leadership first, then roll them out to managers and teams when you’re ready.</div>
+              </div>
+              <div class="ov-tip-item">
+                <div class="ov-tip-title">Set response reminders</div>
+                <div class="ov-tip-text">Schedule automatic reminders to lift your response rate before the survey closes.</div>
+              </div>
+            </div>
+            <div class="ov-tips-dots" id="ovTipsDots"></div>
           </div>
         </div>
 
@@ -1205,6 +1255,45 @@
     <div class="dialog-footer">
       <button class="btn btn-secondary" data-close="reviewOverlay">Cancel</button>
       <button class="btn btn-primary" id="rvSend"><i data-icon="send"></i> Send request</button>
+    </div>
+  </div>
+</div>
+
+<!-- First-match celebration -->
+<div class="overlay" id="firstMatchOverlay" hidden>
+  <div class="dialog dialog-s fm-dialog" role="dialog" aria-modal="true" aria-labelledby="fm-title">
+    <button class="dialog-close" aria-label="Close" data-close="firstMatchOverlay"><i data-icon="cross"></i></button>
+    <div class="fm-celebrate">
+      <div class="gl-empty-icon is-positive is-celebrate" style="margin-inline:auto;"><i data-icon="check"></i>
+        <span class="gl-spark gl-spark-1"><i data-icon="star-filled"></i></span>
+        <span class="gl-spark gl-spark-2"><i data-icon="star-filled"></i></span></div>
+    </div>
+    <div class="dialog-header">
+      <h3 class="dialog-title" id="fm-title">Well done — your first match</h3>
+      <p class="dialog-subtitle">You’ve linked <strong id="fmCurrent">…</strong> to <strong id="fmPrev">…</strong>. Their results now connect across both surveys, so you can follow the trend over time.</p>
+    </div>
+    <div class="dialog-body">
+      <div class="fm-preview">
+        <div class="fm-preview-head">
+          <span class="fm-preview-title" id="fmChartTitle">…</span>
+          <span class="fm-preview-delta"><i data-icon="arrow-up"></i> 0.7</span>
+        </div>
+        <svg class="fm-chart" viewBox="0 0 300 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Engagement score rising from 7.4 in the previous survey to 8.1 in this survey">
+          <text x="16" y="20" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">Engagement</text>
+          <line x1="16" y1="103" x2="284" y2="103" stroke="var(--border-base)" stroke-width="1"/>
+          <path d="M64 80 L236 44 L236 103 L64 103 Z" fill="var(--bg-brand-subtle)"/>
+          <path d="M64 80 L236 44" stroke="var(--content-brand-base)" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <circle cx="64" cy="80" r="5" fill="var(--bg-base)" stroke="var(--content-subtle)" stroke-width="2"/>
+          <text x="64" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="var(--content-secondary)" font-family="Inter, sans-serif">7.4</text>
+          <circle cx="236" cy="44" r="6" fill="var(--content-brand-base)" stroke="var(--bg-base)" stroke-width="3"/>
+          <text x="236" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="var(--content-base)" font-family="Inter, sans-serif">8.1</text>
+          <text x="64" y="122" text-anchor="middle" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">Previous ’25</text>
+          <text x="236" y="122" text-anchor="middle" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">This survey</text>
+        </svg>
+      </div>
+    </div>
+    <div class="dialog-footer" style="justify-content:center;">
+      <button class="btn btn-primary" data-close="firstMatchOverlay">Keep matching</button>
     </div>
   </div>
 </div>
@@ -1874,6 +1963,7 @@ const state = {
   treeSelectAnchor: null,    // last node id clicked (for shift-range)
   bulkMode: null,            // 'replace' | 'add' while the bulk link picker is open
   shiftTipSeen: false,       // shift-select hint shown/dismissed this session
+  firstMatchDone: false,     // first-match celebration shown once this session
 };
 
 /* ═══════════════ HELPERS ═══════════════ */
@@ -2713,6 +2803,16 @@ function commitTreeLink(nodeId) {
     flashNodes([nodeId]);
   }
 }
+// one-time celebration the first time the user matches a group this session
+function maybeCelebrateFirstMatch(currentName, prevName) {
+  if (state.firstMatchDone) return;
+  state.firstMatchDone = true;
+  const set = (id, txt) => { const el = $(id); if (el) el.textContent = txt; };
+  set('#fmCurrent', currentName);
+  set('#fmPrev', prevName);
+  set('#fmChartTitle', currentName);
+  setTimeout(() => openOverlay('firstMatchOverlay'), 900);   // let the match land and settle before celebrating
+}
 $('#treeFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-filter]');
   if (!btn) return;
@@ -2816,7 +2916,11 @@ function linkColumns(n, sug) {
       const right = '<div class="tr-rrow">' + linkSearchBoxHTML() + '</div>';
       return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
     }
-    const right = '<div class="tr-rrow"><button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"><span>No link yet</span><i class="tr-empty-plus" data-icon="plus"></i></button></div>';
+    const showTip = !state.firstMatchDone;   // onboarding tooltip only until the first match is made
+    const right = '<div class="tr-rrow"><div class="tr-empty-wrap' + (showTip ? ' tt-demo' : '') + '">' +
+      '<button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"><span>Select matching group</span><i class="tr-empty-plus" data-icon="plus"></i></button>' +
+      (showTip ? '<div class="tooltip is-above">Pick the matching group from your previous survey so last time’s scores show up as a trend.</div>' : '') +
+      '</div></div>';
     return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
   }
   let right = '';
@@ -3325,6 +3429,7 @@ function treeLinkAction(nodeId, linkName, action) {
   if (action === 'approve') {
     const l = node.links.find(x => x.name === linkName); if (l) { l.status = 'linked'; l.origin = 'manual'; }
     toast(linkName + ' linked');
+    maybeCelebrateFirstMatch(node.name, linkName);
   } else {
     node.links = node.links.filter(x => x.name !== linkName);
     toast(linkName + ' not linked');
@@ -3361,8 +3466,10 @@ function syncSuggestionForNode(node) {
 function treeAction(nodeId, action) {
   const node = findTreeNode(nodeId); if (!node) return;
   if (action === 'approve') {
+    const first = node.links.find(l => l.status === 'suggested' || l.status === 'review');
     node.links.forEach(l => { if (l.status === 'suggested' || l.status === 'review') { l.status = 'linked'; l.origin = 'manual'; } });
     toast(node.name + ' linked');
+    if (first) maybeCelebrateFirstMatch(node.name, first.name);
   } else {
     node.links = node.links.filter(l => l.status !== 'suggested' && l.status !== 'review');
     toast(node.name + ' not linked');
@@ -3409,6 +3516,40 @@ function positionInlineLinkMenu() {
   const spaceBelow = window.innerHeight - rect.bottom;
   if (spaceBelow < needed && rect.top > spaceBelow) menu.classList.add('is-flip');
 }
+// crude edit distance for name-similarity scoring
+function editDistance(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n; if (!n) return m;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+// suggest the previous-survey group whose name is closest to the current group's name
+const NAME_STOP = new Set(['team', 'teams', 'the', 'of', 'and', 'group', 'groups', 'dept', 'department', 'unit', 'de', 'div', 'division']);
+function nameTokens(s) { return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w && !NAME_STOP.has(w)); }
+function suggestMatchFor(name, candidates) {
+  const target = nameTokens(name); if (!target.length) return null;
+  const tset = new Set(target), a = name.toLowerCase();
+  let best = null, bestScore = 0;
+  candidates.forEach(c => {
+    const ct = nameTokens(c); if (!ct.length) return;
+    let shared = 0; ct.forEach(w => { if (tset.has(w)) shared++; });
+    const b = c.toLowerCase();
+    const contains = (a.includes(b) || b.includes(a)) ? 1 : 0;
+    const sim = 1 - editDistance(a, b) / Math.max(a.length, b.length, 1);
+    const score = shared * 2 + contains + sim;              // token overlap dominates, similarity breaks ties
+    if (score > bestScore) { bestScore = score; best = c; }
+  });
+  // only suggest when there's a real signal (a shared token, containment, or a close string)
+  return bestScore >= 1.4 ? best : null;
+}
 function renderTreeLinkMenu(q, menuSel) {
   menuSel = menuSel || '#treeLinkMenu';
   const menu = $(menuSel); if (!menu) return;
@@ -3422,11 +3563,19 @@ function renderTreeLinkMenu(q, menuSel) {
   (function index(list, parent) { list.forEach(n => { nodeByName[n.name] = n; parentByName[n.name] = parent; index(n.children, n.name); }); })(roots, null);
   const ancestorsOf = name => { const a = []; let p = parentByName[name]; while (p) { a.unshift(p); p = parentByName[p]; } return a; };
 
+  // browse mode: suggest the closest-named previous-survey group for this node
+  const suggestedName = (node && !ql)
+    ? suggestMatchFor(node.name, Object.keys(nodeByName).filter(nm => !linked.has(nm)))
+    : null;
+  // make sure the suggestion is visible: expand its ancestors
+  if (suggestedName) ancestorsOf(suggestedName).forEach(a => state.linkPickerCollapsed.delete(a));
+
   let html = '';
   const rowHTML = (n, depth, opts) => {
     opts = opts || {};
     const hasKids = n.children.length > 0;
     const isLinked = linked.has(n.name);
+    const isSuggested = !isLinked && n.name === suggestedName;
     const variant = opts.variant === 'match' ? ' is-match' : opts.variant === 'context' ? ' is-context' : '';
     const chev = hasKids
       ? '<button class="tlm-chev' + (opts.collapsed ? ' is-collapsed' : '') + '" data-pickertoggle="' + esc(n.name) + '" data-toggmode="' + (opts.mode || 'collapse') + '" aria-label="' + (opts.collapsed ? 'Expand' : 'Collapse') + '"><i data-icon="chevron-down"></i></button>'
@@ -3434,10 +3583,12 @@ function renderTreeLinkMenu(q, menuSel) {
     const indent = (menuSel === '#linkPickerMenu')
       ? 'margin-left: calc(' + depth + ' * var(--spacing-loose));'
       : 'padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));';
-    return '<div class="menu-item tlm-item' + variant + (isLinked ? ' is-disabled' : '') + '"' + (isLinked ? '' : ' data-pick="' + esc(n.name) + '"') +
+    return '<div class="menu-item tlm-item' + variant + (isSuggested ? ' is-suggested' : '') + (isLinked ? ' is-disabled' : '') + '"' +
+      (isLinked ? '' : ' data-pick="' + esc(n.name) + '"') + (isSuggested ? ' data-suggested="1"' : '') +
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
+      (isSuggested ? '<span class="tlm-suggest"><i data-icon="lightbulb"></i> Suggested</span>' : '') +
       '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span></span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
@@ -3476,6 +3627,17 @@ function renderTreeLinkMenu(q, menuSel) {
   if (!html) html = '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>';
   if (menuSel === '#treeLinkMenu') html += '<button class="tlm-expand" data-linkexpand><i data-icon="maximize"></i> Open in a bigger view</button>';
   menu.innerHTML = html;
+  // scroll the suggested match into view when the picker opens (deferred so the menu is laid out)
+  if (suggestedName) {
+    const sugEl = menu.querySelector('.tlm-item[data-suggested]');
+    if (sugEl) setTimeout(() => {
+      let sc = sugEl.parentElement;                        // find the real scroll container
+      while (sc && sc.scrollHeight <= sc.clientHeight + 4) sc = sc.parentElement;
+      if (!sc) return;
+      const cr = sc.getBoundingClientRect(), sr = sugEl.getBoundingClientRect();
+      sc.scrollTop += (sr.top - cr.top) - (sc.clientHeight - sugEl.offsetHeight) / 2;
+    }, 80);
+  }
   menu.querySelectorAll('[data-pickertoggle]').forEach(b => b.addEventListener('click', (e) => {
     e.stopPropagation();
     const name = b.dataset.pickertoggle;
@@ -3509,6 +3671,7 @@ function renderTreeLinkMenu(q, menuSel) {
     syncSuggestionForNode(node);
     toast(picked + ' linked to ' + node.name);
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
+    maybeCelebrateFirstMatch(node.name, picked);   // set the flag before re-render so tooltips drop
     commitTreeLink(node.id);
   }));
   icons();
@@ -3653,6 +3816,36 @@ renderCrumb();
 renderHistory();
 renderOverview();
 renderLinking();
+
+// overview tips carousel — page through the tips stuck to the bottom of the timeline card
+(function setupOvTips() {
+  const track = document.getElementById('ovTipsTrack');
+  const dotsWrap = document.getElementById('ovTipsDots');
+  if (!track || !dotsWrap) return;
+  const items = [...track.querySelectorAll('.ov-tip-item')];
+  let idx = 0;
+  dotsWrap.innerHTML = items.map((_, i) =>
+    '<button class="ov-tip-dot' + (i === 0 ? ' is-active' : '') + '" data-tipdot="' + i + '" aria-label="Tip ' + (i + 1) + '"></button>').join('');
+  const dots = [...dotsWrap.querySelectorAll('.ov-tip-dot')];
+  const show = (n) => {
+    idx = (n + items.length) % items.length;
+    items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+  };
+  // auto-advance every 6s; pause on hover, reset the clock on manual navigation
+  let timer = null;
+  const start = () => { timer = setInterval(() => show(idx + 1), 6000); };
+  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+  const bump = () => { stop(); start(); };
+  document.querySelectorAll('[data-tipnav]').forEach(b =>
+    b.addEventListener('click', () => { show(idx + (b.dataset.tipnav === 'next' ? 1 : -1)); bump(); }));
+  dots.forEach(d => d.addEventListener('click', () => { show(+d.dataset.tipdot); bump(); }));
+  const strip = document.querySelector('.ov-tips');
+  if (strip) { strip.addEventListener('mouseenter', stop); strip.addEventListener('mouseleave', start); }
+  show(0);
+  start();
+})();
+
 icons();
 </script>
 </body>
