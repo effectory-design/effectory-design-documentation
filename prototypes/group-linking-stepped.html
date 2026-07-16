@@ -150,8 +150,26 @@
     .ss-layout { display: flex; flex-direction: column; gap: var(--spacing-base); }
     .ss-main { width: 100%; }
     .ss-field { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
-    .ss-label { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .ss-help { font-size: 12px; line-height: 1.5; color: var(--content-secondary); margin: 0 0 var(--spacing-extra-tight); }
+    /* step 1 — current ↔ compared survey cards with a connector */
+    .ss-compare { display: flex; align-items: stretch; gap: var(--spacing-tight); margin-top: var(--spacing-base); }
+    .ss-cmp-card { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-tight); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); padding: var(--spacing-loose); }
+    .ss-cmp-card.is-compared { border-color: var(--border-brand-base); box-shadow: 0 0 0 1px var(--border-brand-base); flex-direction: row; align-items: center; justify-content: space-between; }
+    .ss-cmp-body { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
+    .ss-cmp-card.is-compared .btn { align-self: center; margin-top: 0; flex-shrink: 0; }
+    .ss-cmp-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--content-secondary); }
+    .ss-cmp-card.is-compared .ss-cmp-tag { color: var(--content-brand-base); }
+    .ss-cmp-name { font-size: 18px; font-weight: 700; color: var(--content-base); line-height: 1.3; }
+    .ss-cmp-status { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; min-height: 24px; }
+    .ss-cmp-resp { font-size: 14px; color: var(--content-secondary); }
+    .ss-cmp-card .btn { align-self: flex-start; margin-top: var(--spacing-extra-tight); }
+    .ss-cmp-conn { flex-shrink: 0; align-self: center; display: flex; align-items: center; }
+    .ss-cmp-conn-line { width: 10px; height: 2px; background: var(--border-action); }
+    .ss-cmp-conn-dot { width: 30px; height: 30px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-card); display: flex; align-items: center; justify-content: center; color: var(--content-brand-base); }
+    .ss-cmp-conn-dot i { width: 15px; height: 15px; display: flex; }
+    .ss-compare-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); margin-top: var(--spacing-base); flex-wrap: wrap; }
+    @media (max-width: 640px) { .ss-compare { flex-direction: column; } .ss-cmp-conn { transform: rotate(90deg); } }
+    .ss-label { font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .ss-help { font-size: 14px; line-height: 1.5; color: var(--content-secondary); margin: 0 0 var(--spacing-extra-tight); }
     .gl-hist-toggle { margin-top: var(--spacing-base); width: fit-content; justify-content: flex-start; margin-left: calc(-1 * var(--spacing-base-tight)); }
     .gl-hist-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-fast) var(--ease-out); }
     .gl-hist-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
@@ -1138,20 +1156,29 @@
             <div class="ss-layout">
               <div class="ss-main">
                 <div class="ss-field">
-                  <span class="ss-label">Previous survey</span>
-                  <p class="ss-help">Choose the survey you want to compare against. Its scores appear in your results next to this survey’s, so you can see how each group has changed.</p>
-                  <div class="ss-item">
-                    <div class="ss-item-body">
-                      <div class="ss-item-name" id="survSelectVal"></div>
+                  <span class="ss-label">Comparing your survey results</span>
+                  <p class="ss-help">We’ve auto-selected the most recent completed survey to compare against. Its scores appear next to this survey’s, so you can see how each group has changed. Change it if you’d rather compare with another survey.</p>
+                  <div class="ss-compare">
+                    <div class="ss-cmp-card">
+                      <span class="ss-cmp-tag">Current survey</span>
+                      <div class="ss-cmp-name">Thriving Workplace Pulse July 2026</div>
+                      <div class="ss-cmp-status"><span class="chip chip-warning"><i data-icon="activity"></i> Running</span></div>
                     </div>
-                    <div class="ss-item-meta">
-                      <span id="survSelectStatus"></span>
-                      <span id="survSelectResp"></span>
-                      <button class="btn btn-secondary" id="survChangeBtn">Change</button>
+                    <div class="ss-cmp-conn" aria-hidden="true"><span class="ss-cmp-conn-line"></span><span class="ss-cmp-conn-dot"><i data-icon="link"></i></span><span class="ss-cmp-conn-line"></span></div>
+                    <div class="ss-cmp-card is-compared">
+                      <div class="ss-cmp-body">
+                        <span class="ss-cmp-tag">Compared with</span>
+                        <div class="ss-cmp-name" id="survSelectVal"></div>
+                        <div class="ss-cmp-status"><span id="survSelectStatus"></span></div>
+                      </div>
+                      <button class="btn btn-secondary" id="survChangeBtn"><i data-icon="edit"></i> Change</button>
                     </div>
                   </div>
+                  <div class="ss-compare-foot">
+                    <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false"><i data-icon="chevron-right"></i> View survey links</button>
+                    <button class="btn btn-primary" id="ssContinueBtn">Continue to linking <i data-icon="arrow-right"></i></button>
+                  </div>
                 </div>
-                <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false"><i data-icon="chevron-right"></i> View survey links</button>
               </div>
               <div class="gl-history" id="historyPanel" hidden>
                 <p class="gl-hist-lead">Surveys connect in a chain — each one links to the survey before it, so trend lines reach back as far as the chain goes.</p>
@@ -2151,6 +2178,7 @@ function updateStickyOffsets() {
 }
 document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#survChangeBtn')) { pendingSurvey = state.selectedSurvey; renderSurvPicker(); openOverlay('survPickerOverlay'); return; }
+  if (e.target.closest && e.target.closest('#ssContinueBtn')) { openAcc('link', true); openAcc('select', false); return; }
   const pick = e.target.closest && e.target.closest('[data-survpick]');
   if (pick) { pendingSurvey = pick.dataset.survpick; renderSurvPicker(); return; }
   if (e.target.closest && e.target.closest('#survPickerConfirm')) {
