@@ -408,7 +408,7 @@
     .acc-lead { font-size: 14px; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
 
     /* In-page onboarding explainer card */
-    .gl-explainer { display: flex; flex-direction: column; gap: var(--spacing-loose); margin-top: var(--spacing-base); background: var(--bg-warning-subtle); border: none; border-radius: var(--radius-lg); padding: var(--spacing-loose) var(--spacing-super-loose); overflow: hidden; }
+    .gl-explainer { display: flex; flex-direction: column; gap: var(--spacing-loose); margin-top: var(--spacing-base); background: var(--bg-warning-subtle); border: 1px solid var(--border-warning-base); border-radius: var(--radius-lg); padding: var(--spacing-loose) var(--spacing-super-loose); overflow: hidden; }
     .gl-explainer-main { display: flex; align-items: center; gap: var(--spacing-loose); }
     .gl-explainer-body { flex: 1; min-width: 0; }
     .gl-explainer-title { font-size: 18px; font-weight: 600; color: var(--content-base); margin: 0 0 var(--spacing-tight); }
@@ -464,6 +464,19 @@
     .bulk-actions .btn { background: transparent; border: none; box-shadow: none; color: var(--content-on-brand-base); font-weight: 500; }
     .bulk-actions .btn:hover { background: color-mix(in srgb, var(--content-on-brand-base) 14%, transparent); }
     .bulk-actions .btn i { width: 16px; height: 16px; display: flex; }
+    /* shift-select hint — light card sitting just below the just-selected checkbox */
+    .shift-tip { position: fixed; z-index: 81; display: flex; align-items: flex-start; gap: var(--spacing-tight); max-width: 320px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card-hover); padding: var(--spacing-base-tight); animation: shiftTipIn var(--motion-base) var(--ease-out); }
+    @keyframes shiftTipIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    /* arrow pointing up toward the checkbox */
+    .shift-tip::before { content: ''; position: absolute; top: -5px; left: 16px; width: 9px; height: 9px; background: var(--bg-base); border-left: 1px solid var(--border-base); border-top: 1px solid var(--border-base); transform: rotate(45deg); }
+    .shift-tip-main { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
+    .shift-tip-hd { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--content-brand-base); }
+    .shift-tip-icon { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
+    .shift-tip-text { font-size: 14px; line-height: 1.4; color: var(--content-secondary); }
+    .shift-tip-kbd { font-weight: 700; color: var(--content-base); background: var(--bg-secondary); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: 0 var(--spacing-extra-tight); }
+    .shift-tip-close { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: none; color: var(--content-subtle); border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; }
+    .shift-tip-close:hover { background: var(--bg-base-hover); color: var(--content-base); }
+    .shift-tip-close i { width: 14px; height: 14px; display: flex; }
     .struct-bar .tr-filters { flex: 1; min-width: 0; justify-content: flex-end; }
     .tr-filter { font-family: inherit; display: inline-flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 500; color: var(--content-secondary); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-full); padding: var(--spacing-tight) var(--spacing-base); cursor: pointer; transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
     .tr-filter:hover { border-color: var(--border-action-hover); }
@@ -1130,6 +1143,13 @@
                 <button class="btn btn-secondary" id="bulkAdd" hidden><i data-icon="plus"></i> Add another group</button>
                 <button class="btn btn-secondary" id="bulkDelink" hidden><i data-icon="cross"></i> Remove link</button>
               </div>
+            </div>
+            <div class="shift-tip" id="shiftTip" hidden>
+              <div class="shift-tip-main">
+                <div class="shift-tip-hd"><i data-icon="lightbulb" class="shift-tip-icon"></i> Tip</div>
+                <div class="shift-tip-text">Hold <span class="shift-tip-kbd">Shift</span> and click another group to select everything in between.</div>
+              </div>
+              <button class="shift-tip-close" id="shiftTipClose" aria-label="Dismiss tip"><i data-icon="cross"></i></button>
             </div>
             <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
             <div id="treeBody"></div>
@@ -1853,6 +1873,7 @@ const state = {
   treeSelected: new Set(),   // node ids selected for bulk actions
   treeSelectAnchor: null,    // last node id clicked (for shift-range)
   bulkMode: null,            // 'replace' | 'add' while the bulk link picker is open
+  shiftTipSeen: false,       // shift-select hint shown/dismissed this session
 };
 
 /* ═══════════════ HELPERS ═══════════════ */
@@ -2656,30 +2677,37 @@ function renderTreeFilters() {
     '<button class="tr-filter ' + f.cls + (active === f.key ? ' is-active' : '') + '" data-filter="' + f.key + '">' +
     f.label + '<span class="tr-filter-count">' + counts[f.key] + '</span></button>').join('');
 }
-// briefly enlarge the Linked count to signal +1
-function bumpLinkedCount() {
-  const c = document.querySelector('#treeFilters [data-filter="linked"] .tr-filter-count');
+// briefly enlarge a filter's count to signal it just went up (+1)
+function bumpFilterCount(key) {
+  const c = document.querySelector('#treeFilters [data-filter="' + key + '"] .tr-filter-count');
   if (!c) return;
   c.classList.remove('is-bump'); void c.offsetWidth; c.classList.add('is-bump');
+}
+function bumpLinkedCount() { bumpFilterCount('linked'); }
+// collapse a row out of the list (used when an action removes it from the current filter), then re-render
+function collapseRowThen(nodeId, done) {
+  const card = document.querySelector('#treeBody .tr-card[data-nodeid="' + String(nodeId).replace(/"/g, '\\"') + '"]');
+  const main = $('#appMain'); const scrollTop = main ? main.scrollTop : 0;
+  if (!card) { done(); if (main) main.scrollTop = scrollTop; return; }
+  card.style.height = card.offsetHeight + 'px';
+  card.classList.add('is-removing');
+  void card.offsetHeight; // commit the start height so the collapse animates
+  card.style.height = '0px';
+  card.style.opacity = '0';
+  card.style.marginBottom = '0px';
+  setTimeout(() => { done(); if (main) main.scrollTop = scrollTop; }, 320);
 }
 // after linking a group: animate its row out if the current filter no longer includes it, then re-render + bump
 function commitTreeLink(nodeId) {
   const activeKey = activeFilterKey();
   const leaving = activeKey === 'nolink' || activeKey === 'suggested';
-  const card = document.querySelector('#treeBody .tr-card[data-nodeid="' + String(nodeId).replace(/"/g, '\\"') + '"]');
   // update the counts and pop the Linked count right away, synced with the row leaving
   renderTreeFilters();
   bumpLinkedCount();
-  const main = $('#appMain'); const scrollTop = main ? main.scrollTop : 0;
-  if (leaving && card) {
-    card.style.height = card.offsetHeight + 'px';
-    card.classList.add('is-removing');
-    void card.offsetHeight; // commit the start height so the collapse animates
-    card.style.height = '0px';
-    card.style.opacity = '0';
-    card.style.marginBottom = '0px';
-    setTimeout(() => { renderTree(); renderLinking(); if (main) main.scrollTop = scrollTop; }, 320);
+  if (leaving) {
+    collapseRowThen(nodeId, () => { renderTree(); renderLinking(); });
   } else {
+    const main = $('#appMain'); const scrollTop = main ? main.scrollTop : 0;
     renderTree(); renderLinking();
     if (main) main.scrollTop = scrollTop;   // keep the page from jumping after the re-render
     flashNodes([nodeId]);
@@ -2696,6 +2724,7 @@ $('#treeFilters').addEventListener('click', (e) => {
 });
 
 // bulk action bar
+$('#shiftTipClose') && $('#shiftTipClose').addEventListener('click', () => { state.shiftTipSeen = true; const t = $('#shiftTip'); if (t) t.hidden = true; });
 $('#bulkClear') && $('#bulkClear').addEventListener('click', clearTreeSelection);
 $('#bulkLink') && $('#bulkLink').addEventListener('click', () => openBulkPicker('replace'));
 $('#bulkAdd') && $('#bulkAdd').addEventListener('click', () => openBulkPicker('add'));
@@ -2943,9 +2972,17 @@ function renderTree() {
   if (data.length === 0) {
     const q = state.treeSearch;
     const active = activeFilterKey();
-    let icon, title, sub;
+    let icon, title, sub, extra = '';
     const celebrate = (ic) => '<div class="gl-empty-icon is-positive is-celebrate" style="margin-inline:auto;"><i data-icon="' + ic + '"></i>' +
       '<span class="gl-spark gl-spark-1"><i data-icon="star-filled"></i></span><span class="gl-spark gl-spark-2"><i data-icon="star-filled"></i></span></div>';
+    // suggest continuing in another structure that still has groups to link
+    const nextStruct = STRUCTURES.find(name => {
+      if (name === state.treeStructure) return false;
+      const p = structProgress(name);
+      return p.linked < p.total || p.suggested > 0;
+    });
+    const continueBtn = nextStruct ? '<button class="btn btn-secondary" data-structpick="' + esc(nextStruct) +
+      '"><i data-icon="' + ((STRUCT_META[nextStruct] || {}).icon || 'structure') + '"></i> Continue in ' + esc(nextStruct) + '</button>' : '';
     if (q) {
       icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="search"></i></div>';
       title = 'We couldn’t find any matches for “' + esc(q) + '”';
@@ -2953,11 +2990,17 @@ function renderTree() {
     } else if (active === 'suggested') {
       icon = celebrate('check');
       title = 'You’re all caught up';
-      sub = 'Every suggested link has been reviewed — nothing left to confirm.';
+      sub = nextStruct
+        ? 'Every suggested link here has been reviewed. You can keep linking in another structure.'
+        : 'Every suggested link has been reviewed — nothing left to confirm.';
+      extra = continueBtn;
     } else if (active === 'nolink') {
       icon = celebrate('love');
       title = 'Every group is linked';
-      sub = 'Nice work — each group in this survey now has a previous-survey link.';
+      sub = nextStruct
+        ? 'Nice work — this structure is fully linked. You can keep linking in another structure.'
+        : 'Nice work — each group in this survey now has a previous-survey link.';
+      extra = continueBtn;
     } else if (active === 'linked') {
       icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="link"></i></div>';
       title = 'No links yet';
@@ -2969,7 +3012,8 @@ function renderTree() {
     }
     body.innerHTML = '<div class="tr-empty">' + icon +
       '<div class="gl-empty-title" style="margin-top: var(--spacing-base-tight);">' + title + '</div>' +
-      '<div class="gl-empty-body" style="margin-inline:auto;">' + sub + '</div></div>';
+      '<div class="gl-empty-body" style="margin-inline:auto;">' + sub + '</div>' +
+      (extra ? '<div style="margin-top: var(--spacing-base);">' + extra + '</div>' : '') + '</div>';
     icons();
     return;
   }
@@ -3052,6 +3096,9 @@ function renderBulkBar() {
   bar.hidden = n === 0;
   if (n > 0 && wasHidden) { bar.classList.remove('bulk-in'); void bar.offsetWidth; bar.classList.add('bulk-in'); } // jump in on first appearance
   const cnt = $('#bulkCount'); if (cnt) cnt.textContent = n;
+  // shift-select hint: show while exactly one is selected (until dismissed / used)
+  if (n >= 2) state.shiftTipSeen = true;
+  const tip = $('#shiftTip'); if (tip) { tip.hidden = !(n === 1 && !state.shiftTipSeen); positionShiftTip(); }
   if (n === 0) return;
   // adapt actions to whether the selected groups already have links
   let linkedCount = 0;
@@ -3064,6 +3111,16 @@ function renderBulkBar() {
   const delinkBtn = $('#bulkDelink'); if (delinkBtn) { delinkBtn.hidden = !anyLinked; delinkBtn.lastChild.textContent = ' ' + (n === 1 ? 'Remove link' : 'Remove links'); }
 }
 function clearTreeSelection() { state.treeSelected.clear(); state.treeSelectAnchor = null; syncSelectionUI(); }
+// anchor the shift-select hint just below the selected row, arrow pointing up at the checkbox
+function positionShiftTip() {
+  const tip = $('#shiftTip'); if (!tip || tip.hidden) return;
+  const check = document.querySelector('#treeBody .tr-check.is-checked'); if (!check) return;
+  const row = check.closest('.tr-card-grid') || check.closest('.tr-leftcard') || check;
+  const rr = row.getBoundingClientRect(), cr = check.getBoundingClientRect();
+  tip.style.top = Math.round(rr.bottom + 8) + 'px';   // below the whole row — never covers the group name
+  // arrow sits at left:16px (centre ≈ 20px) — align it over the checkbox centre
+  tip.style.left = Math.round(cr.left + cr.width / 2 - 20) + 'px';
+}
 // briefly flash rows (and scroll the first into view) so you can see where a link landed
 function flashNodes(ids) {
   const body = $('#treeBody'); if (!body) return;
@@ -3210,7 +3267,9 @@ function drawTreeConnectors() {
     svg.innerHTML = d;
   });
 }
-window.addEventListener('resize', () => { if (!$('#view-linking').hidden) drawTreeConnectors(); });
+window.addEventListener('resize', () => { if (!$('#view-linking').hidden) { drawTreeConnectors(); positionShiftTip(); } });
+// keep the shift-select hint pinned to its checkbox while scrolling
+document.addEventListener('scroll', () => positionShiftTip(), true);
 
 // Show a faint dashed preview line from a group to its empty "No link yet" slot on hover.
 document.addEventListener('mouseover', (e) => {
@@ -3271,7 +3330,15 @@ function treeLinkAction(nodeId, linkName, action) {
     toast(linkName + ' not linked');
   }
   syncSuggestionForNode(node);
-  renderTree(); renderLinking();
+  // in the Suggestions tab, confirming or declining clears the row — animate it out like "No link yet"
+  const stillSuggested = node.links.some(l => l.status === 'suggested' || l.status === 'review');
+  if (activeFilterKey() === 'suggested' && !stillSuggested) {
+    renderTreeFilters();
+    bumpFilterCount(action === 'approve' ? 'linked' : 'nolink');   // pop the count that just went up
+    collapseRowThen(nodeId, () => { renderTree(); renderLinking(); });
+  } else {
+    renderTree(); renderLinking();
+  }
 }
 
 function findTreeNode(id, nodes) {
@@ -3301,8 +3368,14 @@ function treeAction(nodeId, action) {
     toast(node.name + ' not linked');
   }
   syncSuggestionForNode(node);
-  renderTree();
-  renderLinking();
+  // in the Suggestions tab, confirming or declining clears the row — animate it out
+  if (activeFilterKey() === 'suggested') {
+    renderTreeFilters();
+    bumpFilterCount(action === 'approve' ? 'linked' : 'nolink');   // pop the count that just went up
+    collapseRowThen(nodeId, () => { renderTree(); renderLinking(); });
+  } else {
+    renderTree(); renderLinking();
+  }
 }
 
 // Build the previous-survey groups into a hierarchy (using their parent links),
