@@ -16,7 +16,7 @@ De skill levert alle design-system bestanden mee:
 - `design-system-files/tokens.css`, `foundation.css`, `components.css`
 - `design-system-files/icons.js`
 - `design-system-files/serve.py`
-- `design-system-files/icons.tar.gz` — alle iconen, ingepakt om bestandsaantal te beperken
+- `design-system-files/assets.tar.gz` — alle iconen én illustraties, ingepakt om bestandsaantal te beperken
 
 **Voor elke bouwsessie:**
 
@@ -25,16 +25,16 @@ De skill levert alle design-system bestanden mee:
    Read("design-system-reference.md")
    ```
 
-2. Kopieer de design-system bestanden naar de werkdirectory en pak de iconen uit:
+2. Kopieer de design-system bestanden naar de werkdirectory en pak iconen + illustraties uit:
    ```bash
    cp design-system-files/tokens.css .
    cp design-system-files/foundation.css .
    cp design-system-files/components.css .
    cp design-system-files/icons.js .
    cp design-system-files/serve.py .
-   mkdir -p assets && tar -xzf design-system-files/icons.tar.gz -C assets/
+   mkdir -p assets && tar -xzf design-system-files/assets.tar.gz -C assets/
    ```
-   Sla deze stap over als de bestanden al bestaan (check of `tokens.css` en `assets/icons/` al aanwezig zijn).
+   Sla deze stap over als de bestanden al bestaan (check of `tokens.css`, `assets/icons/` en `assets/illustrations/` al aanwezig zijn).
 
 ---
 
@@ -49,6 +49,9 @@ In `reference-prototypes/` staan volledig uitgewerkte schermen met een vaste, go
 
 - **My Effectory homepage (Coordinator)** → `reference-prototypes/homepage.md` + `homepage.html`
   De landings-/activiteiten-pagina die een coordinator bij inloggen ziet: app-shell (`.mainnav`) met een gecentreerde wide-kolom — welkomstheader ("Welcome {naam}!" + "Let's understand your people"), tabs (Activity/Resources/Getting ready/Webinars), een **Latest activities**-kaart (activiteitrijen met gekleurde icoontegels + actieknop), een **Updates**-kaart (illustratie-thumbnails + gekleurde labels) en **Helpful articles** (2-koloms interactieve kaarten met illustratie links). Voor "de My Effectory homepage", "coordinator home", "het homescherm" of "de startpagina" — in welke taal of bewoording dan ook.
+
+- **Surveys / All surveys pagina (Coordinator)** → `reference-prototypes/all-surveys.md` + `all-surveys.html`
+  De Surveys-landingspagina van My Effectory: app-shell met Surveys uitgeklapt (sub-items All surveys + Projects), een page header met "Create survey", een **Latest projects**-carousel (3 kaarten passen exact in 1200px, rest via pijltjes) en een **All surveys**-lijstkaart met werkende filters — inline zoekbalk, "Show only my surveys", **Sort by** (single-select menu) en **Status** (multi-select menu met gekleurde status-pills), plus survey-rijen met status-pill, response-rate en kebab. Voor "de surveys-pagina", "all surveys", "survey-overzicht" of "het surveys-scherm" — in welke taal of bewoording dan ook.
 
 - **Reports pagina** → `reference-prototypes/reports.md` + `reports.html`
   Het scherm waar je survey-rapporten downloadt (essential + raw-data reports, taalkeuze, generate/download), onderdeel van het results-/result-dashboard. Bedoelt iemand de reports- of rapporten-pagina, "download reports", of het rapporten-overzicht in het results-dashboard — in NL of EN, hoe dan ook geformuleerd — dan is dit het scherm.
@@ -190,6 +193,18 @@ Toon een dialog of side panel altijd in een `.overlay`, dan komt de juiste enter
 <div class="overlay is-right"><div class="sidepanel"> … </div></div>     <!-- slide van rechts -->
 ```
 De backdrop gebruikt `--bg-interface-overlay`. `prefers-reduced-motion` is al afgevangen.
+
+**Sluiten met animatie — nooit direct uit de DOM halen.** De enter-animatie zit automatisch op `.overlay`; bij sluiten moet je de exit-animatie eerst láten spelen, anders knalt het paneel in één frame weg. Zet `.is-closing` op de `.overlay` (dialog schaalt terug 1→0.8 + fade, side panel slidet weer naar rechts, backdrop fade-out) en verwijder de node pas op `animationend`:
+```js
+function closeOverlay(overlay){
+  overlay.classList.add('is-closing');
+  const surface = overlay.querySelector('.sidepanel, .dialog');
+  const done = () => overlay.remove();          // of: overlay.hidden = true
+  if (surface) surface.addEventListener('animationend', done, { once: true });
+  else done();                                   // reduced-motion: geen animatie → meteen weg
+}
+```
+Luister op de `.sidepanel`/`.dialog` (niet op de backdrop) zodat de langste beweging (`--motion-slow`) is afgerond. Bij `prefers-reduced-motion` is er geen animatie, dus vang die af of laat de `done()`-fallback het paneel meteen sluiten.
 
 ### 10. Icon buttons hebben ALTIJD een tooltip
 Een icoon-only knop (`.ib` / icon button) is zonder label niet te begrijpen. Geef elke icon button **altijd** een tooltip die het doel benoemt, plus een `aria-label` met dezelfde tekst.

@@ -120,7 +120,8 @@ Gebruik altijd deze tokens voor animaties; verzin geen eigen duraties/easings.
 - Dialog: surface scaleert `0.8 → 1` in `--motion-base` met `--ease-out`; backdrop fade't in.
 - Backdrop-kleur: `rgba(25,39,67,.6)`. ⚠️ Figma/dev gap: Figma-token `--bg-interface-overlay` = `.50`, styleguide rendert `.65`; we gebruiken `.60` tot het is gelijkgetrokken.
 - Side panel: slidet van rechts in (`translateX(100%) → 0`) in `--motion-slow`.
-- `prefers-reduced-motion` zet de animaties uit (al ingebouwd).
+- **Sluiten:** zet `.is-closing` op de `.overlay` en verwijder de node pas op `animationend` — anders is er geen exit-animatie en klapt het paneel in één frame weg. De exit spiegelt de enter (dialog `1 → 0.8` + fade, side panel `0 → translateX(100%)`, backdrop fade-out) met `--ease-in` en `forwards` (houdt de eindstand vast tot removal). Luister op de `.sidepanel`/`.dialog`, niet op de backdrop, zodat de langste beweging klaar is. JS-patroon staat in SKILL.md sectie 9.
+- `prefers-reduced-motion` zet de animaties uit (in én uit; al ingebouwd) — vang die af met een fallback die meteen sluit.
 
 ### Typografie-utility-classes
 ```
