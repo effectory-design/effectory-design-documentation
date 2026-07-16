@@ -613,6 +613,9 @@
     .tr-card:hover .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-card:hover .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-base-hover); }
     /* empty row — subtle placeholder that invites linking (plus appears on hover, right) */
     .tr-empty-wrap { display: flex; width: 100%; }
+    /* small hover-intent delay so the "Select matching group" tip doesn't pop instantly */
+    .tr-empty-wrap .tooltip { transition-delay: 0s; }
+    .tr-empty-wrap:hover .tooltip { transition-delay: 450ms; }
     .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: space-between; font-family: inherit; font-size: 14px; width: 100%; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-empty:hover { border-color: var(--border-action); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-empty-plus { width: 16px; height: 16px; display: flex; flex-shrink: 0; opacity: 0; color: var(--content-action); transition: opacity var(--motion-fast) var(--ease-out); }
@@ -689,10 +692,8 @@
 
     /* confidence score + hover popover */
     .tr-conf { display: inline-flex; }
-    .tr-conf-badge { font-size: 12px; font-weight: 700; padding: 1px var(--spacing-tight); border-radius: var(--radius-full); cursor: help; }
-    .tr-conf-badge.is-high { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
-    .tr-conf-badge.is-mid { background: var(--bg-highlight-subtle); color: var(--content-highlight-base); }
-    .tr-conf-badge.is-low { background: var(--bg-base); color: var(--content-secondary); }
+    .tr-conf-badge { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; cursor: help; }
+    .tr-conf-badge i { width: 12px; height: 12px; display: flex; }
     .tr-conf-tip { display: flex; flex-direction: column; gap: 3px; text-align: left; }
     .tr-conf-tip b { font-weight: 600; margin-bottom: 2px; }
     .tr-conf-tip .tr-conf-k { display: inline-block; min-width: 108px; opacity: .7; }
@@ -2991,10 +2992,11 @@ function linkColumns(n, sug) {
     const size = hg ? hg.size : (l.size || '');
     const isS = l.status === 'suggested' || l.status === 'review';
     const actions = isS
-      ? confBadge(sug) +
-        '<div class="tt-demo"><button class="ib tr-act-btn is-confirm" data-linkapprove="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Confirm this link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
+      ? '<div class="tt-demo"><button class="ib tr-act-btn is-confirm" data-linkapprove="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Confirm this link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
         '<div class="tt-demo"><button class="ib tr-act-btn is-reject" data-linkreject="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>'
       : '<div class="tt-demo"><button class="tr-lrow-x" data-treeunlink="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>';
+    // group size count, plus the overlap badge on suggested rows
+    const countBadge = size !== '' ? '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '"><i data-icon="users"></i>' + size + '</button>' : '';
     const originTag = isS
       ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
@@ -3003,10 +3005,11 @@ function linkColumns(n, sug) {
     const chain = prevPath(l.name);
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
+    const nameHTML = '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
+    const mainInner = isS ? (originTag + nameHTML + countBadge + confBadge(sug)) : (originTag + nameHTML + countBadge);
     right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
-      '<span class="tr-lrow-main">' + originTag + '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>' +
-      (size !== '' ? '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '"><i data-icon="users"></i>' + size + '</button>' : '') +
-      '</span><span class="tr-lrow-act">' + actions + '</span></div></div>';
+      '<span class="tr-lrow-main">' + mainInner + '</span>' +
+      '<span class="tr-lrow-act">' + actions + '</span></div></div>';
   });
   // add another previous-survey link (merge) — picker appears on demand, below the links
   if (state.treeLinkingNodeId === n.id) {
@@ -3031,13 +3034,12 @@ function prevPath(name) {
 function overlapMembers(sug) {
   const a = sug.newGroups.reduce((s, g) => s + (g.size || 0), 0);   // this survey's group
   const b = sug.oldGroups.reduce((s, g) => s + (g.size || 0), 0);   // previous survey's group
-  const ov = sug.overlap || 0;
   const min = Math.min(a, b), max = Math.max(a, b);
-  // people in both groups can never exceed the smaller group
-  const shared = Math.max(1, Math.min(min, Math.round(min * ov / 100)));
-  const pct = Math.round(shared / min * 100);   // overlap as a share of the smaller group — this is the badge %
   const cur = sug.newGroups[0] ? sug.newGroups[0].name : 'This group';
   const prev = sug.oldGroups[0] ? sug.oldGroups[0].name : 'Previous group';
+  // suggestion tier: overlap always sits in the 34–66% band (≥67% would have been auto-linked)
+  const pct = bandedOverlap(cur + '|' + prev, 34, 66);
+  const shared = Math.max(1, Math.min(min, Math.round(min * pct / 100)));   // people in both, capped at the smaller group
   const smallerName = a <= b ? cur : prev;
   const biggerName = a <= b ? prev : cur;
   const h = hashCode(cur);
@@ -3049,12 +3051,14 @@ function overlapMembers(sug) {
   return { a, b, shared, pct, min, max, cur, prev, smallerName, biggerName, list };
 }
 
-// Confidence badge — the number is the member overlap, explained in full by the hover card
+// member-overlap badge — users icon + "X% overlap" in blue; explained in full by the hover card
+function overlapBadgeHTML(pct, attrs) {
+  return '<span class="tr-conf-badge"' + (attrs || '') + '>' + pct + '% overlap</span>';
+}
 function confBadge(sug) {
   if (!sug) return '';
   const o = overlapMembers(sug);
-  const lvl = o.pct >= 80 ? 'is-high' : o.pct >= 50 ? 'is-mid' : 'is-low';
-  return '<span class="tr-conf-badge ' + lvl + '" data-matchpop="' + sug.id + '" tabindex="0" aria-label="See why we suggest this link">' + o.pct + '%</span>';
+  return overlapBadgeHTML(o.pct, ' data-matchpop="' + sug.id + '" tabindex="0" aria-label="See why we suggest this link"');
 }
 
 function matchPopHTML(sug) {
@@ -3633,6 +3637,9 @@ function editDistance(a, b) {
 const NAME_STOP = new Set(['team', 'teams', 'the', 'of', 'and', 'group', 'groups', 'dept', 'department', 'unit', 'de', 'div', 'division']);
 function nameTokens(s) { return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w && !NAME_STOP.has(w)); }
 function hashStr(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; }
+// Overlap tiers: ≥67% auto-links · 33–66% suggestions · <33% no link (weak hint in the picker).
+// Deterministic per pair so a group always shows the same number, kept inside its tier's band.
+function bandedOverlap(seed, lo, hi) { return lo + (hashStr(seed) % (hi - lo + 1)); }
 // deterministic pseudo member-overlap between a current group and a previous-survey group:
 // people are far more likely to have stayed together when the team name is retained, so name
 // retention drives the estimate, with a stable per-pair jitter and string closeness to break ties.
@@ -3646,15 +3653,13 @@ function pairOverlapPct(curName, prevName) {
   if (shared === 0 && strSim < 0.5) return Math.round(jitter * 0.6);          // no signal → low
   return Math.min(94, Math.round(38 + nameSim * 42 + strSim * 8 + jitter * 0.5));
 }
-// pick the previous-survey group with the highest estimated employee overlap
+// pick the closest previous-survey group as a weak direction hint. No link was auto-made or
+// suggested for this group, so by definition its overlap is below the 33% threshold.
 function bestOverlapMatch(node, candidateNames) {
-  const known = suggestionForNode(node);                   // known suggestions carry a real overlap %
-  if (known && known.oldGroups && known.oldGroups[0] && candidateNames.includes(known.oldGroups[0].name)) {
-    return { name: known.oldGroups[0].name, pct: known.overlap || 70 };
-  }
-  let best = null, bestPct = 0;
-  candidateNames.forEach(nm => { const p = pairOverlapPct(node.name, nm); if (p > bestPct) { bestPct = p; best = nm; } });
-  return bestPct >= 35 ? { name: best, pct: bestPct } : null;
+  let best = null, bestScore = 0;
+  candidateNames.forEach(nm => { const p = pairOverlapPct(node.name, nm); if (p > bestScore) { bestScore = p; best = nm; } });
+  if (!best) return null;
+  return { name: best, pct: bandedOverlap(node.name + '|' + best, 12, 30) };   // <33% weak hint
 }
 function renderTreeLinkMenu(q, menuSel) {
   menuSel = menuSel || '#treeLinkMenu';
@@ -3696,8 +3701,8 @@ function renderTreeLinkMenu(q, menuSel) {
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
-      (isSuggested && suggestedPct ? '<span class="tr-conf-badge ' + (suggestedPct >= 80 ? 'is-high' : suggestedPct >= 50 ? 'is-mid' : 'is-low') + '">' + suggestedPct + '%</span>' : '') +
-      '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span></span>' +
+      '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : '') + '</span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
 
@@ -3883,9 +3888,12 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
 /* ═══════════════ TOOLTIP AUTO-POSITION ═══════════════ */
 (function () {
   const GAP = 10, PAD = 8;
+  let lastTip = null;
   const place = (demo) => {
     const tip = demo.querySelector('.tooltip');
     if (!tip) return;
+    lastTip = tip;
+    tip.style.opacity = '';   // clear any scroll-hide so hover can show it again
     tip.style.position = 'fixed'; tip.style.margin = '0'; tip.style.transform = 'none';
     tip.style.left = '0'; tip.style.top = '0'; tip.style.right = 'auto'; tip.style.bottom = 'auto'; tip.style.height = 'auto';
     const t = demo.getBoundingClientRect();
@@ -3906,6 +3914,8 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
   const onEnter = (e) => { const demo = e.target.closest && e.target.closest('.tt-demo'); if (demo) place(demo); };
   document.addEventListener('mouseover', onEnter);
   document.addEventListener('focusin', onEnter);
+  // on scroll, hide the placed tooltip instead of letting it hang at a stale position
+  document.addEventListener('scroll', () => { if (lastTip) lastTip.style.opacity = '0'; }, true);
 })();
 
 // Show the sticky column-header divider only once it's actually pinned, and keep the
