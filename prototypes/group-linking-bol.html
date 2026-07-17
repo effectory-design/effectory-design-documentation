@@ -36,7 +36,7 @@
     .ov-avatar { width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue-base); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
 
     /* ── Overview: survey status banner + timeline ── */
-    .ov-tl-card { margin-top: var(--spacing-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); overflow: hidden; }
+    .ov-tl-card { position: relative; z-index: 1; margin-top: var(--spacing-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); overflow: hidden; }
     .ov-banner { display: flex; align-items: center; gap: var(--spacing-base); padding: var(--spacing-base-tight) var(--spacing-loose); }
     .ov-banner-icon { width: 24px; height: 24px; flex-shrink: 0; border-radius: var(--radius-sm); background: var(--bg-warning-bold); color: var(--content-inverse-base); display: flex; align-items: center; justify-content: center; box-shadow: var(--sh-action); }
     .ov-banner-icon i { width: 14px; height: 14px; display: flex; }
@@ -44,7 +44,7 @@
     .ov-banner-btn { flex-shrink: 0; }
 
     /* coloured zone bands */
-    .ov-tl { position: relative; display: flex; height: 250px; border-top: 1px solid var(--border-base); }
+    .ov-tl { position: relative; display: flex; height: 238px; border-top: 1px solid var(--border-base); }
     .ov-tl-band { position: relative; box-sizing: border-box; }
     .ov-tl-band + .ov-tl-band { border-left: 2px solid var(--bg-base); }
     .ov-tl-band.is-planned { background: var(--bg-tertiary); }
@@ -71,21 +71,24 @@
     .ov-tl-ms-icon { margin-top: var(--spacing-extra-tight); width: 24px; height: 24px; border-radius: var(--radius-sm); background: var(--bg-base); box-shadow: var(--sh-card); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .ov-tl-ms-icon i { width: 14px; height: 14px; display: flex; }
 
-    /* tips carousel stuck to the bottom of the timeline card — Effectory accent yellow */
-    .ov-tips { display: flex; align-items: center; gap: var(--spacing-base); padding: var(--spacing-base) var(--spacing-loose); background: var(--p-color-yellow-100); border-top: 1px solid var(--p-color-yellow-300); }
-    .ov-tips-icon { flex-shrink: 0; width: 34px; height: 34px; border-radius: var(--radius-full); background: var(--p-color-yellow-400); color: var(--content-accent-yellow-base); display: flex; align-items: center; justify-content: center; box-shadow: var(--sh-card); }
-    .ov-tips-icon i { width: 18px; height: 18px; display: flex; }
+    /* "Did you know?" tips carousel stuck to the bottom of the timeline card (Figma) */
+    .ov-tips { position: relative; z-index: 0; margin-top: -10px; display: flex; align-items: center; gap: var(--spacing-base-tight); padding: calc(var(--spacing-loose) + 10px) var(--spacing-base) var(--spacing-loose); background: var(--bg-highlight-subtle); border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--sh-card); }
+    .ov-tips-icon { flex-shrink: 0; width: 32px; height: 32px; border-radius: var(--radius-md); background: #fff3d6; display: flex; align-items: center; justify-content: center; color: var(--content-highlight-secondary); }
+    .ov-tips-icon i { width: 20px; height: 20px; display: flex; }
     .ov-tips-viewport { flex: 1; min-width: 0; }
     .ov-tip-item { display: none; }
-    .ov-tip-item.is-active { display: block; animation: tipFade var(--motion-base) var(--ease-out); }
+    .ov-tip-item.is-active { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); animation: tipFade var(--motion-base) var(--ease-out); }
+    .ov-tip-copy { min-width: 0; }
     @keyframes tipFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-    .ov-tip-title { font-size: 14px; font-weight: 700; color: var(--content-base); }
-    .ov-tip-text { font-size: 14px; line-height: 1.5; color: var(--content-secondary); margin-top: var(--spacing-extra-tight); }
-    /* progress-style pill dots (active one stretches) */
-    .ov-tips-dots { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-extra-tight); }
-    .ov-tip-dot { height: 6px; width: 6px; padding: 0; border: none; border-radius: var(--radius-full); background: var(--p-color-yellow-600); opacity: 0.35; cursor: pointer; transition: width var(--motion-base) var(--ease-out), opacity var(--motion-base) var(--ease-out); }
-    .ov-tip-dot:hover { opacity: 0.6; }
-    .ov-tip-dot.is-active { width: 22px; opacity: 1; }
+    .ov-tip-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .ov-tip-text { font-size: 12px; line-height: 1.35; color: var(--content-base); opacity: 0.7; margin-top: var(--spacing-extra-tight); }
+    .ov-tip-cta { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); white-space: nowrap; padding: 0; border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-highlight-base); cursor: pointer; }
+    .ov-tip-cta i { width: 14px; height: 14px; display: flex; }
+    .ov-tip-cta:hover { text-decoration: underline; }
+    .ov-tips-dots { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-tight); }
+    .ov-tip-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: var(--radius-full); background: var(--bg-tertiary); cursor: pointer; transition: background var(--motion-base) var(--ease-out); }
+    .ov-tip-dot:hover { background: var(--content-subtle); }
+    .ov-tip-dot.is-active { background: var(--bg-positive-base); }
 
     /* first-match celebration dialog */
     .fm-dialog { text-align: center; }
@@ -884,24 +887,24 @@
               <div class="ov-tl-ms is-future" style="left:88%;"><span class="ov-tl-ms-dot"></span><span class="ov-tl-ms-stem"></span><span class="ov-tl-ms-icon"><i data-icon="barchart-2"></i></span></div>
             </div>
           </div>
-          <div class="ov-tips">
-            <span class="ov-tips-icon"><i data-icon="lightbulb"></i></span>
-            <div class="ov-tips-viewport" id="ovTipsTrack">
-              <div class="ov-tip-item is-active">
-                <div class="ov-tip-title">Compare against a different benchmark</div>
-                <div class="ov-tip-text">Switch to another industry or country benchmark to see how your scores really compare.</div>
-              </div>
-              <div class="ov-tip-item">
-                <div class="ov-tip-title">Release results in phases</div>
-                <div class="ov-tip-text">Share results with leadership first, then roll them out to managers and teams when you’re ready.</div>
-              </div>
-              <div class="ov-tip-item">
-                <div class="ov-tip-title">Set response reminders</div>
-                <div class="ov-tip-text">Schedule automatic reminders to lift your response rate before the survey closes.</div>
-              </div>
+        </div>
+        <div class="ov-tips">
+          <span class="ov-tips-icon"><i data-icon="lightbulb"></i></span>
+          <div class="ov-tips-viewport" id="ovTipsTrack">
+            <div class="ov-tip-item is-active">
+              <div class="ov-tip-copy"><div class="ov-tip-title">Link a previous survey to see results over time</div><div class="ov-tip-text">Connect this survey to an earlier one to compare scores and spot trends across your teams.</div></div>
+              <button class="ov-tip-cta">Link previous survey <i data-icon="arrow-right"></i></button>
             </div>
-            <div class="ov-tips-dots" id="ovTipsDots"></div>
+            <div class="ov-tip-item">
+              <div class="ov-tip-copy"><div class="ov-tip-title">Release your results in phases</div><div class="ov-tip-text">Share results with leadership first, then roll them out to managers and teams when you’re ready.</div></div>
+              <button class="ov-tip-cta">Set up phased release <i data-icon="arrow-right"></i></button>
+            </div>
+            <div class="ov-tip-item">
+              <div class="ov-tip-copy"><div class="ov-tip-title">Lift your response rate with reminders</div><div class="ov-tip-text">Schedule automatic reminders to nudge people before the survey closes.</div></div>
+              <button class="ov-tip-cta">Set reminders <i data-icon="arrow-right"></i></button>
+            </div>
           </div>
+          <div class="ov-tips-dots" id="ovTipsDots"></div>
         </div>
 
         <!-- Survey settings -->
@@ -3684,7 +3687,7 @@ setView(viewFromHash());   // open the view named in the URL (#overview or #prev
   };
   // auto-advance every 6s; pause on hover, reset the clock on manual navigation
   let timer = null;
-  const start = () => { timer = setInterval(() => show(idx + 1), 6000); };
+  const start = () => { timer = setInterval(() => show(idx + 1), 5000); };
   const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
   const bump = () => { stop(); start(); };
   document.querySelectorAll('[data-tipnav]').forEach(b =>
