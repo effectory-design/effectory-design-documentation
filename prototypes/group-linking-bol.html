@@ -3569,7 +3569,7 @@ function renderTree() {
     accordion(wrap, opening);
   }));
   body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
-  body.querySelectorAll('[data-ovclick]').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); if (showMatchPop) showMatchPop(b); }));
+  body.querySelectorAll('[data-ovclick]').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); const sg = suggestions.find(x => x.id === Number(b.dataset.matchpop)); if (sg) openOverlapMembers(sg); }));
   body.querySelectorAll('[data-treeapprove]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treeapprove, 'approve')));
   body.querySelectorAll('[data-treereject]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treereject, 'reject')));
   body.querySelectorAll('[data-linkapprove]').forEach(b => b.addEventListener('click', () => { const [id, name] = b.dataset.linkapprove.split('|'); treeLinkAction(id, name, 'approve'); }));
@@ -4141,7 +4141,7 @@ function renderTreeLinkMenu(q, menuSel) {
     if (set.has(name)) set.delete(name); else set.add(name);
     renderTreeLinkMenu(q, menuSel);
   }));
-  menu.querySelectorAll('[data-ovpop]').forEach(el => el.addEventListener('click', (e) => { e.stopPropagation(); if (showMatchPop) showMatchPop(el); }));
+  menu.querySelectorAll('.tr-count[data-ovpop]').forEach(el => el.addEventListener('click', (e) => { e.stopPropagation(); const nn = state.treeLinkingNodeId ? findTreeNode(state.treeLinkingNodeId) : null; if (!nn) return; openOverlapMembers({ newGroups: [{ name: nn.name, size: nn.size }], oldGroups: [{ name: el.dataset.ovpop, size: Number(el.dataset.ovsize) || 0 }] }); }));
   menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
     const picked = mi.dataset.pick;
     if (state.bulkMode) {
