@@ -2663,7 +2663,8 @@ document.addEventListener('click', (e) => {
   }
   // close the inline link picker when clicking outside it (but not while its dialog is open)
   if (state.treeLinkingNodeId && !e.target.closest('.tr-linksearch') && !e.target.closest('[data-treeadd]') &&
-      !e.target.closest('#linkPickerOverlay') && !e.target.closest('[data-linkexpand]') && $('#linkPickerOverlay').hidden) {
+      !e.target.closest('#linkPickerOverlay') && !e.target.closest('[data-linkexpand]') && $('#linkPickerOverlay').hidden &&
+      !e.target.closest('#membersOverlay') && $('#membersOverlay').hidden) {
     state.treeLinkingNodeId = null; renderTree();
   }
 });
