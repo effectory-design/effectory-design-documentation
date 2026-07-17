@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Previous survey links — Group linking</title>
+  <title>Previous survey links — bol.com</title>
   <!-- resolve assets from the repo root — works locally (/) and on GitHub Pages (/repo-name/) -->
   <script>document.write('<base href="' + location.pathname.replace(/prototypes\/.*$/, '') + '">');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -814,7 +814,7 @@
         <div class="av av-36 av-red">JI</div>
         <div class="mn-meta">
           <div class="mn-name">Jente</div>
-          <div class="mn-org">The Company Inc.</div>
+          <div class="mn-org">bol.com</div>
         </div>
         <i data-icon="chevron-up"></i>
       </div>
@@ -840,7 +840,7 @@
         <div class="ph">
           <div class="ph-row">
             <div class="ph-left">
-              <h1 class="ph-title">Thriving Workplace Pulse July 2026</h1>
+              <h1 class="ph-title">Engagement Survey 2025</h1>
             </div>
             <div class="ph-actions">
               <span class="chip chip-warning"><i data-icon="activity"></i> Running</span>
@@ -857,7 +857,7 @@
         <div class="ov-tl-card">
           <div class="ov-banner">
             <span class="ov-banner-icon"><i data-icon="activity"></i></span>
-            <span class="ov-banner-text">Your survey is running — 292 of 384 people have responded (76%)</span>
+            <span class="ov-banner-text">Your survey is running — 1,858 of 2,322 people have responded (80%)</span>
             <button class="btn btn-secondary ov-banner-btn"><i data-icon="barchart-2"></i> View response rate</button>
           </div>
           <div class="ov-tl">
@@ -1161,7 +1161,7 @@
                   <div class="ss-compare">
                     <div class="ss-cmp-card">
                       <span class="ss-cmp-tag">Current survey</span>
-                      <div class="ss-cmp-name">Thriving Workplace Pulse July 2026</div>
+                      <div class="ss-cmp-name">Engagement Survey 2025</div>
                       <div class="ss-cmp-status"><span class="chip chip-warning"><i data-icon="activity"></i> Running</span></div>
                     </div>
                     <div class="ss-cmp-conn" aria-hidden="true"><span class="ss-cmp-conn-line"></span><span class="ss-cmp-conn-dot"><i data-icon="link"></i></span><span class="ss-cmp-conn-line"></span></div>
@@ -1420,8 +1420,8 @@
 /* ═══════════════ DATA ═══════════════ */
 
 const STRUCTURES = ['Organizational structure', 'Location', 'Job family'];
-const SURVEYS = ['Your Voice - Employee Listening ’25', 'Your Voice - Employee Listening ’26'];
-const CURRENT_SURVEY = 'Thriving Workplace Pulse July 2026';
+const SURVEYS = ['Engagement Survey 2024', 'Engagement Survey 2023'];
+const CURRENT_SURVEY = 'Engagement Survey 2025';
 
 const REVIEWERS = [
   { id: 1, first: 'Sarah', last: 'Johnson', role: 'Engineering manager', av: 'av-red' },
@@ -1430,337 +1430,91 @@ const REVIEWERS = [
 ];
 
 const PREV_DATA = {
-  'Your Voice - Employee Listening ’25': { historical: [
-    { name: "Effectory B.V.", size: 388, parent: null },
-    { name: "CS Munich", size: 25, parent: "Effectory B.V." },
-    { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
-    { name: "Customer Support", size: 28, parent: "Effectory B.V." },
-    { name: "Essential Pro", size: 3, parent: "Effectory B.V." },
-    { name: "Internetspiegel", size: 7, parent: "Effectory B.V." },
-    { name: "CSM", size: 5, parent: "Internetspiegel" },
-    { name: "PSC", size: 2, parent: "Internetspiegel" },
-    { name: "Large Accounts CSM", size: 3, parent: "Effectory B.V." },
-    { name: "Leadership Team", size: 42, parent: "Effectory B.V." },
-    { name: "Marketing", size: 28, parent: "Effectory B.V." },
-    { name: "Office", size: 2, parent: "Effectory B.V." },
-    { name: "People & Culture", size: 20, parent: "Effectory B.V." },
-    { name: "Premium Medium", size: 6, parent: "Effectory B.V." },
-    { name: "Premium Small", size: 5, parent: "Effectory B.V." },
-    { name: "Product", size: 57, parent: "Effectory B.V." },
-    { name: "Product Hans", size: 5, parent: "Product" },
-    { name: "Product Sander", size: 4, parent: "Product" },
-    { name: "RevOps", size: 3, parent: "Effectory B.V." },
-    { name: "Sales Benelux", size: 12, parent: "Effectory B.V." },
-    { name: "Sales DACH", size: 14, parent: "Effectory B.V." },
-    { name: "Support", size: 6, parent: "Effectory B.V." },
-    { name: "Teamleads Christian", size: 6, parent: "Support" },
-    { name: "Team Leads", size: 10, parent: "Effectory B.V." },
-    { name: "Teamleads Don", size: 2, parent: "Team Leads" },
-    { name: "Teamleads Femke", size: 2, parent: "Team Leads" },
-    { name: "Team PSC", size: 3, parent: "Effectory B.V." },
-    { name: "Tech Leads", size: 3, parent: "Effectory B.V." },
-    { name: "TO", size: 30, parent: "Effectory B.V." },
-    { name: "Team Blue", size: 3, parent: "TO" },
-    { name: "Team Gray", size: 2, parent: "TO" },
-    { name: "Team Green", size: 5, parent: "TO" },
-    { name: "Team Lime", size: 6, parent: "TO" },
-    { name: "Team Orange", size: 4, parent: "TO" },
-    { name: "Team Pink", size: 2, parent: "TO" },
-    { name: "Team Red", size: 2, parent: "TO" },
-    { name: "Team Yellow", size: 6, parent: "TO" }
+  'Engagement Survey 2024': { historical: [
+    { name: "bol", size: 1515, parent: null },
+    { name: "Avb", size: 196, parent: "bol" },
+    { name: "Commerce", size: 63, parent: "Avb" },
+    { name: "Operations & Data", size: 63, parent: "Avb" },
+    { name: "Strategy & Business Development", size: 43, parent: "Avb" },
+    { name: "MT - Avb", size: 27, parent: "Avb" },
+    { name: "E-commerce", size: 472, parent: "bol" },
+    { name: "Ecom - Consumer & Marketing", size: 52, parent: "E-commerce" },
+    { name: "Ecom - Division Electronics, Leisure & DIY", size: 56, parent: "E-commerce" },
+    { name: "Ecom - Division Lifestyle & FMCG", size: 78, parent: "E-commerce" },
+    { name: "Ecom - Ecom Strategy & Platform Development", size: 80, parent: "E-commerce" },
+    { name: "Ecom - Logistics", size: 38, parent: "E-commerce" },
+    { name: "Ecom - Partner Network", size: 40, parent: "E-commerce" },
+    { name: "Ecom - Retailer 1", size: 56, parent: "E-commerce" },
+    { name: "MT - E-commerce", size: 72, parent: "E-commerce" },
+    { name: "FOL", size: 270, parent: "bol" },
+    { name: "Business Planning & Value Creation", size: 37, parent: "FOL" },
+    { name: "Financial Accounting Services", size: 75, parent: "FOL" },
+    { name: "Legal Compliance & Risk", size: 69, parent: "FOL" },
+    { name: "Tech Controlling", size: 28, parent: "FOL" },
+    { name: "MT - FOL", size: 61, parent: "FOL" },
+    { name: "General", size: 66, parent: "bol" },
+    { name: "G - Strategy, ESG & Corp Communications", size: 21, parent: "General" },
+    { name: "MT - General", size: 45, parent: "General" },
+    { name: "People&", size: 296, parent: "bol" },
+    { name: "MT - People&", size: 67, parent: "People&" },
+    { name: "P& - Organisation Performance", size: 21, parent: "People&" },
+    { name: "P& - People Experience Centre", size: 48, parent: "People&" },
+    { name: "P& - Portfolio & Analytics", size: 55, parent: "People&" },
+    { name: "P& - Strategic BP AvB & Support", size: 22, parent: "People&" },
+    { name: "P& - Strategic BP Product/Tech", size: 58, parent: "People&" },
+    { name: "P& - Talent Management", size: 25, parent: "People&" },
+    { name: "Product & IT", size: 215, parent: "bol" },
+    { name: "IT", size: 23, parent: "Product & IT" },
+    { name: "MT - Product & IT", size: 62, parent: "Product & IT" },
+    { name: "Product", size: 61, parent: "Product & IT" },
+    { name: "Product - Portfolio & Operations", size: 69, parent: "Product & IT" }
   ], suggestions: [
-    { id: 101, type: "match", status: "pending", overlap: 61, structures: ["Organizational structure"], oldGroups: [{ name: "Team Leads", size: 10 }], newGroups: [{ name: "Customer Onboarding Team", size: 13 }] },
-    { id: 102, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
-    { id: 103, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
-    { id: 104, type: "match", status: "pending", overlap: 76, structures: ["Organizational structure"], oldGroups: [{ name: "CSM", size: 5 }], newGroups: [{ name: "Principal CSM", size: 2 }] },
-    { id: 105, type: "match", status: "pending", overlap: 67, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Campaign Manager", size: 5 }] },
-    { id: 106, type: "match", status: "pending", overlap: 64, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Manager", size: 3 }] },
-    { id: 107, type: "match", status: "pending", overlap: 67, structures: ["Organizational structure"], oldGroups: [{ name: "Marketing", size: 28 }], newGroups: [{ name: "Marketing Specialist", size: 5 }] },
-    { id: 108, type: "match", status: "pending", overlap: 62, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Principal Product Manager", size: 3 }] },
-    { id: 109, type: "match", status: "pending", overlap: 64, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Management Lead", size: 6 }] },
-    { id: 110, type: "match", status: "pending", overlap: 61, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Manager", size: 2 }] },
-    { id: 111, type: "match", status: "pending", overlap: 63, structures: ["Organizational structure"], oldGroups: [{ name: "Product", size: 57 }], newGroups: [{ name: "Product Designer", size: 4 }] },
-    { id: 112, type: "match", status: "pending", overlap: 78, structures: ["Organizational structure"], oldGroups: [{ name: "Sales DACH", size: 14 }], newGroups: [{ name: "Sales", size: 32 }] },
-    { id: 113, type: "match", status: "pending", overlap: 73, structures: ["Organizational structure"], oldGroups: [{ name: "Sales Benelux", size: 12 }], newGroups: [{ name: "Sales Lead Benelux", size: 4 }] },
-    { id: 114, type: "match", status: "pending", overlap: 77, structures: ["Organizational structure"], oldGroups: [{ name: "Sales DACH", size: 14 }], newGroups: [{ name: "Sales Lead DACH", size: 6 }] },
-    { id: 115, type: "match", status: "pending", overlap: 63, structures: ["Organizational structure"], oldGroups: [{ name: "Tech Leads", size: 3 }], newGroups: [{ name: "Tech", size: 35 }] }
-  ], silentAuto: 19, links: {
-    "1": [{ name: "Effectory B.V.", status: "linked" }],
-    "1.1": [{ name: "Customer Growth", status: "linked" }],
-    "1.1.6": [{ name: "PSC", status: "linked" }],
-    "1.3.1": [{ name: "CS Munich", status: "linked" }],
-    "1.3.2": [{ name: "Team Leads", status: "suggested" }],
-    "1.3.4": [{ name: "Customer Support", status: "linked" }],
-    "1.3.4.2": [{ name: "Support", status: "linked" }],
-    "1.3.4.3": [{ name: "Support", status: "linked" }],
-    "1.3.4.5": [{ name: "Support", status: "linked" }],
-    "1.3.4.6": [{ name: "Support", status: "linked" }],
-    "1.3.5.2": [{ name: "CSM", status: "suggested" }],
-    "1.3.6": [{ name: "Internetspiegel", status: "linked" }],
-    "1.3.7.2": [{ name: "CSM", status: "suggested" }],
-    "1.3.8.2": [{ name: "CSM", status: "suggested" }],
-    "1.4": [{ name: "Office", status: "linked" }],
-    "1.6": [{ name: "Leadership Team", status: "linked" }],
-    "1.7": [{ name: "Marketing", status: "linked" }],
-    "1.7.3": [{ name: "Marketing", status: "suggested" }],
-    "1.7.4": [{ name: "Marketing", status: "suggested" }],
-    "1.7.5": [{ name: "Marketing", status: "suggested" }],
-    "1.8": [{ name: "People & Culture", status: "linked" }],
-    "1.8.3": [{ name: "Office", status: "linked" }],
-    "1.9": [{ name: "Product", status: "linked" }],
-    "1.9.3": [{ name: "Product", status: "linked" }],
-    "1.9.3.3": [{ name: "Product", status: "suggested" }],
-    "1.9.3.4": [{ name: "Product", status: "suggested" }],
-    "1.9.3.5": [{ name: "Product", status: "suggested" }],
-    "1.9.4.1": [{ name: "Product", status: "suggested" }],
-    "1.11": [{ name: "Sales DACH", status: "suggested" }],
-    "1.11.1": [{ name: "Sales Benelux", status: "linked" }],
-    "1.11.1.3": [{ name: "Sales Benelux", status: "suggested" }],
-    "1.11.2": [{ name: "Sales DACH", status: "linked" }],
-    "1.11.2.3": [{ name: "Sales DACH", status: "suggested" }],
-    "1.12": [{ name: "Tech Leads", status: "suggested" }]
+    { id: 101, type: "match", status: "pending", overlap: 46, structures: ["Organizational structure"], oldGroups: [{ name: "Business Planning & Value Creation", size: 37 }], newGroups: [{ name: "Business Control - Planning & Transform", size: 17 }] },
+    { id: 102, type: "match", status: "pending", overlap: 47, structures: ["Organizational structure"], oldGroups: [{ name: "P& - Strategic BP Product/Tech", size: 58 }], newGroups: [{ name: "P& - Strategic BP E-commerce", size: 43 }] },
+    { id: 103, type: "match", status: "pending", overlap: 48, structures: ["Organizational structure"], oldGroups: [{ name: "Product - Portfolio & Operations", size: 69 }], newGroups: [{ name: "P - Product Portfolio & Operations", size: 41 }] },
+    { id: 104, type: "match", status: "pending", overlap: 49, structures: ["Organizational structure"], oldGroups: [{ name: "Legal Compliance & Risk", size: 69 }], newGroups: [{ name: "T - CyberSec Risk & Compliance", size: 79 }] }
+  ], silentAuto: 30, links: {
+    "1": [{ name: "bol", status: "linked" }],
+    "1.1": [{ name: "Avb", status: "linked" }],
+    "1.1.1": [{ name: "Commerce", status: "linked" }],
+    "1.1.2": [{ name: "Operations & Data", status: "linked" }],
+    "1.1.3": [{ name: "Strategy & Business Development", status: "linked" }],
+    "1.1.4": [{ name: "MT - Avb", status: "linked" }],
+    "1.2": [{ name: "E-commerce", status: "linked" }],
+    "1.2.1": [{ name: "Ecom - Consumer & Marketing", status: "linked" }],
+    "1.2.2": [{ name: "Ecom - Division Electronics, Leisure & DIY", status: "linked" }],
+    "1.2.3": [{ name: "Ecom - Division Lifestyle & FMCG", status: "linked" }],
+    "1.2.4": [{ name: "Ecom - Ecom Strategy & Platform Development", status: "linked" }],
+    "1.2.5": [{ name: "Ecom - Logistics", status: "linked" }],
+    "1.2.6": [{ name: "Ecom - Partner Network", status: "linked" }],
+    "1.2.7": [{ name: "Ecom - Retailer 1", status: "linked" }],
+    "1.2.8": [{ name: "MT - E-commerce", status: "linked" }],
+    "1.3": [{ name: "FOL", status: "linked" }],
+    "1.3.2": [{ name: "Business Planning & Value Creation", status: "suggested" }],
+    "1.3.4": [{ name: "Financial Accounting Services", status: "linked" }],
+    "1.3.5": [{ name: "Legal Compliance & Risk", status: "linked" }],
+    "1.3.7": [{ name: "MT - FOL", status: "linked" }],
+    "1.4": [{ name: "General", status: "linked" }],
+    "1.4.1": [{ name: "G - Strategy, ESG & Corp Communications", status: "linked" }],
+    "1.4.2": [{ name: "MT - General", status: "linked" }],
+    "1.5": [{ name: "People&", status: "linked" }],
+    "1.5.1": [{ name: "MT - People&", status: "linked" }],
+    "1.5.2": [{ name: "P& - Organisation Performance", status: "linked" }],
+    "1.5.3": [{ name: "P& - People Experience Centre", status: "linked" }],
+    "1.5.4": [{ name: "P& - Portfolio & Analytics", status: "linked" }],
+    "1.5.5": [{ name: "P& - Strategic BP Product/Tech", status: "suggested" }],
+    "1.5.6": [{ name: "P& - Strategic BP Product/Tech", status: "linked" }],
+    "1.5.7": [{ name: "P& - Talent Management", status: "linked" }],
+    "1.6": [{ name: "Product", status: "linked" }],
+    "1.6.10": [{ name: "Product - Portfolio & Operations", status: "suggested" }],
+    "1.7.4": [{ name: "Legal Compliance & Risk", status: "suggested" }]
   } },
-  'Your Voice - Employee Listening ’26': { historical: [
-    { name: "Effectory B.V.", size: 388, parent: null },
-    { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
-    { name: "Customer Success Lead", size: 5, parent: "Customer Growth" },
-    { name: "Key Account Manager", size: 3, parent: "Customer Growth" },
-    { name: "People Strategy Consultant", size: 4, parent: "Customer Growth" },
-    { name: "Principal Key Account Manager - Team Lead", size: 2, parent: "Customer Growth" },
-    { name: "Principal People Strategy Consultant - Team Lead", size: 3, parent: "Customer Growth" },
-    { name: "Principal PSC", size: 3, parent: "Customer Growth" },
-    { name: "Customer Operations", size: 6, parent: "Effectory B.V." },
-    { name: "Customer Success Execution Lead", size: 6, parent: "Customer Operations" },
-    { name: "Revenue Officer", size: 5, parent: "Customer Operations" },
-    { name: "Customer Success", size: 102, parent: "Effectory B.V." },
-    { name: "CS Munich", size: 25, parent: "Customer Success" },
-    { name: "Customer Enablement Specialist", size: 4, parent: "CS Munich" },
-    { name: "Customer Success Manager", size: 5, parent: "CS Munich" },
-    { name: "Project Administrator", size: 6, parent: "CS Munich" },
-    { name: "Customer Onboarding Team", size: 12, parent: "Customer Success" },
-    { name: "Onboarding Specialist", size: 5, parent: "Customer Onboarding Team" },
-    { name: "Principal Onboarding Specialist", size: 2, parent: "Customer Onboarding Team" },
-    { name: "Solution Architect", size: 6, parent: "Customer Onboarding Team" },
-    { name: "Customer Support", size: 28, parent: "Customer Success" },
-    { name: "Customer Engineering II", size: 4, parent: "Customer Support" },
-    { name: "Customer Support Specialist", size: 6, parent: "Customer Support" },
-    { name: "Support Engineer", size: 3, parent: "Customer Support" },
-    { name: "Team Lead Customer Support", size: 5, parent: "Customer Support" },
-    { name: "Enterprise Team", size: 7, parent: "Customer Success" },
-    { name: "Principal CSM", size: 2, parent: "Enterprise Team" },
-    { name: "InternetSpiegel", size: 13, parent: "Customer Success" },
-    { name: "Mid-Market Team", size: 7, parent: "Customer Success" },
-    { name: "Scaled Team", size: 7, parent: "Customer Success" },
-    { name: "Tiger Team", size: 7, parent: "Customer Success" },
-    { name: "Executive Office", size: 4, parent: "Effectory B.V." },
-    { name: "Strategy & Execution Lead", size: 4, parent: "Executive Office" },
-    { name: "General & Administration", size: 22, parent: "Effectory B.V." },
-    { name: "Finance", size: 8, parent: "General & Administration" },
-    { name: "Accounting Lead", size: 3, parent: "Finance" },
-    { name: "Finance Specialist", size: 5, parent: "Finance" },
-    { name: "FP&A Analyst", size: 6, parent: "Finance" },
-    { name: "IT", size: 3, parent: "General & Administration" },
-    { name: "IT Lead", size: 3, parent: "IT" },
-    { name: "Legal", size: 9, parent: "General & Administration" },
-    { name: "Legal Counsel", size: 4, parent: "Legal" },
-    { name: "Leadership Team", size: 42, parent: "Effectory B.V." },
-    { name: "CEO", size: 5, parent: "Leadership Team" },
-    { name: "CFO", size: 5, parent: "Leadership Team" },
-    { name: "CHRO", size: 4, parent: "Leadership Team" },
-    { name: "CMO", size: 5, parent: "Leadership Team" },
-    { name: "COO", size: 4, parent: "Leadership Team" },
-    { name: "CSO", size: 3, parent: "Leadership Team" },
-    { name: "CTO", size: 6, parent: "Leadership Team" },
-    { name: "Executive & Internal Affairs Manager", size: 3, parent: "Leadership Team" },
-    { name: "Marketing", size: 28, parent: "Effectory B.V." },
-    { name: "Brand Advocacy Manager", size: 6, parent: "Marketing" },
-    { name: "Content Writer", size: 4, parent: "Marketing" },
-    { name: "Graphic Designer", size: 3, parent: "Marketing" },
-    { name: "Marketing Campaign Manager", size: 5, parent: "Marketing" },
-    { name: "Marketing Manager", size: 3, parent: "Marketing" },
-    { name: "Marketing Specialist", size: 5, parent: "Marketing" },
-    { name: "Online Marketeer", size: 5, parent: "Marketing" },
-    { name: "People & Culture", size: 20, parent: "Effectory B.V." },
-    { name: "Catering Coordinator", size: 2, parent: "People & Culture" },
-    { name: "Coach", size: 4, parent: "People & Culture" },
-    { name: "Office & Events Coordinator", size: 3, parent: "People & Culture" },
-    { name: "People Business Partner", size: 4, parent: "People & Culture" },
-    { name: "People Operations Specialist", size: 4, parent: "People & Culture" },
-    { name: "Talent Acquisition Specialist", size: 4, parent: "People & Culture" },
-    { name: "Total Rewards and HR Systems Specialist", size: 2, parent: "People & Culture" },
-    { name: "Product", size: 57, parent: "Effectory B.V." },
-    { name: "Information Security", size: 5, parent: "Product" },
-    { name: "Chief Information Security Officer", size: 4, parent: "Information Security" },
-    { name: "Offering Design Lead", size: 6, parent: "Product" },
-    { name: "Product Management", size: 29, parent: "Product" },
-    { name: "Customer Success Enablement Specialist", size: 5, parent: "Product Management" },
-    { name: "Localization Coordinator", size: 3, parent: "Product Management" },
-    { name: "Localization Specialist", size: 6, parent: "Product Management" },
-    { name: "Principal Product Manager", size: 3, parent: "Product Management" },
-    { name: "Product Management Lead", size: 6, parent: "Product Management" },
-    { name: "Product Manager", size: 2, parent: "Product Management" },
-    { name: "UX", size: 15, parent: "Product" },
-    { name: "Product Designer", size: 4, parent: "UX" },
-    { name: "UX Lead", size: 6, parent: "UX" },
-    { name: "UX Researcher", size: 6, parent: "UX" },
-    { name: "Revenue Operations", size: 16, parent: "Effectory B.V." },
-    { name: "BI Specialist", size: 5, parent: "Revenue Operations" },
-    { name: "Commerce Execution Lead", size: 3, parent: "Revenue Operations" },
-    { name: "GTM-Engineer", size: 2, parent: "Revenue Operations" },
-    { name: "Sales", size: 30, parent: "Effectory B.V." },
-    { name: "Sales Benelux", size: 12, parent: "Sales" },
-    { name: "Account Executive", size: 6, parent: "Sales Benelux" },
-    { name: "Sales Development Representative", size: 2, parent: "Sales Benelux" },
-    { name: "Sales Lead Benelux", size: 4, parent: "Sales Benelux" },
-    { name: "Sales DACH", size: 14, parent: "Sales" },
-    { name: "Sales Lead DACH", size: 6, parent: "Sales DACH" },
-    { name: "Sales International Markets", size: 6, parent: "Sales" },
-    { name: "Sales Lead International Markets", size: 5, parent: "Sales International Markets" },
-    { name: "Tech", size: 35, parent: "Effectory B.V." },
-    { name: "Team Data & AI", size: 15, parent: "Tech" },
-    { name: "Data & AI Engineer", size: 6, parent: "Team Data & AI" },
-    { name: "Data Analyst", size: 3, parent: "Team Data & AI" },
-    { name: "Technical Team Lead", size: 3, parent: "Team Data & AI" },
-    { name: "Team Managers", size: 5, parent: "Tech" },
-    { name: "Developer", size: 2, parent: "Team Managers" },
-    { name: "Team Platform", size: 5, parent: "Tech" },
-    { name: "Team Reporting", size: 4, parent: "Tech" },
-    { name: "Team Surveying", size: 5, parent: "Tech" }
-  ], suggestions: [
-    { id: 101, type: "match", status: "pending", overlap: 78, structures: ["Organizational structure"], oldGroups: [{ name: "Legal", size: 9 }], newGroups: [{ name: "Legal Lead", size: 4 }] },
-    { id: 102, type: "match", status: "pending", overlap: 70, structures: ["Organizational structure"], oldGroups: [{ name: "Data Analyst", size: 3 }], newGroups: [{ name: "Data Scientist", size: 3 }] }
-  ], silentAuto: 123, links: {
-    "1": [{ name: "Effectory B.V.", status: "linked" }],
-    "1.1": [{ name: "Customer Growth", status: "linked" }],
-    "1.1.1": [{ name: "Customer Success Lead", status: "linked" }],
-    "1.1.2": [{ name: "Key Account Manager", status: "linked" }],
-    "1.1.3": [{ name: "People Strategy Consultant", status: "linked" }],
-    "1.1.4": [{ name: "Principal Key Account Manager - Team Lead", status: "linked" }],
-    "1.1.5": [{ name: "Principal People Strategy Consultant - Team Lead", status: "linked" }],
-    "1.1.6": [{ name: "Principal PSC", status: "linked" }],
-    "1.2": [{ name: "Customer Operations", status: "linked" }],
-    "1.2.1": [{ name: "Customer Success Execution Lead", status: "linked" }],
-    "1.3": [{ name: "Customer Success", status: "linked" }],
-    "1.3.1": [{ name: "CS Munich", status: "linked" }],
-    "1.3.1.1": [{ name: "Customer Enablement Specialist", status: "linked" }],
-    "1.3.1.2": [{ name: "Customer Success Lead", status: "linked" }],
-    "1.3.1.3": [{ name: "Customer Success Manager", status: "linked" }],
-    "1.3.1.4": [{ name: "People Strategy Consultant", status: "linked" }],
-    "1.3.1.5": [{ name: "Project Administrator", status: "linked" }],
-    "1.3.2": [{ name: "Customer Onboarding Team", status: "linked" }],
-    "1.3.2.1": [{ name: "Onboarding Specialist", status: "linked" }],
-    "1.3.2.2": [{ name: "Principal Onboarding Specialist", status: "linked" }],
-    "1.3.2.3": [{ name: "Solution Architect", status: "linked" }],
-    "1.3.3": [{ name: "Customer Success Lead", status: "linked" }],
-    "1.3.4": [{ name: "Customer Support", status: "linked" }],
-    "1.3.4.1": [{ name: "Customer Engineering II", status: "linked" }],
-    "1.3.4.2": [{ name: "Support Engineer", status: "linked" }],
-    "1.3.4.3": [{ name: "Customer Support Specialist", status: "linked" }],
-    "1.3.4.4": [{ name: "Project Administrator", status: "linked" }],
-    "1.3.4.5": [{ name: "Support Engineer", status: "linked" }],
-    "1.3.4.6": [{ name: "Team Lead Customer Support", status: "linked" }],
-    "1.3.5": [{ name: "Enterprise Team", status: "linked" }],
-    "1.3.5.1": [{ name: "Customer Success Manager", status: "linked" }],
-    "1.3.5.2": [{ name: "Principal CSM", status: "linked" }],
-    "1.3.6": [{ name: "InternetSpiegel", status: "linked" }],
-    "1.3.6.1": [{ name: "Customer Success Lead", status: "linked" }],
-    "1.3.6.2": [{ name: "Customer Success Manager", status: "linked" }],
-    "1.3.6.3": [{ name: "People Strategy Consultant", status: "linked" }],
-    "1.3.7": [{ name: "Mid-Market Team", status: "linked" }],
-    "1.3.7.1": [{ name: "Customer Success Manager", status: "linked" }],
-    "1.3.7.2": [{ name: "Principal CSM", status: "linked" }],
-    "1.3.8": [{ name: "Scaled Team", status: "linked" }],
-    "1.3.8.1": [{ name: "Customer Success Manager", status: "linked" }],
-    "1.3.8.2": [{ name: "Principal CSM", status: "linked" }],
-    "1.4": [{ name: "Executive Office", status: "linked" }],
-    "1.4.1": [{ name: "Strategy & Execution Lead", status: "linked" }],
-    "1.5": [{ name: "General & Administration", status: "linked" }],
-    "1.5.1": [{ name: "Finance", status: "linked" }],
-    "1.5.1.1": [{ name: "Accounting Lead", status: "linked" }],
-    "1.5.1.2": [{ name: "Finance Specialist", status: "linked" }],
-    "1.5.2": [{ name: "IT", status: "linked" }],
-    "1.5.2.1": [{ name: "IT Lead", status: "linked" }],
-    "1.5.3": [{ name: "Legal", status: "linked" }],
-    "1.5.3.1": [{ name: "Legal Counsel", status: "linked" }],
-    "1.5.3.2": [{ name: "Legal", status: "suggested" }],
-    "1.6": [{ name: "Leadership Team", status: "linked" }],
-    "1.6.1": [{ name: "CEO", status: "linked" }],
-    "1.6.2": [{ name: "CFO", status: "linked" }],
-    "1.6.3": [{ name: "CHRO", status: "linked" }],
-    "1.6.4": [{ name: "CMO", status: "linked" }],
-    "1.6.5": [{ name: "COO", status: "linked" }],
-    "1.6.7": [{ name: "CSO", status: "linked" }],
-    "1.6.8": [{ name: "CTO", status: "linked" }],
-    "1.6.9": [{ name: "Executive & Internal Affairs Manager", status: "linked" }],
-    "1.7": [{ name: "Marketing", status: "linked" }],
-    "1.7.1": [{ name: "Brand Advocacy Manager", status: "linked" }],
-    "1.7.2": [{ name: "Content Writer", status: "linked" }],
-    "1.7.3": [{ name: "Marketing Campaign Manager", status: "linked" }],
-    "1.7.4": [{ name: "Marketing Manager", status: "linked" }],
-    "1.7.5": [{ name: "Marketing Specialist", status: "linked" }],
-    "1.7.6": [{ name: "Online Marketeer", status: "linked" }],
-    "1.8": [{ name: "People & Culture", status: "linked" }],
-    "1.8.1": [{ name: "Catering Coordinator", status: "linked" }],
-    "1.8.2": [{ name: "Coach", status: "linked" }],
-    "1.8.3": [{ name: "Office & Events Coordinator", status: "linked" }],
-    "1.8.4": [{ name: "People Business Partner", status: "linked" }],
-    "1.8.5": [{ name: "People Operations Specialist", status: "linked" }],
-    "1.8.6": [{ name: "Total Rewards and HR Systems Specialist", status: "linked" }],
-    "1.9": [{ name: "Product", status: "linked" }],
-    "1.9.1": [{ name: "Information Security", status: "linked" }],
-    "1.9.1.1": [{ name: "Chief Information Security Officer", status: "linked" }],
-    "1.9.2": [{ name: "Offering Design Lead", status: "linked" }],
-    "1.9.3": [{ name: "Product Management", status: "linked" }],
-    "1.9.3.1": [{ name: "Localization Coordinator", status: "linked" }],
-    "1.9.3.2": [{ name: "Localization Specialist", status: "linked" }],
-    "1.9.3.3": [{ name: "Principal Product Manager", status: "linked" }],
-    "1.9.3.4": [{ name: "Product Management Lead", status: "linked" }],
-    "1.9.3.5": [{ name: "Product Manager", status: "linked" }],
-    "1.9.3.7": [{ name: "Revenue Officer", status: "linked" }],
-    "1.9.4": [{ name: "UX", status: "linked" }],
-    "1.9.4.1": [{ name: "Product Designer", status: "linked" }],
-    "1.9.4.2": [{ name: "UX Lead", status: "linked" }],
-    "1.9.4.3": [{ name: "UX Researcher", status: "linked" }],
-    "1.10": [{ name: "Revenue Operations", status: "linked" }],
-    "1.10.1": [{ name: "BI Specialist", status: "linked" }],
-    "1.10.2": [{ name: "Commerce Execution Lead", status: "linked" }],
-    "1.10.3": [{ name: "GTM-Engineer", status: "linked" }],
-    "1.10.4": [{ name: "Revenue Officer", status: "linked" }],
-    "1.11": [{ name: "Sales", status: "linked" }],
-    "1.11.1": [{ name: "Sales Benelux", status: "linked" }],
-    "1.11.1.1": [{ name: "Account Executive", status: "linked" }],
-    "1.11.1.2": [{ name: "Sales Development Representative", status: "linked" }],
-    "1.11.1.3": [{ name: "Sales Lead Benelux", status: "linked" }],
-    "1.11.2": [{ name: "Sales DACH", status: "linked" }],
-    "1.11.2.1": [{ name: "Account Executive", status: "linked" }],
-    "1.11.2.2": [{ name: "Sales Development Representative", status: "linked" }],
-    "1.11.2.3": [{ name: "Sales Lead DACH", status: "linked" }],
-    "1.11.3": [{ name: "Sales International Markets", status: "linked" }],
-    "1.11.3.1": [{ name: "Sales Lead International Markets", status: "linked" }],
-    "1.12": [{ name: "Tech", status: "linked" }],
-    "1.12.1": [{ name: "Team Data & AI", status: "linked" }],
-    "1.12.1.1": [{ name: "Data & AI Engineer", status: "linked" }],
-    "1.12.1.2": [{ name: "Data Analyst", status: "linked" }],
-    "1.12.1.3": [{ name: "Data Analyst", status: "suggested" }],
-    "1.12.1.4": [{ name: "Technical Team Lead", status: "linked" }],
-    "1.12.2": [{ name: "Team Managers", status: "linked" }],
-    "1.12.2.1": [{ name: "Developer", status: "linked" }],
-    "1.12.2.2": [{ name: "Technical Team Lead", status: "linked" }],
-    "1.12.3": [{ name: "Team Platform", status: "linked" }],
-    "1.12.3.1": [{ name: "Developer", status: "linked" }],
-    "1.12.3.2": [{ name: "Technical Team Lead", status: "linked" }],
-    "1.12.4": [{ name: "Team Reporting", status: "linked" }],
-    "1.12.4.1": [{ name: "Developer", status: "linked" }],
-    "1.12.4.2": [{ name: "Technical Team Lead", status: "linked" }],
-    "1.12.5": [{ name: "Team Surveying", status: "linked" }],
-    "1.12.5.1": [{ name: "Developer", status: "linked" }],
-    "1.12.5.2": [{ name: "Technical Team Lead", status: "linked" }]
-  } },
+  'Engagement Survey 2023': { historical: [], suggestions: [], silentAuto: 0, links: {} },
 };
 
-let HISTORICAL_GROUPS = PREV_DATA['Your Voice - Employee Listening ’25'].historical;
-let suggestions = PREV_DATA['Your Voice - Employee Listening ’25'].suggestions;
-let SILENT_AUTO = PREV_DATA['Your Voice - Employee Listening ’25'].silentAuto;
+let HISTORICAL_GROUPS = PREV_DATA[SURVEYS[0]].historical;
+let suggestions = PREV_DATA[SURVEYS[0]].suggestions;
+let SILENT_AUTO = PREV_DATA[SURVEYS[0]].silentAuto;
 
 // previous-survey groups per structure type — a Location structure links to the previous
 // survey's Location structure, Job family to Job family, etc. (org uses the per-survey data above)
@@ -1790,167 +1544,68 @@ function histGroups() {
 
 const TREES = {
   'Organizational structure': [
-      { id: "1", name: "Effectory B.V.", size: 384, links: [], children: [
-        { id: "1.1", name: "Customer Growth", size: 20, links: [], children: [
-          { id: "1.1.1", name: "Customer Success Lead", size: 5, links: [] },
-          { id: "1.1.2", name: "Key Account Manager", size: 3, links: [] },
-          { id: "1.1.3", name: "People Strategy Consultant", size: 4, links: [] },
-          { id: "1.1.4", name: "Principal Key Account Manager - Team Lead", size: 2, links: [] },
-          { id: "1.1.5", name: "Principal People Strategy Consultant - Team Lead", size: 3, links: [] },
-          { id: "1.1.6", name: "Principal PSC", size: 3, links: [] }
+      { id: "1", name: "bol", size: 2322, links: [], children: [
+        { id: "1.1", name: "Avb", size: 196, links: [], children: [
+          { id: "1.1.1", name: "Commerce", size: 63, links: [] },
+          { id: "1.1.2", name: "Operations & Data", size: 63, links: [] },
+          { id: "1.1.3", name: "Strategy & Business Development", size: 43, links: [] },
+          { id: "1.1.4", name: "MT - Avb", size: 27, links: [] }
         ]},
-        { id: "1.2", name: "Customer Operations", size: 6, links: [], children: [
-          { id: "1.2.1", name: "Customer Success Execution Lead", size: 6, links: [] }
+        { id: "1.2", name: "E-commerce", size: 472, links: [], children: [
+          { id: "1.2.1", name: "Ecom - Consumer & Marketing", size: 52, links: [] },
+          { id: "1.2.2", name: "Ecom - Division Electronics, Leisure & DIY", size: 56, links: [] },
+          { id: "1.2.3", name: "Ecom - Division Lifestyle & FMCG", size: 78, links: [] },
+          { id: "1.2.4", name: "Ecom - Ecom Strategy & Platform Development", size: 80, links: [] },
+          { id: "1.2.5", name: "Ecom - Logistics", size: 38, links: [] },
+          { id: "1.2.6", name: "Ecom - Partner Network", size: 40, links: [] },
+          { id: "1.2.7", name: "Ecom - Retailer 1", size: 56, links: [] },
+          { id: "1.2.8", name: "MT - E-commerce", size: 72, links: [] }
         ]},
-        { id: "1.3", name: "Customer Success", size: 106, links: [], children: [
-          { id: "1.3.1", name: "CS Munich", size: 24, links: [], children: [
-            { id: "1.3.1.1", name: "Customer Enablement Specialist", size: 4, links: [] },
-            { id: "1.3.1.2", name: "Customer Success Lead", size: 5, links: [] },
-            { id: "1.3.1.3", name: "Customer Success Manager", size: 5, links: [] },
-            { id: "1.3.1.4", name: "People Strategy Consultant", size: 4, links: [] },
-            { id: "1.3.1.5", name: "Project Administrator", size: 6, links: [] }
-          ]},
-          { id: "1.3.2", name: "Customer Onboarding Team", size: 13, links: [], children: [
-            { id: "1.3.2.1", name: "Onboarding Specialist", size: 5, links: [] },
-            { id: "1.3.2.2", name: "Principal Onboarding Specialist", size: 2, links: [] },
-            { id: "1.3.2.3", name: "Solution Architect", size: 6, links: [] }
-          ]},
-          { id: "1.3.3", name: "Customer Success Lead", size: 5, links: [] },
-          { id: "1.3.4", name: "Customer Support", size: 29, links: [], children: [
-            { id: "1.3.4.1", name: "Customer Engineering II", size: 4, links: [] },
-            { id: "1.3.4.2", name: "Customer Support Engineer Assistant", size: 4, links: [] },
-            { id: "1.3.4.3", name: "Customer Support Specialist", size: 6, links: [] },
-            { id: "1.3.4.4", name: "Project Administrator", size: 6, links: [] },
-            { id: "1.3.4.5", name: "Support Engineer", size: 3, links: [] },
-            { id: "1.3.4.6", name: "Team Lead Customer Support", size: 6, links: [] }
-          ]},
-          { id: "1.3.5", name: "Enterprise Team", size: 7, links: [], children: [
-            { id: "1.3.5.1", name: "Customer Success Manager", size: 5, links: [] },
-            { id: "1.3.5.2", name: "Principal CSM", size: 2, links: [] }
-          ]},
-          { id: "1.3.6", name: "InternetSpiegel", size: 14, links: [], children: [
-            { id: "1.3.6.1", name: "Customer Success Lead", size: 5, links: [] },
-            { id: "1.3.6.2", name: "Customer Success Manager", size: 5, links: [] },
-            { id: "1.3.6.3", name: "People Strategy Consultant", size: 4, links: [] }
-          ]},
-          { id: "1.3.7", name: "Mid-Market Team", size: 7, links: [], children: [
-            { id: "1.3.7.1", name: "Customer Success Manager", size: 5, links: [] },
-            { id: "1.3.7.2", name: "Principal CSM", size: 2, links: [] }
-          ]},
-          { id: "1.3.8", name: "Scaled Team", size: 7, links: [], children: [
-            { id: "1.3.8.1", name: "Customer Success Manager", size: 5, links: [] },
-            { id: "1.3.8.2", name: "Principal CSM", size: 2, links: [] }
-          ]}
+        { id: "1.3", name: "FOL", size: 383, links: [], children: [
+          { id: "1.3.1", name: "bol BPS/BCS", size: 47, links: [] },
+          { id: "1.3.2", name: "Business Control - Planning & Transform", size: 17, links: [] },
+          { id: "1.3.3", name: "Control E-Commerce", size: 69, links: [] },
+          { id: "1.3.4", name: "Financial Accounting Services", size: 75, links: [] },
+          { id: "1.3.5", name: "Legal Compliance & Risk", size: 69, links: [] },
+          { id: "1.3.6", name: "Procurement", size: 45, links: [] },
+          { id: "1.3.7", name: "MT - FOL", size: 61, links: [] }
         ]},
-        { id: "1.4", name: "Executive Office", size: 4, links: [], children: [
-          { id: "1.4.1", name: "Strategy & Execution Lead", size: 4, links: [] }
+        { id: "1.4", name: "General", size: 66, links: [], children: [
+          { id: "1.4.1", name: "G - Strategy, ESG & Corp Communications", size: 21, links: [] },
+          { id: "1.4.2", name: "MT - General", size: 45, links: [] }
         ]},
-        { id: "1.5", name: "General & Administration", size: 21, links: [], children: [
-          { id: "1.5.1", name: "Finance", size: 9, links: [], children: [
-            { id: "1.5.1.1", name: "Accounting Lead", size: 3, links: [] },
-            { id: "1.5.1.2", name: "Finance Specialist", size: 6, links: [] }
-          ]},
-          { id: "1.5.2", name: "IT", size: 3, links: [], children: [
-            { id: "1.5.2.1", name: "IT Lead", size: 3, links: [] }
-          ]},
-          { id: "1.5.3", name: "Legal", size: 9, links: [], children: [
-            { id: "1.5.3.1", name: "Legal Counsel", size: 5, links: [] },
-            { id: "1.5.3.2", name: "Legal Lead", size: 4, links: [] }
-          ]}
+        { id: "1.5", name: "People&", size: 317, links: [], children: [
+          { id: "1.5.1", name: "MT - People&", size: 67, links: [] },
+          { id: "1.5.2", name: "P& - Organisation Performance", size: 21, links: [] },
+          { id: "1.5.3", name: "P& - People Experience Centre", size: 48, links: [] },
+          { id: "1.5.4", name: "P& - Portfolio & Analytics", size: 55, links: [] },
+          { id: "1.5.5", name: "P& - Strategic BP E-commerce", size: 43, links: [] },
+          { id: "1.5.6", name: "P& - Strategic BP Product/Tech", size: 58, links: [] },
+          { id: "1.5.7", name: "P& - Talent Management", size: 25, links: [] }
         ]},
-        { id: "1.6", name: "Leadership Team", size: 41, links: [], children: [
-          { id: "1.6.1", name: "CEO", size: 5, links: [] },
-          { id: "1.6.2", name: "CFO", size: 5, links: [] },
-          { id: "1.6.3", name: "CHRO", size: 4, links: [] },
-          { id: "1.6.4", name: "CMO", size: 6, links: [] },
-          { id: "1.6.5", name: "COO", size: 4, links: [] },
-          { id: "1.6.6", name: "CPO", size: 5, links: [] },
-          { id: "1.6.7", name: "CSO", size: 3, links: [] },
-          { id: "1.6.8", name: "CTO", size: 6, links: [] },
-          { id: "1.6.9", name: "Executive & Internal Affairs Manager", size: 3, links: [] }
+        { id: "1.6", name: "Product", size: 502, links: [], children: [
+          { id: "1.6.1", name: "MT - Product", size: 45, links: [] },
+          { id: "1.6.2", name: "P - CC2 - Fintech", size: 66, links: [] },
+          { id: "1.6.3", name: "P - Consumer Journeys", size: 37, links: [] },
+          { id: "1.6.4", name: "P - Core Capabilities1", size: 17, links: [] },
+          { id: "1.6.5", name: "P - Core Capabilities2", size: 43, links: [] },
+          { id: "1.6.6", name: "P - Design Consumer Journey", size: 73, links: [] },
+          { id: "1.6.7", name: "P - Design Core Capabilities", size: 66, links: [] },
+          { id: "1.6.8", name: "P - Design Partner Journey", size: 65, links: [] },
+          { id: "1.6.9", name: "P - Partner Journeys", size: 49, links: [] },
+          { id: "1.6.10", name: "P - Product Portfolio & Operations", size: 41, links: [] }
         ]},
-        { id: "1.7", name: "Marketing", size: 28, links: [], children: [
-          { id: "1.7.1", name: "Brand Advocacy Manager", size: 6, links: [] },
-          { id: "1.7.2", name: "Content Writer", size: 4, links: [] },
-          { id: "1.7.3", name: "Marketing Campaign Manager", size: 5, links: [] },
-          { id: "1.7.4", name: "Marketing Manager", size: 3, links: [] },
-          { id: "1.7.5", name: "Marketing Specialist", size: 5, links: [] },
-          { id: "1.7.6", name: "Online Marketeer", size: 5, links: [] }
-        ]},
-        { id: "1.8", name: "People & Culture", size: 19, links: [], children: [
-          { id: "1.8.1", name: "Catering Coordinator", size: 2, links: [] },
-          { id: "1.8.2", name: "Coach", size: 4, links: [] },
-          { id: "1.8.3", name: "Office & Events Coordinator", size: 3, links: [] },
-          { id: "1.8.4", name: "People Business Partner", size: 4, links: [] },
-          { id: "1.8.5", name: "People Operations Specialist", size: 4, links: [] },
-          { id: "1.8.6", name: "Total Rewards and HR Systems Specialist", size: 2, links: [] }
-        ]},
-        { id: "1.9", name: "Product", size: 56, links: [], children: [
-          { id: "1.9.1", name: "Information Security", size: 5, links: [], children: [
-            { id: "1.9.1.1", name: "Chief Information Security Officer", size: 5, links: [] }
-          ]},
-          { id: "1.9.2", name: "Offering Design Lead", size: 6, links: [] },
-          { id: "1.9.3", name: "Product Management", size: 29, links: [], children: [
-            { id: "1.9.3.1", name: "Localization Coordinator", size: 3, links: [] },
-            { id: "1.9.3.2", name: "Localization Specialist", size: 6, links: [] },
-            { id: "1.9.3.3", name: "Principal Product Manager", size: 3, links: [] },
-            { id: "1.9.3.4", name: "Product Management Lead", size: 6, links: [] },
-            { id: "1.9.3.5", name: "Product Manager", size: 2, links: [] },
-            { id: "1.9.3.6", name: "Revenue Enablement Manager", size: 3, links: [] },
-            { id: "1.9.3.7", name: "Revenue Officer", size: 6, links: [] }
-          ]},
-          { id: "1.9.4", name: "UX", size: 16, links: [], children: [
-            { id: "1.9.4.1", name: "Product Designer", size: 4, links: [] },
-            { id: "1.9.4.2", name: "UX Lead", size: 6, links: [] },
-            { id: "1.9.4.3", name: "UX Researcher", size: 6, links: [] }
-          ]}
-        ]},
-        { id: "1.10", name: "Revenue Operations", size: 16, links: [], children: [
-          { id: "1.10.1", name: "BI Specialist", size: 5, links: [] },
-          { id: "1.10.2", name: "Commerce Execution Lead", size: 3, links: [] },
-          { id: "1.10.3", name: "GTM-Engineer", size: 2, links: [] },
-          { id: "1.10.4", name: "Revenue Officer", size: 6, links: [] }
-        ]},
-        { id: "1.11", name: "Sales", size: 32, links: [], children: [
-          { id: "1.11.1", name: "Sales Benelux", size: 12, links: [], children: [
-            { id: "1.11.1.1", name: "Account Executive", size: 6, links: [] },
-            { id: "1.11.1.2", name: "Sales Development Representative", size: 2, links: [] },
-            { id: "1.11.1.3", name: "Sales Lead Benelux", size: 4, links: [] }
-          ]},
-          { id: "1.11.2", name: "Sales DACH", size: 14, links: [], children: [
-            { id: "1.11.2.1", name: "Account Executive", size: 6, links: [] },
-            { id: "1.11.2.2", name: "Sales Development Representative", size: 2, links: [] },
-            { id: "1.11.2.3", name: "Sales Lead DACH", size: 6, links: [] }
-          ]},
-          { id: "1.11.3", name: "Sales International Markets", size: 6, links: [], children: [
-            { id: "1.11.3.1", name: "Sales Lead International Markets", size: 6, links: [] }
-          ]}
-        ]},
-        { id: "1.12", name: "Tech", size: 35, links: [], children: [
-          { id: "1.12.1", name: "Team Data & AI", size: 15, links: [], children: [
-            { id: "1.12.1.1", name: "Data & AI Engineer", size: 6, links: [] },
-            { id: "1.12.1.2", name: "Data Analyst", size: 3, links: [] },
-            { id: "1.12.1.3", name: "Data Scientist", size: 3, links: [] },
-            { id: "1.12.1.4", name: "Technical Team Lead", size: 3, links: [] }
-          ]},
-          { id: "1.12.2", name: "Team Managers", size: 5, links: [], children: [
-            { id: "1.12.2.1", name: "Developer", size: 2, links: [] },
-            { id: "1.12.2.2", name: "Technical Team Lead", size: 3, links: [] }
-          ]},
-          { id: "1.12.3", name: "Team Platform", size: 5, links: [], children: [
-            { id: "1.12.3.1", name: "Developer", size: 2, links: [] },
-            { id: "1.12.3.2", name: "Technical Team Lead", size: 3, links: [] }
-          ]},
-          { id: "1.12.4", name: "Team Reporting", size: 5, links: [], children: [
-            { id: "1.12.4.1", name: "Developer", size: 2, links: [] },
-            { id: "1.12.4.2", name: "Technical Team Lead", size: 3, links: [] }
-          ]},
-          { id: "1.12.5", name: "Team Surveying", size: 5, links: [], children: [
-            { id: "1.12.5.1", name: "Developer", size: 2, links: [] },
-            { id: "1.12.5.2", name: "Technical Team Lead", size: 3, links: [] }
-          ]}
+        { id: "1.7", name: "Tech", size: 386, links: [], children: [
+          { id: "1.7.1", name: "MT - Tech", size: 14, links: [] },
+          { id: "1.7.2", name: "T - Consumer Journey", size: 26, links: [] },
+          { id: "1.7.3", name: "T - Core capabilities", size: 57, links: [] },
+          { id: "1.7.4", name: "T - CyberSec Risk & Compliance", size: 79, links: [] },
+          { id: "1.7.5", name: "T - Data, Analytics & AI", size: 60, links: [] },
+          { id: "1.7.6", name: "T - Enterprise Architecture", size: 67, links: [] },
+          { id: "1.7.7", name: "T - Partner Journey", size: 31, links: [] },
+          { id: "1.7.8", name: "T - Tech Platform & Business Platform", size: 52, links: [] }
         ]}
-      ]},
+      ]}
   ],
   'Location': [
     { id: 'L1', name: 'All locations', size: 384, links: [], children: [
@@ -1979,7 +1634,7 @@ function applyPrevious(name) {
   HISTORICAL_GROUPS = pd.historical; suggestions = pd.suggestions; SILENT_AUTO = pd.silentAuto;
   (function walk(nodes){ nodes.forEach(function(n){ n.links = (pd.links[n.id] || []).map(function(l){ return { name: l.name, status: l.status, origin: l.status === 'linked' ? 'auto' : null }; }); if (n.children) walk(n.children); }); })(TREES['Organizational structure']);
 }
-applyPrevious('Your Voice - Employee Listening ’25');
+applyPrevious(SURVEYS[0]);
 
 const FIRST_NAMES = ['John Doe', 'Alice Smith', 'Robert King', 'Maria Lopez', 'Thomas Hall', 'Beth White', 'Kevin Pratt', 'Lisa Moon', 'Omar Haddad', 'Nina Berg', 'Paul Vos', 'Sara Devi', 'Leo Marsh', 'Emma Reid', 'Noah Frank', 'Yara Aziz'];
 const ROLES = ['Product specialist', 'Senior architect', 'Lead designer', 'Backend engineer', 'Data analyst', 'Frontend developer', 'Project coordinator', 'QA lead'];
@@ -2117,8 +1772,8 @@ document.addEventListener('click', (e) => {
 
 /* ═══════════════ STEPPED FLOW: 1) select survey → 2) link groups ═══════════════ */
 const SURVEY_META = {
-  'Your Voice - Employee Listening ’25': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2025', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 22 Aug 2025', response: 91 },
-  'Your Voice - Employee Listening ’26': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2026', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 14 Jul 2026', response: 87 },
+  'Engagement Survey 2024': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2024', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 31 Oct 2024', response: 88 },
+  'Engagement Survey 2023': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2023', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 20 Oct 2023', response: 85 },
 };
 function statusBadge(info) {
   if (!info) return '';
@@ -3693,8 +3348,14 @@ function pairOverlapPct(curName, prevName) {
 // pick the closest previous-survey group as a weak direction hint. No link was auto-made or
 // suggested for this group, so by definition its overlap is below the 33% threshold.
 function bestOverlapMatch(node, candidateNames) {
+  const tset = new Set(nameTokens(node.name).filter(t => t.length > 1));   // distinctive words only
   let best = null, bestScore = 0;
-  candidateNames.forEach(nm => { const p = pairOverlapPct(node.name, nm); if (p > bestScore) { bestScore = p; best = nm; } });
+  candidateNames.forEach(nm => {
+    let shared = 0; nameTokens(nm).forEach(t => { if (t.length > 1 && tset.has(t)) shared++; });
+    if (shared < 2) return;                    // need >=2 shared distinctive words for a hint
+    const p = pairOverlapPct(node.name, nm);
+    if (p > bestScore) { bestScore = p; best = nm; }
+  });
   if (!best) return null;
   return { name: best, pct: bandedOverlap(node.name + '|' + best, 12, 30) };   // <33% weak hint
 }
