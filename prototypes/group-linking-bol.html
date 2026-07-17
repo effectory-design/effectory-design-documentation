@@ -684,6 +684,7 @@
     .tlm-item.is-context .menu-item-title { color: var(--content-secondary); font-weight: 500; }
     .tlm-item.is-context .menu-item-sub { color: var(--content-subtle); }
     .tlm-name-row { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
+    .tlm-ov { margin-left: auto; flex-shrink: 0; padding-left: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; }
     /* name-based suggested match in the picker */
     .tlm-item.is-suggested { background: var(--bg-info-subtle); border-radius: var(--radius-md); }
     #linkPickerMenu .tlm-item.is-suggested { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
@@ -4014,6 +4015,8 @@ function renderTreeLinkMenu(q, menuSel) {
   if (!node && !state.bulkMode) return;
   const ql = q.toLowerCase();
   const linked = node ? new Set(node.links.map(l => l.name)) : new Set();
+  // small blue overlap hint on search results — only when meaningful (>=10%), so it reads as a positive signal
+  const pickerOverlap = nm => { if (!node || linked.has(nm)) return null; const p = pairOverlapPct(node.name, nm); return p >= 10 ? p : null; };
   const roots = buildHistoryTree();
   // index the tree: node lookup + parent chain, so we can show a match's path and contents
   const nodeByName = {}, parentByName = {};
@@ -4048,7 +4051,7 @@ function renderTreeLinkMenu(q, menuSel) {
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
       '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : '') + '</span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" title="Estimated employee overlap">' + opts.overlapPct + '%</span>' : '')) + '</span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
 
@@ -4071,7 +4074,7 @@ function renderTreeLinkMenu(q, menuSel) {
         // a match with no matching descendants, or an expanded descendant → collapsed by default
         collapsed = !state.linkPickerExpanded.has(n.name); mode = 'expand';
       }
-      html += rowHTML(n, depth, { collapsed, mode, variant: (isAnc && !isM) ? 'context' : null });
+      html += rowHTML(n, depth, { collapsed, mode, variant: (isAnc && !isM) ? 'context' : null, overlapPct: isM ? pickerOverlap(n.name) : null });
       if (!collapsed) n.children.forEach(c => renderSearch(c, depth + 1, !isAnc));
     };
     roots.forEach(r => renderSearch(r, 0, false));
