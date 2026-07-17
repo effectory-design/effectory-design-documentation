@@ -4082,7 +4082,7 @@ function renderTreeLinkMenu(q, menuSel) {
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
       '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0" aria-label="See member overlap with ' + esc(n.name) + '"' : '') + '><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '%</span>' : '')) + '</span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '% overlap</span>' : '')) + '</span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
 
