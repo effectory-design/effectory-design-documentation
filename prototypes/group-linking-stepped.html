@@ -685,7 +685,7 @@
     .tlm-item.is-context .menu-item-sub { color: var(--content-subtle); }
     .tlm-name-row { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
     .tlm-ov { margin-left: auto; flex-shrink: 0; padding-left: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; cursor: pointer; }
-    .tr-count.is-ovpop { cursor: pointer; }
+    .tr-count.is-ovpop, .tr-count.is-ovclick { cursor: pointer; }
     /* name-based suggested match in the picker */
     .tlm-item.is-suggested { background: var(--bg-info-subtle); border-radius: var(--radius-md); }
     #linkPickerMenu .tlm-item.is-suggested { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
@@ -3042,7 +3042,9 @@ function linkColumns(n, sug) {
         '<div class="tt-demo"><button class="ib tr-act-btn is-reject" data-linkreject="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>'
       : '<div class="tt-demo"><button class="tr-lrow-x" data-treeunlink="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>';
     // group size count, plus the overlap badge on suggested rows
-    const countBadge = size !== '' ? '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '"><i data-icon="users"></i>' + size + '</button>' : '';
+    const countBadge = size === '' ? '' : (isS
+      ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="See member overlap"><i data-icon="users"></i>' + size + '</button>'
+      : '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '"><i data-icon="users"></i>' + size + '</button>');
     const originTag = isS
       ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
@@ -3270,6 +3272,7 @@ function renderTree() {
     accordion(wrap, opening);
   }));
   body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
+  body.querySelectorAll('[data-ovclick]').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); if (showMatchPop) showMatchPop(b); }));
   body.querySelectorAll('[data-treeapprove]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treeapprove, 'approve')));
   body.querySelectorAll('[data-treereject]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treereject, 'reject')));
   body.querySelectorAll('[data-linkapprove]').forEach(b => b.addEventListener('click', () => { const [id, name] = b.dataset.linkapprove.split('|'); treeLinkAction(id, name, 'approve'); }));
@@ -3950,11 +3953,11 @@ var showMatchPop = null;
   }
   showMatchPop = show;
   document.addEventListener('mouseover', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop]:not(.tr-count), [data-ovpop]:not(.tr-count)');
     if (a) show(a);
   });
   document.addEventListener('mouseout', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop]:not(.tr-count), [data-ovpop]:not(.tr-count)');
     if (!a) return;
     const to = e.relatedTarget;
     if (to && to.closest && (to.closest('[data-matchpop]') || to.closest('[data-ovpop]') || to.closest('#matchPop'))) return;
@@ -3963,7 +3966,7 @@ var showMatchPop = null;
   pop.addEventListener('mouseenter', clear);
   pop.addEventListener('mouseleave', scheduleHide);
   document.addEventListener('focusin', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop]:not(.tr-count), [data-ovpop]:not(.tr-count)');
     if (a) show(a); else if (!e.target.closest || !e.target.closest('#matchPop')) scheduleHide();
   });
   window.addEventListener('scroll', hide, true);
