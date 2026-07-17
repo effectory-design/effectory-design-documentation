@@ -3082,9 +3082,9 @@ function overlapMembers(sug) {
   const min = Math.min(a, b), max = Math.max(a, b);
   const cur = sug.newGroups[0] ? sug.newGroups[0].name : 'This group';
   const prev = sug.oldGroups[0] ? sug.oldGroups[0].name : 'Previous group';
-  // suggestion tier: overlap always sits in the 34–66% band (≥67% would have been auto-linked)
-  const pct = bandedOverlap(cur + '|' + prev, 34, 66);
-  const shared = Math.max(1, Math.min(min, Math.round(min * pct / 100)));   // people in both, capped at the smaller group
+  const shared = Math.max(0, Math.min(min, estimateShared(cur, a, prev, b)));   // people in both, capped at the smaller group
+  const union = Math.max(1, a + b - shared);
+  const pct = Math.round(100 * shared / union);                                 // Jaccard: shared / everyone across both groups
   const smallerName = a <= b ? cur : prev;
   const biggerName = a <= b ? prev : cur;
   const h = hashCode(cur);
@@ -3093,7 +3093,7 @@ function overlapMembers(sug) {
     const full = FIRST_NAMES[(h + i) % FIRST_NAMES.length];
     list.push({ name: full, initials: full.split(' ').map(w => w[0]).join(''), color: AV_COLORS[(h + i) % AV_COLORS.length] });
   }
-  return { a, b, shared, pct, min, max, cur, prev, smallerName, biggerName, list };
+  return { a, b, shared, pct, min, max, union, cur, prev, smallerName, biggerName, list };
 }
 
 // member-overlap badge — users icon + "X% overlap" in blue; explained in full by the hover card
@@ -3113,7 +3113,7 @@ function matchPopHTML(sug) {
     '<div class="mp-row"><span class="av av-24 ' + m.color + '">' + m.initials + '</span><span class="mp-name">' + esc(m.name) + '</span></div>').join('');
   const more = o.shared - preview.length;
   return '<div class="mp-hd"><i class="mp-hd-icon" data-icon="users"></i><span class="mp-title">' + o.pct + '% member overlap</span></div>' +
-    '<div class="mp-sub">' + o.shared + ' of the ' + o.min + ' people in ' + esc(o.smallerName) + ' are also in ' + esc(o.biggerName) + '.</div>' +
+    '<div class="mp-sub">' + o.shared + ' of the ' + o.union + ' people across ' + esc(o.cur) + ' and ' + esc(o.prev) + ' are in both groups.</div>' +
     '<div class="mp-list">' + rows + (more > 0 ? '<div class="mp-more">+ ' + more + ' more</div>' : '') + '</div>' +
     '<div class="mp-foot"><button class="btn btn-secondary" data-seeoverlap="' + sug.id + '">See overlapping people</button></div>';
 }
@@ -3698,6 +3698,31 @@ function pairOverlapPct(curName, prevName) {
   if (shared === 0 && strSim < 0.5) return Math.round(jitter * 0.6);          // no signal → low
   return Math.min(94, Math.round(38 + nameSim * 42 + strSim * 8 + jitter * 0.5));
 }
+// name-similarity in 0..1 — drives how much of the smaller group we assume carried over
+function nameSimilarity(a, b) {
+  const t = nameTokens(a), pset = new Set(nameTokens(b));
+  let shared = 0; t.forEach(w => { if (pset.has(w)) shared++; });
+  const denom = Math.max(1, Math.min(t.length, pset.size || 1));
+  const nameSim = shared / denom;
+  const strSim = 1 - editDistance(a.toLowerCase(), b.toLowerCase()) / Math.max(a.length, b.length, 1);
+  return Math.max(0, Math.min(1, nameSim * 0.75 + strSim * 0.25));
+}
+// deterministic estimate of how many people are in BOTH groups (capped at the smaller group)
+function estimateShared(curName, curSize, prevName, prevSize) {
+  const min = Math.min(curSize || 0, prevSize || 0);
+  if (!min) return 0;
+  const sim = nameSimilarity(curName, prevName);
+  const jitter = (hashStr(curName + '|' + prevName) % 12) / 100;   // 0..0.11, stable per pair
+  const retention = Math.max(0, Math.min(1, sim - 0.08 + jitter));  // fraction of the smaller group retained
+  return Math.round(min * retention);
+}
+// symmetric membership overlap (Jaccard): shared people / everyone across both groups.
+// A small group fully inside a big one is a LOW overlap - the groups are not the same population.
+function memberOverlapPct(curName, curSize, prevName, prevSize) {
+  const shared = estimateShared(curName, curSize, prevName, prevSize);
+  const union = (curSize || 0) + (prevSize || 0) - shared;
+  return union > 0 ? Math.round(100 * shared / union) : 0;
+}
 // pick the closest previous-survey group as a weak direction hint. No link was auto-made or
 // suggested for this group, so by definition its overlap is below the 33% threshold.
 function bestOverlapMatch(node, candidateNames) {
@@ -3713,8 +3738,8 @@ function renderTreeLinkMenu(q, menuSel) {
   if (!node && !state.bulkMode) return;
   const ql = q.toLowerCase();
   const linked = node ? new Set(node.links.map(l => l.name)) : new Set();
-  // small blue overlap hint on search results — only when meaningful (>=10%), so it reads as a positive signal
-  const pickerOverlap = nm => { if (!node || linked.has(nm)) return null; const p = pairOverlapPct(node.name, nm); return p >= 10 ? p : null; };
+  // small blue overlap hint on search results — size-aware membership overlap, only when meaningful (>=8%)
+  const pickerOverlap = nm => { if (!node || linked.has(nm)) return null; const cand = nodeByName[nm]; const p = memberOverlapPct(node.name, node.size, nm, cand ? cand.size : 0); return p >= 8 ? p : null; };
   const roots = buildHistoryTree();
   // index the tree: node lookup + parent chain, so we can show a match's path and contents
   const nodeByName = {}, parentByName = {};
@@ -3726,7 +3751,7 @@ function renderTreeLinkMenu(q, menuSel) {
     ? bestOverlapMatch(node, Object.keys(nodeByName).filter(nm => !linked.has(nm)))
     : null;
   const suggestedName = sugMatch ? sugMatch.name : null;
-  const suggestedPct = sugMatch ? sugMatch.pct : null;
+  const suggestedPct = suggestedName ? memberOverlapPct(node.name, node.size, suggestedName, (nodeByName[suggestedName] || {}).size) : null;
   // make sure the suggestion is visible: expand its ancestors
   if (suggestedName) ancestorsOf(suggestedName).forEach(a => state.linkPickerCollapsed.delete(a));
 
