@@ -721,7 +721,8 @@
     .tr-conf-tip b { font-weight: 600; margin-bottom: 2px; }
     .tr-conf-tip .tr-conf-k { display: inline-block; min-width: 108px; opacity: .7; }
     /* Interactive "why this match" hover card — shows the people in both groups */
-    .match-pop { position: fixed; z-index: 200; width: 300px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); padding: var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    #membersOverlay { z-index: 1100; }
+    .match-pop { position: fixed; z-index: 2000; width: 300px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); padding: var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-tight); }
     /* path breadcrumb popover on right-column hover */
     .path-pop { position: fixed; z-index: 200; max-width: 340px; pointer-events: none; }
     .mp-hd { display: flex; align-items: center; gap: var(--spacing-tight); }
@@ -3779,7 +3780,7 @@ function renderTreeLinkMenu(q, menuSel) {
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
       '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0" aria-label="See member overlap with ' + esc(n.name) + '"' : '') + '><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '% overlap</span>' : '')) + '</span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct, ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"') : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '% overlap</span>' : '')) + '</span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
 
