@@ -684,7 +684,8 @@
     .tlm-item.is-context .menu-item-title { color: var(--content-secondary); font-weight: 500; }
     .tlm-item.is-context .menu-item-sub { color: var(--content-subtle); }
     .tlm-name-row { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; }
-    .tlm-ov { margin-left: auto; flex-shrink: 0; padding-left: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; }
+    .tlm-ov { margin-left: auto; flex-shrink: 0; padding-left: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-info-base); white-space: nowrap; cursor: pointer; }
+    .tr-count.is-ovpop { cursor: pointer; }
     /* name-based suggested match in the picker */
     .tlm-item.is-suggested { background: var(--bg-info-subtle); border-radius: var(--radius-md); }
     #linkPickerMenu .tlm-item.is-suggested { border-color: var(--border-info-base); background: var(--bg-info-subtle); }
@@ -3773,8 +3774,8 @@ function renderTreeLinkMenu(q, menuSel) {
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
-      '<span class="tr-count"><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" title="Estimated employee overlap">' + opts.overlapPct + '%</span>' : '')) + '</span>' +
+      '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0" aria-label="See member overlap with ' + esc(n.name) + '"' : '') + '><i data-icon="users"></i>' + n.size + '</span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct) : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '%</span>' : '')) + '</span>' +
       (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
   };
 
@@ -3834,6 +3835,7 @@ function renderTreeLinkMenu(q, menuSel) {
     if (set.has(name)) set.delete(name); else set.add(name);
     renderTreeLinkMenu(q, menuSel);
   }));
+  menu.querySelectorAll('[data-ovpop]').forEach(el => el.addEventListener('click', (e) => { e.stopPropagation(); if (showMatchPop) showMatchPop(el); }));
   menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
     const picked = mi.dataset.pick;
     if (state.bulkMode) {
@@ -3908,11 +3910,12 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
 
 
 /* ═══════════════ MATCH HOVER CARD ═══════════════ */
+var showMatchPop = null;
 (function () {
   const pop = $('#matchPop');
-  let closeTimer = null, currentId = null;
+  let closeTimer = null, currentKey = null;
   const clear = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } };
-  const hide = () => { pop.hidden = true; currentId = null; };
+  const hide = () => { pop.hidden = true; currentKey = null; };
   const scheduleHide = () => { clear(); closeTimer = setTimeout(hide, 140); };
   function position(anchor) {
     const r = anchor.getBoundingClientRect();
@@ -3925,11 +3928,19 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
   }
   function show(anchor) {
     clear();
-    const id = Number(anchor.dataset.matchpop);
-    if (currentId === id && !pop.hidden) return;
-    const sug = suggestions.find(s => s.id === id);
+    let sug, key;
+    if (anchor.dataset.matchpop != null) {
+      const id = Number(anchor.dataset.matchpop);
+      sug = suggestions.find(s => s.id === id); key = 'm' + id;
+    } else if (anchor.dataset.ovpop != null) {
+      const node = state.treeLinkingNodeId ? findTreeNode(state.treeLinkingNodeId) : null;
+      if (!node) return;
+      sug = { newGroups: [{ name: node.name, size: node.size }], oldGroups: [{ name: anchor.dataset.ovpop, size: Number(anchor.dataset.ovsize) || 0 }] };
+      key = 'o' + node.id + '|' + anchor.dataset.ovpop;
+    }
     if (!sug) return;
-    currentId = id;
+    if (currentKey === key && !pop.hidden) return;
+    currentKey = key;
     pop.innerHTML = matchPopHTML(sug);
     pop.hidden = false;
     icons();
@@ -3937,21 +3948,22 @@ $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') 
     const btn = pop.querySelector('[data-seeoverlap]');
     if (btn) btn.addEventListener('click', () => { hide(); openOverlapMembers(sug); });
   }
+  showMatchPop = show;
   document.addEventListener('mouseover', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
     if (a) show(a);
   });
   document.addEventListener('mouseout', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
     if (!a) return;
     const to = e.relatedTarget;
-    if (to && to.closest && (to.closest('[data-matchpop]') || to.closest('#matchPop'))) return;
+    if (to && to.closest && (to.closest('[data-matchpop]') || to.closest('[data-ovpop]') || to.closest('#matchPop'))) return;
     scheduleHide();
   });
   pop.addEventListener('mouseenter', clear);
   pop.addEventListener('mouseleave', scheduleHide);
   document.addEventListener('focusin', (e) => {
-    const a = e.target.closest && e.target.closest('[data-matchpop]');
+    const a = e.target.closest && e.target.closest('[data-matchpop], [data-ovpop]');
     if (a) show(a); else if (!e.target.closest || !e.target.closest('#matchPop')) scheduleHide();
   });
   window.addEventListener('scroll', hide, true);
