@@ -1474,12 +1474,20 @@ const PREV_DATA = {
     { name: "IT", size: 23, parent: "Product & IT" },
     { name: "MT - Product & IT", size: 62, parent: "Product & IT" },
     { name: "Product", size: 61, parent: "Product & IT" },
-    { name: "Product - Portfolio & Operations", size: 69, parent: "Product & IT" }
+    { name: "Product - Portfolio & Operations", size: 69, parent: "Product & IT" },
+    { name: "MT - Product", size: 45, parent: "Product" },
+    { name: "FinTech", size: 43, parent: "IT" },
+    { name: "P& - P&A - Data Analytics", size: 21, parent: "P& - Portfolio & Analytics" },
+    { name: "IT - Tech Platform", size: 19, parent: "IT" }
   ], suggestions: [
     { id: 101, type: "match", status: "pending", overlap: 46, structures: ["Organizational structure"], oldGroups: [{ name: "Business Planning & Value Creation", size: 37 }], newGroups: [{ name: "Business Control - Planning & Transform", size: 17 }] },
     { id: 102, type: "match", status: "pending", overlap: 47, structures: ["Organizational structure"], oldGroups: [{ name: "P& - Strategic BP Product/Tech", size: 58 }], newGroups: [{ name: "P& - Strategic BP E-commerce", size: 43 }] },
     { id: 103, type: "match", status: "pending", overlap: 48, structures: ["Organizational structure"], oldGroups: [{ name: "Product - Portfolio & Operations", size: 69 }], newGroups: [{ name: "P - Product Portfolio & Operations", size: 41 }] },
-    { id: 104, type: "match", status: "pending", overlap: 49, structures: ["Organizational structure"], oldGroups: [{ name: "Legal Compliance & Risk", size: 69 }], newGroups: [{ name: "T - CyberSec Risk & Compliance", size: 79 }] }
+    { id: 104, type: "match", status: "pending", overlap: 49, structures: ["Organizational structure"], oldGroups: [{ name: "Legal Compliance & Risk", size: 69 }], newGroups: [{ name: "T - CyberSec Risk & Compliance", size: 79 }] },
+    { id: 105, type: "match", status: "pending", overlap: 53, structures: ["Organizational structure"], oldGroups: [{ name: "MT - Product", size: 45 }], newGroups: [{ name: "MT - Product", size: 45 }] },
+    { id: 106, type: "match", status: "pending", overlap: 46, structures: ["Organizational structure"], oldGroups: [{ name: "FinTech", size: 43 }], newGroups: [{ name: "P - CC2 - Fintech", size: 66 }] },
+    { id: 107, type: "match", status: "pending", overlap: 62, structures: ["Organizational structure"], oldGroups: [{ name: "P& - P&A - Data Analytics", size: 21 }], newGroups: [{ name: "T - Data, Analytics & AI", size: 60 }] },
+    { id: 108, type: "match", status: "pending", overlap: 48, structures: ["Organizational structure"], oldGroups: [{ name: "IT - Tech Platform", size: 19 }], newGroups: [{ name: "T - Tech Platform & Business Platform", size: 52 }] }
   ], silentAuto: 30, links: {
     "1": [{ name: "bol", status: "linked" }],
     "1.1": [{ name: "Avb", status: "linked" }],
@@ -1514,7 +1522,11 @@ const PREV_DATA = {
     "1.5.7": [{ name: "P& - Talent Management", status: "linked" }],
     "1.6": [{ name: "Product", status: "linked" }],
     "1.6.10": [{ name: "Product - Portfolio & Operations", status: "suggested" }],
-    "1.7.4": [{ name: "Legal Compliance & Risk", status: "suggested" }]
+    "1.7.4": [{ name: "Legal Compliance & Risk", status: "suggested" }],
+    "1.6.1": [{ name: "MT - Product", status: "suggested" }],
+    "1.6.2": [{ name: "FinTech", status: "suggested" }],
+    "1.7.5": [{ name: "P& - P&A - Data Analytics", status: "suggested" }],
+    "1.7.8": [{ name: "IT - Tech Platform", status: "suggested" }]
   } },
   'bol. - 🔴 Engagement Survey - Oct 2023': { historical: [], suggestions: [], silentAuto: 0, links: {} },
 };
