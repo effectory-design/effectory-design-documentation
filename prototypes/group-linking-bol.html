@@ -840,7 +840,7 @@
         <div class="ph">
           <div class="ph-row">
             <div class="ph-left">
-              <h1 class="ph-title">Engagement Survey 2025</h1>
+              <h1 class="ph-title">bol. - 🟢 Engagement Survey - 2025-2026</h1>
             </div>
             <div class="ph-actions">
               <span class="chip chip-warning"><i data-icon="activity"></i> Running</span>
@@ -1161,7 +1161,7 @@
                   <div class="ss-compare">
                     <div class="ss-cmp-card">
                       <span class="ss-cmp-tag">Current survey</span>
-                      <div class="ss-cmp-name">Engagement Survey 2025</div>
+                      <div class="ss-cmp-name">bol. - 🟢 Engagement Survey - 2025-2026</div>
                       <div class="ss-cmp-status"><span class="chip chip-warning"><i data-icon="activity"></i> Running</span></div>
                     </div>
                     <div class="ss-cmp-conn" aria-hidden="true"><span class="ss-cmp-conn-line"></span><span class="ss-cmp-conn-dot"><i data-icon="link"></i></span><span class="ss-cmp-conn-line"></span></div>
@@ -1420,8 +1420,8 @@
 /* ═══════════════ DATA ═══════════════ */
 
 const STRUCTURES = ['Organizational structure', 'Location', 'Job family'];
-const SURVEYS = ['Engagement Survey 2024', 'Engagement Survey 2023'];
-const CURRENT_SURVEY = 'Engagement Survey 2025';
+const SURVEYS = ['bol. - 🔴 Engagement Survey - Oct 2024', 'bol. - 🔴 Engagement Survey - Oct 2023'];
+const CURRENT_SURVEY = 'bol. - 🟢 Engagement Survey - 2025-2026';
 
 const REVIEWERS = [
   { id: 1, first: 'Sarah', last: 'Johnson', role: 'Engineering manager', av: 'av-red' },
@@ -1430,7 +1430,7 @@ const REVIEWERS = [
 ];
 
 const PREV_DATA = {
-  'Engagement Survey 2024': { historical: [
+  'bol. - 🔴 Engagement Survey - Oct 2024': { historical: [
     { name: "bol", size: 1515, parent: null },
     { name: "Avb", size: 196, parent: "bol" },
     { name: "Commerce", size: 63, parent: "Avb" },
@@ -1509,7 +1509,7 @@ const PREV_DATA = {
     "1.6.10": [{ name: "Product - Portfolio & Operations", status: "suggested" }],
     "1.7.4": [{ name: "Legal Compliance & Risk", status: "suggested" }]
   } },
-  'Engagement Survey 2023': { historical: [], suggestions: [], silentAuto: 0, links: {} },
+  'bol. - 🔴 Engagement Survey - Oct 2023': { historical: [], suggestions: [], silentAuto: 0, links: {} },
 };
 
 let HISTORICAL_GROUPS = PREV_DATA[SURVEYS[0]].historical;
@@ -1772,8 +1772,8 @@ document.addEventListener('click', (e) => {
 
 /* ═══════════════ STEPPED FLOW: 1) select survey → 2) link groups ═══════════════ */
 const SURVEY_META = {
-  'Engagement Survey 2024': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2024', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 31 Oct 2024', response: 88 },
-  'Engagement Survey 2023': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2023', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 20 Oct 2023', response: 85 },
+  'bol. - 🔴 Engagement Survey - Oct 2024': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2024', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 31 Oct 2024', response: 88 },
+  'bol. - 🔴 Engagement Survey - Oct 2023': { program: 'People& · Engagement', typeYear: 'Engagement survey · 2023', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 20 Oct 2023', response: 85 },
 };
 function statusBadge(info) {
   if (!info) return '';
