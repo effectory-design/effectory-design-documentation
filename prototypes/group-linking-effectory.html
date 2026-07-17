@@ -893,7 +893,7 @@
           <div class="ov-tips-viewport" id="ovTipsTrack">
             <div class="ov-tip-item is-active">
               <div class="ov-tip-copy"><div class="ov-tip-title">Link a previous survey to see results over time</div><div class="ov-tip-text">Connect this survey to an earlier one to compare scores and spot trends across your teams.</div></div>
-              <button class="ov-tip-cta">Link previous survey <i data-icon="arrow-right"></i></button>
+              <button class="ov-tip-cta" data-goto="linking">Link previous survey <i data-icon="arrow-right"></i></button>
             </div>
             <div class="ov-tip-item">
               <div class="ov-tip-copy"><div class="ov-tip-title">Release your results in phases</div><div class="ov-tip-text">Share results with leadership first, then roll them out to managers and teams when you’re ready.</div></div>
@@ -902,6 +902,10 @@
             <div class="ov-tip-item">
               <div class="ov-tip-copy"><div class="ov-tip-title">Lift your response rate with reminders</div><div class="ov-tip-text">Schedule automatic reminders to nudge people before the survey closes.</div></div>
               <button class="ov-tip-cta">Set reminders <i data-icon="arrow-right"></i></button>
+            </div>
+            <div class="ov-tip-item">
+              <div class="ov-tip-copy"><div class="ov-tip-title">Link groups even when names don’t match</div><div class="ov-tip-text">Renamed or reorganized a team? Connect the old group to its new one so their results stay linked over time.</div></div>
+              <button class="ov-tip-cta" data-goto="linking">Review group links <i data-icon="arrow-right"></i></button>
             </div>
           </div>
           <div class="ov-tips-dots" id="ovTipsDots"></div>
@@ -4024,14 +4028,15 @@ setView(viewFromHash());   // open the view named in the URL (#overview or #prev
     items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
     dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
   };
-  // auto-advance every 6s; pause on hover, reset the clock on manual navigation
+  // auto-advance every 8s; pause on hover, reset the clock on manual navigation
   let timer = null;
-  const start = () => { timer = setInterval(() => show(idx + 1), 5000); };
+  const start = () => { timer = setInterval(() => show(idx + 1), 8000); };
   const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
   const bump = () => { stop(); start(); };
   document.querySelectorAll('[data-tipnav]').forEach(b =>
     b.addEventListener('click', () => { show(idx + (b.dataset.tipnav === 'next' ? 1 : -1)); bump(); }));
   dots.forEach(d => d.addEventListener('click', () => { show(+d.dataset.tipdot); bump(); }));
+  track.querySelectorAll('.ov-tip-cta[data-goto]').forEach(b => b.addEventListener('click', () => goToView(b.dataset.goto)));
   const strip = document.querySelector('.ov-tips');
   if (strip) { strip.addEventListener('mouseenter', stop); strip.addEventListener('mouseleave', start); }
   show(0);
