@@ -923,6 +923,37 @@ Surface die gerelateerde content groepeert. Drie varianten (Material/Atlassian-s
 - Density: `.card-body`/`.card-actions` hebben standaard **24px** padding; `.card.is-sm` → 16px, `.card.is-compact` → 12px.
 > ⚠️ Figma/dev gap: de Angular-styleguide heeft **één** `.card` (border + `--sh-card`, radius 8) met `.card-title-container` (onderlijn) + `.card-content-container` (24px), titel `h2.card-title.text-l5`; géén elevated/outlined/filled-splitsing. De drie varianten hierboven zijn een **voorstel** (Material/Atlassian) — nog te verzoenen met styleguide/Figma.
 
+### Tag (Eff Tag)
+Compact label; de **kleur draagt de betekenis** (status, categorie, marker). **Eén** component — de styleguide (`Eff Tag`) kent géén aparte "badge". Je kiest een semantische *background* en een *radius* (medium = compacte marker/"badge"-look, full = pill).
+```html
+<span class="tag tag-positive">Completed</span>
+<span class="tag tag-info tag-full"><i data-icon="tag"></i> Engagement</span>
+```
+- `.tag` (basis = `--bg-info-base` + wit, `--radius-base`, 12px/600) + background-variant: `.tag-info` (blauw, default), `.tag-brand` (teal), `.tag-warning` (oranje), `.tag-negative` (rood), `.tag-highlight` (geel, tekst `--content-base`), `.tag-positive` (groen). Radius: standaard medium; `.tag-full` maakt een pill.
+- Optioneel leading `<i data-icon>` (12px, erft de tekstkleur). Bold fills = witte tekst, behalve highlight (ink). A11y: betekenis staat altijd in de **tekst**, nooit alleen in de kleur; een tag is niet focusbaar (geen knop/link).
+- Styleguide-API: `<eff-tag [background]="'info|brand|warning|negative|highlight|positive'" [radius]="'medium|full'" [textSize] [weight]>`. Er is dus geen `Badge`.
+- **Survey/report-status** heeft een eigen hogere component **Survey Status** (`[surveyEndDate]`, `[isSurveyResponseComplete]`, `[surveyStatusFailed]`, `[showTooltip]`…) die zelf de juiste pill+tekst rendert (incl. draft/planned/running/completed). Bouw survey-status in productie dus níét na met een losse Tag. Prototype-pills als `gl-tag`, `mb-gpill`, `tr-conf-badge` zijn losse Tags → normaliseer naar `.tag`.
+> ⚠️ Figma/dev gap: `Eff Tag` heeft geen grijze/donkere background — de all-surveys "draft" (grijs) en "planned" (donker) pills zijn prototype-lokaal (`.tag.is-draft`/`.is-planned`) en horen in productie bij Survey Status.
+
+### List
+Verticale stapel rijen met hairline-dividers. Elke rij = een leading content-blok (titel + optionele sub-regel) + optionele trailing meta/tag/actie. Het patroon achter survey-, project- en instellingenlijsten.
+```html
+<div class="list">
+  <a class="list-item is-interactive" href="…">
+    <div class="list-item-content">
+      <div class="list-item-title">Engagement 2025</div>
+      <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+    </div>
+    <span class="tag tag-positive">Completed</span>   <!-- optionele trailing status (Tag) -->
+    <i data-icon="chevron-right"></i>                            <!-- affordance bij interactive -->
+  </a>
+</div>
+```
+- `.list` (kolom-container) → `.list-item` (rij: min-height 64px, 16px/24px padding, onder-divider `--border-base`; laatste rij geen divider). `.list-item-content` (flex:1, truncate) met `.list-item-title` (`text-l5`) + optionele `.list-item-sub` (12px, `--content-secondary`; optioneel 12px leading `<i data-icon>`).
+- Klikbare rij: `.list-item.is-interactive` (op een `<a>`/`<button>`) → hover-fill `--bg-secondary` + pointer; gangbaar met een trailing `<i data-icon="chevron-right">`.
+- Trailing content staat na `.list-item-content`; meerdere nodes kunnen in `.list-item-trailing` (flex, 24px gap). **Actie-knoppen + kebab** → `.list-item-actions` (strak 8px-cluster). Let op: een rij met eigen knoppen is een **statische** `.list-item`, niet `.is-interactive` (je kunt geen knoppen in een klikbare `<a>`-rij nesten — maak dan de titel de link). Lege staat: `.list-empty` (gecentreerde melding) i.p.v. een lege lijst.
+- Status per rij komt uit de **Tag**-component (in productie: **Survey Status**). Tabellarische data met meerdere uitgelijnde kolommen → Table, geen List. Zie het `all-surveys` reference-prototype voor een lijst met filters, sortering en response-rate.
+
 ### Avatar
 Ronde avatar met initialen of een icoon. Gebruik altijd deze gedocumenteerde component — bouw nooit een eigen avatar-class.
 

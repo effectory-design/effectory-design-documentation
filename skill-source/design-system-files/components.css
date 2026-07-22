@@ -2201,8 +2201,18 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 @keyframes overlay-fade     { from { opacity: 0; } to { opacity: 1; } }
 @keyframes dialog-pop       { from { transform: scale(0.8); } to { transform: scale(1); } }
 @keyframes sidepanel-slide  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+/* Closing: add .is-closing to the .overlay, let it play, then remove the node on
+   animationend (see the JS pattern in SKILL.md). `forwards` holds the end state so
+   the surface doesn't flash back to visible before it's removed from the DOM. */
+.overlay.is-closing            { animation: overlay-fade-out var(--motion-base) var(--ease-in) forwards; }
+.overlay.is-closing > .dialog   { animation: dialog-pop-out var(--motion-base) var(--ease-in) forwards; }
+.overlay.is-closing > .sidepanel { animation: sidepanel-slide-out var(--motion-slow) var(--ease-in) forwards; }
+@keyframes overlay-fade-out     { from { opacity: 1; } to { opacity: 0; } }
+@keyframes dialog-pop-out       { from { transform: scale(1); opacity: 1; } to { transform: scale(0.8); opacity: 0; } }
+@keyframes sidepanel-slide-out  { from { transform: translateX(0); } to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) {
-  .overlay, .overlay > .dialog, .overlay > .sidepanel { animation: none; }
+  .overlay, .overlay > .dialog, .overlay > .sidepanel,
+  .overlay.is-closing, .overlay.is-closing > .dialog, .overlay.is-closing > .sidepanel { animation: none; }
 }
 
 /* ── System Notification — dark, system-level message card ── */
@@ -2397,3 +2407,68 @@ span.inline-notif-icon.is-subtle i[data-icon] { width: 24px; height: 24px; displ
 .card.is-sm .card-actions { padding: 0 16px 16px; }
 .card.is-compact .card-body { padding: 12px; }
 .card.is-compact .card-actions { padding: 0 12px 12px; }
+
+/* ── Tag — compact label whose semantic colour carries meaning (a.k.a. Eff Tag) ── */
+/* One component for what other systems split into "badge" vs "tag": pick a
+   semantic background, choose the radius (medium default, or .tag-full for a
+   pill). Effectory has no separate Badge — a status-style label is just a Tag
+   at the default medium radius. Default weight is SemiBold (styleguide text-w600).
+   A leading <i data-icon> or an emphasised <b> word can sit inside. */
+.tag {
+  box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--spacing-extra-tight);
+  padding: var(--spacing-extra-tight) var(--spacing-tight);
+  border-radius: var(--radius-base);
+  background: var(--bg-info-base); color: #fff;
+  font-size: 12px; font-weight: 600; line-height: 16px;
+  white-space: nowrap;
+}
+.tag i[data-icon] { width: 12px; height: 12px; display: flex; flex-shrink: 0; }
+/* Emphasise one word (a status) against a lighter detail: give the tag a lighter
+   weight (.text-w400 / .text-w500 — the styleguide's [weight]) and wrap the word
+   in <b>, e.g. "<b>Completed</b> on Jul 7, 2026". */
+.tag b, .tag strong { font-weight: 600; }
+/* Weight helpers (styleguide [weight]) need to beat the base .tag weight, so
+   scope them to .tag — otherwise equal specificity + load order keeps it 600. */
+.tag.text-w400 { font-weight: 400; }
+.tag.text-w500 { font-weight: 500; }
+/* Radius — medium is the default; full makes a pill */
+.tag-full { border-radius: var(--radius-full); }
+/* Semantic backgrounds (bold fills) */
+.tag-info      { background: var(--bg-info-base);      color: #fff; }
+.tag-brand     { background: var(--bg-brand-base);     color: var(--content-on-brand-base); }
+.tag-warning   { background: var(--bg-warning-bold);   color: #fff; }
+.tag-negative  { background: var(--bg-negative-base);  color: #fff; }
+.tag-highlight { background: var(--bg-highlight-base); color: var(--content-base); }
+.tag-positive  { background: var(--bg-positive-base);  color: #fff; }
+
+/* ── List — vertical stack of rows separated by hairline dividers ── */
+/* .list-item is the generic row: a leading content block (title + sub) that
+   flexes, plus any trailing meta/badge/action nodes. Add .is-interactive for a
+   clickable row (hover fill + pointer). Product screens compose extra trailing
+   widgets (a metric, a kebab) on top without touching this base. */
+.list { display: flex; flex-direction: column; }
+.list-item {
+  display: flex; align-items: center; gap: var(--spacing-loose);
+  min-height: 64px; padding: var(--spacing-base) var(--spacing-loose);
+  border-bottom: 1px solid var(--border-base);
+}
+.list-item:last-child { border-bottom: none; }
+.list-item.is-interactive { cursor: pointer; transition: background .12s ease; }
+.list-item.is-interactive:hover, .list-item.is-interactive.is-hover { background: var(--bg-secondary); }
+/* display:flex would otherwise beat the [hidden] UA rule when rows are filtered */
+.list-item[hidden] { display: none; }
+.list-item-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.list-item-title { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-item-sub { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; color: var(--content-secondary); min-width: 0; }
+.list-item-sub i[data-icon] { width: 12px; height: 12px; display: flex; flex-shrink: 0; }
+.list-item-sub span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-item-trailing { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-loose); }
+/* Tight cluster for trailing actions — a group of buttons and/or a kebab. Sits
+   as one trailing node (24px from the rest of the row) with a compact 8px gap
+   between the actions themselves. A row with its own action buttons must be a
+   static .list-item, NOT .is-interactive — you can't nest buttons in a row-level
+   <a>; make the title the link instead if the row also navigates. */
+.list-item-actions { flex-shrink: 0; display: flex; align-items: center; gap: var(--spacing-tight); }
+.list-empty { padding: var(--spacing-super-loose) var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }

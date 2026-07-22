@@ -63,46 +63,32 @@
     /* fixed so the popover floats above the page and is never clipped by the card's overflow:hidden */
     .flt-ctl .menu { position: fixed; margin: 0; z-index: 1000; width: max-content; min-width: 180px; }
     .flt-ctl .menu .menu-item { cursor: pointer; }
-    /* status pills hug their text inside the menu (not the 212px list width, not stretched) */
-    .flt-ctl .menu .spill { width: auto; align-self: flex-start; }
+    /* status tags hug their text inside the menu (not the 212px list width, not stretched) */
+    .flt-ctl .menu .tag { width: auto; align-self: flex-start; }
     /* single-select: reserve the check slot so rows don't shift; only the selected row shows it */
     #sortMenu .menu-item-check { visibility: hidden; }
     #sortMenu .menu-item.is-selected .menu-item-check { visibility: visible; }
 
-    /* Survey rows */
-    .srow { display: flex; align-items: center; gap: var(--spacing-loose); min-height: 94px; padding: var(--spacing-loose); border-bottom: 1px solid var(--border-base); cursor: pointer; transition: background .12s ease; }
-    .srow:last-child { border-bottom: none; }
-    .srow:hover { background: var(--bg-secondary); }
-    /* .srow sets display:flex, which would otherwise override the [hidden] UA rule */
-    .srow[hidden] { display: none; }
-    .srow-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-    .srow-name { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .srow-proj { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; color: var(--content-secondary); min-width: 0; }
-    .srow-proj i { width: 12px; height: 12px; display: flex; flex-shrink: 0; }
-    .srow-proj span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* ── Survey rows — compose the shared .list-item + .tag components ── */
+    /* Fixed-width status tag so the pills line up in a column across rows */
+    .surveys-list .list-item > .tag { flex-shrink: 0; width: 212px; text-align: center; }
+    /* Draft + Planned are NOT Eff Tag backgrounds — in production these come from
+       the dedicated Survey Status component. Prototype-local fills match the live app. */
+    .surveys-list .tag.is-draft   { background: var(--bg-tertiary);    color: var(--content-base); }
+    .surveys-list .tag.is-planned { background: var(--bg-inverse-base); color: #fff; }
 
-    /* Status pill */
-    .spill { flex-shrink: 0; width: 212px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-extra-tight); padding: var(--spacing-extra-tight) var(--spacing-tight); border-radius: var(--radius-base); border: 1px solid var(--border-white); font-size: 12px; font-weight: 400; line-height: 16px; text-align: center; }
-    .spill b { font-weight: 600; }
-    .spill-merged    { background: var(--bg-info-base);      color: #fff; }
-    .spill-completed { background: var(--bg-positive-base);  color: #fff; }
-    .spill-running   { background: var(--bg-highlight-base); color: var(--content-base); }
-    .spill-starts    { background: var(--bg-inverse-base);   color: #fff; }
-    .spill-draft     { background: var(--bg-tertiary);       color: var(--content-base); }
+    /* Response rate — product-specific trailing widget */
+    .srv-rr { flex-shrink: 0; display: flex; flex-direction: column; gap: 5px; width: 56px; }
+    .srv-rr-top { display: flex; align-items: center; justify-content: center; gap: var(--spacing-extra-tight); font-size: 14px; font-weight: 500; color: var(--content-base); }
+    .srv-rr-top i { width: 14px; height: 14px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
+    .srv-bar { height: 6px; border-radius: var(--radius-sm); background: var(--bg-tertiary); overflow: hidden; }
+    .srv-bar-fill { height: 100%; border-radius: var(--radius-full); background: var(--bg-info-base); }
 
-    /* Response rate */
-    .srow-rr { flex-shrink: 0; display: flex; flex-direction: column; gap: 5px; width: 56px; }
-    .srow-rr-top { display: flex; align-items: center; justify-content: center; gap: var(--spacing-extra-tight); font-size: 14px; font-weight: 500; color: var(--content-base); }
-    .srow-rr-top i { width: 14px; height: 14px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
-    .srow-bar { height: 6px; border-radius: var(--radius-sm); background: var(--bg-tertiary); overflow: hidden; }
-    .srow-bar-fill { height: 100%; border-radius: var(--radius-full); background: var(--bg-info-base); }
-
-    .srow .ib { flex-shrink: 0; }
-    .srow-empty { padding: var(--spacing-super-loose) var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
+    .surveys-list .list-item .ib { flex-shrink: 0; }
 
     @media (max-width: 760px) {
-      .srow-proj span { max-width: 160px; }
-      .spill { width: auto; min-width: 0; }
+      .list-item-sub span { max-width: 160px; }
+      .surveys-list .list-item > .tag { width: auto; }
     }
   </style>
 </head>
@@ -228,167 +214,167 @@
                 <span class="sel-btn-value" id="statusVal">All (5)</span>
               </button>
               <div class="menu" id="statusMenu" role="listbox" aria-multiselectable="true" hidden>
-                <div class="menu-item is-selected" data-status="Draft"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="spill spill-draft"><b>Draft</b></span></span></div>
-                <div class="menu-item is-selected" data-status="Planned"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="spill spill-starts"><b>Planned</b></span></span></div>
-                <div class="menu-item is-selected" data-status="In Progress"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="spill spill-running"><b>In Progress</b></span></span></div>
-                <div class="menu-item is-selected" data-status="Completed"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="spill spill-completed"><b>Completed</b></span></span></div>
-                <div class="menu-item is-selected" data-status="Merged"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="spill spill-merged"><b>Merged</b></span></span></div>
+                <div class="menu-item is-selected" data-status="Draft"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="tag is-draft text-w400"><b>Draft</b></span></span></div>
+                <div class="menu-item is-selected" data-status="Planned"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="tag is-planned text-w400"><b>Planned</b></span></span></div>
+                <div class="menu-item is-selected" data-status="In Progress"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="tag tag-highlight text-w400"><b>In Progress</b></span></span></div>
+                <div class="menu-item is-selected" data-status="Completed"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="tag tag-positive text-w400"><b>Completed</b></span></span></div>
+                <div class="menu-item is-selected" data-status="Merged"><span class="menu-cb"><i data-icon="check"></i></span><span class="menu-item-body"><span class="tag tag-info text-w400"><b>Merged</b></span></span></div>
               </div>
             </div>
           </div>
 
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">Engagement 2025</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">Engagement 2025</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
             </div>
-            <span class="spill spill-merged">5 surveys <b>merged</b></span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 100%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:100%;"></div></div>
-            </div>
-            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
-          </div>
-
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">New office - Company wide survey</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
-            </div>
-            <span class="spill spill-completed"><b>Completed</b> on 22 aug 2025</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 87%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:87%;"></div></div>
+            <span class="tag tag-info text-w400">5 surveys <b>merged</b></span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 100%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:100%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">Onboarding experience 2026</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Employee lifecycle</span></div>
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">New office - Company wide survey</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
             </div>
-            <span class="spill spill-completed"><b>Completed</b> on 14 mar 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 92%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:92%;"></div></div>
-            </div>
-            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
-          </div>
-
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">Pulse second quarter</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
-            </div>
-            <span class="spill spill-running"><b>Running</b> until 17 jun 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 34%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:34%;"></div></div>
+            <span class="tag tag-positive text-w400"><b>Completed</b> on 22 aug 2025</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 87%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:87%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">Thriving Workplace Pulse July 2026</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">Onboarding experience 2026</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Employee lifecycle</span></div>
             </div>
-            <span class="spill spill-running"><b>Running</b> until 19 jul 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 32%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:32%;"></div></div>
-            </div>
-            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
-          </div>
-
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">Customer Support team check-in</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Example projects</span></div>
-            </div>
-            <span class="spill spill-running"><b>Running</b> until 7 jul 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 79%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:79%;"></div></div>
+            <span class="tag tag-positive text-w400"><b>Completed</b> on 14 mar 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 92%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:92%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">Exit interviews 2026</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Employee lifecycle</span></div>
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">Pulse second quarter</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
             </div>
-            <span class="spill spill-running"><b>Running</b> until 30 sep 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 41%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:41%;"></div></div>
-            </div>
-            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
-          </div>
-
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">Leadership 360 pilot</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Example projects</span></div>
-            </div>
-            <span class="spill spill-starts"><b>Starts</b> on 3 aug 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 0%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:0%;"></div></div>
+            <span class="tag tag-highlight text-w400"><b>Running</b> until 17 jun 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 34%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:34%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">UX survey</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Example projects</span></div>
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">Thriving Workplace Pulse July 2026</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
             </div>
-            <span class="spill spill-starts"><b>Starts</b> on 10 may 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 0%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:0%;"></div></div>
-            </div>
-            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
-          </div>
-
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">Wellbeing check-in Q1</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
-            </div>
-            <span class="spill spill-completed"><b>Completed</b> on 5 feb 2026</span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 68%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:68%;"></div></div>
+            <span class="tag tag-highlight text-w400"><b>Running</b> until 19 jul 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 32%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:32%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow" data-mine="true">
-            <div class="srow-info">
-              <div class="srow-name">DE&amp;I baseline scan</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">Customer Support team check-in</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Example projects</span></div>
             </div>
-            <span class="spill spill-draft"><b>Draft</b></span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 0%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:0%;"></div></div>
+            <span class="tag tag-highlight text-w400"><b>Running</b> until 7 jul 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 79%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:79%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
 
-          <div class="srow">
-            <div class="srow-info">
-              <div class="srow-name">Test survey</div>
-              <div class="srow-proj"><i data-icon="folder"></i> <span>Example projects</span></div>
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">Exit interviews 2026</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Employee lifecycle</span></div>
             </div>
-            <span class="spill spill-draft"><b>Draft</b></span>
-            <div class="srow-rr">
-              <div class="srow-rr-top"><i data-icon="user"></i> 0%</div>
-              <div class="srow-bar"><div class="srow-bar-fill" style="width:0%;"></div></div>
+            <span class="tag tag-highlight text-w400"><b>Running</b> until 30 sep 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 41%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:41%;"></div></div>
+            </div>
+            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
+          </div>
+
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">Leadership 360 pilot</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Example projects</span></div>
+            </div>
+            <span class="tag is-planned text-w400"><b>Starts</b> on 3 aug 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 0%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:0%;"></div></div>
+            </div>
+            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
+          </div>
+
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">UX survey</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Example projects</span></div>
+            </div>
+            <span class="tag is-planned text-w400"><b>Starts</b> on 10 may 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 0%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:0%;"></div></div>
+            </div>
+            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
+          </div>
+
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">Wellbeing check-in Q1</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+            </div>
+            <span class="tag tag-positive text-w400"><b>Completed</b> on 5 feb 2026</span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 68%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:68%;"></div></div>
+            </div>
+            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
+          </div>
+
+          <div class="list-item is-interactive" data-mine="true">
+            <div class="list-item-content">
+              <div class="list-item-title">DE&amp;I baseline scan</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Central Employee Listening</span></div>
+            </div>
+            <span class="tag is-draft text-w400"><b>Draft</b></span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 0%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:0%;"></div></div>
+            </div>
+            <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
+          </div>
+
+          <div class="list-item is-interactive">
+            <div class="list-item-content">
+              <div class="list-item-title">Test survey</div>
+              <div class="list-item-sub"><i data-icon="folder"></i> <span>Example projects</span></div>
+            </div>
+            <span class="tag is-draft text-w400"><b>Draft</b></span>
+            <div class="srv-rr">
+              <div class="srv-rr-top"><i data-icon="user"></i> 0%</div>
+              <div class="srv-bar"><div class="srv-bar-fill" style="width:0%;"></div></div>
             </div>
             <button class="ib ib-36 ib-tertiary" aria-label="More options"><i data-icon="more-vertical"></i></button>
           </div>
@@ -444,25 +430,25 @@
     if (!sortBtn || !statusBtn) return;
 
     var list = document.querySelector('.surveys-list');
-    var rows = [].slice.call(list.querySelectorAll('.srow')); // captured in "Created last" order
+    var rows = [].slice.call(list.querySelectorAll('.list-item')); // captured in "Created last" order
     var searchInput = list.querySelector('input[type="search"]');
 
     // empty state, shown when nothing matches
     var empty = document.createElement('div');
-    empty.className = 'srow-empty';
+    empty.className = 'list-empty';
     empty.textContent = 'No surveys match your filters.';
     empty.hidden = true;
     list.appendChild(empty);
 
     function rowStatus(row) {
-      var p = row.querySelector('.spill');
-      if (p.classList.contains('spill-merged')) return 'Merged';
-      if (p.classList.contains('spill-completed')) return 'Completed';
-      if (p.classList.contains('spill-running')) return 'In Progress';
-      if (p.classList.contains('spill-starts')) return 'Planned';
+      var p = row.querySelector('.tag');
+      if (p.classList.contains('tag-info')) return 'Merged';
+      if (p.classList.contains('tag-positive')) return 'Completed';
+      if (p.classList.contains('tag-highlight')) return 'In Progress';
+      if (p.classList.contains('is-planned')) return 'Planned';
       return 'Draft';
     }
-    function rowName(row) { return row.querySelector('.srow-name').textContent.trim().toLowerCase(); }
+    function rowName(row) { return row.querySelector('.list-item-title').textContent.trim().toLowerCase(); }
 
     function apply() {
       // selected statuses

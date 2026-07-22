@@ -15,20 +15,20 @@ The My Effectory **Surveys** landing page (Coordinator portal). Inside the app s
 - **Inline search** (`.srch`, borderless at rest, box appears on hover/focus) on the left.
 - **Show only my surveys** — checkbox + label.
 - **Sort by** — inline selection button opening a single-select `.menu` (Created last · Created first · A–Z · Z–A; selected item gets `.menu-item-check`).
-- **Status** — inline selection button opening a multi-select `.menu` (`aria-multiselectable`); each item is the coloured **status pill** with a `.menu-cb` checkbox. Label shows `All (5)` → `N selected` → `None`.
+- **Status** — inline selection button opening a multi-select `.menu` (`aria-multiselectable`); each item is the coloured **status tag** with a `.menu-cb` checkbox. Label shows `All (5)` → `N selected` → `None`.
 
-### Survey rows
-Each `.srow`: name (`text-l5`) + project subtitle (`folder` icon + project name, 12px) · a fixed-width **status pill** (212px) · a response-rate block (`user` icon + "N%" over a 56px progress bar) · a kebab icon-button. Rows hover to `--bg-secondary`.
+### Survey rows — the shared List + Tag components
+The list is the DS **List** component: `.list-item.is-interactive` rows inside the card. Each row = `.list-item-content` (`.list-item-title` = name `text-l5` + `.list-item-sub` = `folder` icon + project name, 12px) · a fixed-width status **Tag** (212px, via `.surveys-list .list-item > .tag`) · a product-local response-rate block (`.srv-rr`: `user` icon + "N%" over a 56px `.srv-bar`) · a kebab icon-button. Interactive rows hover to `--bg-secondary` (from `.list-item.is-interactive`).
 
-### Status pills (`.spill`, radius `--radius-base` = 6px, 1px white border)
-Canonical statuses → pill variant + colour, and the contextual row text:
-- **Merged** → `spill-merged` (blue `--bg-info-base`), row text e.g. "5 surveys **merged**".
-- **Completed** → `spill-completed` (green `--bg-positive-base`), "**Completed** on {date}".
-- **In Progress** → `spill-running` (amber `--bg-highlight-base`, dark text), "**Running** until {date}".
-- **Planned** → `spill-starts` (navy `--bg-inverse-base`), "**Starts** on {date}".
-- **Draft** → `spill-draft` (grey `--bg-tertiary`, dark text), "**Draft**".
+### Status tags (the DS **Tag** component — `.tag`, radius medium `--radius-base`)
+Canonical statuses → tag variant + colour, and the contextual row text:
+- **Merged** → `tag-info` (blue `--bg-info-base`), row text e.g. "5 surveys **merged**".
+- **Completed** → `tag-positive` (green `--bg-positive-base`), "**Completed** on {date}".
+- **In Progress** → `tag-highlight` (amber `--bg-highlight-base`, dark text), "**Running** until {date}".
+- **Planned** → `.tag.is-planned` (navy `--bg-inverse-base`) — prototype-local; not an Eff Tag background.
+- **Draft** → `.tag.is-draft` (grey `--bg-tertiary`, dark text) — prototype-local; not an Eff Tag background.
 
-The rows show **contextual** pill text ("Running until…", "Starts on…"); the **canonical** names (In Progress, Planned…) live in the Status filter — this matches the live app.
+The rows show **contextual** tag text ("Running until…", "Starts on…"); the **canonical** names (In Progress, Planned…) live in the Status filter — this matches the live app. The row status JS reads the `.tag-*` / `.is-planned` class to map a row back to its status. In production, survey status is the dedicated **Survey Status** component (handles draft/planned/running/completed itself) — the prototype uses Tag + two local fills because Eff Tag has no grey/dark background.
 
 ## Behaviour (the rules)
 
@@ -39,7 +39,7 @@ The rows show **contextual** pill text ("Running until…", "Starts on…"); the
 
 ## Components used
 
-Main nav (with expanded `.mn-sub`) · Page header (`.ph`) · Section header · Card · Button / Icon button · Inline search · Checkbox · Selection button · Dropdown menu (`.menu`, single- **and** multi-select) · custom status pills + progress bars. Everything uses DS classes/tokens.
+Main nav (with expanded `.mn-sub`) · Page header (`.ph`) · Section header · Card · **List** (`.list`/`.list-item`) · **Tag** (`.tag`, status) · Button / Icon button · Inline search · Checkbox · Selection button · Dropdown menu (`.menu`, single- **and** multi-select) · a product-local response-rate bar (`.srv-rr`/`.srv-bar`). Everything uses DS classes/tokens.
 
 ## Critical: dropdowns must escape the card
 
