@@ -22,7 +22,12 @@
     .app { display: flex; height: 100vh; overflow: hidden; }
     .app .mainnav { height: 100%; }
     .app-main { flex: 1; min-width: 0; height: 100vh; overflow-y: auto; }
-    .app-main-inner { max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto; padding: var(--page-y) var(--page-x) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-super-loose); }
+    .app-main-inner { max-width: calc(1200px + 2 * var(--page-x)); margin-inline: auto; padding: var(--page-y) var(--page-x) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    /* the .ph page-header carries ~24px of its own trailing space; cancel it so the
+       gap to the divider below is just the flex gap, not doubled */
+    .ph { margin-bottom: calc(-1 * var(--spacing-loose)); }
+    /* hairline under the page header, evenly spaced (24px above and below) */
+    .ph-divider { border: none; border-top: 1px solid var(--border-base); margin: 0; }
 
     /* ── Section header (Latest projects) ── */
     .sec-head { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-bottom: var(--spacing-loose); }
@@ -142,6 +147,8 @@
           </div>
         </div>
       </div>
+
+      <hr class="ph-divider" />
 
       <!-- Latest projects -->
       <section>
