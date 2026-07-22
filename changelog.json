@@ -1,6 +1,20 @@
 {
-  "count": 881,
+  "count": 883,
   "entries": [
+    {
+      "hash": "c93a2c2",
+      "author": "Jente Insing",
+      "date": "2026-07-22",
+      "subject": "all-surveys: tighten header spacing + add divider under the header",
+      "pages": []
+    },
+    {
+      "hash": "bfaf6e4",
+      "author": "Jente Insing",
+      "date": "2026-07-22",
+      "subject": "Add Projects page reference-prototype to skill (v1.9.37)",
+      "pages": []
+    },
     {
       "hash": "565607c",
       "author": "Jente Insing",
