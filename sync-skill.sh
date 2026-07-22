@@ -5,7 +5,7 @@
 # What it syncs:
 #   - design-system-reference.md  (from .claude/skills/...)
 #   - tokens.css, foundation.css, components.css, icons.js, serve.py
-#   - assets/icons/ (all SVGs)
+#   - assets/icons/ + assets/illustrations/ (packed into assets.tar.gz)
 #
 # What it does NOT sync:
 #   - SKILL.md — has different paths from the project skill. Edit
@@ -32,10 +32,10 @@ for f in tokens.css foundation.css components.css icons.js serve.py; do
   cp "$ROOT/$f" "$BUNDLE/$f"
 done
 
-echo "→ Bundling icons into icons.tar.gz (org-skills have a file-count limit)"
-rm -f "$BUNDLE/icons.tar.gz"
+echo "→ Bundling icons + illustrations into assets.tar.gz (org-skills have a file-count limit)"
+rm -f "$BUNDLE/assets.tar.gz" "$BUNDLE/icons.tar.gz"
 rm -rf "$BUNDLE/assets"
-( cd "$ROOT/assets" && tar -czf "$BUNDLE/icons.tar.gz" icons )
+( cd "$ROOT/assets" && tar --exclude='.DS_Store' -czf "$BUNDLE/assets.tar.gz" icons illustrations )
 
 echo ""
 echo "✓ skill-source/ in sync."

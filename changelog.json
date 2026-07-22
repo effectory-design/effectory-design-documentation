@@ -1,6 +1,241 @@
 {
-  "count": 846,
+  "count": 879,
   "entries": [
+    {
+      "hash": "43baed9",
+      "author": "Jente Insing",
+      "date": "2026-07-22",
+      "subject": "Consolidate status labels into one Tag component + add List",
+      "pages": [
+        "badge-docs.html",
+        "list-docs.html",
+        "tag-docs.html"
+      ]
+    },
+    {
+      "hash": "df5bdb0",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Effectory + Bol prototypes: make member counts add up (parent = sum of children)",
+      "pages": []
+    },
+    {
+      "hash": "8e97f87",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Effectory prototype: honest suggestion overlaps, demote sub-33% matches to no-link",
+      "pages": []
+    },
+    {
+      "hash": "bd175d4",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: help cursor on picker overlap % badge",
+      "pages": []
+    },
+    {
+      "hash": "866ba3b",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Effectory prototype: realign suggestions to the 33-66% overlap band",
+      "pages": []
+    },
+    {
+      "hash": "0b8481d",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: fix overlap popover + members dialog stacking in bigger view",
+      "pages": []
+    },
+    {
+      "hash": "b81e158",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: picker search badge reads 'X% overlap'",
+      "pages": []
+    },
+    {
+      "hash": "5580919",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: keep the picker open when closing the members dialog",
+      "pages": []
+    },
+    {
+      "hash": "6617d6d",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: member-count click opens the overlapping-people dialog",
+      "pages": []
+    },
+    {
+      "hash": "6707aeb",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Bol prototype: realign tiers to size-aware overlap (auto >=67%, suggestion 33-66%, no-link <33%)",
+      "pages": []
+    },
+    {
+      "hash": "356e9d3",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: overlap % on hover, member-count number on click",
+      "pages": []
+    },
+    {
+      "hash": "7773b78",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: clickable member counts in picker with overlap hover card",
+      "pages": []
+    },
+    {
+      "hash": "5936d43",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: size-aware Jaccard member overlap",
+      "pages": []
+    },
+    {
+      "hash": "34c72ea",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: show employee-overlap % (blue) on picker search results",
+      "pages": []
+    },
+    {
+      "hash": "bec2888",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Bol prototype: add all 668 previous-survey groups to the pickable history (full 2024 structure), preserving existing auto-links and suggestions",
+      "pages": []
+    },
+    {
+      "hash": "4f19c20",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Bol prototype: restore 4 continuity counterparts (FinTech, IT-Tech Platform, P&A Data Analytics, MT-Product) as pickable + suggested so renamed groups are linkable",
+      "pages": []
+    },
+    {
+      "hash": "addca22",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: slower tip carousel (8s), clickable CTAs, add unmatched-groups tip",
+      "pages": []
+    },
+    {
+      "hash": "b67bcd2",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking prototypes: layered tip banner — CTA on the right, previous-survey-link tip, taller timeline",
+      "pages": []
+    },
+    {
+      "hash": "293635d",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Bol prototype: survey names in bol format (🟢 running / 🔴 completed)",
+      "pages": []
+    },
+    {
+      "hash": "ff7c4d0",
+      "author": "Jente Insing",
+      "date": "2026-07-17",
+      "subject": "Group linking: hash-routed views + Effectory and Bol test prototypes",
+      "pages": []
+    },
+    {
+      "hash": "5fea5b4",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: step 1 current-vs-compared survey cards with connector",
+      "pages": []
+    },
+    {
+      "hash": "79ea277",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: overlap-tier logic, inline overlap badge, scroll-hide tooltips, hover-delay onboarding tip",
+      "pages": []
+    },
+    {
+      "hash": "115a0a2",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: no-match option, overlap-based highlight, tab descriptions, bulk confirm, sticky headers",
+      "pages": []
+    },
+    {
+      "hash": "9d01189",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Add All surveys reference prototype + dropdown clipping guidance to skill",
+      "pages": []
+    },
+    {
+      "hash": "61aae73",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: drop the \"Suggested\" badge in the picker, keep the highlight",
+      "pages": []
+    },
+    {
+      "hash": "d404b48",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: first-match celebration, actionable empty rows, name-based picker suggestion, yellow auto-rotating tips",
+      "pages": []
+    },
+    {
+      "hash": "bcb79b2",
+      "author": "Jente Insing",
+      "date": "2026-07-16",
+      "subject": "Group linking: matching fly-away + count bump on suggestion confirm/decline, celebrate cross-structure CTA, redesigned shift tip, bordered intro card",
+      "pages": []
+    },
+    {
+      "hash": "75379ed",
+      "author": "Jente Insing",
+      "date": "2026-07-15",
+      "subject": "Group linking stepped: bulk actions, structure-aware links, overview polish",
+      "pages": []
+    },
+    {
+      "hash": "f35fe77",
+      "author": "Jente Insing",
+      "date": "2026-07-15",
+      "subject": "Group linking stepped prototype: onboarding, survey picker, filters, animations",
+      "pages": []
+    },
+    {
+      "hash": "8efae91",
+      "author": "Jente Insing",
+      "date": "2026-07-13",
+      "subject": "Group linking prototype: clickable \"No link yet\" + trimmed match popover",
+      "pages": []
+    },
+    {
+      "hash": "a9dbe5e",
+      "author": "Jente Insing",
+      "date": "2026-07-09",
+      "subject": "Group linking prototype: structure tabs, sticky header, coherent match popover",
+      "pages": []
+    },
+    {
+      "hash": "cef6876",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "GTM prototype: no scroll on the user language/theme menu (short menu)",
+      "pages": []
+    },
+    {
+      "hash": "d38267b",
+      "author": "Jente Insing",
+      "date": "2026-07-07",
+      "subject": "Skill v1.9.35: publish reinforced menu selected-state rule",
+      "pages": []
+    },
     {
       "hash": "e35177b",
       "author": "Jente Insing",
