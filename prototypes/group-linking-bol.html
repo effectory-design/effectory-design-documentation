@@ -402,31 +402,36 @@
     .ss-item-prog i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
     .ss-item .btn { flex-shrink: 0; }
     /* survey status badge (rounded corners, not a pill) */
-    .ss-status { display: inline-flex; align-items: baseline; justify-content: center; gap: var(--spacing-extra-tight); min-width: 212px; padding: 4px var(--spacing-tight); border: 1px solid var(--border-white); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; line-height: 16px; white-space: nowrap; flex-shrink: 0; }
+    .ss-status { display: inline-flex; align-items: baseline; justify-content: center; gap: var(--spacing-extra-tight); padding: 4px var(--spacing-tight); border: 1px solid var(--border-white); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; line-height: 16px; white-space: nowrap; flex-shrink: 0; }
+    .ss-cmp-status .ss-status { min-width: 212px; }
+    .surv-opt .ss-status { min-width: 212px; }
+    .surv-opt-trail { flex-shrink: 0; display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-loose); }
     .ss-status-sub { font-weight: 400; opacity: .85; }
     .ss-status.is-completed { background: var(--bg-positive-base); color: var(--content-on-brand-base); }
     .ss-status.is-running { background: var(--bg-highlight-base); color: var(--content-base); }
     .ss-status.is-upcoming { background: var(--bg-inverse-base); color: var(--content-on-brand-base); }
     .ss-status.is-draft { background: var(--bg-secondary); color: var(--content-secondary); }
     /* survey response rate */
-    .ss-resp { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); width: 68px; flex-shrink: 0; }
-    .ss-resp-top { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-secondary); }
-    .ss-resp-top i { width: 14px; height: 14px; display: flex; }
-    .ss-resp-bar { height: 3px; border-radius: var(--radius-full); background: var(--bg-secondary); overflow: hidden; }
-    .ss-resp-bar span { display: block; height: 100%; border-radius: var(--radius-full); background: var(--bg-info-base); }
+    /* Response rate — same widget as the all-surveys page */
+    .srv-rr { flex-shrink: 0; display: flex; flex-direction: column; gap: 5px; width: 56px; }
+    .srv-rr-top { display: flex; align-items: center; justify-content: center; gap: var(--spacing-extra-tight); font-size: 14px; font-weight: 500; color: var(--content-base); }
+    .srv-rr-top i { width: 14px; height: 14px; display: flex; flex-shrink: 0; color: var(--content-secondary); }
+    .srv-bar { height: 6px; border-radius: var(--radius-sm); background: var(--bg-tertiary); overflow: hidden; }
+    .srv-bar-fill { height: 100%; border-radius: var(--radius-full); background: var(--bg-info-base); }
     /* picker dialog list */
-    .ss-picker-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .surv-opts { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .surv-opt { font-family: inherit; text-align: left; width: 100%; display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base); cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
-    .surv-opt:hover { border-color: var(--border-action-hover); }
-    .surv-opt.is-selected { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
-    .surv-opt-radio { flex-shrink: 0; width: 18px; height: 18px; border-radius: var(--radius-full); border: 2px solid var(--border-base); position: relative; }
-    .surv-opt.is-selected .surv-opt-radio { border-color: var(--border-brand-base); }
-    .surv-opt.is-selected .surv-opt-radio::after { content: ''; position: absolute; inset: 3px; border-radius: var(--radius-full); background: var(--bg-brand-base); }
+    .ss-picker-list { display: flex; flex-direction: column; border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden; }
+    .surv-opts { display: flex; flex-direction: column; }
+    .surv-opt { font-family: inherit; text-align: left; width: 100%; display: flex; align-items: center; gap: var(--spacing-base); background: var(--bg-base); border: none; padding: var(--spacing-base) var(--spacing-base) var(--spacing-base) 0; cursor: pointer; transition: background var(--motion-fast) var(--ease-out); }
+    .surv-opt + .surv-opt { border-top: 1px solid var(--border-base); }
+    .surv-opt:hover { background: var(--bg-base-hover); }
+    .surv-opt.is-selected { background: var(--bg-brand-subtle); }
+    .surv-opt-radio { flex-shrink: 0; width: 16px; height: 16px; margin: 0 var(--spacing-base); border-radius: var(--radius-full); border: 1px solid var(--border-action); background: var(--bg-base); position: relative; }
+    .surv-opt.is-selected .surv-opt-radio { border-color: var(--border-brand-secondary); background: var(--bg-brand-base); }
+    .surv-opt.is-selected .surv-opt-radio::after { content: ''; position: absolute; inset: 4px; border-radius: var(--radius-full); background: var(--bg-base); }
     .surv-opt-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); display: flex; align-items: center; justify-content: center; }
     .surv-opt-icon i { width: 18px; height: 18px; display: flex; }
-    .surv-opt-body { flex: 1; min-width: 0; }
-    .surv-opt-name { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .surv-opt-body { flex: 1; min-width: 0; padding-right: var(--spacing-base); }
+    .surv-opt-name { display: block; font-size: 14px; font-weight: 600; line-height: 22px; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .surv-opt-meta { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 1px; }
     .step-actions { margin-top: var(--spacing-loose); display: flex; align-items: center; justify-content: flex-end; }
 
@@ -1260,11 +1265,11 @@
 
 <!-- Choose previous survey dialog -->
 <div class="overlay" id="survPickerOverlay" hidden>
-  <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="survPicker-title">
+  <div class="dialog dialog-m" role="dialog" aria-modal="true" aria-labelledby="survPicker-title">
     <button class="dialog-close" aria-label="Close" data-close="survPickerOverlay"><i data-icon="cross"></i></button>
     <div class="dialog-header">
-      <h3 class="dialog-title" id="survPicker-title">Choose a previous survey</h3>
-      <p class="dialog-subtitle">We’ll bring its results in as trend lines to compare against.</p>
+      <h3 class="dialog-title" id="survPicker-title">Choose previous survey</h3>
+      <p class="dialog-subtitle">This survey will be used to compare scores with</p>
     </div>
     <div class="dialog-body">
       <div class="ss-picker-list" id="survPickerList"></div>
@@ -2295,8 +2300,8 @@ function statusBadge(info) {
 }
 function respRate(info) {
   if (!info || info.response == null) return '';
-  return '<div class="ss-resp"><div class="ss-resp-top"><i data-icon="user"></i> ' + info.response + '%</div>' +
-    '<div class="ss-resp-bar"><span style="width:' + info.response + '%"></span></div></div>';
+  return '<div class="srv-rr"><div class="srv-rr-top"><i data-icon="user"></i> ' + info.response + '%</div>' +
+    '<div class="srv-bar"><div class="srv-bar-fill" style="width:' + info.response + '%"></div></div></div>';
 }
 let pendingSurvey = null;
 function renderSurvSelect() {
@@ -2315,7 +2320,7 @@ function renderSurvPicker() {
     return '<button class="surv-opt' + (s === pendingSurvey ? ' is-selected' : '') + '" data-survpick="' + esc(s) + '">' +
       '<span class="surv-opt-radio"></span>' +
       '<span class="surv-opt-body"><span class="surv-opt-name">' + esc(s) + '</span></span>' +
-      statusBadge(info) + respRate(info) +
+      '<span class="surv-opt-trail">' + statusBadge(info) + respRate(info) + '</span>' +
     '</button>';
   }).join('');
   icons();
