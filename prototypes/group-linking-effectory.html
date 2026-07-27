@@ -745,8 +745,8 @@
     #spBody .gl-scard:last-child { margin-bottom: 0; }
 
     /* ── Members dialog ── */
-    .mb-list { display: flex; flex-direction: column; }
-    .mb-row { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-tight) 0; border-bottom: 1px solid var(--border-base); }
+    .mb-list { display: flex; flex-direction: column; border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden; }
+    .mb-row { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) var(--spacing-base); border-bottom: 1px solid var(--border-base); }
     .mb-row:last-child { border-bottom: none; }
     .mb-meta { flex: 1; min-width: 0; }
     .mb-name { font-size: 14px; font-weight: 500; color: var(--content-base); display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-tight); }
@@ -755,8 +755,8 @@
     .mb-scroll { max-height: 48vh; overflow-y: auto; }
     .mb-search { margin-bottom: var(--spacing-tight); }
     .mb-empty { padding: var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
-    .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base) 0 var(--spacing-tight); }
-    .mb-section-hd:first-child { padding-top: 0; }
+    .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); }
+
     .mb-section-icon { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
     .mb-section-hd.is-both .mb-section-icon { color: var(--content-brand-base); }
     .mb-section-count { font-size: 12px; font-weight: 600; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: 1px var(--spacing-tight); }
@@ -2433,7 +2433,7 @@ function bindPanel() {
     const s = findSug(b.dataset.resend);
     if (s && s.reviewer) toast('Review request sent to ' + s.reviewer.first + ' ' + s.reviewer.last);
   }));
-  root.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
+  root.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size), b.dataset.survey)));
   root.querySelectorAll('[data-viewstruct]').forEach(b => b.addEventListener('click', () => {
     const s = findSug(b.dataset.viewstruct); if (!s) return;
     if (!s.structures.includes(state.treeStructure)) { state.treeStructure = s.structures[0]; }
@@ -2666,16 +2666,11 @@ function renderMembers() {
   icons();
 }
 
-function openMembers(name, size) {
-  $('#members-title').textContent = 'Group members';
-  $('#membersSubtitle').textContent = name;
+function openMembers(name, size, survey) {
+  $('#members-title').textContent = size + ' participants in ' + name;
+  $('#membersSubtitle').textContent = survey || CURRENT_SURVEY;
   const all = [];
-  for (let i = 0; i < size; i++) {
-    const p = personAt(i);
-    p.tag = i === 0 ? ' <span class="gl-tag is-match">Manager</span>' : '';
-    p.right = '<div class="mb-role">' + ROLES[i % ROLES.length] + '</div>';
-    all.push(p);
-  }
+  for (let i = 0; i < size; i++) all.push(personAt(i));
   membersState = { mode: 'flat', all, filter: '', shown: MB_BATCH, total: size, totalLabel: size + ' members in total' };
   $('#membersSearch').value = '';
   renderMembers();
@@ -2848,7 +2843,7 @@ function treeRowHTML(n, level) {
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
     '<span class="tr-group">' + esc(n.name) + '</span>' +
-    (n.size ? '<button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '"><i data-icon="users"></i>' + n.size + '</button>' : '') +
+    (n.size ? '<button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '"><i data-icon="users"></i>' + n.size + '</button>' : '') +
     '</div>' +
     (state.treeLinkingNodeId === n.id
       ? '<div class="tr-add-slot tt-demo" style="visibility:hidden"><button class="tr-add-btn" tabindex="-1"><i data-icon="plus"></i></button></div>'
@@ -2917,7 +2912,7 @@ function linkColumns(n, sug) {
     // group size count, plus the overlap badge on suggested rows
     const countBadge = size === '' ? '' : (isS
       ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="See member overlap"><i data-icon="users"></i>' + size + '</button>'
-      : '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '"><i data-icon="users"></i>' + size + '</button>');
+      : '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '"><i data-icon="users"></i>' + size + '</button>');
     const originTag = isS
       ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
@@ -3144,7 +3139,7 @@ function renderTree() {
     if (!wrap) { renderTree(); return; }
     accordion(wrap, opening);
   }));
-  body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size))));
+  body.querySelectorAll('[data-members]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.members, Number(b.dataset.size), b.dataset.survey)));
   body.querySelectorAll('[data-ovclick]').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); const sg = suggestions.find(x => x.id === Number(b.dataset.matchpop)); if (sg) openOverlapMembers(sg); }));
   body.querySelectorAll('[data-treeapprove]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treeapprove, 'approve')));
   body.querySelectorAll('[data-treereject]').forEach(b => b.addEventListener('click', () => treeAction(b.dataset.treereject, 'reject')));
