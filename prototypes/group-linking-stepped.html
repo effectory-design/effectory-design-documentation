@@ -462,6 +462,10 @@
     #acc-select .sacc-body-pad { background: var(--bg-secondary); }
     .acc-lead { font-size: 14px; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
 
+    /* header description — only shown once the explainer banner is hidden */
+    .gl-head-desc { margin: var(--spacing-extra-tight) 0 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .gl-head-desc .link-inline { margin-left: var(--spacing-extra-tight); }
+
     /* In-page onboarding explainer card */
     .gl-explainer { display: flex; align-items: center; gap: var(--spacing-loose); margin-top: var(--spacing-base); background: var(--bg-highlight-subtle); border: 1px solid var(--border-highlight-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); padding: var(--spacing-super-loose); overflow: hidden; }
     .gl-explainer-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
@@ -1002,9 +1006,7 @@
           <div class="ph-row" style="padding-bottom: 0;">
             <div class="ph-left">
               <h1 class="ph-title">Previous survey links</h1>
-            </div>
-            <div class="ph-actions">
-              <button class="btn btn-tertiary" id="onbReopen" hidden><i data-icon="help"></i> How it works</button>
+              <p class="gl-head-desc" id="glHeadDesc" hidden>Compare this survey with a previous one to see how results change over time. <button class="link-inline" id="onbReopen">Show more</button></p>
             </div>
           </div>
         </div>
@@ -3908,9 +3910,9 @@ var showMatchPop = null;
 
 /* ═══════════════ IN-PAGE ONBOARDING ═══════════════ */
 function setExplainer(show) {
-  const card = $('#glExplainer'), btn = $('#onbReopen');
+  const card = $('#glExplainer'), desc = $('#glHeadDesc');
   if (card) card.hidden = !show;
-  if (btn) btn.hidden = show;
+  if (desc) desc.hidden = show;          // header description takes over when the banner is hidden
 }
 document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#glExplainerHide')) { setExplainer(false); return; }
