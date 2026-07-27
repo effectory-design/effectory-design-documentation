@@ -465,6 +465,14 @@
     /* header description — only shown once the explainer banner is hidden */
     .gl-head-desc { margin: var(--spacing-extra-tight) 0 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
     .gl-head-desc .link-inline { margin-left: var(--spacing-extra-tight); }
+    /* shared collapse: animates between hidden and shown without a layout jump */
+    .gl-collapse { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
+    .gl-collapse.is-open { grid-template-rows: 1fr; }
+    .gl-collapse-clip { overflow: hidden; opacity: 0; transition: opacity var(--motion-base) var(--ease-out); }
+    .gl-collapse.is-open > .gl-collapse-clip { opacity: 1; transition-delay: 80ms; }
+    @media (prefers-reduced-motion: reduce) {
+      .gl-collapse, .gl-collapse-clip { transition: none; }
+    }
 
     /* In-page onboarding explainer card */
     .gl-explainer { display: flex; align-items: center; gap: var(--spacing-loose); margin-top: var(--spacing-base); background: var(--bg-highlight-subtle); border: 1px solid var(--border-highlight-base); border-radius: var(--radius-lg); box-shadow: var(--sh-card); padding: var(--spacing-super-loose); overflow: hidden; }
@@ -1006,25 +1014,29 @@
           <div class="ph-row" style="padding-bottom: 0;">
             <div class="ph-left">
               <h1 class="ph-title">Previous survey links</h1>
-              <p class="gl-head-desc" id="glHeadDesc" hidden>Compare this survey with a previous one to see how results change over time. <button class="link-inline" id="onbReopen">Show more</button></p>
+              <div class="gl-collapse" id="glHeadDescWrap"><div class="gl-collapse-clip">
+                <p class="gl-head-desc" id="glHeadDesc">Compare this survey with a previous one to see how results change over time. <button class="link-inline" id="onbReopen">Show more</button></p>
+              </div></div>
             </div>
           </div>
         </div>
 
         <!-- In-page onboarding explainer -->
-        <div class="gl-explainer" id="glExplainer">
-          <div class="gl-explainer-body">
-            <h2 class="gl-explainer-title">Get started with linking previous survey results</h2>
-            <p class="gl-explainer-text">Linking this survey to a previous one lets last time’s scores appear as trend lines — and keeps a team’s history even when groups are renamed, merged, or split. On this page you match the groups from both surveys: we suggest the links, you confirm them.</p>
-            <div class="gl-explainer-actions">
-              <a class="gl-explainer-link" href="https://support.effectory.com/" target="_blank" rel="noopener noreferrer">Learn more <i data-icon="external-link"></i></a>
-              <button class="btn btn-tertiary" id="glExplainerHide">Hide</button>
+        <div class="gl-collapse is-open" id="glExplainerWrap"><div class="gl-collapse-clip">
+          <div class="gl-explainer" id="glExplainer">
+            <div class="gl-explainer-body">
+              <h2 class="gl-explainer-title">Get started with linking previous survey results</h2>
+              <p class="gl-explainer-text">Linking this survey to a previous one lets last time’s scores appear as trend lines — and keeps a team’s history even when groups are renamed, merged, or split. On this page you match the groups from both surveys: we suggest the links, you confirm them.</p>
+              <div class="gl-explainer-actions">
+                <a class="gl-explainer-link" href="https://support.effectory.com/" target="_blank" rel="noopener noreferrer">Learn more <i data-icon="external-link"></i></a>
+                <button class="btn btn-tertiary" id="glExplainerHide">Hide</button>
+              </div>
+            </div>
+            <div class="gl-explainer-art" aria-hidden="true">
+              <img src="assets/illustrations/group-linking-explainer.png" alt="" />
             </div>
           </div>
-          <div class="gl-explainer-art" aria-hidden="true">
-            <img src="assets/illustrations/group-linking-explainer.png" alt="" />
-          </div>
-        </div>
+        </div></div>
 
         <!-- Accordion step 1: select a survey -->
         <div class="acc" id="acc-select">
@@ -3892,9 +3904,9 @@ var showMatchPop = null;
 
 /* ═══════════════ IN-PAGE ONBOARDING ═══════════════ */
 function setExplainer(show) {
-  const card = $('#glExplainer'), desc = $('#glHeadDesc');
-  if (card) card.hidden = !show;
-  if (desc) desc.hidden = show;          // header description takes over when the banner is hidden
+  const banner = $('#glExplainerWrap'), desc = $('#glHeadDescWrap');
+  if (banner) banner.classList.toggle('is-open', show);
+  if (desc) desc.classList.toggle('is-open', !show);   // header description takes over when the banner is hidden
 }
 document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#glExplainerHide')) { setExplainer(false); return; }
