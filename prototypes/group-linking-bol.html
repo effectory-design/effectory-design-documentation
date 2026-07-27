@@ -155,27 +155,29 @@
     .ss-field { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
     /* step 1 — current ↔ compared survey cards with a connector */
     .ss-compare { display: flex; align-items: stretch; gap: var(--spacing-tight); margin-top: var(--spacing-base); }
-    .ss-cmp-card { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-tight); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); padding: var(--spacing-loose); }
-    .ss-cmp-card.is-compared { border-color: var(--border-brand-base); box-shadow: 0 0 0 1px var(--border-brand-base); flex-direction: row; align-items: center; justify-content: space-between; }
-    .ss-cmp-body { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
+    .ss-cmp-card { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); padding: var(--spacing-loose); box-shadow: var(--sh-action); }
+    .ss-cmp-card.is-compared { border-color: var(--border-action); border-radius: var(--radius-md); flex-direction: row; align-items: center; gap: var(--spacing-base); }
+    .ss-cmp-body { flex: 1; display: flex; flex-direction: column; gap: var(--spacing-base-tight); min-width: 0; }
     .ss-cmp-card.is-compared .btn { align-self: center; margin-top: 0; flex-shrink: 0; }
-    .ss-cmp-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--content-secondary); }
-    .ss-cmp-card.is-compared .ss-cmp-tag { color: var(--content-brand-base); }
-    .ss-cmp-name { font-size: 18px; font-weight: 700; color: var(--content-base); line-height: 1.3; }
-    .ss-cmp-status { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; min-height: 24px; }
+    .ss-cmp-tag { font-size: 12px; font-weight: 500; line-height: 1.6; color: var(--content-secondary); }
+
+    .ss-cmp-name { font-size: 16px; font-weight: 600; color: var(--content-base); line-height: 24px; }
+    .ss-cmp-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .ss-cmp-status { display: flex; align-items: center; gap: var(--spacing-tight); flex-wrap: wrap; }
     .ss-cmp-resp { font-size: 14px; color: var(--content-secondary); }
     .ss-cmp-card .btn { align-self: flex-start; margin-top: var(--spacing-extra-tight); }
     .ss-cmp-conn { flex-shrink: 0; align-self: center; display: flex; align-items: center; }
-    .ss-cmp-conn-line { width: 10px; height: 2px; background: var(--border-action); }
-    .ss-cmp-conn-dot { width: 30px; height: 30px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-card); display: flex; align-items: center; justify-content: center; color: var(--content-brand-base); }
-    .ss-cmp-conn-dot i { width: 15px; height: 15px; display: flex; }
+    .ss-cmp-conn { gap: var(--spacing-extra-tight); }
+    .ss-cmp-conn-line { width: 12px; height: 1px; background: var(--border-action); }
+    .ss-cmp-conn-dot { width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-full); background: var(--bg-base); border: 1px solid var(--border-base); box-shadow: var(--sh-action); display: flex; align-items: center; justify-content: center; color: var(--content-base); }
+    .ss-cmp-conn-dot i { width: 16px; height: 16px; display: flex; }
     .ss-compare-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); margin-top: var(--spacing-base); flex-wrap: wrap; }
     @media (max-width: 640px) { .ss-compare { flex-direction: column; } .ss-cmp-conn { transform: rotate(90deg); } }
     .ss-label { font-size: 16px; font-weight: 600; color: var(--content-base); }
     .ss-help { font-size: 14px; line-height: 1.5; color: var(--content-secondary); margin: 0 0 var(--spacing-extra-tight); }
     .gl-hist-toggle { margin-top: var(--spacing-base); width: fit-content; justify-content: flex-start; margin-left: calc(-1 * var(--spacing-base-tight)); }
     .gl-hist-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-fast) var(--ease-out); }
-    .gl-hist-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+    .gl-hist-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
     .gl-history { width: 100%; padding: var(--spacing-loose); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); }
     .gl-hist-lead { font-size: 14px; line-height: 1.55; color: var(--content-secondary); margin: 0 0 var(--spacing-base); }
     .gl-chain { position: relative; padding-left: var(--spacing-loose); }
@@ -400,10 +402,10 @@
     .ss-item-prog i { width: 14px; height: 14px; display: flex; flex-shrink: 0; }
     .ss-item .btn { flex-shrink: 0; }
     /* survey status badge (rounded corners, not a pill) */
-    .ss-status { display: inline-flex; align-items: baseline; gap: var(--spacing-extra-tight); padding: 2px var(--spacing-tight); border-radius: var(--radius-base); font-size: 12px; font-weight: 600; line-height: 1.5; white-space: nowrap; flex-shrink: 0; }
+    .ss-status { display: inline-flex; align-items: baseline; justify-content: center; gap: var(--spacing-extra-tight); min-width: 212px; padding: 4px var(--spacing-tight); border: 1px solid var(--border-white); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; line-height: 16px; white-space: nowrap; flex-shrink: 0; }
     .ss-status-sub { font-weight: 400; opacity: .85; }
     .ss-status.is-completed { background: var(--bg-positive-base); color: var(--content-on-brand-base); }
-    .ss-status.is-running { background: var(--bg-warning-bold); color: var(--content-base); }
+    .ss-status.is-running { background: var(--bg-highlight-base); color: var(--content-base); }
     .ss-status.is-upcoming { background: var(--bg-inverse-base); color: var(--content-on-brand-base); }
     .ss-status.is-draft { background: var(--bg-secondary); color: var(--content-secondary); }
     /* survey response rate */
@@ -1030,26 +1032,29 @@
             <div class="ss-layout">
               <div class="ss-main">
                 <div class="ss-field">
-                  <span class="ss-label">Comparing your survey results</span>
                   <p class="ss-help">We’ve auto-selected the most recent completed survey to compare against. Its scores appear next to this survey’s, so you can see how each group has changed. Change it if you’d rather compare with another survey.</p>
                   <div class="ss-compare">
                     <div class="ss-cmp-card">
-                      <span class="ss-cmp-tag">Current survey</span>
-                      <div class="ss-cmp-name">bol. - 🟢 Engagement Survey - 2025-2026</div>
-                      <div class="ss-cmp-status"><span class="chip chip-warning"><i data-icon="activity"></i> Running</span></div>
+                      <div class="ss-cmp-meta">
+                        <span class="ss-cmp-tag">Current survey</span>
+                        <div class="ss-cmp-name">bol. - 🟢 Engagement Survey - 2025-2026</div>
+                      </div>
+                      <div class="ss-cmp-status"><span class="ss-status is-running">Running <span class="ss-status-sub">until Jul 14, 2026</span></span></div>
                     </div>
                     <div class="ss-cmp-conn" aria-hidden="true"><span class="ss-cmp-conn-line"></span><span class="ss-cmp-conn-dot"><i data-icon="link"></i></span><span class="ss-cmp-conn-line"></span></div>
                     <div class="ss-cmp-card is-compared">
                       <div class="ss-cmp-body">
-                        <span class="ss-cmp-tag">Compared with</span>
-                        <div class="ss-cmp-name" id="survSelectVal"></div>
+                        <div class="ss-cmp-meta">
+                          <span class="ss-cmp-tag">Compared with</span>
+                          <div class="ss-cmp-name" id="survSelectVal"></div>
+                        </div>
                         <div class="ss-cmp-status"><span id="survSelectStatus"></span></div>
                       </div>
-                      <button class="btn btn-secondary" id="survChangeBtn"><i data-icon="edit"></i> Change</button>
+                      <button class="btn btn-secondary" id="survChangeBtn">Change</button>
                     </div>
                   </div>
                   <div class="ss-compare-foot">
-                    <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false"><i data-icon="chevron-right"></i> View survey links</button>
+                    <button class="btn btn-tertiary gl-hist-toggle" id="historyToggle" aria-expanded="false">View survey links <i data-icon="chevron-down"></i></button>
                     <button class="btn btn-primary" id="ssContinueBtn">Continue to linking <i data-icon="arrow-right"></i></button>
                   </div>
                 </div>
