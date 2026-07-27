@@ -678,12 +678,6 @@
     .tr-lrow-main { display: flex; align-items: center; gap: var(--spacing-tight); min-width: 0; flex: 0 1 auto; }
     .tr-lrow-icon { width: 16px; height: 16px; display: flex; flex-shrink: 0; color: var(--content-subtle); }
     .tr-lrow.is-suggested .tr-lrow-icon { color: var(--content-info-base); }
-    .tr-conn-origins { position: absolute; inset: 0; pointer-events: none; }
-    .tr-conn-origin { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--bg-base); pointer-events: none; }
-    .tr-conn-origin i { width: 16px; height: 16px; display: flex; }
-    .tr-conn-origin.is-auto { color: var(--content-subtle); }
-    .tr-conn-origin.is-manual { color: var(--content-brand-base); }
-    .tr-conn-origin.is-suggested { color: var(--content-info-base); }
     .tr-origin { display: flex; align-items: center; flex-shrink: 0; }
     .tr-origin i { width: 14px; height: 14px; display: flex; }
     .tr-origin.is-auto { color: var(--content-subtle); }
@@ -2937,9 +2931,8 @@ function linkColumns(n, sug) {
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
     const nameHTML = '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
-    const mainInner = isS ? (nameHTML + countBadge + confBadge(sug)) : (nameHTML + countBadge);
-    const originKind = isS ? 'suggested' : (l.origin === 'manual' ? 'manual' : 'auto');
-    right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '" data-origin="' + originKind + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
+    const mainInner = isS ? (originTag + nameHTML + countBadge + confBadge(sug)) : (originTag + nameHTML + countBadge);
+    right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
       '<span class="tr-lrow-main">' + mainInner + '</span>' +
       '<span class="tr-lrow-act">' + actions + '</span></div></div>';
   });
@@ -3404,17 +3397,6 @@ function drawTreeConnectors() {
     }
     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
     svg.innerHTML = d;
-    // origin icons sit on the connector itself, centred in the middle column
-    let layer = mid.querySelector('.tr-conn-origins');
-    if (!layer) { layer = document.createElement('div'); layer.className = 'tr-conn-origins'; mid.appendChild(layer); }
-    const ORIGIN_ICON = { suggested: 'lightbulb', manual: 'user-check', auto: 'zap' };
-    const ORIGIN_LABEL = { suggested: 'Suggested link', manual: 'Linked manually', auto: 'Linked automatically' };
-    layer.innerHTML = rows.map((row, i) => {
-      const kind = row.dataset.origin || 'auto';
-      return '<span class="tr-conn-origin is-' + kind + '" style="top:' + ys[i] + 'px" title="' + ORIGIN_LABEL[kind] + '">' +
-        '<i data-icon="' + ORIGIN_ICON[kind] + '"></i></span>';
-    }).join('');
-    if (window.Icons) window.Icons.render(layer);
   });
 }
 window.addEventListener('resize', () => { if (!$('#view-linking').hidden) { drawTreeConnectors(); positionShiftTip(); } });
