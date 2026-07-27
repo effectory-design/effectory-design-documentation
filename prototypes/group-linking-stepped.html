@@ -2025,8 +2025,7 @@ function renderSurvPicker() {
     const info = SURVEY_META[s];
     return '<button class="surv-opt' + (s === pendingSurvey ? ' is-selected' : '') + '" data-survpick="' + esc(s) + '">' +
       '<span class="surv-opt-radio"></span>' +
-      '<span class="surv-opt-body"><span class="surv-opt-name">' + esc(s) + '</span>' +
-      '<span class="ss-item-prog"><i data-icon="folder"></i> ' + esc((info && info.program) || '') + '</span></span>' +
+      '<span class="surv-opt-body"><span class="surv-opt-name">' + esc(s) + '</span></span>' +
       statusBadge(info) + respRate(info) +
     '</button>';
   }).join('');
