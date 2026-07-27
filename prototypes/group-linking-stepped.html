@@ -471,7 +471,7 @@
     .gl-explainer-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-tight); min-height: 36px; padding: 6px var(--spacing-base-tight); border: 1px solid var(--border-highlight-base); border-radius: var(--radius-base); background: var(--bg-highlight-base); box-shadow: var(--sh-action); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; line-height: 22px; color: var(--content-base); text-decoration: none; white-space: nowrap; transition: box-shadow var(--motion-fast) var(--ease-out); }
     .gl-explainer-link:hover { box-shadow: var(--sh-action-hover); }
     .gl-explainer-link i { width: 16px; height: 16px; display: flex; }
-    .gl-explainer-art { flex-shrink: 0; width: 213px; display: flex; align-items: center; justify-content: center; }
+    .gl-explainer-art { flex-shrink: 0; width: 172px; display: flex; align-items: center; justify-content: center; }
     .gl-explainer-art img { width: 100%; height: auto; display: block; }
     @media (max-width: 720px) { .gl-explainer-art { display: none; } }
 
@@ -515,15 +515,15 @@
     .struct-bar .tr-filters { flex: 1; min-width: 0; justify-content: flex-end; }
     .tr-filter { font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; font-size: 14px; font-weight: 500; line-height: 22px; color: var(--content-action); background: var(--bg-input); border: 1px solid var(--border-action); border-radius: var(--radius-base); box-shadow: var(--sh-action); padding: 6px var(--spacing-base-tight); cursor: pointer; white-space: nowrap; transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out); }
     .tr-filter:hover { border-color: var(--border-action-hover); box-shadow: var(--sh-action-hover); }
-    .tr-filter.is-active { color: var(--content-base); background: var(--bg-secondary); border-color: var(--border-action-active); }
+    .tr-filter.is-active { color: var(--content-base); background: var(--bg-secondary); border-color: var(--border-action-hover); }
+    .tr-filter.is-linked.is-active { background: var(--bg-positive-subtle); border-color: var(--border-positive-base); }
+    .tr-filter.is-sug.is-active { background: var(--bg-info-subtle); border-color: var(--border-info-base); }
+    .tr-filter.is-none.is-active { background: var(--bg-negative-subtle); border-color: var(--border-negative-base); }
     .tr-filter-count { display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; line-height: 19px; min-width: 20px; padding: 0 6px; border-radius: var(--radius-full); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-filter.is-linked .tr-filter-count { background: var(--bg-positive-subtle); color: var(--content-positive-base); }
     .tr-filter.is-sug .tr-filter-count { background: var(--bg-info-subtle); color: var(--content-info-base); }
     .tr-filter.is-none .tr-filter-count { background: var(--bg-negative-subtle); color: var(--content-negative-base); }
     .tr-filter.is-active .tr-filter-count { background: var(--bg-base); }
-    .tr-filter.is-linked.is-active .tr-filter-count { background: var(--bg-positive-subtle); }
-    .tr-filter.is-sug.is-active .tr-filter-count { background: var(--bg-info-subtle); }
-    .tr-filter.is-none.is-active .tr-filter-count { background: var(--bg-negative-subtle); }
     .tr-filter-count.is-bump { animation: trCountBump var(--motion-slow) var(--ease-out); }
     @keyframes trCountBump { 0% { transform: scale(1); } 35% { transform: scale(1.5); } 62% { transform: scale(0.94); } 100% { transform: scale(1); } }
     /* row leaving the current filter (e.g. after linking in "No link yet") — height measured in JS */
