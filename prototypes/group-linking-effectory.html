@@ -131,7 +131,7 @@
     .fm-chart.is-drawn .fm-area { transition: opacity 700ms var(--ease-out) 400ms; opacity: 1; }
     .fm-chart.is-drawn .fm-now, .fm-chart.is-drawn .fm-now-lbl { transition: opacity 300ms var(--ease-out) 800ms; opacity: 1; }
     /* ── magnifier: a circular masked clone of the page, zoomed on the new score ── */
-    .fm-lens { position: absolute; z-index: 2; width: 200px; height: 200px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-base); border: 6px solid rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(25,39,67,.18); pointer-events: none; opacity: 0; transform: scale(.55); }
+    .fm-lens { position: absolute; z-index: 2; width: 260px; height: 260px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-base); border: 6px solid rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(25,39,67,.18); pointer-events: none; opacity: 0; transform: scale(.55); }
     .fm-lens.is-in { animation: fmLensIn 640ms var(--fm-spring) forwards; }
     .fm-lens.is-out { animation: fmLensOut 340ms var(--ease-in) forwards; }
     @keyframes fmLensIn { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
@@ -2855,7 +2855,7 @@ function maybeCelebrateFirstMatch(currentName, prevName) {
 function aimLens(targetEl) {
   const lens = $('#fmLens'), inner = $('#fmLensInner'), page = document.querySelector('#fmScroll .fm-page');
   if (!lens || !inner || !page || !targetEl) return;
-  const Z = 1.6, R = lens.offsetWidth / 2;
+  const Z = 1.15, R = lens.offsetWidth / 2;
   const clone = page.cloneNode(true);
   clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));   // no duplicate ids
   const chart = clone.querySelector('.fm-chart'); if (chart) chart.classList.add('is-drawn');
@@ -2876,39 +2876,20 @@ function aimLens(targetEl) {
   lens.style.top = Math.min(Math.max(rawT, 8), frame.clientHeight - lens.offsetHeight - 8) + 'px';
 }
 function playFirstMatch() {
-  const scroll = $('#fmScroll'), block = $('#fmPrevBlock'), chart = $('#fmChart'), graph = document.querySelector('#fmScroll .fm-graph'), lens = $('#fmLens');
-  if (!scroll || !block || !chart) return;
+  const block = $('#fmPrevBlock'), chart = $('#fmChart'), lens = $('#fmLens'), scroll = $('#fmScroll');
+  if (!block || !chart) return;
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const target = () => graph ? Math.max(0, graph.offsetTop - 16) : scroll.scrollHeight;
   block.classList.remove('is-pop');
-  chart.classList.remove('is-drawn');
   if (lens) lens.classList.remove('is-in', 'is-out');
-  scroll.scrollTop = 0;
+  if (scroll) scroll.scrollTop = 0;
+  chart.classList.add('is-drawn');   // the preview stays put, so the graph is simply there
   void block.offsetWidth;
-  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); scroll.scrollTop = target(); return; }
-
-  const LENS_IN = 1100, LENS_OUT = 2500, AT = 2900, DUR = 2600;
+  if (reduce) { block.classList.add('is-pop'); return; }
   // 1. the previous-survey score lands
   setTimeout(() => block.classList.add('is-pop'), 500);
-  // 2. a lens zooms in on it — this is the thing linking just unlocked
-  setTimeout(() => { if (lens) { aimLens(block); lens.classList.add('is-in'); } }, LENS_IN);
-  setTimeout(() => { if (lens) { lens.classList.remove('is-in'); lens.classList.add('is-out'); } }, LENS_OUT);
-  // 3. drift down slowly to the trend — own tween so the pace is ours, not the browser's
-  setTimeout(() => {
-    const from = scroll.scrollTop, dist = target() - from, t0 = performance.now();
-    const ease = t => 1 - Math.pow(1 - t, 3);
-    (function step(now) {
-      const t = Math.min(1, (now - t0) / DUR);
-      scroll.scrollTop = from + dist * ease(t);
-      if (t < 1) requestAnimationFrame(step);
-    })(t0);
-  }, AT);
-  // 4. the trend draws itself. On a timer, not on the tween finishing, so a throttled
-  //    rAF (background tab, low-power mode) can never leave the graph hidden.
-  setTimeout(() => {
-    if (Math.abs(scroll.scrollTop - target()) > 4) scroll.scrollTop = target();
-    chart.classList.add('is-drawn');
-  }, AT + DUR);
+  // 2. a lens zooms in on it — this is what linking just unlocked
+  setTimeout(() => { if (lens) { aimLens(block); lens.classList.add('is-in'); } }, 1100);
+  setTimeout(() => { if (lens) { lens.classList.remove('is-in'); lens.classList.add('is-out'); } }, 3200);
 }
 $('#treeFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-filter]');
