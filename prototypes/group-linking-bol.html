@@ -753,7 +753,7 @@
     .mb-email { font-size: 12px; color: var(--content-secondary); }
     .mb-role { font-size: 12px; color: var(--content-secondary); text-align: right; flex-shrink: 0; }
     .mb-scroll { max-height: 48vh; overflow-y: auto; }
-    .mb-search { margin-bottom: var(--spacing-tight); }
+    .mb-search { margin-bottom: var(--spacing-base); }
     .mb-empty { padding: var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
     .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); }
 
@@ -1257,9 +1257,6 @@
     <div class="dialog-body">
       <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="membersSearch" placeholder="Search people" autocomplete="off" /></div>
       <div class="mb-scroll" id="membersScroll"><div class="mb-list" id="membersList"></div></div>
-    </div>
-    <div class="dialog-footer">
-      <span class="mb-total" id="membersTotal"></span>
     </div>
   </div>
 </div>
@@ -2963,12 +2960,12 @@ function renderMembers() {
     });
     list.innerHTML = html || '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
     const total = s.sections.reduce((a, sec) => a + sec.people.filter(match).length, 0);
-    $('#membersTotal').textContent = ql ? total + ' of ' + s.total + ' shown' : s.totalLabel;
+    const t1 = $('#membersTotal'); if (t1) t1.textContent = ql ? total + ' of ' + s.total + ' shown' : s.totalLabel;
   } else {
     const filtered = s.all.filter(match);
     list.innerHTML = filtered.slice(0, s.shown).map(memberRowHTML).join('') ||
       '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
-    $('#membersTotal').textContent = ql ? filtered.length + ' of ' + s.total + ' shown' : s.totalLabel;
+    const t2 = $('#membersTotal'); if (t2) t2.textContent = ql ? filtered.length + ' of ' + s.total + ' shown' : s.totalLabel;
   }
   icons();
 }
