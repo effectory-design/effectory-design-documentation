@@ -807,15 +807,17 @@
     .mb-scroll { max-height: 56vh; overflow-y: auto; margin-right: calc(-1 * var(--spacing-extra-loose)); padding-right: var(--spacing-extra-loose); margin-bottom: calc(-1 * var(--spacing-extra-loose)); padding-bottom: var(--spacing-extra-loose); }
     .mb-search { margin-bottom: var(--spacing-base); }
     .mb-empty { padding: var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
-    .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); }
+    .mb-section-hd { width: 100%; display: flex; align-items: center; gap: var(--spacing-tight); font-family: inherit; font-size: 14px; font-weight: 600; text-align: left; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border: none; border-bottom: 1px solid var(--border-base); cursor: pointer; }
+    .mb-section-hd:hover { background: var(--bg-secondary-hover); }
+    .mb-section-hd[aria-expanded="false"] { border-bottom: none; }
+    .mb-section-label { flex: 1; min-width: 0; }
+    .mb-section-chev { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-secondary); transition: transform var(--motion-fast) var(--ease-out); }
+    .mb-section-hd[aria-expanded="false"] .mb-section-chev { transform: rotate(-90deg); }
     .mb-card .mb-row:last-child { border-bottom: none; }
 
     .mb-section-icon { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
     .mb-section-hd.is-both .mb-section-icon { color: var(--content-brand-base); }
     .mb-section-count { font-size: 12px; font-weight: 600; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: 1px var(--spacing-tight); }
-    .mb-groups { display: flex; flex-wrap: wrap; gap: var(--spacing-extra-tight); justify-content: flex-end; max-width: 55%; flex-shrink: 0; }
-    .mb-gpill { font-size: 12px; font-weight: 500; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: 1px var(--spacing-tight); white-space: nowrap; }
-    .mb-gpill.is-both { color: var(--content-brand-base); background: var(--bg-brand-subtle); }
     .mb-total { font-size: 14px; color: var(--content-secondary); margin-right: auto; }
 
     /* ── Review dialog ── */
@@ -2732,10 +2734,19 @@ function renderMembers() {
   const list = $('#membersList');
   if (s.mode === 'sections') {
     let html = '';
-    s.sections.forEach(sec => {
+    s.sections.forEach((sec, i) => {
       const hits = sec.people.filter(match);
       if (!hits.length) return;
-      html += '<div class="mb-card">' + sec.header.replace('{n}', hits.length) + hits.map(memberRowHTML).join('') + '</div>';
+      const open = ql ? true : sec.open !== false;   // searching always reveals matches
+      html += '<div class="mb-card">' +
+        '<button class="mb-section-hd ' + (sec.mod || '') + '" data-mbsec="' + i + '" aria-expanded="' + (open ? 'true' : 'false') + '">' +
+          '<i class="mb-section-icon" data-icon="' + sec.icon + '"></i>' +
+          '<span class="mb-section-label">' + esc(sec.label) + '</span>' +
+          '<span class="mb-section-count">' + hits.length + '</span>' +
+          '<i class="mb-section-chev" data-icon="chevron-down"></i>' +
+        '</button>' +
+        (open ? '<div class="mb-section-body">' + hits.map(memberRowHTML).join('') + '</div>' : '') +
+      '</div>';
     });
     list.innerHTML = html || '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
     const total = s.sections.reduce((a, sec) => a + sec.people.filter(match).length, 0);
@@ -3137,18 +3148,16 @@ function openOverlapMembers(sug) {
   const o = overlapMembers(sug);
   const shared = o.shared, onlyCur = Math.max(0, o.a - shared), onlyPrev = Math.max(0, o.b - shared);
   let idx = 0;
-  const people = (count, pills) => {
+  const people = (count) => {
     const arr = [];
-    for (let k = 0; k < count; k++, idx++) { const p = personAt(idx); p.right = pills; arr.push(p); }
+    for (let k = 0; k < count; k++, idx++) arr.push(personAt(idx));
     return arr;
   };
-  const pill = (g) => '<div class="mb-groups"><span class="mb-gpill">' + esc(g) + '</span></div>';
-  const sectionHd = (icon, label, mod) =>
-    '<div class="mb-section-hd ' + mod + '"><i class="mb-section-icon" data-icon="' + icon + '"></i>' +
-    '<span class="mb-section-label">' + label + '</span><span class="mb-section-count">{n}</span></div>';
+  // split by which group people are in — the section says it, so the rows carry no tag
   const sections = [
-    { header: sectionHd('user-check', 'Overlapping', 'is-both'), people: people(shared, '<div class="mb-groups"><span class="mb-gpill is-both">In both</span></div>') },
-    { header: sectionHd('user-min', 'Not overlapping', ''), people: people(onlyCur, pill(o.cur)).concat(people(onlyPrev, pill(o.prev))) },
+    { icon: 'user-check', label: 'Participants in both groups', mod: 'is-both', people: people(shared), open: true },
+    { icon: 'user-min', label: 'Participants in ' + o.cur, mod: '', people: people(onlyCur), open: true },
+    { icon: 'user-min', label: 'Participants in ' + o.prev, mod: '', people: people(onlyPrev), open: true },
   ].filter(sec => sec.people.length);
   $('#members-title').textContent = 'Compare group members';
   $('#membersSubtitle').textContent = shared + ' of ' + (o.a + o.b - shared) + ' people overlap';
@@ -3160,6 +3169,12 @@ function openOverlapMembers(sug) {
 }
 
 // members dialog: search + lazy loading
+$('#membersList').addEventListener('click', (e) => {
+  const hd = e.target.closest('[data-mbsec]');
+  if (!hd || !membersState || membersState.mode !== 'sections') return;
+  const sec = membersState.sections[Number(hd.dataset.mbsec)];
+  if (sec) { sec.open = sec.open === false; renderMembers(); }
+});
 $('#membersSearch').addEventListener('input', (e) => {
   if (!membersState) return;
   membersState.filter = e.target.value;
