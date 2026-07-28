@@ -96,10 +96,10 @@
     .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
     .fm-close { color: var(--content-inverse-base); }
     .fm-close:hover { background: rgba(255,255,255,.18); }
-    .fm-media { background: var(--p-color-blue-200); padding: calc(var(--spacing-loose) * 2) var(--spacing-extra-loose) 0; }
+    .fm-media { background: var(--bg-accent-yellow-subtle); padding: var(--spacing-loose) var(--spacing-extra-loose) 0; }
     /* The rim sits outside a 16px page corner (Figma stroke-align: outside), so the border-box
        radius is 16 + 12. background-clip keeps the page fill out of the translucent rim. */
-    .fm-frame { position: relative; height: 388px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: 28px 28px 0 0; background: rgba(255,255,255,.8); background-clip: padding-box; }
+    .fm-frame { position: relative; height: 412px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: 28px 28px 0 0; background: var(--bg-base); background-clip: padding-box; }
     .fm-scroll { height: 100%; overflow: hidden; }
     .fm-page { padding: var(--spacing-loose) var(--spacing-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .fm-sec-title { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
@@ -131,7 +131,7 @@
     .fm-chart.is-drawn .fm-area { transition: opacity 700ms var(--ease-out) 400ms; opacity: 1; }
     .fm-chart.is-drawn .fm-now, .fm-chart.is-drawn .fm-now-lbl { transition: opacity 300ms var(--ease-out) 800ms; opacity: 1; }
     /* ── magnifier: a circular masked clone of the page, zoomed on the new score ── */
-    .fm-lens { position: absolute; z-index: 2; width: 260px; height: 260px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-base); border: 6px solid rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(25,39,67,.18); pointer-events: none; opacity: 0; transform: scale(.55); }
+    .fm-lens { position: absolute; z-index: 2; width: 272px; height: 272px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-base); border: 6px solid rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(25,39,67,.18); pointer-events: none; opacity: 0; transform: scale(.55); }
     .fm-lens.is-in { animation: fmLensIn 640ms var(--fm-spring) forwards; }
     .fm-lens.is-out { animation: fmLensOut 340ms var(--ease-in) forwards; }
     @keyframes fmLensIn { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
@@ -3162,7 +3162,7 @@ function maybeCelebrateFirstMatch(currentName, prevName) {
 function aimLens(targetEl) {
   const lens = $('#fmLens'), inner = $('#fmLensInner'), page = document.querySelector('#fmScroll .fm-page');
   if (!lens || !inner || !page || !targetEl) return;
-  const Z = 1.15, R = lens.offsetWidth / 2;
+  const Z = 1.15, R = lens.clientWidth / 2;   // content box — the 6px rim is not part of the lens interior
   const clone = page.cloneNode(true);
   clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));   // no duplicate ids
   const chart = clone.querySelector('.fm-chart'); if (chart) chart.classList.add('is-drawn');
@@ -3179,24 +3179,25 @@ function aimLens(targetEl) {
   const frame = lens.parentElement;
   const rawL = (tr.left - fr.left) + tr.width / 2 - R;
   const rawT = (tr.top - fr.top) + tr.height / 2 - R;
-  lens.style.left = Math.min(Math.max(rawL, 8), frame.clientWidth - lens.offsetWidth - 8) + 'px';
-  lens.style.top = Math.min(Math.max(rawT, 8), frame.clientHeight - lens.offsetHeight - 8) + 'px';
+  lens.style.left = Math.min(Math.max(rawL, 2), frame.clientWidth - lens.offsetWidth - 2) + 'px';
+  lens.style.top = Math.min(Math.max(rawT, 2), frame.clientHeight - lens.offsetHeight - 2) + 'px';
 }
 function playFirstMatch() {
   const block = $('#fmPrevBlock'), chart = $('#fmChart'), lens = $('#fmLens'), scroll = $('#fmScroll');
   if (!block || !chart) return;
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   block.classList.remove('is-pop');
+  chart.classList.remove('is-drawn');
   if (lens) lens.classList.remove('is-in', 'is-out');
   if (scroll) scroll.scrollTop = 0;
-  chart.classList.add('is-drawn');   // the preview stays put, so the graph is simply there
   void block.offsetWidth;
-  if (reduce) { block.classList.add('is-pop'); return; }
-  // 1. the previous-survey score lands
+  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); return; }
+  // 1. the previous-survey score appears
   setTimeout(() => block.classList.add('is-pop'), 500);
-  // 2. a lens zooms in on it — this is what linking just unlocked
-  setTimeout(() => { if (lens) { aimLens(block); lens.classList.add('is-in'); } }, 1100);
-  setTimeout(() => { if (lens) { lens.classList.remove('is-in'); lens.classList.add('is-out'); } }, 3200);
+  // 2. the trend draws itself from the previous survey to this one
+  setTimeout(() => chart.classList.add('is-drawn'), 1300);
+  // 3. the lens lands on the new score — the thing linking just unlocked
+  setTimeout(() => { if (lens) { aimLens(block); lens.classList.add('is-in'); } }, 2600);
 }
 $('#treeFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-filter]');
