@@ -91,15 +91,46 @@
     .ov-tip-dot.is-active { background: var(--bg-positive-base); }
 
     /* first-match celebration dialog */
-    .fm-dialog { text-align: center; }
-    .fm-celebrate { margin: var(--spacing-tight) 0 var(--spacing-base); }
-    .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 700; }
-    .fm-preview { text-align: left; border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-secondary); padding: var(--spacing-base); }
-    .fm-preview-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
-    .fm-preview-title { font-size: 14px; font-weight: 700; color: var(--content-base); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .fm-preview-delta { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 700; color: var(--content-positive-base); background: var(--bg-positive-subtle); padding: var(--spacing-extra-tight) var(--spacing-tight); border-radius: var(--radius-full); }
-    .fm-preview-delta i { width: 12px; height: 12px; display: flex; }
+    /* ── First-match celebration: results preview on a blue field ── */
+    .fm-dialog { padding: 0; gap: 0; }
+    .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
+    .fm-close { color: var(--content-inverse-base); }
+    .fm-close:hover { background: rgba(255,255,255,.18); }
+    .fm-media { background: var(--bg-results-current); padding: var(--spacing-extra-loose) 0 0 var(--spacing-extra-loose); }
+    .fm-frame { height: 300px; overflow: hidden; border-radius: var(--radius-xl) 0 0 0; border: 12px solid rgba(255,255,255,.4); border-right: none; border-bottom: none; background: var(--bg-base); }
+    .fm-scroll { height: 100%; overflow: hidden; background: var(--bg-base); }
+    .fm-page { padding: var(--spacing-loose) var(--spacing-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    .fm-sec-title { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .fm-sec-sub { display: block; margin-top: var(--spacing-extra-tight); font-size: 12px; line-height: 1.6; color: var(--content-secondary); }
+    .fm-dist-labels { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-tight); font-size: 12px; font-weight: 600; color: var(--content-base); }
+    .fm-bar { display: flex; gap: 4px; height: 28px; }
+    .fm-bar span { display: flex; align-items: center; font-size: 12px; font-weight: 600; border-radius: var(--radius-sm); padding: 0 var(--spacing-tight); color: var(--content-inverse-base); }
+    .fm-bar .is-neg { background: var(--bg-distribution-strongly-disagree); }
+    .fm-bar .is-neu { background: var(--bg-distribution-neither-agree-disagree); color: var(--content-base); justify-content: center; }
+    .fm-bar .is-pos { background: var(--bg-distribution-strongly-agree); justify-content: flex-end; }
+    .fm-scores { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); }
+    .fm-score { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-loose); }
+    .fm-score-lbl { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
+    .fm-score-lbl i { width: 12px; height: 12px; display: flex; color: var(--content-secondary); }
+    .fm-score-val { display: block; margin-top: var(--spacing-extra-tight); font-size: 32px; font-weight: 600; line-height: 1.1; color: var(--content-info-base); }
+    /* the previous-survey block lands with a little pop once the link exists */
+    .fm-score.is-new { opacity: 0; transform: scale(.82); }
+    .fm-score.is-new.is-pop { animation: fmPop 520ms var(--ease-out) forwards; }
+    @keyframes fmPop { 0% { opacity: 0; transform: scale(.82); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+    .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose); }
+    .fm-graph-title { display: block; margin-bottom: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
     .fm-chart { width: 100%; height: auto; display: block; }
+    /* the trend draws itself from the previous survey to this one */
+    .fm-chart .fm-trend { stroke-dasharray: 260; stroke-dashoffset: 260; }
+    .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { opacity: 0; }
+    .fm-chart.is-drawn .fm-trend { transition: stroke-dashoffset 900ms var(--ease-out); stroke-dashoffset: 0; }
+    .fm-chart.is-drawn .fm-area { transition: opacity 700ms var(--ease-out) 400ms; opacity: 1; }
+    .fm-chart.is-drawn .fm-now, .fm-chart.is-drawn .fm-now-lbl { transition: opacity 300ms var(--ease-out) 800ms; opacity: 1; }
+    .fm-content { display: flex; flex-direction: column; gap: var(--spacing-loose); padding: var(--spacing-extra-loose); }
+    @media (prefers-reduced-motion: reduce) {
+      .fm-score.is-new.is-pop { animation: none; opacity: 1; transform: none; }
+      .fm-chart .fm-trend, .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { transition: none; stroke-dashoffset: 0; opacity: 1; }
+    }
 
     /* Overview: settings sections */
     .ov-section { margin-top: var(--spacing-extra-loose); }
@@ -1210,39 +1241,65 @@
 
 <!-- First-match celebration -->
 <div class="overlay" id="firstMatchOverlay" hidden>
-  <div class="dialog dialog-s fm-dialog" role="dialog" aria-modal="true" aria-labelledby="fm-title">
-    <button class="dialog-close" aria-label="Close" data-close="firstMatchOverlay"><i data-icon="cross"></i></button>
-    <div class="fm-celebrate">
-      <div class="gl-empty-icon is-positive is-celebrate" style="margin-inline:auto;"><i data-icon="check"></i>
-        <span class="gl-spark gl-spark-1"><i data-icon="star-filled"></i></span>
-        <span class="gl-spark gl-spark-2"><i data-icon="star-filled"></i></span></div>
-    </div>
-    <div class="dialog-header">
-      <h3 class="dialog-title" id="fm-title">Well done — your first match</h3>
-      <p class="dialog-subtitle">You’ve linked <strong id="fmCurrent">…</strong> to <strong id="fmPrev">…</strong>. Their results now connect across both surveys, so you can follow the trend over time.</p>
-    </div>
-    <div class="dialog-body">
-      <div class="fm-preview">
-        <div class="fm-preview-head">
-          <span class="fm-preview-title" id="fmChartTitle">…</span>
-          <span class="fm-preview-delta"><i data-icon="arrow-up"></i> 0.7</span>
+  <div class="dialog dialog-m fm-dialog" role="dialog" aria-modal="true" aria-labelledby="fm-title">
+    <button class="dialog-close fm-close" aria-label="Close" data-close="firstMatchOverlay"><i data-icon="cross"></i></button>
+
+    <!-- a mock of the results page, so the payoff of linking is visible -->
+    <div class="fm-media" aria-hidden="true">
+      <div class="fm-frame">
+        <div class="fm-scroll" id="fmScroll">
+          <div class="fm-page">
+            <div>
+              <span class="fm-sec-title">What are the results?</span>
+              <span class="fm-sec-sub">See how your team scored on this question in comparison to other groups.</span>
+            </div>
+            <div>
+              <div class="fm-dist-labels"><span>Disagree</span><span>Agree</span></div>
+              <div class="fm-bar">
+                <span class="is-neg" style="width:35%">35%</span>
+                <span class="is-neu" style="width:17%">17%</span>
+                <span class="is-pos" style="width:48%">48%</span>
+              </div>
+            </div>
+            <div class="fm-scores">
+              <div class="fm-score">
+                <span class="fm-score-lbl">Team score</span>
+                <span class="fm-score-val">8,1</span>
+              </div>
+              <div class="fm-score is-new" id="fmPrevBlock">
+                <span class="fm-score-lbl">Previous survey <i data-icon="info"></i></span>
+                <span class="fm-score-val">7,4</span>
+              </div>
+            </div>
+            <div class="fm-graph">
+              <span class="fm-graph-title" id="fmChartTitle">Score over time</span>
+              <svg class="fm-chart" id="fmChart" viewBox="0 0 300 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Score rising from 7.4 in the previous survey to 8.1 in this survey">
+                <line x1="20" y1="26" x2="284" y2="26" stroke="var(--p-color-blue-200)" stroke-width="1"/>
+                <line x1="20" y1="62" x2="284" y2="62" stroke="var(--p-color-blue-200)" stroke-width="1"/>
+                <line x1="20" y1="98" x2="284" y2="98" stroke="var(--p-color-blue-200)" stroke-width="1"/>
+                <path class="fm-area" d="M70 74 L230 38 L230 98 L70 98 Z" fill="var(--bg-info-base)" fill-opacity=".12"/>
+                <path class="fm-trend" d="M70 74 L230 38" stroke="var(--content-info-secondary)" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <circle cx="70" cy="74" r="5" fill="var(--bg-base)" stroke="var(--content-info-secondary)" stroke-width="2.5"/>
+                <text x="70" y="60" text-anchor="middle" font-size="12" font-weight="600" fill="var(--content-secondary)" font-family="Poppins, sans-serif">7,4</text>
+                <circle class="fm-now" cx="230" cy="38" r="6" fill="var(--content-info-secondary)" stroke="var(--bg-base)" stroke-width="3"/>
+                <text class="fm-now-lbl" x="230" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="var(--content-info-base)" font-family="Poppins, sans-serif">8,1</text>
+                <text x="70" y="120" text-anchor="middle" font-size="11" fill="var(--content-secondary)" font-family="Poppins, sans-serif">Previous survey</text>
+                <text x="230" y="120" text-anchor="middle" font-size="11" fill="var(--content-secondary)" font-family="Poppins, sans-serif">This survey</text>
+              </svg>
+            </div>
+          </div>
         </div>
-        <svg class="fm-chart" viewBox="0 0 300 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Engagement score rising from 7.4 in the previous survey to 8.1 in this survey">
-          <text x="16" y="20" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">Engagement</text>
-          <line x1="16" y1="103" x2="284" y2="103" stroke="var(--border-base)" stroke-width="1"/>
-          <path d="M64 80 L236 44 L236 103 L64 103 Z" fill="var(--bg-brand-subtle)"/>
-          <path d="M64 80 L236 44" stroke="var(--content-brand-base)" stroke-width="3" stroke-linecap="round" fill="none"/>
-          <circle cx="64" cy="80" r="5" fill="var(--bg-base)" stroke="var(--content-subtle)" stroke-width="2"/>
-          <text x="64" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="var(--content-secondary)" font-family="Inter, sans-serif">7.4</text>
-          <circle cx="236" cy="44" r="6" fill="var(--content-brand-base)" stroke="var(--bg-base)" stroke-width="3"/>
-          <text x="236" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="var(--content-base)" font-family="Inter, sans-serif">8.1</text>
-          <text x="64" y="122" text-anchor="middle" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">Previous ’25</text>
-          <text x="236" y="122" text-anchor="middle" font-size="12" fill="var(--content-secondary)" font-family="Inter, sans-serif">This survey</text>
-        </svg>
       </div>
     </div>
-    <div class="dialog-footer" style="justify-content:center;">
-      <button class="btn btn-primary" data-close="firstMatchOverlay">Keep matching</button>
+
+    <div class="fm-content">
+      <div class="dialog-header">
+        <h3 class="dialog-title" id="fm-title">Well done — your first link</h3>
+        <p class="dialog-subtitle">You’ve linked <strong id="fmCurrent">…</strong> to <strong id="fmPrev">…</strong>. Their results now connect across both surveys, so you can follow the trend over time.</p>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn btn-primary" data-close="firstMatchOverlay">Keep matching</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2764,8 +2821,27 @@ function maybeCelebrateFirstMatch(currentName, prevName) {
   const set = (id, txt) => { const el = $(id); if (el) el.textContent = txt; };
   set('#fmCurrent', currentName);
   set('#fmPrev', prevName);
-  set('#fmChartTitle', currentName);
-  setTimeout(() => openOverlay('firstMatchOverlay'), 900);   // let the match land and settle before celebrating
+  set('#fmChartTitle', 'Score over time: ' + currentName);
+  setTimeout(() => { openOverlay('firstMatchOverlay'); playFirstMatch(); }, 900);   // let the match land and settle before celebrating
+}
+// Celebration beat: the previous-survey score pops in, the preview scrolls down,
+// then the trend draws itself from the previous survey to this one.
+function playFirstMatch() {
+  const scroll = $('#fmScroll'), block = $('#fmPrevBlock'), chart = $('#fmChart'), graph = $('.fm-graph');
+  if (!scroll || !block || !chart) return;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // reset
+  block.classList.remove('is-pop');
+  chart.classList.remove('is-drawn');
+  scroll.scrollTop = 0;
+  void block.offsetWidth;
+  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); return; }
+  setTimeout(() => block.classList.add('is-pop'), 600);
+  setTimeout(() => {
+    const top = graph ? Math.max(0, graph.offsetTop - 24) : scroll.scrollHeight;
+    scroll.scrollTo({ top, behavior: 'smooth' });
+  }, 1500);
+  setTimeout(() => chart.classList.add('is-drawn'), 2100);
 }
 $('#treeFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-filter]');
