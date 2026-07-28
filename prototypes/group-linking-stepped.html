@@ -92,7 +92,7 @@
 
     /* first-match celebration dialog */
     /* ── First-match celebration: results preview on a blue field ── */
-    .fm-dialog { padding: 0; gap: 0; width: 600px; }
+    .fm-dialog { padding: 0; gap: 0; width: 600px; --fm-spring: cubic-bezier(.34, 1.56, .64, 1); }
     .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
     .fm-close { color: var(--content-inverse-base); }
     .fm-close:hover { background: rgba(255,255,255,.18); }
@@ -113,12 +113,28 @@
     .fm-score-lbl { display: flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
     .fm-score-lbl i { width: 12px; height: 12px; display: flex; color: var(--content-secondary); }
     .fm-score-val { display: block; margin-top: var(--spacing-extra-tight); font-size: 32px; font-weight: 600; line-height: 1.1; color: var(--content-info-base); }
-    /* the previous-survey block lands with a little pop once the link exists */
-    .fm-score.is-new { opacity: 0; transform: scale(.82); }
-    .fm-score.is-new.is-pop { animation: fmPop 520ms var(--ease-out) forwards; }
-    @keyframes fmPop { 0% { opacity: 0; transform: scale(.82); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+    /* the previous-survey block lands with a little pop once the link exists.
+       --fm-spring overshoots on the way in; the DS easings all decelerate. */
+    .fm-score { position: relative; }
+    .fm-score.is-new { opacity: 0; transform: scale(.78) translateY(8px); overflow: visible; }
+    .fm-score.is-new.is-pop { animation: fmPop 620ms var(--fm-spring) forwards; }
+    @keyframes fmPop { from { opacity: 0; transform: scale(.78) translateY(8px); } to { opacity: 1; transform: none; } }
+    .fm-spark { position: absolute; display: flex; opacity: 0; }
+    .fm-spark i { display: flex; }
+    .fm-spark-1 { top: -7px; right: -5px; color: var(--bg-warning-bold); }
+    .fm-spark-1 i { width: 16px; height: 16px; }
+    .fm-spark-2 { bottom: -3px; left: -7px; color: var(--content-positive-base); }
+    .fm-spark-2 i { width: 11px; height: 11px; }
+    .fm-score.is-pop .fm-spark { animation: fmSpark 620ms var(--fm-spring) 200ms both; }
+    @keyframes fmSpark { 0% { opacity: 0; transform: scale(0) rotate(-40deg); } 70% { opacity: 1; } 100% { opacity: 1; transform: scale(1) rotate(0); } }
     .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base); }
-    .fm-graph-title { display: block; margin-bottom: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
+    .fm-graph-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
+    .fm-graph-title { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
+    /* the improvement is the actual payoff — it lands last */
+    .fm-delta { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); padding: 2px var(--spacing-tight); border-radius: var(--radius-full); background: var(--bg-positive-subtle); color: var(--content-positive-base); font-size: 12px; font-weight: 600; opacity: 0; transform: scale(.6); }
+    .fm-delta i { width: 12px; height: 12px; display: flex; }
+    .fm-graph.is-lit .fm-delta { animation: fmDelta 560ms var(--fm-spring) 700ms forwards; }
+    @keyframes fmDelta { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
     .fm-chart { display: block; width: 100%; height: auto; }
     /* the trend draws itself from the previous survey to this one */
     .fm-chart .fm-trend { stroke-dasharray: 340; stroke-dashoffset: 340; }
@@ -129,6 +145,7 @@
     .fm-content { display: flex; flex-direction: column; gap: var(--spacing-loose); padding: var(--spacing-extra-loose); }
     @media (prefers-reduced-motion: reduce) {
       .fm-score.is-new.is-pop { animation: none; opacity: 1; transform: none; }
+      .fm-score.is-pop .fm-spark, .fm-graph.is-lit .fm-delta { animation: none; opacity: 1; transform: none; }
       .fm-chart .fm-trend, .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { transition: none; stroke-dashoffset: 0; opacity: 1; }
     }
 
@@ -1269,10 +1286,15 @@
               <div class="fm-score is-new" id="fmPrevBlock">
                 <span class="fm-score-lbl">Previous survey <i data-icon="info"></i></span>
                 <span class="fm-score-val">6,7</span>
+                <span class="fm-spark fm-spark-1"><i data-icon="star-filled"></i></span>
+                <span class="fm-spark fm-spark-2"><i data-icon="star-filled"></i></span>
               </div>
             </div>
             <div class="fm-graph">
-              <span class="fm-graph-title" id="fmChartTitle">Score over time</span>
+              <div class="fm-graph-head">
+                <span class="fm-graph-title" id="fmChartTitle">Score over time</span>
+                <span class="fm-delta"><i data-icon="arrow-up"></i> 1,5</span>
+              </div>
               <svg class="fm-chart" id="fmChart" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Score rising from 6,7 in the previous survey to 8,2 in this survey">
                 <defs>
                   <linearGradient id="fmGrad" x1="0" y1="0" x2="0" y2="1">
@@ -2857,9 +2879,10 @@ function playFirstMatch() {
   const target = () => graph ? Math.max(0, graph.offsetTop - 16) : scroll.scrollHeight;
   block.classList.remove('is-pop');
   chart.classList.remove('is-drawn');
+  if (graph) graph.classList.remove('is-lit');
   scroll.scrollTop = 0;
   void block.offsetWidth;
-  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); scroll.scrollTop = target(); return; }
+  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); if (graph) graph.classList.add('is-lit'); scroll.scrollTop = target(); return; }
 
   const AT = 1300, DUR = 2600;
   // 1. the previous-survey score lands
@@ -2879,6 +2902,7 @@ function playFirstMatch() {
   setTimeout(() => {
     if (Math.abs(scroll.scrollTop - target()) > 4) scroll.scrollTop = target();
     chart.classList.add('is-drawn');
+    if (graph) graph.classList.add('is-lit');
   }, AT + DUR);
 }
 $('#treeFilters').addEventListener('click', (e) => {
