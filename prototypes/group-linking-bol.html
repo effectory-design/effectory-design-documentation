@@ -96,10 +96,11 @@
     .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
     .fm-close { color: var(--content-inverse-base); }
     .fm-close:hover { background: rgba(255,255,255,.18); }
-    .fm-media { background: var(--p-color-blue-200); padding: var(--spacing-extra-loose) var(--spacing-extra-loose) 0; }
-    /* background-clip keeps the white out of the border box, so the field colour shows through the translucent rim */
-    .fm-frame { height: 400px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: var(--radius-xl) var(--radius-xl) 0 0; background: var(--bg-base); background-clip: padding-box; }
-    .fm-scroll { height: 100%; overflow: hidden; background: var(--bg-base); }
+    .fm-media { background: var(--p-color-blue-200); padding: calc(var(--spacing-loose) * 2) var(--spacing-extra-loose) 0; }
+    /* The rim sits outside a 16px page corner (Figma stroke-align: outside), so the border-box
+       radius is 16 + 12. background-clip keeps the page fill out of the translucent rim. */
+    .fm-frame { height: 388px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: 28px 28px 0 0; background: rgba(255,255,255,.8); background-clip: padding-box; }
+    .fm-scroll { height: 100%; overflow: hidden; }
     .fm-page { padding: var(--spacing-loose) var(--spacing-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .fm-sec-title { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
     .fm-sec-sub { display: block; margin-top: var(--spacing-extra-tight); font-size: 12px; line-height: 1.6; color: var(--content-secondary); }
