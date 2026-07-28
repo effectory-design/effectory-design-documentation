@@ -497,6 +497,10 @@
     .acc.is-open .acc-chev { transform: rotate(180deg); }
     .acc.is-open .acc-head { border-bottom: 1px solid var(--border-base); }
     .acc.is-open { overflow: visible; }
+    /* once the sticky headers pin, the card chrome fights them — let it go */
+    .acc.is-stuck { border-color: transparent; box-shadow: none; transition: border-color var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out); }
+    .acc.is-stuck .acc-head { border-bottom-color: transparent; }
+    @media (prefers-reduced-motion: reduce) { .acc.is-stuck { transition: none; } }
     #acc-select.is-open { overflow: hidden; }
     /* height expand/collapse via grid-template-rows 0fr→1fr (same as the DS accordion) */
     .sacc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
@@ -2140,7 +2144,7 @@ function openAcc(which, open) {
   if (which === 'link' && open) {
     renderLinking();
     // after the expand animation, un-clip so the sticky structure bar + column headers can pin
-    setTimeout(() => { if (el.classList.contains('is-open')) { el.classList.add('is-settled'); updateStickyOffsets(); } }, 340);
+    setTimeout(() => { if (el.classList.contains('is-open')) { el.classList.add('is-settled'); updateStickyOffsets(); syncStuckChrome(); } }, 340);
   }
 }
 // keep the column headers pinned just below the sticky structure bar
@@ -2148,6 +2152,17 @@ function updateStickyOffsets() {
   const sp = document.querySelector('.struct-picker');
   if (!sp) return;
   document.documentElement.style.setProperty('--gl-sticky-top', Math.round(sp.getBoundingClientRect().height) + 'px');
+}
+// The structure bar and column headers stick to the top of the scroller. While they are
+// pinned, the accordion's border and shadow read as chrome floating behind them, so drop it.
+function syncStuckChrome() {
+  const acc = document.querySelector('#acc-link');
+  const sp = acc && acc.querySelector('.struct-picker');
+  const main = $('#appMain');
+  if (!acc || !sp || !main) return;
+  const stuck = acc.classList.contains('is-open') &&
+    sp.getBoundingClientRect().top <= main.getBoundingClientRect().top + 1;
+  acc.classList.toggle('is-stuck', stuck);
 }
 document.addEventListener('click', (e) => {
   if (e.target.closest && e.target.closest('#survChangeBtn')) { pendingSurvey = state.selectedSurvey; renderSurvPicker(); openOverlay('survPickerOverlay'); return; }
@@ -2350,7 +2365,6 @@ function approveSug(id) {
   s.status = 'approved';
   state.selected.delete(s.id);
   syncTreesForSuggestion(s, 'approve');
-  toast(s.oldGroups.length > 0 ? s.newGroups[0].name + ' linked' : s.newGroups[0].name + ' confirmed as a new group');
   renderLinking();
 }
 
@@ -2585,7 +2599,6 @@ function renderCardLinkMenu(q) {
     if (s.type === 'new') s.type = 'match';
     else if (s.oldGroups.length > 1 && s.type === 'match') s.type = 'merge';
     state.linkingCardId = null;
-    toast(name + ' linked to ' + s.newGroups[0].name);
     renderLinking();
   }));
   icons();
@@ -3119,7 +3132,8 @@ function overlapMembers(sug) {
 
 // member-overlap badge — users icon + "X% overlap" in blue; explained in full by the hover card
 function overlapBadgeHTML(pct, attrs) {
-  return '<span class="tr-conf-badge"' + (attrs || '') + '>' + pct + '% overlap</span>';
+  // icon carries the meaning so the row stays short; the hover card spells it out
+  return '<span class="tr-conf-badge"' + (attrs || '') + '><i data-icon="user-check"></i>' + pct + '%</span>';
 }
 function confBadge(sug) {
   if (!sug) return '';
@@ -3545,6 +3559,7 @@ function drawTreeConnectors() {
   });
 }
 window.addEventListener('resize', () => { if (!$('#view-linking').hidden) { drawTreeConnectors(); positionShiftTip(); } });
+$('#appMain').addEventListener('scroll', syncStuckChrome, { passive: true });
 // keep the shift-select hint pinned to its checkbox while scrolling
 document.addEventListener('scroll', () => positionShiftTip(), true);
 
@@ -3601,7 +3616,6 @@ function treeLinkAction(nodeId, linkName, action) {
   const node = findTreeNode(nodeId); if (!node) return;
   if (action === 'approve') {
     const l = node.links.find(x => x.name === linkName); if (l) { l.status = 'linked'; l.origin = 'manual'; }
-    toast(linkName + ' linked');
     maybeCelebrateFirstMatch(node.name, linkName);
   } else {
     node.links = node.links.filter(x => x.name !== linkName);
@@ -3641,7 +3655,6 @@ function treeAction(nodeId, action) {
   if (action === 'approve') {
     const first = node.links.find(l => l.status === 'suggested' || l.status === 'review');
     node.links.forEach(l => { if (l.status === 'suggested' || l.status === 'review') { l.status = 'linked'; l.origin = 'manual'; } });
-    toast(node.name + ' linked');
     if (first) maybeCelebrateFirstMatch(node.name, first.name);
   } else {
     node.links = node.links.filter(l => l.status !== 'suggested' && l.status !== 'review');
@@ -3785,7 +3798,7 @@ function renderTreeLinkMenu(q, menuSel) {
   const rowHTML = (n, depth, opts) => {
     opts = opts || {};
     const hasKids = n.children.length > 0;
-    const isLinked = linked.has(n.name);
+    const isLinked = linked.has(n.name);   // already on this group — still pickable, merges and splits are allowed
     const isSuggested = !isLinked && n.name === suggestedName;
     const variant = opts.variant === 'match' ? ' is-match' : opts.variant === 'context' ? ' is-context' : '';
     const chev = hasKids
@@ -3794,14 +3807,14 @@ function renderTreeLinkMenu(q, menuSel) {
     const indent = (menuSel === '#linkPickerMenu')
       ? 'margin-left: calc(' + depth + ' * var(--spacing-loose));'
       : 'padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));';
-    return '<div class="menu-item tlm-item' + variant + (isSuggested ? ' is-suggested' : '') + (isLinked ? ' is-disabled' : '') + '"' +
-      (isLinked ? '' : ' data-pick="' + esc(n.name) + '"') + (isSuggested ? ' data-suggested="1"' : '') +
+    return '<div class="menu-item tlm-item' + variant + (isSuggested ? ' is-suggested' : '') + '"' +
+      ' data-pick="' + esc(n.name) + '"' + (isSuggested ? ' data-suggested="1"' : '') +
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
       '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0" aria-label="See member overlap with ' + esc(n.name) + '"' : '') + '><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct, ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"') : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0">' + opts.overlapPct + '% overlap</span>' : '')) + '</span>' +
-      (isLinked ? '<span class="menu-item-sub">Already linked</span>' : '') + '</span></div>';
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct, ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"') : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0"><i data-icon="user-check"></i>' + opts.overlapPct + '%</span>' : '')) + '</span>' +
+      '</span></div>';
   };
 
   if (ql) {
@@ -3883,10 +3896,9 @@ function renderTreeLinkMenu(q, menuSel) {
       return;
     }
     node.noMatch = false;                          // linking supersedes a previous "no match"
-    node.links.push({ name: picked, status: 'linked', origin: 'manual' });
+    if (!node.links.some(l => l.name === picked)) node.links.push({ name: picked, status: 'linked', origin: 'manual' });
     state.treeLinkingNodeId = null;
     syncSuggestionForNode(node);
-    toast(picked + ' linked to ' + node.name);
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
     maybeCelebrateFirstMatch(node.name, picked);   // set the flag before re-render so tooltips drop
     commitTreeLink(node.id);
