@@ -92,7 +92,7 @@
 
     /* first-match celebration dialog */
     /* ── First-match celebration: results preview on a blue field ── */
-    .fm-dialog { padding: 0; gap: 0; }
+    .fm-dialog { padding: 0; gap: 0; width: 600px; }
     .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
     .fm-close { color: var(--content-inverse-base); }
     .fm-close:hover { background: rgba(255,255,255,.18); }
@@ -117,9 +117,9 @@
     .fm-score.is-new { opacity: 0; transform: scale(.82); }
     .fm-score.is-new.is-pop { animation: fmPop 520ms var(--ease-out) forwards; }
     @keyframes fmPop { 0% { opacity: 0; transform: scale(.82); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
-    .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose); }
+    .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base); }
     .fm-graph-title { display: block; margin-bottom: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
-    .fm-chart { width: 100%; height: auto; display: block; }
+    .fm-chart { display: block; width: 100%; max-width: 300px; height: auto; margin-inline: auto; }
     /* the trend draws itself from the previous survey to this one */
     .fm-chart .fm-trend { stroke-dasharray: 260; stroke-dashoffset: 260; }
     .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { opacity: 0; }
@@ -1241,7 +1241,7 @@
 
 <!-- First-match celebration -->
 <div class="overlay" id="firstMatchOverlay" hidden>
-  <div class="dialog dialog-m fm-dialog" role="dialog" aria-modal="true" aria-labelledby="fm-title">
+  <div class="dialog dialog-s fm-dialog" role="dialog" aria-modal="true" aria-labelledby="fm-title">
     <button class="dialog-close fm-close" aria-label="Close" data-close="firstMatchOverlay"><i data-icon="cross"></i></button>
 
     <!-- a mock of the results page, so the payoff of linking is visible -->
