@@ -96,7 +96,7 @@
     .fm-dialog .dialog-subtitle strong { color: var(--content-base); font-weight: 600; }
     .fm-close { color: var(--content-inverse-base); }
     .fm-close:hover { background: rgba(255,255,255,.18); }
-    .fm-media { background: var(--bg-results-current); padding: var(--spacing-extra-loose) var(--spacing-extra-loose) 0; }
+    .fm-media { background: var(--p-color-yellow-300); padding: var(--spacing-extra-loose) var(--spacing-extra-loose) 0; }
     .fm-frame { height: 400px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: var(--radius-xl) var(--radius-xl) 0 0; background: var(--bg-base); }
     .fm-scroll { height: 100%; overflow: hidden; background: var(--bg-base); }
     .fm-page { padding: var(--spacing-loose) var(--spacing-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
@@ -120,13 +120,7 @@
     .fm-score.is-new.is-pop { animation: fmPop 620ms var(--fm-spring) forwards; }
     @keyframes fmPop { from { opacity: 0; transform: scale(.78) translateY(8px); } to { opacity: 1; transform: none; } }
     .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base); }
-    .fm-graph-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
-    .fm-graph-title { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
-    /* the improvement is the actual payoff — it lands last */
-    .fm-delta { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); padding: 2px var(--spacing-tight); border-radius: var(--radius-full); background: var(--bg-positive-subtle); color: var(--content-positive-base); font-size: 12px; font-weight: 600; opacity: 0; transform: scale(.6); }
-    .fm-delta i { width: 12px; height: 12px; display: flex; }
-    .fm-graph.is-lit .fm-delta { animation: fmDelta 560ms var(--fm-spring) 700ms forwards; }
-    @keyframes fmDelta { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+    .fm-graph-title { display: block; margin-bottom: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
     .fm-chart { display: block; width: 100%; height: auto; }
     /* the trend draws itself from the previous survey to this one */
     .fm-chart .fm-trend { stroke-dasharray: 340; stroke-dashoffset: 340; }
@@ -137,7 +131,6 @@
     .fm-content { display: flex; flex-direction: column; gap: var(--spacing-loose); padding: var(--spacing-extra-loose); }
     @media (prefers-reduced-motion: reduce) {
       .fm-score.is-new.is-pop { animation: none; opacity: 1; transform: none; }
-      .fm-graph.is-lit .fm-delta { animation: none; opacity: 1; transform: none; }
       .fm-chart .fm-trend, .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { transition: none; stroke-dashoffset: 0; opacity: 1; }
     }
 
@@ -1273,18 +1266,15 @@
             <div class="fm-scores">
               <div class="fm-score">
                 <span class="fm-score-lbl">Team score</span>
-                <span class="fm-score-val">8,2</span>
+                <span class="fm-score-val">6,7</span>
               </div>
               <div class="fm-score is-new" id="fmPrevBlock">
                 <span class="fm-score-lbl">Previous survey <i data-icon="info"></i></span>
-                <span class="fm-score-val">6,7</span>
+                <span class="fm-score-val">8,2</span>
               </div>
             </div>
             <div class="fm-graph">
-              <div class="fm-graph-head">
-                <span class="fm-graph-title" id="fmChartTitle">Score over time</span>
-                <span class="fm-delta"><i data-icon="arrow-up"></i> 1,5</span>
-              </div>
+              <span class="fm-graph-title" id="fmChartTitle">Score over time</span>
               <svg class="fm-chart" id="fmChart" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Score rising from 6,7 in the previous survey to 8,2 in this survey">
                 <defs>
                   <linearGradient id="fmGrad" x1="0" y1="0" x2="0" y2="1">
@@ -2869,10 +2859,9 @@ function playFirstMatch() {
   const target = () => graph ? Math.max(0, graph.offsetTop - 16) : scroll.scrollHeight;
   block.classList.remove('is-pop');
   chart.classList.remove('is-drawn');
-  if (graph) graph.classList.remove('is-lit');
   scroll.scrollTop = 0;
   void block.offsetWidth;
-  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); if (graph) graph.classList.add('is-lit'); scroll.scrollTop = target(); return; }
+  if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); scroll.scrollTop = target(); return; }
 
   const AT = 1300, DUR = 2600;
   // 1. the previous-survey score lands
@@ -2892,7 +2881,6 @@ function playFirstMatch() {
   setTimeout(() => {
     if (Math.abs(scroll.scrollTop - target()) > 4) scroll.scrollTop = target();
     chart.classList.add('is-drawn');
-    if (graph) graph.classList.add('is-lit');
   }, AT + DUR);
 }
 $('#treeFilters').addEventListener('click', (e) => {
