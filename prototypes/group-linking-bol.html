@@ -99,7 +99,7 @@
     .fm-media { background: var(--p-color-blue-200); padding: calc(var(--spacing-loose) * 2) var(--spacing-extra-loose) 0; }
     /* The rim sits outside a 16px page corner (Figma stroke-align: outside), so the border-box
        radius is 16 + 12. background-clip keeps the page fill out of the translucent rim. */
-    .fm-frame { height: 388px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: 28px 28px 0 0; background: rgba(255,255,255,.8); background-clip: padding-box; }
+    .fm-frame { position: relative; height: 388px; overflow: hidden; border: 12px solid rgba(255,255,255,.4); border-bottom: none; border-radius: 28px 28px 0 0; background: rgba(255,255,255,.8); background-clip: padding-box; }
     .fm-scroll { height: 100%; overflow: hidden; }
     .fm-page { padding: var(--spacing-loose) var(--spacing-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .fm-sec-title { display: block; font-size: 14px; font-weight: 600; color: var(--content-base); }
@@ -130,6 +130,16 @@
     .fm-chart.is-drawn .fm-trend { transition: stroke-dashoffset 900ms var(--ease-out); stroke-dashoffset: 0; }
     .fm-chart.is-drawn .fm-area { transition: opacity 700ms var(--ease-out) 400ms; opacity: 1; }
     .fm-chart.is-drawn .fm-now, .fm-chart.is-drawn .fm-now-lbl { transition: opacity 300ms var(--ease-out) 800ms; opacity: 1; }
+    /* ── magnifier: a circular masked clone of the page, zoomed on the new score ── */
+    .fm-lens { position: absolute; z-index: 2; width: 200px; height: 200px; border-radius: var(--radius-full); overflow: hidden; background: var(--bg-base); border: 6px solid rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(25,39,67,.18); pointer-events: none; opacity: 0; transform: scale(.55); }
+    .fm-lens.is-in { animation: fmLensIn 640ms var(--fm-spring) forwards; }
+    .fm-lens.is-out { animation: fmLensOut 340ms var(--ease-in) forwards; }
+    @keyframes fmLensIn { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fmLensOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(.88); } }
+    .fm-lens-inner { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+    @media (prefers-reduced-motion: reduce) {
+      .fm-lens { display: none; }
+    }
     .fm-content { display: flex; flex-direction: column; gap: var(--spacing-loose); padding: var(--spacing-extra-loose); }
     @media (prefers-reduced-motion: reduce) {
       .fm-score.is-new.is-pop { animation: none; opacity: 1; transform: none; }
@@ -784,7 +794,8 @@
     #spBody .gl-scard:last-child { margin-bottom: 0; }
 
     /* ── Members dialog ── */
-    .mb-list { display: flex; flex-direction: column; border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden; }
+    .mb-list { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .mb-card { border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden; }
     .mb-row { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) var(--spacing-base); border-bottom: 1px solid var(--border-base); }
     .mb-row:last-child { border-bottom: none; }
     .mb-meta { flex: 1; min-width: 0; }
@@ -795,6 +806,7 @@
     .mb-search { margin-bottom: var(--spacing-base); }
     .mb-empty { padding: var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
     .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); }
+    .mb-card .mb-row:last-child { border-bottom: none; }
 
     .mb-section-icon { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
     .mb-section-hd.is-both .mb-section-icon { color: var(--content-brand-base); }
@@ -1251,6 +1263,7 @@
     <!-- a mock of the results page, so the payoff of linking is visible -->
     <div class="fm-media" aria-hidden="true">
       <div class="fm-frame">
+        <div class="fm-lens" id="fmLens"><div class="fm-lens-inner" id="fmLensInner"></div></div>
         <div class="fm-scroll" id="fmScroll">
           <div class="fm-page">
             <div>
@@ -3027,15 +3040,16 @@ function renderMembers() {
     s.sections.forEach(sec => {
       const hits = sec.people.filter(match);
       if (!hits.length) return;
-      html += sec.header.replace('{n}', hits.length) + hits.map(memberRowHTML).join('');
+      html += '<div class="mb-card">' + sec.header.replace('{n}', hits.length) + hits.map(memberRowHTML).join('') + '</div>';
     });
     list.innerHTML = html || '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
     const total = s.sections.reduce((a, sec) => a + sec.people.filter(match).length, 0);
     const t1 = $('#membersTotal'); if (t1) t1.textContent = ql ? total + ' of ' + s.total + ' shown' : s.totalLabel;
   } else {
     const filtered = s.all.filter(match);
-    list.innerHTML = filtered.slice(0, s.shown).map(memberRowHTML).join('') ||
-      '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
+    const rows = filtered.slice(0, s.shown).map(memberRowHTML).join('');
+    list.innerHTML = rows ? '<div class="mb-card">' + rows + '</div>'
+      : '<div class="mb-empty">No people match “' + esc(s.filter) + '”</div>';
     const t2 = $('#membersTotal'); if (t2) t2.textContent = ql ? filtered.length + ' of ' + s.total + ' shown' : s.totalLabel;
   }
   icons();
@@ -3143,21 +3157,50 @@ function maybeCelebrateFirstMatch(currentName, prevName) {
 }
 // Celebration beat: the previous-survey score pops in, the preview scrolls down,
 // then the trend draws itself from the previous survey to this one.
+// Point the lens at an element inside the mock page: clone the page, scale it, and
+// offset the clone so the target's centre lands in the middle of the circle.
+function aimLens(targetEl) {
+  const lens = $('#fmLens'), inner = $('#fmLensInner'), page = document.querySelector('#fmScroll .fm-page');
+  if (!lens || !inner || !page || !targetEl) return;
+  const Z = 1.6, R = lens.offsetWidth / 2;
+  const clone = page.cloneNode(true);
+  clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));   // no duplicate ids
+  const chart = clone.querySelector('.fm-chart'); if (chart) chart.classList.add('is-drawn');
+  clone.querySelectorAll('.fm-score.is-new').forEach(el => el.classList.remove('is-new', 'is-pop'));   // a still, so drop the reveal animation the class carries
+  clone.style.width = page.offsetWidth + 'px';
+  inner.innerHTML = '';
+  inner.appendChild(clone);
+  // rects, not offsetTop — the target's offsetParent is the frame, not the page
+  const pr = page.getBoundingClientRect(), tr = targetEl.getBoundingClientRect(), fr = lens.parentElement.getBoundingClientRect();
+  const inPageX = (tr.left - pr.left) + tr.width / 2;    // target centre within the page
+  const inPageY = (tr.top - pr.top) + tr.height / 2;
+  inner.style.transform = 'translate(' + (R - inPageX * Z) + 'px, ' + (R - inPageY * Z) + 'px) scale(' + Z + ')';
+  // and sit the circle over the target on screen, clamped inside the frame
+  const frame = lens.parentElement;
+  const rawL = (tr.left - fr.left) + tr.width / 2 - R;
+  const rawT = (tr.top - fr.top) + tr.height / 2 - R;
+  lens.style.left = Math.min(Math.max(rawL, 8), frame.clientWidth - lens.offsetWidth - 8) + 'px';
+  lens.style.top = Math.min(Math.max(rawT, 8), frame.clientHeight - lens.offsetHeight - 8) + 'px';
+}
 function playFirstMatch() {
-  const scroll = $('#fmScroll'), block = $('#fmPrevBlock'), chart = $('#fmChart'), graph = $('.fm-graph');
+  const scroll = $('#fmScroll'), block = $('#fmPrevBlock'), chart = $('#fmChart'), graph = document.querySelector('#fmScroll .fm-graph'), lens = $('#fmLens');
   if (!scroll || !block || !chart) return;
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const target = () => graph ? Math.max(0, graph.offsetTop - 16) : scroll.scrollHeight;
   block.classList.remove('is-pop');
   chart.classList.remove('is-drawn');
+  if (lens) lens.classList.remove('is-in', 'is-out');
   scroll.scrollTop = 0;
   void block.offsetWidth;
   if (reduce) { block.classList.add('is-pop'); chart.classList.add('is-drawn'); scroll.scrollTop = target(); return; }
 
-  const AT = 1300, DUR = 2600;
+  const LENS_IN = 1100, LENS_OUT = 2500, AT = 2900, DUR = 2600;
   // 1. the previous-survey score lands
   setTimeout(() => block.classList.add('is-pop'), 500);
-  // 2. drift down slowly to the trend — own tween so the pace is ours, not the browser's
+  // 2. a lens zooms in on it — this is the thing linking just unlocked
+  setTimeout(() => { if (lens) { aimLens(block); lens.classList.add('is-in'); } }, LENS_IN);
+  setTimeout(() => { if (lens) { lens.classList.remove('is-in'); lens.classList.add('is-out'); } }, LENS_OUT);
+  // 3. drift down slowly to the trend — own tween so the pace is ours, not the browser's
   setTimeout(() => {
     const from = scroll.scrollTop, dist = target() - from, t0 = performance.now();
     const ease = t => 1 - Math.pow(1 - t, 3);
@@ -3167,7 +3210,7 @@ function playFirstMatch() {
       if (t < 1) requestAnimationFrame(step);
     })(t0);
   }, AT);
-  // 3. the trend draws itself. On a timer, not on the tween finishing, so a throttled
+  // 4. the trend draws itself. On a timer, not on the tween finishing, so a throttled
   //    rAF (background tab, low-power mode) can never leave the graph hidden.
   setTimeout(() => {
     if (Math.abs(scroll.scrollTop - target()) > 4) scroll.scrollTop = target();
