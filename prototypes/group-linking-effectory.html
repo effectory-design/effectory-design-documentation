@@ -752,7 +752,7 @@
     .mb-name { font-size: 14px; font-weight: 500; color: var(--content-base); display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-tight); }
     .mb-email { font-size: 12px; color: var(--content-secondary); }
     .mb-role { font-size: 12px; color: var(--content-secondary); text-align: right; flex-shrink: 0; }
-    .mb-scroll { max-height: 48vh; overflow-y: auto; }
+    .mb-scroll { max-height: 56vh; overflow-y: auto; margin-right: calc(-1 * var(--spacing-extra-loose)); padding-right: var(--spacing-extra-loose); }
     .mb-search { margin-bottom: var(--spacing-base); }
     .mb-empty { padding: var(--spacing-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
     .mb-section-hd { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 600; color: var(--content-base); padding: var(--spacing-base-tight) var(--spacing-base); background: var(--bg-secondary); border-bottom: 1px solid var(--border-base); }
@@ -1254,9 +1254,9 @@
       <div class="dialog-header-top"><h3 class="dialog-title" id="members-title">Group members</h3></div>
       <p class="dialog-subtitle" id="membersSubtitle"></p>
     </div>
-    <div class="dialog-body">
+    <div class="dialog-body mb-scroll" id="membersScroll">
       <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="membersSearch" placeholder="Search people" autocomplete="off" /></div>
-      <div class="mb-scroll" id="membersScroll"><div class="mb-list" id="membersList"></div></div>
+      <div class="mb-list" id="membersList"></div>
     </div>
   </div>
 </div>
