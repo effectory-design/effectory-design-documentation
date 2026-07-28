@@ -815,9 +815,6 @@
     .mb-section-hd[aria-expanded="false"] .mb-section-chev { transform: rotate(-90deg); }
     .mb-card .mb-row:last-child { border-bottom: none; }
 
-    .mb-section-icon { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
-    .mb-section-hd.is-both .mb-section-icon { color: var(--content-brand-base); }
-    .mb-section-count { font-size: 12px; font-weight: 600; color: var(--content-secondary); background: var(--bg-secondary); border-radius: var(--radius-full); padding: 1px var(--spacing-tight); }
     .mb-total { font-size: 14px; color: var(--content-secondary); margin-right: auto; }
 
     /* ── Review dialog ── */
@@ -3046,10 +3043,8 @@ function renderMembers() {
       if (!hits.length) return;
       const open = ql ? true : sec.open !== false;   // searching always reveals matches
       html += '<div class="mb-card">' +
-        '<button class="mb-section-hd ' + (sec.mod || '') + '" data-mbsec="' + i + '" aria-expanded="' + (open ? 'true' : 'false') + '">' +
-          '<i class="mb-section-icon" data-icon="' + sec.icon + '"></i>' +
-          '<span class="mb-section-label">' + esc(sec.label) + '</span>' +
-          '<span class="mb-section-count">' + hits.length + '</span>' +
+        '<button class="mb-section-hd" data-mbsec="' + i + '" aria-expanded="' + (open ? 'true' : 'false') + '">' +
+          '<span class="mb-section-label">' + hits.length + ' ' + esc(sec.label) + '</span>' +
           '<i class="mb-section-chev" data-icon="chevron-down"></i>' +
         '</button>' +
         (open ? '<div class="mb-section-body">' + hits.map(memberRowHTML).join('') + '</div>' : '') +
@@ -3462,9 +3457,9 @@ function openOverlapMembers(sug) {
   };
   // split by which group people are in — the section says it, so the rows carry no tag
   const sections = [
-    { icon: 'user-check', label: 'Participants in both groups', mod: 'is-both', people: people(shared), open: true },
-    { icon: 'user-min', label: 'Participants in ' + o.cur, mod: '', people: people(onlyCur), open: true },
-    { icon: 'user-min', label: 'Participants in ' + o.prev, mod: '', people: people(onlyPrev), open: true },
+    { label: 'participants in both groups', people: people(shared), open: true },
+    { label: 'participants in ' + o.cur, people: people(onlyCur), open: false },
+    { label: 'participants in ' + o.prev, people: people(onlyPrev), open: false },
   ].filter(sec => sec.people.length);
   $('#members-title').textContent = 'Compare group members';
   $('#membersSubtitle').textContent = shared + ' of ' + (o.a + o.b - shared) + ' people overlap';
