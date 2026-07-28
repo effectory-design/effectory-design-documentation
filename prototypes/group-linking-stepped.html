@@ -811,8 +811,9 @@
     .mb-section-hd:hover { background: var(--bg-secondary-hover); }
     .mb-section-hd[aria-expanded="false"] { border-bottom: none; }
     .mb-section-label { flex: 1; min-width: 0; }
-    .mb-section-chev { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-secondary); transition: transform var(--motion-fast) var(--ease-out); }
-    .mb-section-hd[aria-expanded="false"] .mb-section-chev { transform: rotate(-90deg); }
+    /* same convention as the DS accordion: down when closed, flipped up when open */
+    .mb-section-chev { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-base); transition: transform var(--motion-fast) var(--ease-out); }
+    .mb-section-hd[aria-expanded="true"] .mb-section-chev { transform: rotate(180deg); }
     .mb-card .mb-row:last-child { border-bottom: none; }
 
     .mb-total { font-size: 14px; color: var(--content-secondary); margin-right: auto; }
