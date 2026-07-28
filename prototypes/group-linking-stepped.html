@@ -603,8 +603,9 @@
     .tr-toggle-spacer { width: 20px; flex-shrink: 0; }
     .tr-group { font-size: 14px; font-weight: 600; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; min-width: 28px; }
     /* 12px between the group name and its member count on both sides (row gaps are 4px left / 8px right) */
-    .tr-leftcard .tr-count { margin-left: var(--spacing-tight); }
-    .tr-lrow-main .tr-count { margin-left: var(--spacing-extra-tight); }
+    .tr-leftcard .tr-count-wrap { margin-left: var(--spacing-tight); }
+    .tr-lrow-main .tr-count-wrap { margin-left: var(--spacing-extra-tight); }
+    .tr-count-wrap { flex-shrink: 0; }
     .tr-card.is-hit .tr-group { color: var(--content-brand-base); }
     /* count badge (blue) */
     .tr-count { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); border: 1px solid var(--border-base); background: none; color: var(--content-secondary); font-family: inherit; font-size: 12px; font-weight: 500; padding: 2px var(--spacing-tight); border-radius: var(--radius-sm); cursor: pointer; flex-shrink: 0; }
@@ -2861,7 +2862,7 @@ function treeRowHTML(n, level) {
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
     '<span class="tr-group">' + esc(n.name) + '</span>' +
-    (n.size ? '<button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '"><i data-icon="users"></i>' + n.size + '</button>' : '') +
+    (n.size ? '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '" aria-label="View participants"><i data-icon="users"></i>' + n.size + '</button><div class="tooltip is-above">View participants</div></div>' : '') +
     '</div>' +
     (state.treeLinkingNodeId === n.id
       ? '<div class="tr-add-slot tt-demo" style="visibility:hidden"><button class="tr-add-btn" tabindex="-1"><i data-icon="plus"></i></button></div>'
@@ -2930,7 +2931,7 @@ function linkColumns(n, sug) {
     // group size count, plus the overlap badge on suggested rows
     const countBadge = size === '' ? '' : (isS
       ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="See member overlap"><i data-icon="users"></i>' + size + '</button>'
-      : '<button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '"><i data-icon="users"></i>' + size + '</button>');
+      : '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '" aria-label="View participants"><i data-icon="users"></i>' + size + '</button><div class="tooltip is-above">View participants</div></div>');
     const originTag = isS
       ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
