@@ -602,6 +602,9 @@
     .tr-toggle:not(.is-open) i { transform: rotate(-90deg); }
     .tr-toggle-spacer { width: 20px; flex-shrink: 0; }
     .tr-group { font-size: 14px; font-weight: 600; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; min-width: 28px; }
+    /* 12px between the group name and its member count on both sides (row gaps are 4px left / 8px right) */
+    .tr-leftcard .tr-count { margin-left: var(--spacing-tight); }
+    .tr-lrow-main .tr-count { margin-left: var(--spacing-extra-tight); }
     .tr-card.is-hit .tr-group { color: var(--content-brand-base); }
     /* count badge (blue) */
     .tr-count { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); border: 1px solid var(--border-base); background: none; color: var(--content-secondary); font-family: inherit; font-size: 12px; font-weight: 500; padding: 2px var(--spacing-tight); border-radius: var(--radius-sm); cursor: pointer; flex-shrink: 0; }
