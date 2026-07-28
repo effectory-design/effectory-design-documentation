@@ -2758,7 +2758,7 @@ function renderMembers() {
 
 function openMembers(name, size, survey) {
   $('#members-title').textContent = size + ' participants in ' + name;
-  $('#membersSubtitle').textContent = survey || CURRENT_SURVEY;
+  const memSub = $('#membersSubtitle'); if (memSub) { memSub.textContent = survey || CURRENT_SURVEY; memSub.hidden = false; }
   const all = [];
   for (let i = 0; i < size; i++) all.push(personAt(i));
   membersState = { mode: 'flat', all, filter: '', shown: MB_BATCH, total: size, totalLabel: size + ' members in total' };
@@ -3155,7 +3155,7 @@ function openOverlapMembers(sug) {
     { label: 'participants in ' + o.prev, people: people(onlyPrev), open: false },
   ].filter(sec => sec.people.length);
   $('#members-title').textContent = 'Compare group members';
-  $('#membersSubtitle').textContent = shared + ' of ' + (o.a + o.b - shared) + ' people overlap';
+  const cmpSub = $('#membersSubtitle'); if (cmpSub) { cmpSub.textContent = ''; cmpSub.hidden = true; }
   membersState = { mode: 'sections', sections, filter: '', total: o.a + o.b - shared, totalLabel: o.cur + ' ↔ ' + o.prev };
   $('#membersSearch').value = '';
   renderMembers();
