@@ -119,14 +119,6 @@
     .fm-score.is-new { opacity: 0; transform: scale(.78) translateY(8px); overflow: visible; }
     .fm-score.is-new.is-pop { animation: fmPop 620ms var(--fm-spring) forwards; }
     @keyframes fmPop { from { opacity: 0; transform: scale(.78) translateY(8px); } to { opacity: 1; transform: none; } }
-    .fm-spark { position: absolute; display: flex; opacity: 0; }
-    .fm-spark i { display: flex; }
-    .fm-spark-1 { top: -7px; right: -5px; color: var(--bg-warning-bold); }
-    .fm-spark-1 i { width: 16px; height: 16px; }
-    .fm-spark-2 { bottom: -3px; left: -7px; color: var(--content-positive-base); }
-    .fm-spark-2 i { width: 11px; height: 11px; }
-    .fm-score.is-pop .fm-spark { animation: fmSpark 620ms var(--fm-spring) 200ms both; }
-    @keyframes fmSpark { 0% { opacity: 0; transform: scale(0) rotate(-40deg); } 70% { opacity: 1; } 100% { opacity: 1; transform: scale(1) rotate(0); } }
     .fm-graph { background: var(--bg-info-subtle); border-radius: var(--radius-md); padding: var(--spacing-base-tight) var(--spacing-base) var(--spacing-base); }
     .fm-graph-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
     .fm-graph-title { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-base); }
@@ -145,7 +137,7 @@
     .fm-content { display: flex; flex-direction: column; gap: var(--spacing-loose); padding: var(--spacing-extra-loose); }
     @media (prefers-reduced-motion: reduce) {
       .fm-score.is-new.is-pop { animation: none; opacity: 1; transform: none; }
-      .fm-score.is-pop .fm-spark, .fm-graph.is-lit .fm-delta { animation: none; opacity: 1; transform: none; }
+      .fm-graph.is-lit .fm-delta { animation: none; opacity: 1; transform: none; }
       .fm-chart .fm-trend, .fm-chart .fm-area, .fm-chart .fm-now, .fm-chart .fm-now-lbl { transition: none; stroke-dashoffset: 0; opacity: 1; }
     }
 
@@ -1286,8 +1278,6 @@
               <div class="fm-score is-new" id="fmPrevBlock">
                 <span class="fm-score-lbl">Previous survey <i data-icon="info"></i></span>
                 <span class="fm-score-val">6,7</span>
-                <span class="fm-spark fm-spark-1"><i data-icon="star-filled"></i></span>
-                <span class="fm-spark fm-spark-2"><i data-icon="star-filled"></i></span>
               </div>
             </div>
             <div class="fm-graph">
