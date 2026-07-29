@@ -5246,7 +5246,7 @@ function renderOverview(variant, initialView) {
         if (settled) return;
         settled = true; clearTimeout(timer);
         surface && surface.removeEventListener('animationend', onEnd);
-        overlay.hidden = true; overlay.classList.remove('is-closing', 'is-swap');
+        overlay.hidden = true; overlay.classList.remove('is-closing');
         if (typeof after === 'function') after();   /* hand over to the next panel once this one is gone */
       };
       const onEnd = (e) => { if (e.target === surface) done(); };   /* ignore animations bubbling up from panel content */
