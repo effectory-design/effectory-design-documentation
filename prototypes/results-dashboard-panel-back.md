@@ -1,8 +1,7 @@
 # Results dashboard — side panel drill-down
 
 Canonical implementation: [`results-dashboard-panel-back.html`](results-dashboard-panel-back.html).
-Alternative return pattern (drawer stack instead of a Back button): [`results-dashboard-panel-stack.html`](results-dashboard-panel-stack.html).
-Both are the results **Overview** ([`results-dashboard-overview.html`](results-dashboard-overview.html)) plus a way to walk into and back out of nested side panels.
+It is the results **Overview** ([`results-dashboard-overview.html`](results-dashboard-overview.html)) plus a way to walk into and back out of nested side panels.
 
 ## What it is
 
@@ -36,7 +35,7 @@ Effectiveness → Engagement            → a question → (another question)
 | N1 | Panels **swap in place**: no slide-out/slide-in of the panel itself and no backdrop fade, so it reads as one panel changing content. That is how the platform behaves. |
 | N2 | Going from one question to another is a **real step in the history**: Back names the previous question and retraces the route one hop at a time. |
 | N3 | Esc and a backdrop click only ever dismiss the **topmost** visible panel. Both panels listen on `document`, so every panel checks whether it is topmost before closing. |
-| N4 | Never stack two overlays without dropping one backdrop — two layers of `rgba(25,39,67,.6)` make the screen twice as dark. (See the stack variant, where the panel underneath hands its backdrop to the drawer on top.) |
+| N4 | Never stack two overlays without dropping one backdrop — two layers of `rgba(25,39,67,.6)` make the screen twice as dark. If panels are ever stacked instead of swapped, the panel underneath has to hand its backdrop to the one on top. |
 | N5 | A panel's scroll position is kept when you come back to it; a newly opened question always starts at the top. |
 
 ### Question and theme lists
