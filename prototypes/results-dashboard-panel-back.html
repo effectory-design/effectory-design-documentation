@@ -4,12 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Results dashboard — Overview (back button)</title>
-  <base href="/" />
+  <!-- Base derived from the path so the prototype works both on the local server (root) and on
+       GitHub Pages (served under /effectory-design-documentation/). -->
+  <script>document.write('<base href="' + location.pathname.replace(/prototypes\/.*$/, '') + '">');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/tokens.css" />
-  <link rel="stylesheet" href="/foundation.css" />
-  <link rel="stylesheet" href="/components.css" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="foundation.css" />
+  <link rel="stylesheet" href="components.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
   <style>
 
@@ -1680,7 +1682,7 @@
 </head>
 <body>
   <div id="root"></div>
-  <script src="/icons.js"></script>
+  <script src="icons.js"></script>
   <script>
 
 /* ============================================================
