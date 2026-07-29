@@ -3786,83 +3786,63 @@ function drawTreeConnectors() {
     const w = mr.width, h = mr.height;
     if (!w || !h) return;
     const cy = (el) => { const r = el.getBoundingClientRect(); return r.top + r.height / 2 - mr.top; };
-    // single link → straight line at the card centre; multiple links → branch off
-    // the group-name line so the bracket reads as splitting from the name
-    const multi = rows.length > 1;
     const nameEl = left.querySelector('.tr-group') || left;
     const trunkY = cy(nameEl);
     const R = 8, mx = w - 16;
     // start the line at the left card's right edge (negative x, drawn through the reserved
     // add-tab gap thanks to overflow:visible) so the dashes reach the card
     const sx = left.getBoundingClientRect().right - mr.left;
-    const statuses = rows.map(row => row.dataset.linkstatus === 'suggested' ? 'is-suggested' : 'is-linked');
     const ys = rows.map(cy);
-    let d = '';
-    if (!rows.length) {
-      // no confirmed/suggested links, only the open search box → nothing to bracket here
-    } else if (!multi) {
-      d = '<path class="tr-conn-path ' + statuses[0] + '" d="M ' + sx + ' ' + ys[0] + ' H ' + w + '"/>';
-    } else if (statuses.every(s => s === statuses[0])) {
-      // all links share a status → one clean coloured bracket
-      rows.forEach((row, i) => {
-        const ry = ys[i];
-        let path;
-        if (Math.abs(ry - trunkY) < 2) {
-          path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
-        } else {
-          const dir = ry > trunkY ? 1 : -1;
-          const r = Math.min(R, Math.abs(ry - trunkY) / 2);
-          path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
-            ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
-            ' V ' + (ry - dir * r) +
-            ' Q ' + mx + ' ' + ry + ' ' + (mx + r) + ' ' + ry +
-            ' H ' + w;
-        }
-        d += '<path class="tr-conn-path ' + statuses[i] + '" d="' + path + '"/>';
-      });
-    } else {
-      // mixed statuses → neutral structural bracket, each leaf stub coloured by its own status
-      const yTop = Math.min(trunkY, ...ys), yBot = Math.max(trunkY, ...ys);
-      d += '<path class="tr-conn-path is-linked" d="M ' + sx + ' ' + trunkY + ' H ' + mx + '"/>';
-      d += '<path class="tr-conn-path is-linked" d="M ' + mx + ' ' + yTop + ' V ' + yBot + '"/>';
-      rows.forEach((row, i) => {
-        d += '<path class="tr-conn-path ' + statuses[i] + '" d="M ' + mx + ' ' + ys[i] + ' H ' + w + '"/>';
-      });
-    }
-    // dashed connector from the group card to the open search box
-    if (searchEl) {
-      const sy = cy(searchEl);
-      let path;
-      if (Math.abs(sy - trunkY) < 2) {
-        path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
-      } else {
-        const dir = sy > trunkY ? 1 : -1;
-        const r = Math.min(R, Math.abs(sy - trunkY) / 2);
-        path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
-          ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
-          ' V ' + (sy - dir * r) +
-          ' Q ' + mx + ' ' + sy + ' ' + (mx + r) + ' ' + sy +
-          ' H ' + w;
-      }
-      d += '<path class="tr-conn-path is-search" d="' + path + '"/>';
-    }
-    // faint dashed preview line to the hovered empty slot
-    if (emptyEl) {
-      const ey = cy(emptyEl);
-      let path;
-      if (Math.abs(ey - trunkY) < 2) {
-        path = 'M ' + sx + ' ' + trunkY + ' H ' + w;
-      } else {
-        const dir = ey > trunkY ? 1 : -1;
-        const r = Math.min(R, Math.abs(ey - trunkY) / 2);
-        path = 'M ' + sx + ' ' + trunkY + ' H ' + (mx - r) +
-          ' Q ' + mx + ' ' + trunkY + ' ' + mx + ' ' + (trunkY + dir * r) +
-          ' V ' + (ey - dir * r) +
-          ' Q ' + mx + ' ' + ey + ' ' + (mx + r) + ' ' + ey +
-          ' H ' + w;
-      }
-      d += '<path class="tr-conn-path is-empty" d="' + path + '"/>';
-    }
+
+    // every line this card draws, in one list: confirmed and suggested links, the open
+    // search box, and the faint preview line to the empty slot
+    const branches = rows.map((row, i) => ({
+      y: ys[i],
+      status: row.dataset.linkstatus === 'suggested' ? 'is-suggested' : 'is-linked',
+    }));
+    if (searchEl) branches.push({ y: cy(searchEl), status: 'is-search' });
+    if (emptyEl) branches.push({ y: cy(emptyEl), status: 'is-empty' });
+
+    // Lines of different styles get their own lane instead of stacking on the same pixels:
+    // each extra style steps LANE px away from the group-name line and turns LANE px
+    // earlier, so a dashed line runs alongside the solid one rather than over it. The
+    // step follows the direction the line travels, so lines going up and lines going
+    // down never cross. Same-style lines share a lane, where the overlap is the bracket
+    // itself and not a smudge.
+    const LANE = 4;
+    const order = ['is-linked', 'is-suggested', 'is-search', 'is-empty'];
+    // one line can sit level with the group name; it keeps the centre lane and stays straight
+    const straight = branches.find(b => Math.abs(b.y - trunkY) < 2);
+    // step away from the straight line's own y, not from the name, so the gap is really LANE
+    const baseY = straight ? straight.y : trunkY;
+    // one lane per style, and the straight line's style owns the centre lane, so a second
+    // link still shares its trunk and reads as one bracket splitting from the group
+    const present = order.filter(s => branches.some(b => b.status === s));
+    const lanes = straight
+      ? [straight.status, ...present.filter(s => s !== straight.status)]
+      : present;
+    const laneOf = (b) => lanes.indexOf(b.status) * LANE;
+
+    const branchPath = (b) => {
+      if (b === straight) return 'M ' + sx + ' ' + b.y + ' H ' + w;
+      const lane = laneOf(b);
+      const dir = b.y > baseY ? 1 : -1;
+      const ty = baseY + dir * lane;    // parallel trunk, stepped away from the name line
+      const bx = mx - lane;             // and its own turn, just short of the other lanes
+      const r = Math.min(R, Math.abs(b.y - ty) / 2);
+      return 'M ' + sx + ' ' + ty + ' H ' + (bx - r) +
+        ' Q ' + bx + ' ' + ty + ' ' + bx + ' ' + (ty + dir * r) +
+        ' V ' + (b.y - dir * r) +
+        ' Q ' + bx + ' ' + b.y + ' ' + (bx + r) + ' ' + b.y +
+        ' H ' + w;
+    };
+
+    // solid first, dashed last, so the dashes stay readable where a crossing is unavoidable
+    const d = branches
+      .slice()
+      .sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status))
+      .map(b => '<path class="tr-conn-path ' + b.status + '" d="' + branchPath(b) + '"/>')
+      .join('');
     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
     svg.innerHTML = d;
   });
