@@ -754,6 +754,7 @@
     .tr-origin.is-suggested { color: var(--content-info); }
     .tr-lrow-name { font-weight: 500; color: var(--content-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
     .tr-lrow-act { display: flex; align-items: center; gap: var(--spacing-extra-tight); flex-shrink: 0; }
+    .tr-lrow-act .tr-conf-badge { margin-right: var(--spacing-extra-tight); }
     .tr-act-btn { width: 30px; height: 30px; border-radius: var(--radius-base); } .tr-act-btn svg { width: 16px; height: 16px; }
     .tr-act-btn.is-confirm { background: var(--bg-info); border-color: var(--border-info); color: var(--content-inverse); }
     .tr-act-btn.is-confirm:hover { background: var(--bg-info-hover); border-color: var(--border-info-hover); }
@@ -3378,7 +3379,8 @@ function linkColumns(n, sug) {
     const size = hg ? hg.size : (l.size || '');
     const isS = l.status === 'suggested' || l.status === 'review';
     const actions = isS
-      ? '<div class="tt-demo"><button class="ib tr-act-btn is-confirm" data-linkapprove="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Confirm this link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
+      ? confBadge(sug) +
+        '<div class="tt-demo"><button class="ib tr-act-btn is-confirm" data-linkapprove="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Confirm this link"><i data-icon="check"></i></button><div class="tooltip is-above">Confirm link</div></div>' +
         '<div class="tt-demo"><button class="ib tr-act-btn is-reject" data-linkreject="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Don’t link"><i data-icon="cross"></i></button><div class="tooltip is-above">Don’t link</div></div>'
       : '<div class="tt-demo"><button class="tr-lrow-x" data-treeunlink="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>';
     // group size count, plus the overlap badge on suggested rows
@@ -3394,7 +3396,7 @@ function linkColumns(n, sug) {
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
     const nameHTML = '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
-    const mainInner = isS ? (originTag + nameHTML + countBadge + confBadge(sug)) : (originTag + nameHTML + countBadge);
+    const mainInner = originTag + nameHTML + countBadge;
     right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
       '<span class="tr-lrow-main">' + mainInner + '</span>' +
       '<span class="tr-lrow-act">' + actions + '</span></div></div>';
