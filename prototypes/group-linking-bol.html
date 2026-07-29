@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Previous survey links — bol.com</title>
+  <title>Previous survey links · bol.com</title>
   <!-- resolve assets from the repo root — works locally (/) and on GitHub Pages (/repo-name/) -->
   <script>document.write('<base href="' + location.pathname.replace(/prototypes\/.*$/, '') + '">');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -497,10 +497,12 @@
     .acc.is-open .acc-chev { transform: rotate(180deg); }
     .acc.is-open .acc-head { border-bottom: 1px solid var(--border-base); }
     .acc.is-open { overflow: visible; }
-    /* once the sticky headers pin, the card chrome fights them — let it go */
-    .acc.is-stuck { border-color: transparent; box-shadow: none; transition: border-color var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out); }
+    /* once the sticky headers pin, the card chrome fights them — let it go.
+       The transition lives on the base class so it eases both ways, not just on the way out. */
+    .acc, .acc .acc-head { transition: border-color var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out); }
+    .acc.is-stuck { border-color: transparent; box-shadow: none; }
     .acc.is-stuck .acc-head { border-bottom-color: transparent; }
-    @media (prefers-reduced-motion: reduce) { .acc.is-stuck { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { .acc, .acc .acc-head { transition: none; } }
     #acc-select.is-open { overflow: hidden; }
     /* height expand/collapse via grid-template-rows 0fr→1fr (same as the DS accordion) */
     .sacc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
@@ -918,7 +920,7 @@
         <div class="ov-tl-card">
           <div class="ov-banner">
             <span class="ov-banner-icon"><i data-icon="activity"></i></span>
-            <span class="ov-banner-text">Your survey is running — 1,858 of 2,322 people have responded (80%)</span>
+            <span class="ov-banner-text">Your survey is running. 1,858 of 2,322 people have responded (80%)</span>
             <button class="btn btn-secondary ov-banner-btn"><i data-icon="barchart-2"></i> View response rate</button>
           </div>
           <div class="ov-tl">
@@ -1083,7 +1085,7 @@
           <div class="gl-explainer" id="glExplainer">
             <div class="gl-explainer-body">
               <h2 class="gl-explainer-title">Get started with linking previous survey results</h2>
-              <p class="gl-explainer-text">Linking this survey to a previous one lets last time’s scores appear as trend lines — and keeps a team’s history even when groups are renamed, merged, or split. On this page you match the groups from both surveys: we suggest the links, you confirm them.</p>
+              <p class="gl-explainer-text">Linking this survey to a previous one lets last time’s scores appear as trend lines, and keeps a team’s history even when groups are renamed, merged, or split. On this page you match the groups from both surveys: we suggest the links, you confirm them.</p>
               <div class="gl-explainer-actions">
                 <a class="gl-explainer-link" href="https://support.effectory.com/" target="_blank" rel="noopener noreferrer">Learn more <i data-icon="external-link"></i></a>
                 <button class="btn btn-tertiary" id="glExplainerHide">Hide</button>
@@ -1138,7 +1140,7 @@
                 </div>
               </div>
               <div class="gl-history" id="historyPanel" hidden>
-                <p class="gl-hist-lead">Surveys connect in a chain — each one links to the survey before it, so trend lines reach back as far as the chain goes.</p>
+                <p class="gl-hist-lead">Surveys connect in a chain: each one links to the survey before it, so trend lines reach back as far as the chain goes.</p>
                 <div class="gl-chain" id="historyChain"></div>
               </div>
             </div>
@@ -1251,7 +1253,7 @@
       </div>
       <div class="rv-privacy">
         <i data-icon="eye"></i>
-        <span>The reviewer only sees this suggestion — not your other links.</span>
+        <span>The reviewer only sees this suggestion, not your other links.</span>
       </div>
     </div>
     <div class="dialog-footer">
@@ -1323,7 +1325,7 @@
 
     <div class="fm-content">
       <div class="dialog-header">
-        <h3 class="dialog-title" id="fm-title">Well done — your first link</h3>
+        <h3 class="dialog-title" id="fm-title">Well done! Your first link</h3>
         <p class="dialog-subtitle">You’ve linked <strong id="fmCurrent">…</strong> to <strong id="fmPrev">…</strong>. Their results now connect across both surveys, so you can follow the trend over time.</p>
       </div>
       <div class="dialog-footer">
@@ -2345,7 +2347,7 @@ function cardInsight(s) {
       if (sameName && s.overlap >= 90) return 'The group name is identical and ' + matchCount + ' of ' + totalOld + ' members stayed the same.';
       if (s.overlap >= 75) return 'Most members of ' + oldNames + ' (' + matchCount + ' of ' + totalOld + ') are now in this group, which points to a rename or direct transition.';
       return matchCount + ' members of ' + oldNames + ' moved here, making it the most likely match.';
-    case 'merge': return 'These groups share ' + s.overlap + '% of their members — ' + matchCount + ' of the original ' + totalOld + ' people are now in the combined group.' + (s.sameManager ? ' Both original groups report to the same manager.' : '');
+    case 'merge': return 'These groups share ' + s.overlap + '% of their members. ' + matchCount + ' of the original ' + totalOld + ' people are now in the combined group.' + (s.sameManager ? ' Both original groups report to the same manager.' : '');
     case 'split': return 'Together the new groups keep ' + matchCount + ' of the ' + totalOld + ' original members (' + s.overlap + '% overlap).';
     case 'new':   return 'We couldn’t find a matching group in the previous survey, so this looks like a brand new group.';
   }
@@ -2728,7 +2730,7 @@ function renderCards() {
   } else {
     done = true;
     title = 'All groups are linked';
-    sub = autoCount + ' groups were linked automatically and the rest is confirmed — trends will show in your results.' + noLinkLink;
+    sub = autoCount + ' groups were linked automatically and the rest is confirmed, so trends will show in your results.' + noLinkLink;
     actions = '';
   }
 
@@ -3528,7 +3530,7 @@ $('#linkPickerSearch').addEventListener('input', (e) => renderTreeLinkMenu(e.tar
 
 const FILTER_DESC = {
   all: { icon: 'list-unordered', html: 'Every group in this survey. Link each one to its match in your previous survey so you can compare results over time.' },
-  linked: { icon: 'link', html: 'Groups already connected to a previous-survey group — their scores now show up as a trend.' },
+  linked: { icon: 'link', html: 'Groups already connected to a previous-survey group, so their scores now show up as a trend.' },
   suggested: { icon: 'lightbulb', html: 'We found a likely match for these groups based on member overlap. Review each one and confirm it, or pick a different group.' },
   nolink: { icon: 'info', html: 'These groups aren’t linked yet. Pick the matching group from your previous survey, or mark a group as no match to clear it from the list.' },
 };
@@ -3569,23 +3571,23 @@ function renderTree() {
         // suggestions done, but groups still need a link — send them there first, not to another structure
         icon = '<div class="gl-empty-icon is-positive" style="margin-inline:auto;"><i data-icon="check"></i></div>';
         title = 'All suggestions reviewed';
-        sub = 'Nice — no suggestions left to check. ' + (cur.nolink === 1 ? '1 group still has no link' : cur.nolink + ' groups still have no link') +
-          ', so review ' + (cur.nolink === 1 ? 'it' : 'them') + ' next — link a match or mark as no match.';
+        sub = (cur.nolink === 1 ? '1 group still has no link.' : cur.nolink + ' groups still have no link.') +
+          ' Review ' + (cur.nolink === 1 ? 'it' : 'them') + ' next to finish this structure.';
         extra = reviewNolinkBtn;
       } else {
         icon = celebrate('check');
         title = 'You’re all caught up';
         sub = nextStruct
           ? 'Every group here is linked or marked as no match. You can keep going in another structure.'
-          : 'Every suggested link has been reviewed — nothing left to confirm.';
+          : 'Every suggested link has been reviewed. Nothing left to confirm.';
         extra = continueBtn;
       }
     } else if (active === 'nolink') {
       icon = celebrate('love');
       title = 'You’ve reviewed every group';
       sub = nextStruct
-        ? 'Nice work — every group here is linked or marked as no match. You can keep going in another structure.'
-        : 'Nice work — every group is either linked or marked as having no match.';
+        ? 'Every group here is linked or marked as no match. You can keep going in another structure.'
+        : 'Every group is either linked or marked as having no match.';
       extra = continueBtn;
     } else if (active === 'linked') {
       icon = '<div class="gl-empty-icon" style="margin-inline:auto;"><i data-icon="link"></i></div>';
@@ -3737,7 +3739,7 @@ function openBulkPicker(mode) {
   const nSel = state.treeSelected.size;
   const title = $('#linkPicker-title'); if (title) title.textContent = mode === 'add' ? 'Add another group (merge)' : 'Set the link for the selected groups';
   const sub = $('#linkPickerSub'); if (sub) sub.textContent = mode === 'add'
-    ? 'Pick a group to add to all ' + nSel + ' selected — kept alongside their current links, creating a merge.'
+    ? 'Pick a group to add to all ' + nSel + ' selected, kept alongside their current links, creating a merge.'
     : 'Pick a group to link all ' + nSel + ' selected to. This replaces any group they’re already linked to.';
   const search = $('#linkPickerSearch'); if (search) search.value = '';
   openOverlay('linkPickerOverlay');
@@ -4164,7 +4166,7 @@ function renderTreeLinkMenu(q, menuSel) {
   if (!html) html = '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>';
   if (menuSel === '#treeLinkMenu') html += '<button class="tlm-expand" data-linkexpand><i data-icon="maximize"></i> Open in a bigger view</button>';
   // "no matching group" pinned to the top, set apart from the group list
-  const nomatchTop = node ? '<button class="tlm-nomatch" data-treenomatch><i data-icon="minus"></i> No matching group — leave this one unlinked</button>' : '';
+  const nomatchTop = node ? '<button class="tlm-nomatch" data-treenomatch><i data-icon="minus"></i> No matching group, leave this one unlinked</button>' : '';
   menu.innerHTML = nomatchTop + html;
   // scroll the suggested match into view when the picker opens (deferred so the menu is laid out)
   if (suggestedName) {
