@@ -27,7 +27,7 @@
     .topbar .spacer { flex: 1; }
     .topbar .tb-btn { width: 36px; height: 36px; border-radius: var(--radius-full); border: 1px solid var(--border-base); background: var(--bg-base); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--content-action); position: relative; }
     .topbar .tb-btn i[data-icon] { width: 16px; height: 16px; display: flex; }
-    .topbar .tb-btn .dot { position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--bg-negative-base); border: 1.5px solid var(--bg-base); }
+    .topbar .tb-btn .dot { position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--bg-negative); border: 1.5px solid var(--bg-base); }
 
     .content { flex: 1; overflow-y: auto; padding: var(--spacing-extra-loose) var(--spacing-extra-loose) var(--spacing-super-extra-loose); }
     .content-inner { max-width: 1040px; margin: 0 auto; }
@@ -40,7 +40,7 @@
 
     .section-head { display: flex; align-items: center; gap: var(--spacing-tight); margin: var(--spacing-extra-loose) 0 var(--spacing-base); }
     .section-head h2 { font-size: 20px; font-weight: 600; letter-spacing: -.2px; margin: 0; }
-    .section-head .count { font-size: 12px; font-weight: 600; color: var(--content-on-brand-base); background: var(--bg-brand-base); border-radius: var(--radius-full); min-width: 20px; height: 20px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
+    .section-head .count { font-size: 12px; font-weight: 600; color: var(--content-on-brand-base); background: var(--bg-brand); border-radius: var(--radius-full); min-width: 20px; height: 20px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
     .section-head .spacer { flex: 1; }
     .section-head .see-all { font-size: 14px; }
 
@@ -51,19 +51,19 @@
     .act-top { display: flex; align-items: center; gap: var(--spacing-base-tight); }
     .act-ico { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .act-ico i[data-icon] { width: 20px; height: 20px; display: flex; }
-    .act-ico.teal { background: var(--bg-brand-subtle); color: var(--content-brand-base); }
+    .act-ico.teal { background: var(--bg-brand-subtle); color: var(--content-brand); }
     .act-ico.purple { background: var(--bg-accent-purple-subtle); color: var(--content-accent-purple-base); }
-    .act-ico.orange { background: var(--bg-warning-subtle); color: var(--content-warning-base); }
+    .act-ico.orange { background: var(--bg-warning-subtle); color: var(--content-warning); }
     .act-card h3 { font-size: 16px; font-weight: 600; margin: 0; line-height: 1.35; }
     .act-card .act-desc { font-size: 14px; color: var(--content-secondary); margin: 0; line-height: 1.5; }
     .act-meta { display: flex; align-items: center; gap: var(--spacing-tight); margin-top: auto; padding-top: var(--spacing-tight); }
     .deadline { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--content-secondary); }
     .deadline i[data-icon] { width: 13px; height: 13px; display: flex; }
-    .deadline.urgent { color: var(--content-negative-base); }
+    .deadline.urgent { color: var(--content-negative); }
 
     /* progress bar for "complete profile" type */
     .progress { height: 6px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
-    .progress > span { display: block; height: 100%; border-radius: var(--radius-full); background: var(--bg-brand-base); }
+    .progress > span { display: block; height: 100%; border-radius: var(--radius-full); background: var(--bg-brand); }
 
     /* ── News + Updates two-column ── */
     .feed-cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--spacing-loose); align-items: start; }
@@ -85,7 +85,7 @@
     .upd-item { display: flex; gap: var(--spacing-base-tight); padding: var(--spacing-base); cursor: pointer; border-bottom: 1px solid var(--border-base); transition: background .12s; text-align: left; width: 100%; font-family: inherit; background: none; border-left: 0; border-right: 0; border-top: 0; }
     .upd-item:last-child { border-bottom: 0; }
     .upd-item:hover { background: var(--bg-base-hover); }
-    .upd-dot { width: 32px; height: 32px; border-radius: var(--radius-md); flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-brand-subtle); color: var(--content-brand-base); }
+    .upd-dot { width: 32px; height: 32px; border-radius: var(--radius-md); flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--bg-brand-subtle); color: var(--content-brand); }
     .upd-dot i[data-icon] { width: 16px; height: 16px; display: flex; }
     .upd-text { min-width: 0; }
     .upd-text h4 { font-size: 14px; font-weight: 600; margin: 0 0 2px; line-height: 1.4; }
@@ -112,8 +112,8 @@
     .sp-survey-q .q-text { font-size: 14px; font-weight: 500; margin: 0 0 var(--spacing-base-tight); line-height: 1.5; }
     .scale { display: flex; gap: var(--spacing-tight); }
     .scale button { flex: 1; height: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-action); background: var(--bg-base); font-family: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); cursor: pointer; transition: all .12s; }
-    .scale button:hover { border-color: var(--border-brand-base); color: var(--content-brand-base); }
-    .scale button.is-sel { background: var(--bg-brand-base); border-color: var(--bg-brand-base); color: var(--content-on-brand-base); }
+    .scale button:hover { border-color: var(--border-brand); color: var(--content-brand); }
+    .scale button.is-sel { background: var(--bg-brand); border-color: var(--bg-brand); color: var(--content-on-brand-base); }
     .sp-progress-bar { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-top: var(--spacing-tight); }
     .sp-progress-bar .progress { flex: 1; }
     .sp-progress-bar span { font-size: 12px; color: var(--content-subtle); font-weight: 500; white-space: nowrap; }
@@ -258,7 +258,7 @@
 
   const NEWS = [
     {
-      id:'award', tag:'Company', tagColor:'green', icon:'win', thumb:'var(--bg-accent-green-base)',
+      id:'award', tag:'Company', tagColor:'green', icon:'win', thumb:'var(--bg-accent-green)',
       title:'Effectory wins Best Employer Experience Platform 2026',
       excerpt:'Our team picked up the award at the HR Tech Summit in Amsterdam, recognising the impact of continuous listening.',
       date:'2 days ago',
@@ -269,7 +269,7 @@
       ]
     },
     {
-      id:'benchmark', tag:'Research', tagColor:'blue', icon:'barchart-2', thumb:'var(--bg-info-base)',
+      id:'benchmark', tag:'Research', tagColor:'blue', icon:'barchart-2', thumb:'var(--bg-info)',
       title:'New benchmark data: tech-sector engagement up 4%',
       excerpt:'The Q2 European benchmark is live. Engagement in the technology sector rose 4 points, driven by stronger team autonomy.',
       date:'5 days ago',
@@ -321,7 +321,7 @@
     },
   ];
 
-  const TAG_TEXT = { green:'var(--content-positive-base)', blue:'var(--content-info-base)', purple:'var(--content-accent-purple-base)' };
+  const TAG_TEXT = { green:'var(--content-positive)', blue:'var(--content-info)', purple:'var(--content-accent-purple-base)' };
 
   // ─────────── Render lists ───────────
   const elAct = document.getElementById('activities');
@@ -466,7 +466,7 @@
   function openUpdate(u){
     const media = document.getElementById('dlg-media');
     media.style.background = 'var(--bg-brand-subtle)';
-    media.style.color = 'var(--content-brand-base)';
+    media.style.color = 'var(--content-brand)';
     media.innerHTML = `<i data-icon="${u.icon}" style="width:48px;height:48px;display:flex;"></i>`;
     document.getElementById('dlg-title').textContent = u.title;
     document.getElementById('dlg-subtitle').textContent = u.sub;

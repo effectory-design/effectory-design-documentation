@@ -9,24 +9,24 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── System Notification — dark, system-level message card ── */
-    .sysnotif { position: relative; display: flex; flex-direction: column; gap: 8px; width: 326px; max-width: 100%; padding: 16px 36px 16px 24px; background: var(--bg-inverse-base); border-left: 8px solid var(--border-positive-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers); font-family: 'Poppins', sans-serif; animation: sysnotif-in 0.2s ease-in-out; }
+    .sysnotif { position: relative; display: flex; flex-direction: column; gap: 8px; width: 326px; max-width: 100%; padding: 16px 36px 16px 24px; background: var(--bg-inverse); border-left: 8px solid var(--border-positive); border-radius: var(--radius-md); box-shadow: var(--sh-popovers); font-family: 'Poppins', sans-serif; animation: sysnotif-in 0.2s ease-in-out; }
     @keyframes sysnotif-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .sysnotif { animation: none; } }
     /* placement demo */
     .sysnotif-stagedemo { position: relative; height: 300px; background: var(--bg-secondary); border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden; }
     .sysnotif-stagedemo .sysnotif-stack { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding: 8px; }
     .sysnotif-stagedemo .sysnotif { animation: none; pointer-events: none; }
-    .sysnotif.is-error   { border-left-color: var(--border-negative-base); }
-    .sysnotif.is-warning { border-left-color: var(--border-warning-base); }
-    .sysnotif-title { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse-base); }
+    .sysnotif.is-error   { border-left-color: var(--border-negative); }
+    .sysnotif.is-warning { border-left-color: var(--border-warning); }
+    .sysnotif-title { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--content-inverse); }
     .sysnotif-desc  { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--content-inverse-secondary); }
     .sysnotif-action { align-self: flex-start; }
-    .sysnotif .sysnotif-action { color: var(--border-positive-base); }
-    .sysnotif.is-error .sysnotif-action   { color: var(--border-negative-base); }
-    .sysnotif.is-warning .sysnotif-action { color: var(--border-warning-base); }
+    .sysnotif .sysnotif-action { color: var(--border-positive); }
+    .sysnotif.is-error .sysnotif-action   { color: var(--border-negative); }
+    .sysnotif.is-warning .sysnotif-action { color: var(--border-warning); }
     .sysnotif .sysnotif-action:hover, .sysnotif .sysnotif-action.is-hover { opacity: .85; }
     .sysnotif-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; border-radius: var(--radius-base); color: var(--content-inverse-secondary); cursor: pointer; }
-    .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse-base); }
+    .sysnotif-close:hover, .sysnotif-close.is-hover { background: rgba(255,255,255,.1); color: var(--content-inverse); }
     .sysnotif-close i[data-icon] { width: 16px; height: 16px; display: flex; }
 
     /* live top-right stack (playground trigger) */
@@ -191,13 +191,13 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-inverse-base</code></td><td>Card surface</td><td>#192743</td></tr>
-              <tr><td><code>--border-positive-base</code></td><td>Accent — Success</td><td>#39a35c</td></tr>
-              <tr><td><code>--border-negative-base</code></td><td>Accent — Error</td><td>#b9252a</td></tr>
-              <tr><td><code>--border-warning-base</code></td><td>Accent — Warning</td><td>#ec6e0a</td></tr>
-              <tr><td><code>--content-inverse-base</code></td><td>Title</td><td>#ffffff</td></tr>
+              <tr><td><code>--bg-inverse</code></td><td>Card surface</td><td>#192743</td></tr>
+              <tr><td><code>--border-positive</code></td><td>Accent — Success</td><td>#39a35c</td></tr>
+              <tr><td><code>--border-negative</code></td><td>Accent — Error</td><td>#b9252a</td></tr>
+              <tr><td><code>--border-warning</code></td><td>Accent — Warning</td><td>#ec6e0a</td></tr>
+              <tr><td><code>--content-inverse</code></td><td>Title</td><td>#ffffff</td></tr>
               <tr><td><code>--content-inverse-secondary</code></td><td>Description</td><td>rgba(255,255,255,.8)</td></tr>
-              <tr><td><code>--border-positive-base</code> / <code>--border-negative-base</code> / <code>--border-warning-base</code></td><td>Action link (matches the sentiment)</td><td>—</td></tr>
+              <tr><td><code>--border-positive</code> / <code>--border-negative</code> / <code>--border-warning</code></td><td>Action link (matches the sentiment)</td><td>—</td></tr>
               <tr><td><code>--sh-popovers</code></td><td>Card shadow</td><td>0 2px 12px rgba(25,39,67,.08)</td></tr>
               <tr><td><code>--radius-md</code></td><td>Corner radius</td><td>8px</td></tr>
             </tbody>
@@ -344,9 +344,9 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-inverse-base</code></td><td>Card surface</td></tr>
-              <tr><td><code>--border-positive-base</code> · <code>--border-negative-base</code> · <code>--border-warning-base</code></td><td>Accent bar + action link (per sentiment)</td></tr>
-              <tr><td><code>--content-inverse-base</code> · <code>--content-inverse-secondary</code></td><td>Title / description</td></tr>
+              <tr><td><code>--bg-inverse</code></td><td>Card surface</td></tr>
+              <tr><td><code>--border-positive</code> · <code>--border-negative</code> · <code>--border-warning</code></td><td>Accent bar + action link (per sentiment)</td></tr>
+              <tr><td><code>--content-inverse</code> · <code>--content-inverse-secondary</code></td><td>Title / description</td></tr>
               <tr><td><code>--sh-popovers</code></td><td>Card shadow</td></tr>
             </tbody>
           </table>

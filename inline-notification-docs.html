@@ -27,12 +27,12 @@
     }
     /* Each mood sets its accent vars (used by the action buttons) plus the
        notification's own subtle background. */
-    .inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; --notif-accent: var(--bg-info-base, #3174db);     --notif-accent-border: var(--border-info-base, #3174db);     --notif-accent-fill-border: var(--border-info-base-hover, #205bb9); --notif-accent-on: #fff; }
-    .inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; --notif-accent: var(--bg-warning-bold, #fa8324);  --notif-accent-border: var(--border-warning-base, #ec6e0a);  --notif-accent-on: var(--content-base, #192743); }
-    .inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; --notif-accent: var(--bg-positive-base, #278747); --notif-accent-border: var(--border-positive-base, #39a35c); --notif-accent-on: #fff; }
-    .inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; --notif-accent: var(--bg-negative-base, #d3353b); --notif-accent-border: var(--border-negative-base, #b9252a); --notif-accent-on: #fff; }
+    .inline-notif.is-info    { background: var(--bg-info-subtle);     border-color: var(--border-info-subtle);     box-shadow: none; --notif-accent: var(--bg-info, #3174db);     --notif-accent-border: var(--border-info, #3174db);     --notif-accent-fill-border: var(--border-info-hover, #205bb9); --notif-accent-on: #fff; }
+    .inline-notif.is-warn    { background: var(--bg-warning-subtle);  border-color: var(--border-warning-subtle);  box-shadow: none; --notif-accent: var(--bg-warning, #fa8324);  --notif-accent-border: var(--border-warning, #ec6e0a);  --notif-accent-on: var(--content-base, #192743); }
+    .inline-notif.is-success { background: var(--bg-positive-subtle); border-color: var(--border-positive-subtle); box-shadow: none; --notif-accent: var(--bg-positive, #278747); --notif-accent-border: var(--border-positive, #39a35c); --notif-accent-on: #fff; }
+    .inline-notif.is-error   { background: var(--bg-negative-subtle); border-color: var(--border-negative-subtle); box-shadow: none; --notif-accent: var(--bg-negative, #d3353b); --notif-accent-border: var(--border-negative, #b9252a); --notif-accent-on: #fff; }
     /* is-subtle keeps the default white card; its accent is the brand colour */
-    .inline-notif.is-subtle  { --notif-accent: var(--bg-brand-base, #0a9d99); --notif-accent-border: var(--border-action, #bcc1cd); --notif-accent-fill-border: var(--border-brand-base, #0c827f); --notif-accent-on: var(--content-on-brand-base, #fff); }
+    .inline-notif.is-subtle  { --notif-accent: var(--bg-brand, #0a9d99); --notif-accent-border: var(--border-action, #bcc1cd); --notif-accent-fill-border: var(--border-brand, #0c827f); --notif-accent-on: var(--content-on-brand-base, #fff); }
 
     /* One-liner notifications are tighter vertically and centre everything
        (icon, text, actions, close) on the single line. */
@@ -128,7 +128,7 @@
     .inline-notif-close:hover,
     .inline-notif-close.is-hover { color: var(--content-base); }
     .inline-notif-close:focus-visible,
-    .inline-notif-close.is-focus { outline: 2px solid var(--border-brand-base); outline-offset: 1px; }
+    .inline-notif-close.is-focus { outline: 2px solid var(--border-brand); outline-offset: 1px; }
 
     /* Playground action-button builder rows */
     .pg-btn-config { display:flex; gap:6px; align-items:center; }
@@ -573,16 +573,16 @@
             <tbody>
               <tr><td><code>--bg-info-subtle</code></td><td>Info background</td><td>#e6f0fe</td></tr>
               <tr><td><code>--border-info-subtle</code></td><td>Info border</td><td>#acceff</td></tr>
-              <tr><td><code>--bg-info-base</code></td><td>Info icon</td><td>#3174db</td></tr>
+              <tr><td><code>--bg-info</code></td><td>Info icon</td><td>#3174db</td></tr>
               <tr><td><code>--bg-warning-subtle</code></td><td>Warn background</td><td>#feede1</td></tr>
               <tr><td><code>--border-warning-subtle</code></td><td>Warn border</td><td>#fec095</td></tr>
-              <tr><td><code>--bg-warning-bold</code></td><td>Warn icon</td><td>#fa8324</td></tr>
+              <tr><td><code>--bg-warning</code></td><td>Warn icon</td><td>#fa8324</td></tr>
               <tr><td><code>--bg-positive-subtle</code></td><td>Success background</td><td>#d7f9e0</td></tr>
               <tr><td><code>--border-positive-subtle</code></td><td>Success border</td><td>#94dfa8</td></tr>
-              <tr><td><code>--bg-positive-base</code></td><td>Success icon</td><td>#278747</td></tr>
+              <tr><td><code>--bg-positive</code></td><td>Success icon</td><td>#278747</td></tr>
               <tr><td><code>--bg-negative-subtle</code></td><td>Error background</td><td>#ffebeb</td></tr>
               <tr><td><code>--border-negative-subtle</code></td><td>Error border</td><td>#feb9b9</td></tr>
-              <tr><td><code>--bg-negative-base</code></td><td>Error icon</td><td>#d3353b</td></tr>
+              <tr><td><code>--bg-negative</code></td><td>Error icon</td><td>#d3353b</td></tr>
               <tr><td><code>--bg-base</code></td><td>Subtle background</td><td>#ffffff</td></tr>
               <tr><td><code>--border-base</code></td><td>Subtle border</td><td>#e1e4e8</td></tr>
               <tr><td><code>--content-base</code></td><td>Title colour</td><td>#192743</td></tr>
@@ -832,10 +832,10 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-info-subtle</code> · <code>--border-info-subtle</code> · <code>--bg-info-base</code></td><td>Info mood</td></tr>
-              <tr><td><code>--bg-warning-subtle</code> · <code>--border-warning-subtle</code> · <code>--bg-warning-bold</code></td><td>Warn mood</td></tr>
-              <tr><td><code>--bg-positive-subtle</code> · <code>--border-positive-subtle</code> · <code>--bg-positive-base</code></td><td>Success mood</td></tr>
-              <tr><td><code>--bg-negative-subtle</code> · <code>--border-negative-subtle</code> · <code>--bg-negative-base</code></td><td>Error mood</td></tr>
+              <tr><td><code>--bg-info-subtle</code> · <code>--border-info-subtle</code> · <code>--bg-info</code></td><td>Info mood</td></tr>
+              <tr><td><code>--bg-warning-subtle</code> · <code>--border-warning-subtle</code> · <code>--bg-warning</code></td><td>Warn mood</td></tr>
+              <tr><td><code>--bg-positive-subtle</code> · <code>--border-positive-subtle</code> · <code>--bg-positive</code></td><td>Success mood</td></tr>
+              <tr><td><code>--bg-negative-subtle</code> · <code>--border-negative-subtle</code> · <code>--bg-negative</code></td><td>Error mood</td></tr>
               <tr><td><code>--bg-base</code> · <code>--border-base</code> · <code>--sh-card</code></td><td>Subtle mood</td></tr>
               <tr><td><code>--radius-md</code></td><td>Outer corners</td></tr>
             </tbody>

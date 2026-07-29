@@ -15,7 +15,7 @@
       gap: var(--spacing-extra-tight, 4px);
       padding: var(--spacing-extra-tight, 4px) var(--spacing-tight, 8px);
       border-radius: var(--radius-base);
-      background: var(--bg-info-base); color: #fff;
+      background: var(--bg-info); color: #fff;
       font-family: 'Poppins', sans-serif;
       font-size: 12px; font-weight: 600; line-height: 16px; white-space: nowrap;
     }
@@ -24,12 +24,12 @@
     .tag.text-w400 { font-weight: 400; }
     .tag.text-w500 { font-weight: 500; }
     .tag-full { border-radius: var(--radius-full); }
-    .tag-info      { background: var(--bg-info-base);      color: #fff; }
-    .tag-brand     { background: var(--bg-brand-base);     color: var(--content-on-brand-base); }
-    .tag-warning   { background: var(--bg-warning-bold);   color: #fff; }
-    .tag-negative  { background: var(--bg-negative-base);  color: #fff; }
+    .tag-info      { background: var(--bg-info);      color: #fff; }
+    .tag-brand     { background: var(--bg-brand);     color: var(--content-on-brand-base); }
+    .tag-warning   { background: var(--bg-warning);   color: #fff; }
+    .tag-negative  { background: var(--bg-negative);  color: #fff; }
     .tag-highlight { background: var(--bg-highlight-base); color: var(--content-base); }
-    .tag-positive  { background: var(--bg-positive-base);  color: #fff; }
+    .tag-positive  { background: var(--bg-positive);  color: #fff; }
 
     /* doc-only demo scaffolding */
     .anatomy-fig { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 48px; margin-bottom: 24px; display: flex; justify-content: center; }
@@ -209,12 +209,12 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-info-base</code></td><td>Info fill (default)</td><td>#3174db</td></tr>
-              <tr><td><code>--bg-brand-base</code></td><td>Brand fill</td><td>#0a9d99</td></tr>
-              <tr><td><code>--bg-warning-bold</code></td><td>Warning fill</td><td>#fa8324</td></tr>
-              <tr><td><code>--bg-negative-base</code></td><td>Negative fill</td><td>#d3353b</td></tr>
+              <tr><td><code>--bg-info</code></td><td>Info fill (default)</td><td>#3174db</td></tr>
+              <tr><td><code>--bg-brand</code></td><td>Brand fill</td><td>#0a9d99</td></tr>
+              <tr><td><code>--bg-warning</code></td><td>Warning fill</td><td>#fa8324</td></tr>
+              <tr><td><code>--bg-negative</code></td><td>Negative fill</td><td>#d3353b</td></tr>
               <tr><td><code>--bg-highlight-base</code></td><td>Highlight fill</td><td>#fdbd12</td></tr>
-              <tr><td><code>--bg-positive-base</code></td><td>Positive fill</td><td>#278747</td></tr>
+              <tr><td><code>--bg-positive</code></td><td>Positive fill</td><td>#278747</td></tr>
               <tr><td><code>--content-base</code></td><td>Label on the highlight fill</td><td>#192743</td></tr>
               <tr><td><code>--radius-base</code> · <code>--radius-full</code></td><td>Medium (default) · full radius</td><td>6px · 999px</td></tr>
             </tbody>
@@ -350,8 +350,8 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-info-base</code> · <code>--bg-brand-base</code> · <code>--bg-warning-bold</code></td><td>Info · brand · warning fill</td></tr>
-              <tr><td><code>--bg-negative-base</code> · <code>--bg-highlight-base</code> · <code>--bg-positive-base</code></td><td>Negative · highlight · positive fill</td></tr>
+              <tr><td><code>--bg-info</code> · <code>--bg-brand</code> · <code>--bg-warning</code></td><td>Info · brand · warning fill</td></tr>
+              <tr><td><code>--bg-negative</code> · <code>--bg-highlight-base</code> · <code>--bg-positive</code></td><td>Negative · highlight · positive fill</td></tr>
               <tr><td><code>--content-on-brand-base</code> · <code>--content-base</code></td><td>Text on brand · on highlight</td></tr>
               <tr><td><code>--radius-base</code> · <code>--radius-full</code></td><td>Medium · full radius</td></tr>
             </tbody>

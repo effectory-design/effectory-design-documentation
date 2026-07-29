@@ -84,14 +84,14 @@
 
     /* Focus */
     input.tf:focus,
-    input.tf.is-focus { border-color: var(--border-brand-base); }
+    input.tf.is-focus { border-color: var(--border-brand); }
 
     /* Error — .error is the production class; .is-error is used in static design demos */
     input.tf.error,
-    input.tf.is-error { border-color: var(--border-negative-base); }
+    input.tf.is-error { border-color: var(--border-negative); }
     input.tf.error:focus,
     input.tf.is-error:focus,
-    input.tf.is-error.is-focus { border-color: var(--border-negative-base); }
+    input.tf.is-error.is-focus { border-color: var(--border-negative); }
 
     /* Disabled */
     input.tf:disabled,
@@ -164,7 +164,7 @@
     }
     input.tf-inline:focus,
     input.tf-inline.is-focus {
-      border-color: var(--border-brand-base);
+      border-color: var(--border-brand);
       background: var(--bg-input);
     }
     input.tf-inline:disabled,
@@ -248,13 +248,13 @@
     .tf-num-wrap.is-hover { border-color: var(--border-action-hover); }
     /* Focus */
     .tf-num-wrap:focus-within,
-    .tf-num-wrap.is-focus { border-color: var(--border-brand-base); }
+    .tf-num-wrap.is-focus { border-color: var(--border-brand); }
     /* Error */
     .tf-num-wrap.is-error { background: var(--bg-negative-subtle); }
     .tf-num-wrap.is-error:hover,
-    .tf-num-wrap.is-error.is-hover { border-color: var(--border-negative-base); }
+    .tf-num-wrap.is-error.is-hover { border-color: var(--border-negative); }
     .tf-num-wrap.is-error:focus-within,
-    .tf-num-wrap.is-error.is-focus { border-color: var(--border-negative-base); background: var(--bg-input); }
+    .tf-num-wrap.is-error.is-focus { border-color: var(--border-negative); background: var(--bg-input); }
     .tf-num-wrap.is-error input.tf-num { color: var(--content-negative-secondary); }
     /* Disabled */
     .tf-num-wrap.is-disabled,
@@ -309,7 +309,7 @@
       bottom: calc(100% + 6px);
       left: 50%;
       transform: translateX(-50%);
-      background: var(--bg-inverse-base);
+      background: var(--bg-inverse);
       color: var(--content-on-inverse);
       font-size: 12px;
       font-weight: 400;
@@ -815,8 +815,8 @@
           <tr><td><code>--bg-disabled</code></td><td>Field background — disabled</td><td>rgba(25,39,67, 0.10)</td></tr>
           <tr><td><code>--border-action</code></td><td>Container border — default</td><td>#bcc1cd</td></tr>
           <tr><td><code>--border-action-hover</code></td><td>Container border — hover</td><td>#a5adbc</td></tr>
-          <tr><td><code>--border-brand-base</code></td><td>Container border — focused</td><td>#0c827f</td></tr>
-          <tr><td><code>--border-negative-base</code></td><td>Container border — error</td><td>#b9252a</td></tr>
+          <tr><td><code>--border-brand</code></td><td>Container border — focused</td><td>#0c827f</td></tr>
+          <tr><td><code>--border-negative</code></td><td>Container border — error</td><td>#b9252a</td></tr>
           <tr><td><code>--content-base</code></td><td>Input value text</td><td>#192743</td></tr>
           <tr><td><code>--content-placeholder</code></td><td>Placeholder text</td><td>rgba(25,39,67, 0.67)</td></tr>
           <tr><td><code>--content-secondary</code></td><td>Icon colour</td><td>rgba(25,39,67, 0.80)</td></tr>
@@ -1203,8 +1203,8 @@
 <span class="cc">/* Border */</span>
 <span class="ca">--border-action</span>:             <span class="cv">#bcc1cd</span>;                  <span class="cc">/* Default border                    */</span>
 <span class="ca">--border-action-hover</span>:       <span class="cv">#a5adbc</span>;                  <span class="cc">/* Hover border                      */</span>
-<span class="ca">--border-brand-base</span>:         <span class="cv">#0c827f</span>;                  <span class="cc">/* Focus border                      */</span>
-<span class="ca">--border-negative-base</span>:      <span class="cv">#b9252a</span>;                  <span class="cc">/* Error border                      */</span>
+<span class="ca">--border-brand</span>:         <span class="cv">#0c827f</span>;                  <span class="cc">/* Focus border                      */</span>
+<span class="ca">--border-negative</span>:      <span class="cv">#b9252a</span>;                  <span class="cc">/* Error border                      */</span>
 
 <span class="cc">/* Content */</span>
 <span class="ca">--content-base</span>:              <span class="cv">#192743</span>;                  <span class="cc">/* Input value text                  */</span>

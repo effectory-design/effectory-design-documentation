@@ -20,7 +20,7 @@
       font-family: 'Poppins', sans-serif;
     }
     /* full-bleed illustration (eff-tooltip-dialog [svgUrl]); coloured placeholder shown when no image */
-    .ann-media { height: 168px; background: var(--bg-brand-base); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.85); }
+    .ann-media { height: 168px; background: var(--bg-brand); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.85); }
     .ann-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .ann-media-ph { display: flex; width: 40px; height: 40px; opacity: .5; }
     .ann-body { padding: 20px; }
@@ -39,9 +39,9 @@
 
     /* canonical button set (matches the Button page) */
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .1s; text-decoration: none; }
-    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
-    .btn-primary:hover, .btn-primary.is-hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); }
-    .btn-primary:active, .btn-primary.is-pressed { background: var(--bg-brand-base-pressed); border-color: var(--border-brand-base-pressed); }
+    .btn-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
+    .btn-primary:hover, .btn-primary.is-hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-pressed); }
+    .btn-primary:active, .btn-primary.is-pressed { background: var(--bg-brand-pressed); border-color: var(--border-brand-pressed); }
     /* tertiary (ghost) dismiss */
     .btn-tertiary { background: transparent; border-color: transparent; color: var(--content-secondary); }
     .btn-tertiary:hover, .btn-tertiary.is-hover { background: var(--bg-base-hover); color: var(--content-base); }
@@ -184,8 +184,8 @@
             <div class="dd-card">
               <div class="ann-prev">
                 <div class="ann-deck" style="pointer-events:none;">
-                  <div class="announcement ann-b1" style="width:260px;"><div class="ann-media" style="height:90px; background:var(--bg-info-base);"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Bulk export</p></div></div>
-                  <div class="announcement ann-front" style="width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-media" style="height:90px; background:var(--bg-brand-base);"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Comments are live</p><p class="ann-text" style="font-size:12px;">Leave feedback on any question.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div>
+                  <div class="announcement ann-b1" style="width:260px;"><div class="ann-media" style="height:90px; background:var(--bg-info);"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Bulk export</p></div></div>
+                  <div class="announcement ann-front" style="width:260px;"><button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button><div class="ann-media" style="height:90px; background:var(--bg-brand);"></div><div class="ann-body" style="padding:14px 16px 16px;"><p class="ann-title" style="font-size:14px;">Comments are live</p><p class="ann-text" style="font-size:12px;">Leave feedback on any question.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div>
                 </div>
               </div>
               <div class="dd-cap do">
@@ -214,10 +214,10 @@
           <p>The card comes in a small set of colours drawn from the design-system palette tokens. <strong>Default</strong> is a white card with the brand (teal) button; the others tint the card background (<code>--bg-*-subtle</code>), the illustration (<code>--bg-*-base</code>) and the call-to-action. They're purely decorative colour choices — an announcement carries no error or status meaning, so pick whichever fits the moment.</p>
           <div class="colour-frame">
             <div class="announcement" style="width:210px; pointer-events:none;"><div class="ann-body"><p class="ann-title">Default</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary">Learn more</button></div></div></div>
-            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-info-subtle);"><div class="ann-body"><p class="ann-title">Blue</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand-base:var(--bg-info-base);--border-brand-base:var(--border-info-base-hover);">Learn more</button></div></div></div>
-            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-positive-subtle);"><div class="ann-body"><p class="ann-title">Green</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand-base:var(--bg-positive-base);--border-brand-base:var(--border-positive-base-hover);">Learn more</button></div></div></div>
-            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-warning-subtle);"><div class="ann-body"><p class="ann-title">Orange</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand-base:var(--bg-warning-bold);--border-brand-base:var(--border-warning-base);--content-on-brand-base:var(--content-base);">Learn more</button></div></div></div>
-            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-negative-subtle);"><div class="ann-body"><p class="ann-title">Red</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand-base:var(--bg-negative-base);--border-brand-base:var(--border-negative-base-hover);">Learn more</button></div></div></div>
+            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-info-subtle);"><div class="ann-body"><p class="ann-title">Blue</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand:var(--bg-info);--border-brand:var(--border-info-hover);">Learn more</button></div></div></div>
+            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-positive-subtle);"><div class="ann-body"><p class="ann-title">Green</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand:var(--bg-positive);--border-brand:var(--border-positive-hover);">Learn more</button></div></div></div>
+            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-warning-subtle);"><div class="ann-body"><p class="ann-title">Orange</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand:var(--bg-warning);--border-brand:var(--border-warning);--content-on-brand-base:var(--content-base);">Learn more</button></div></div></div>
+            <div class="announcement" style="width:210px; pointer-events:none; background:var(--bg-negative-subtle);"><div class="ann-body"><p class="ann-title">Red</p><p class="ann-text">A fresh update worth a look.</p><div class="ann-actions"><button class="btn btn-primary" style="--bg-brand:var(--bg-negative);--border-brand:var(--border-negative-hover);">Learn more</button></div></div></div>
           </div>
 
           <h3 class="text-l4">Layout</h3>
@@ -252,13 +252,13 @@
             <div class="variant-row">
               <div class="variant-row-btn">
                 <div class="ann-deck" style="width:260px; pointer-events:none;">
-                  <div class="announcement ann-b4" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-negative-base);"></div></div>
-                  <div class="announcement ann-b3" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-info-base);"></div></div>
-                  <div class="announcement ann-b2" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-warning-bold);"></div></div>
-                  <div class="announcement ann-b1" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-positive-base);"></div></div>
+                  <div class="announcement ann-b4" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-negative);"></div></div>
+                  <div class="announcement ann-b3" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-info);"></div></div>
+                  <div class="announcement ann-b2" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-warning);"></div></div>
+                  <div class="announcement ann-b1" style="width:260px;"><div class="ann-media" style="height:130px; background:var(--bg-positive);"></div></div>
                   <div class="announcement ann-front" style="width:260px;">
                     <button class="ann-close ib ib-24 ib-secondary" aria-label="Close"><i data-icon="cross"></i></button>
-                    <div class="ann-media" style="height:130px; background:var(--bg-brand-base);"></div>
+                    <div class="ann-media" style="height:130px; background:var(--bg-brand);"></div>
                     <div class="ann-body">
                       <p class="ann-title">Dynamic reporting is here!</p>
                       <p class="ann-text">A new look, new features, and more to explore.</p>
@@ -319,8 +319,8 @@
               <tr><td><code>--bg-tertiary</code></td><td>Illustration placeholder background</td><td>#e1e4e8</td></tr>
               <tr><td><code>--content-base</code></td><td>Title text</td><td>#192743</td></tr>
               <tr><td><code>--content-secondary</code></td><td>Body text + dismiss button</td><td>rgba(25,39,67,.8)</td></tr>
-              <tr><td><code>--bg-brand-base</code></td><td>Call-to-action fill</td><td>#0a9d99</td></tr>
-              <tr><td><code>--border-brand-base</code></td><td>Call-to-action border</td><td>#0c827f</td></tr>
+              <tr><td><code>--bg-brand</code></td><td>Call-to-action fill</td><td>#0a9d99</td></tr>
+              <tr><td><code>--border-brand</code></td><td>Call-to-action border</td><td>#0c827f</td></tr>
               <tr><td><code>--content-on-brand-base</code></td><td>Call-to-action text</td><td>#ffffff</td></tr>
               <tr><td><code>--radius-lg</code></td><td>Card corner radius</td><td>12px</td></tr>
             </tbody>
@@ -474,7 +474,7 @@
             <tbody>
               <tr><td><code>--bg-base</code> · <code>--border-base</code> · <code>--sh-dialogs</code></td><td>Card surface, border, floating shadow</td></tr>
               <tr><td><code>--bg-tertiary</code></td><td>Illustration placeholder background</td></tr>
-              <tr><td><code>--bg-brand-base</code> · <code>--border-brand-base</code> · <code>--content-on-brand-base</code></td><td>Call-to-action button</td></tr>
+              <tr><td><code>--bg-brand</code> · <code>--border-brand</code> · <code>--content-on-brand-base</code></td><td>Call-to-action button</td></tr>
               <tr><td><code>--radius-lg</code></td><td>Card radius</td></tr>
             </tbody>
           </table>
@@ -516,11 +516,11 @@
     const PH = '<i data-icon="image" class="ann-media-ph"></i>';
     // colour options — values from the design-system palette tokens; Default = white card + brand (teal) button
     const THEMES = {
-      default: { label:'Default', surface:'var(--bg-base)',           illu:'var(--bg-brand-base)' },
-      blue:    { label:'Blue',    surface:'var(--bg-info-subtle)',     illu:'var(--bg-info-base)',     btnBg:'var(--bg-info-base)',     btnBorder:'var(--border-info-base-hover)',     btnOn:'#fff' },
-      green:   { label:'Green',   surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive-base)', btnBg:'var(--bg-positive-base)', btnBorder:'var(--border-positive-base-hover)', btnOn:'#fff' },
-      orange:  { label:'Orange',  surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning-bold)',  btnBg:'var(--bg-warning-bold)',  btnBorder:'var(--border-warning-base)',        btnOn:'var(--content-base)' },
-      red:     { label:'Red',     surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative-base)', btnBg:'var(--bg-negative-base)', btnBorder:'var(--border-negative-base-hover)', btnOn:'#fff' },
+      default: { label:'Default', surface:'var(--bg-base)',           illu:'var(--bg-brand)' },
+      blue:    { label:'Blue',    surface:'var(--bg-info-subtle)',     illu:'var(--bg-info)',     btnBg:'var(--bg-info)',     btnBorder:'var(--border-info-hover)',     btnOn:'#fff' },
+      green:   { label:'Green',   surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive)', btnBg:'var(--bg-positive)', btnBorder:'var(--border-positive-hover)', btnOn:'#fff' },
+      orange:  { label:'Orange',  surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning)',  btnBg:'var(--bg-warning)',  btnBorder:'var(--border-warning)',        btnOn:'var(--content-base)' },
+      red:     { label:'Red',     surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative)', btnBg:'var(--bg-negative)', btnBorder:'var(--border-negative-hover)', btnOn:'#fff' },
     };
     const THEME_ORDER = ['default','blue','green','orange','red'];
     const themeOf = c => THEMES[c.color] || THEMES.default;
@@ -576,7 +576,7 @@
     function inner(c){
       const th = themeOf(c);
       // Default → plain brand (teal) button; colours retint the primary button via its own tokens
-      const btnStyle = th.btnBg ? `--bg-brand-base:${th.btnBg};--bg-brand-base-hover:${th.btnBorder};--bg-brand-base-pressed:${th.btnBorder};--border-brand-base:${th.btnBorder};--border-brand-base-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
+      const btnStyle = th.btnBg ? `--bg-brand:${th.btnBg};--bg-brand-hover:${th.btnBorder};--bg-brand-pressed:${th.btnBorder};--border-brand:${th.btnBorder};--border-brand-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
       const cta = c.cta ? `<button class="btn btn-primary" data-next style="${btnStyle}">${esc(c.ctaLabel)||'Learn more'}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
       const close = `<button class="ann-close ib ib-24 ib-secondary" data-next aria-label="Close"><i data-icon="cross"></i></button>`;
@@ -588,7 +588,7 @@
       if (total <= 1) {
         $preview.innerHTML = cardEl(CARDS[0], '');
       } else if (idx >= total) {
-        $preview.innerHTML = `<div style="width:260px; text-align:center; font-family:'Poppins',sans-serif; font-size:14px; color:var(--content-secondary); padding:32px 0;">You're all caught up ✓<button id="pg-replay" style="display:block; margin:10px auto 0; background:none; border:none; color:var(--content-brand-base); font:inherit; cursor:pointer; text-decoration:underline;">Replay</button></div>`;
+        $preview.innerHTML = `<div style="width:260px; text-align:center; font-family:'Poppins',sans-serif; font-size:14px; color:var(--content-secondary); padding:32px 0;">You're all caught up ✓<button id="pg-replay" style="display:block; margin:10px auto 0; background:none; border:none; color:var(--content-brand); font:inherit; cursor:pointer; text-decoration:underline;">Replay</button></div>`;
         document.getElementById('pg-replay').onclick = () => { idx = 0; render(); };
       } else {
         const layers = [];

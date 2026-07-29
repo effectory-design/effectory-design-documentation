@@ -52,8 +52,8 @@
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 6px 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; box-shadow: var(--sh-action); }
     .btn-secondary { background: var(--bg-base); border-color: var(--border-action); color: var(--content-action); }
     .btn-secondary:hover { background: var(--bg-base-hover); border-color: var(--border-action-hover); }
-    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); }
-    .btn-primary:hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); }
+    .btn-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); }
+    .btn-primary:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-pressed); }
 
     /* Demo stage — panel docked on the right over a scrim */
     .sp-stage { display: flex; justify-content: flex-end; height: 480px; background: rgba(25,39,67,.18); border-radius: var(--radius-lg); overflow: hidden; }
@@ -495,7 +495,7 @@ open() {
               <tr><td><code>--sh-dialogs</code></td><td>Panel shadow</td></tr>
               <tr><td><code>--content-base</code> · <code>--content-secondary</code></td><td>Title / subtitle + body</td></tr>
               <tr><td><code>--content-action</code></td><td>Toolbar &amp; nav icons</td></tr>
-              <tr><td><code>--content-brand-base</code></td><td>Active tab underline</td></tr>
+              <tr><td><code>--content-brand</code></td><td>Active tab underline</td></tr>
             </tbody>
           </table>
         </section>

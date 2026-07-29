@@ -108,7 +108,7 @@
     }
     .rr-participants b {
       font-weight: 600;
-      color: var(--content-info-base);
+      color: var(--content-info);
     }
 
     /* ── Trend badge ── */
@@ -121,12 +121,12 @@
       gap: var(--spacing-extra-tight);
       padding: 2px var(--spacing-extra-tight);
       background: var(--bg-base);
-      border: 1px solid var(--border-negative-base);
+      border: 1px solid var(--border-negative);
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 500;
       line-height: 16px;
-      color: var(--content-negative-base);
+      color: var(--content-negative);
     }
     .rr-trend i {
       display: flex;
@@ -222,7 +222,7 @@
         ctx.save();
         ctx.beginPath();
         ctx.arc(x, y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = css('--bg-info-base');
+        ctx.fillStyle = css('--bg-info');
         ctx.strokeStyle = css('--bg-base');
         ctx.lineWidth = 2.5;
         ctx.fill();
@@ -236,7 +236,7 @@
       data: {
         datasets: [{
           data: [VALUE, 100 - VALUE],
-          backgroundColor: [css('--bg-info-base'), css('--bg-tertiary')],
+          backgroundColor: [css('--bg-info'), css('--bg-tertiary')],
           borderWidth: 0,
           borderRadius: 999
         }]

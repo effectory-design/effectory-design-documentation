@@ -13,8 +13,8 @@
       position: relative;
       display: inline-block;
       max-width: 240px;
-      background: var(--bg-inverse-base);
-      color: var(--content-inverse-base);
+      background: var(--bg-inverse);
+      color: var(--content-inverse);
       font-family: 'Poppins', sans-serif;
       font-size: 14px; font-weight: 500; line-height: 1.4;
       padding: 8px 12px;
@@ -23,10 +23,10 @@
     .tooltip::after {
       content: ''; position: absolute; border: 6px solid transparent;
     }
-    .tooltip.is-above::after  { top: 100%;    left: 50%; transform: translateX(-50%); border-top-color: var(--bg-inverse-base); }
-    .tooltip.is-below::after  { bottom: 100%; left: 50%; transform: translateX(-50%); border-bottom-color: var(--bg-inverse-base); }
-    .tooltip.is-left::after   { left: 100%;   top: 50%;  transform: translateY(-50%); border-left-color: var(--bg-inverse-base); }
-    .tooltip.is-right::after  { right: 100%;  top: 50%;  transform: translateY(-50%); border-right-color: var(--bg-inverse-base); }
+    .tooltip.is-above::after  { top: 100%;    left: 50%; transform: translateX(-50%); border-top-color: var(--bg-inverse); }
+    .tooltip.is-below::after  { bottom: 100%; left: 50%; transform: translateX(-50%); border-bottom-color: var(--bg-inverse); }
+    .tooltip.is-left::after   { left: 100%;   top: 50%;  transform: translateY(-50%); border-left-color: var(--bg-inverse); }
+    .tooltip.is-right::after  { right: 100%;  top: 50%;  transform: translateY(-50%); border-right-color: var(--bg-inverse); }
 
     /* Demo wrapper: positions a tooltip around a trigger so it's visible statically */
     .tt-demo { position: relative; display: inline-flex; }
@@ -189,8 +189,8 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-inverse-base</code></td><td>Bubble + arrow fill</td><td>#192743</td></tr>
-              <tr><td><code>--content-inverse-base</code></td><td>Text colour</td><td>#ffffff</td></tr>
+              <tr><td><code>--bg-inverse</code></td><td>Bubble + arrow fill</td><td>#192743</td></tr>
+              <tr><td><code>--content-inverse</code></td><td>Text colour</td><td>#ffffff</td></tr>
               <tr><td><code>--radius-md</code></td><td>Bubble corner radius</td><td>8px</td></tr>
             </tbody>
           </table>
@@ -313,8 +313,8 @@
           <table class="token-table">
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
-              <tr><td><code>--bg-inverse-base</code></td><td>Bubble + arrow background</td></tr>
-              <tr><td><code>--content-inverse-base</code></td><td>Text colour</td></tr>
+              <tr><td><code>--bg-inverse</code></td><td>Bubble + arrow background</td></tr>
+              <tr><td><code>--content-inverse</code></td><td>Text colour</td></tr>
               <tr><td><code>--radius-md</code></td><td>Corner radius</td></tr>
             </tbody>
           </table>

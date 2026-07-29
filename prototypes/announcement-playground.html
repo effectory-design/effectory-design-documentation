@@ -23,7 +23,7 @@
     /* top tabs */
     .tabs-top { display: inline-flex; gap: 4px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: 12px; padding: 4px; margin-bottom: 26px; }
     .tabs-top button { border: none; background: transparent; font: inherit; font-size: 14px; font-weight: 500; color: var(--content-secondary); padding: 8px 20px; border-radius: 9px; cursor: pointer; transition: background .12s, color .12s; }
-    .tabs-top button.active { background: var(--bg-brand-base); color: var(--content-on-brand-base); }
+    .tabs-top button.active { background: var(--bg-brand); color: var(--content-on-brand-base); }
     .tabpanel { display: none; }
     .tabpanel.active { display: block; }
 
@@ -51,7 +51,7 @@
     .color-dot { width: 14px; height: 14px; border-radius: var(--radius-full); flex-shrink: 0; display: inline-block; }
     .slt-wrap .menu-item-check { opacity: 0; }
     .slt-wrap .menu-item.is-selected .menu-item-check { opacity: 1; }
-    .card-cfg .tag { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 6px; border-radius: 99px; background: var(--bg-highlight-subtle); color: var(--content-highlight-base); border: 1px solid var(--border-highlight-subtle); }
+    .card-cfg .tag { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 6px; border-radius: 99px; background: var(--bg-highlight-subtle); color: var(--content-highlight); border: 1px solid var(--border-highlight-subtle); }
     .card-cfg-hd-left { display: flex; align-items: center; gap: 9px; }
 
     .foot { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
@@ -81,9 +81,9 @@
     /* whole dialog carries the theme tint + a matching coloured border (see Figma 22772-1702) */
     .dlg { position: relative; width: 600px; max-width: 100%; background: var(--dlg-tint, var(--bg-base)); border: 1px solid var(--dlg-border, var(--border-base)); border-radius: 16px; box-shadow: 0 4px 12px rgba(25,39,67,.08), 0 24px 60px -20px rgba(25,39,67,.45); overflow: hidden; font-family: 'Poppins', sans-serif; }
     /* media blends into the tinted card; the colour comes from a soft accent blob behind the illustration */
-    .dlg-media { position: relative; height: 440px; display: flex; align-items: center; justify-content: center; color: var(--dlg-accent, var(--bg-brand-base)); overflow: hidden; transition: height .3s cubic-bezier(.4,0,.2,1); }
+    .dlg-media { position: relative; height: 440px; display: flex; align-items: center; justify-content: center; color: var(--dlg-accent, var(--bg-brand)); overflow: hidden; transition: height .3s cubic-bezier(.4,0,.2,1); }
     .dlg-media::before { content: ''; position: absolute; left: 50%; top: -28%; width: 132%; height: 150%; transform: translateX(-50%); pointer-events: none;
-      background: radial-gradient(58% 52% at 50% 44%, color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 42%, transparent) 0%, transparent 72%); }
+      background: radial-gradient(58% 52% at 50% 44%, color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 42%, transparent) 0%, transparent 72%); }
     .dlg-media.is-collapsed { height: 0; }
     /* real illustration fills the media; when present it covers the accent blob + fallback icon */
     .dlg-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; animation: mediaIn .55s cubic-bezier(.34,1.56,.64,1) both; }
@@ -101,14 +101,14 @@
     .dlg-wave.flat .band { fill: var(--dlg-tint, var(--bg-base)); }
     /* festive intro: glow burst behind a white gift-hero badge */
     .dlg-burst { position: absolute; z-index: 0; left: 50%; top: 47%; width: 460px; height: 460px; transform: translate(-50%,-50%); pointer-events: none;
-      background: radial-gradient(closest-side, color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 36%, transparent), transparent 72%); }
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 36%, transparent), transparent 72%); }
     .dlg-hero { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 112px; height: 112px; border-radius: var(--radius-xl);
       background: #fff; box-shadow: 0 16px 36px -10px rgba(25,39,67,.32); animation: introPop .55s cubic-bezier(.34,1.56,.64,1) both; }
-    .dlg-hero::after { content: ''; position: absolute; inset: -9px; border-radius: var(--radius-xl); border: 2px dashed color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 50%, #fff); opacity: .65; }
-    .dlg-hero i[data-icon] { display: flex; width: 60px; height: 60px; color: var(--dlg-accent, var(--bg-brand-base)); }
+    .dlg-hero::after { content: ''; position: absolute; inset: -9px; border-radius: var(--radius-xl); border: 2px dashed color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 50%, #fff); opacity: .65; }
+    .dlg-hero i[data-icon] { display: flex; width: 60px; height: 60px; color: var(--dlg-accent, var(--bg-brand)); }
     @keyframes introPop { from { opacity: 0; transform: scale(.5) rotate(-10deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
     /* outro keeps the single spark icon */
-    .dlg-intro-spark { display: flex; width: 84px; height: 84px; position: relative; z-index: 2; color: var(--dlg-accent, var(--bg-brand-base)); filter: drop-shadow(0 6px 14px rgba(25,39,67,.2)); }
+    .dlg-intro-spark { display: flex; width: 84px; height: 84px; position: relative; z-index: 2; color: var(--dlg-accent, var(--bg-brand)); filter: drop-shadow(0 6px 14px rgba(25,39,67,.2)); }
     /* confetti sits ON TOP of the artwork, explodes in on open, then drifts gently */
     .confetti { position: absolute; z-index: 3; width: 11px; height: 11px; border-radius: 2px; opacity: .96;
       animation: confBurst .5s cubic-bezier(.2,.9,.3,1.5) var(--d,0s) both, confDrift 3.4s ease-in-out calc(var(--d,0s) + .5s) infinite; }
@@ -129,7 +129,7 @@
     /* close uses the real design-system Icon Button (.ib .ib-secondary); this only positions it */
     .dlg-close { position: absolute; top: 16px; right: 16px; z-index: 4; }
     .dlg-body { padding: 16px 32px 32px; }
-    .dlg-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--bg-highlight-subtle); color: var(--content-highlight-base); border: 1px solid var(--border-highlight-subtle); margin-bottom: 12px; }
+    .dlg-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--bg-highlight-subtle); color: var(--content-highlight); border: 1px solid var(--border-highlight-subtle); margin-bottom: 12px; }
     /* when a step has no tag, reserve the same space lower down (before the footer) so locked steps aren't taller — keeps the title tight to the media */
     .dlg-tag-spacer { height: 38px; }
     .dlg-tag i[data-icon] { width: 13px; height: 13px; display: flex; }
@@ -265,11 +265,11 @@
     // Default keeps a white card with the brand (teal) primary button.
     //   tint/dlgBorder/accent = dialog-only treatment (tinted card, coloured border, accent blob); cards ignore them.
     const THEMES = {
-      default: { label:'Default', surface:'var(--bg-base)',           illu:'var(--bg-brand-base)',                                                                                                  tint:'var(--bg-brand-subtle)',    dlgBorder:'var(--border-brand-subtle)',    accent:'var(--bg-brand-base)' },
-      blue:    { label:'Blue',    surface:'var(--bg-info-subtle)',     illu:'var(--bg-info-base)',     btnBg:'var(--bg-info-base)',     btnBorder:'var(--border-info-base-hover)',     btnOn:'#fff',              tint:'var(--bg-info-subtle)',     dlgBorder:'var(--border-info-subtle)',     accent:'var(--bg-info-base)' },
-      green:   { label:'Green',   surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive-base)', btnBg:'var(--bg-positive-base)', btnBorder:'var(--border-positive-base-hover)', btnOn:'#fff',              tint:'var(--bg-positive-subtle)', dlgBorder:'var(--border-positive-subtle)', accent:'var(--bg-positive-base)' },
-      orange:  { label:'Orange',  surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning-bold)',  btnBg:'var(--bg-warning-bold)',  btnBorder:'var(--border-warning-base)',        btnOn:'var(--content-base)', tint:'var(--bg-warning-subtle)',  dlgBorder:'var(--border-warning-subtle)',  accent:'var(--bg-warning-bold)' },
-      red:     { label:'Red',     surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative-base)', btnBg:'var(--bg-negative-base)', btnBorder:'var(--border-negative-base-hover)', btnOn:'#fff',              tint:'var(--bg-negative-subtle)', dlgBorder:'var(--border-negative-subtle)', accent:'var(--bg-negative-base)' },
+      default: { label:'Default', surface:'var(--bg-base)',           illu:'var(--bg-brand)',                                                                                                  tint:'var(--bg-brand-subtle)',    dlgBorder:'var(--border-brand-subtle)',    accent:'var(--bg-brand)' },
+      blue:    { label:'Blue',    surface:'var(--bg-info-subtle)',     illu:'var(--bg-info)',     btnBg:'var(--bg-info)',     btnBorder:'var(--border-info-hover)',     btnOn:'#fff',              tint:'var(--bg-info-subtle)',     dlgBorder:'var(--border-info-subtle)',     accent:'var(--bg-info)' },
+      green:   { label:'Green',   surface:'var(--bg-positive-subtle)', illu:'var(--bg-positive)', btnBg:'var(--bg-positive)', btnBorder:'var(--border-positive-hover)', btnOn:'#fff',              tint:'var(--bg-positive-subtle)', dlgBorder:'var(--border-positive-subtle)', accent:'var(--bg-positive)' },
+      orange:  { label:'Orange',  surface:'var(--bg-warning-subtle)',  illu:'var(--bg-warning)',  btnBg:'var(--bg-warning)',  btnBorder:'var(--border-warning)',        btnOn:'var(--content-base)', tint:'var(--bg-warning-subtle)',  dlgBorder:'var(--border-warning-subtle)',  accent:'var(--bg-warning)' },
+      red:     { label:'Red',     surface:'var(--bg-negative-subtle)', illu:'var(--bg-negative)', btnBg:'var(--bg-negative)', btnBorder:'var(--border-negative-hover)', btnOn:'#fff',              tint:'var(--bg-negative-subtle)', dlgBorder:'var(--border-negative-subtle)', accent:'var(--bg-negative)' },
       // prototype-only hues (no sentiment tokens) so the dialog colour can match the purple/yellow illustrations
       purple:  { label:'Purple',  surface:'#efeaff',                   illu:'#7c5cff',                 btnBg:'#7c5cff',                 btnBorder:'#6a47f0',                           btnOn:'#fff',              tint:'#efeaff',                   dlgBorder:'#d9ccff',                       accent:'#7c5cff' },
       yellow:  { label:'Yellow',  surface:'var(--bg-accent-yellow-subtle)', illu:'#f5b300',             btnBg:'#f5b300',                 btnBorder:'#e0a200',                           btnOn:'var(--content-base)', tint:'var(--bg-accent-yellow-subtle)', dlgBorder:'#ffe39c',                 accent:'#f5b300' },
@@ -318,7 +318,7 @@
       const media = `<div class="ann-media ${c.media?'':'is-collapsed'}" style="background:${th.illu}; color:rgba(255,255,255,.92);">${PH}</div>`;
       const close = `<button class="ann-close ib ib-24 ib-secondary" data-cnext aria-label="Close"><i data-icon="cross"></i></button>`;
       // Default uses the plain brand (teal) primary button; sentiments retint it via the button's own tokens
-      const btnStyle = th.btnBg ? `--bg-brand-base:${th.btnBg};--bg-brand-base-hover:${th.btnBorder};--bg-brand-base-pressed:${th.btnBorder};--border-brand-base:${th.btnBorder};--border-brand-base-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
+      const btnStyle = th.btnBg ? `--bg-brand:${th.btnBg};--bg-brand-hover:${th.btnBorder};--bg-brand-pressed:${th.btnBorder};--border-brand:${th.btnBorder};--border-brand-pressed:${th.btnBorder};--content-on-brand-base:${th.btnOn};` : '';
       const cta = c.cta ? `<button class="btn btn-primary" data-cnext style="${btnStyle}">${esc(c.ctaLabel)||'Learn more'}</button>` : '';
       const actions = cta ? `<div class="ann-actions">${cta}</div>` : '';
       return `<div class="announcement ${cls}" style="background:${th.surface};">${close}${media}<div class="ann-body"><p class="ann-title">${esc(c.title)}</p><p class="ann-text">${esc(c.body)}</p>${actions}</div></div>`;
@@ -514,7 +514,7 @@
       const dth = THEMES[slideColor(dIdx)];
       // tint the whole card + colour the border + drive the accent blob
       const dlgVars = `--dlg-tint:${dth.tint};--dlg-border:${dth.dlgBorder};--dlg-accent:${dth.accent};--dlg-band:color-mix(in srgb, ${dth.accent} 38%, #fff);`;
-      const dBtnStyle = dth.btnBg ? `--bg-brand-base:${dth.btnBg};--bg-brand-base-hover:${dth.btnBorder};--bg-brand-base-pressed:${dth.btnBorder};--border-brand-base:${dth.btnBorder};--border-brand-base-pressed:${dth.btnBorder};--content-on-brand-base:${dth.btnOn};` : '';
+      const dBtnStyle = dth.btnBg ? `--bg-brand:${dth.btnBg};--bg-brand-hover:${dth.btnBorder};--bg-brand-pressed:${dth.btnBorder};--border-brand:${dth.btnBorder};--border-brand-pressed:${dth.btnBorder};--content-on-brand-base:${dth.btnOn};` : '';
       // footer
       // Previous is a compact icon button, on every slide except the first (intro) — including the outro
       const prevIcon = `<button class="ib ib-36 ib-secondary" data-dprev aria-label="${esc(el('d-prev').value)||'Previous'}"><i data-icon="arrow-left"></i></button>`;

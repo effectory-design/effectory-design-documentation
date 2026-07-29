@@ -18,9 +18,9 @@
       overflow: hidden; font-family: 'Poppins', sans-serif;
     }
     /* media — illustration area; colour comes from the theme accent */
-    .dlg-media { position: relative; height: 320px; display: flex; align-items: center; justify-content: center; color: var(--dlg-accent, var(--bg-brand-base)); overflow: hidden; }
+    .dlg-media { position: relative; height: 320px; display: flex; align-items: center; justify-content: center; color: var(--dlg-accent, var(--bg-brand)); overflow: hidden; }
     .dlg-media::before { content: ''; position: absolute; left: 50%; top: -28%; width: 132%; height: 150%; transform: translateX(-50%); pointer-events: none;
-      background: radial-gradient(58% 52% at 50% 44%, color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 42%, transparent) 0%, transparent 72%); }
+      background: radial-gradient(58% 52% at 50% 44%, color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 42%, transparent) 0%, transparent 72%); }
     .dlg-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
     .dlg-media.has-img::before { display: none; }
     .dlg-media-ph { display: flex; width: 60px; height: 60px; position: relative; z-index: 1; opacity: .6; }
@@ -37,12 +37,12 @@
     .dlg-wave.flat .band { fill: var(--dlg-tint, var(--bg-base)); }
     /* festive intro: glow burst + white gift-hero badge */
     .dlg-burst { position: absolute; z-index: 0; left: 50%; top: 47%; width: 360px; height: 360px; transform: translate(-50%,-50%); pointer-events: none;
-      background: radial-gradient(closest-side, color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 36%, transparent), transparent 72%); }
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 36%, transparent), transparent 72%); }
     .dlg-hero { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: var(--radius-xl);
       background: #fff; box-shadow: 0 16px 36px -10px rgba(25,39,67,.32); }
-    .dlg-hero::after { content: ''; position: absolute; inset: -9px; border-radius: var(--radius-xl); border: 2px dashed color-mix(in srgb, var(--dlg-accent, var(--bg-brand-base)) 50%, #fff); opacity: .65; }
-    .dlg-hero i[data-icon] { display: flex; width: 50px; height: 50px; color: var(--dlg-accent, var(--bg-brand-base)); }
-    .dlg-intro-spark { display: flex; width: 72px; height: 72px; position: relative; z-index: 2; color: var(--dlg-accent, var(--bg-brand-base)); filter: drop-shadow(0 6px 14px rgba(25,39,67,.2)); }
+    .dlg-hero::after { content: ''; position: absolute; inset: -9px; border-radius: var(--radius-xl); border: 2px dashed color-mix(in srgb, var(--dlg-accent, var(--bg-brand)) 50%, #fff); opacity: .65; }
+    .dlg-hero i[data-icon] { display: flex; width: 50px; height: 50px; color: var(--dlg-accent, var(--bg-brand)); }
+    .dlg-intro-spark { display: flex; width: 72px; height: 72px; position: relative; z-index: 2; color: var(--dlg-accent, var(--bg-brand)); filter: drop-shadow(0 6px 14px rgba(25,39,67,.2)); }
     /* confetti + sparkles — static in doc demos; the overlay tour animates them (burst in, then drift) */
     .confetti { position: absolute; z-index: 3; width: 10px; height: 10px; border-radius: 2px; /* radius-exempt: tiny confetti corner */ opacity: .96; }
     .dlg-spark-deco { position: absolute; z-index: 3; display: flex; filter: drop-shadow(0 2px 6px rgba(25,39,67,.14)); }
@@ -66,7 +66,7 @@
     .dlg-seg { flex: 1 0 0; min-width: 0; height: 7px; border-radius: var(--radius-full); background: rgba(25,39,67,.22); }
     .dlg-seg.is-fill { background: var(--content-subtle); }
     .dlg-body { padding: 16px 28px 28px; }
-    .dlg-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); background: var(--bg-highlight-subtle); color: var(--content-highlight-base); border: 1px solid var(--border-highlight-subtle); margin-bottom: 12px; }
+    .dlg-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); background: var(--bg-highlight-subtle); color: var(--content-highlight); border: 1px solid var(--border-highlight-subtle); margin-bottom: 12px; }
     .dlg-tag i[data-icon] { width: 13px; height: 13px; display: flex; }
     .dlg-tag-spacer { height: 38px; }
     .dlg .dlg-title { font-size: 26px; line-height: 1.3; font-weight: 600; margin: 0 0 8px; color: var(--content-base); }
@@ -77,8 +77,8 @@
 
     /* canonical button set (matches the Button page) */
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .1s; text-decoration: none; }
-    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
-    .btn-primary:hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); }
+    .btn-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
+    .btn-primary:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-pressed); }
     .btn-secondary { background: var(--bg-base); border-color: var(--border-action); color: var(--content-base); box-shadow: var(--sh-action); }
     .btn-secondary:hover { background: var(--bg-secondary); }
 
@@ -161,7 +161,7 @@
             <span class="ana-num" style="top:476px; left:-32px;">3</span>
             <span class="ana-num" style="top:524px; left:-32px;">4</span>
             <span class="ana-num" style="bottom:36px; left:-32px;">5</span>
-            <div class="dlg is-doc has-bg" style="width:600px; max-width:100%; --dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info-base); --dlg-band:color-mix(in srgb, var(--bg-info-base) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand-base:var(--bg-info-base); --border-brand-base:var(--border-info-base-hover);">
+            <div class="dlg is-doc has-bg" style="width:600px; max-width:100%; --dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info); --dlg-band:color-mix(in srgb, var(--bg-info) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand:var(--bg-info); --border-brand:var(--border-info-hover);">
               <button class="ib ib-36 ib-secondary dlg-close" aria-label="Close"><i data-icon="cross"></i></button>
               <div class="dlg-progress"><span class="dlg-seg is-fill"></span><span class="dlg-seg is-fill"></span><span class="dlg-seg"></span><span class="dlg-seg"></span></div>
               <div class="dlg-media" style="height:440px; background:var(--dlg-band);">
@@ -190,9 +190,9 @@
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;">
             <span style="width:40px; height:40px; border-radius:var(--radius-md); background:#f5b300;" title="Yellow"></span>
             <span style="width:40px; height:40px; border-radius:var(--radius-md); background:#7c5cff;" title="Purple"></span>
-            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-negative-base);" title="Red"></span>
-            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-positive-base);" title="Green"></span>
-            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-warning-bold);" title="Orange"></span>
+            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-negative);" title="Red"></span>
+            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-positive);" title="Green"></span>
+            <span style="width:40px; height:40px; border-radius:var(--radius-md); background:var(--bg-warning);" title="Orange"></span>
           </div>
         </section>
 
@@ -206,7 +206,7 @@
             <div class="dd-grid">
               <div class="dd-card">
                 <div class="dd-prev">
-                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-negative-subtle); --dlg-accent:var(--bg-negative-base); --dlg-band:color-mix(in srgb, var(--bg-negative-base) 38%, #fff); --dlg-border:var(--border-negative-subtle); --bg-brand-base:var(--bg-negative-base); --border-brand-base:var(--border-negative-base);">
+                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-negative-subtle); --dlg-accent:var(--bg-negative); --dlg-band:color-mix(in srgb, var(--bg-negative) 38%, #fff); --dlg-border:var(--border-negative-subtle); --bg-brand:var(--bg-negative); --border-brand:var(--border-negative);">
                     <button class="ib ib-36 ib-secondary dlg-close" aria-label="Close"><i data-icon="cross"></i></button>
                     <div class="dlg-progress"><span class="dlg-seg is-fill"></span><span class="dlg-seg is-fill"></span><span class="dlg-seg"></span><span class="dlg-seg"></span></div>
                     <div class="dlg-media"><div class="dlg-ph"><span>600 × 440</span></div></div>
@@ -219,7 +219,7 @@
               </div>
               <div class="dd-card">
                 <div class="dd-prev">
-                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-negative-subtle); --dlg-accent:var(--bg-negative-base); --dlg-band:color-mix(in srgb, var(--bg-negative-base) 38%, #fff); --dlg-border:var(--border-negative-subtle); --bg-brand-base:var(--bg-negative-base); --border-brand-base:var(--border-negative-base);">
+                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-negative-subtle); --dlg-accent:var(--bg-negative); --dlg-band:color-mix(in srgb, var(--bg-negative) 38%, #fff); --dlg-border:var(--border-negative-subtle); --bg-brand:var(--bg-negative); --border-brand:var(--border-negative);">
                     <button class="ib ib-36 ib-secondary dlg-close" aria-label="Close"><i data-icon="cross"></i></button>
                     <div class="dlg-progress"><span class="dlg-seg is-fill"></span><span class="dlg-seg is-fill"></span><span class="dlg-seg"></span><span class="dlg-seg"></span></div>
                     <div class="dlg-media"><div class="dlg-ph"><span>600 × 440</span></div></div>
@@ -239,7 +239,7 @@
             <div class="dd-grid">
               <div class="dd-card">
                 <div class="dd-prev">
-                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info-base); --dlg-band:color-mix(in srgb, var(--bg-info-base) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand-base:var(--bg-info-base); --border-brand-base:var(--border-info-base-hover);">
+                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info); --dlg-band:color-mix(in srgb, var(--bg-info) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand:var(--bg-info); --border-brand:var(--border-info-hover);">
                     <button class="ib ib-36 ib-secondary dlg-close" aria-label="Close"><i data-icon="cross"></i></button>
                     <div class="dlg-progress"><span class="dlg-seg is-fill"></span><span class="dlg-seg is-fill"></span><span class="dlg-seg"></span><span class="dlg-seg"></span></div>
                     <div class="dlg-media"><div class="dlg-ph"><span>600 × 440</span></div></div>
@@ -252,7 +252,7 @@
               </div>
               <div class="dd-card">
                 <div class="dd-prev">
-                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info-base); --dlg-band:color-mix(in srgb, var(--bg-info-base) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand-base:var(--bg-info-base); --border-brand-base:var(--border-info-base-hover);">
+                  <div class="dlg is-doc dlg-mini" style="--dlg-tint:var(--bg-info-subtle); --dlg-accent:var(--bg-info); --dlg-band:color-mix(in srgb, var(--bg-info) 38%, #fff); --dlg-border:var(--border-info-subtle); --bg-brand:var(--bg-info); --border-brand:var(--border-info-hover);">
                     <button class="ib ib-36 ib-secondary dlg-close" aria-label="Close"><i data-icon="cross"></i></button>
                     <div class="dlg-progress"><span class="dlg-seg is-fill"></span><span class="dlg-seg is-fill"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span><span class="dlg-seg"></span></div>
                     <div class="dlg-media"><div class="dlg-ph"><span>600 × 440</span></div></div>
@@ -277,7 +277,7 @@
               <tr><td><code>--border-*-subtle</code></td><td>Card border (per step colour)</td><td>e.g. #acceff (info)</td></tr>
               <tr><td><code>--bg-*-base</code></td><td>Accent — band, glow, illustration, button</td><td>e.g. #3174db (info)</td></tr>
               <tr><td><code>--bg-highlight-subtle</code></td><td>Premium tag fill</td><td>#f3e8ff</td></tr>
-              <tr><td><code>--content-highlight-base</code></td><td>Premium tag text</td><td>#7c3aed</td></tr>
+              <tr><td><code>--content-highlight</code></td><td>Premium tag text</td><td>#7c3aed</td></tr>
               <tr><td><code>--content-base</code></td><td>Title + body text</td><td>#192743</td></tr>
               <tr><td><code>--content-subtle</code></td><td>Filled progress segments</td><td>rgba(25,39,67,.55)</td></tr>
               <tr><td><code>--sh-dialogs</code></td><td>Card shadow (floating elevation)</td><td>0 4px 12px rgba(25,39,67,.08)</td></tr>
@@ -395,9 +395,9 @@
     var THEMES = {
       yellow: { tint:'var(--bg-accent-yellow-subtle)', accent:'#f5b300', border:'#ffe39c', btnOn:'var(--content-base)', btnBorder:'#e0a200' },
       purple: { tint:'#efeaff', accent:'#7c5cff', border:'#d9ccff', btnOn:'#fff', btnBorder:'#6a47f0' },
-      red:    { tint:'var(--bg-negative-subtle)', accent:'var(--bg-negative-base)', border:'var(--border-negative-subtle)', btnOn:'#fff', btnBorder:'var(--border-negative-base)' },
-      green:  { tint:'var(--bg-positive-subtle)', accent:'var(--bg-positive-base)', border:'var(--border-positive-subtle)', btnOn:'#fff', btnBorder:'var(--border-positive-base)' },
-      orange: { tint:'var(--bg-warning-subtle)', accent:'var(--bg-warning-bold)', border:'var(--border-warning-subtle)', btnOn:'var(--content-base)', btnBorder:'var(--border-warning-base)' }
+      red:    { tint:'var(--bg-negative-subtle)', accent:'var(--bg-negative)', border:'var(--border-negative-subtle)', btnOn:'#fff', btnBorder:'var(--border-negative)' },
+      green:  { tint:'var(--bg-positive-subtle)', accent:'var(--bg-positive)', border:'var(--border-positive-subtle)', btnOn:'#fff', btnBorder:'var(--border-positive)' },
+      orange: { tint:'var(--bg-warning-subtle)', accent:'var(--bg-warning)', border:'var(--border-warning-subtle)', btnOn:'var(--content-base)', btnBorder:'var(--border-warning)' }
     };
     var WAVE = '<svg class="dlg-wave" viewBox="0 0 600 440" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect class="band" width="600" height="440"/><path class="crest" d="M0,348 C150,316 330,392 600,338 L600,440 L0,440 Z"/></svg>'; // icon-exempt: decorative wave divider, not an icon
     var WAVE_FLAT = '<svg class="dlg-wave flat" viewBox="0 0 600 440" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect class="band" width="600" height="440"/></svg>'; // icon-exempt: decorative band shape, not an icon
@@ -437,7 +437,7 @@
       var isLast = idx === SLIDES.length - 1;
 
       var vars = '--dlg-tint:' + th.tint + ';--dlg-accent:' + th.accent + ';--dlg-band:color-mix(in srgb,' + th.accent + ' 38%,#fff);--dlg-border:' + th.border +
-        ';--bg-brand-base:' + th.accent + ';--bg-brand-base-hover:' + th.btnBorder + ';--bg-brand-base-pressed:' + th.btnBorder + ';--border-brand-base:' + th.btnBorder + ';--content-on-brand-base:' + th.btnOn + ';';
+        ';--bg-brand:' + th.accent + ';--bg-brand-hover:' + th.btnBorder + ';--bg-brand-pressed:' + th.btnBorder + ';--border-brand:' + th.btnBorder + ';--content-on-brand-base:' + th.btnOn + ';';
 
       var segs = '';
       for (var i = 0; i < SLIDES.length; i++) segs += '<span class="dlg-seg' + (i <= idx ? ' is-fill' : '') + '" data-seg="' + i + '"></span>';

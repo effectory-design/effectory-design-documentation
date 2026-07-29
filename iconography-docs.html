@@ -32,15 +32,15 @@
       padding: 8px 12px; font-size: 13px; background: var(--bg-base);
       font-family: inherit; color: var(--content-base);
     }
-    .icon-search:focus { outline: none; border-color: var(--border-brand-base); }
+    .icon-search:focus { outline: none; border-color: var(--border-brand); }
 
     .icon-count {
       font-size: 12px; color: var(--content-subtle);
       margin: 14px 0 0;
       font-family: 'JetBrains Mono', ui-monospace, monospace;
     }
-    .icon-cell.copied { border-color: var(--border-brand-base); background: var(--bg-secondary); }
-    .icon-cell.copied .icon-cell-name::after { content: ' · copied'; color: var(--content-brand-base); }
+    .icon-cell.copied { border-color: var(--border-brand); background: var(--bg-secondary); }
+    .icon-cell.copied .icon-cell-name::after { content: ' · copied'; color: var(--content-brand); }
     [aria-busy="true"]::before {
       content: 'Loading icons…';
       display: block; grid-column: 1 / -1;
@@ -107,8 +107,8 @@
 
     /* Demo primitives */
     .d-btn {
-      background: var(--bg-brand-base); color: var(--content-on-brand-base);
-      border: 1px solid var(--border-brand-base); box-shadow: var(--sh-action);
+      background: var(--bg-brand); color: var(--content-on-brand-base);
+      border: 1px solid var(--border-brand); box-shadow: var(--sh-action);
       border-radius: var(--radius-base); height: 36px; padding: 0 12px; font-size: 14px; font-weight: 500;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     }
@@ -278,7 +278,7 @@
       <div class="usage-card">
         <div class="usage-demo">
           <div class="d-alert">
-            <span style="display:inline-flex;width:18px;height:18px;flex-shrink:0;color: var(--content-highlight-base)"><i data-icon="alert-triangle"></i></span>
+            <span style="display:inline-flex;width:18px;height:18px;flex-shrink:0;color: var(--content-highlight)"><i data-icon="alert-triangle"></i></span>
             Survey ends in 2 days.
           </div>
         </div>

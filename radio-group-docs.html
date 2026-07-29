@@ -43,8 +43,8 @@
     /* Selected — full teal fill + teal border + white dot */
     input[type="radio"].rb:checked,
     input[type="radio"].rb.is-checked {
-      background: var(--bg-brand-base);         /* #0a9d99 */
-      border-color: var(--border-brand-base);   /* #0c827f */
+      background: var(--bg-brand);         /* #0a9d99 */
+      border-color: var(--border-brand);   /* #0c827f */
     }
     /* Hover — unselected */
     input[type="radio"].rb:hover,
@@ -54,14 +54,14 @@
     .rb-info-wrap:hover .rb:not(.is-disabled) { border-color: var(--border-action-hover); }
     .rb-label-wrap:hover .rb.is-checked:not(.is-disabled),
     .rb-info-wrap:hover .rb.is-checked:not(.is-disabled) {
-      background: var(--bg-brand-base-hover);
-      border-color: var(--border-brand-base-hover);
+      background: var(--bg-brand-hover);
+      border-color: var(--border-brand-hover);
     }
     /* Hover — selected: darker teal fill + darker border */
     input[type="radio"].rb.is-checked:hover,
     input[type="radio"].rb.is-checked.is-hover {
-      background: var(--bg-brand-base-hover);       /* #0c827f */
-      border-color: var(--border-brand-base-hover); /* #166764 */
+      background: var(--bg-brand-hover);       /* #0c827f */
+      border-color: var(--border-brand-hover); /* #166764 */
     }
     /* Disabled — light navy fill, no border, no separate opacity */
     input[type="radio"].rb.is-disabled,
@@ -119,7 +119,7 @@
       position: relative;
     }
     .rb-tile:hover { border-color: var(--border-action-hover); background: var(--bg-base-hover); }
-    .rb-tile.is-selected { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
+    .rb-tile.is-selected { border-color: var(--border-brand); background: var(--bg-brand-subtle); }
     .rb-tile.is-disabled { cursor: not-allowed; opacity: 0.5; }
     .rb-tile-radio {
       display: flex; align-items: flex-start; padding-top: 2px; flex-shrink: 0; margin-right: 12px;
@@ -172,7 +172,7 @@
     }
     .rb-btn-bordered input[type="radio"].rb { pointer-events: none; }
     .rb-btn-bordered:hover,
-    .rb-btn-bordered.is-hover { background: var(--bg-base-hover); border-color: var(--bg-brand-base-hover); }
+    .rb-btn-bordered.is-hover { background: var(--bg-base-hover); border-color: var(--bg-brand-hover); }
     .rb-btn-bordered.is-selected,
     .rb-btn-bordered:has(input.is-checked) {
       background: var(--bg-brand-subtle);
@@ -180,7 +180,7 @@
     }
     .rb-btn-bordered.is-selected:hover,
     .rb-btn-bordered.is-selected.is-hover,
-    .rb-btn-bordered:has(input.is-checked):hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-hover); }
+    .rb-btn-bordered:has(input.is-checked):hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-hover); }
     .rb-btn-bordered.is-pressed {
       background: var(--bg-base-pressed);
       border-color: var(--border-action-pressed);
@@ -664,14 +664,14 @@
       <tbody>
         <tr><td><code>--border-action</code></td><td>Circle border — unselected default</td><td>#bcc1cd</td></tr>
         <tr><td><code>--border-action-hover</code></td><td>Circle border — unselected hover</td><td>#a5adbc</td></tr>
-        <tr><td><code>--bg-brand-base</code></td><td>Circle fill — selected</td><td>#0a9d99</td></tr>
-        <tr><td><code>--bg-brand-base-hover</code></td><td>Circle fill — selected hover</td><td>#0c827f</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Circle fill — selected</td><td>#0a9d99</td></tr>
+        <tr><td><code>--bg-brand-hover</code></td><td>Circle fill — selected hover</td><td>#0c827f</td></tr>
         <tr><td><code>--content-on-brand-base</code></td><td>Inner dot colour</td><td>#ffffff</td></tr>
         <tr><td><code>--bg-disabled</code></td><td>Circle fill — disabled</td><td>#192743 · 10%</td></tr>
         <tr><td><code>--content-base</code></td><td>Label text</td><td>#192743</td></tr>
         <tr><td><code>--content-disabled</code></td><td>Label text — disabled</td><td>#192743 · 30%</td></tr>
         <tr><td><code>--bg-brand-subtle</code></td><td>Tile background — selected</td><td>#f0fafa</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Tile border — selected</td><td>#0c827f</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Tile border — selected</td><td>#0c827f</td></tr>
         <tr><td><code>--bg-base-hover</code></td><td>Tile background — hover</td><td>#f8f8f9</td></tr>
       </tbody>
     </table>
@@ -1019,12 +1019,12 @@
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cm">/* Control fill */</span>
-<span class="ca">--bg-brand-base</span>:         <span class="cv">#0a9d99</span>;                 <span class="cm">/* Selected fill                   */</span>
+<span class="ca">--bg-brand</span>:         <span class="cv">#0a9d99</span>;                 <span class="cm">/* Selected fill                   */</span>
 <span class="ca">--bg-base</span>:               <span class="cv">#ffffff</span>;                 <span class="cm">/* Unselected fill                 */</span>
 <span class="ca">--bg-disabled</span>:           <span class="cv">rgba(25, 39, 67, 0.10)</span>;  <span class="cm">/* Disabled fill                   */</span>
 
 <span class="cm">/* Border */</span>
-<span class="ca">--border-brand-base</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Selected border (tile)          */</span>
+<span class="ca">--border-brand</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Selected border (tile)          */</span>
 <span class="ca">--border-action</span>:         <span class="cv">#bcc1cd</span>;                 <span class="cm">/* Unselected border               */</span>
 <span class="ca">--border-action-hover</span>:   <span class="cv">#a5adbc</span>;                 <span class="cm">/* Hover border                    */</span>
 

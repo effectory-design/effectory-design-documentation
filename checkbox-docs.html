@@ -47,24 +47,24 @@
     /* Checked */
     input[type="checkbox"].cb:checked,
     input[type="checkbox"].cb.is-checked {
-      background-color: var(--bg-brand-base);
-      border-color: var(--border-brand-base);
+      background-color: var(--bg-brand);
+      border-color: var(--border-brand);
     }
     input[type="checkbox"].cb:checked:hover,
     input[type="checkbox"].cb.is-checked.is-hover {
-      background-color: var(--bg-brand-base-hover);
-      border-color: var(--border-brand-base-hover);
+      background-color: var(--bg-brand-hover);
+      border-color: var(--border-brand-hover);
     }
     /* Indeterminate — white bg, border/brand/base border */
     input[type="checkbox"].cb:indeterminate,
     input[type="checkbox"].cb.is-indeterminate {
       background-color: var(--bg-base);
-      border-color: var(--border-brand-base);
+      border-color: var(--border-brand);
     }
     /* Select-all: white bg, border/brand/base border */
     input[type="checkbox"].cb.is-select-all {
       background-color: var(--bg-base);
-      border-color: var(--border-brand-base);
+      border-color: var(--border-brand);
     }
     /* Disabled */
     input[type="checkbox"].cb:disabled,
@@ -94,19 +94,19 @@
       mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E");
       -webkit-mask-size: 12px 12px; mask-size: 12px 12px;
     }
-    /* Indeterminate: dash uses --border-brand-base (icon: assets/icons/minus.svg) */
+    /* Indeterminate: dash uses --border-brand (icon: assets/icons/minus.svg) */
     .cb-wrap:has(input:indeterminate)::after,
     .cb-wrap:has(.is-indeterminate)::after {
       opacity: 1;
-      background-color: var(--border-brand-base);
+      background-color: var(--border-brand);
       -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M2%2010C2%209.44772%202.44772%209%203%209H17C17.5523%209%2018%209.44772%2018%2010C18%2010.5523%2017.5523%2011%2017%2011H3C2.44772%2011%202%2010.5523%202%2010Z%27%20fill%3D%27black%27/%3E%3C/svg%3E");
       mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M2%2010C2%209.44772%202.44772%209%203%209H17C17.5523%209%2018%209.44772%2018%2010C18%2010.5523%2017.5523%2011%2017%2011H3C2.44772%2011%202%2010.5523%202%2010Z%27%20fill%3D%27black%27/%3E%3C/svg%3E");
       -webkit-mask-size: 10px 10px; mask-size: 10px 10px;
     }
-    /* Select-all: teal check uses --border-brand-base (icon: assets/icons/check.svg) */
+    /* Select-all: teal check uses --border-brand (icon: assets/icons/check.svg) */
     .cb-wrap:has(.is-select-all)::after {
       opacity: 1;
-      background-color: var(--border-brand-base);
+      background-color: var(--border-brand);
       -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E");
       mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E");
       -webkit-mask-size: 12px 12px; mask-size: 12px 12px;
@@ -192,12 +192,12 @@
     }
     .cb-btn-bordered.is-checked,
     .cb-btn-bordered:has(input:checked) {
-      border-color: var(--border-brand-base);
+      border-color: var(--border-brand);
     }
     .cb-btn-bordered.is-checked:hover,
     .cb-btn-bordered.is-checked.is-hover {
       background: var(--bg-base-hover);
-      border-color: var(--border-brand-base-hover);
+      border-color: var(--border-brand-hover);
     }
     .cb-btn-bordered.is-pressed {
       background: var(--bg-base-pressed);
@@ -223,7 +223,7 @@
     }
     .cb-tile:hover { border-color: var(--border-action-hover); background: var(--bg-base-hover); }
     .cb-tile.is-checked,
-    .cb-tile:has(input:checked) { border-color: var(--border-brand-base); background: var(--bg-brand-subtle); }
+    .cb-tile:has(input:checked) { border-color: var(--border-brand); background: var(--bg-brand-subtle); }
     .cb-tile.is-disabled { cursor: not-allowed; opacity: 0.5; }
     .cb-tile-cb { display: flex; padding-top: 2px; flex-shrink: 0; margin-right: 12px; }
     .cb-tile-body { flex: 1; }
@@ -812,14 +812,14 @@
     <table class="token-table">
       <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td><code>--bg-brand-base</code></td><td>Checked container fill</td><td>#0a9d99</td></tr>
-        <tr><td><code>--bg-brand-base-hover</code></td><td>Checked hover container fill</td><td>#0c827f</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Checked container fill</td><td>#0a9d99</td></tr>
+        <tr><td><code>--bg-brand-hover</code></td><td>Checked hover container fill</td><td>#0c827f</td></tr>
         <tr><td><code>--bg-base</code></td><td>Unchecked and indeterminate container fill</td><td>#ffffff</td></tr>
         <tr><td><code>--bg-base-hover</code></td><td>Checkbox button hover background</td><td>#f8f8f9</td></tr>
         <tr><td><code>--bg-base-pressed</code></td><td>Checkbox button pressed background</td><td>#f1f2f4</td></tr>
         <tr><td><code>--bg-disabled</code></td><td>All disabled state container fills</td><td>#192743 · 10%</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Checked and indeterminate border; select-all border and check colour</td><td>#0c827f</td></tr>
-        <tr><td><code>--border-brand-base-hover</code></td><td>Checked hover border</td><td>#166764</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Checked and indeterminate border; select-all border and check colour</td><td>#0c827f</td></tr>
+        <tr><td><code>--border-brand-hover</code></td><td>Checked hover border</td><td>#166764</td></tr>
         <tr><td><code>--border-action</code></td><td>Unchecked border; checkbox button default border</td><td>#bcc1cd</td></tr>
         <tr><td><code>--border-action-hover</code></td><td>Unchecked hover border</td><td>#a5adbc</td></tr>
         <tr><td><code>--border-action-pressed</code></td><td>Checkbox button pressed border</td><td>#7b869e</td></tr>
@@ -1191,18 +1191,18 @@
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cm">/* Control fill */</span>
-<span class="ca">--bg-brand-base</span>:         <span class="cv">#0a9d99</span>;                 <span class="cm">/* Checked fill                  */</span>
+<span class="ca">--bg-brand</span>:         <span class="cv">#0a9d99</span>;                 <span class="cm">/* Checked fill                  */</span>
 <span class="ca">--bg-base</span>:               <span class="cv">#ffffff</span>;                 <span class="cm">/* Unchecked fill                */</span>
 <span class="ca">--bg-disabled</span>:           <span class="cv">rgba(25, 39, 67, 0.10)</span>;  <span class="cm">/* Disabled fill                 */</span>
 
 <span class="cm">/* Border */</span>
-<span class="ca">--border-brand-base</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Checked / intermediate border */</span>
+<span class="ca">--border-brand</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Checked / intermediate border */</span>
 <span class="ca">--border-action</span>:         <span class="cv">#bcc1cd</span>;                 <span class="cm">/* Unchecked border              */</span>
 <span class="ca">--border-action-hover</span>:   <span class="cv">#a5adbc</span>;                 <span class="cm">/* Hover border                  */</span>
 
 <span class="cm">/* Indicator (checkmark / dash) */</span>
 <span class="ca">--content-on-brand-base</span>: <span class="cv">#ffffff</span>;                 <span class="cm">/* Checkmark on filled container */</span>
-<span class="ca">--border-brand-base</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Intermediate dash colour      */</span>
+<span class="ca">--border-brand</span>:     <span class="cv">#0c827f</span>;                 <span class="cm">/* Intermediate dash colour      */</span>
 
 <span class="cm">/* Content */</span>
 <span class="ca">--content-base</span>:          <span class="cv">#192743</span>;                 <span class="cm">/* Label text                    */</span>

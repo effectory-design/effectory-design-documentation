@@ -18,9 +18,9 @@
     .btn-big svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     /* Primary */
-    .btn-big-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
-    .btn-big-primary:hover, .btn-big-primary.is-hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); box-shadow: 0 2px 2px rgba(25,39,67,.06); }
-    .btn-big-primary:active, .btn-big-primary.is-pressed { background: var(--bg-brand-base-pressed); border-color: var(--border-brand-base-pressed); box-shadow: none; }
+    .btn-big-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
+    .btn-big-primary:hover, .btn-big-primary.is-hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-pressed); box-shadow: 0 2px 2px rgba(25,39,67,.06); }
+    .btn-big-primary:active, .btn-big-primary.is-pressed { background: var(--bg-brand-pressed); border-color: var(--border-brand-pressed); box-shadow: none; }
 
     /* Secondary */
     .btn-big-secondary { background: var(--bg-base); border-color: var(--border-action); color: var(--content-secondary); box-shadow: var(--sh-action); }
@@ -272,10 +272,10 @@
   <table class="token-table">
     <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
     <tbody>
-      <tr><td><code>--bg-brand-base</code></td><td>Primary default fill</td><td>#0a9d99</td></tr>
-      <tr><td><code>--bg-brand-base-hover</code></td><td>Primary hover fill</td><td>#0c827f</td></tr>
-      <tr><td><code>--bg-brand-base-pressed</code></td><td>Primary pressed fill</td><td>#166764</td></tr>
-      <tr><td><code>--border-brand-base</code></td><td>Primary default border</td><td>#0c827f</td></tr>
+      <tr><td><code>--bg-brand</code></td><td>Primary default fill</td><td>#0a9d99</td></tr>
+      <tr><td><code>--bg-brand-hover</code></td><td>Primary hover fill</td><td>#0c827f</td></tr>
+      <tr><td><code>--bg-brand-pressed</code></td><td>Primary pressed fill</td><td>#166764</td></tr>
+      <tr><td><code>--border-brand</code></td><td>Primary default border</td><td>#0c827f</td></tr>
       <tr><td><code>--bg-base</code></td><td>Secondary default fill</td><td>#ffffff</td></tr>
       <tr><td><code>--bg-base-hover</code></td><td>Secondary hover fill</td><td>#f8f8f9</td></tr>
       <tr><td><code>--bg-base-pressed</code></td><td>Secondary pressed fill</td><td>#f1f2f4</td></tr>
@@ -488,15 +488,15 @@
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cm">/* Background */</span>
-<span class="ca">--bg-brand-base</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
-<span class="ca">--bg-brand-base-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
-<span class="ca">--bg-brand-base-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
+<span class="ca">--bg-brand</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
+<span class="ca">--bg-brand-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
+<span class="ca">--bg-brand-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
 <span class="ca">--bg-base</span>:                <span class="cv">#ffffff</span>;   <span class="cm">/* Secondary default */</span>
 <span class="ca">--bg-base-hover</span>:          <span class="cv">#f8f8f9</span>;   <span class="cm">/* Secondary hover */</span>
 <span class="ca">--bg-disabled</span>:            <span class="cv">rgba(25,39,67,.10)</span>;
 
 <span class="cm">/* Border */</span>
-<span class="ca">--border-brand-base</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary border          */</span>
+<span class="ca">--border-brand</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary border          */</span>
 <span class="ca">--border-action</span>:          <span class="cv">#bcc1cd</span>;   <span class="cm">/* Secondary default border */</span>
 <span class="ca">--border-action-hover</span>:    <span class="cv">#a5adbc</span>;   <span class="cm">/* Secondary hover border   */</span>
 

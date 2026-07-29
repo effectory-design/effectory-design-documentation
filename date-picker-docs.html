@@ -28,7 +28,7 @@
       background: var(--bg-base-hover); border-color: var(--border-action-hover);
     }
     .dp-trigger:focus-visible, .dp-trigger.is-focus {
-      outline: none; border-color: var(--border-brand-base);
+      outline: none; border-color: var(--border-brand);
       box-shadow: 0 0 0 3px rgba(10,157,153,.15);
     }
     .dp-trigger i { width: 16px; height: 16px; flex-shrink: 0; color: var(--content-secondary); display: flex; }
@@ -109,12 +109,12 @@
       background: var(--bg-base-hover);
     }
     .dp-day.is-selected {
-      background: var(--bg-brand-base);
+      background: var(--bg-brand);
       color: #fff;
     }
     .dp-day.is-today {
       font-weight: 600;
-      color: var(--content-brand-base);
+      color: var(--content-brand);
     }
     .dp-day.is-today::after {
       content: '';
@@ -135,7 +135,7 @@
        paints below .dp-day (the circle) but above .dp-grid's background — exactly right. */
     .dp-day.is-range-start,
     .dp-day.is-range-end {
-      background: var(--bg-brand-base); color: #fff; border-radius: 80px;
+      background: var(--bg-brand); color: #fff; border-radius: 80px;
     }
     /* Band half: right side of start cell, bleeds 4px into the gap */
     .dp-day.is-range-start::before {
@@ -159,7 +159,7 @@
       background: var(--bg-brand-subtle);
     }
     /* Keep range colours on hover */
-    .dp-day.is-range-start:hover, .dp-day.is-range-end:hover { background: var(--bg-brand-base); }
+    .dp-day.is-range-start:hover, .dp-day.is-range-end:hover { background: var(--bg-brand); }
     .dp-day.is-in-range:hover { background: var(--bg-brand-subtle); }
     /* Single-day range: no strip */
     .dp-day.is-range-start.is-range-end::before { display: none; }
@@ -178,9 +178,9 @@
     }
     .dp-year-cell:hover { background: var(--bg-base-hover); }
     .dp-year-cell.is-selected {
-      background: var(--bg-brand-base); color: #fff; border-radius: 80px;
+      background: var(--bg-brand); color: #fff; border-radius: 80px;
     }
-    .dp-year-cell.is-selected:hover { background: var(--bg-brand-base); }
+    .dp-year-cell.is-selected:hover { background: var(--bg-brand); }
 
     /* ── Month picker ── */
     .dp-month-panel { padding: 0 8px 8px; display: flex; flex-direction: column; flex: 1; }
@@ -204,7 +204,7 @@
     .dp-body.dp-year-open .dp-month-group i[data-icon] { transform: rotate(180deg); }
     /* Make month-group look clickable */
     .dp-month-group { cursor: pointer; }
-    .dp-month-group:hover .dp-month-label { color: var(--content-brand-base); }
+    .dp-month-group:hover .dp-month-label { color: var(--content-brand); }
 
     /* ── Time selector — no divider, just top spacing ── */
     .dp-time-section {
@@ -232,7 +232,7 @@
     /* Timezone dropdown */
     .dp-tz-wrap { position: relative; }
     .dp-tz-field { cursor: pointer; }
-    .dp-tz-field.is-open { border-color: var(--border-brand-base); box-shadow: 0 0 0 3px rgba(10,157,153,.15); }
+    .dp-tz-field.is-open { border-color: var(--border-brand); box-shadow: 0 0 0 3px rgba(10,157,153,.15); }
     .dp-tz-chevron { transition: transform .15s; }
     .dp-tz-field.is-open .dp-tz-chevron { transform: rotate(180deg); }
     .dp-tz-dropdown {
@@ -246,7 +246,7 @@
       color: var(--content-base); font-family: 'Poppins', inherit;
     }
     .dp-tz-option:hover { background: var(--bg-base-hover); }
-    .dp-tz-option.is-active { color: var(--content-brand-base); font-weight: 500; }
+    .dp-tz-option.is-active { color: var(--content-brand); font-weight: 500; }
 
     /* Up/down steppers for the time field */
     .dp-steppers {
@@ -300,12 +300,12 @@
     .btn-dp-cancel:hover { background: var(--bg-base-hover); }
     .btn-dp-apply {
       height: 32px; padding: 0 14px;
-      border: 1px solid var(--bg-brand-base); border-radius: 6px;
-      background: var(--bg-brand-base); color: #fff;
+      border: 1px solid var(--bg-brand); border-radius: 6px;
+      background: var(--bg-brand); color: #fff;
       font-family: inherit; font-size: 14px; font-weight: 500;
       cursor: pointer;
     }
-    .btn-dp-apply:hover { background: var(--bg-brand-base-hover, #078d8a); border-color: var(--bg-brand-base-hover, #078d8a); }
+    .btn-dp-apply:hover { background: var(--bg-brand-hover, #078d8a); border-color: var(--bg-brand-hover, #078d8a); }
 
     /* ── Anatomy number badges ── */
     .dp-anat-badge {
@@ -327,8 +327,8 @@
       position: relative;
     }
     .dp-day-demo.is-hover { background: var(--bg-base-hover); }
-    .dp-day-demo.is-selected { background: var(--bg-brand-base); color: #fff; }
-    .dp-day-demo.is-today { font-weight: 600; color: var(--content-brand-base); }
+    .dp-day-demo.is-selected { background: var(--bg-brand); color: #fff; }
+    .dp-day-demo.is-today { font-weight: 600; color: var(--content-brand); }
     .dp-day-demo.is-today::after {
       content: '';
       position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
@@ -343,11 +343,11 @@
     /* Range demo strip */
     .dp-range-strip { display: flex; align-items: center; }
     .dp-day-demo.is-range-start {
-      background: var(--bg-brand-base); color: #fff;
+      background: var(--bg-brand); color: #fff;
       border-radius: 80px 4px 4px 80px;
     }
     .dp-day-demo.is-range-end {
-      background: var(--bg-brand-base); color: #fff;
+      background: var(--bg-brand); color: #fff;
       border-radius: 4px 80px 80px 4px;
     }
     .dp-day-demo.is-in-range {
@@ -864,17 +864,17 @@
           <tbody>
             <tr><td><code>--bg-base</code></td><td>Calendar container background, trigger button background, time field background</td><td>#ffffff</td></tr>
             <tr><td><code>--bg-base-hover</code></td><td>Day cell hover fill, nav button hover fill</td><td>#f5f6f8</td></tr>
-            <tr><td><code>--bg-brand-base</code></td><td>Selected day fill, range start / range end fill</td><td>#0a9d99</td></tr>
+            <tr><td><code>--bg-brand</code></td><td>Selected day fill, range start / range end fill</td><td>#0a9d99</td></tr>
             <tr><td><code>--bg-brand-subtle</code></td><td>In-range day background</td><td>#e6f6f6</td></tr>
             <tr><td><code>--border-base</code></td><td>Calendar container border, footer/time divider lines</td><td>#e2e5eb</td></tr>
             <tr><td><code>--border-action</code></td><td>Trigger button border (default), time field border</td><td>#d0d5df</td></tr>
             <tr><td><code>--border-action-hover</code></td><td>Trigger button border on hover</td><td>#aab0c0</td></tr>
-            <tr><td><code>--border-brand-base</code></td><td>Trigger button focus ring</td><td>#0a9d99</td></tr>
+            <tr><td><code>--border-brand</code></td><td>Trigger button focus ring</td><td>#0a9d99</td></tr>
             <tr><td><code>--content-base</code></td><td>Day numbers (default), month–year label</td><td>#192743</td></tr>
             <tr><td><code>--content-secondary</code></td><td>Weekday column labels, navigation chevrons, time field icons</td><td>#5e6a82</td></tr>
             <tr><td><code>--content-subtle</code></td><td>Trigger placeholder text</td><td>#9aa3b5</td></tr>
             <tr><td><code>--content-disabled</code></td><td>Disabled day number</td><td>#bec4ce</td></tr>
-            <tr><td><code>--content-brand-base</code></td><td>Today indicator text and dot</td><td>#0a9d99</td></tr>
+            <tr><td><code>--content-brand</code></td><td>Today indicator text and dot</td><td>#0a9d99</td></tr>
             <tr><td><code>--sh-action</code></td><td>Trigger button shadow</td><td>0 1px 2px rgba(25,39,67,.06)</td></tr>
           </tbody>
         </table>
@@ -1210,17 +1210,17 @@
           <tbody>
             <tr><td><code>--bg-base</code></td><td>Calendar container background, trigger button background, time field background</td><td>#ffffff</td></tr>
             <tr><td><code>--bg-base-hover</code></td><td>Day cell hover fill, nav button hover fill</td><td>#f5f6f8</td></tr>
-            <tr><td><code>--bg-brand-base</code></td><td>Selected day fill, range start / range end fill</td><td>#0a9d99</td></tr>
+            <tr><td><code>--bg-brand</code></td><td>Selected day fill, range start / range end fill</td><td>#0a9d99</td></tr>
             <tr><td><code>--bg-brand-subtle</code></td><td>In-range day background</td><td>#e6f6f6</td></tr>
             <tr><td><code>--border-base</code></td><td>Calendar container border, footer/time divider lines</td><td>#e2e5eb</td></tr>
             <tr><td><code>--border-action</code></td><td>Trigger button border (default), time field border</td><td>#d0d5df</td></tr>
             <tr><td><code>--border-action-hover</code></td><td>Trigger button border on hover</td><td>#aab0c0</td></tr>
-            <tr><td><code>--border-brand-base</code></td><td>Trigger button focus ring</td><td>#0a9d99</td></tr>
+            <tr><td><code>--border-brand</code></td><td>Trigger button focus ring</td><td>#0a9d99</td></tr>
             <tr><td><code>--content-base</code></td><td>Day numbers (default), month–year label</td><td>#192743</td></tr>
             <tr><td><code>--content-secondary</code></td><td>Weekday column labels, navigation chevrons, time field icons</td><td>#5e6a82</td></tr>
             <tr><td><code>--content-subtle</code></td><td>Trigger placeholder text</td><td>#9aa3b5</td></tr>
             <tr><td><code>--content-disabled</code></td><td>Disabled day number</td><td>#bec4ce</td></tr>
-            <tr><td><code>--content-brand-base</code></td><td>Today indicator text and dot</td><td>#0a9d99</td></tr>
+            <tr><td><code>--content-brand</code></td><td>Today indicator text and dot</td><td>#0a9d99</td></tr>
             <tr><td><code>--sh-action</code></td><td>Trigger button shadow</td><td>0 1px 2px rgba(25,39,67,.06)</td></tr>
           </tbody>
         </table>

@@ -80,8 +80,8 @@
     /* ══ ON STATE — via real checked input ══ */
     input[type="checkbox"].tgl:checked + .tgl-track,
     input[type="checkbox"].tgl.is-checked + .tgl-track {
-      background: var(--bg-brand-base);
-      border-color: var(--border-brand-base);
+      background: var(--bg-brand);
+      border-color: var(--border-brand);
     }
     input[type="checkbox"].tgl:checked + .tgl-track .tgl-thumb,
     input[type="checkbox"].tgl.is-checked + .tgl-track .tgl-thumb {
@@ -107,8 +107,8 @@
     .tgl-label-wrap:hover .tgl-wrap input[type="checkbox"].tgl:checked:not(.is-disabled) + .tgl-track,
     .tgl-info-wrap:hover .tgl-wrap input[type="checkbox"].tgl:checked:not(.is-disabled) + .tgl-track,
     input[type="checkbox"].tgl.is-checked.is-hover + .tgl-track {
-      background: var(--bg-brand-base);
-      border-color: var(--border-brand-base-hover);
+      background: var(--bg-brand);
+      border-color: var(--border-brand-hover);
       box-shadow: 0 2px 1px rgba(25,39,67,.06);
     }
 
@@ -129,8 +129,8 @@
 
     /* ══ STATIC STATE DEMO CLASSES (applied to .tgl-track directly) ══ */
     .tgl-track.is-on {
-      background: var(--bg-brand-base);
-      border-color: var(--border-brand-base);
+      background: var(--bg-brand);
+      border-color: var(--border-brand);
     }
     .tgl-track.is-on .tgl-thumb {
       transform: translateX(12px);
@@ -142,7 +142,7 @@
       box-shadow: 0 2px 1px rgba(25,39,67,.06);
     }
     .tgl-track.is-hover:not(.is-on) { border-color: var(--border-action-hover); }
-    .tgl-track.is-on.is-hover { border-color: var(--border-brand-base-hover); }
+    .tgl-track.is-on.is-hover { border-color: var(--border-brand-hover); }
     .tgl-track.is-hover .tgl-thumb { box-shadow: 0 2px 2px rgba(25,39,67,.06); }
 
     .tgl-track.is-disabled {
@@ -669,9 +669,9 @@
         <tr><td><code>--bg-tertiary</code></td><td>Track fill — off (default &amp; hover)</td><td>#e1e4e8</td></tr>
         <tr><td><code>--border-action</code></td><td>Track border — off, default</td><td>#bcc1cd</td></tr>
         <tr><td><code>--border-action-hover</code></td><td>Track border — off, hover</td><td>#a5adbc</td></tr>
-        <tr><td><code>--bg-brand-base</code></td><td>Track fill — on (default &amp; hover)</td><td>#0a9d99</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Track border — on, default</td><td>#0c827f</td></tr>
-        <tr><td><code>--border-brand-base-hover</code></td><td>Track border — on, hover</td><td>#166764</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Track fill — on (default &amp; hover)</td><td>#0a9d99</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Track border — on, default</td><td>#0c827f</td></tr>
+        <tr><td><code>--border-brand-hover</code></td><td>Track border — on, hover</td><td>#166764</td></tr>
         <tr><td><code>--content-brand-secondary</code></td><td>Check icon colour</td><td>#166764</td></tr>
         <tr><td><code>--bg-disabled</code></td><td>Track fill — disabled (both states)</td><td>rgba(25,39,67,.10)</td></tr>
         <tr><td><code>--content-base</code></td><td>Label text</td><td>#192743</td></tr>
@@ -922,9 +922,9 @@
         <tr><td><code>--bg-tertiary</code></td><td>Track fill — off (default &amp; hover)</td><td>#e1e4e8</td></tr>
         <tr><td><code>--border-action</code></td><td>Track border — off, default</td><td>#bcc1cd</td></tr>
         <tr><td><code>--border-action-hover</code></td><td>Track border — off, hover</td><td>#a5adbc</td></tr>
-        <tr><td><code>--bg-brand-base</code></td><td>Track fill — on</td><td>#0a9d99</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Track border — on, default</td><td>#0c827f</td></tr>
-        <tr><td><code>--border-brand-base-hover</code></td><td>Track border — on, hover</td><td>#166764</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Track fill — on</td><td>#0a9d99</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Track border — on, default</td><td>#0c827f</td></tr>
+        <tr><td><code>--border-brand-hover</code></td><td>Track border — on, hover</td><td>#166764</td></tr>
         <tr><td><code>--content-brand-secondary</code></td><td>Check icon colour</td><td>#166764</td></tr>
         <tr><td><code>--bg-disabled</code></td><td>Track fill — disabled</td><td>rgba(25,39,67,.10)</td></tr>
         <tr><td><code>--content-base</code></td><td>Label text</td><td>#192743</td></tr>

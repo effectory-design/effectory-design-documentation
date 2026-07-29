@@ -10,14 +10,14 @@
     .tooltip-mock {
       position: absolute; top: calc(100% + 7px); left: 50%;
       transform: translateX(-50%);
-      background: var(--bg-inverse-base); color: var(--content-on-brand-base);
+      background: var(--bg-inverse); color: var(--content-on-brand-base);
       font-size: 11px; font-weight: 500; white-space: nowrap;
       padding: 4px 9px; border-radius: var(--radius-sm); pointer-events: none;
     }
     .tooltip-mock::before {
       content: ''; position: absolute; bottom: 100%; left: 50%;
       transform: translateX(-50%);
-      border: 4px solid transparent; border-bottom-color: var(--bg-inverse-base);
+      border: 4px solid transparent; border-bottom-color: var(--bg-inverse);
     }
     .ib-labeled { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .ib-code {
@@ -555,11 +555,11 @@
     <table class="token-table">
       <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td><code>--bg-brand-base</code></td><td>Primary fill — default</td><td>#0a9d99</td></tr>
-        <tr><td><code>--bg-brand-base-hover</code></td><td>Primary fill — hover</td><td>#0c827f</td></tr>
-        <tr><td><code>--bg-brand-base-pressed</code></td><td>Primary fill — pressed</td><td>#166764</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Primary border — default</td><td>#0c827f</td></tr>
-        <tr><td><code>--border-brand-base-hover</code></td><td>Primary border — hover</td><td>#166764</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Primary fill — default</td><td>#0a9d99</td></tr>
+        <tr><td><code>--bg-brand-hover</code></td><td>Primary fill — hover</td><td>#0c827f</td></tr>
+        <tr><td><code>--bg-brand-pressed</code></td><td>Primary fill — pressed</td><td>#166764</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Primary border — default</td><td>#0c827f</td></tr>
+        <tr><td><code>--border-brand-hover</code></td><td>Primary border — hover</td><td>#166764</td></tr>
         <tr><td><code>--content-on-brand-base</code></td><td>Icon on Primary — all active states</td><td>#ffffff</td></tr>
         <tr><td><code>--bg-base</code></td><td>Secondary fill — default &amp; disabled</td><td>#ffffff</td></tr>
         <tr><td><code>--bg-base-hover</code></td><td>Secondary/Tertiary fill — hover</td><td>#f8f8f9</td></tr>
@@ -807,16 +807,16 @@
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cm">/* Background */</span>
-<span class="ca">--bg-brand-base</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
-<span class="ca">--bg-brand-base-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
-<span class="ca">--bg-brand-base-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
+<span class="ca">--bg-brand</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
+<span class="ca">--bg-brand-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
+<span class="ca">--bg-brand-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
 <span class="ca">--bg-base</span>:                <span class="cv">#ffffff</span>;   <span class="cm">/* Secondary default */</span>
 <span class="ca">--bg-base-hover</span>:          <span class="cv">#f4f5f7</span>;   <span class="cm">/* Secondary/tertiary hover */</span>
 
 <span class="cm">/* Border */</span>
 <span class="ca">--border-action</span>:          <span class="cv">#bcc1cd</span>;   <span class="cm">/* Secondary default border */</span>
 <span class="ca">--border-action-hover</span>:    <span class="cv">#9ca3b0</span>;   <span class="cm">/* Secondary hover border   */</span>
-<span class="ca">--border-brand-base</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary default border   */</span>
+<span class="ca">--border-brand</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary default border   */</span>
 
 <span class="cm">/* Content */</span>
 <span class="ca">--content-on-brand-base</span>:  <span class="cv">#ffffff</span>;   <span class="cm">/* Icon on Primary          */</span>

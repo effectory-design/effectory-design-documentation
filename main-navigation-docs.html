@@ -15,7 +15,7 @@
       font-family: 'Poppins', sans-serif; height: 480px; overflow: hidden;
     }
     /* Personal portal remaps the brand tokens (mirrors html[data-portal="personal"]) */
-    .mainnav.is-personal { --bg-brand-subtle-selected: #ffefc2; --content-brand-base: #8a4b15; }
+    .mainnav.is-personal { --bg-brand-subtle-selected: #ffefc2; --content-brand: #8a4b15; }
 
     /* portal switcher */
     .mn-portal { display: flex; align-items: center; gap: 6px; margin: 0 16px 24px; }
@@ -33,7 +33,7 @@
     .mn-item .mn-chev { margin-left: auto; width: 16px; height: 16px; color: var(--content-subtle); display: flex; }
     .mn-item:hover, .mn-item.is-hover { background: var(--bg-base-hover); color: var(--content-base); }
     .mn-item.is-active { background: var(--bg-brand-subtle-selected); color: var(--content-base); font-weight: 600; }
-    .mn-item.is-active > i[data-icon] { color: var(--content-brand-base); }
+    .mn-item.is-active > i[data-icon] { color: var(--content-brand); }
 
     /* expandable group */
     .mn-sub { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 6px; }
@@ -56,7 +56,7 @@
     /* Avatar component (from the design system) — used in the account button */
     .av { display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); font-family: 'Poppins', sans-serif; font-weight: 600; flex-shrink: 0; user-select: none; box-sizing: border-box; }
     .av-36 { width: 36px; height: 36px; font-size: 14px; }
-    .av-blue { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue-base); }
+    .av-blue { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
 
     /* account & portal dropdowns — the documented Dropdown Menu (.menu) component */
     .menu { width: 240px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers); padding: 8px; font-family: 'Poppins', sans-serif; }
@@ -69,7 +69,7 @@
     .menu-item-title { font-weight: 400; font-size: 14px; line-height: 1.6; color: var(--content-base); }
     .menu-item-sub { font-weight: 400; font-size: 12px; line-height: 1.6; color: var(--content-secondary); }
     .menu-item-icon { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--content-subtle); flex-shrink: 0; }
-    .menu-item-check { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--content-brand-base); flex-shrink: 0; }
+    .menu-item-check { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--content-brand); flex-shrink: 0; }
     .pi-logo { width: 24px; height: 24px; flex-shrink: 0; background-size: contain; background-repeat: no-repeat; background-position: center; }
     .pi-logo-coordinator { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzMwQjNBRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE5LjkwNTggMjIuOTIyNkMyMy41Mjk4IDIyLjkyMjYgMjYuNDc4MyAxOS45NzQ0IDI2LjQ3ODMgMTYuMzUwMkMyNi40NzgzIDEyLjcyNjIgMjMuNTI5OCA5Ljc3NzcxIDE5LjkwNTggOS43Nzc3MUMxNi4yODE2IDkuNzc3NzEgMTMuMzMzMiAxMi43MjYyIDEzLjMzMzIgMTYuMzUwMkMxMy4zMzMyIDE5Ljk3NDQgMTYuMjgxNiAyMi45MjI2IDE5LjkwNTggMjIuOTIyNlpNMTcuMDI0NiAxNi4zNTAyQzE3LjAyNDYgMTQuNzYxNSAxOC4zMTcyIDEzLjQ2ODYgMTkuOTA2MSAxMy40Njg2QzIxLjQ5NDggMTMuNDY4NiAyMi43ODc1IDE0Ljc2MTUgMjIuNzg3NSAxNi4zNTAyQzIyLjc4NzUgMTcuOTM5IDIxLjQ5NDggMTkuMjMxNyAxOS45MDYxIDE5LjIzMTdDMTguMzE3MiAxOS4yMzE3IDE3LjAyNDYgMTcuOTM5IDE3LjAyNDYgMTYuMzUwMlpNMjUuNzM2MyAyNS4xMTFDMjYuNTY5MiAyNS4xMTEgMjcuMjQ0MyAyNS43ODYxIDI3LjI0NDMgMjYuNjE5VjI4Ljk0MDRIMTQuNTU0OUwxMi42NjY1IDMwLjExMDZWMjYuNjMyNkMxMi42NjY1IDI1Ljc5MjEgMTMuMzQ3OCAyNS4xMTEgMTQuMTg4MyAyNS4xMTFIMjUuNzM2M1oiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="); }
     .pi-logo-personal { background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMTIuOEMwIDguMzE5NTggMCA2LjA3OTM3IDAuODcxOTQ4IDQuMzY4MDhDMS42Mzg5MyAyLjg2Mjc4IDIuODYyNzggMS42Mzg5MyA0LjM2ODA4IDAuODcxOTQ4QzYuMDc5MzcgMCA4LjMxOTU4IDAgMTIuOCAwSDI3LjJDMzEuNjgwNCAwIDMzLjkyMDYgMCAzNS42MzE5IDAuODcxOTQ4QzM3LjEzNzIgMS42Mzg5MyAzOC4zNjExIDIuODYyNzggMzkuMTI4MSA0LjM2ODA4QzQwIDYuMDc5MzcgNDAgOC4zMTk1OCA0MCAxMi44VjI3LjJDNDAgMzEuNjgwNCA0MCAzMy45MjA2IDM5LjEyODEgMzUuNjMxOUMzOC4zNjExIDM3LjEzNzIgMzcuMTM3MiAzOC4zNjExIDM1LjYzMTkgMzkuMTI4MUMzMy45MjA2IDQwIDMxLjY4MDQgNDAgMjcuMiA0MEgxMi44QzguMzE5NTggNDAgNi4wNzkzNyA0MCA0LjM2ODA4IDM5LjEyODFDMi44NjI3OCAzOC4zNjExIDEuNjM4OTMgMzcuMTM3MiAwLjg3MTk0OCAzNS42MzE5QzAgMzMuOTIwNiAwIDMxLjY4MDQgMCAyNy4yVjEyLjhaIiBmaWxsPSIjRkRCRDEyIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTkuOTA1OCAyMi45MjI2QzIzLjUyOTggMjIuOTIyNiAyNi40NzgzIDE5Ljk3NDQgMjYuNDc4MyAxNi4zNTAyQzI2LjQ3ODMgMTIuNzI2MiAyMy41Mjk4IDkuNzc3NzEgMTkuOTA1OCA5Ljc3NzcxQzE2LjI4MTYgOS43Nzc3MSAxMy4zMzMyIDEyLjcyNjIgMTMuMzMzMiAxNi4zNTAyQzEzLjMzMzIgMTkuOTc0NCAxNi4yODE2IDIyLjkyMjYgMTkuOTA1OCAyMi45MjI2Wk0xNy4wMjQ2IDE2LjM1MDJDMTcuMDI0NiAxNC43NjE1IDE4LjMxNzIgMTMuNDY4NiAxOS45MDYxIDEzLjQ2ODZDMjEuNDk0OCAxMy40Njg2IDIyLjc4NzUgMTQuNzYxNSAyMi43ODc1IDE2LjM1MDJDMjIuNzg3NSAxNy45MzkgMjEuNDk0OCAxOS4yMzE3IDE5LjkwNjEgMTkuMjMxN0MxOC4zMTcyIDE5LjIzMTcgMTcuMDI0NiAxNy45MzkgMTcuMDI0NiAxNi4zNTAyWk0yNS43MzYzIDI1LjExMUMyNi41NjkyIDI1LjExMSAyNy4yNDQzIDI1Ljc4NjEgMjcuMjQ0MyAyNi42MTlWMjguOTQwNEgxNC41NTQ5TDEyLjY2NjUgMzAuMTEwNlYyNi42MzI2QzEyLjY2NjUgMjUuNzkyMSAxMy4zNDc4IDI1LjExMSAxNC4xODgzIDI1LjExMUgyNS43MzYzWiIgZmlsbD0iIzE5Mjc0MyIvPgo8L3N2Zz4K"); }
@@ -81,7 +81,7 @@
     .variant-row { grid-template-columns: minmax(300px, 1fr) 1fr; }
     .variant-row-btn { padding: 28px; align-items: flex-start; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: var(--radius-base); border: 1px solid transparent; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; }
-    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
+    .btn-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
   </style>
 </head>
 <body>
@@ -352,7 +352,7 @@
               <tr><td><code>--content-secondary</code></td><td>Item label (rest)</td><td>rgba(25,39,67,.8)</td></tr>
               <tr><td><code>--content-subtle</code></td><td>Item icons (rest), chevrons, org line</td><td>rgba(25,39,67,.5)</td></tr>
               <tr><td><code>--bg-brand-subtle-selected</code></td><td>Active-item highlight — remaps with the portal (Coordinator / Personal)</td><td>#d2f8f6 / #ffefc2</td></tr>
-              <tr><td><code>--content-brand-base</code></td><td>Active-item icon</td><td>#166764 / #8a4b15</td></tr>
+              <tr><td><code>--content-brand</code></td><td>Active-item icon</td><td>#166764 / #8a4b15</td></tr>
               <tr><td><code>--logo-bg</code></td><td>Portal logo square (Coordinator / Personal)</td><td>#30b3af / #fdbd12</td></tr>
               <tr><td><code>--sh-dialogs</code></td><td>Account dropdown shadow</td><td>0 4px 12px rgba(25,39,67,.08)</td></tr>
               <tr><td><code>--radius-lg</code></td><td>Dropdown / item radius</td><td>12px / 9px</td></tr>
@@ -464,7 +464,7 @@
             <thead><tr><th>Token</th><th>Used for</th></tr></thead>
             <tbody>
               <tr><td><code>--bg-brand-subtle-selected</code></td><td>Active-item highlight background</td></tr>
-              <tr><td><code>--content-brand-base</code></td><td>Active-item icon</td></tr>
+              <tr><td><code>--content-brand</code></td><td>Active-item icon</td></tr>
               <tr><td><code>--logo-bg</code></td><td>Portal logo square fill</td></tr>
             </tbody>
           </table>

@@ -25,7 +25,7 @@
     .slt:hover, .slt.is-hover  { border-color:var(--border-action-hover); }
     .slt:active, .slt.is-pressed { border-color:var(--border-action-pressed, var(--border-action-hover)); }
     .slt:focus-visible, .slt.is-focus,
-    .slt.is-typing { border-color:var(--border-brand-base); outline:none; }
+    .slt.is-typing { border-color:var(--border-brand); outline:none; }
     .slt.is-warning { border-color:#ec6e0a; }
     .slt.is-error   { border-color:#b9252a; }
     .slt.is-disabled{
@@ -50,7 +50,7 @@
     .ms:hover, .ms.is-hover { border-color:var(--border-action-hover); }
     .ms:active, .ms.is-pressed { border-color:var(--border-action-pressed, var(--border-action-hover)); }
     .ms:focus-visible, .ms.is-focus,
-    .ms.is-typing { border-color:var(--border-brand-base); outline:none; }
+    .ms.is-typing { border-color:var(--border-brand); outline:none; }
     .ms.is-disabled {
       background:rgba(25,39,67,.08); border-color:var(--border-action);
       box-shadow:none; cursor:not-allowed;
@@ -68,9 +68,9 @@
       background:var(--bg-tertiary); color:var(--content-base);
     }
     .chip svg { width:10px; height:10px; flex-shrink:0; opacity:.8; }
-    .chip-info    { background:var(--bg-info-base); color:#fff; }
-    .chip-error   { background:var(--bg-negative-base); color:#fff; }
-    .chip-warning { background:var(--bg-warning-bold); color:#fff; }
+    .chip-info    { background:var(--bg-info); color:#fff; }
+    .chip-error   { background:var(--bg-negative); color:#fff; }
+    .chip-warning { background:var(--bg-warning); color:#fff; }
     .ms-text-val  { color:var(--content-base); font-size:14px; }
 
     /* ── Selection Button ── */
@@ -153,14 +153,14 @@
     .menu[aria-multiselectable="true"] .menu-item.is-selected,
     .menu[aria-multiselectable="true"] .menu-item.is-selected:hover { background:transparent; }
     .menu[aria-multiselectable="true"] .menu-item:hover { background:var(--bg-base-hover); }
-    .menu-item.is-focus  { background:var(--bg-base-hover); box-shadow:inset 0 0 0 2px var(--border-brand-base); }
+    .menu-item.is-focus  { background:var(--bg-base-hover); box-shadow:inset 0 0 0 2px var(--border-brand); }
     /* title + subtitle stack inside an option */
     .menu-item-body { display:flex; flex-direction:column; min-width:0; flex:1; gap:2px; }
     .menu-item-title { font-weight:500; font-size:14px; line-height:1.6; color:var(--content-base); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     /* Title sits alone (no description) → Regular 400 */
     .menu-item-title:only-child { font-weight:400; }
     .menu-item-sub   { font-weight:400; font-size:12px; line-height:1.6; color:var(--content-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .menu-item-check { display:flex; align-items:center; justify-content:center; width:16px; height:16px; color:var(--content-brand-base); flex-shrink:0; }
+    .menu-item-check { display:flex; align-items:center; justify-content:center; width:16px; height:16px; color:var(--content-brand); flex-shrink:0; }
     .menu-item .flag {
       width:18px; height:14px; border-radius:2px; flex-shrink:0; overflow:hidden;
       box-shadow:inset 0 0 0 1px rgba(25,39,67,.08);
@@ -176,13 +176,13 @@
     }
     .menu-item:hover .menu-cb { border-color:var(--border-action-hover); }
     .menu-item.is-selected .menu-cb {
-      background:var(--bg-brand-base); border-color:var(--border-brand-secondary);
+      background:var(--bg-brand); border-color:var(--border-brand-secondary);
     }
     .menu-item.is-selected:hover .menu-cb {
-      background:var(--bg-brand-base-hover); border-color:var(--border-brand-secondary);
+      background:var(--bg-brand-hover); border-color:var(--border-brand-secondary);
     }
     .menu-item:focus-visible .menu-cb,
-    .menu-item.is-focus .menu-cb { box-shadow:0 0 0 2px var(--bg-base), 0 0 0 4px var(--border-brand-base); }
+    .menu-item.is-focus .menu-cb { box-shadow:0 0 0 2px var(--bg-base), 0 0 0 4px var(--border-brand); }
     .menu-cb svg { width:14px; height:14px; color:var(--content-on-brand-base); opacity:0; stroke-width:2; }
     .menu-item.is-selected .menu-cb svg { opacity:1; }
     /* Select all / deselect all row */
@@ -193,12 +193,12 @@
     }
     .menu-action-row:hover { background:var(--bg-base-hover); }
     .menu-action-row .menu-cb-outline {
-      width:18px; height:18px; border:1.5px solid var(--border-brand-base); border-radius:4px;
+      width:18px; height:18px; border:1.5px solid var(--border-brand); border-radius:4px;
       display:inline-flex; align-items:center; justify-content:center;
-      color:var(--content-brand-base); flex-shrink:0; background:transparent;
+      color:var(--content-brand); flex-shrink:0; background:transparent;
       transition:border-color .12s, background-color .12s;
     }
-    .menu-action-row:hover .menu-cb-outline { border-color:var(--bg-brand-base-pressed); }
+    .menu-action-row:hover .menu-cb-outline { border-color:var(--bg-brand-pressed); }
     .menu-action-row .menu-cb-outline svg { width:14px; height:14px; stroke-width:2; }
     .menu-empty { padding:14px 10px; color:var(--content-subtle); font-size:13px; text-align:center; }
     .menu-footer {
@@ -907,7 +907,8 @@
         </div>
         <div class="menu" role="listbox" aria-multiselectable="true">
           <div class="menu-action-row">
-            <span class="menu-cb-outline" style="background:var(--bg-brand-base);border-color:var(--border-brand-secondary);color:var(--content-on-brand-base);"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <!-- icon-exempt: pre-existing menu-check demo; line touched only by the -base token rename, not a new icon -->
+            <span class="menu-cb-outline" style="background:var(--bg-brand);border-color:var(--border-brand-secondary);color:var(--content-on-brand-base);"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <span>Deselect all</span>
           </div>
           <div class="menu-item is-selected" role="option" aria-selected="true"><span class="menu-cb"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="menu-item-body"><span class="menu-item-title">Q1 2026</span></div></div>
@@ -1123,20 +1124,20 @@
       <tr><td><code>--bg-base-hover</code></td><td>Trigger hover fill; menu option hover</td><td>#f8f8f9</td></tr>
       <tr><td><code>--bg-base-pressed</code></td><td>Trigger pressed fill; menu option pressed</td><td>#f1f2f4</td></tr>
       <tr><td><code>--bg-tertiary</code></td><td>Multi-select chip background</td><td>#f4f5f7</td></tr>
-      <tr><td><code>--bg-brand-base</code></td><td>Checked option indicator fill</td><td>#0a9d99</td></tr>
-      <tr><td><code>--bg-brand-base-hover</code></td><td>Checked option indicator hover fill</td><td>#0c827f</td></tr>
+      <tr><td><code>--bg-brand</code></td><td>Checked option indicator fill</td><td>#0a9d99</td></tr>
+      <tr><td><code>--bg-brand-hover</code></td><td>Checked option indicator hover fill</td><td>#0c827f</td></tr>
       <tr><td><code>--bg-hover</code></td><td>Inline select trigger hover overlay</td><td>#192743 · 8%</td></tr>
       <tr><td><code>--border-action</code></td><td>Trigger default border</td><td>#bcc1cd</td></tr>
       <tr><td><code>--border-action-hover</code></td><td>Trigger hover border</td><td>#a5adbc</td></tr>
       <tr><td><code>--border-action-pressed</code></td><td>Trigger pressed border</td><td>#7b869e</td></tr>
-      <tr><td><code>--border-brand-base</code></td><td>Checked option indicator border</td><td>#0c827f</td></tr>
+      <tr><td><code>--border-brand</code></td><td>Checked option indicator border</td><td>#0c827f</td></tr>
       <tr><td><code>--border-base</code></td><td>Menu search divider; option group divider</td><td>#e4e6ea</td></tr>
       <tr><td><code>--content-base</code></td><td>Selected value, option text</td><td>#192743</td></tr>
       <tr><td><code>--content-secondary</code></td><td>Chevron icon; name prefix on inline select</td><td>#192743 · 60%</td></tr>
       <tr><td><code>--content-subtle</code></td><td>Placeholder text; disabled chevron</td><td>#192743 · 40%</td></tr>
       <tr><td><code>--content-disabled</code></td><td>Disabled trigger text and icon</td><td>#192743 · 30%</td></tr>
       <tr><td><code>--content-on-brand-base</code></td><td>Checkmark on checked indicator</td><td>#ffffff</td></tr>
-      <tr><td><code>--content-brand-base</code></td><td>Inline select trigger active text</td><td>#0a9d99</td></tr>
+      <tr><td><code>--content-brand</code></td><td>Inline select trigger active text</td><td>#0a9d99</td></tr>
       <tr><td><code>--sh-action</code></td><td>Trigger and menu surface shadow</td><td>0 1px 3px rgba(0,0,0,.10)</td></tr>
       <tr><td><code>--sh-popovers</code></td><td>Open dropdown menu shadow</td><td>0 4px 16px rgba(0,0,0,.12)</td></tr>
     </tbody>
@@ -1478,7 +1479,7 @@
   &lt;span class="option-tag"&gt;beta&lt;/span&gt;
 &lt;/mat-option&gt;</code></pre>
   </div>
-  <p style="font-size:13px;color:var(--content-subtle);margin-top:8px;">The <code>option-tag</code>, <code>option-count</code>, <code>option-body</code>, <code>option-title</code> and <code>option-sub</code> classes shown above are <strong>not</strong> shipped by the styleguide — define them locally in your component until the design tokens land. The trailing element (<code>option-tag</code> or <code>option-count</code>) is always a <strong>sibling</strong> of the body, never inside it, so it sits on the right edge of the row regardless of subtitle. Recommended values: tag uses <code>--bg-info-base</code> (<code>#3174db</code>) with white Medium 12px text, count uses <code>--content-secondary</code> (<code>#5D6D87</code>) Regular 12px right-aligned, avatars use <code>--bg-info-subtle</code> (<code>#d6e6ff</code>) with <code>#205bb9</code> initials at 24px (single line) or 32px (with subtitle).</p>
+  <p style="font-size:13px;color:var(--content-subtle);margin-top:8px;">The <code>option-tag</code>, <code>option-count</code>, <code>option-body</code>, <code>option-title</code> and <code>option-sub</code> classes shown above are <strong>not</strong> shipped by the styleguide — define them locally in your component until the design tokens land. The trailing element (<code>option-tag</code> or <code>option-count</code>) is always a <strong>sibling</strong> of the body, never inside it, so it sits on the right edge of the row regardless of subtitle. Recommended values: tag uses <code>--bg-info</code> (<code>#3174db</code>) with white Medium 12px text, count uses <code>--content-secondary</code> (<code>#5D6D87</code>) Regular 12px right-aligned, avatars use <code>--bg-info-subtle</code> (<code>#d6e6ff</code>) with <code>#205bb9</code> initials at 24px (single line) or 32px (with subtitle).</p>
 
   <h3 class="text-l4">Effectory Select (with search &amp; validation)</h3>
   <p>The <code>&lt;eff-select&gt;</code> wrapper accepts an <code>options</code> array, supports search via <code>[searchable]="true"</code>, and surfaces validation labels for invalid values.</p>

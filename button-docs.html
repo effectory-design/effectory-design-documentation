@@ -18,9 +18,9 @@
     .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     /* Primary */
-    .btn-primary { background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
-    .btn-primary:hover, .btn-primary.is-hover { background: var(--bg-brand-base-hover); border-color: var(--bg-brand-base-pressed); }
-    .btn-primary:active, .btn-primary.is-pressed { background: var(--bg-brand-base-pressed); border-color: var(--border-brand-base-pressed); }
+    .btn-primary { background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-action); }
+    .btn-primary:hover, .btn-primary.is-hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-pressed); }
+    .btn-primary:active, .btn-primary.is-pressed { background: var(--bg-brand-pressed); border-color: var(--border-brand-pressed); }
 
     /* Secondary */
     .btn-secondary { background: var(--bg-base); border-color: var(--border-action); color: var(--content-secondary); box-shadow: var(--sh-action); }
@@ -33,20 +33,20 @@
     .btn-tertiary:active, .btn-tertiary.is-pressed { background: var(--bg-base-pressed); }
 
     /* Danger / delete variants */
-    .btn-danger { background: var(--bg-negative-base); border-color: var(--border-negative-base); color: #ffffff; box-shadow: var(--sh-action); }
-    .btn-danger:hover, .btn-danger.is-hover { background: var(--bg-negative-base-hover); border-color: var(--border-negative-base-hover); }
-    .btn-danger:active, .btn-danger.is-pressed { background: var(--bg-negative-base-pressed); border-color: var(--border-negative-base-pressed); }
-    .btn-danger-secondary { background: var(--bg-base); border-color: var(--border-negative-base); color: var(--content-negative-base); box-shadow: var(--sh-action); }
-    .btn-danger-secondary:hover { background: var(--bg-negative-subtle); border-color: var(--border-negative-base-hover); }
-    .btn-danger-tertiary { background: transparent; border-color: transparent; color: var(--content-negative-base); }
+    .btn-danger { background: var(--bg-negative); border-color: var(--border-negative); color: #ffffff; box-shadow: var(--sh-action); }
+    .btn-danger:hover, .btn-danger.is-hover { background: var(--bg-negative-hover); border-color: var(--border-negative-hover); }
+    .btn-danger:active, .btn-danger.is-pressed { background: var(--bg-negative-pressed); border-color: var(--border-negative-pressed); }
+    .btn-danger-secondary { background: var(--bg-base); border-color: var(--border-negative); color: var(--content-negative); box-shadow: var(--sh-action); }
+    .btn-danger-secondary:hover { background: var(--bg-negative-subtle); border-color: var(--border-negative-hover); }
+    .btn-danger-tertiary { background: transparent; border-color: transparent; color: var(--content-negative); }
     .btn-danger-tertiary:hover { background: var(--bg-negative-subtle); }
     .btn-link { background: transparent; border-color: transparent; color: var(--content-action); text-decoration: none; }
     .btn-link:hover, .btn-link.is-hover { color: var(--content-action-hover); background: transparent; }
     .btn-link:active, .btn-link.is-pressed { color: var(--content-action-pressed); background: transparent; }
     .btn-link.is-disabled { background: transparent !important; border-color: transparent !important; color: var(--content-disabled) !important; }
     .btn-link-delete { background: transparent; border-color: transparent; color: var(--content-negative-secondary); text-decoration: none; }
-    .btn-link-delete:hover, .btn-link-delete.is-hover { color: var(--content-negative-base); background: transparent; }
-    .btn-link-delete:active, .btn-link-delete.is-pressed { color: var(--content-negative-base); background: transparent; }
+    .btn-link-delete:hover, .btn-link-delete.is-hover { color: var(--content-negative); background: transparent; }
+    .btn-link-delete:active, .btn-link-delete.is-pressed { color: var(--content-negative); background: transparent; }
     .btn-link-delete.is-disabled { background: transparent !important; border-color: transparent !important; color: var(--content-disabled) !important; }
 
     /* Disabled */
@@ -241,7 +241,7 @@
         <div class="dd-prev" style="flex-direction: column; gap: 10px; align-items: flex-start; padding: 20px 24px;">
           <input
             type="text" placeholder="Survey name is required"
-            style="width:100%; padding: 7px 10px; border: 1px solid var(--border-negative-base); border-radius: var(--radius-base); font-family:inherit; font-size:13px; background:#fff; color: var(--content-base);"
+            style="width:100%; padding: 7px 10px; border: 1px solid var(--border-negative); border-radius: var(--radius-base); font-family:inherit; font-size:13px; background:#fff; color: var(--content-base);"
           />
           <span style="font-size: 12px; color: var(--content-negative-secondary);">Survey name is required</span>
           <button class="btn btn-primary" style="pointer-events:none;">Save survey</button>
@@ -548,17 +548,17 @@
     <table class="token-table">
       <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td><code>--bg-brand-base</code></td><td>Primary default fill</td><td>#0a9d99</td></tr>
-        <tr><td><code>--bg-brand-base-hover</code></td><td>Primary hover fill</td><td>#0c827f</td></tr>
-        <tr><td><code>--bg-brand-base-pressed</code></td><td>Primary pressed fill</td><td>#166764</td></tr>
-        <tr><td><code>--border-brand-base</code></td><td>Primary default border</td><td>#0c827f</td></tr>
+        <tr><td><code>--bg-brand</code></td><td>Primary default fill</td><td>#0a9d99</td></tr>
+        <tr><td><code>--bg-brand-hover</code></td><td>Primary hover fill</td><td>#0c827f</td></tr>
+        <tr><td><code>--bg-brand-pressed</code></td><td>Primary pressed fill</td><td>#166764</td></tr>
+        <tr><td><code>--border-brand</code></td><td>Primary default border</td><td>#0c827f</td></tr>
         <tr><td><code>--bg-base</code></td><td>Secondary default fill</td><td>#ffffff</td></tr>
         <tr><td><code>--bg-base-hover</code></td><td>Secondary/Tertiary hover fill</td><td>#f8f8f9</td></tr>
         <tr><td><code>--bg-base-pressed</code></td><td>Secondary/Tertiary pressed fill</td><td>#f1f2f4</td></tr>
         <tr><td><code>--border-action</code></td><td>Secondary default border</td><td>#bcc1cd</td></tr>
-        <tr><td><code>--bg-negative-base</code></td><td>Danger default fill</td><td>#d3353b</td></tr>
-        <tr><td><code>--bg-negative-base-hover</code></td><td>Danger hover fill</td><td>#b9252a</td></tr>
-        <tr><td><code>--bg-negative-base-pressed</code></td><td>Danger pressed fill</td><td>#861a1d</td></tr>
+        <tr><td><code>--bg-negative</code></td><td>Danger default fill</td><td>#d3353b</td></tr>
+        <tr><td><code>--bg-negative-hover</code></td><td>Danger hover fill</td><td>#b9252a</td></tr>
+        <tr><td><code>--bg-negative-pressed</code></td><td>Danger pressed fill</td><td>#861a1d</td></tr>
         <tr><td><code>--bg-disabled</code></td><td>All types disabled fill</td><td>#192743 · 7%</td></tr>
       </tbody>
     </table>
@@ -860,16 +860,16 @@
     <div class="dev-code-wrap">
       <button class="dev-copy-btn">Copy</button>
       <pre><code><span class="cm">/* Background */</span>
-<span class="ca">--bg-brand-base</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
-<span class="ca">--bg-brand-base-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
-<span class="ca">--bg-brand-base-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
-<span class="ca">--bg-negative-base</span>:       <span class="cv">#d3353b</span>;   <span class="cm">/* Danger default  */</span>
+<span class="ca">--bg-brand</span>:          <span class="cv">#0a9d99</span>;   <span class="cm">/* Primary default */</span>
+<span class="ca">--bg-brand-hover</span>:    <span class="cv">#0c827f</span>;   <span class="cm">/* Primary hover   */</span>
+<span class="ca">--bg-brand-pressed</span>:  <span class="cv">#166764</span>;   <span class="cm">/* Primary pressed */</span>
+<span class="ca">--bg-negative</span>:       <span class="cv">#d3353b</span>;   <span class="cm">/* Danger default  */</span>
 <span class="ca">--bg-disabled</span>:            <span class="cv">rgba(25,39,67,.07)</span>; <span class="cm">/* All disabled    */</span>
 
 <span class="cm">/* Border */</span>
 <span class="ca">--border-action</span>:          <span class="cv">#bcc1cd</span>;   <span class="cm">/* Secondary default border */</span>
 <span class="ca">--border-action-hover</span>:    <span class="cv">#9ca3b0</span>;   <span class="cm">/* Secondary hover border   */</span>
-<span class="ca">--border-brand-base</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary default border   */</span>
+<span class="ca">--border-brand</span>:      <span class="cv">#0c827f</span>;   <span class="cm">/* Primary default border   */</span>
 
 <span class="cm">/* Content */</span>
 <span class="ca">--content-on-brand-base</span>:  <span class="cv">#ffffff</span>;   <span class="cm">/* Label on Primary/Danger  */</span>

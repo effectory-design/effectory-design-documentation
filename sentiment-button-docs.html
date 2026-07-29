@@ -13,14 +13,14 @@
     .sbtn i[data-icon] { width: 16px; height: 16px; display: flex; }
 
     /* Secondary (outline): white bg, sentiment border, dark text */
-    .sbtn.is-warning  { border-color: var(--border-warning-base); }
-    .sbtn.is-info     { border-color: var(--border-info-base); }
-    .sbtn.is-positive { border-color: var(--border-positive-base); }
-    .sbtn.is-negative { border-color: var(--border-negative-base); }
-    .sbtn.is-warning:hover,  .sbtn.is-warning.is-hover  { border-color: var(--border-warning-base-hover);  box-shadow: var(--sh-action-hover); }
-    .sbtn.is-info:hover,     .sbtn.is-info.is-hover      { border-color: var(--border-info-base-hover);     box-shadow: var(--sh-action-hover); }
-    .sbtn.is-positive:hover, .sbtn.is-positive.is-hover  { border-color: var(--border-positive-base-hover); box-shadow: var(--sh-action-hover); }
-    .sbtn.is-negative:hover, .sbtn.is-negative.is-hover  { border-color: var(--border-negative-base-hover); box-shadow: var(--sh-action-hover); }
+    .sbtn.is-warning  { border-color: var(--border-warning); }
+    .sbtn.is-info     { border-color: var(--border-info); }
+    .sbtn.is-positive { border-color: var(--border-positive); }
+    .sbtn.is-negative { border-color: var(--border-negative); }
+    .sbtn.is-warning:hover,  .sbtn.is-warning.is-hover  { border-color: var(--border-warning-hover);  box-shadow: var(--sh-action-hover); }
+    .sbtn.is-info:hover,     .sbtn.is-info.is-hover      { border-color: var(--border-info-hover);     box-shadow: var(--sh-action-hover); }
+    .sbtn.is-positive:hover, .sbtn.is-positive.is-hover  { border-color: var(--border-positive-hover); box-shadow: var(--sh-action-hover); }
+    .sbtn.is-negative:hover, .sbtn.is-negative.is-hover  { border-color: var(--border-negative-hover); box-shadow: var(--sh-action-hover); }
     .sbtn.is-warning:active,  .sbtn.is-warning.is-pressed  { background: var(--bg-warning-subtle);  box-shadow: none; }
     .sbtn.is-info:active,     .sbtn.is-info.is-pressed      { background: var(--bg-info-subtle);     box-shadow: none; }
     .sbtn.is-positive:active, .sbtn.is-positive.is-pressed  { background: var(--bg-positive-subtle); box-shadow: none; }
@@ -28,18 +28,18 @@
 
     /* Primary (filled): sentiment fill, white text (warning fill is light → dark text) */
     .sbtn.is-primary { color: var(--content-on-brand-base); }
-    .sbtn.is-primary.is-warning  { background: var(--bg-warning-bold); border-color: var(--border-warning-base); color: var(--content-base); }
-    .sbtn.is-primary.is-info     { background: var(--bg-info-base);     border-color: var(--border-info-base); }
-    .sbtn.is-primary.is-positive { background: var(--bg-positive-base); border-color: var(--border-positive-base); }
-    .sbtn.is-primary.is-negative { background: var(--bg-negative-base); border-color: var(--border-negative-base); }
-    .sbtn.is-primary.is-warning:hover,  .sbtn.is-primary.is-warning.is-hover   { background: var(--border-warning-base); box-shadow: var(--sh-action-hover); }
-    .sbtn.is-primary.is-info:hover,     .sbtn.is-primary.is-info.is-hover       { background: var(--bg-info-base-hover);     border-color: var(--border-info-base-hover);     box-shadow: var(--sh-action-hover); }
-    .sbtn.is-primary.is-positive:hover, .sbtn.is-primary.is-positive.is-hover   { background: var(--bg-positive-base-hover); border-color: var(--border-positive-base-hover); box-shadow: var(--sh-action-hover); }
-    .sbtn.is-primary.is-negative:hover, .sbtn.is-primary.is-negative.is-hover   { background: var(--bg-negative-base-hover); border-color: var(--border-negative-base-hover); box-shadow: var(--sh-action-hover); }
-    .sbtn.is-primary.is-warning:active,  .sbtn.is-primary.is-warning.is-pressed  { background: var(--border-warning-base); box-shadow: none; }
-    .sbtn.is-primary.is-info:active,     .sbtn.is-primary.is-info.is-pressed      { background: var(--bg-info-base-hover);     box-shadow: none; }
-    .sbtn.is-primary.is-positive:active, .sbtn.is-primary.is-positive.is-pressed  { background: var(--bg-positive-base-hover); box-shadow: none; }
-    .sbtn.is-primary.is-negative:active, .sbtn.is-primary.is-negative.is-pressed  { background: var(--bg-negative-base-pressed); box-shadow: none; }
+    .sbtn.is-primary.is-warning  { background: var(--bg-warning); border-color: var(--border-warning); color: var(--content-base); }
+    .sbtn.is-primary.is-info     { background: var(--bg-info);     border-color: var(--border-info); }
+    .sbtn.is-primary.is-positive { background: var(--bg-positive); border-color: var(--border-positive); }
+    .sbtn.is-primary.is-negative { background: var(--bg-negative); border-color: var(--border-negative); }
+    .sbtn.is-primary.is-warning:hover,  .sbtn.is-primary.is-warning.is-hover   { background: var(--border-warning); box-shadow: var(--sh-action-hover); }
+    .sbtn.is-primary.is-info:hover,     .sbtn.is-primary.is-info.is-hover       { background: var(--bg-info-hover);     border-color: var(--border-info-hover);     box-shadow: var(--sh-action-hover); }
+    .sbtn.is-primary.is-positive:hover, .sbtn.is-primary.is-positive.is-hover   { background: var(--bg-positive-hover); border-color: var(--border-positive-hover); box-shadow: var(--sh-action-hover); }
+    .sbtn.is-primary.is-negative:hover, .sbtn.is-primary.is-negative.is-hover   { background: var(--bg-negative-hover); border-color: var(--border-negative-hover); box-shadow: var(--sh-action-hover); }
+    .sbtn.is-primary.is-warning:active,  .sbtn.is-primary.is-warning.is-pressed  { background: var(--border-warning); box-shadow: none; }
+    .sbtn.is-primary.is-info:active,     .sbtn.is-primary.is-info.is-pressed      { background: var(--bg-info-hover);     box-shadow: none; }
+    .sbtn.is-primary.is-positive:active, .sbtn.is-primary.is-positive.is-pressed  { background: var(--bg-positive-hover); box-shadow: none; }
+    .sbtn.is-primary.is-negative:active, .sbtn.is-primary.is-negative.is-pressed  { background: var(--bg-negative-pressed); box-shadow: none; }
 
     /* Disabled */
     .sbtn.is-disabled, .sbtn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; pointer-events: none; }
@@ -107,7 +107,7 @@
           <div class="dd-grid">
             <div class="dd-card">
               <div class="dd-prev" style="padding:24px;">
-                <div style="width:280px; max-width:100%; background:var(--bg-info-subtle); border:1px solid var(--border-info-base); border-radius:var(--radius-md); padding:16px; display:flex; flex-direction:column; gap:12px; pointer-events:none;">
+                <div style="width:280px; max-width:100%; background:var(--bg-info-subtle); border:1px solid var(--border-info); border-radius:var(--radius-md); padding:16px; display:flex; flex-direction:column; gap:12px; pointer-events:none;">
                   <span style="font-size:14px; line-height:1.5; color:var(--content-base);">New results are in for your team.</span>
                   <button class="sbtn is-primary is-info" style="align-self:flex-start;" tabindex="-1">View results</button>
                 </div>
@@ -119,7 +119,7 @@
             </div>
             <div class="dd-card">
               <div class="dd-prev" style="padding:24px;">
-                <div style="width:280px; max-width:100%; background:var(--bg-info-subtle); border:1px solid var(--border-info-base); border-radius:var(--radius-md); padding:16px; display:flex; flex-direction:column; gap:12px; pointer-events:none;">
+                <div style="width:280px; max-width:100%; background:var(--bg-info-subtle); border:1px solid var(--border-info); border-radius:var(--radius-md); padding:16px; display:flex; flex-direction:column; gap:12px; pointer-events:none;">
                   <span style="font-size:14px; line-height:1.5; color:var(--content-base);">New results are in for your team.</span>
                   <button class="sbtn is-primary is-positive" style="align-self:flex-start;" tabindex="-1">View results</button>
                 </div>
@@ -213,10 +213,10 @@
           <table class="token-table">
             <thead><tr><th>Sentiment</th><th>Secondary border</th><th>Primary fill</th></tr></thead>
             <tbody>
-              <tr><td>Positive</td><td><code>--border-positive-base</code></td><td><code>--bg-positive-base</code></td></tr>
-              <tr><td>Negative</td><td><code>--border-negative-base</code></td><td><code>--bg-negative-base</code></td></tr>
-              <tr><td>Informative</td><td><code>--border-info-base</code></td><td><code>--bg-info-base</code></td></tr>
-              <tr><td>Warning</td><td><code>--border-warning-base</code></td><td><code>--bg-warning-bold</code> (dark text)</td></tr>
+              <tr><td>Positive</td><td><code>--border-positive</code></td><td><code>--bg-positive</code></td></tr>
+              <tr><td>Negative</td><td><code>--border-negative</code></td><td><code>--bg-negative</code></td></tr>
+              <tr><td>Informative</td><td><code>--border-info</code></td><td><code>--bg-info</code></td></tr>
+              <tr><td>Warning</td><td><code>--border-warning</code></td><td><code>--bg-warning</code> (dark text)</td></tr>
             </tbody>
           </table>
           <p style="margin-top:10px; font-size:14px; color:var(--content-secondary);">Hover uses the matching <code>-base-hover</code> token; secondary pressed uses <code>-subtle</code>; text <code>--content-base</code> (or <code>--content-on-brand-base</code> on filled info/positive/negative). Shadow <code>--sh-action</code> → <code>--sh-action-hover</code>. Height 36, radius <code>--radius-base</code>, label <code>body-14</code> Medium.</p>
@@ -352,7 +352,7 @@
             <thead><tr><th>Token group</th><th>Used for</th></tr></thead>
             <tbody>
               <tr><td><code>--border-{positive|negative|info|warning}-base[-hover]</code></td><td>Secondary border (rest / hover)</td></tr>
-              <tr><td><code>--bg-{positive|negative|info}-base[-hover|-pressed]</code> · <code>--bg-warning-bold</code></td><td>Primary fill</td></tr>
+              <tr><td><code>--bg-{positive|negative|info}-base[-hover|-pressed]</code> · <code>--bg-warning</code></td><td>Primary fill</td></tr>
               <tr><td><code>--bg-{…}-subtle</code></td><td>Secondary pressed background</td></tr>
               <tr><td><code>--content-base</code> · <code>--content-on-brand-base</code> · <code>--content-disabled</code></td><td>Label colour</td></tr>
               <tr><td><code>--sh-action</code> · <code>--sh-action-hover</code></td><td>Shadow</td></tr>

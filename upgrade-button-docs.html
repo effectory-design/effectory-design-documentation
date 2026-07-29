@@ -13,7 +13,7 @@
       display: inline-flex; align-items: center; justify-content: center;
       gap: 8px; min-height: 36px; padding: 6px 12px;
       background: var(--bg-base);
-      border: 1px solid var(--border-highlight-base);
+      border: 1px solid var(--border-highlight);
       border-radius: var(--radius-base);
       box-shadow: var(--sh-action);
       font-family: 'Poppins', sans-serif;
@@ -24,19 +24,19 @@
     }
     .btn-upgrade:hover,
     .btn-upgrade.is-hover {
-      border-color: var(--border-highlight-base-hover);
+      border-color: var(--border-highlight-hover);
       color: var(--content-secondary-hover);
       box-shadow: var(--sh-action-hover);
     }
     .btn-upgrade:active,
     .btn-upgrade.is-pressed {
       background: var(--bg-highlight-subtle);
-      border-color: var(--border-highlight-base-hover);
+      border-color: var(--border-highlight-hover);
       color: var(--content-secondary-hover);
       box-shadow: var(--sh-action-hover);
     }
     .btn-upgrade:focus-visible {
-      outline: 2px solid var(--border-brand-base);
+      outline: 2px solid var(--border-brand);
       outline-offset: 2px;
     }
     .btn-upgrade.is-disabled,
@@ -389,8 +389,8 @@
         <tr><td><code>--bg-highlight-base</code></td><td>Yellow badge behind the arrow icon</td><td>#fdbd12</td></tr>
         <tr><td><code>--bg-highlight-subtle</code></td><td>Pressed container background</td><td>#ffefc2</td></tr>
         <tr><td><code>--bg-base</code></td><td>Default and hover container background</td><td>#ffffff</td></tr>
-        <tr><td><code>--border-highlight-base</code></td><td>Default container border</td><td>#d68100</td></tr>
-        <tr><td><code>--border-highlight-base-hover</code></td><td>Hover and pressed container border</td><td>#b16107</td></tr>
+        <tr><td><code>--border-highlight</code></td><td>Default container border</td><td>#d68100</td></tr>
+        <tr><td><code>--border-highlight-hover</code></td><td>Hover and pressed container border</td><td>#b16107</td></tr>
         <tr><td><code>--content-secondary</code></td><td>Default label colour</td><td>#192743 · 80%</td></tr>
         <tr><td><code>--content-secondary-hover</code></td><td>Hover and pressed label colour</td><td>#192743</td></tr>
         <tr><td><code>--sh-action</code></td><td>Default container shadow</td><td>0 1px 2px #192743 · 4%</td></tr>
@@ -562,8 +562,8 @@
 <span class="ca">--bg-highlight-subtle</span>:           <span class="cv">#ffefc2</span>;                     <span class="cm">/* Pressed container fill         */</span>
 
 <span class="cm">/* Border */</span>
-<span class="ca">--border-highlight-base</span>:         <span class="cv">#d68100</span>;                     <span class="cm">/* Default border                 */</span>
-<span class="ca">--border-highlight-base-hover</span>:   <span class="cv">#b16107</span>;                     <span class="cm">/* Hover & pressed border         */</span>
+<span class="ca">--border-highlight</span>:         <span class="cv">#d68100</span>;                     <span class="cm">/* Default border                 */</span>
+<span class="ca">--border-highlight-hover</span>:   <span class="cv">#b16107</span>;                     <span class="cm">/* Hover & pressed border         */</span>
 
 <span class="cm">/* Content */</span>
 <span class="ca">--content-secondary</span>:             <span class="cv">rgba(25, 39, 67, 0.80)</span>;      <span class="cm">/* Default label colour           */</span>

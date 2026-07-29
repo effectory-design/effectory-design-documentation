@@ -28,14 +28,14 @@
     .acc-item.is-open .acc-body-inner { padding-bottom: 16px; opacity: 1; }
     /* dashed content slot — signals "your content goes here" (docs only) */
     .acc-slot { border: 1.5px dashed var(--border-action); border-radius: var(--radius-md); padding: 20px 16px; text-align: center; font-size: 14px; color: var(--content-subtle); }
-    .acc-item.is-selected { border-color: var(--border-brand-base); }
+    .acc-item.is-selected { border-color: var(--border-brand); }
     .acc-item.is-borderless { border: 0; border-radius: 0; }
 
     /* documented checkbox (.cb-wrap / .cb) — needed locally since the page links styles.css, not components.css */
     .cb-wrap { position: relative; display: inline-flex; flex-shrink: 0; vertical-align: middle; }
     input[type="checkbox"].cb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border: 1.5px solid var(--border-action); border-radius: var(--radius-sm); background: var(--bg-base); cursor: pointer; transition: border-color .1s, background .1s; box-sizing: border-box; margin: 0; }
     input[type="checkbox"].cb:hover { border-color: var(--border-action-hover); }
-    input[type="checkbox"].cb:checked { background-color: var(--bg-brand-base); border-color: var(--border-brand-base); }
+    input[type="checkbox"].cb:checked { background-color: var(--bg-brand); border-color: var(--border-brand); }
     .cb-wrap::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
     .cb-wrap:has(input:checked)::after { opacity: 1; background-color: var(--content-on-brand-base); -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20clip-rule%3D%27evenodd%27%20d%3D%27M17.3737%204.79289C17.7642%205.18342%2017.7642%205.81658%2017.3737%206.20711L8.20703%2015.3738C7.8165%2015.7643%207.18334%2015.7643%206.79281%2015.3738L2.62615%2011.2071C2.23562%2010.8166%202.23562%2010.1834%202.62615%209.79289C3.01667%209.40237%203.64983%209.40237%204.04036%209.79289L7.49992%2013.2525L15.9595%204.79289C16.35%204.40237%2016.9832%204.40237%2017.3737%204.79289Z%27%20fill%3D%27black%27/%3E%3C/svg%3E"); -webkit-mask-size: 12px 12px; mask-size: 12px 12px; }
     .acc-item.is-borderless .acc-header { padding: 16px 0; }
