@@ -843,8 +843,11 @@
 
     /* tooltips: hidden until hover/focus (positioned via the auto-position script) */
     .tt-demo { position: relative; display: inline-flex; }
-    .tt-demo .tooltip { opacity: 0; pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out); }
-    .tt-demo:hover .tooltip, .tt-demo:focus-within .tooltip { opacity: 1; }
+    /* visibility, not opacity alone: an opacity-0 tooltip stays in the accessibility tree,
+       so its text was read out on top of the control's own label. visibility is left out of
+       the transition on purpose, so the fade-in and the 450ms onboarding delay still work. */
+    .tt-demo .tooltip { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out); }
+    .tt-demo:hover .tooltip, .tt-demo:focus-within .tooltip { opacity: 1; visibility: visible; }
     /* screen-reader-only text — belongs in foundation.css, kept local while this is a prototype */
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
     /* the arrow-key position in a picker: the input keeps focus, so this is the only cue for it */
@@ -3389,9 +3392,10 @@ function linkColumns(n, sug) {
       return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
     }
     const showTip = !state.firstMatchDone;   // onboarding tooltip only until the first match is made
+    const tipId = 'trEmptyTip-' + esc(n.id);
     const right = '<div class="tr-rrow"><div class="tr-empty-wrap' + (showTip ? ' tt-demo' : '') + '">' +
-      '<button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"><span>Select matching group</span><i class="tr-empty-plus" data-icon="plus"></i></button>' +
-      (showTip ? '<div class="tooltip is-above">Pick the matching group from your previous survey so last time’s scores show up as a trend.</div>' : '') +
+      '<button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"' + (showTip ? ' aria-describedby="' + tipId + '"' : '') + '><span>Select matching group</span><i class="tr-empty-plus" data-icon="plus"></i></button>' +
+      (showTip ? '<div class="tooltip is-above" id="' + tipId + '">Pick the matching group from your previous survey so last time’s scores show up as a trend.</div>' : '') +
       '</div></div>';
     return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
   }
@@ -3410,10 +3414,10 @@ function linkColumns(n, sug) {
       ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="' + size + ' participants. See member overlap"><i data-icon="users"></i>' + size + '</button>'
       : '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '" aria-label="View ' + size + ' participants in ' + esc(l.name) + '"><i data-icon="users"></i>' + size + '</button><div class="tooltip is-above">View participants</div></div>');
     const originTag = isS
-      ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
+      ? '<div class="tt-demo tr-origin is-suggested" role="img" aria-label="Suggested link"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
-        ? '<div class="tt-demo tr-origin is-manual"><i data-icon="user-check"></i><div class="tooltip is-above">Linked manually</div></div>'
-        : '<div class="tt-demo tr-origin is-auto"><i data-icon="zap"></i><div class="tooltip is-above">Linked automatically</div></div>');
+        ? '<div class="tt-demo tr-origin is-manual" role="img" aria-label="Linked manually"><i data-icon="user-check"></i><div class="tooltip is-above">Linked manually</div></div>'
+        : '<div class="tt-demo tr-origin is-auto" role="img" aria-label="Linked automatically"><i data-icon="zap"></i><div class="tooltip is-above">Linked automatically</div></div>');
     const chain = prevPath(l.name);
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
@@ -4340,11 +4344,66 @@ function closeOverlays() {
 }
 document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.close).hidden = true; }));
 document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedown', (e) => { if (e.target === ov) ov.hidden = true; }));
-document.addEventListener('keydown', (e) => {
-  if (e.key !== 'Escape') return;
-  const vis = [...document.querySelectorAll('.overlay')].filter(o => !o.hidden);
-  if (vis.length) vis[vis.length - 1].hidden = true;
-});
+/* ═══════════════ DIALOG FOCUS ═══════════════ */
+// Overlays are opened and closed from a dozen places by flipping .hidden, so watch the
+// attribute rather than patching every call site: move focus in, keep Tab inside, hand focus
+// back to whatever opened it, and let Escape close the one on top. aria-modal already scopes a
+// screen reader to the dialog; this is what makes it work for a keyboard.
+(function () {
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const returnTo = new WeakMap();
+  const opened = [];                                  // most recent last: markup order is not open order
+  const shown = (el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+  const box = (ov) => ov.querySelector('.dialog, .sidepanel') || ov;
+  const stops = (ov) => [...box(ov).querySelectorAll(FOCUSABLE)].filter(shown);
+
+  // the dialog you opened last, not the last one in the markup
+  function top() {
+    for (let i = opened.length - 1; i >= 0; i--) if (!opened[i].hidden) return opened[i];
+    const vis = [...document.querySelectorAll('.overlay')].filter(o => !o.hidden);
+    return vis.length ? vis[vis.length - 1] : null;
+  }
+
+  function activate(ov) {
+    const at = opened.indexOf(ov); if (at > -1) opened.splice(at, 1);
+    opened.push(ov);
+    returnTo.set(ov, document.activeElement);
+    const b = box(ov);
+    if (!b.hasAttribute('tabindex')) b.setAttribute('tabindex', '-1');
+    setTimeout(() => {
+      if (ov.hidden || b.contains(document.activeElement)) return;   // the dialog moved focus itself
+      // the first real control, skipping the close button; the dialog itself when it only reads
+      const first = stops(ov).find(el => !el.classList.contains('dialog-close'));
+      (first || b).focus({ preventScroll: true });
+    }, 0);
+  }
+
+  function release(ov) {
+    const at = opened.indexOf(ov); if (at > -1) opened.splice(at, 1);
+    if (!returnTo.has(ov)) return;
+    const back = returnTo.get(ov);
+    returnTo.delete(ov);
+    if (back && document.contains(back) && shown(back)) back.focus({ preventScroll: true });
+  }
+
+  document.querySelectorAll('.overlay').forEach(ov => {
+    new MutationObserver(() => { if (ov.hidden) release(ov); else activate(ov); })
+      .observe(ov, { attributes: true, attributeFilter: ['hidden'] });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { const t = top(); if (t) t.hidden = true; return; }
+    if (e.key !== 'Tab') return;
+    // Tab cycles inside the top dialog instead of walking off into the page behind it
+    const t = top(); if (!t) return;
+    const items = stops(t);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    const inside = box(t).contains(document.activeElement);
+    if (e.shiftKey && (!inside || document.activeElement === first)) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (!inside || document.activeElement === last)) { e.preventDefault(); first.focus(); }
+  });
+})();
 
 $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') goToView('overview'); });
 
