@@ -2382,11 +2382,11 @@ function cardInsight(s) {
 function renderCrumb() {
   const trail = $('#crumbTrail'); if (!trail) return;
   if (state.view === 'linking') {
-    trail.innerHTML = '<li><a class="bc-link" href="#">Projects</a></li>' +
+    trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
       '<li><a class="bc-link" data-nav="overview">' + esc(CURRENT_SURVEY) + '</a></li>' +
       '<li><span class="bc-current" aria-current="page">Previous survey links</span></li>';
   } else {
-    trail.innerHTML = '<li><a class="bc-link" href="#">Projects</a></li>' +
+    trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
       '<li><span class="bc-current" aria-current="page">' + esc(CURRENT_SURVEY) + '</span></li>';
   }
 }
@@ -4543,7 +4543,9 @@ renderCrumb();
 renderHistory();
 renderOverview();
 renderLinking();
-if (!location.hash) history.replaceState(null, '', '#' + VIEW_HASH.overview);   // give the overview its own URL too
+// keep the prototype's own path: a relative URL here resolves against <base href>, not against
+// the current page, so '#overview' alone rewrote the address bar to the site root
+if (!location.hash) history.replaceState(null, '', location.pathname + location.search + '#' + VIEW_HASH.overview);
 setView(viewFromHash());   // open the view named in the URL (#overview or #previous-survey-links)
 
 // overview tips carousel — page through the tips stuck to the bottom of the timeline card
