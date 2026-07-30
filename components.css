@@ -280,7 +280,7 @@ input.tf.is-readonly.is-hover { border-color: var(--border-base); }
 
 /* Helper text */
 .tf-help {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--content-subtle);
   line-height: 1.5;
 }
@@ -615,7 +615,7 @@ textarea.ta.is-disabled::placeholder { color: var(--content-disabled); }
 
 /* Helper text */
 .ta-help {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--content-subtle);
   line-height: 1.5;
 }
@@ -734,9 +734,9 @@ textarea.ta.is-disabled::placeholder { color: var(--content-disabled); }
 .slt.is-disabled:hover { border-color:var(--border-action); background:rgba(25,39,67,.08); }
 .slt.is-disabled .slt-ph { color:var(--content-disabled); }
 .slt.is-disabled svg     { color:var(--content-disabled); }
-.slt-err  { display:flex; align-items:center; gap:4px; font-size:13px; color:#b9252a; margin-top:4px; }
+.slt-err  { display:flex; align-items:center; gap:4px; font-size:14px; color:#b9252a; margin-top:4px; }
 .slt-err svg { width:14px; height:14px; flex-shrink:0; }
-.slt-warn { display:flex; align-items:center; gap:4px; font-size:13px; color:#ec6e0a; margin-top:4px; }
+.slt-warn { display:flex; align-items:center; gap:4px; font-size:14px; color:#ec6e0a; margin-top:4px; }
 .slt-warn svg { width:14px; height:14px; flex-shrink:0; }
 
 /* Multi Select */
@@ -762,7 +762,7 @@ textarea.ta.is-disabled::placeholder { color: var(--content-disabled); }
 .ms.is-disabled .ms-ch { color:var(--content-disabled); }
 .chip {
   padding:2px 8px; border-radius:4px;
-  font-size:13px; font-weight:500; line-height:20px;
+  font-size:14px; font-weight:500; line-height:20px;
   display:inline-flex; align-items:center; gap:4px;
   background:var(--bg-tertiary); color:var(--content-base);
 }
@@ -778,10 +778,10 @@ textarea.ta.is-disabled::placeholder { color: var(--content-disabled); }
   height:36px; padding:0 12px;
   border:1px solid var(--border-action); border-radius:6px;
   background:var(--bg-base); box-shadow:var(--sh-action);
-  font-family:inherit; font-size:13.5px; color:var(--content-base);
+  font-family:inherit; font-size:14px; color:var(--content-base);
   cursor:pointer; white-space:nowrap;
 }
-button.sel-btn { font: inherit; font-size:13.5px; }
+button.sel-btn { font: inherit; font-size:14px; }
 .sel-btn:hover, .sel-btn.is-hover { background:var(--bg-base-hover); border-color:var(--border-action-hover); }
 .sel-btn:active, .sel-btn.is-pressed { background:var(--bg-base-pressed); border-color:var(--border-action-pressed); }
 .sel-btn-inline {
@@ -829,7 +829,7 @@ button.sel-btn { font: inherit; font-size:13.5px; }
 }
 .menu-search input::placeholder { color:var(--content-subtle); }
 .menu-group-lbl {
-  font-size:11px; font-weight:700; text-transform:uppercase;
+  font-size:12px; font-weight:700; text-transform:uppercase;
   letter-spacing:.06em; color:var(--content-subtle);
   padding:8px 10px 4px;
 }
@@ -898,12 +898,12 @@ button.sel-btn { font: inherit; font-size:13.5px; }
 }
 .menu-action-row:hover .menu-cb-outline { border-color:var(--bg-brand-pressed); }
 .menu-action-row .menu-cb-outline svg { width:14px; height:14px; stroke-width:2; }
-.menu-empty { padding:14px 10px; color:var(--content-subtle); font-size:13px; text-align:center; }
+.menu-empty { padding:14px 10px; color:var(--content-subtle); font-size:14px; text-align:center; }
 .menu-footer {
   display:flex; justify-content:space-between; align-items:center;
   padding:6px 8px; margin-top:4px;
   border-top:1px solid var(--border-base);
-  font-size:13px;
+  font-size:14px;
 }
 .menu-footer button {
   border:0; background:transparent; color:var(--content-action);
@@ -1042,7 +1042,7 @@ input[type="checkbox"].cb.is-disabled {
   line-height: 1.5; color: var(--content-base);
 }
 .cb-info-desc {
-  font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 400;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400;
   line-height: 1.5; color: var(--content-secondary);
 }
 .cb-info-wrap.is-disabled .cb-info-label,
@@ -1055,7 +1055,7 @@ input[type="checkbox"].cb.is-disabled {
   background: transparent;
   border: none;
   border-radius: var(--radius-base);
-  font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 400;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400;
   color: var(--content-base);
   cursor: pointer; user-select: none;
   transition: background .1s;
@@ -1081,7 +1081,7 @@ input[type="checkbox"].cb.is-disabled {
   background: var(--bg-base);
   border: 1px solid var(--border-action);
   border-radius: var(--radius-base);
-  font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 400;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400;
   color: var(--content-base);
   cursor: pointer; user-select: none;
   transition: all .1s;
@@ -1135,7 +1135,7 @@ input[type="checkbox"].cb.is-disabled {
 }
 .cb-tile-title:last-child { margin-bottom: 0; }
 .cb-tile-desc {
-  font-size: 13px; color: var(--content-secondary);
+  font-size: 14px; color: var(--content-secondary);
   line-height: 1.55; font-family: 'Poppins', sans-serif;
 }
 
@@ -1222,7 +1222,7 @@ input[type="radio"].rb.rb-lg {
   line-height: 1.5; color: var(--content-base);
 }
 .rb-info-desc {
-  font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 400;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400;
   line-height: 1.5; color: var(--content-secondary);
 }
 .rb-info-wrap.is-disabled .rb-info-label,
@@ -1265,7 +1265,7 @@ input[type="radio"].rb.rb-lg {
 }
 .rb-tile-title:last-child { margin-bottom: 0; }
 .rb-tile-desc {
-  font-size: 13px; color: var(--content-secondary);
+  font-size: 14px; color: var(--content-secondary);
   line-height: 1.55; font-family: 'Poppins', sans-serif;
 }
 
@@ -1494,7 +1494,7 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
   line-height: 1.5; color: var(--content-base);
 }
 .tgl-info-desc {
-  font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 400;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400;
   line-height: 1.5; color: var(--content-secondary);
 }
 .tgl-info-wrap.is-disabled { cursor: not-allowed; }
@@ -1719,7 +1719,7 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
   overflow: hidden;
 }
 .dp-tz-option {
-  padding: 8px 12px; font-size: 13px; cursor: pointer;
+  padding: 8px 12px; font-size: 14px; cursor: pointer;
   color: var(--content-base); font-family: 'Poppins', inherit;
 }
 .dp-tz-option:hover { background: var(--bg-base-hover); }
