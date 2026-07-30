@@ -89,6 +89,9 @@
     .ov-tip-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: var(--radius-full); background: var(--bg-tertiary); cursor: pointer; transition: background var(--motion-base) var(--ease-out); }
     .ov-tip-dot:hover { background: var(--content-subtle); }
     .ov-tip-dot.is-active { background: var(--bg-positive); }
+    .ov-tips-pause { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-left: var(--spacing-extra-tight); padding: 0; border: none; border-radius: var(--radius-sm); background: none; color: var(--content-subtle); cursor: pointer; transition: color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
+    .ov-tips-pause:hover { color: var(--content-base); background: var(--bg-base-hover); }
+    .ov-tips-pause i { width: 12px; height: 12px; display: flex; }
 
     /* first-match celebration dialog */
     /* ── First-match celebration: results preview on a blue field ── */
@@ -602,7 +605,9 @@
     /* Prototype-local until the token lands in Figma: subtle→hover step from
        --bg-info-subtle (#e6f0fe) toward --bg-info, matching the system's
        base→base-hover / secondary→secondary-hover logic. */
-    :root { --gl-gutter: 60px; --bg-info-subtle-hover: #d8e6fd; }
+        /* the design system has no subtle-hover step for info or positive; both are the next
+       palette step down, the same way the suggestion hover was picked */
+    :root { --gl-gutter: 60px; --bg-info-subtle-hover: #d8e6fd; --bg-positive-subtle-hover: var(--p-color-green-200); }
     .tr-cols { position: sticky; top: var(--gl-sticky-top, 0); z-index: 20; display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; margin: 0 0 var(--spacing-tight); padding: var(--spacing-base-tight) 0 var(--spacing-tight); background: var(--bg-interface-body); }
     .tr-cols.is-stuck { box-shadow: 0 1px 0 var(--border-base); }
     .tr-cols span { background: none; padding: 0; font-size: 14px; font-weight: 600; color: var(--content-secondary); }
@@ -615,9 +620,17 @@
     /* accordion: children container animates its height + opacity so rows below slide smoothly */
     /* visible when open + settled so the inline link picker can overflow the row; clipped only while collapsed or animating */
     .tr-children { overflow: visible; will-change: height; }
-    .tr-children.is-collapsed { height: 0; opacity: 0; overflow: hidden; }
+    /* visibility too: at opacity 0 the collapsed rows stay in the accessibility tree and a screen
+       reader walks every one of them. is-collapsed is only set once the animation has finished. */
+    .tr-children.is-collapsed { height: 0; opacity: 0; overflow: hidden; visibility: hidden; }
     .tr-children.is-animating { overflow: hidden; transition: height 360ms var(--ease-out), opacity 300ms var(--ease-out); }
     @media (prefers-reduced-motion: reduce) { .tr-children.is-animating { transition: none; } }
+    /* the design system covers its own animations in components.css; these are this page's */
+    @media (prefers-reduced-motion: reduce) {
+      .ov-tip-item.is-active, .gl-empty-icon.is-celebrate, .gl-spark, .gl-bulkbar,
+      .bulk-bar.bulk-in, .shift-tip, .tr-filter-count.is-bump, .view-fade,
+      .tr-card.is-flash > .tr-card-grid .tr-card-right .tr-lrow:not(.is-empty) { animation: none; }
+    }
     .tr-card:hover { z-index: 20; }
     .tr-card-grid { display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; align-items: stretch; }
     .tr-leftcard { flex: 1; position: relative; z-index: 2; display: flex; align-items: flex-start; gap: var(--spacing-extra-tight); min-width: 0; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-base-tight); transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
@@ -674,8 +687,10 @@
     .tr-conn-path { fill: none; stroke-width: 1.5; transition: stroke var(--motion-fast) var(--ease-out); }
     .tr-conn-path.is-linked { stroke: var(--border-positive); }
     .tr-conn-path.is-suggested { stroke: var(--border-info); stroke-dasharray: 4 3; }
-    .tr-conn-path.is-search { stroke: var(--border-action); stroke-dasharray: 4 3; }
-    .tr-conn-path.is-empty { stroke: var(--border-base-hover); stroke-dasharray: 4 3; }
+    /* --border-action is 1.8:1 on white and --border-base-hover 1.5:1; a line that carries
+       meaning needs 3:1 (WCAG 1.4.11), and --border-action-hover is the neutral that reaches it */
+    .tr-conn-path.is-search { stroke: var(--border-action-pressed); stroke-dasharray: 4 3; }
+    .tr-conn-path.is-empty { stroke: var(--border-action-pressed); stroke-dasharray: 4 3; }
 
     /* right column: previous-survey link cards */
     .tr-card-right { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
@@ -687,7 +702,7 @@
     .tr-card:hover .tr-leftcard.is-suggested { background: var(--bg-info-subtle-hover); border-color: var(--border-info-hover); }
     /* linked groups → light green */
     .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive); }
-    .tr-card:hover .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-card:hover .tr-leftcard.is-linked { background: var(--bg-positive-subtle); border-color: var(--border-positive-hover); }
+    .tr-card:hover .tr-rrow[data-linkstatus="linked"] .tr-lrow, .tr-card:hover .tr-leftcard.is-linked { background: var(--bg-positive-subtle-hover); border-color: var(--border-positive-hover); }
     /* empty row — subtle placeholder that invites linking (plus appears on hover, right) */
     .tr-empty-wrap { display: flex; width: 100%; }
     /* small hover-intent delay so the "Select matching group" tip doesn't pop instantly */
@@ -1108,6 +1123,7 @@
         </div></div>
 
         <!-- Accordion step 1: select a survey -->
+        <h2 class="sr-only">Step 1: select a survey to compare with</h2>
         <div class="acc" id="acc-select">
           <button class="acc-head" data-acctoggle="select" aria-expanded="false">
             <span class="acc-num">1</span>
@@ -1159,6 +1175,7 @@
         </div>
 
         <!-- Accordion step 2: link the groups -->
+        <h2 class="sr-only">Step 2: link the groups from both surveys</h2>
         <div class="acc" id="acc-link">
           <button class="acc-head" data-acctoggle="link" aria-expanded="false">
             <span class="acc-num">2</span>
@@ -1192,7 +1209,7 @@
             <div class="tr-controls">
               <div class="search-wrap">
                 <span class="search-icon"><i data-icon="search"></i></span>
-                <input type="search" class="srch" id="treeSearch" placeholder="Search by group name" />
+                <input type="search" class="srch" id="treeSearch" aria-label="Search groups in this survey by name" placeholder="Search by group name" />
               </div>
             </div>
             <div class="bulk-bar" id="bulkBar" hidden>
@@ -1216,7 +1233,7 @@
               <button class="shift-tip-close" id="shiftTipClose" aria-label="Dismiss tip"><i data-icon="cross"></i></button>
             </div>
             <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
-            <div id="treeBody"></div>
+            <div id="treeBody" role="list" aria-label="Groups in this survey"></div>
             </div><!-- /tr-scope -->
           </div>
           </div></div><!-- /sacc-body-pad /sacc-body-inner -->
@@ -1357,7 +1374,7 @@
       <p class="dialog-subtitle" id="membersSubtitle"></p>
     </div>
     <div class="dialog-body mb-scroll" id="membersScroll">
-      <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="membersSearch" placeholder="Search people" autocomplete="off" /></div>
+      <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="membersSearch" aria-label="Search people in this group" placeholder="Search people" autocomplete="off" /></div>
       <div class="mb-list" id="membersList"></div>
     </div>
   </div>
@@ -2013,6 +2030,11 @@ function linkProgressText() {
   const p = structProgress(state.treeStructure);
   return p.linked + ' of ' + p.total + ' groups linked, ' + p.suggested + ' suggestion' + (p.suggested === 1 ? '' : 's') + ' left.';
 }
+// The survey name carries its status as an emoji dot, which a screen reader reads out as
+// "large green circle". Keep it on screen, keep it out of the accessible name.
+const STATUS_DOT = /([\u{1F7E0}-\u{1F7EB}])\s*/u;
+function surveyHTML(name) { return esc(name).replace(STATUS_DOT, '<span aria-hidden="true">$1</span> '); }
+function surveyPlain(name) { return name.replace(STATUS_DOT, '').replace(/\s{2,}/g, ' ').trim(); }
 function toast(message) {
   const stack = $('#toastStack');
   const el = document.createElement('div');
@@ -2076,11 +2098,11 @@ function renderCrumb() {
   const trail = $('#crumbTrail'); if (!trail) return;
   if (state.view === 'linking') {
     trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
-      '<li><a class="bc-link" data-nav="overview">' + esc(CURRENT_SURVEY) + '</a></li>' +
+      '<li><a class="bc-link" data-nav="overview">' + surveyHTML(CURRENT_SURVEY) + '</a></li>' +
       '<li><span class="bc-current" aria-current="page">Previous survey links</span></li>';
   } else {
     trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
-      '<li><span class="bc-current" aria-current="page">' + esc(CURRENT_SURVEY) + '</span></li>';
+      '<li><span class="bc-current" aria-current="page">' + surveyHTML(CURRENT_SURVEY) + '</span></li>';
   }
 }
 
@@ -2128,7 +2150,7 @@ function respRate(info) {
 let pendingSurvey = null;
 function renderSurvSelect() {
   const info = SURVEY_META[state.selectedSurvey];
-  const v = $('#survSelectVal'); if (v) v.textContent = state.selectedSurvey;
+  const v = $('#survSelectVal'); if (v) v.innerHTML = surveyHTML(state.selectedSurvey);
   const st = $('#survSelectStatus'); if (st) st.innerHTML = statusBadge(info);
   const rt = $('#survSelectResp'); if (rt) rt.innerHTML = respRate(info);
   icons();
@@ -2153,10 +2175,10 @@ function applySurveyChange() {
   state.treeSelected && state.treeSelected.clear && state.treeSelected.clear();
   renderSurvSelect(); renderHistory(); updateAccSummaries();
   if (state.view === 'linking') renderLinking();
-  toast('Now comparing with ' + state.selectedSurvey);
+  toast('Now comparing with ' + surveyPlain(state.selectedSurvey));
 }
 function updateAccSummaries() {
-  const sSel = $('#accSelectSummary'); if (sSel) sSel.textContent = state.selectedSurvey;
+  const sSel = $('#accSelectSummary'); if (sSel) sSel.innerHTML = surveyHTML(state.selectedSurvey);
   const sLink = $('#accLinkSummary');
   if (sLink) { const p = structProgress(state.treeStructure); sLink.textContent = p.linked + ' of ' + p.total + ' linked · ' + p.suggested + ' suggestion' + (p.suggested === 1 ? '' : 's'); }
 }
@@ -2342,7 +2364,7 @@ function compareHTML(s) {
       '<input type="search" class="srch" id="cardLinkSearch" role="combobox" aria-expanded="true" aria-controls="cardLinkMenu" aria-autocomplete="list" aria-label="Search groups in the previous survey" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" />' +
       '</div><div class="menu" id="cardLinkMenu"></div></div>';
   } else if (s.oldGroups.length === 0) {
-    prevCol = '<div class="gl-nomatch"><span>No match found in ' + esc(state.selectedSurvey) + '</span>' +
+    prevCol = '<div class="gl-nomatch"><span>No match found in ' + surveyHTML(state.selectedSurvey) + '</span>' +
       (editable ? '<button class="btn btn-secondary" data-addlink="' + s.id + '"><i data-icon="plus"></i> Add link</button>' : '') + '</div>';
   } else {
     let rows = s.oldGroups.map(g => groupRowHTML(g, 'old', s.id, editable)).join('');
@@ -2357,7 +2379,7 @@ function compareHTML(s) {
     : '<div class="gl-connector-wrap"></div>';
 
   return '<div class="gl-compare-body">' +
-    '<div class="gl-compare-col"><span class="gl-compare-col-lbl">' + esc(state.selectedSurvey) + '</span>' + prevCol + '</div>' +
+    '<div class="gl-compare-col"><span class="gl-compare-col-lbl">' + surveyHTML(state.selectedSurvey) + '</span>' + prevCol + '</div>' +
     connector +
     '<div class="gl-compare-col is-current"><span class="gl-compare-col-lbl">Current survey</span><div class="gl-col-groups">' + s.newGroups.map(g => groupRowHTML(g, 'new', s.id, false)).join('') + '</div></div>' +
     '</div>';
@@ -3025,13 +3047,13 @@ function treeRowHTML(n, level) {
   const hasLinked = n.links.some(l => l.status === 'linked');
   const hasSuggested = !hasLinked && n.links.some(l => l.status === 'suggested' || l.status === 'review');
   const leftState = hasLinked ? ' is-linked' : (hasSuggested ? ' is-suggested' : '');
-  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" data-nodeid="' + esc(n.id) + '">' +
+  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" role="listitem" data-nodeid="' + esc(n.id) + '">' +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
     '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
     '<span class="tr-check' + (isSel ? ' is-checked' : '') + '" data-treecheck="' + esc(n.id) + '" role="checkbox" aria-checked="' + isSel + '" tabindex="0" aria-label="Select ' + esc(n.name) + '"><i data-icon="check"></i></span>' +
     (hasChildren
-      ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
+      ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-expanded="' + isOpen + '" aria-label="' + (isOpen ? 'Collapse ' : 'Expand ') + esc(n.name) + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
     '<span class="tr-group">' + esc(n.name) + '</span>' +
     (n.size ? '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '" aria-label="View ' + n.size + ' participants in ' + esc(n.name) + '"><i data-icon="users"></i>' + n.size + '</button><div class="tooltip is-above">View participants</div></div>' : '') +
@@ -3045,7 +3067,8 @@ function treeRowHTML(n, level) {
     '</div></div>';
 
   if (hasChildren) {
-    html += '<div class="tr-children' + (isOpen ? '' : ' is-collapsed') + '" data-childrenof="' + esc(n.id) + '">' +
+    // transparent to assistive tech: the cards inside are list items of the tree, not of a sub-list
+    html += '<div class="tr-children' + (isOpen ? '' : ' is-collapsed') + '" role="presentation" data-childrenof="' + esc(n.id) + '">' +
       n.children.map(c => treeRowHTML(c, level + 1)).join('') + '</div>';
   }
   return html;
@@ -3074,7 +3097,7 @@ function linkColumns(n, sug) {
   if (n.links.length === 0) {
     if (state.treeLinkingNodeId === n.id) {
       const right = '<div class="tr-rrow">' + linkSearchBoxHTML() + '</div>';
-      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none" aria-hidden="true"></svg>', right };
     }
     if (n.noMatch) {
       // resolved as "no matching group" — off the to-do list, but changeable
@@ -3082,7 +3105,7 @@ function linkColumns(n, sug) {
         '<button class="tr-nomatch-main" data-treeadd="' + esc(n.id) + '"><i data-icon="minus"></i><span>No matching group</span></button>' +
         '<div class="tt-demo"><button class="tr-lrow-x" data-treerelink="' + esc(n.id) + '" aria-label="Put back on the list"><i data-icon="undo"></i></button><div class="tooltip is-above">Put back on the list</div></div>' +
         '</div></div>';
-      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+      return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none" aria-hidden="true"></svg>', right };
     }
     const showTip = !state.firstMatchDone;   // onboarding tooltip only until the first match is made
     const tipId = 'trEmptyTip-' + esc(n.id);
@@ -3090,7 +3113,7 @@ function linkColumns(n, sug) {
       '<button class="tr-lrow is-empty" data-treeadd="' + esc(n.id) + '"' + (showTip ? ' aria-describedby="' + tipId + '"' : '') + '><span>Select matching group</span><i class="tr-empty-plus" data-icon="plus"></i></button>' +
       (showTip ? '<div class="tooltip is-above" id="' + tipId + '">Pick the matching group from your previous survey so last time’s scores show up as a trend.</div>' : '') +
       '</div></div>';
-    return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+    return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none" aria-hidden="true"></svg>', right };
   }
   let right = '';
   n.links.forEach(l => {
@@ -3114,7 +3137,11 @@ function linkColumns(n, sug) {
     const chain = prevPath(l.name);
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
-    const nameHTML = '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
+    // say what the row is (the connector line is the only other place that lives) and spell out
+    // the path the "… ›" hides, so a screen reader is not left with an ellipsis
+    const relation = isS ? 'Suggested match: ' : 'Linked to ';
+    const nameHTML = '<span class="sr-only">' + relation + (nested ? esc(chain.slice(0, -1).join(', ')) + ', ' : '') + '</span>' +
+      '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
     const mainInner = originTag + nameHTML + countBadge;
     right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
       '<span class="tr-lrow-main">' + mainInner + '</span>' +
@@ -3124,7 +3151,7 @@ function linkColumns(n, sug) {
   if (state.treeLinkingNodeId === n.id) {
     right += '<div class="tr-rrow">' + linkSearchBoxHTML() + '</div>';
   }
-  return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none"></svg>', right };
+  return { mid: '<svg class="tr-conn-svg" preserveAspectRatio="none" aria-hidden="true"></svg>', right };
 }
 
 // Full path of a previous-survey group, walking up its parents
@@ -3339,6 +3366,9 @@ function renderTree() {
     const opening = state.treeCollapsed.has(id);
     if (opening) state.treeCollapsed.delete(id); else state.treeCollapsed.add(id);
     b.classList.toggle('is-open', opening);
+    b.setAttribute('aria-expanded', opening);
+    const lbl = b.getAttribute('aria-label') || '';
+    b.setAttribute('aria-label', (opening ? 'Collapse ' : 'Expand ') + lbl.replace(/^(Collapse|Expand) /, ''));
     if (!wrap) { renderTree(); return; }
     accordion(wrap, opening);
   }));
@@ -3391,8 +3421,9 @@ function renderTree() {
   });
   const input = $('#treeLinkSearch');
   if (input) { renderTreeLinkMenu(''); positionInlineLinkMenu(); wirePickerKeys(input, '#treeLinkMenu'); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); setTimeout(() => input.focus({ preventScroll: true }), 0); }
-  const prevHead = $('#trColPrev'); if (prevHead) prevHead.textContent = state.selectedSurvey;
+  const prevHead = $('#trColPrev'); if (prevHead) prevHead.innerHTML = surveyHTML(state.selectedSurvey);
   syncSelectionUI(body);
+  tagTreePositions();
   icons();
   drawTreeConnectors();                          // draw immediately so the lines never blank out
   requestAnimationFrame(drawTreeConnectors);     // redraw next frame to catch any layout shift
@@ -3491,10 +3522,22 @@ function accordion(wrap, opening) {
     wrap.classList.remove('is-animating');
     wrap.style.height = ''; wrap.style.opacity = '';
     if (!opening) wrap.classList.add('is-collapsed');
+    tagTreePositions();                            // the set of rows on screen just changed
     drawTreeConnectors();
   };
   wrap.addEventListener('transitionend', done);
   requestAnimationFrame(drawTreeConnectors);
+}
+
+// "group 3 of 54" for a screen reader. Counted after the render, so it follows the active
+// filter, and collapsed children are left out because they are not on screen either.
+function tagTreePositions() {
+  const cards = [...document.querySelectorAll('#treeBody .tr-card')]
+    .filter(c => !c.closest('.tr-children.is-collapsed'));
+  cards.forEach((c, i) => {
+    c.setAttribute('aria-posinset', i + 1);
+    c.setAttribute('aria-setsize', cards.length);
+  });
 }
 
 // Draw the branching bracket lines between each left group card and its right link cards.
@@ -4242,17 +4285,20 @@ setView(viewFromHash());   // open the view named in the URL (#overview or #prev
   if (!track || !dotsWrap) return;
   const items = [...track.querySelectorAll('.ov-tip-item')];
   let idx = 0;
+  // a mechanism to stop the rotation is required once it moves on its own (WCAG 2.2.2)
   dotsWrap.innerHTML = items.map((_, i) =>
-    '<button class="ov-tip-dot' + (i === 0 ? ' is-active' : '') + '" data-tipdot="' + i + '" aria-label="Tip ' + (i + 1) + '"></button>').join('');
+    '<button class="ov-tip-dot' + (i === 0 ? ' is-active' : '') + '" data-tipdot="' + i + '" aria-label="Tip ' + (i + 1) + ' of ' + items.length + '"></button>').join('') +
+    '<div class="tt-demo"><button class="ov-tips-pause" id="ovTipsPause" aria-label="Pause tips"><i data-icon="pause"></i></button><div class="tooltip is-above">Pause tips</div></div>';
   const dots = [...dotsWrap.querySelectorAll('.ov-tip-dot')];
   const show = (n) => {
     idx = (n + items.length) % items.length;
     items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
     dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
   };
-  // auto-advance every 8s; pause on hover, reset the clock on manual navigation
+  // auto-advance every 8s; pause on hover and on focus, reset the clock on manual navigation
   let timer = null;
-  const start = () => { timer = setInterval(() => show(idx + 1), 8000); };
+  let paused = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = () => { if (!paused && !timer) timer = setInterval(() => show(idx + 1), 8000); };
   const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
   const bump = () => { stop(); start(); };
   document.querySelectorAll('[data-tipnav]').forEach(b =>
@@ -4260,7 +4306,22 @@ setView(viewFromHash());   // open the view named in the URL (#overview or #prev
   dots.forEach(d => d.addEventListener('click', () => { show(+d.dataset.tipdot); bump(); }));
   track.querySelectorAll('.ov-tip-cta[data-goto]').forEach(b => b.addEventListener('click', () => goToView(b.dataset.goto)));
   const strip = document.querySelector('.ov-tips');
-  if (strip) { strip.addEventListener('mouseenter', stop); strip.addEventListener('mouseleave', start); }
+  if (strip) {
+    strip.addEventListener('mouseenter', stop);
+    strip.addEventListener('mouseleave', start);
+    strip.addEventListener('focusin', stop);          // keyboard needs the same reprieve as the mouse
+    strip.addEventListener('focusout', start);
+  }
+  const pauseBtn = document.getElementById('ovTipsPause');
+  if (pauseBtn) pauseBtn.addEventListener('click', () => {
+    paused = !paused;
+    if (paused) stop(); else start();
+    pauseBtn.setAttribute('aria-label', paused ? 'Play tips' : 'Pause tips');
+    pauseBtn.innerHTML = '<i data-icon="' + (paused ? 'play' : 'pause') + '"></i>';
+    const tip = pauseBtn.parentElement.querySelector('.tooltip');
+    if (tip) tip.textContent = paused ? 'Play tips' : 'Pause tips';
+    icons();
+  });
   show(0);
   start();
 })();
