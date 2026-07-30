@@ -625,7 +625,8 @@
     /* bulk-select checkbox — appears on hover, or always while selecting */
     .tr-check { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; border: 1.5px solid var(--border-base); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--bg-base); background: var(--bg-base); cursor: pointer; opacity: 0; transition: opacity var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
     .tr-check i { width: 12px; height: 12px; display: flex; transform: scale(0); transition: transform var(--motion-fast) var(--ease-out); }
-    .tr-card:hover .tr-check, #treeBody.is-selecting .tr-check, .tr-check.is-checked { opacity: 1; }
+    /* keyboard focus has to reveal this too, or you tab to a control you cannot see */
+    .tr-card:hover .tr-check, #treeBody.is-selecting .tr-check, .tr-check.is-checked, .tr-check:focus { opacity: 1; }
     .tr-check:hover { border-color: var(--border-action-hover); }
     .tr-check.is-checked { background: var(--bg-brand); border-color: var(--bg-brand); }
     .tr-check.is-checked i { transform: scale(1); }
@@ -695,7 +696,7 @@
     .tr-lrow.is-empty { background: none; border-style: dashed; color: var(--content-subtle); font-style: italic; justify-content: space-between; font-family: inherit; font-size: 14px; width: 100%; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
     .tr-lrow.is-empty:hover { border-color: var(--border-action); background: var(--bg-secondary); color: var(--content-secondary); }
     .tr-empty-plus { width: 16px; height: 16px; display: flex; flex-shrink: 0; opacity: 0; color: var(--content-action); transition: opacity var(--motion-fast) var(--ease-out); }
-    .tr-lrow.is-empty:hover .tr-empty-plus { opacity: 1; }
+    .tr-lrow.is-empty:hover .tr-empty-plus, .tr-lrow.is-empty:focus .tr-empty-plus { opacity: 1; }
     /* resolved "no matching group" row */
     .tr-nomatch { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; }
     .tr-nomatch-main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-tight); justify-content: flex-start; height: 50px; padding: 0 var(--spacing-base); border: 1px dashed var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); color: var(--content-secondary); font-size: 14px; cursor: pointer; transition: border-color var(--motion-fast) var(--ease-out); }
@@ -761,7 +762,7 @@
     .tr-act-btn.is-reject { background: var(--bg-info-subtle); border-color: var(--border-info); color: var(--content-info); }
     .tr-act-btn.is-reject:hover { background: var(--bg-info-subtle); border-color: var(--border-info-hover); }
     .tr-lrow-x { background: none; border: none; padding: 0; display: flex; color: var(--content-subtle); cursor: pointer; opacity: 0; }
-    .tr-lrow:hover .tr-lrow-x { opacity: 1; }
+    .tr-lrow:hover .tr-lrow-x, .tr-lrow-x:focus { opacity: 1; }
     .tr-lrow-x:hover { color: var(--content-negative); }
     .tr-lrow-x i { width: 14px; height: 14px; display: flex; }
     .tr-lrow-add { border: 1px dashed var(--border-action); background: none; color: var(--content-secondary); border-radius: var(--radius-base); padding: var(--spacing-tight) var(--spacing-base-tight); font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; display: none; align-items: center; gap: var(--spacing-extra-tight); align-self: flex-start; }
@@ -771,7 +772,7 @@
 
     /* confidence score + hover popover */
     .tr-conf { display: inline-flex; }
-    .tr-conf-badge { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 600; color: var(--content-info); white-space: nowrap; cursor: help; }
+    .tr-conf-badge { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); background: none; border: none; padding: 0; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--content-info); white-space: nowrap; cursor: help; }
     .tr-conf-badge i { width: 12px; height: 12px; display: flex; }
     .tr-conf-tip { display: flex; flex-direction: column; gap: 3px; text-align: left; }
     .tr-conf-tip b { font-weight: 600; margin-bottom: 2px; }
@@ -844,6 +845,11 @@
     .tt-demo { position: relative; display: inline-flex; }
     .tt-demo .tooltip { opacity: 0; pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out); }
     .tt-demo:hover .tooltip, .tt-demo:focus-within .tooltip { opacity: 1; }
+    /* screen-reader-only text — belongs in foundation.css, kept local while this is a prototype */
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+    /* the arrow-key position in a picker: the input keeps focus, so this is the only cue for it */
+    .tlm-item.is-kbd, .menu-item.is-kbd { background: var(--bg-base-hover); }
+    #linkPickerMenu .tlm-item.is-kbd { background: var(--bg-base-hover); border-color: var(--border-action-active); }
 
     /* View transition */
     .view-fade { animation: view-in var(--motion-slow) var(--ease-out); }
@@ -1363,7 +1369,7 @@
       <p class="dialog-subtitle" id="linkPickerSub"></p>
     </div>
     <div class="dialog-body">
-      <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="linkPickerSearch" placeholder="Search groups" autocomplete="off" /></div>
+      <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="linkPickerSearch" role="combobox" aria-expanded="true" aria-controls="linkPickerMenu" aria-autocomplete="list" aria-label="Search groups in the previous survey" placeholder="Search groups" autocomplete="off" /></div>
       <div class="mb-scroll"><div class="menu lp-menu" id="linkPickerMenu"></div></div>
     </div>
   </div>
@@ -1403,7 +1409,9 @@
 </div>
 
 <!-- Toasts -->
-<div class="sysnotif-stack" id="toastStack"></div>
+<div class="sysnotif-stack" id="toastStack" role="status" aria-live="polite"></div>
+<!-- link changes are only shown visually, so they are announced here instead -->
+<div class="sr-only" id="glStatus" role="status" aria-live="polite"></div>
 
 <script src="icons.js"></script>
 <script>
@@ -1990,6 +1998,18 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const icons = () => window.Icons && window.Icons.render();
 
+// Announce a change that is only shown on screen. A status region fires on change only,
+// so clear it first, otherwise confirming two links in a row is announced once.
+function announce(message) {
+  const el = $('#glStatus'); if (!el) return;
+  el.textContent = '';
+  setTimeout(() => { el.textContent = message; }, 30);
+}
+// Progress in words, so an announcement always says where you are in the list.
+function linkProgressText() {
+  const p = structProgress(state.treeStructure);
+  return p.linked + ' of ' + p.total + ' groups linked, ' + p.suggested + ' suggestion' + (p.suggested === 1 ? '' : 's') + ' left.';
+}
 function toast(message) {
   const stack = $('#toastStack');
   const el = document.createElement('div');
@@ -2316,7 +2336,7 @@ function compareHTML(s) {
   if (isLinkingHere) {
     prevCol = '<div class="gl-linksearch"><div class="search-wrap">' +
       '<span class="search-icon"><i data-icon="search"></i></span>' +
-      '<input type="search" class="srch" id="cardLinkSearch" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" />' +
+      '<input type="search" class="srch" id="cardLinkSearch" role="combobox" aria-expanded="true" aria-controls="cardLinkMenu" aria-autocomplete="list" aria-label="Search groups in the previous survey" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" />' +
       '</div><div class="menu" id="cardLinkMenu"></div></div>';
   } else if (s.oldGroups.length === 0) {
     prevCol = '<div class="gl-nomatch"><span>No match found in ' + esc(state.selectedSurvey) + '</span>' +
@@ -2558,7 +2578,7 @@ function bindPanel() {
   }));
   root.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.close).hidden = true; }));
   const input = $('#cardLinkSearch');
-  if (input) { renderCardLinkMenu(''); input.addEventListener('input', () => renderCardLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
+  if (input) { pickerActive = null; renderCardLinkMenu(''); wirePickerKeys(input, '#cardLinkMenu'); input.addEventListener('input', () => renderCardLinkMenu(input.value)); setTimeout(() => input.focus(), 0); }
 }
 
 // Bracket connector between the previous-survey column (left) and current-survey column (right).
@@ -2591,11 +2611,13 @@ window.addEventListener('resize', () => { if (!$('#panelOverlay').hidden) drawCo
 
 function renderCardLinkMenu(q) {
   const menu = $('#cardLinkMenu'); if (!menu) return;
+  menu.setAttribute('role', 'listbox');
+  menu.setAttribute('aria-label', 'Groups in the previous survey');
   const s = findSug(state.linkingCardId); if (!s) return;
   const hits = HISTORICAL_GROUPS.filter(g => g.name.toLowerCase().includes(q.toLowerCase()) && !s.oldGroups.some(o => o.name === g.name));
   menu.innerHTML = hits.length === 0
     ? '<div class="menu-empty">We couldn’t find any matches for “' + esc(q) + '”</div>'
-    : hits.map(g => '<div class="menu-item" data-pick="' + esc(g.name) + '" data-size="' + g.size + '"><span class="menu-item-body"><span class="menu-item-title">' + esc(g.name) + '</span><span class="menu-item-sub">' + g.size + ' members</span></span></div>').join('');
+    : hits.map(g => '<div class="menu-item" role="option" aria-selected="false" data-pick="' + esc(g.name) + '" data-size="' + g.size + '"><span class="menu-item-body"><span class="menu-item-title">' + esc(g.name) + '</span><span class="menu-item-sub">' + g.size + ' members</span></span></div>').join('');
   menu.querySelectorAll('[data-pick]').forEach(mi => mi.addEventListener('click', () => {
     const name = mi.dataset.pick, size = Number(mi.dataset.size);
     s.oldGroups.push({ name, size });
@@ -3009,7 +3031,7 @@ function treeRowHTML(n, level) {
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-label="' + (isOpen ? 'Collapse group' : 'Expand group') + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="tr-toggle-spacer"></span>') +
     '<span class="tr-group">' + esc(n.name) + '</span>' +
-    (n.size ? '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '" aria-label="View participants"><i data-icon="users"></i>' + n.size + '</button><div class="tooltip is-above">View participants</div></div>' : '') +
+    (n.size ? '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(n.name) + '" data-size="' + n.size + '" data-survey="' + esc(CURRENT_SURVEY) + '" aria-label="View ' + n.size + ' participants in ' + esc(n.name) + '"><i data-icon="users"></i>' + n.size + '</button><div class="tooltip is-above">View participants</div></div>' : '') +
     '</div>' +
     (state.treeLinkingNodeId === n.id
       ? '<div class="tr-add-slot tt-demo" style="visibility:hidden"><button class="tr-add-btn" tabindex="-1"><i data-icon="plus"></i></button></div>'
@@ -3040,7 +3062,7 @@ function countUnlinked(n) {
 function linkSearchBoxHTML() {
   return '<div class="tr-linksearch">' +
     '<div class="search-wrap"><span class="search-icon"><i data-icon="search"></i></span>' +
-    '<input type="search" class="srch" id="treeLinkSearch" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" autocomplete="off" /></div>' +
+    '<input type="search" class="srch" id="treeLinkSearch" role="combobox" aria-expanded="true" aria-controls="treeLinkMenu" aria-autocomplete="list" aria-label="Search groups in the previous survey" placeholder="Search groups in ' + esc(state.selectedSurvey) + '" autocomplete="off" /></div>' +
     '<div class="menu" id="treeLinkMenu"></div></div>';
 }
 
@@ -3078,8 +3100,8 @@ function linkColumns(n, sug) {
       : '<div class="tt-demo"><button class="tr-lrow-x" data-treeunlink="' + esc(n.id) + '|' + esc(l.name) + '" aria-label="Remove link"><i data-icon="cross"></i></button><div class="tooltip is-above">Remove link</div></div>';
     // group size count, plus the overlap badge on suggested rows
     const countBadge = size === '' ? '' : (isS
-      ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="See member overlap"><i data-icon="users"></i>' + size + '</button>'
-      : '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '" aria-label="View participants"><i data-icon="users"></i>' + size + '</button><div class="tooltip is-above">View participants</div></div>');
+      ? '<button class="tr-count is-ovclick" data-matchpop="' + sug.id + '" data-ovclick="1" aria-label="' + size + ' participants. See member overlap"><i data-icon="users"></i>' + size + '</button>'
+      : '<div class="tt-demo tr-count-wrap"><button class="tr-count" data-members="' + esc(l.name) + '" data-size="' + size + '" data-survey="' + esc(state.selectedSurvey) + '" aria-label="View ' + size + ' participants in ' + esc(l.name) + '"><i data-icon="users"></i>' + size + '</button><div class="tooltip is-above">View participants</div></div>');
     const originTag = isS
       ? '<div class="tt-demo tr-origin is-suggested"><i data-icon="lightbulb"></i><div class="tooltip is-above">Suggested link</div></div>'
       : (l.origin === 'manual'
@@ -3135,14 +3157,18 @@ function overlapMembers(sug) {
 }
 
 // member-overlap badge — users icon + "X% overlap" in blue; explained in full by the hover card
-function overlapBadgeHTML(pct, attrs) {
+function overlapBadgeHTML(pct, attrs, asButton) {
   // icon carries the meaning so the row stays short; the hover card spells it out
-  return '<span class="tr-conf-badge"' + (attrs || '') + '><i data-icon="user-check"></i>' + pct + '%</span>';
+  const inner = '<i data-icon="user-check"></i>' + pct + '%';
+  return asButton
+    ? '<button type="button" class="tr-conf-badge"' + (attrs || '') + '>' + inner + '</button>'
+    : '<span class="tr-conf-badge"' + (attrs || '') + '>' + inner + '<span class="sr-only"> member overlap</span></span>';
 }
 function confBadge(sug) {
   if (!sug) return '';
   const o = overlapMembers(sug);
-  return overlapBadgeHTML(o.pct, ' data-matchpop="' + sug.id + '" tabindex="0" aria-label="See why we suggest this link"');
+  // a real button, so the percentage is announced as a control instead of as stray text
+  return overlapBadgeHTML(o.pct, ' data-matchpop="' + sug.id + '" aria-label="' + o.pct + '% member overlap. See why we suggest this link"', true);
 }
 
 function matchPopHTML(sug) {
@@ -3222,6 +3248,7 @@ document.addEventListener('click', (e) => {
   }
 });
 $('#linkPickerSearch').addEventListener('input', (e) => renderTreeLinkMenu(e.target.value, '#linkPickerMenu'));
+wirePickerKeys($('#linkPickerSearch'), '#linkPickerMenu');
 
 const FILTER_DESC = {
   all: { icon: 'list-unordered', html: 'Every group in this survey. Link each one to its match in your previous survey so you can compare results over time.' },
@@ -3322,7 +3349,7 @@ function renderTree() {
     state.bulkMode = null;
     renderTree();
     const input = $('#treeLinkSearch');
-    if (input) { input.focus({ preventScroll: true }); renderTreeLinkMenu(''); positionInlineLinkMenu(); drawTreeConnectors(); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); }
+    if (input) { pickerActive = null; input.focus({ preventScroll: true }); renderTreeLinkMenu(''); positionInlineLinkMenu(); drawTreeConnectors(); wirePickerKeys(input, '#treeLinkMenu'); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); }
   }));
   body.querySelectorAll('[data-cancellink]').forEach(b => b.addEventListener('click', () => { state.treeLinkingNodeId = null; renderTree(); }));
   body.querySelectorAll('[data-treeunlink]').forEach(b => b.addEventListener('click', () => {
@@ -3359,7 +3386,7 @@ function renderTree() {
     b.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); run(e); } });
   });
   const input = $('#treeLinkSearch');
-  if (input) { renderTreeLinkMenu(''); positionInlineLinkMenu(); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); setTimeout(() => input.focus({ preventScroll: true }), 0); }
+  if (input) { renderTreeLinkMenu(''); positionInlineLinkMenu(); wirePickerKeys(input, '#treeLinkMenu'); input.addEventListener('input', () => { renderTreeLinkMenu(input.value); positionInlineLinkMenu(); }); setTimeout(() => input.focus({ preventScroll: true }), 0); }
   const prevHead = $('#trColPrev'); if (prevHead) prevHead.textContent = state.selectedSurvey;
   syncSelectionUI(body);
   icons();
@@ -3430,6 +3457,7 @@ function openBulkPicker(mode) {
   if (state.treeSelected.size === 0) return;
   state.bulkMode = mode;
   state.treeLinkingNodeId = null;
+  pickerActive = null;
   renderTreeLinkMenu('', '#linkPickerMenu');
   const nSel = state.treeSelected.size;
   const title = $('#linkPicker-title'); if (title) title.textContent = mode === 'add' ? 'Add another group (merge)' : 'Set the link for the selected groups';
@@ -3606,6 +3634,8 @@ function treeLinkAction(nodeId, linkName, action) {
     toast(linkName + ' not linked');
   }
   syncSuggestionForNode(node);
+  // confirming is deliberately silent on screen, so this is the only feedback a screen reader gets
+  if (action === 'approve') announce(node.name + ' linked to ' + linkName + '. ' + linkProgressText());
   // in the Suggestions tab, confirming or declining clears the row — animate it out like "No link yet"
   const stillSuggested = node.links.some(l => l.status === 'suggested' || l.status === 'review');
   if (activeFilterKey() === 'suggested' && !stillSuggested) {
@@ -3754,9 +3784,81 @@ function bestOverlapMatch(node, candidateNames) {
   if (!best) return null;
   return { name: best, pct: bandedOverlap(node.name + '|' + best, 12, 30) };   // <33% weak hint
 }
+/* ═══════════════ PICKER KEYBOARD ═══════════════ */
+// The group pickers are combobox + list widgets: the input keeps DOM focus while the
+// arrows move an active option, which is exposed through aria-activedescendant. Options
+// are re-created on every keystroke, so the active one is remembered by name.
+var pickerActive = null;
+
+function pickerParts(menu) {
+  return {
+    items: [...menu.querySelectorAll('[data-pick]')],
+    input: document.querySelector('[aria-controls="' + menu.id + '"]'),
+  };
+}
+
+// Give every option an id and re-apply the active one after a re-render.
+function syncPickerActive(menu) {
+  if (!menu) return null;
+  const parts = pickerParts(menu);
+  parts.items.forEach((el, i) => { el.id = menu.id + '-opt-' + i; });
+  const active = parts.items.find(el => el.dataset.pick === pickerActive) || null;
+  pickerActive = active ? active.dataset.pick : null;
+  parts.items.forEach(el => {
+    const on = el === active;
+    el.classList.toggle('is-kbd', on);
+    el.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  if (parts.input) {
+    if (active) parts.input.setAttribute('aria-activedescendant', active.id);
+    else parts.input.removeAttribute('aria-activedescendant');
+  }
+  return active;
+}
+
+function movePickerActive(menu, delta, jump) {
+  const items = pickerParts(menu).items;
+  if (!items.length) return;
+  let i = items.findIndex(el => el.dataset.pick === pickerActive);
+  if (jump === 'first') i = 0;
+  else if (jump === 'last') i = items.length - 1;
+  else if (i < 0) i = delta > 0 ? 0 : items.length - 1;
+  else i = Math.min(items.length - 1, Math.max(0, i + delta));
+  pickerActive = items[i].dataset.pick;
+  const active = syncPickerActive(menu);
+  if (active) active.scrollIntoView({ block: 'nearest' });
+}
+
+// Arrows walk the list, Right and Left open and close a group, Enter picks the active one.
+function pickerKeydown(e, menu) {
+  if (!menu || e.altKey || e.ctrlKey || e.metaKey) return;
+  const active = pickerParts(menu).items.find(el => el.dataset.pick === pickerActive);
+  const toggle = () => { const t = active.querySelector('[data-pickertoggle]'); if (t) t.click(); };
+  if (e.key === 'ArrowDown') { e.preventDefault(); movePickerActive(menu, 1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); movePickerActive(menu, -1); }
+  else if (e.key === 'Home') { e.preventDefault(); movePickerActive(menu, 0, 'first'); }
+  else if (e.key === 'End') { e.preventDefault(); movePickerActive(menu, 0, 'last'); }
+  else if (e.key === 'ArrowRight') { if (active && active.getAttribute('aria-expanded') === 'false') { e.preventDefault(); toggle(); } }
+  else if (e.key === 'ArrowLeft') { if (active && active.getAttribute('aria-expanded') === 'true') { e.preventDefault(); toggle(); } }
+  else if (e.key === 'Enter') { if (active) { e.preventDefault(); active.click(); } }
+  else if (e.key === 'Escape' && menu.id === 'treeLinkMenu') {
+    e.preventDefault();                                  // the dialog picker is closed by the overlay handler
+    state.treeLinkingNodeId = null; pickerActive = null;
+    renderTree();
+  }
+}
+
+function wirePickerKeys(input, menuSel) {
+  if (!input || input.dataset.pickerkeys) return;
+  input.dataset.pickerkeys = '1';
+  input.addEventListener('keydown', (e) => pickerKeydown(e, $(menuSel)));
+}
+
 function renderTreeLinkMenu(q, menuSel) {
   menuSel = menuSel || '#treeLinkMenu';
   const menu = $(menuSel); if (!menu) return;
+  menu.setAttribute('role', 'tree');
+  menu.setAttribute('aria-label', 'Groups in the previous survey');
   const node = state.treeLinkingNodeId ? findTreeNode(state.treeLinkingNodeId) : null;
   if (!node && !state.bulkMode) return;
   const ql = q.toLowerCase();
@@ -3786,18 +3888,20 @@ function renderTreeLinkMenu(q, menuSel) {
     const isSuggested = !isLinked && n.name === suggestedName;
     const variant = opts.variant === 'match' ? ' is-match' : opts.variant === 'context' ? ' is-context' : '';
     const chev = hasKids
-      ? '<button class="tlm-chev' + (opts.collapsed ? ' is-collapsed' : '') + '" data-pickertoggle="' + esc(n.name) + '" data-toggmode="' + (opts.mode || 'collapse') + '" aria-label="' + (opts.collapsed ? 'Expand' : 'Collapse') + '"><i data-icon="chevron-down"></i></button>'
+      ? '<button class="tlm-chev' + (opts.collapsed ? ' is-collapsed' : '') + '" data-pickertoggle="' + esc(n.name) + '" data-toggmode="' + (opts.mode || 'collapse') + '" tabindex="-1" aria-hidden="true"><i data-icon="chevron-down"></i></button>'
       : '<span class="tlm-chev is-leaf"></span>';
     const indent = (menuSel === '#linkPickerMenu')
       ? 'margin-left: calc(' + depth + ' * var(--spacing-loose));'
       : 'padding-left: calc(' + depth + ' * var(--spacing-base) + var(--spacing-base-tight));';
     return '<div class="menu-item tlm-item' + variant + (isSuggested ? ' is-suggested' : '') + '"' +
       ' data-pick="' + esc(n.name) + '"' + (isSuggested ? ' data-suggested="1"' : '') +
+      ' role="treeitem" aria-selected="false" aria-level="' + (depth + 1) + '"' +
+      (hasKids ? ' aria-expanded="' + (opts.collapsed ? 'false' : 'true') + '"' : '') +
       ' style="' + indent + '">' +
       chev +
       '<span class="menu-item-body"><span class="tlm-name-row"><span class="menu-item-title">' + esc(n.name) + '</span>' +
-      '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0" aria-label="See member overlap with ' + esc(n.name) + '"' : '') + '><i data-icon="users"></i>' + n.size + '</span>' +
-      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct, ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"') : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '" tabindex="0"><i data-icon="user-check"></i>' + opts.overlapPct + '%</span>' : '')) + '</span>' +
+      '<span class="tr-count' + (node ? ' is-ovpop' : '') + '"' + (node ? ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"' : '') + '><i data-icon="users"></i>' + n.size + '<span class="sr-only"> participants</span></span>' +
+      (isSuggested && suggestedPct ? overlapBadgeHTML(suggestedPct, ' data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"') : (opts.overlapPct != null ? '<span class="tlm-ov" data-ovpop="' + esc(n.name) + '" data-ovsize="' + n.size + '"><i data-icon="user-check"></i>' + opts.overlapPct + '%<span class="sr-only"> member overlap</span></span>' : '')) + '</span>' +
       '</span></div>';
   };
 
@@ -3894,7 +3998,9 @@ function renderTreeLinkMenu(q, menuSel) {
     syncSuggestionForNode(node);
     state.treeLinkingNodeId = null; state.bulkMode = null;
     const ov = document.getElementById('linkPickerOverlay'); if (ov) ov.hidden = true;
+    announce(node.name + ' marked as no matching group. ' + linkProgressText());
     toast(node.name + ' marked as no matching group');
+    pickerActive = null;
     if (activeFilterKey() === 'nolink') {          // it leaves the "No link yet" list — animate it out
       renderTreeFilters();
       collapseRowThen(node.id, () => { renderTree(); renderLinking(); });
@@ -3902,6 +4008,7 @@ function renderTreeLinkMenu(q, menuSel) {
       renderTree(); renderLinking();
     }
   }));
+  syncPickerActive(menu);
   icons();
 }
 
