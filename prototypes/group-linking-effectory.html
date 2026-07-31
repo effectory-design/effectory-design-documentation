@@ -154,7 +154,7 @@
     /* Overview: settings sections */
     .ov-section { margin-top: var(--spacing-extra-loose); }
     .ov-section-title { display: flex; align-items: center; justify-content: space-between; margin: 0 0 var(--spacing-base-tight); padding: 0 var(--spacing-extra-tight); }
-    .ov-section-chev { display: flex; color: var(--content-secondary); cursor: pointer; }
+    .ov-section-chev { display: flex; color: var(--content-secondary); }
     .ov-section-chev i { width: 20px; height: 20px; display: flex; }
     .ov-section .card-body { padding: 0 var(--spacing-loose); gap: 0; }
     .ov-row { display: flex; align-items: center; gap: var(--spacing-base); margin: 0 calc(-1 * var(--spacing-loose)); padding: var(--spacing-loose); border-bottom: 1px solid var(--border-base); text-decoration: none; color: inherit; }
@@ -869,6 +869,11 @@
     /* hidden until focused; the left nav is eight tab stops, this jumps past it (WCAG 2.4.1) */
     .skip-link { position: fixed; top: var(--spacing-tight); left: var(--spacing-tight); z-index: 3000; padding: var(--spacing-tight) var(--spacing-base-tight); background: var(--bg-base); color: var(--content-base); font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid var(--border-action-active); border-radius: var(--radius-base); box-shadow: var(--sh-dialogs); transform: translateY(calc(-100% - var(--spacing-base))); }
     .skip-link:focus { transform: none; }
+    /* the participant list is taller than the dialog; focusing the region lets the arrow
+       keys scroll it, which is the only way through it without a mouse */
+    .mb-scroll:focus-visible { outline: 2px solid var(--border-action-active); outline-offset: -2px; }
+    /* nav chrome that was mouse-only: the user chip is a button now */
+    button.mn-user { font: inherit; text-align: left; background: none; border: 0; width: 100%; cursor: pointer; }
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
     /* the arrow-key position in a picker: the input keeps focus, so this is the only cue for it */
     .tlm-item.is-kbd, .menu-item.is-kbd { background: var(--bg-base-hover); }
@@ -892,26 +897,26 @@
       <button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
     </div>
     <nav class="mn-nav" aria-label="Main">
-      <a class="mn-item"><i data-icon="home"></i> Home</a>
-      <a class="mn-item is-active" aria-current="page"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-up" class="mn-chev"></i></a>
+      <a tabindex="0" role="link" class="mn-item"><i data-icon="home"></i> Home</a>
+      <a tabindex="0" role="link" class="mn-item is-active" aria-current="page"><i data-icon="clipboard"></i> Surveys <i data-icon="chevron-up" class="mn-chev"></i></a>
       <div class="mn-sub">
-        <a class="mn-subitem">All surveys</a>
-        <a class="mn-subitem is-active">Projects</a>
+        <a tabindex="0" role="link" class="mn-subitem">All surveys</a>
+        <a tabindex="0" role="link" class="mn-subitem is-active">Projects</a>
       </div>
-      <a class="mn-item"><i data-icon="refresh"></i> 360 Feedback</a>
-      <a class="mn-item"><i data-icon="structure"></i> Organization <i data-icon="chevron-down" class="mn-chev"></i></a>
+      <a tabindex="0" role="link" class="mn-item"><i data-icon="refresh"></i> 360 Feedback</a>
+      <a tabindex="0" role="link" class="mn-item"><i data-icon="structure"></i> Organization <i data-icon="chevron-down" class="mn-chev"></i></a>
     </nav>
     <div class="mn-foot">
-      <a class="mn-item"><i data-icon="help"></i> Help &amp; Learn</a>
+      <a tabindex="0" role="link" class="mn-item"><i data-icon="help"></i> Help &amp; Learn</a>
       <div class="mn-foot-divider"></div>
-      <div class="mn-user">
-        <div class="av av-36 av-red">JI</div>
+      <button type="button" class="mn-user">
+        <div class="av av-36 av-red" aria-hidden="true">JI</div>
         <div class="mn-meta">
           <div class="mn-name">Jente</div>
           <div class="mn-org">Effectory</div>
         </div>
         <i data-icon="chevron-up"></i>
-      </div>
+      </button>
     </div>
   </div>
 
@@ -1048,7 +1053,7 @@
           <div class="card-title ov-section-title">Comparisons<span class="ov-section-chev"><i data-icon="chevron-up"></i></span></div>
           <div class="card card-elevated">
           <div class="card-body">
-            <a class="ov-row is-link" data-nav="linking" id="ovLinkRow">
+            <a class="ov-row is-link" data-nav="linking" id="ovLinkRow" tabindex="0" role="link">
               <div class="ov-row-icon"><i data-icon="link"></i></div>
               <div class="ov-row-body">
                 <div class="ov-row-title">Previous survey links</div>
@@ -1379,7 +1384,7 @@
       <div class="dialog-header-top"><h3 class="dialog-title" id="members-title">Group members</h3></div>
       <p class="dialog-subtitle" id="membersSubtitle"></p>
     </div>
-    <div class="dialog-body mb-scroll" id="membersScroll">
+    <div class="dialog-body mb-scroll" id="membersScroll" tabindex="0" role="region" aria-label="Participants">
       <div class="search-wrap mb-search"><span class="search-icon"><i data-icon="search"></i></span><input type="search" class="srch" id="membersSearch" aria-label="Search people in this group" placeholder="Search people" autocomplete="off" /></div>
       <div class="mb-list" id="membersList"></div>
     </div>
@@ -2114,11 +2119,11 @@ function cardInsight(s) {
 function renderCrumb() {
   const trail = $('#crumbTrail'); if (!trail) return;
   if (state.view === 'linking') {
-    trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
-      '<li><a class="bc-link" data-nav="overview">' + surveyHTML(CURRENT_SURVEY) + '</a></li>' +
+    trail.innerHTML = '<li><a class="bc-link" tabindex="0" role="link">Projects</a></li>' +
+      '<li><a class="bc-link" data-nav="overview" tabindex="0" role="link">' + surveyHTML(CURRENT_SURVEY) + '</a></li>' +
       '<li><span class="bc-current" aria-current="page">Previous survey links</span></li>';
   } else {
-    trail.innerHTML = '<li><a class="bc-link">Projects</a></li>' +
+    trail.innerHTML = '<li><a class="bc-link" tabindex="0" role="link">Projects</a></li>' +
       '<li><span class="bc-current" aria-current="page">' + surveyHTML(CURRENT_SURVEY) + '</span></li>';
   }
 }
@@ -4150,7 +4155,8 @@ document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedo
     setTimeout(() => {
       if (ov.hidden || b.contains(document.activeElement)) return;   // the dialog moved focus itself
       // the first real control, skipping the close button; the dialog itself when it only reads
-      const first = stops(ov).find(el => !el.classList.contains('dialog-close'));
+      const first = stops(ov).find(el => !el.classList.contains('dialog-close') && el.matches('a, button, input, select, textarea'))
+        || stops(ov).find(el => !el.classList.contains('dialog-close'));
       (first || b).focus({ preventScroll: true });
     }, 0);
   }
@@ -4198,6 +4204,15 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
   const m = $('#appMain');
   m.focus({ preventScroll: true });
   m.scrollTop = 0;
+});
+
+/* ═══════════════ NAVIGATION BY KEYBOARD ═══════════════ */
+// the breadcrumb and the overview's "Previous survey links" row navigate through a delegated
+// click on [data-nav]; they are links without an href, so Enter has to be wired by hand
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  const nav = e.target.closest && e.target.closest('[data-nav]');
+  if (nav) { e.preventDefault(); nav.click(); }
 });
 
 /* ═══════════════ STRUCTURE MENU KEYBOARD ═══════════════ */
