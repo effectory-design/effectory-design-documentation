@@ -19,6 +19,20 @@
     @media (max-width: 1199px) { :root { --page-y: var(--spacing-extra-loose); --page-x: var(--spacing-loose); } }
     @media (max-width: 575px)  { :root { --page-y: var(--spacing-loose); --page-x: var(--spacing-base); } }
 
+    /* ── below 1200px the sidebar becomes a drawer behind a hamburger (DS layout rule) ── */
+    .gl-hamburger-wrap { display: none; }
+    .gl-nav-backdrop { display: none; position: fixed; inset: 0; z-index: 1400; background: var(--bg-interface-overlay); border: 0; padding: 0; cursor: pointer; }
+    @media (max-width: 1199px) {
+      .app .mainnav { position: fixed; top: 0; left: 0; bottom: 0; z-index: 1500; transform: translateX(-105%); transition: transform var(--motion-slow) var(--ease-standard); }
+      .app.nav-open .mainnav { transform: none; box-shadow: var(--sh-dialogs); }
+      .app.nav-open .gl-nav-backdrop { display: block; }
+      .gl-hamburger-wrap { display: inline-flex; }
+      .gl-hamburger-wrap .ib { width: 40px; height: 40px; flex-shrink: 0; }
+      .gl-hamburger-wrap .ib i { width: 20px; height: 20px; display: flex; }
+    }
+    @media (prefers-reduced-motion: reduce) { .app .mainnav { transition: none; } }
+
+
     /* App shell: sidebar (full height) + scrolling content */
     .app { display: flex; height: 100vh; overflow: hidden; }
     .app .mainnav { height: 100%; }
@@ -883,7 +897,45 @@
     .view-fade { animation: view-in var(--motion-slow) var(--ease-out); }
     /* opacity-only — a transform here would become the containing block and break the sticky headers */
     @keyframes view-in { from { opacity: 0; } to { opacity: 1; } }
-  </style>
+  
+    /* ── responsive overrides, last so they win the cascade ──
+       below 900px the two linked columns stack: a group's links sit under its card ── */
+    @media (max-width: 900px) {
+      .tr-cols { display: none; }
+      .tr-card-grid { grid-template-columns: 1fr; }
+      .tr-card-mid { display: none; }
+      .tr-card-right { margin-top: var(--spacing-extra-tight); padding-left: var(--spacing-extra-loose); }
+      .gl-bulkbar { left: var(--spacing-base); right: var(--spacing-base); transform: none; flex-wrap: wrap; }
+    }
+
+    /* ── phone-width odds and ends ── */
+    @media (max-width: 700px) {
+      .ov-banner { flex-wrap: wrap; }
+      .ov-banner .ov-banner-text { flex: 1 1 220px; }
+      .ov-tip-item.is-active { flex-wrap: wrap; }
+      .ov-tip-cta { white-space: normal; text-align: left; }
+    }
+    @media (max-width: 575px) {
+      .ov-tl-band-lbl { display: none; }
+    }
+    @media (max-width: 900px) {
+      :root { --tr-indent: var(--spacing-base-tight); }   /* nesting steps 12px instead of 24px */
+      .tr-group { white-space: normal; }                  /* a wrapped name beats "Custom…" */
+      .struct-bar .tr-filters { justify-content: flex-start; }
+    }
+    /* the hamburger: hidden on desktop; declared here at the end so nothing outranks it */
+    .gl-hamburger-wrap { display: none; }
+    @media (max-width: 1199px) {
+      .gl-hamburger-wrap { display: inline-flex; }
+    }
+    /* touch has no hover, so everything hover-revealed must simply be there */
+    @media (max-width: 900px), (hover: none) {
+      .tr-add-btn { opacity: 1; transform: none; pointer-events: auto; }
+      .tr-lrow-x { opacity: 1; }
+      .tr-check { opacity: 1; }
+      .tr-lrow.is-empty .tr-empty-plus { opacity: 1; }
+    }
+</style>
 </head>
 <body>
 <a class="skip-link" href="#appMain">Skip to main content</a>
@@ -891,7 +943,7 @@
 <div class="app">
 
   <!-- SIDEBAR -->
-  <div class="mainnav">
+  <div class="mainnav" id="mainNav">
     <div class="mn-portal">
       <span class="mn-logo"></span>
       <button class="mn-portal-btn"><b>Coordinator</b> <i data-icon="chevron-down" class="mn-chev"></i></button>
@@ -920,12 +972,18 @@
     </div>
   </div>
 
+  <button class="gl-nav-backdrop" id="navBackdrop" tabindex="-1" aria-hidden="true"></button>
+
   <!-- MAIN -->
   <main class="app-main" id="appMain" tabindex="-1">
 
     <!-- ══════════ TOP BREADCRUMB ══════════ -->
     <nav class="gl-topbar" aria-label="Breadcrumb">
       <div class="gl-topbar-inner">
+        <div class="tt-demo gl-hamburger-wrap">
+          <button class="ib ib-secondary" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainNav"><i data-icon="menu"></i></button>
+          <div class="tooltip is-below">Menu</div>
+        </div>
         <button class="btn btn-secondary" id="crumbBack"><i data-icon="arrow-left"></i> Back</button>
         <ol class="bc-trail" id="crumbTrail"></ol>
       </div>
@@ -3392,7 +3450,7 @@ function treeRowHTML(n, level) {
     '<span class="sr-only">' + rowSummary(n) + '</span>' +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
-    '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
+    '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--tr-indent, var(--spacing-loose)))">' +
     '<span class="tr-check' + (isSel ? ' is-checked' : '') + '" data-treecheck="' + esc(n.id) + '" role="checkbox" aria-checked="' + isSel + '" tabindex="0" aria-label="Select ' + esc(n.name) + '"><i data-icon="check"></i></span>' +
     (hasChildren
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-expanded="' + isOpen + '" aria-label="' + (isOpen ? 'Collapse ' : 'Expand ') + esc(n.name) + '"><i data-icon="chevron-down"></i></button>'
@@ -4489,6 +4547,33 @@ document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedo
 $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') goToView('overview'); });
 
 
+
+/* ═══════════════ MOBILE NAV DRAWER ═══════════════ */
+// Below 1200px the sidebar hides behind the hamburger. Opening moves focus to the first nav
+// item, closing hands it back; Escape closes the drawer before anything else (capture phase,
+// so the dialog manager underneath never sees it).
+(function () {
+  const app = document.querySelector('.app');
+  const btn = $('#navToggle'), nav = $('#mainNav'), backdrop = $('#navBackdrop');
+  if (!app || !btn || !nav) return;
+  let returnFocus = null;
+  const set = (open) => {
+    app.classList.toggle('nav-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      returnFocus = document.activeElement;
+      const first = nav.querySelector('a[tabindex], button');
+      if (first) first.focus();
+    } else if (returnFocus && document.contains(returnFocus)) {
+      returnFocus.focus(); returnFocus = null;
+    }
+  };
+  btn.addEventListener('click', () => set(!app.classList.contains('nav-open')));
+  if (backdrop) backdrop.addEventListener('click', () => set(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && app.classList.contains('nav-open')) { e.stopPropagation(); set(false); }
+  }, true);
+})();
 
 /* ═══════════════ SKIP LINK ═══════════════ */
 // href="#appMain" would resolve against <base href> and navigate to the site root (the same
