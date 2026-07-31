@@ -4522,6 +4522,50 @@ function syncStructExpanded() {
   });
 })();
 
+/* ═══════════════ TREE ARROW NAVIGATION ═══════════════ */
+// Tab walks every control, which is six stops per group; the arrows move in bigger steps.
+// Up and Down go to the previous or next group, staying on the same side of the card, Left
+// and Right walk the controls within a group, Home and End jump to the first and last group.
+// Text inputs and the pickers keep their own arrow behaviour.
+(function () {
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const NAV_KEYS = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+  const shown = el => !!(el.offsetWidth || el.offsetHeight);
+  const stopsIn = card => [...card.querySelectorAll(FOCUSABLE)]
+    .filter(s => shown(s) && s.closest('.tr-card') === card);
+  const visibleCards = () => [...document.querySelectorAll('#treeBody .tr-card')]
+    .filter(c => shown(c) && !c.closest('.tr-children.is-collapsed') && stopsIn(c).length);
+
+  document.addEventListener('keydown', (e) => {
+    if (!NAV_KEYS.includes(e.key) || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const el = document.activeElement;
+    if (!el || !el.closest) return;
+    const card = el.closest('#treeBody .tr-card');
+    if (!card) return;
+    if (el.matches('input, textarea, select') || el.closest('.tr-linksearch')) return;   // their arrows are theirs
+    const cards = visibleCards();
+    const at = cards.indexOf(card);
+    if (at === -1) return;
+    const go = (target, side) => {
+      if (!target) return;
+      const stops = stopsIn(target);
+      const sided = side ? stops.filter(s => !!s.closest('.tr-card-right') === (side === 'right')) : stops;
+      const dest = (sided.length ? sided : stops)[0];
+      if (dest) { e.preventDefault(); dest.focus(); }
+    };
+    if (e.key === 'ArrowDown') go(cards[at + 1], el.closest('.tr-card-right') ? 'right' : 'left');
+    else if (e.key === 'ArrowUp') go(cards[at - 1], el.closest('.tr-card-right') ? 'right' : 'left');
+    else if (e.key === 'Home') go(cards[0]);
+    else if (e.key === 'End') go(cards[cards.length - 1]);
+    else {
+      const stops = stopsIn(card);
+      const i = stops.indexOf(el);
+      const next = stops[i + (e.key === 'ArrowRight' ? 1 : -1)];
+      if (next) { e.preventDefault(); next.focus(); }
+    }
+  });
+})();
+
 /* ═══════════════ MATCH HOVER CARD ═══════════════ */
 var showMatchPop = null;
 (function () {
