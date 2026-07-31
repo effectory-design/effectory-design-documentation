@@ -954,7 +954,7 @@
             </div>
             <div class="ov-tl-band is-running" style="width:60%;">
               <span class="ov-tl-band-lbl"><span class="ov-tl-status is-running"><i data-icon="activity"></i></span>Running</span>
-              <span class="ov-tl-period">Jul 1, 2026 <i data-icon="from-to"></i> Jul 14, 2026</span>
+              <span class="ov-tl-period">Jul 1, 2026 <i data-icon="from-to"></i> Aug 3, 2026</span>
             </div>
             <div class="ov-tl-band is-done" style="width:20%;">
               <span class="ov-tl-band-lbl"><span class="ov-tl-status is-done"><i data-icon="check"></i></span>Completed</span>
@@ -1005,7 +1005,7 @@
               <div class="ov-row-icon tile-blue"><i data-icon="users"></i></div>
               <div class="ov-row-body">
                 <div class="ov-row-title">Participants</div>
-                <div class="ov-row-sub">384 participants from 126 groups</div>
+                <div class="ov-row-sub">2,322 participants from 54 groups</div>
               </div>
               <div class="ov-row-action">View details <i data-icon="chevron-right"></i></div>
             </div>
@@ -1013,7 +1013,7 @@
               <div class="ov-row-icon tile-turquoise"><i data-icon="calendar"></i></div>
               <div class="ov-row-body">
                 <div class="ov-row-title">Survey period</div>
-                <div class="ov-row-sub">Jul 1, 2026 to Jul 14, 2026</div>
+                <div class="ov-row-sub">Jul 1, 2026 to Aug 3, 2026</div>
               </div>
               <div class="ov-row-action">Extend period <i data-icon="chevron-right"></i></div>
             </div>
@@ -1145,7 +1145,7 @@
                         <span class="ss-cmp-tag">Current survey</span>
                         <div class="ss-cmp-name">bol. - <span aria-hidden="true">🟢</span> Engagement Survey - 2025-2026</div>
                       </div>
-                      <div class="ss-cmp-status"><span class="ss-status is-running">Running <span class="ss-status-sub">until Jul 14, 2026</span></span></div>
+                      <div class="ss-cmp-status"><span class="ss-status is-running">Running <span class="ss-status-sub">until Aug 3, 2026</span></span></div>
                     </div>
                     <div class="ss-cmp-conn" aria-hidden="true"><span class="ss-cmp-conn-line"></span><span class="ss-cmp-conn-dot"><i data-icon="link"></i></span><span class="ss-cmp-conn-line"></span></div>
                     <div class="ss-cmp-card is-compared">
@@ -2172,21 +2172,21 @@ let SILENT_AUTO = PREV_DATA[SURVEYS[0]].silentAuto;
 // survey's Location structure, Job family to Job family, etc. (org uses the per-survey data above)
 const HISTORICAL_BY_STRUCT = {
   'Location': [
-    { name: 'All locations', size: 388, parent: null },
-    { name: 'Amsterdam', size: 172, parent: 'All locations' },
-    { name: 'Rotterdam', size: 70, parent: 'All locations' },
-    { name: 'Berlin', size: 60, parent: 'All locations' },
-    { name: 'London', size: 44, parent: 'All locations' },
-    { name: 'Home office', size: 42, parent: 'All locations' },
+    { name: 'All locations', size: 4842, parent: null },
+    { name: 'Amsterdam', size: 2146, parent: 'All locations' },
+    { name: 'Rotterdam', size: 873, parent: 'All locations' },
+    { name: 'Berlin', size: 749, parent: 'All locations' },
+    { name: 'London', size: 549, parent: 'All locations' },
+    { name: 'Home office', size: 525, parent: 'All locations' },
   ],
   'Job family': [
-    { name: 'All job families', size: 388, parent: null },
-    { name: 'Engineering', size: 92, parent: 'All job families' },
-    { name: 'Product', size: 40, parent: 'All job families' },
-    { name: 'Sales', size: 61, parent: 'All job families' },
-    { name: 'Customer Success', size: 90, parent: 'All job families' },
-    { name: 'Operations', size: 52, parent: 'All job families' },
-    { name: 'People and Culture', size: 44, parent: 'All job families' },
+    { name: 'All job families', size: 4842, parent: null },
+    { name: 'Engineering', size: 1176, parent: 'All job families' },
+    { name: 'Product', size: 511, parent: 'All job families' },
+    { name: 'Sales', size: 779, parent: 'All job families' },
+    { name: 'Customer Success', size: 1149, parent: 'All job families' },
+    { name: 'Operations', size: 665, parent: 'All job families' },
+    { name: 'People and Culture', size: 562, parent: 'All job families' },
   ],
 };
 // the previous-survey groups for the structure currently being linked
@@ -2260,22 +2260,22 @@ const TREES = {
       ]}
   ],
   'Location': [
-    { id: 'L1', name: 'All locations', size: 384, links: [], children: [
-      { id: 'L1.1', name: 'Amsterdam (HQ)', size: 168, links: [] },
-      { id: 'L1.2', name: 'Rotterdam', size: 74, links: [] },
-      { id: 'L1.3', name: 'Berlin', size: 63, links: [] },
-      { id: 'L1.4', name: 'London', size: 41, links: [] },
-      { id: 'L1.5', name: 'Remote', size: 38, links: [] },
+    { id: 'L1', name: 'All locations', size: 2322, links: [], children: [
+      { id: 'L1.1', name: 'Amsterdam (HQ)', size: 1016, links: [] },
+      { id: 'L1.2', name: 'Rotterdam', size: 447, links: [] },
+      { id: 'L1.3', name: 'Berlin', size: 381, links: [] },
+      { id: 'L1.4', name: 'London', size: 248, links: [] },
+      { id: 'L1.5', name: 'Remote', size: 230, links: [] },
     ]},
   ],
   'Job family': [
-    { id: 'J1', name: 'All job families', size: 384, links: [{ name: 'All job families', status: 'linked', size: 388 }], children: [
-      { id: 'J1.1', name: 'Engineering', size: 96, links: [{ name: 'Engineering', status: 'linked', size: 92 }] },
-      { id: 'J1.2', name: 'Product', size: 42, links: [{ name: 'Product', status: 'linked', size: 40 }] },
-      { id: 'J1.3', name: 'Sales', size: 58, links: [{ name: 'Sales', status: 'linked', size: 61 }] },
-      { id: 'J1.4', name: 'Customer Success', size: 88, links: [{ name: 'Customer Success', status: 'linked', size: 90 }] },
-      { id: 'J1.5', name: 'Operations', size: 54, links: [{ name: 'Operations', status: 'linked', size: 52 }] },
-      { id: 'J1.6', name: 'People and Culture', size: 46, links: [{ name: 'People and Culture', status: 'linked', size: 44 }] },
+    { id: 'J1', name: 'All job families', size: 2322, links: [{ name: 'All job families', status: 'linked', size: 4842 }], children: [
+      { id: 'J1.1', name: 'Engineering', size: 580, links: [{ name: 'Engineering', status: 'linked', size: 1176 }] },
+      { id: 'J1.2', name: 'Product', size: 254, links: [{ name: 'Product', status: 'linked', size: 511 }] },
+      { id: 'J1.3', name: 'Sales', size: 351, links: [{ name: 'Sales', status: 'linked', size: 779 }] },
+      { id: 'J1.4', name: 'Customer Success', size: 532, links: [{ name: 'Customer Success', status: 'linked', size: 1149 }] },
+      { id: 'J1.5', name: 'Operations', size: 327, links: [{ name: 'Operations', status: 'linked', size: 665 }] },
+      { id: 'J1.6', name: 'People and Culture', size: 278, links: [{ name: 'People and Culture', status: 'linked', size: 562 }] },
     ]},
   ],
 };
