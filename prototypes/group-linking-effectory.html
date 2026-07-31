@@ -524,7 +524,9 @@
     @media (prefers-reduced-motion: reduce) { .acc, .acc .acc-head { transition: none; } }
     #acc-select.is-open { overflow: hidden; }
     /* height expand/collapse via grid-template-rows 0fr→1fr (same as the DS accordion) */
-    .sacc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
+    /* minmax(0,1fr): an auto column grows to the min-content of nowrap content (the filter
+       chips) and blew the accordion out to 604px on a 375px phone */
+    .sacc-body { display: grid; grid-template-rows: 0fr; grid-template-columns: minmax(0, 1fr); transition: grid-template-rows var(--motion-slow) var(--ease-standard); }
     .acc.is-open .sacc-body { grid-template-rows: 1fr; }
     .sacc-body-inner { overflow: hidden; opacity: 0; transition: opacity var(--motion-base) var(--ease-out); }
     .acc.is-open .sacc-body-inner { opacity: 1; transition-delay: 60ms; }
@@ -940,6 +942,13 @@
     /* ── phone-width odds and ends ── */
     @media (max-width: 700px) {
       .bc-trail { display: none; }
+      /* a 375px screen left 233px for a group row; every layer gave some padding back */
+      .sacc-body-pad { padding-left: var(--spacing-base-tight); padding-right: var(--spacing-base-tight); }
+      .tr-scope { padding-left: 0; padding-right: 0; }
+      .trm-toggle, .trm-toggle-spacer { width: 24px; }
+      .acc-head { padding: var(--spacing-base); }
+      .gl-explainer { padding: var(--spacing-loose) var(--spacing-base); }
+      .gl-sheet { padding: var(--spacing-loose) var(--spacing-base); }
       .ov-banner { flex-wrap: wrap; }
       .ov-banner .ov-banner-text { flex: 1 1 220px; }
       .ov-tip-item.is-active { flex-wrap: wrap; }
@@ -949,7 +958,13 @@
       .ov-tl-band-lbl { display: none; }
     }
     @media (max-width: 900px) {
-      .struct-bar .tr-filters { justify-content: flex-start; }
+      /* the toolbar was 215px tall and pinned; on a phone it scrolls along like content */
+      .struct-picker { position: static; padding-bottom: var(--spacing-tight); }
+      .struct-select-wrap, .struct-select { width: 100%; }
+      /* the chips become one horizontally scrollable row instead of a ragged wrap */
+      .struct-bar .tr-filters { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: var(--spacing-extra-tight); scrollbar-width: none; }
+      .struct-bar .tr-filters::-webkit-scrollbar { display: none; }
+      .tr-filter { flex-shrink: 0; white-space: nowrap; }
     }
     /* the hamburger: hidden on desktop; declared here at the end so nothing outranks it */
     .gl-hamburger-wrap { display: none; }
