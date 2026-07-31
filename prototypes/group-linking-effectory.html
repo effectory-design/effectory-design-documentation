@@ -900,16 +900,46 @@
   
     /* ── responsive overrides, last so they win the cascade ──
        below 900px the two linked columns stack: a group's links sit under its card ── */
+    /* the desktop columns disappear; each group is one compact row opening a bottom sheet.
+       the base (hidden) declaration comes first, so the media rule below can win the tie */
+    .trm-row-wrap { display: none; align-items: stretch; gap: var(--spacing-extra-tight); margin-left: min(calc(var(--trm-level, 0) * var(--spacing-base-tight)), calc(4 * var(--spacing-base-tight))); }
     @media (max-width: 900px) {
       .tr-cols { display: none; }
-      .tr-card-grid { grid-template-columns: 1fr; }
-      .tr-card-mid { display: none; }
-      .tr-card-right { margin-top: var(--spacing-extra-tight); padding-left: var(--spacing-extra-loose); }
+      .tr-card-grid { display: none; }
+      .trm-row-wrap { display: flex; }
       .gl-bulkbar { left: var(--spacing-base); right: var(--spacing-base); transform: none; flex-wrap: wrap; }
     }
+    .trm-toggle { flex-shrink: 0; width: 32px; border: none; background: none; padding: 0; display: flex; align-items: center; justify-content: center; color: var(--content-secondary); cursor: pointer; }
+    .trm-toggle i { width: 16px; height: 16px; display: flex; transition: transform var(--motion-fast) var(--ease-out); }
+    .trm-toggle.is-open i { transform: rotate(180deg); }
+    .trm-toggle-spacer { flex-shrink: 0; width: 32px; }
+    .trm-row { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-tight); padding: var(--spacing-base-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); font-family: inherit; text-align: left; cursor: pointer; }
+    .trm-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .trm-name { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .trm-sub { font-size: 12px; color: var(--content-secondary); }
+    .trm-chip { flex-shrink: 0; font-size: 12px; font-weight: 500; padding: 2px var(--spacing-tight); border-radius: var(--radius-full); }
+    .trm-chip.is-linked { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .trm-chip.is-suggested { background: var(--bg-info-subtle); color: var(--content-info); }
+    .trm-chip.is-none { background: var(--bg-secondary); color: var(--content-secondary); }
+    .trm-chev { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-subtle); }
+
+    /* the per-group bottom sheet */
+    .overlay.is-sheet { align-items: flex-end; padding: 0; }
+    .gl-sheet { width: 100%; max-width: 100%; max-height: 85vh; border-bottom: none; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+    .gl-sheet-body { overflow-y: auto; display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .trs-lbl { margin-top: var(--spacing-tight); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--content-secondary); }
+    .trs-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-tight); padding: var(--spacing-base-tight); border: 1px solid var(--border-base); border-radius: var(--radius-md); }
+    .trs-row.is-linked { border-color: var(--border-positive); background: var(--bg-positive-subtle); }
+    .trs-row.is-suggested { border-color: var(--border-info); background: var(--bg-info-subtle); }
+    .trs-name { flex: 1 1 160px; min-width: 0; font-size: 14px; font-weight: 500; color: var(--content-base); }
+    .trs-pct { display: block; font-size: 12px; font-weight: 600; color: var(--content-info); }
+    .trs-actions { display: flex; gap: var(--spacing-tight); flex-shrink: 0; margin-left: auto; }
+    .trs-empty { margin: 0; font-size: 14px; color: var(--content-secondary); }
+    .trs-footer { display: flex; flex-direction: column; gap: var(--spacing-tight); margin-top: var(--spacing-tight); }
 
     /* ── phone-width odds and ends ── */
     @media (max-width: 700px) {
+      .bc-trail { display: none; }
       .ov-banner { flex-wrap: wrap; }
       .ov-banner .ov-banner-text { flex: 1 1 220px; }
       .ov-tip-item.is-active { flex-wrap: wrap; }
@@ -919,8 +949,6 @@
       .ov-tl-band-lbl { display: none; }
     }
     @media (max-width: 900px) {
-      :root { --tr-indent: var(--spacing-base-tight); }   /* nesting steps 12px instead of 24px */
-      .tr-group { white-space: normal; }                  /* a wrapped name beats "Custom…" */
       .struct-bar .tr-filters { justify-content: flex-start; }
     }
     /* the hamburger: hidden on desktop; declared here at the end so nothing outranks it */
@@ -1434,6 +1462,18 @@
 <!-- Group members dialog -->
 <div class="match-pop" id="matchPop" hidden></div>
 <div class="tooltip is-above path-pop" id="pathPop" hidden></div>
+
+<!-- Mobile: everything you can do to a group lives in this bottom sheet -->
+<div class="overlay is-sheet" id="groupSheetOverlay" hidden>
+  <div class="dialog gl-sheet" role="dialog" aria-modal="true" aria-labelledby="groupSheet-title">
+    <button class="dialog-close" aria-label="Close" data-close="groupSheetOverlay"><i data-icon="cross"></i></button>
+    <div class="dialog-header is-sm">
+      <div class="dialog-header-top"><h3 class="dialog-title" id="groupSheet-title"></h3></div>
+      <p class="dialog-subtitle" id="groupSheetSub"></p>
+    </div>
+    <div class="gl-sheet-body" id="groupSheetBody"></div>
+  </div>
+</div>
 
 <div class="overlay" id="membersOverlay" hidden>
   <div class="dialog dialog-s" role="dialog" aria-modal="true" aria-labelledby="members-title">
@@ -3128,6 +3168,26 @@ function suggestionForNode(node) {
     || suggestions.find(sg => sg.newGroups.some(g => g.name === node.name));
 }
 
+// The phone rendering of a group: one row with a status chip; tapping it opens the sheet.
+// Hidden on desktop, where the two-column grid next to it renders instead.
+function trmRowHTML(n, level, hasChildren, isOpen) {
+  const isSug = l => l.status === 'suggested' || l.status === 'review';
+  const done = n.links.filter(l => !isSug(l)), sugs = n.links.filter(isSug);
+  const chip = n.noMatch ? '<span class="trm-chip is-none">No match</span>'
+    : done.length ? '<span class="trm-chip is-linked">Linked</span>'
+    : sugs.length ? '<span class="trm-chip is-suggested">Suggestion</span>'
+    : '<span class="trm-chip is-none">No link</span>';
+  const subNames = (done.length ? done : sugs).map(l => l.name).join(', ');
+  return '<div class="trm-row-wrap" style="--trm-level:' + level + '">' +
+    (hasChildren
+      ? '<button class="trm-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-expanded="' + isOpen + '" aria-label="' + (isOpen ? 'Collapse ' : 'Expand ') + esc(n.name) + '"><i data-icon="chevron-down"></i></button>'
+      : '<span class="trm-toggle-spacer"></span>') +
+    '<button class="trm-row" data-sheet="' + esc(n.id) + '" aria-haspopup="dialog">' +
+      '<span class="trm-main"><span class="trm-name">' + esc(n.name) + '</span>' +
+      (subNames ? '<span class="trm-sub">\u2192 ' + esc(subNames) + '</span>' : '') + '</span>' +
+      chip + '<i class="trm-chev" data-icon="chevron-right" aria-hidden="true"></i></button></div>';
+}
+
 // A row reads as a pile of controls: the group name, three buttons, a status icon, then the
 // name of the group it points at. This states the relationship in one sentence for a screen
 // reader browsing the list. The controls keep naming the group, because when you tab to one
@@ -3160,6 +3220,7 @@ function treeRowHTML(n, level) {
   const leftState = hasLinked ? ' is-linked' : (hasSuggested ? ' is-suggested' : '');
   let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" role="listitem" data-nodeid="' + esc(n.id) + '">' +
     '<span class="sr-only">' + rowSummary(n) + '</span>' +
+    trmRowHTML(n, level, hasChildren, isOpen) +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
     '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--tr-indent, var(--spacing-loose)))">' +
@@ -3534,6 +3595,7 @@ function renderTree() {
   const prevHead = $('#trColPrev'); if (prevHead) prevHead.innerHTML = surveyHTML(state.selectedSurvey);
   syncSelectionUI(body);
   tagTreePositions();
+  if (sheetNodeId && !document.getElementById('groupSheetOverlay').hidden) renderGroupSheet();
   icons();
   drawTreeConnectors();                          // draw immediately so the lines never blank out
   requestAnimationFrame(drawTreeConnectors);     // redraw next frame to catch any layout shift
@@ -4253,6 +4315,100 @@ document.querySelectorAll('.overlay').forEach(ov => ov.addEventListener('mousedo
 $('#crumbBack').addEventListener('click', () => { if (state.view === 'linking') goToView('overview'); });
 
 
+
+/* ═══════════════ MOBILE GROUP SHEET ═══════════════ */
+// One sheet per group: its links with remove, its suggestion with confirm and decline, the
+// picker, participants, and the no-match escape hatch. renderTree refreshes it after every
+// mutation, so it always shows the current state.
+var sheetNodeId = null;
+
+function openGroupSheet(id) {
+  sheetNodeId = id;
+  renderGroupSheet();
+  openOverlay('groupSheetOverlay');
+}
+
+function renderGroupSheet() {
+  const node = sheetNodeId ? findTreeNode(sheetNodeId) : null;
+  const body = $('#groupSheetBody'); if (!node || !body) return;
+  $('#groupSheet-title').textContent = node.name;
+  $('#groupSheetSub').textContent = node.size ? node.size + ' participants' : '';
+  const hist = {}; histGroups().forEach(g => hist[g.name] = g.size);
+  const isSug = l => l.status === 'suggested' || l.status === 'review';
+  const done = node.links.filter(l => !isSug(l)), sugs = node.links.filter(isSug);
+  let html = '';
+  if (done.length) html += '<div class="trs-lbl">Linked to</div>' + done.map(l =>
+    '<div class="trs-row is-linked"><span class="trs-name">' + esc(l.name) + '</span>' +
+    '<span class="trs-actions">' +
+    '<button class="btn btn-tertiary" data-shmembers="' + esc(l.name) + '">' + (hist[l.name] || l.size || '?') + ' people</button>' +
+    '<button class="btn btn-tertiary" data-shunlink="' + esc(l.name) + '">Remove</button>' +
+    '</span></div>').join('');
+  if (sugs.length) html += '<div class="trs-lbl">Suggested match</div>' + sugs.map(l => {
+    const pct = memberOverlapPct(node.name, node.size, l.name, hist[l.name] || l.size || 0);
+    return '<div class="trs-row is-suggested"><span class="trs-name">' + esc(l.name) +
+      '<button class="trs-pct" style="background:none;border:0;padding:0;font:inherit;cursor:pointer;" data-shoverlap="' + esc(l.name) + '">' + pct + '% member overlap</button></span>' +
+      '<span class="trs-actions">' +
+      '<button class="btn btn-primary" data-shapprove="' + esc(l.name) + '">Confirm</button>' +
+      '<button class="btn btn-secondary" data-shreject="' + esc(l.name) + '">Don\u2019t link</button>' +
+      '</span></div>';
+  }).join('');
+  if (!node.links.length) html += node.noMatch
+    ? '<p class="trs-empty">Marked as having no matching group.</p>'
+    : '<p class="trs-empty">No link yet. Link this group to its match in your previous survey to compare results over time.</p>';
+  html += '<div class="trs-footer">' +
+    '<button class="btn btn-secondary" data-shpick>' + (node.links.length ? 'Link another group' : 'Link a group') + '</button>' +
+    (node.size ? '<button class="btn btn-tertiary" data-shmembers-cur>View participants</button>' : '') +
+    (!node.links.length && !node.noMatch ? '<button class="btn btn-tertiary" data-shnomatch>No matching group, leave unlinked</button>' : '') +
+    (node.noMatch ? '<button class="btn btn-tertiary" data-shrelink>Put back on the list</button>' : '') +
+    '</div>';
+  body.innerHTML = html;
+
+  body.querySelectorAll('[data-shunlink]').forEach(b => b.addEventListener('click', () => {
+    node.links = node.links.filter(l => l.name !== b.dataset.shunlink);
+    syncSuggestionForNode(node);
+    toast('Link to ' + b.dataset.shunlink + ' removed');
+    renderTree(); renderLinking();
+  }));
+  body.querySelectorAll('[data-shapprove]').forEach(b => b.addEventListener('click', () => treeLinkAction(node.id, b.dataset.shapprove, 'approve')));
+  body.querySelectorAll('[data-shreject]').forEach(b => b.addEventListener('click', () => treeLinkAction(node.id, b.dataset.shreject, 'reject')));
+  body.querySelectorAll('[data-shmembers]').forEach(b => b.addEventListener('click', () => openMembers(b.dataset.shmembers, hist[b.dataset.shmembers] || 0, state.selectedSurvey)));
+  body.querySelectorAll('[data-shoverlap]').forEach(b => b.addEventListener('click', () => {
+    openOverlapMembers({ newGroups: [{ name: node.name, size: node.size }], oldGroups: [{ name: b.dataset.shoverlap, size: hist[b.dataset.shoverlap] || 0 }] });
+  }));
+  const cur = body.querySelector('[data-shmembers-cur]');
+  if (cur) cur.addEventListener('click', () => openMembers(node.name, node.size, CURRENT_SURVEY));
+  const pick = body.querySelector('[data-shpick]');
+  if (pick) pick.addEventListener('click', () => {
+    state.treeLinkingNodeId = node.id;
+    pickerActive = null;
+    $('#linkPickerSub').textContent = node.name + '  \u2192  ' + surveyPlain(state.selectedSurvey);
+    $('#linkPickerSearch').placeholder = 'Search groups';
+    $('#linkPickerSearch').value = '';
+    renderTreeLinkMenu('', '#linkPickerMenu');
+    openOverlay('linkPickerOverlay');
+  });
+  const nm = body.querySelector('[data-shnomatch]');
+  if (nm) nm.addEventListener('click', () => {
+    node.noMatch = true; node.links = [];
+    syncSuggestionForNode(node);
+    announce(node.name + ' marked as no matching group. ' + linkProgressText());
+    toast(node.name + ' marked as no matching group');
+    renderTreeFilters(); renderTree(); renderLinking();
+  });
+  const rl = body.querySelector('[data-shrelink]');
+  if (rl) rl.addEventListener('click', () => {
+    node.noMatch = false;
+    toast(node.name + ' is back on the list');
+    renderTree(); renderLinking();
+  });
+  icons();
+}
+
+// rows re-render constantly, so the tap is delegated
+document.addEventListener('click', (e) => {
+  const b = e.target.closest && e.target.closest('[data-sheet]');
+  if (b) openGroupSheet(b.dataset.sheet);
+});
 
 /* ═══════════════ MOBILE NAV DRAWER ═══════════════ */
 // Below 1200px the sidebar hides behind the hamburger. Opening moves focus to the first nav
