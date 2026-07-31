@@ -1584,45 +1584,55 @@ const REVIEWERS = [
 
 const PREV_DATA = {
   'Thriving Workplace Pulse April 2026': { historical: [
-    { name: "Nova Group", size: 388, parent: null },
-    { name: "Commerce Division", size: 207, parent: "Nova Group" },
-    { name: "Digital Business Unit", size: 119, parent: "Commerce Division" },
-    { name: "E-commerce Department", size: 71, parent: "Digital Business Unit" },
-    { name: "Conversion & Checkout Team", size: 35, parent: "E-commerce Department" },
-    { name: "Squad Checkout & Payments", size: 18, parent: "Conversion & Checkout Team" },
-    { name: "Squad Personalisation & Search", size: 17, parent: "Conversion & Checkout Team" },
-    { name: "Platform Engineering Team", size: 36, parent: "E-commerce Department" },
-    { name: "Squad Storefront Platform", size: 19, parent: "Platform Engineering Team" },
-    { name: "Squad Order Management", size: 17, parent: "Platform Engineering Team" },
-    { name: "Digital Marketing Department", size: 48, parent: "Digital Business Unit" },
-    { name: "Performance Marketing Team", size: 26, parent: "Digital Marketing Department" },
-    { name: "Brand & Content Team", size: 22, parent: "Digital Marketing Department" },
-    { name: "Retail Business Unit", size: 88, parent: "Commerce Division" },
-    { name: "Store Operations Department", size: 54, parent: "Retail Business Unit" },
-    { name: "Region North Team", size: 27, parent: "Store Operations Department" },
-    { name: "Region South Team", size: 27, parent: "Store Operations Department" },
-    { name: "Merchandising Department", size: 34, parent: "Retail Business Unit" },
-    { name: "Operations Division", size: 181, parent: "Nova Group" },
-    { name: "Supply Chain Business Unit", size: 105, parent: "Operations Division" },
-    { name: "Warehousing Department", size: 63, parent: "Supply Chain Business Unit" },
-    { name: "Inbound Team", size: 34, parent: "Warehousing Department" },
-    { name: "Outbound Team", size: 29, parent: "Warehousing Department" },
-    { name: "Transport Department", size: 42, parent: "Supply Chain Business Unit" },
-    { name: "Corporate Services Business Unit", size: 76, parent: "Operations Division" },
-    { name: "Finance Department", size: 38, parent: "Corporate Services Business Unit" },
-    { name: "People & Culture Department", size: 38, parent: "Corporate Services Business Unit" },
+    { name: "Nova International Holding Group", size: 391, parent: null },
+    { name: "Commercial Operations & Customer Experience Division", size: 210, parent: "Nova International Holding Group" },
+    { name: "Digital Commerce & Omnichannel Business Unit", size: 122, parent: "Commercial Operations & Customer Experience Division" },
+    { name: "E-commerce & Digital Platforms Department", size: 74, parent: "Digital Commerce & Omnichannel Business Unit" },
+    { name: "Conversion, Checkout & Payments Domain", size: 38, parent: "E-commerce & Digital Platforms Department" },
+    { name: "Checkout Experience & Payment Services Team", size: 21, parent: "Conversion, Checkout & Payments Domain" },
+    { name: "Squad Checkout & Payment Methods Europe", size: 12, parent: "Checkout Experience & Payment Services Team" },
+    { name: "Sub-squad Payment Methods & Wallet Integrations", size: 8, parent: "Squad Checkout & Payment Methods Europe" },
+    { name: "Taskforce Recurring Payments & Subscriptions", size: 5, parent: "Sub-squad Payment Methods & Wallet Integrations" },
+    { name: "Working Group Direct Debit Migration (Benelux)", size: 3, parent: "Taskforce Recurring Payments & Subscriptions" },
+    { name: "Working Group Card Authorisation Retries", size: 2, parent: "Taskforce Recurring Payments & Subscriptions" },
+    { name: "Taskforce Fraud & Chargeback Handling", size: 3, parent: "Sub-squad Payment Methods & Wallet Integrations" },
+    { name: "Sub-squad Checkout Front-end Experience", size: 4, parent: "Squad Checkout & Payment Methods Europe" },
+    { name: "Squad Personalisation, Search & Recommendations", size: 9, parent: "Checkout Experience & Payment Services Team" },
+    { name: "Storefront Platform & Order Management Team", size: 17, parent: "Conversion, Checkout & Payments Domain" },
+    { name: "Digital Marketing & Traffic Acquisition Domain", size: 36, parent: "E-commerce & Digital Platforms Department" },
+    { name: "Data, Analytics & Personalisation Department", size: 48, parent: "Digital Commerce & Omnichannel Business Unit" },
+    { name: "Customer Data & Insights Team", size: 26, parent: "Data, Analytics & Personalisation Department" },
+    { name: "Experimentation & A/B Testing Team", size: 22, parent: "Data, Analytics & Personalisation Department" },
+    { name: "Physical Retail & Store Operations Business Unit", size: 88, parent: "Commercial Operations & Customer Experience Division" },
+    { name: "Store Operations & Field Support Department", size: 54, parent: "Physical Retail & Store Operations Business Unit" },
+    { name: "Region North & East Stores Team", size: 27, parent: "Store Operations & Field Support Department" },
+    { name: "Region South & West Stores Team", size: 27, parent: "Store Operations & Field Support Department" },
+    { name: "Merchandising & Space Planning Department", size: 34, parent: "Physical Retail & Store Operations Business Unit" },
+    { name: "Operations, Supply Chain & Corporate Services Division", size: 181, parent: "Nova International Holding Group" },
+    { name: "Supply Chain & Logistics Business Unit", size: 105, parent: "Operations, Supply Chain & Corporate Services Division" },
+    { name: "Warehousing & Fulfilment Department", size: 63, parent: "Supply Chain & Logistics Business Unit" },
+    { name: "Inbound Goods & Returns Team", size: 34, parent: "Warehousing & Fulfilment Department" },
+    { name: "Outbound & Last-mile Delivery Team", size: 29, parent: "Warehousing & Fulfilment Department" },
+    { name: "Transport Planning & Carrier Management Department", size: 42, parent: "Supply Chain & Logistics Business Unit" },
+    { name: "Corporate Services & Enablement Business Unit", size: 76, parent: "Operations, Supply Chain & Corporate Services Division" },
+    { name: "Finance, Risk & Procurement Department", size: 38, parent: "Corporate Services & Enablement Business Unit" },
+    { name: "People, Culture & Workplace Department", size: 38, parent: "Corporate Services & Enablement Business Unit" },
   ], suggestions: [
   ], silentAuto: 8, links: {
-    '1': [{ name: "Nova Group", status: 'linked' }],
-    '1.1': [{ name: "Commerce Division", status: 'linked' }],
-    '1.2': [{ name: "Operations Division", status: 'linked' }],
-    '1.1.1': [{ name: "Digital Business Unit", status: 'linked' }],
-    '1.2.1': [{ name: "Supply Chain Business Unit", status: 'linked' }],
-    '1.1.1.1': [{ name: "E-commerce Department", status: 'linked' }],
-    '1.1.1.1.1': [{ name: "Conversion & Checkout Team", status: 'linked' }],
-    '1.1.1.1.1.1': [{ name: "Squad Checkout & Payments", status: 'linked' }],
-    '1.2.1.1.1': [{ name: "Inbound Team", status: 'linked' }],
-    '1.1.2.1.2': [{ name: "Region South Team", status: 'linked' }]
+    '1': [{ name: "Nova International Holding Group", status: 'linked' }],
+    '1.1': [{ name: "Commercial Operations & Customer Experience Division", status: 'linked' }],
+    '1.2': [{ name: "Operations, Supply Chain & Corporate Services Division", status: 'linked' }],
+    '1.1.1': [{ name: "Digital Commerce & Omnichannel Business Unit", status: 'linked' }],
+    '1.2.1': [{ name: "Supply Chain & Logistics Business Unit", status: 'linked' }],
+    '1.1.1.1': [{ name: "E-commerce & Digital Platforms Department", status: 'linked' }],
+    '1.1.1.1.1': [{ name: "Conversion, Checkout & Payments Domain", status: 'linked' }],
+    '1.1.1.1.1.1': [{ name: "Checkout Experience & Payment Services Team", status: 'linked' }],
+    '1.1.1.1.1.1.1': [{ name: "Squad Checkout & Payment Methods Europe", status: 'linked' }],
+    '1.1.1.1.1.1.1.1': [{ name: "Sub-squad Payment Methods & Wallet Integrations", status: 'linked' }],
+    '1.1.1.1.1.1.1.1.1': [{ name: "Taskforce Recurring Payments & Subscriptions", status: 'linked' }],
+    '1.1.1.1.1.1.1.1.1.1': [{ name: "Working Group Direct Debit Migration (Benelux)", status: 'linked' }],
+    '1.2.1.1.1': [{ name: "Inbound Goods & Returns Team", status: 'linked' }],
+    '1.1.2.1.2': [{ name: "Region South & West Stores Team", status: 'linked' }]
   } },
   'YourVoice a stronger Product team-6': { historical: [
     { name: "Effectory B.V.", size: 388, parent: null },
@@ -1894,43 +1904,52 @@ function histGroups() {
 
 const TREES = {
   'Organizational structure': [
-      { id: "1", name: "Nova Group", size: 384, links: [], children: [
-        { id: "1.1", name: "Commerce Division", size: 208, links: [], children: [
-          { id: "1.1.1", name: "Digital Business Unit", size: 122, links: [], children: [
-            { id: "1.1.1.1", name: "E-commerce Department", size: 74, links: [], children: [
-              { id: "1.1.1.1.1", name: "Conversion & Checkout Team", size: 38, links: [], children: [
-                { id: "1.1.1.1.1.1", name: "Squad Checkout & Payments", size: 21, links: [] },
-                { id: "1.1.1.1.1.2", name: "Squad Personalisation & Search", size: 17, links: [] },
+      { id: "1", name: "Nova International Holding Group", size: 384, links: [], children: [
+        { id: "1.1", name: "Commercial Operations & Customer Experience Division", size: 208, links: [], children: [
+          { id: "1.1.1", name: "Digital Commerce & Omnichannel Business Unit", size: 122, links: [], children: [
+            { id: "1.1.1.1", name: "E-commerce & Digital Platforms Department", size: 74, links: [], children: [
+              { id: "1.1.1.1.1", name: "Conversion, Checkout & Payments Domain", size: 38, links: [], children: [
+                { id: "1.1.1.1.1.1", name: "Checkout Experience & Payment Services Team", size: 21, links: [], children: [
+                  { id: "1.1.1.1.1.1.1", name: "Squad Checkout & Payment Methods Europe", size: 12, links: [], children: [
+                    { id: "1.1.1.1.1.1.1.1", name: "Sub-squad Payment Methods & Wallet Integrations", size: 7, links: [], children: [
+                      { id: "1.1.1.1.1.1.1.1.1", name: "Taskforce Recurring Payments & Subscriptions", size: 4, links: [], children: [
+                        { id: "1.1.1.1.1.1.1.1.1.1", name: "Working Group Direct Debit Migration (Benelux)", size: 2, links: [] },
+                        { id: "1.1.1.1.1.1.1.1.1.2", name: "Working Group Card Authorisation Retries", size: 2, links: [] },
+                      ]},
+                      { id: "1.1.1.1.1.1.1.1.2", name: "Taskforce Fraud & Chargeback Handling", size: 3, links: [] },
+                    ]},
+                    { id: "1.1.1.1.1.1.1.2", name: "Sub-squad Checkout Front-end Experience", size: 5, links: [] },
+                  ]},
+                  { id: "1.1.1.1.1.1.2", name: "Squad Personalisation, Search & Recommendations", size: 9, links: [] },
+                ]},
+                { id: "1.1.1.1.1.2", name: "Storefront Platform & Order Management Team", size: 17, links: [] },
               ]},
-              { id: "1.1.1.1.2", name: "Platform Engineering Team", size: 36, links: [], children: [
-                { id: "1.1.1.1.2.1", name: "Squad Storefront Platform", size: 19, links: [] },
-                { id: "1.1.1.1.2.2", name: "Squad Order Management", size: 17, links: [] },
-              ]},
+              { id: "1.1.1.1.2", name: "Digital Marketing & Traffic Acquisition Domain", size: 36, links: [] },
             ]},
-            { id: "1.1.1.2", name: "Digital Marketing Department", size: 48, links: [], children: [
-              { id: "1.1.1.2.1", name: "Performance Marketing Team", size: 26, links: [] },
-              { id: "1.1.1.2.2", name: "Brand & Content Team", size: 22, links: [] },
+            { id: "1.1.1.2", name: "Data, Analytics & Personalisation Department", size: 48, links: [], children: [
+              { id: "1.1.1.2.1", name: "Customer Data & Insights Team", size: 26, links: [] },
+              { id: "1.1.1.2.2", name: "Experimentation & A/B Testing Team", size: 22, links: [] },
             ]},
           ]},
-          { id: "1.1.2", name: "Retail Business Unit", size: 86, links: [], children: [
-            { id: "1.1.2.1", name: "Store Operations Department", size: 52, links: [], children: [
-              { id: "1.1.2.1.1", name: "Region North Team", size: 27, links: [] },
-              { id: "1.1.2.1.2", name: "Region South Team", size: 25, links: [] },
+          { id: "1.1.2", name: "Physical Retail & Store Operations Business Unit", size: 86, links: [], children: [
+            { id: "1.1.2.1", name: "Store Operations & Field Support Department", size: 52, links: [], children: [
+              { id: "1.1.2.1.1", name: "Region North & East Stores Team", size: 27, links: [] },
+              { id: "1.1.2.1.2", name: "Region South & West Stores Team", size: 25, links: [] },
             ]},
-            { id: "1.1.2.2", name: "Merchandising Department", size: 34, links: [] },
+            { id: "1.1.2.2", name: "Merchandising & Space Planning Department", size: 34, links: [] },
           ]},
         ]},
-        { id: "1.2", name: "Operations Division", size: 176, links: [], children: [
-          { id: "1.2.1", name: "Supply Chain Business Unit", size: 98, links: [], children: [
-            { id: "1.2.1.1", name: "Warehousing Department", size: 60, links: [], children: [
-              { id: "1.2.1.1.1", name: "Inbound Team", size: 31, links: [] },
-              { id: "1.2.1.1.2", name: "Outbound Team", size: 29, links: [] },
+        { id: "1.2", name: "Operations, Supply Chain & Corporate Services Division", size: 176, links: [], children: [
+          { id: "1.2.1", name: "Supply Chain & Logistics Business Unit", size: 98, links: [], children: [
+            { id: "1.2.1.1", name: "Warehousing & Fulfilment Department", size: 60, links: [], children: [
+              { id: "1.2.1.1.1", name: "Inbound Goods & Returns Team", size: 31, links: [] },
+              { id: "1.2.1.1.2", name: "Outbound & Last-mile Delivery Team", size: 29, links: [] },
             ]},
-            { id: "1.2.1.2", name: "Transport Department", size: 38, links: [] },
+            { id: "1.2.1.2", name: "Transport Planning & Carrier Management Department", size: 38, links: [] },
           ]},
-          { id: "1.2.2", name: "Corporate Services Business Unit", size: 78, links: [], children: [
-            { id: "1.2.2.1", name: "Finance Department", size: 40, links: [] },
-            { id: "1.2.2.2", name: "People & Culture Department", size: 38, links: [] },
+          { id: "1.2.2", name: "Corporate Services & Enablement Business Unit", size: 78, links: [], children: [
+            { id: "1.2.2.1", name: "Finance, Risk & Procurement Department", size: 40, links: [] },
+            { id: "1.2.2.2", name: "People, Culture & Workplace Department", size: 38, links: [] },
           ]},
         ]},
       ]},
