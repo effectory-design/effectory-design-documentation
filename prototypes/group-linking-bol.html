@@ -652,7 +652,14 @@
     .tr-card:hover { z-index: 20; }
     .tr-card-grid { display: grid; grid-template-columns: 1.15fr var(--gl-gutter) 1fr; gap: 0; align-items: stretch; }
     .tr-leftcard { flex: 1; position: relative; z-index: 2; display: flex; align-items: flex-start; gap: var(--spacing-extra-tight); min-width: 0; overflow: hidden; border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); padding: var(--spacing-base-tight); transition: border-color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out); }
-    .tr-leftcol { display: flex; align-items: stretch; min-width: 0; }
+    /* Deep structures: no cap on depth, so the step is small (12px) and guide lines make
+       the levels countable, the way a file tree does. The guides bleed 4px past the card so
+       they join up across the 8px row gap into continuous verticals. */
+    .tr-leftcol { position: relative; display: flex; align-items: stretch; min-width: 0; }
+    .tr-leftcard { margin-left: calc(var(--lvl, 0) * var(--tr-indent)); }
+    .tr-leftcol::before { content: ''; position: absolute; left: 0; top: -4px; bottom: -4px; width: calc(var(--lvl, 0) * var(--tr-indent)); pointer-events: none;
+      background: repeating-linear-gradient(to right, transparent 0, transparent calc(var(--tr-indent) - 1px), var(--border-base) calc(var(--tr-indent) - 1px), var(--border-base) var(--tr-indent)); }
+    .tr-leftcol { --tr-indent: var(--spacing-base-tight); }
     /* bulk-select checkbox — appears on hover, or always while selecting */
     .tr-check { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; border: 1.5px solid var(--border-base); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--bg-base); background: var(--bg-base); cursor: pointer; opacity: 0; transition: opacity var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out); }
     .tr-check i { width: 12px; height: 12px; display: flex; transform: scale(0); transition: transform var(--motion-fast) var(--ease-out); }
@@ -904,7 +911,9 @@
        below 900px the two linked columns stack: a group's links sit under its card ── */
     /* the desktop columns disappear; each group is one compact row opening a bottom sheet.
        the base (hidden) declaration comes first, so the media rule below can win the tie */
-    .trm-row-wrap { display: none; align-items: stretch; gap: var(--spacing-extra-tight); margin-left: min(calc(var(--trm-level, 0) * var(--spacing-base-tight)), calc(4 * var(--spacing-base-tight))); }
+    .trm-row-wrap { --trm-step: var(--spacing-tight); position: relative; display: none; align-items: stretch; gap: var(--spacing-extra-tight); margin-left: calc(var(--lvl, 0) * var(--trm-step)); }
+    .trm-row-wrap::before { content: ''; position: absolute; top: -4px; bottom: -4px; left: calc(-1 * var(--lvl, 0) * var(--trm-step)); width: calc(var(--lvl, 0) * var(--trm-step)); pointer-events: none;
+      background: repeating-linear-gradient(to right, transparent 0, transparent calc(var(--trm-step) - 1px), var(--border-base) calc(var(--trm-step) - 1px), var(--border-base) var(--trm-step)); }
     @media (max-width: 900px) {
       .tr-cols { display: none; }
       .tr-card-grid { display: none; }
@@ -3481,7 +3490,7 @@ function trmRowHTML(n, level, hasChildren, isOpen) {
     : sugs.length ? '<span class="trm-chip is-suggested">Suggestion</span>'
     : '<span class="trm-chip is-none">No link</span>';
   const subNames = (done.length ? done : sugs).map(l => l.name).join(', ');
-  return '<div class="trm-row-wrap" style="--trm-level:' + level + '">' +
+  return '<div class="trm-row-wrap">' +
     (hasChildren
       ? '<button class="trm-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-expanded="' + isOpen + '" aria-label="' + (isOpen ? 'Collapse ' : 'Expand ') + esc(n.name) + '"><i data-icon="chevron-down"></i></button>'
       : '<span class="trm-toggle-spacer"></span>') +
@@ -3521,12 +3530,12 @@ function treeRowHTML(n, level) {
   const hasLinked = n.links.some(l => l.status === 'linked');
   const hasSuggested = !hasLinked && n.links.some(l => l.status === 'suggested' || l.status === 'review');
   const leftState = hasLinked ? ' is-linked' : (hasSuggested ? ' is-suggested' : '');
-  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" role="listitem" data-nodeid="' + esc(n.id) + '">' +
+  let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" role="listitem" style="--lvl: ' + level + '" data-nodeid="' + esc(n.id) + '">' +
     '<span class="sr-only">' + rowSummary(n) + '</span>' +
     trmRowHTML(n, level, hasChildren, isOpen) +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
-    '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--tr-indent, var(--spacing-loose)))">' +
+    '<div class="tr-leftcard' + leftState + '">' +
     '<span class="tr-check' + (isSel ? ' is-checked' : '') + '" data-treecheck="' + esc(n.id) + '" role="checkbox" aria-checked="' + isSel + '" tabindex="0" aria-label="Select ' + esc(n.name) + '"><i data-icon="check"></i></span>' +
     (hasChildren
       ? '<button class="tr-toggle' + (isOpen ? ' is-open' : '') + '" data-treetoggle="' + esc(n.id) + '" aria-expanded="' + isOpen + '" aria-label="' + (isOpen ? 'Collapse ' : 'Expand ') + esc(n.name) + '"><i data-icon="chevron-down"></i></button>'
