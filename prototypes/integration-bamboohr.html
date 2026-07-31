@@ -38,7 +38,12 @@
     .body-cols { display: grid; grid-template-columns: minmax(0, 744px) 244px; gap: 60px; align-items: start; }
     .col { min-width: 0; }
     .lede { font-size: 14px; line-height: 1.6; color: var(--content-secondary); margin: 24px 0 0; }
-    .col .inline-notif { margin-top: 24px; }
+    /* The notification collapses to nothing when the addendum is signed, so the
+       control strip and the steps glide up into its place (and back down). */
+    .notif-collapse { display: grid; grid-template-rows: 1fr; margin-top: 24px; transition: grid-template-rows .3s var(--ease-out, ease), opacity .22s ease; }
+    .notif-collapse-inner { overflow: hidden; }
+    .notif-collapse .inline-notif { margin-bottom: 8px; }
+    .notif-collapse.is-collapsed { grid-template-rows: 0fr; opacity: 0; }
 
     /* Resources — supporting links beside the configuration steps */
     .res { padding-top: 4px; }
@@ -87,7 +92,7 @@
 
     /* Internal CSM control — a quiet grey strip under the notification, so the
        notification itself stays read-only. */
-    .csm-card { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; padding: 12px 16px; background: var(--bg-secondary); border: 1px solid var(--border-base); border-radius: var(--radius-md); cursor: pointer; }
+    .csm-card { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; background: var(--bg-secondary); border: 1px solid var(--border-base); border-radius: var(--radius-md); cursor: pointer; }
     .csm-card:hover { background: var(--bg-base-hover); }
     .csm-label { flex: 1; min-width: 0; font-size: 14px; font-weight: 500; line-height: 1.5; color: var(--content-base); }
 
@@ -198,13 +203,18 @@
 
             <p class="lede">To process your request, we ask you to complete the following steps below. This will help us understand your current data setup and get back to you with a customized integration plan and pricing.</p>
 
-            <div class="inline-notif is-info" id="addendumNotif">
-              <img class="inline-notif-icon" id="addendumIcon" src="assets/icons/notification-information.svg" alt="" />
-              <div class="inline-notif-content">
-                <span class="inline-notif-text">
-                  <span class="inline-notif-title" id="addendumTitle">We are using a sub-processor for this integration. Add it to your contract to continue</span>
-                  <span class="inline-notif-msg" id="addendumMsg">For this integration, we are using Kombo as a sub-processor. If your client wants to use this integration, they must log in here and request to add an addendum to their contract. After that, this integration can be set up.</span>
-                </span>
+            <!-- Collapsible wrapper so the strip below glides up when the message goes -->
+            <div class="notif-collapse" id="addendumNotif">
+              <div class="notif-collapse-inner">
+                <div class="inline-notif is-info">
+                  <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
+                  <div class="inline-notif-content">
+                    <span class="inline-notif-text">
+                      <span class="inline-notif-title">We are using a sub-processor for this integration. Add it to your contract to continue</span>
+                      <span class="inline-notif-msg">For this integration, we are using Kombo as a sub-processor. If your client wants to use this integration, they must log in here and request to add an addendum to their contract. Already signed the addendum? Turn on the toggle below to open the setup.</span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -321,28 +331,14 @@
   // re-locks them, so a mistake is always reversible.
   const signed = document.getElementById('addendumSigned');
   const notif  = document.getElementById('addendumNotif');
-  const COPY = {
-    off: {
-      icon:  'assets/icons/notification-information.svg',
-      title: 'We are using a sub-processor for this integration. Add it to your contract to continue',
-      msg:   'For this integration, we are using Kombo as a sub-processor. If your client wants to use this integration, they must log in here and request to add an addendum to their contract. Already signed the addendum? Turn on the toggle below to open the setup.'
-    },
-    on: {
-      icon:  'assets/icons/notification-positive.svg',
-      title: 'The addendum is signed. This integration can be set up',
-      msg:   'Kombo is added to the contract as a sub-processor, so the customer can work through the steps below. Turn off the toggle to block the setup again.'
-    }
-  };
 
   function applySigned(){
     const on = signed.checked;
-    const c = on ? COPY.on : COPY.off;
 
-    notif.classList.toggle('is-info', !on);
-    notif.classList.toggle('is-success', on);
-    document.getElementById('addendumIcon').src = c.icon;
-    document.getElementById('addendumTitle').textContent = c.title;
-    document.getElementById('addendumMsg').textContent = c.msg;
+    // The notification only explains what is still blocking the setup, so it
+    // collapses away once the addendum is signed and slides back in when undone.
+    notif.classList.toggle('is-collapsed', on);
+    notif.setAttribute('aria-hidden', String(on));
 
     steps.querySelectorAll('.step').forEach(function(s, i){
       s.classList.toggle('is-locked', !on);
