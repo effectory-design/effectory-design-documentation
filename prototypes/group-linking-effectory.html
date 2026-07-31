@@ -2730,7 +2730,9 @@ function renderHistory() {
         '<span class="gl-chain-name">' + esc(it.name) + '</span>' +
         (it.meta ? '<span class="gl-chain-meta">' + esc(it.meta) + '</span>' : '') +
       '</div>' +
-      '<span class="gl-tag ' + it.tagCls + '">' + it.tag + '</span>' +
+      // the tag column is gone visually; the role still has to be announced, because a coloured
+      // dot on its own conveys nothing to a screen reader
+      '<span class="sr-only">' + it.tag + '</span>' +
     '</div>').join('');
 }
 
