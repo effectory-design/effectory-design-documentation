@@ -3346,6 +3346,26 @@ function suggestionForNode(node) {
     || suggestions.find(sg => sg.newGroups.some(g => g.name === node.name));
 }
 
+// A row reads as a pile of controls: the group name, three buttons, a status icon, then the
+// name of the group it points at. This states the relationship in one sentence for a screen
+// reader browsing the list. The controls keep naming the group, because when you tab to one
+// you hear only that control.
+function joinNames(list) {
+  if (list.length <= 1) return list.join('');
+  return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+}
+function rowSummary(n) {
+  const dot = t => /\.$/.test(t) ? t : t + '.';   // "Effectory B.V." already ends in one
+  if (n.noMatch) return esc(n.name) + ' is marked as having no matching group.';
+  if (!n.links.length) return esc(n.name) + ' has no link yet.';
+  const isSug = l => l.status === 'suggested' || l.status === 'review';
+  const parts = [];
+  const done = n.links.filter(l => !isSug(l)), sug = n.links.filter(isSug);
+  if (done.length) parts.push('is linked to ' + joinNames(done.map(l => esc(l.name))));
+  if (sug.length) parts.push('has a suggested match with ' + joinNames(sug.map(l => esc(l.name))));
+  return dot(esc(n.name) + ' ' + parts.join(', and '));
+}
+
 function treeRowHTML(n, level) {
   const hasChildren = n.children && n.children.length > 0;
   const isOpen = !state.treeCollapsed.has(n.id) || !!state.treeSearch;
@@ -3357,6 +3377,7 @@ function treeRowHTML(n, level) {
   const hasSuggested = !hasLinked && n.links.some(l => l.status === 'suggested' || l.status === 'review');
   const leftState = hasLinked ? ' is-linked' : (hasSuggested ? ' is-suggested' : '');
   let html = '<div class="tr-card' + (n._hit ? ' is-hit' : '') + (isSel ? ' is-selected' : '') + '" role="listitem" data-nodeid="' + esc(n.id) + '">' +
+    '<span class="sr-only">' + rowSummary(n) + '</span>' +
     '<div class="tr-card-grid">' +
     '<div class="tr-leftcol">' +
     '<div class="tr-leftcard' + leftState + '" style="margin-left: calc(' + level + ' * var(--spacing-loose))">' +
@@ -3446,10 +3467,8 @@ function linkColumns(n, sug) {
     const chain = prevPath(l.name);
     const nested = chain.length > 1;
     const pathAttr = nested ? ' data-path="' + esc(chain.join(' › ')) + '"' : '';
-    // say what the row is (the connector line is the only other place that lives) and spell out
-    // the path the "… ›" hides, so a screen reader is not left with an ellipsis
-    const relation = isS ? 'Suggested match: ' : 'Linked to ';
-    const nameHTML = '<span class="sr-only">' + relation + (nested ? esc(chain.slice(0, -1).join(', ')) + ', ' : '') + '</span>' +
+    // spell out the path the "… ›" hides, so a screen reader is not left with an ellipsis
+    const nameHTML = (nested ? '<span class="sr-only">' + esc(chain.slice(0, -1).join(', ')) + ', </span>' : '') +
       '<span class="tr-lrow-name"' + pathAttr + '>' + (nested ? '… › ' : '') + esc(l.name) + '</span>';
     const mainInner = originTag + nameHTML + countBadge;
     right += '<div class="tr-rrow" data-linkstatus="' + (isS ? 'suggested' : 'linked') + '"><div class="tr-lrow' + (isS ? ' is-suggested' : '') + '">' +
