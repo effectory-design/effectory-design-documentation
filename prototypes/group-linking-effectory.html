@@ -1138,7 +1138,7 @@
             <div class="ss-layout">
               <div class="ss-main">
                 <div class="ss-field">
-                  <p class="ss-help">We’ve auto-selected the most recent completed survey to compare against. Its scores appear next to this survey’s, so you can see how each group has changed. Change it if you’d rather compare with another survey.</p>
+                  <p class="ss-help">We’ve auto-selected the most recent completed survey in this project to compare against. Its scores appear next to this survey’s, so you can see how each group has changed. Change it if you’d rather compare with another survey.</p>
                   <div class="ss-compare">
                     <div class="ss-cmp-card">
                       <div class="ss-cmp-meta">
@@ -1232,7 +1232,7 @@
               </div>
               <button class="shift-tip-close" id="shiftTipClose" aria-label="Dismiss tip"><i data-icon="cross"></i></button>
             </div>
-            <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Your Voice - Employee Listening ’25</span></div>
+            <div class="tr-cols"><span>Current survey</span><span id="trColPrev">Thriving Workplace Pulse April 2026</span></div>
             <div id="treeBody" role="list" aria-label="Groups in this survey"></div>
             </div><!-- /tr-scope -->
           </div>
@@ -1438,7 +1438,18 @@
 /* ═══════════════ DATA ═══════════════ */
 
 const STRUCTURES = ['Organizational structure', 'Location', 'Job family'];
-const SURVEYS = ['Your Voice - Employee Listening ’25', 'Your Voice - Employee Listening ’26'];
+// Completed surveys in this account. SURVEYS[0] is the default comparison and the
+// structure applyPrevious reads, so it is the pulse right before this one.
+const SURVEYS = [
+  'Thriving Workplace Pulse April 2026',
+  'Customer Engineering Support Q2-26',
+  'YourVoice a stronger Product team-6',
+  'Product Stakeholder Survey Q2/26',
+  'YourVoice a stronger Product team-5',
+  'Deepdive about Appreciation',
+  'YourVoice a stronger Product team-4',
+];
+const CURRENT_PROJECT = 'Company-wide Survey';
 const CURRENT_SURVEY = 'Thriving Workplace Pulse July 2026';
 
 const REVIEWERS = [
@@ -1448,7 +1459,7 @@ const REVIEWERS = [
 ];
 
 const PREV_DATA = {
-  'Your Voice - Employee Listening ’25': { historical: [
+  'Thriving Workplace Pulse April 2026': { historical: [
     { name: "Effectory B.V.", size: 271, parent: null },
     { name: "CS Munich", size: 25, parent: "Effectory B.V." },
     { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
@@ -1520,7 +1531,7 @@ const PREV_DATA = {
     "1.11.2": [{ name: "Sales DACH", status: "linked" }],
     "1.11.2.3": [{ name: "Sales DACH", status: "suggested" }]
   } },
-  'Your Voice - Employee Listening ’26': { historical: [
+  'YourVoice a stronger Product team-6': { historical: [
     { name: "Effectory B.V.", size: 388, parent: null },
     { name: "Customer Growth", size: 18, parent: "Effectory B.V." },
     { name: "Customer Success Lead", size: 5, parent: "Customer Growth" },
@@ -1758,9 +1769,9 @@ const PREV_DATA = {
   } },
 };
 
-let HISTORICAL_GROUPS = PREV_DATA['Your Voice - Employee Listening ’25'].historical;
-let suggestions = PREV_DATA['Your Voice - Employee Listening ’25'].suggestions;
-let SILENT_AUTO = PREV_DATA['Your Voice - Employee Listening ’25'].silentAuto;
+let HISTORICAL_GROUPS = PREV_DATA['Thriving Workplace Pulse April 2026'].historical;
+let suggestions = PREV_DATA['Thriving Workplace Pulse April 2026'].suggestions;
+let SILENT_AUTO = PREV_DATA['Thriving Workplace Pulse April 2026'].silentAuto;
 
 // previous-survey groups per structure type — a Location structure links to the previous
 // survey's Location structure, Job family to Job family, etc. (org uses the per-survey data above)
@@ -1979,7 +1990,7 @@ function applyPrevious(name) {
   HISTORICAL_GROUPS = pd.historical; suggestions = pd.suggestions; SILENT_AUTO = pd.silentAuto;
   (function walk(nodes){ nodes.forEach(function(n){ n.links = (pd.links[n.id] || []).map(function(l){ return { name: l.name, status: l.status, origin: l.status === 'linked' ? 'auto' : null }; }); if (n.children) walk(n.children); }); })(TREES['Organizational structure']);
 }
-applyPrevious('Your Voice - Employee Listening ’25');
+applyPrevious('Thriving Workplace Pulse April 2026');
 
 const FIRST_NAMES = ['John Doe', 'Alice Smith', 'Robert King', 'Maria Lopez', 'Thomas Hall', 'Beth White', 'Kevin Pratt', 'Lisa Moon', 'Omar Haddad', 'Nina Berg', 'Paul Vos', 'Sara Devi', 'Leo Marsh', 'Emma Reid', 'Noah Frank', 'Yara Aziz'];
 const ROLES = ['Product specialist', 'Senior architect', 'Lead designer', 'Backend engineer', 'Data analyst', 'Frontend developer', 'Project coordinator', 'QA lead'];
@@ -2134,8 +2145,13 @@ document.addEventListener('click', (e) => {
 
 /* ═══════════════ STEPPED FLOW: 1) select survey → 2) link groups ═══════════════ */
 const SURVEY_META = {
-  'Your Voice - Employee Listening ’25': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2025', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 22 Aug 2025', response: 91 },
-  'Your Voice - Employee Listening ’26': { program: 'Central Employee Listening', typeYear: 'Engagement survey · 2026', statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 14 Jul 2026', response: 87 },
+  'Thriving Workplace Pulse April 2026':  { project: 'Company-wide Survey',    typeYear: 'Pulse survey · April 2026',      statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 20 Apr 2026', completed: '2026-04-20', response: 85 },
+  'Customer Engineering Support Q2-26':   { project: 'Create Your Own Survey', typeYear: 'Custom survey · Q2 2026',        statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 19 Jul 2026', completed: '2026-07-19', response: 57.1 },
+  'YourVoice a stronger Product team-6':  { project: 'Create Your Own Survey', typeYear: 'Custom survey · 2026',           statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 7 Jul 2026',  completed: '2026-07-07', response: 78.9 },
+  'Product Stakeholder Survey Q2/26':     { project: 'Product Pulse',          typeYear: 'Stakeholder survey · Q2 2026',   statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 1 Jul 2026',  completed: '2026-07-01', response: 67.5 },
+  'YourVoice a stronger Product team-5':  { project: 'Create Your Own Survey', typeYear: 'Custom survey · 2026',           statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 3 Jun 2026',  completed: '2026-06-03', response: 84.2 },
+  'Deepdive about Appreciation':          { project: 'Company wide Pulse',     typeYear: 'Deepdive · 2026',                statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 2 Jun 2026',  completed: '2026-06-02', response: 75.7 },
+  'YourVoice a stronger Product team-4':  { project: 'Create Your Own Survey', typeYear: 'Custom survey · 2026',           statusKey: 'completed', statusLabel: 'Completed', statusSub: 'on 5 May 2026',  completed: '2026-05-05', response: 100 },
 };
 function statusBadge(info) {
   if (!info) return '';
@@ -2157,8 +2173,9 @@ function renderSurvSelect() {
 }
 function renderSurvPicker() {
   const list = $('#survPickerList'); if (!list) return;
-  const yearOf = s => parseInt((((SURVEY_META[s] || {}).typeYear || '').match(/\d{4}/) || [0])[0], 10);
-  const ordered = [...SURVEYS].sort((a, b) => yearOf(b) - yearOf(a));   // newest survey first
+  // newest completed first, the way the all-surveys list orders them (ISO dates sort as text)
+  const stampOf = s => (SURVEY_META[s] || {}).completed || '';
+  const ordered = [...SURVEYS].sort((a, b) => stampOf(b).localeCompare(stampOf(a)));
   list.innerHTML = ordered.map(s => {
     const info = SURVEY_META[s];
     return '<button class="surv-opt' + (s === pendingSurvey ? ' is-selected' : '') + '" data-survpick="' + esc(s) + '">' +
@@ -2703,7 +2720,9 @@ function renderHistory() {
   const items = [
     { name: CURRENT_SURVEY, meta: 'Pulse survey · July 2026', role: 'current', tag: 'This survey', tagCls: 'is-match' },
     { name: sel, meta: (SURVEY_META[sel] && SURVEY_META[sel].typeYear) || '', role: 'comparing', tag: 'Comparing with', tagCls: 'is-linked' },
-    ...SURVEYS.filter(s => s !== sel).map(s => ({ name: s, meta: (SURVEY_META[s] && SURVEY_META[s].typeYear) || '', role: 'linked', tag: 'Linked', tagCls: 'is-new' })),
+    // only the same project, otherwise every unrelated survey in the account claims to be linked
+    ...SURVEYS.filter(s => s !== sel && (SURVEY_META[s] || {}).project === CURRENT_PROJECT)
+      .map(s => ({ name: s, meta: (SURVEY_META[s] && SURVEY_META[s].typeYear) || '', role: 'linked', tag: 'Linked', tagCls: 'is-new' })),
   ];
   el.innerHTML = items.map(it =>
     '<div class="gl-chain-item role-' + it.role + '">' +
