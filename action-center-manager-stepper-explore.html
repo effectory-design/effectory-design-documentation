@@ -351,6 +351,28 @@
     .sc-pop-opt.is-action .sc-pop-opt-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
     .sc-pop-opt.is-monitor .sc-pop-opt-ico { background: var(--bg-info-subtle); color: var(--content-info); }
     .sc-pop-opt.is-support .sc-pop-opt-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+
+    /* ── Actions page ── */
+    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; }
+    .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .actions-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
+    .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
+    .act-sum-ico { flex: none; width: 40px; height: 40px; border-radius: var(--radius-base); display: inline-flex; align-items: center; justify-content: center; }
+    .act-sum-ico i { display: flex; width: 20px; height: 20px; }
+    .act-sum.is-action .act-sum-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .act-sum.is-monitor .act-sum-ico { background: var(--bg-info-subtle); color: var(--content-info); }
+    .act-sum.is-support .act-sum-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .act-sum-txt { display: flex; flex-direction: column; }
+    .act-sum-n { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--content-base); }
+    .act-sum-l { font-size: 12px; color: var(--content-secondary); }
+    #actions-list { margin-top: var(--spacing-tight); }
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-tight); padding: var(--spacing-super-extra-loose) var(--spacing-loose); background: var(--bg-base); border: 1px dashed var(--border-base); border-radius: var(--radius-lg); }
+    .actions-empty-ico { width: 48px; height: 48px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--bg-secondary); color: var(--content-subtle); }
+    .actions-empty-ico i { display: flex; width: 22px; height: 22px; }
+    .actions-empty-t { margin: 0; font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .actions-empty-d { margin: 0; font-size: 14px; color: var(--content-secondary); max-width: 380px; }
+    .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; margin-left: 4px; padding: 0 5px; border-radius: var(--radius-full); background: var(--bg-brand); color: var(--content-inverse); font-size: 11px; font-weight: 600; line-height: 1; }
+    .tab-badge[hidden] { display: none; }
     .sp-choice { margin-bottom: var(--spacing-base); }
 
     /* Selection summary — light inline-notification card (icon + title + Change), no description */
@@ -682,7 +704,7 @@
           <a class="tab">Open answers</a>
           <a class="tab">Topics &amp; Ideas</a>
           <a class="tab">Reports</a>
-          <a class="tab">Actions</a>
+          <a class="tab" data-view="actions">Actions <span class="tab-badge" id="actions-tab-count" hidden></span></a>
         </div>
       </div>
 
@@ -720,7 +742,13 @@
               <div class="ov-card-head">
                 <span class="qs-emoji">🎉</span>
                 <h3 class="ov-card-title">Highest scores</h3>
-                <span class="ov-card-tools"><i data-icon="info"></i></span>
+                <span class="ov-card-tools">
+                  <span class="sc-pin-wrap">
+                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'high')"><i data-icon="pin"></i></button>
+                    <div class="sc-pin-pop" id="high-pin-pop" hidden></div>
+                  </span>
+                  <i data-icon="info"></i>
+                </span>
               </div>
               <div class="qs-rows">
                 <div class="qs-row"><p class="qs-row-q">My team understands what needs to be done to contribute to the success of Effectory</p><span class="qs-row-score">95%</span></div>
@@ -737,7 +765,7 @@
                 <h3 class="ov-card-title">Lowest scores</h3>
                 <span class="ov-card-tools">
                   <span class="sc-pin-wrap">
-                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event)"><i data-icon="pin"></i></button>
+                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'low')"><i data-icon="pin"></i></button>
                     <div class="sc-pin-pop" id="low-pin-pop" hidden></div>
                   </span>
                   <i data-icon="info"></i>
@@ -919,6 +947,19 @@
 
         </div><!-- /view-focus -->
 
+        <!-- ═══════════════ ACTIONS VIEW ═══════════════ -->
+        <div class="view" id="view-actions" hidden>
+          <div class="actions-page">
+            <div class="actions-head">
+              <span class="fv-eyebrow is-focus">Your responses</span>
+              <h2 class="fv-section-title">Everything you've decided to act on</h2>
+              <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+            </div>
+            <div class="actions-summary" id="actions-summary"></div>
+            <div class="fv-cards" id="actions-list"></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1066,6 +1107,7 @@
     document.getElementById('cards').innerHTML = primary + extra;   // extras render inline, inside the focus view
     if(window.Icons) window.Icons.render();
     updateProgress();
+    if(typeof renderActions === 'function') renderActions();
   }
 
   // The panel renders collapsed and opens on the next frame, so the transition has a start to run
@@ -1571,6 +1613,13 @@
     { q: 'Important information is readily accessible for me', s: 62 },
     { q: 'I feel appreciated by Effectory', s: 63 }
   ];
+  var HIGH_SCORES = [
+    { q: 'My team understands what needs to be done to contribute to the success of Effectory', s: 95 },
+    { q: 'I have confidence in my team lead', s: 91 },
+    { q: 'My skills and abilities fit in well with my job', s: 90 },
+    { q: 'In my team we collaborate well', s: 90 },
+    { q: 'My team regularly develops good ideas for improvement', s: 90 }
+  ];
   var TRIAGE = { action: { icon: 'target', label: 'Take action' }, monitor: { icon: 'eye', label: 'Monitor' }, support: { icon: 'flag', label: 'Need support' }, dismiss: { icon: 'down-vote', label: 'Not relevant' } };
 
   // Panel lookup spans focus areas AND ad-hoc score-question targets from the Overview
@@ -1586,56 +1635,128 @@
     '</div>';
   }
 
-  // Overview pin → pick a question → open the SAME stepper dialog used on the Focus View
-  function renderScorePop(screen, idx){
-    var pop = document.getElementById('low-pin-pop'); if(!pop) return;
-    pop.innerHTML = LOW_SCORES.map(function(q, i){
-      return '<button class="sc-pop-q" onclick="openScoreStep(' + i + ')">' +
+  // Overview pins (Lowest + Highest) → pick a question → open the SAME stepper dialog used on the Focus View
+  var SCORE_LISTS = {
+    low:  { data: LOW_SCORES,  pop: 'low-pin-pop',  theme: 'Overview · Lowest scores' },
+    high: { data: HIGH_SCORES, pop: 'high-pin-pop', theme: 'Overview · Highest scores' }
+  };
+  function renderScorePop(which){
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(!pop) return;
+    pop.innerHTML = cfg.data.map(function(q, i){
+      return '<button class="sc-pop-q" onclick="openScoreStep(' + i + ',\'' + which + '\')">' +
         '<span class="sc-pop-q-title">' + esc(q.q) + '</span><span class="sc-pop-qscore">' + q.s + '%</span></button>';
     }).join('');
     if(window.Icons) window.Icons.render(pop);
   }
-  function toggleScorePop(e){
+  function toggleScorePop(e, which){
     e.stopPropagation();
-    var pop = document.getElementById('low-pin-pop'); if(!pop) return;
+    which = which || 'low';
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(!pop) return;
     var willOpen = pop.hidden;
-    if(willOpen) renderScorePop('list');
-    pop.hidden = !willOpen;
+    // only one score popover open at a time
+    Object.keys(SCORE_LISTS).forEach(function(k){ var p = document.getElementById(SCORE_LISTS[k].pop); if(p) p.hidden = true; });
+    if(willOpen){ renderScorePop(which); pop.hidden = false; }
   }
-  function openScoreStep(idx){
-    var pop = document.getElementById('low-pin-pop'); if(pop) pop.hidden = true;
-    var q = LOW_SCORES[idx];
-    var id = 'sc-' + idx;
+  function openScoreStep(idx, which){
+    which = which || 'low';
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(pop) pop.hidden = true;
+    var q = cfg.data[idx];
+    var id = which + '-sc-' + idx;
     var t = scoreTargets.find(function(x){ return x.id === id; });
     if(!t){
       var keys = Object.keys(RECO);
-      t = { id: id, text: q.q, score: q.s + '%', recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
     openStepDialog(id);
   }
   document.addEventListener('click', function(e){
-    var pop = document.getElementById('low-pin-pop');
-    if(pop && !pop.hidden && !e.target.closest('.sc-pin-wrap')) pop.hidden = true;
+    if(e.target.closest && e.target.closest('.sc-pin-wrap')) return;
+    document.querySelectorAll('.sc-pin-pop').forEach(function(p){ p.hidden = true; });
   });
-  // Keep in-popover clicks from reaching the outside-click handler. Needed because selecting a
-  // question re-renders the popover innerHTML, detaching the clicked node — its closest('.sc-pin-wrap')
-  // would then return null and the outside-click handler would wrongly close the popover.
-  (function(){ var lp = document.getElementById('low-pin-pop'); if(lp) lp.addEventListener('click', function(e){ e.stopPropagation(); }); })();
+  // Keep in-popover clicks from reaching the outside-click handler (selecting a question re-renders the
+  // popover, detaching the clicked node so its .sc-pin-wrap ancestor would be lost).
+  document.querySelectorAll('.sc-pin-pop').forEach(function(lp){ lp.addEventListener('click', function(e){ e.stopPropagation(); }); });
 
-  // Tab switching — Overview ↔ Focus view (other tabs stay inert in this prototype)
+  // ═══════════════ Actions view — every completed response, in the Focus-view done-card design ═══════════════
+  // Ids are numbers (focus areas) or strings (Overview score targets), so quote strings for inline handlers.
+  function jsId(id){ return (typeof id === 'number') ? id : "'" + String(id).replace(/'/g, "\\'") + "'"; }
+  function actionCardHTML(fa){
+    var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
+    var title, details = '';
+    if(fa.state === 'action'){
+      title = "You're taking action on this focus area";
+      details = '<ul class="fa-done-list">' + (fa.planItems || []).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text || 'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+    } else if(fa.state === 'monitor'){
+      title = 'This focus area is being monitored';
+      var m = fa.monitorMode || 'survey', when;
+      if(m === 'date') when = fa.monitorDate ? ("You'll revisit this on " + fmtDate(fa.monitorDate)) : "You'll revisit this on a set date";
+      else if(m === 'score') when = 'Watching the score, parked at ' + (fa.monitorBaseline != null ? fa.monitorBaseline + '%' : fa.score);
+      else if(m === 'custom') when = (fa.monitorNote && fa.monitorNote.trim()) ? '“' + esc(fa.monitorNote.trim()) + '”' : 'Monitoring this in your own way';
+      else when = "You'll revisit this at the next survey";
+      details = '<p class="fa-monitor-note">' + when + '</p>';
+    } else {
+      title = 'This focus area is flagged for support';
+      var who = fa.supportPerson || 'the right person';
+      var sdesc = (fa.supportText && fa.supportText.trim()) ? esc(fa.supportText.trim()) : 'Support requested for this focus area';
+      details = '<div class="fa-ask"><span class="av av-32 av-turquoise">' + ME.initials + '</span><div class="fa-ask-body"><div class="fa-ask-bubble">' + sdesc + '</div><div class="fa-ask-to">Sent to ' + esc(who) + '</div></div></div>';
+    }
+    return '<div class="fv-card is-active act-card" data-id="' + fa.id + '">' +
+      '<div class="fv-card-head"><div class="fv-card-top">' +
+        '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme || '') + '</span></div>' +
+        (fa.score ? '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' : '') +
+        '<span class="fv-card-cta"><button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + jsId(fa.id) + ',\'respond\')">Change</button></span>' +
+      '</div></div>' +
+      '<div class="fv-approach"><div class="fa-done">' +
+        '<div class="fa-done-row">' +
+          '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
+          '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
+        '</div>' +
+        '<div class="fa-done-details">' + details +
+          '<div class="fa-done-edit-row"><button class="btn btn-secondary fa-done-edit" onclick="openStepDialog(' + jsId(fa.id) + ',\'plan\')"><i data-icon="edit"></i> Edit details</button></div>' +
+        '</div>' +
+      '</div></div>' +
+    '</div>';
+  }
+  function renderActions(){
+    var list = document.getElementById('actions-list'); if(!list) return;
+    var items = focusAreas.concat(scoreTargets).filter(faDecided);
+    var counts = { action: 0, monitor: 0, support: 0 };
+    items.forEach(function(f){ if(counts[f.state] != null) counts[f.state]++; });
+    var summary = document.getElementById('actions-summary');
+    if(summary){
+      summary.innerHTML = [['action', 'target', 'Actions to take'], ['monitor', 'eye', 'Monitoring'], ['support', 'flag', 'Flagged for support']].map(function(r){
+        return '<div class="act-sum is-' + r[0] + '"><span class="act-sum-ico"><i data-icon="' + r[1] + '"></i></span>' +
+          '<div class="act-sum-txt"><span class="act-sum-n">' + counts[r[0]] + '</span><span class="act-sum-l">' + r[2] + '</span></div></div>';
+      }).join('');
+    }
+    list.innerHTML = items.length
+      ? items.map(actionCardHTML).join('')
+      : '<div class="actions-empty"><span class="actions-empty-ico"><i data-icon="target"></i></span>' +
+        '<p class="actions-empty-t">No responses yet</p>' +
+        '<p class="actions-empty-d">When you take action on, monitor, or flag a focus area for support, it shows up here.</p></div>';
+    var badge = document.getElementById('actions-tab-count');
+    if(badge){ if(items.length){ badge.textContent = items.length; badge.hidden = false; } else { badge.hidden = true; } }
+    if(window.Icons) window.Icons.render(document.getElementById('view-actions'));
+  }
+
+  // Tab switching — Overview / Focus view / Actions (other tabs stay inert in this prototype)
   (function wireViewTabs(){
+    var VIEWS = ['overview', 'focus', 'actions'];
+    var TITLES = { overview: 'Overview', focus: 'Focus view', actions: 'Actions' };
     var tabs = document.querySelectorAll('.tab[data-view]');
     tabs.forEach(function(tab){
       tab.addEventListener('click', function(){
         var v = tab.getAttribute('data-view');
-        if(v !== 'overview' && v !== 'focus') return;
+        if(VIEWS.indexOf(v) === -1) return;
         tabs.forEach(function(t){ t.classList.toggle('is-active', t === tab); });
-        var ov = document.getElementById('view-overview'), fv = document.getElementById('view-focus');
-        if(ov) ov.hidden = (v !== 'overview');
-        if(fv) fv.hidden = (v !== 'focus');
+        VIEWS.forEach(function(name){ var el = document.getElementById('view-' + name); if(el) el.hidden = (name !== v); });
         var title = document.getElementById('results-title');
-        if(title) title.textContent = (v === 'overview') ? 'Overview' : 'Focus view';
+        if(title) title.textContent = TITLES[v];
+        if(v === 'actions') renderActions();
       });
     });
   })();

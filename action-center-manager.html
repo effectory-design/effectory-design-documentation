@@ -539,6 +539,92 @@
       .fa-detail-row { flex-direction: column; }
       .fa-detail-row .tf-wrap.is-date { flex: 1; }
     }
+
+    /* ═══ Ported stepper dialog (used by the Overview pin + Actions page) ═══ */
+    .fv-card-cta { flex: none; width: 108px; display: flex; align-items: center; justify-content: flex-end; }
+    .fv-card-cta .fv-choose-btn { width: 100%; justify-content: center; }
+    .fv-choose-btn { flex: none; }
+
+    .step-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
+    .step-overlay[hidden] { display: none; }
+    .step-modal { position: relative; width: min(760px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
+    .step-body { min-height: 340px; display: flex; flex-direction: column; gap: var(--spacing-base); justify-content: flex-start; }
+    .step-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
+    .stp-bar { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: 0 40px var(--spacing-tight); }
+    .stp-step { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-tight); flex: 0 0 auto; width: 120px; text-align: center; }
+    .stp-dot { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--bg-base); border: 2px solid var(--border-base); color: var(--content-subtle); font-size: 14px; font-weight: 600; flex: none; transition: background-color .2s, border-color .2s, color .2s, box-shadow .2s; }
+    .stp-dot i { display: flex; width: 16px; height: 16px; }
+    .stp-label { font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--content-subtle); }
+    .stp-step.is-active .stp-dot { background: var(--content-brand); border-color: var(--content-brand); color: #fff; box-shadow: 0 0 0 3px var(--bg-brand-subtle); }
+    .stp-step.is-active .stp-label { color: var(--content-base); }
+    .stp-step.is-done .stp-dot { background: var(--bg-positive); border-color: var(--bg-positive); color: #fff; }
+    .stp-step.is-done .stp-label { color: var(--content-base); }
+    .stp-line { flex: 1; height: 2px; min-width: 24px; margin-top: 16px; background: var(--border-base); border-radius: 2px; }
+    .stp-line.is-done { background: var(--bg-positive); }
+    .step-loading { min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    .step-spinner { width: 40px; height: 40px; border: 3px solid var(--border-base); border-top-color: var(--content-brand); border-radius: 50%; animation: stp-spin .7s linear infinite; }
+    @keyframes stp-spin { to { transform: rotate(360deg); } }
+    .step-hero { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: var(--spacing-tight); }
+    .step-hero-row { display: flex; align-items: center; gap: var(--spacing-base-tight); }
+    .step-hero-ico { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-base); background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-hero-ico i { display: flex; width: 22px; height: 22px; }
+    .step-hero-ico.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-hero-ico.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
+    .step-hero-ico.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-hero-ico.is-success { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .step-h2 { margin: 0; font-size: 22px; font-weight: 600; color: var(--content-base); }
+    .step-sub { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .step-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
+    .step-opt { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); cursor: pointer; font-family: inherit; transition: border-color .15s, box-shadow .15s; }
+    .step-opt:hover { border-color: var(--border-action); }
+    .step-opt.is-selected { border-color: var(--content-brand); box-shadow: 0 0 0 1px var(--content-brand); }
+    .step-opt-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-base); }
+    .step-opt-ico i { display: flex; width: 20px; height: 20px; }
+    .step-opt.is-action .step-opt-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-opt.is-monitor .step-opt-ico { background: var(--bg-info-subtle); color: var(--content-info); }
+    .step-opt.is-support .step-opt-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-opt-title { font-size: 15px; font-weight: 600; color: var(--content-base); }
+    .step-opt-desc { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
+    .step-plan { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
+    .step-plan-h { margin: var(--spacing-tight) 0 0; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .step-mon-extra .tf, .step-mon-extra .ta { width: 100%; }
+    .step-person-wrap { position: relative; }
+    .step-person-menu { position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 40; max-height: 260px; overflow-y: auto; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers, 0 12px 32px rgba(0,0,0,.18)); padding: var(--spacing-tight); }
+    .step-person-menu[hidden] { display: none; }
+    .step-person-search { display: flex; align-items: center; gap: var(--spacing-tight); padding: var(--spacing-tight) var(--spacing-base-tight); margin-bottom: var(--spacing-tight); border-bottom: 1px solid var(--border-base); }
+    .step-person-search i { display: flex; width: 16px; height: 16px; color: var(--content-secondary); flex: none; }
+    .step-person-search .tf { flex: 1; border: 0; padding: 4px 0; background: none; }
+    .step-person-search .tf:focus { outline: none; box-shadow: none; }
+    .step-person-add .menu-item-sub { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+    .menu-item.is-empty { color: var(--content-secondary); font-size: 14px; padding: var(--spacing-tight) var(--spacing-base-tight); }
+    .step-footer { display: flex; justify-content: space-between; gap: var(--spacing-base); border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); }
+    .step-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); padding: var(--spacing-loose) 0; }
+    .step-success-ico { width: 56px; height: 56px; border-radius: var(--radius-full); }
+    .step-success-ico i { width: 28px; height: 28px; }
+    .step-success .btn { margin-top: var(--spacing-base); }
+    @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
+
+    /* ── Actions page ── */
+    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; }
+    .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .actions-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
+    .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
+    .act-sum-ico { flex: none; width: 40px; height: 40px; border-radius: var(--radius-base); display: inline-flex; align-items: center; justify-content: center; }
+    .act-sum-ico i { display: flex; width: 20px; height: 20px; }
+    .act-sum.is-action .act-sum-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .act-sum.is-monitor .act-sum-ico { background: var(--bg-info-subtle); color: var(--content-info); }
+    .act-sum.is-support .act-sum-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .act-sum-txt { display: flex; flex-direction: column; }
+    .act-sum-n { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--content-base); }
+    .act-sum-l { font-size: 12px; color: var(--content-secondary); }
+    #actions-list { display: flex; flex-direction: column; gap: var(--spacing-base-tight); margin-top: var(--spacing-tight); }
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-tight); padding: var(--spacing-super-extra-loose) var(--spacing-loose); background: var(--bg-base); border: 1px dashed var(--border-base); border-radius: var(--radius-lg); }
+    .actions-empty-ico { width: 48px; height: 48px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--bg-secondary); color: var(--content-subtle); }
+    .actions-empty-ico i { display: flex; width: 22px; height: 22px; }
+    .actions-empty-t { margin: 0; font-size: 16px; font-weight: 600; color: var(--content-base); }
+    .actions-empty-d { margin: 0; font-size: 14px; color: var(--content-secondary); max-width: 380px; }
+    .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; margin-left: 4px; padding: 0 5px; border-radius: var(--radius-full); background: var(--bg-brand); color: var(--content-inverse); font-size: 11px; font-weight: 600; line-height: 1; }
+    .tab-badge[hidden] { display: none; }
   </style>
 </head>
 <body>
@@ -606,7 +692,7 @@
           <a class="tab">Open answers</a>
           <a class="tab">Topics &amp; Ideas</a>
           <a class="tab">Reports</a>
-          <a class="tab">Actions</a>
+          <a class="tab" data-view="actions">Actions <span class="tab-badge" id="actions-tab-count" hidden></span></a>
         </div>
       </div>
 
@@ -644,7 +730,13 @@
               <div class="ov-card-head">
                 <span class="qs-emoji">🎉</span>
                 <h3 class="ov-card-title">Highest scores</h3>
-                <span class="ov-card-tools"><i data-icon="info"></i></span>
+                <span class="ov-card-tools">
+                  <span class="sc-pin-wrap">
+                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'high')"><i data-icon="pin"></i></button>
+                    <div class="sc-pin-pop" id="high-pin-pop" hidden></div>
+                  </span>
+                  <i data-icon="info"></i>
+                </span>
               </div>
               <div class="qs-rows">
                 <div class="qs-row"><p class="qs-row-q">My team understands what needs to be done to contribute to the success of Effectory</p><span class="qs-row-score">95%</span></div>
@@ -661,7 +753,7 @@
                 <h3 class="ov-card-title">Lowest scores</h3>
                 <span class="ov-card-tools">
                   <span class="sc-pin-wrap">
-                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event)"><i data-icon="pin"></i></button>
+                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'low')"><i data-icon="pin"></i></button>
                     <div class="sc-pin-pop" id="low-pin-pop" hidden></div>
                   </span>
                   <i data-icon="info"></i>
@@ -838,6 +930,22 @@
         </div>
 
         </div><!-- /view-focus -->
+
+        <!-- Stepper dialog (ported): Overview pin + Actions page → Respond → Plan → success -->
+        <div class="overlay step-overlay" id="step-dialog" hidden></div>
+
+        <!-- ═══════════════ ACTIONS VIEW ═══════════════ -->
+        <div class="view" id="view-actions" hidden>
+          <div class="actions-page">
+            <div class="actions-head">
+              <span class="fv-eyebrow is-focus">Your responses</span>
+              <h2 class="fv-section-title">Everything you've decided to act on</h2>
+              <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+            </div>
+            <div class="actions-summary" id="actions-summary"></div>
+            <div class="fv-cards" id="actions-list"></div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1163,6 +1271,7 @@
     if(window.Icons) window.Icons.render();
     openPanels();
     updateProgress();
+    if(typeof renderActions === 'function') renderActions();
   }
 
   // The panel renders collapsed and opens on the next frame, so the transition has a start to run
@@ -1668,6 +1777,13 @@
     { q: 'Important information is readily accessible for me', s: 62 },
     { q: 'I feel appreciated by Effectory', s: 63 }
   ];
+  var HIGH_SCORES = [
+    { q: 'My team understands what needs to be done to contribute to the success of Effectory', s: 95 },
+    { q: 'I have confidence in my team lead', s: 91 },
+    { q: 'My skills and abilities fit in well with my job', s: 90 },
+    { q: 'In my team we collaborate well', s: 90 },
+    { q: 'My team regularly develops good ideas for improvement', s: 90 }
+  ];
   var TRIAGE = { action: { icon: 'target', label: 'Take action' }, monitor: { icon: 'eye', label: 'Monitor' }, support: { icon: 'flag', label: 'Need support' }, dismiss: { icon: 'down-vote', label: 'Not relevant' } };
 
   // Panel lookup spans focus areas AND ad-hoc score-question targets from the Overview
@@ -1683,73 +1799,315 @@
     '</div>';
   }
 
-  function renderScorePop(screen, idx){
-    var pop = document.getElementById('low-pin-pop'); if(!pop) return;
-    if(screen === 'detail'){
-      var q = LOW_SCORES[idx];
-      pop.innerHTML =
-        '<button class="sc-pop-back" onclick="renderScorePop(\'list\')"><i data-icon="arrow-left"></i> Back to list</button>' +
-        '<div class="sc-pop-head">' + esc(q.q) + ' <span class="sc-pop-score">(' + q.s + '%)</span></div>' +
-        '<div class="sc-pop-lbl">Decide how you’ll respond</div>' +
-        ['action', 'monitor', 'support'].map(function(st){
-          return '<button class="sc-pop-opt is-' + st + '" onclick="pickScoreTriage(' + idx + ',\'' + st + '\')">' +
-            '<span class="sc-pop-opt-ico"><i data-icon="' + TRIAGE[st].icon + '"></i></span>' + TRIAGE[st].label + '</button>';
-        }).join('');
-    } else {
-      pop.innerHTML = LOW_SCORES.map(function(q, i){
-        return '<button class="sc-pop-q" onclick="renderScorePop(\'detail\',' + i + ')">' +
-          '<span class="sc-pop-q-title">' + esc(q.q) + '</span><span class="sc-pop-qscore">' + q.s + '%</span></button>';
-      }).join('');
-    }
+  // Overview pins (Lowest + Highest) → pick a question → open the SAME stepper dialog used on the Focus View.
+  // (Replaces the earlier in-popover triage + Action Planner side panel so all triage flows through one dialog.)
+  var SCORE_LISTS = {
+    low:  { data: LOW_SCORES,  pop: 'low-pin-pop',  theme: 'Overview · Lowest scores' },
+    high: { data: HIGH_SCORES, pop: 'high-pin-pop', theme: 'Overview · Highest scores' }
+  };
+  function renderScorePop(which){
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(!pop) return;
+    pop.innerHTML = cfg.data.map(function(q, i){
+      return '<button class="sc-pop-q" onclick="openScoreStep(' + i + ',\'' + which + '\')">' +
+        '<span class="sc-pop-q-title">' + esc(q.q) + '</span><span class="sc-pop-qscore">' + q.s + '%</span></button>';
+    }).join('');
     if(window.Icons) window.Icons.render(pop);
   }
-  function toggleScorePop(e){
+  function toggleScorePop(e, which){
     e.stopPropagation();
-    var pop = document.getElementById('low-pin-pop'); if(!pop) return;
+    which = which || 'low';
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(!pop) return;
     var willOpen = pop.hidden;
-    if(willOpen) renderScorePop('list');
-    pop.hidden = !willOpen;
+    // only one score popover open at a time
+    Object.keys(SCORE_LISTS).forEach(function(k){ var p = document.getElementById(SCORE_LISTS[k].pop); if(p) p.hidden = true; });
+    if(willOpen){ renderScorePop(which); pop.hidden = false; }
   }
-  function pickScoreTriage(idx, state){
-    var pop = document.getElementById('low-pin-pop'); if(pop) pop.hidden = true;
-    openScorePlan(idx, state);
-  }
-  function openScorePlan(idx, state){
-    var q = LOW_SCORES[idx];
-    var id = 'sc-' + idx;
+  function openScoreStep(idx, which){
+    which = which || 'low';
+    var cfg = SCORE_LISTS[which]; if(!cfg) return;
+    var pop = document.getElementById(cfg.pop); if(pop) pop.hidden = true;
+    var q = cfg.data[idx];
+    var id = which + '-sc-' + idx;
     var t = scoreTargets.find(function(x){ return x.id === id; });
-    if(!t){ t = { id: id, text: q.q, score: q.s + '%', planItems: [], approach: null, planDesc: '' }; scoreTargets.push(t); }
-    t.triage = state;
-    if(state === 'action' && !t.planItems.length){ t.planItems.push({ text: '', done: false, isNew: true }); }
-    planCurrentId = id;
-    renderPlanPanel();
-    ensurePlanOverlay().hidden = false;
+    if(!t){
+      var keys = Object.keys(RECO);
+      t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      scoreTargets.push(t);
+    }
+    openStepDialog(id);
   }
   document.addEventListener('click', function(e){
-    var pop = document.getElementById('low-pin-pop');
-    if(pop && !pop.hidden && !e.target.closest('.sc-pin-wrap')) pop.hidden = true;
+    if(e.target.closest && e.target.closest('.sc-pin-wrap')) return;
+    document.querySelectorAll('.sc-pin-pop').forEach(function(p){ p.hidden = true; });
   });
-  // Keep in-popover clicks from reaching the outside-click handler. Needed because selecting a
-  // question re-renders the popover innerHTML, detaching the clicked node — its closest('.sc-pin-wrap')
-  // would then return null and the outside-click handler would wrongly close the popover.
-  (function(){ var lp = document.getElementById('low-pin-pop'); if(lp) lp.addEventListener('click', function(e){ e.stopPropagation(); }); })();
+  // Keep in-popover clicks from reaching the outside-click handler (selecting a question re-renders the
+  // popover, detaching the clicked node so its .sc-pin-wrap ancestor would be lost).
+  document.querySelectorAll('.sc-pin-pop').forEach(function(lp){ lp.addEventListener('click', function(e){ e.stopPropagation(); }); });
 
-  // Tab switching — Overview ↔ Focus view (other tabs stay inert in this prototype)
+  // ═══════════════ Actions view — every completed response, in the Focus-view done-card design ═══════════════
+  // Ids are numbers (focus areas) or strings (Overview score targets), so quote strings for inline handlers.
+  function jsId(id){ return (typeof id === 'number') ? id : "'" + String(id).replace(/'/g, "\\'") + "'"; }
+  function actionCardHTML(fa){
+    var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
+    var title, details = '';
+    if(fa.state === 'action'){
+      title = "You're taking action on this focus area";
+      details = '<ul class="fa-done-list">' + (fa.planItems || []).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text || 'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+    } else if(fa.state === 'monitor'){
+      title = 'This focus area is being monitored';
+      var m = fa.monitorMode || 'survey', when;
+      if(m === 'date') when = fa.monitorDate ? ("You'll revisit this on " + fmtDate(fa.monitorDate)) : "You'll revisit this on a set date";
+      else if(m === 'score') when = 'Watching the score, parked at ' + (fa.monitorBaseline != null ? fa.monitorBaseline + '%' : fa.score);
+      else if(m === 'custom') when = (fa.monitorNote && fa.monitorNote.trim()) ? '“' + esc(fa.monitorNote.trim()) + '”' : 'Monitoring this in your own way';
+      else when = "You'll revisit this at the next survey";
+      details = '<p class="fa-monitor-note">' + when + '</p>';
+    } else {
+      title = 'This focus area is flagged for support';
+      var who = fa.supportPerson || 'the right person';
+      var sdesc = (fa.supportText && fa.supportText.trim()) ? esc(fa.supportText.trim()) : 'Support requested for this focus area';
+      details = '<div class="fa-ask"><span class="av av-32 av-turquoise">' + ME.initials + '</span><div class="fa-ask-body"><div class="fa-ask-bubble">' + sdesc + '</div><div class="fa-ask-to">Sent to ' + esc(who) + '</div></div></div>';
+    }
+    return '<div class="fv-card is-active act-card" data-id="' + fa.id + '">' +
+      '<div class="fv-card-head"><div class="fv-card-top">' +
+        '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme || '') + '</span></div>' +
+        (fa.score ? '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' : '') +
+        '<span class="fv-card-cta"><button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + jsId(fa.id) + ',\'respond\')">Change</button></span>' +
+      '</div></div>' +
+      '<div class="fv-approach"><div class="fa-done">' +
+        '<div class="fa-done-row">' +
+          '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
+          '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
+        '</div>' +
+        '<div class="fa-done-details">' + details +
+          '<div class="fa-done-edit-row"><button class="btn btn-secondary fa-done-edit" onclick="openStepDialog(' + jsId(fa.id) + ',\'plan\')"><i data-icon="edit"></i> Edit details</button></div>' +
+        '</div>' +
+      '</div></div>' +
+    '</div>';
+  }
+  function renderActions(){
+    var list = document.getElementById('actions-list'); if(!list) return;
+    var items = focusAreas.concat(scoreTargets).filter(faDecided);
+    var counts = { action: 0, monitor: 0, support: 0 };
+    items.forEach(function(f){ if(counts[f.state] != null) counts[f.state]++; });
+    var summary = document.getElementById('actions-summary');
+    if(summary){
+      summary.innerHTML = [['action', 'target', 'Actions to take'], ['monitor', 'eye', 'Monitoring'], ['support', 'flag', 'Flagged for support']].map(function(r){
+        return '<div class="act-sum is-' + r[0] + '"><span class="act-sum-ico"><i data-icon="' + r[1] + '"></i></span>' +
+          '<div class="act-sum-txt"><span class="act-sum-n">' + counts[r[0]] + '</span><span class="act-sum-l">' + r[2] + '</span></div></div>';
+      }).join('');
+    }
+    list.innerHTML = items.length
+      ? items.map(actionCardHTML).join('')
+      : '<div class="actions-empty"><span class="actions-empty-ico"><i data-icon="target"></i></span>' +
+        '<p class="actions-empty-t">No responses yet</p>' +
+        '<p class="actions-empty-d">When you take action on, monitor, or flag a focus area for support, it shows up here.</p></div>';
+    var badge = document.getElementById('actions-tab-count');
+    if(badge){ if(items.length){ badge.textContent = items.length; badge.hidden = false; } else { badge.hidden = true; } }
+    if(window.Icons) window.Icons.render(document.getElementById('view-actions'));
+  }
+
+  // Tab switching — Overview / Focus view / Actions (other tabs stay inert in this prototype)
   (function wireViewTabs(){
+    var VIEWS = ['overview', 'focus', 'actions'];
+    var TITLES = { overview: 'Overview', focus: 'Focus view', actions: 'Actions' };
     var tabs = document.querySelectorAll('.tab[data-view]');
     tabs.forEach(function(tab){
       tab.addEventListener('click', function(){
         var v = tab.getAttribute('data-view');
-        if(v !== 'overview' && v !== 'focus') return;
+        if(VIEWS.indexOf(v) === -1) return;
         tabs.forEach(function(t){ t.classList.toggle('is-active', t === tab); });
-        var ov = document.getElementById('view-overview'), fv = document.getElementById('view-focus');
-        if(ov) ov.hidden = (v !== 'overview');
-        if(fv) fv.hidden = (v !== 'focus');
+        VIEWS.forEach(function(name){ var el = document.getElementById('view-' + name); if(el) el.hidden = (name !== v); });
         var title = document.getElementById('results-title');
-        if(title) title.textContent = (v === 'overview') ? 'Overview' : 'Focus view';
+        if(title) title.textContent = TITLES[v];
+        if(v === 'actions') renderActions();
       });
     });
   })();
+
+  // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
+  var STEP_DESC = {
+    action:  'Something the team can influence, so commit to a concrete next step now.',
+    monitor: 'Not urgent yet, so keep it on your radar and revisit at the next survey.',
+    support: "Outside the team's control, so flag it for the right person to pick up."
+  };
+  // Stepper steps — icon-in-a-circle + label; step 1 is always complete (they arrived by choosing)
+  var STEP_META = [
+    { label: 'Choose your focus area', icon: 'target' },
+    { label: 'Choose how to respond',  icon: 'list-unordered' },
+    { label: 'Plan it',                icon: 'edit' }
+  ];
+  var stepFaId = null;
+  var stepStage = 'respond';   // 'respond' | 'plan' | 'success'
+  var stepBusy = false;        // brief loader while advancing between steps
+  function stepFa(){ return planFa(stepFaId); }
+
+  function openStepDialog(id, startStage){
+    stepFaId = id;
+    var fa = stepFa();
+    stepStage = startStage || (fa.state ? 'plan' : 'respond');
+    if(stepStage === 'plan' && fa.state === 'monitor' && fa.monitorMode == null){ fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    document.getElementById('step-dialog').hidden = false;
+    document.body.classList.add('step-open');
+    renderStepDialog();
+  }
+  function stepClose(){ document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
+  function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
+  function stepPickResponse(state){
+    var fa = stepFa();
+    if(fa.state !== state){ fa.picked = []; fa.actionAdded = false; fa.supportSent = false; fa.monitorSaved = false; }
+    fa.state = state;
+    if(state === 'monitor'){ if(fa.monitorMode == null) fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    stepStage = 'plan';
+    stepBusy = true; renderStepDialog();
+    setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 450);
+  }
+  function stepToggleApproach(ai){
+    var fa = stepFa(); var a = APPROACHES[ai];
+    fa.picked = fa.picked || [];
+    var at = fa.picked.indexOf(a); if(at>-1) fa.picked.splice(at,1); else fa.picked.push(a);
+    renderStepDialog();
+  }
+  function stepSetMon(val){ stepFa().monitorMode = val; renderStepDialog(); }
+  function stepSetMonNote(v){ stepFa().monitorNote = v; }
+  function stepSetMonDate(v){ stepFa().monitorDate = v; }
+  function stepSetSupportText(v){ stepFa().supportText = v; stepUpdateConfirm(); }
+  // "Choose who can help" — searchable dropdown of people, with the option to add someone by name
+  var stepPersonMenuOpen = false;
+  var stepPersonSearch = '';
+  function stepPersonListHTML(fa){
+    var q = (stepPersonSearch || '').trim().toLowerCase();
+    var matches = PEOPLE.filter(function(p){ return !q || p.toLowerCase().indexOf(q) > -1; });
+    var items = matches.map(function(p){
+      var on = fa.supportPerson === p;
+      return '<div class="menu-item' + (on ? ' is-selected' : '') + '" role="menuitemradio" aria-checked="' + on + '" onclick="stepPickPerson(\'' + p.replace(/'/g, "\\'") + '\')">' +
+        '<span class="menu-item-body"><span class="menu-item-title">' + esc(p) + '</span></span>' + (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
+    }).join('');
+    var raw = (stepPersonSearch || '').trim();
+    var exact = PEOPLE.some(function(p){ return p.toLowerCase() === raw.toLowerCase(); });
+    var add = (raw && !exact)
+      ? '<div class="menu-item step-person-add" onclick="stepAddPerson(\'' + raw.replace(/'/g, "\\'") + '\')"><span class="menu-item-body"><span class="menu-item-title">Add “' + esc(raw) + '”</span><span class="menu-item-sub">Add someone from your organisation</span></span><i data-icon="plus"></i></div>'
+      : '';
+    return items + add || '<div class="menu-item is-empty">No matches</div>';
+  }
+  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); }
+  function onStepPersonSearch(v){ stepPersonSearch = v; var list = document.getElementById('step-person-list'); if(list){ list.innerHTML = stepPersonListHTML(stepFa()); if(window.Icons) window.Icons.render(list); } }
+  function stepPickPerson(name){ stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
+  function stepAddPerson(name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
+  document.addEventListener('click', function(e){
+    if(stepPersonMenuOpen && !(e.target.closest && e.target.closest('.step-person-wrap'))){ stepPersonMenuOpen = false; var m = document.querySelector('.step-person-menu'); if(m) m.hidden = true; }
+  });
+  function stepCanConfirm(){
+    var fa = stepFa();
+    if(fa.state === 'action')  return !!(fa.picked && fa.picked.length);
+    if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
+    return true;
+  }
+  function stepUpdateConfirm(){
+    var b = document.getElementById('step-confirm'); if(!b) return;
+    var ok = stepCanConfirm(); b.disabled = !ok; b.classList.toggle('is-disabled', !ok);
+  }
+  function stepConfirm(){
+    var fa = stepFa(); if(!stepCanConfirm()) return;
+    stepBusy = true; renderStepDialog();
+    setTimeout(function(){
+      if(fa.state === 'action'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }); fa.actionAdded = true; }
+      else if(fa.state === 'monitor'){ fa.monitorSaved = true; }
+      else if(fa.state === 'support'){ fa.supportSent = true; }
+      stepBusy = false; stepStage = 'success';
+      renderStepDialog();
+    }, 500);
+  }
+
+  function stepperBar(active){
+    return '<div class="stp-bar">' + STEP_META.map(function(s, i){
+      var done = i < active, on = i === active;
+      var cls = 'stp-step' + (done ? ' is-done' : (on ? ' is-active' : ' is-upcoming'));
+      var mark = done ? '<i data-icon="check"></i>' : (i + 1);
+      return '<div class="' + cls + '"><span class="stp-dot">' + mark + '</span><span class="stp-label">' + s.label + '</span></div>' +
+        (i < STEP_META.length - 1 ? '<span class="stp-line' + (done ? ' is-done' : '') + '"></span>' : '');
+    }).join('') + '</div>';
+  }
+
+  function stepPlanHTML(fa){
+    if(fa.state === 'action'){
+      var picked = fa.picked || [];
+      var cards = APPROACHES.map(function(a, ai){
+        var r = RECO[fa.recoKey][a], eff = EFFORT[a], on = picked.indexOf(a) > -1;
+        return '<label class="fv-pick' + (on?' is-selected':'') + '"><span class="cb-wrap"><input type="checkbox" class="cb"' + (on?' checked':'') + ' onchange="stepToggleApproach(' + ai + ')"></span>' +
+          '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
+          '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
+      }).join('');
+      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>';
+    }
+    if(fa.state === 'monitor'){
+      var mode = fa.monitorMode || 'survey';
+      var opts = [['survey','Revisit at the next survey'],['score','Keep an eye on the score'],['date','Check back on a set date'],['custom','Choose your own']];
+      var extra = '';
+      if(mode === 'date') extra = '<div class="fa-mon-inline"><input class="tf" type="date" value="' + esc(fa.monitorDate||'') + '" onchange="stepSetMonDate(this.value)"></div>';
+      else if(mode === 'custom') extra = '<div class="fa-mon-inline"><textarea class="ta" rows="2" placeholder="describe how you want to monitor this focus area" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea></div>';
+      var list = opts.map(function(o){
+        var on = mode === o[0];
+        return '<label class="rb-btn-bordered' + (on?' is-selected':'') + '"><span class="rb-wrap"><input type="radio" class="rb" name="stp-mon"' + (on?' checked':'') + ' onchange="stepSetMon(\'' + o[0] + '\')"></span>' + o[1] + '</label>';
+      }).join('');
+      return '<h3 class="step-plan-h">Choose how you want to monitor</h3><div class="fv-approach-chips fa-monitor-modes">' + list + '</div>' + (extra ? '<div class="step-mon-extra">' + extra + '</div>' : '');
+    }
+    var personTrigger = fa.supportPerson
+      ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
+      : '<span class="slt-ph">Select a person</span>';
+    return '<h3 class="step-plan-h">Describe the support you need <span class="fa-req">*</span></h3>' +
+      '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="stepSetSupportText(this.value)">' + esc(fa.supportText||'') + '</textarea>' +
+      '<h3 class="step-plan-h">Choose who can help <span class="fa-req">*</span></h3>' +
+      '<div class="slt-wrap step-person-wrap">' +
+        '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
+        '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
+          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search your organisation…" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
+          '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderStepDialog(){
+    var fa = stepFa(); if(!fa) return;
+    var active = stepStage === 'respond' ? 1 : (stepStage === 'plan' ? 2 : 3);
+    var body, footer = '';
+    if(stepBusy){
+      body = '<div class="step-loading"><span class="step-spinner"></span></div>';
+    } else if(stepStage === 'success'){
+      var word = { action:'being acted on', monitor:'being monitored', support:'flagged for support' }[fa.state] || 'handled';
+      body = '<div class="step-success">' +
+        '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
+        '<h2 class="step-h2">You’re all set</h2>' +
+        '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
+        '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button></div>';
+    } else if(stepStage === 'respond'){
+      body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
+        '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
+        '<div class="step-options">' + ['action','monitor','support'].map(function(st){
+          var d = DECIDED[st] || {};
+          return '<button class="step-opt is-' + st + (fa.state===st?' is-selected':'') + '" onclick="stepPickResponse(\'' + st + '\')">' +
+            '<span class="step-opt-ico"><i data-icon="' + d.icon + '"></i></span><span class="step-opt-title">' + LABEL[st] + '</span>' +
+            '<span class="step-opt-desc">' + STEP_DESC[st] + '</span></button>';
+        }).join('') + '</div>';
+    } else {
+      var d2 = DECIDED[fa.state] || {};
+      body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico is-' + fa.state + '"><i data-icon="' + d2.icon + '"></i></span>' +
+        '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
+        '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
+      var ok = stepCanConfirm();
+      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
+      footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
+        '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
+    }
+    document.getElementById('step-dialog').innerHTML =
+      '<div class="step-modal" role="dialog" aria-modal="true">' +
+        '<button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="stepClose()"><i data-icon="cross"></i></button>' +
+        (stepStage === 'success' ? '' : stepperBar(active)) + '<div class="step-body">' + body + '</div>' + footer +
+      '</div>';
+    if(window.Icons) window.Icons.render(document.getElementById('step-dialog'));
+  }
+  document.getElementById('step-dialog').addEventListener('click', function(e){ if(e.target === this) stepClose(); });
 
   renderCards();
   renderWins();
