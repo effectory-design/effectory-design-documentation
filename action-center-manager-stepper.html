@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Action center &mdash; Manager (Focus view)</title>
+  <title>Action center &mdash; Manager (Stepper)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css" />
@@ -285,16 +285,18 @@
     .triage-ico i { display: flex; width: 22px; height: 22px; }
     .triage-title { margin: 0 0 var(--spacing-extra-tight); font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
     .triage-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .triage-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
-    .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); }
-    .triage-opt-head { display: flex; align-items: center; gap: var(--spacing-tight); }
-    .triage-opt-icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-base); display: flex; align-items: center; justify-content: center; }
-    .triage-opt-icon i { display: flex; width: 16px; height: 16px; }
-    .triage-opt-icon.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .triage-opt-icon.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .triage-opt-icon.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .triage-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base); align-items: start; }
+    @media (max-width: 1100px) { .triage-options { grid-template-columns: repeat(2, 1fr); } }
+    /* background colour sits behind the number + title only; description is plain, below, left-aligned */
+    .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); background: transparent; padding: 0; }
+    .triage-opt-head { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--spacing-tight); padding: 5px 12px 5px 6px; border-radius: var(--radius-full); }
+    .triage-opt.is-start .triage-opt-head { background: var(--bg-tertiary); }
+    .triage-opt.is-action .triage-opt-head { background: var(--bg-brand-subtle); }
+    .triage-opt.is-monitor .triage-opt-head { background: var(--bg-info-subtle); }
+    .triage-opt.is-support .triage-opt-head { background: var(--bg-negative-subtle); }
+    .triage-opt-num { flex: none; width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--bg-base); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--content-base); }
     .triage-opt-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .triage-opt-d { font-size: 14px; line-height: 1.5; color: var(--content-secondary); }
+    .triage-opt-d { margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-secondary); }
     .triage-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
 
     /* Action nudge — inline notification between the tabs and the stat pills */
@@ -539,6 +541,82 @@
       .fa-detail-row { flex-direction: column; }
       .fa-detail-row .tf-wrap.is-date { flex: 1; }
     }
+    /* ═══ Stepper file: Choose button, explore-more, decision reflection ═══ */
+    .fv-card-top { align-items: center; }
+    .fv-choose-btn { flex: none; }
+    /* fixed control slot after the score → scores line up across decided/undecided cards */
+    .fv-card-cta { flex: none; width: 108px; display: flex; align-items: center; justify-content: flex-end; }
+    .fv-card-cta .fv-choose-btn { width: 100%; justify-content: center; }
+    .fv-eyebrow.is-more { background: var(--bg-tertiary); color: var(--content-secondary); }
+    .fv-block.fv-more { background: transparent; padding-top: var(--spacing-loose); padding-bottom: var(--spacing-loose); }
+    #more-block[hidden] { display: none; }
+    .fv-explore-more { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: var(--spacing-tight) 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
+    .fv-explore-more i { display: flex; width: 16px; height: 16px; }
+
+    /* ═══ Stepper dialog ═══ */
+    .step-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
+    .step-overlay[hidden] { display: none; }
+    .step-modal { position: relative; width: min(760px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
+    .step-body { min-height: 340px; justify-content: flex-start; }
+    .step-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
+    .stp-bar { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: 0 40px var(--spacing-tight); }
+    .stp-step { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-tight); flex: 0 0 auto; width: 120px; text-align: center; }
+    .stp-dot { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--bg-base); border: 2px solid var(--border-base); color: var(--content-subtle); font-size: 14px; font-weight: 600; flex: none; transition: background-color .2s, border-color .2s, color .2s, box-shadow .2s; }
+    .stp-dot i { display: flex; width: 16px; height: 16px; }
+    .stp-label { font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--content-subtle); }
+    /* upcoming = muted; active = prominent brand ring; done = solid green with check */
+    .stp-step.is-active .stp-dot { background: var(--content-brand); border-color: var(--content-brand); color: #fff; box-shadow: 0 0 0 3px var(--bg-brand-subtle); }
+    .stp-step.is-active .stp-label { color: var(--content-base); }
+    .stp-step.is-done .stp-dot { background: var(--bg-positive); border-color: var(--bg-positive); color: #fff; }
+    .stp-step.is-done .stp-label { color: var(--content-base); }
+    .stp-line { flex: 1; height: 2px; min-width: 24px; margin-top: 16px; background: var(--border-base); border-radius: 2px; }
+    .stp-line.is-done { background: var(--bg-positive); }
+    /* Between-step loader */
+    .step-loading { min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    .step-spinner { width: 40px; height: 40px; border: 3px solid var(--border-base); border-top-color: var(--content-brand); border-radius: 50%; animation: stp-spin .7s linear infinite; }
+    @keyframes stp-spin { to { transform: rotate(360deg); } }
+    .step-body { display: flex; flex-direction: column; gap: var(--spacing-base); }
+    .step-hero { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: var(--spacing-tight); }
+    .step-hero-row { display: flex; align-items: center; gap: var(--spacing-base-tight); }
+    .step-hero-ico { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-base); background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-hero-ico i { display: flex; width: 22px; height: 22px; }
+    .step-hero-ico.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-hero-ico.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
+    .step-hero-ico.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-hero-ico.is-success { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .step-h2 { margin: 0; font-size: 22px; font-weight: 600; color: var(--content-base); }
+    .step-sub { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .step-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
+    .step-opt { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); cursor: pointer; font-family: inherit; transition: border-color .15s, box-shadow .15s; }
+    .step-opt:hover { border-color: var(--border-action); }
+    .step-opt.is-selected { border-color: var(--content-brand); box-shadow: 0 0 0 1px var(--content-brand); }
+    .step-opt-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-base); }
+    .step-opt-ico i { display: flex; width: 20px; height: 20px; }
+    .step-opt.is-action .step-opt-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .step-opt.is-monitor .step-opt-ico { background: var(--bg-info-subtle); color: var(--content-info); }
+    .step-opt.is-support .step-opt-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-opt-title { font-size: 15px; font-weight: 600; color: var(--content-base); }
+    .step-opt-desc { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
+    .step-plan { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
+    .step-plan-h { margin: var(--spacing-tight) 0 0; font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .step-mon-extra .tf, .step-mon-extra .ta { width: 100%; }
+    /* "Choose who can help" — searchable dropdown */
+    .step-person-wrap { position: relative; }
+    .step-person-menu { position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 40; max-height: 260px; overflow-y: auto; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers, 0 12px 32px rgba(0,0,0,.18)); padding: var(--spacing-tight); }
+    .step-person-menu[hidden] { display: none; }
+    .step-person-search { display: flex; align-items: center; gap: var(--spacing-tight); padding: var(--spacing-tight) var(--spacing-base-tight); margin-bottom: var(--spacing-tight); border-bottom: 1px solid var(--border-base); }
+    .step-person-search i { display: flex; width: 16px; height: 16px; color: var(--content-secondary); flex: none; }
+    .step-person-search .tf { flex: 1; border: 0; padding: 4px 0; background: none; }
+    .step-person-search .tf:focus { outline: none; box-shadow: none; }
+    .step-person-add .menu-item-sub { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+    .menu-item.is-empty { color: var(--content-secondary); font-size: 14px; padding: var(--spacing-tight) var(--spacing-base-tight); }
+    .step-footer { display: flex; justify-content: space-between; gap: var(--spacing-base); border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); }
+    /* success: centered, no stepper bar */
+    .step-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); padding: var(--spacing-loose) 0; }
+    .step-success-ico { width: 56px; height: 56px; border-radius: var(--radius-full); }
+    .step-success-ico i { width: 28px; height: 28px; }
+    .step-success .btn { margin-top: var(--spacing-base); }
+    @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -761,16 +839,20 @@
               </div>
             </div>
             <div class="triage-options">
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-action"><i data-icon="target"></i></span><span class="triage-opt-t">Take action</span></div>
+              <div class="triage-opt is-start">
+                <div class="triage-opt-head"><span class="triage-opt-num">1</span><span class="triage-opt-t">Choose your focus area</span></div>
+                <p class="triage-opt-d">Start here — pick an area below and select “Choose” to respond to it</p>
+              </div>
+              <div class="triage-opt is-action">
+                <div class="triage-opt-head"><span class="triage-opt-num">2</span><span class="triage-opt-t">Take action</span></div>
                 <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
               </div>
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor"><i data-icon="eye"></i></span><span class="triage-opt-t">Monitor</span></div>
+              <div class="triage-opt is-monitor">
+                <div class="triage-opt-head"><span class="triage-opt-num">3</span><span class="triage-opt-t">Monitor</span></div>
                 <p class="triage-opt-d">Not urgent yet, so keep it on your radar and revisit at the next survey</p>
               </div>
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-support"><i data-icon="flag"></i></span><span class="triage-opt-t">Need support</span></div>
+              <div class="triage-opt is-support">
+                <div class="triage-opt-head"><span class="triage-opt-num">4</span><span class="triage-opt-t">Need support</span></div>
                 <p class="triage-opt-d">Outside the team's control, so flag it for the right person to pick up</p>
               </div>
             </div>
@@ -786,6 +868,9 @@
             <div class="fv-cards" id="cards"></div>
           </div>
         </div>
+
+        <!-- Stepper dialog (Choose → Respond → Plan → success) -->
+        <div class="overlay step-overlay" id="step-dialog" hidden></div>
 
         <!-- Celebrate your wins -->
         <div class="fv-block fv-wins">
@@ -851,7 +936,14 @@
   var focusAreas = [
     { id:0, text:"Within my organization, the work processes are well organized", theme:"Managing systems", score:"36%", recoKey:"Important information is readily accessible for me", state:null, approach:null },
     { id:1, text:"My manager gives me feedback that helps me improve", theme:"Providing direction", score:"41%", recoKey:"I know what results are expected of me at work", state:null, approach:null },
-    { id:2, text:"I have opportunities to grow within this organization", theme:"Career development", score:"48%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null }
+    { id:2, text:"I have opportunities to grow within this organization", theme:"Career development", score:"48%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null },
+    { id:3, text:"I receive recognition for the work I do", theme:"Recognition", score:"55%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true },
+    { id:4, text:"My workload is manageable", theme:"Workload", score:"58%", recoKey:"I know what results are expected of me at work", state:null, approach:null, secondary:true },
+    { id:5, text:"I have the tools and resources I need to do my job well", theme:"Enablement", score:"61%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null, secondary:true },
+    { id:6, text:"Decisions that affect me are communicated clearly", theme:"Communication", score:"64%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true },
+    { id:7, text:"I feel encouraged to share new ideas", theme:"Voice", score:"66%", recoKey:"I know what results are expected of me at work", state:null, approach:null, secondary:true },
+    { id:8, text:"There is good cooperation between teams", theme:"Collaboration", score:"68%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null, secondary:true },
+    { id:9, text:"I understand how my work contributes to our goals", theme:"Direction", score:"70%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true }
   ];
 
   // Three approaches (design-system Focus View defines four — "Self directed" is dropped here).
@@ -909,259 +1001,71 @@
                (fa.state === 'action'  && fa.actionAdded);
     return fa.state + (done ? ':done' : ':edit');
   }
-  function renderCards(){
-    document.getElementById('cards').innerHTML = focusAreas.map(function(fa){
-      var isAction = fa.state === 'action';
-      var active   = isAction && fa.picked && fa.picked.length;
-      var key      = panelKey(fa);
-      var fresh    = fa._panelKey !== key;      // animate open only on the render that changes step
-      fa._panelKey = key;
-      var cardCls  = 'fv-card' + (active ? ' is-active' : '');
-
-      // Head — question + theme + orange score badge, then the relevance row (DS "What needs focus")
-      var head =
-        '<div class="fv-card-head">' +
-          '<div class="fv-card-top">' +
-            '<div class="fv-card-q">' +
-              '<p class="fv-card-question">' + esc(fa.text) + '</p>' +
-              '<span class="fv-card-theme">' + esc(fa.theme) + '</span>' +
-            '</div>' +
-            '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
-          '</div>' +
+  // ── Focus cards (stepper): a Choose button per card; deciding happens in the dialog ──
+  var moreExpanded = false;
+  function toggleMore(){
+    moreExpanded = !moreExpanded;
+    var block = document.getElementById('more-block'); if(block) block.hidden = !moreExpanded;
+    var lbl = document.getElementById('explore-more-label'); if(lbl) lbl.textContent = moreExpanded ? 'Show fewer areas' : 'Explore more areas';
+    var ic = document.querySelector('#explore-more i[data-icon]');
+    if(ic){ ic.setAttribute('data-icon', moreExpanded ? 'chevron-up' : 'chevron-down'); ic.removeAttribute('data-icon-loaded'); if(window.Icons) window.Icons.render(document.getElementById('explore-more')); }
+  }
+  function faDecided(fa){
+    return (fa.state==='action' && fa.actionAdded) || (fa.state==='monitor' && fa.monitorSaved) || (fa.state==='support' && fa.supportSent);
+  }
+  function stepperCard(fa){
+    var decided = faDecided(fa);
+    // The control sits in a fixed-width slot after the score, so scores line up whether or not a
+    // decision has been made: undecided → "Choose", decided → "Change" (both open the dialog).
+    var cta = decided
+      ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')">Change</button>'
+      : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
+    var head =
+      '<div class="fv-card-head">' +
+        '<div class="fv-card-top">' +
+          '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
+          '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
+          '<span class="fv-card-cta">' + cta + '</span>' +
         '</div>' +
-        (fa.state ? '' : '<div class="fv-divider"></div>');   // divider only while undecided
-
-      // Every follow-up step ends the same way: Cancel on the left, the confirming action on the
-      // right, the pair right-aligned in the card.
-      function actionRow(primary){
-        return '<div class="fa-support-actions">' +
-          '<button class="btn btn-secondary"' + (fa.busy ? ' disabled' : '') + ' onclick="changeDecision(' + fa.id + ')">Cancel</button>' +
-          primary +
-        '</div>';
-      }
-
-      // Change control — shows an inline spinner while the reset is applied
-      function changeBtn(cls){
-        if(fa.busy === 'change') return '<button class="' + cls + '" disabled><span class="loader-inline"></span></button>';
-        return '<button class="' + cls + '" onclick="changeDecision(' + fa.id + ')">Change</button>';
-      }
-
-      // The chosen response as a single block: tinted header row (icon + title + Change) with the
-      // follow-up step nested inside it, so the two read as one thing instead of two stacked cards.
-      function chosenBlock(state, icon, title, body){
-        return '<div class="fa-chosen is-' + state + (fresh ? '' : ' is-open') + '">' +
-          '<div class="fa-chosen-head">' +
-            '<span class="fa-chosen-ico"><i data-icon="' + icon + '"></i></span>' +
-            '<span class="fa-chosen-title">' + title + '</span>' +
-            '<div class="fa-chosen-act">' + changeBtn('link-inline') + '</div>' +
-          '</div>' +
-          (body ? '<div class="fa-chosen-body"><div class="fa-chosen-body-inner">' + body + '</div></div>' : '') +
-        '</div>';
-      }
-
-      var zone;
-      if(!fa.state){
-        // Undecided → the decision step. While an option is loading, that chip shows an inline spinner.
-        var decChips = ['action','monitor','support','dismiss'].map(function(opt){
-          if(fa.loadingOpt === opt){
-            return '<label class="rb-btn-bordered is-selected is-disabled"><span class="loader-inline"></span>' + LABEL[opt] + '</label>';
-          }
-          var dis = fa.loadingOpt ? ' is-disabled' : '';
-          return '<label class="rb-btn-bordered' + dis + '">' +
-            '<span class="rb-wrap"><input type="radio" class="rb" name="dec-' + fa.id + '"' + (fa.loadingOpt ? ' disabled' : '') +
-            ' onchange="chooseOption(' + fa.id + ',\'' + opt + '\')"></span>' + LABEL[opt] + '</label>';
-        }).join('');
-        zone =
-          '<div class="fv-approach' + '">' +
-            '<div class="fv-decide-lbl">Choose how to respond</div>' +
-            '<div class="fv-approach-chips">' + decChips + '</div>' +
-          '</div>';
-      } else if(fa.state === 'dismiss'){
-        // Not relevant → ask why, inline. The reasons are what HR needs to read the score correctly,
-        // so this is a step in the card, not a modal that interrupts the page.
-        if(!fa.dismissSent){
-          var chosen = fa.dismissReasons || [];
-          var reasonList = DISMISS_REASONS.map(function(r, ri){
-            var on = chosen.indexOf(r) > -1;
-            var box = '<label class="cb-label-wrap fa-why-opt">' +
-              '<span class="cb-wrap"><input type="checkbox" class="cb"' + (on ? ' checked' : '') +
-              ' onchange="toggleDismissReason(' + fa.id + ',' + ri + ')"></span>' + r + '</label>';
-            if(on && r === OTHER_REASON){
-              box += '<div class="fa-why-other"><textarea class="ta" rows="2" placeholder="Tell us what makes this not relevant" oninput="setDismissNote(' + fa.id + ',this.value)">' + esc(fa.dismissNote || '') + '</textarea></div>';
-            }
-            return box;
-          }).join('');
-          var canSubmit = chosen.length > 0;
-          zone =
-            '<div class="fv-approach">' +
-              chosenBlock('dismiss','down-vote','Not relevant',
-                '<div class="fa-monitor-hd"><h4 class="fa-monitor-h">Why is this not relevant for you?</h4>' +
-                '<p class="fa-monitor-help">Your answer helps HR read this score in the right context.</p></div>' +
-                '<div class="fa-why-list">' + reasonList + '</div>' +
-                actionRow(fa.busy === 'why'
-                  ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>'
-                  : '<button class="btn btn-primary"' + (canSubmit ? '' : ' disabled') + ' onclick="submitDismiss(' + fa.id + ')">Submit feedback</button>')
-              ) +
-            '</div>';
-        } else {
-          var reasons = (fa.dismissReasons || []).map(function(r){
-            return r === OTHER_REASON && fa.dismissNote && fa.dismissNote.trim() ? esc(fa.dismissNote.trim()) : esc(r);
-          });
-          var wDetails = '<ul class="fa-done-list fa-why-done">' + reasons.map(function(r){
-            return '<li class="fa-done-item"><span class="fa-done-item-text">' + r + '</span></li>';
-          }).join('') + '</ul>';
-          zone = doneView(fa, 'down-vote', 'You marked this as not relevant', wDetails, hrNoteHTML());
-        }
-      } else if(fa.state === 'support'){
-        // Need support → request form (send / cancel), then a brief sent confirmation
-        if(!fa.supportSent){
-          var personVal = fa.supportPerson
-            ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
-            : '<span class="slt-ph">Select a person</span>';
-          var people = PEOPLE.map(function(p){
-            var on = fa.supportPerson === p;
-            return '<div class="menu-item' + (on ? ' is-selected' : '') + '" role="menuitemradio" aria-checked="' + on + '" onclick="setSupportPerson(' + fa.id + ',\'' + p.replace(/'/g, "\\'") + '\')">' +
-              '<span class="menu-item-body"><span class="menu-item-title">' + p + '</span></span>' +
-              (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
-          }).join('');
-          var canSend = !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
-          zone =
-            '<div class="fv-approach">' +
-              chosenBlock('support','flag','Need support',
-              '<div class="ta-wrap">' +
-                '<label class="ta-lbl">Describe the support you need <span class="fa-req">*</span></label>' +
-                '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="setSupportText(' + fa.id + ',this.value)">' + esc(fa.supportText || '') + '</textarea>' +
-              '</div>' +
-              '<div class="slt-wrap">' +
-                '<label class="slt-lbl">Choose who can help <span class="fa-req">*</span></label>' +
-                '<div class="slt" tabindex="0" onclick="toggleSupportMenu(' + fa.id + ',event)"><span class="slt-left">' + personVal + '</span><i data-icon="chevron-down"></i></div>' +
-                '<div class="menu fa-person-menu" id="person-menu-' + fa.id + '" hidden>' + people + '</div>' +
-              '</div>' +
-              actionRow(fa.busy === 'send'
-                ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>'
-                : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send request</button>')
-              ) +
-            '</div>';
-        } else {
-          var who = fa.supportPerson || 'the right person';
-          var sdesc = (fa.supportText && fa.supportText.trim()) ? esc(fa.supportText.trim()) : 'Support requested for this focus area';
-          // The request reads as what it is — a message to a person — and the process detail sits
-          // behind an info tooltip instead of taking up three lines of the summary.
-          var sDetails =
-            '<div class="fa-ask">' +
-              '<span class="av av-32 av-turquoise">' + ME.initials + '</span>' +
-              '<div class="fa-ask-body">' +
-                '<div class="fa-ask-bubble">' + sdesc + '</div>' +
-                '<div class="fa-ask-to">' +
-                  'Sent to ' + esc(who) +
-                  '<span class="fa-hint" tabindex="0">' +
-                    '<i data-icon="info"></i>' +
-                    '<span class="tooltip is-above">HR can see this request and decides whether to follow up. You don\'t need to do anything else.</span>' +
-                  '</span>' +
-                '</div>' +
-              '</div>' +
-            '</div>';
-          zone = doneView(fa, 'flag', 'This focus area is flagged for support', sDetails, hrNoteHTML());
-        }
-      } else if(fa.state === 'monitor'){
-        // Monitor → choice card, then an optional details panel (mirrors Need support)
-        if(!fa.monitorSaved){
-          var mode = fa.monitorMode || 'survey';
-          // Options with an extra input reveal it inline, inside the same option, on a soft grey background
-          var EXTRA = {
-            date: '<div class="fa-mon-inline">' + datePickerHTML(fa) + '</div>',
-            custom: '<div class="fa-mon-inline"><textarea class="ta fa-mon-own" rows="2" placeholder="describe how you want to monitor this focus area" oninput="setMonitorNote(' + fa.id + ',this.value)">' + esc(fa.monitorNote || '') + '</textarea></div>'
-          };
-          // Every selected option gets the same soft-grey treatment (consistent); extras reveal inline
-          var monOption = function(val, label){
-            var on = mode === val;
-            var btn = '<label class="rb-btn-bordered' + (on ? ' is-selected' : '') + '">' +
-              '<span class="rb-wrap"><input type="radio" class="rb" name="mon-' + fa.id + '"' + (on ? ' checked' : '') +
-              ' onchange="setMonitorMode(' + fa.id + ',\'' + val + '\')"></span>' + label + '</label>';
-            if(on) return '<div class="fa-mon-group is-soft">' + btn + (EXTRA[val] || '') + '</div>';
-            return btn;
-          };
-          zone =
-            '<div class="fv-approach">' +
-              chosenBlock('monitor','eye','Monitor',
-              '<div class="fa-monitor-details">' +
-                '<div class="fa-monitor-hd"><h4 class="fa-monitor-h">Choose how you want to monitor</h4>' +
-                '<p class="fa-monitor-help">Pick a quick option, or describe what monitoring this means for you so HR has the context.</p></div>' +
-                '<div class="fv-approach-chips fa-monitor-modes">' +
-                  monOption('survey', 'Revisit at the next survey') +
-                  monOption('score', 'Keep an eye on the score') +
-                  monOption('date', 'Check back on a set date') +
-                  monOption('custom', 'Choose your own') +
-                '</div>' +
-                actionRow(fa.busy === 'save'
-                  ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>'
-                  : '<button class="btn btn-primary" onclick="saveMonitor(' + fa.id + ')">Save</button>') +
-              '</div>'
-              ) +
-            '</div>';
-        } else {
-          var mode2 = fa.monitorMode || 'survey';
-          var when;
-          if(mode2 === 'date'){ when = fa.monitorDate ? ('You\'ll revisit this on ' + fmtDate(fa.monitorDate)) : 'You\'ll revisit this on a set date'; }
-          else if(mode2 === 'score'){ when = 'Watching the score, parked at ' + (fa.monitorBaseline != null ? fa.monitorBaseline + '%' : fa.score) + '. This comes back if it drops'; }
-          else if(mode2 === 'custom'){ when = 'Monitoring this in your own way'; }
-          else { when = 'You\'ll revisit this at the next survey'; }
-          var monNoteLine = (mode2 !== 'custom' && fa.monitorNote && fa.monitorNote.trim()) ? '<p class="fa-monitor-note fa-monitor-own">“' + esc(fa.monitorNote.trim()) + '”</p>' : '';
-          var mDetails = '<p class="fa-monitor-note">' + when + '</p>' + monNoteLine;
-          zone = doneView(fa, 'eye', 'This focus area is being monitored', mDetails, hrNoteHTML());
-        }
-      } else if(!fa.actionAdded){
-        // Take action (deciding) → all three recommended actions stacked, each one selectable. There is
-        // no reason to reveal them one at a time: seeing them side by side is how you judge which
-        // combination fits, and more than one can be worth doing.
-        var picked = fa.picked || [];
-        var pickCards = APPROACHES.map(function(a, ai){
-          var r   = RECO[fa.recoKey][a];
-          var eff = EFFORT[a];
-          var on  = picked.indexOf(a) > -1;
-          return '<label class="fv-pick' + (on ? ' is-selected' : '') + '">' +
-            '<span class="cb-wrap"><input type="checkbox" class="cb"' + (on ? ' checked' : '') + ' onchange="toggleApproach(' + fa.id + ',' + ai + ')"></span>' +
-            '<div class="fv-pick-body">' +
-              '<div class="fv-pick-head">' +
-                '<div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
-                '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span>' +
-              '</div>' +
-              '<p class="fv-reco-body">' + esc(r.body) + '</p>' +
-            '</div>' +
-          '</label>';
-        }).join('');
-        var doneBtn = fa.busy === 'confirm'
-          ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>'
-          : '<button class="btn btn-primary"' + (picked.length ? '' : ' disabled') + ' onclick="confirmActions(' + fa.id + ')">Add action</button>';
-        zone =
-          '<div class="fv-approach">' +
-            chosenBlock('action','target','Take action',
-              '<div class="fv-approach-lbl">Pick the actions you want to take</div>' +
-              '<div class="fv-picks">' + pickCards + '</div>' +
-              '<button class="btn btn-link fv-create"><i data-icon="plus"></i> Create new action</button>' +
-              actionRow(doneBtn)
-            ) +
-          '</div>';
-      } else {
-        // Take action (done) → the actions you committed to, nothing else. No planner button and no
-        // owner/due fields: a focus area can carry several actions, so a single owner and date below
-        // the list would describe only the first one.
-        var itemsList = (fa.planItems || []).map(function(it, i){
-          return '<li class="fa-done-item' + (it.done ? ' is-done' : '') + '">' +
-            '<span class="cb-wrap"><input type="checkbox" class="cb fa-done-cb"' + (it.done ? ' checked' : '') +
-            ' onchange="toggleFocusAction(' + fa.id + ',' + i + ')"></span>' +
-            '<span class="fa-done-item-text">' + esc(it.text || 'Untitled action') + '</span>' +
-          '</li>';
-        }).join('');
-        var aDetails = '<ul class="fa-done-list">' + itemsList + '</ul>';
-        zone = doneView(fa, 'target', "You're taking action on this focus area", aDetails, hrNoteHTML());
-      }
-
-      return '<div class="' + cardCls + '" data-id="' + fa.id + '">' + head + zone + '</div>';
-    }).join('');
-
+      '</div>';
+    if(!decided) return '<div class="fv-card" data-id="' + fa.id + '">' + head + '</div>';
+    return '<div class="fv-card is-active" data-id="' + fa.id + '">' + head + stepReflect(fa) + '</div>';
+  }
+  function stepReflect(fa){
+    var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
+    var title, details = '';
+    if(fa.state==='action'){
+      title = "You're taking action on this focus area";
+      details = '<ul class="fa-done-list">' + (fa.planItems||[]).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+    } else if(fa.state==='monitor'){
+      title = 'This focus area is being monitored';
+      var m = fa.monitorMode||'survey', when;
+      if(m==='date') when = fa.monitorDate ? ("You'll revisit this on " + fmtDate(fa.monitorDate)) : "You'll revisit this on a set date";
+      else if(m==='score') when = 'Watching the score, parked at ' + (fa.monitorBaseline!=null?fa.monitorBaseline+'%':fa.score);
+      else if(m==='custom') when = (fa.monitorNote&&fa.monitorNote.trim()) ? '“' + esc(fa.monitorNote.trim()) + '”' : 'Monitoring this in your own way';
+      else when = "You'll revisit this at the next survey";
+      details = '<p class="fa-monitor-note">' + when + '</p>';
+    } else {
+      title = 'This focus area is flagged for support';
+      var who = fa.supportPerson || 'the right person';
+      var sdesc = (fa.supportText&&fa.supportText.trim()) ? esc(fa.supportText.trim()) : 'Support requested for this focus area';
+      details = '<div class="fa-ask"><span class="av av-32 av-turquoise">' + ME.initials + '</span><div class="fa-ask-body"><div class="fa-ask-bubble">' + sdesc + '</div><div class="fa-ask-to">Sent to ' + esc(who) + '</div></div></div>';
+    }
+    return '<div class="fv-approach"><div class="fa-done">' +
+      '<div class="fa-done-row">' +
+        '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
+        '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
+      '</div>' +
+      '<div class="fa-done-details">' + details +
+        '<div class="fa-done-edit-row"><button class="btn btn-secondary fa-done-edit" onclick="openStepDialog(' + fa.id + ',\'plan\')"><i data-icon="edit"></i> Edit details</button></div>' +
+      '</div>' +
+    '</div></div>';
+  }
+  function renderCards(){
+    document.getElementById('cards').innerHTML = focusAreas.filter(function(f){ return !f.secondary; }).map(stepperCard).join('');
+    var more = document.getElementById('cards-more');
+    if(more) more.innerHTML = focusAreas.filter(function(f){ return f.secondary; }).map(stepperCard).join('');
     if(window.Icons) window.Icons.render();
-    openPanels();
     updateProgress();
   }
 
@@ -1750,6 +1654,189 @@
       });
     });
   })();
+
+  // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
+  var STEP_DESC = {
+    action:  'Something the team can influence, so commit to a concrete next step now.',
+    monitor: 'Not urgent yet, so keep it on your radar and revisit at the next survey.',
+    support: "Outside the team's control, so flag it for the right person to pick up."
+  };
+  // Stepper steps — icon-in-a-circle + label; step 1 is always complete (they arrived by choosing)
+  var STEP_META = [
+    { label: 'Choose your focus area', icon: 'target' },
+    { label: 'Choose how to respond',  icon: 'list-unordered' },
+    { label: 'Plan it',                icon: 'edit' }
+  ];
+  var stepFaId = null;
+  var stepStage = 'respond';   // 'respond' | 'plan' | 'success'
+  var stepBusy = false;        // brief loader while advancing between steps
+  function stepFa(){ return focusAreas.find(function(f){ return f.id===stepFaId; }); }
+
+  function openStepDialog(id, startStage){
+    stepFaId = id;
+    var fa = stepFa();
+    stepStage = startStage || (fa.state ? 'plan' : 'respond');
+    if(stepStage === 'plan' && fa.state === 'monitor' && fa.monitorMode == null){ fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    document.getElementById('step-dialog').hidden = false;
+    document.body.classList.add('step-open');
+    renderStepDialog();
+  }
+  function stepClose(){ document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
+  function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
+  function stepPickResponse(state){
+    var fa = stepFa();
+    if(fa.state !== state){ fa.picked = []; fa.actionAdded = false; fa.supportSent = false; fa.monitorSaved = false; }
+    fa.state = state;
+    if(state === 'monitor'){ if(fa.monitorMode == null) fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    stepStage = 'plan';
+    stepBusy = true; renderStepDialog();
+    setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 450);
+  }
+  function stepToggleApproach(ai){
+    var fa = stepFa(); var a = APPROACHES[ai];
+    fa.picked = fa.picked || [];
+    var at = fa.picked.indexOf(a); if(at>-1) fa.picked.splice(at,1); else fa.picked.push(a);
+    renderStepDialog();
+  }
+  function stepSetMon(val){ stepFa().monitorMode = val; renderStepDialog(); }
+  function stepSetMonNote(v){ stepFa().monitorNote = v; }
+  function stepSetMonDate(v){ stepFa().monitorDate = v; }
+  function stepSetSupportText(v){ stepFa().supportText = v; stepUpdateConfirm(); }
+  // "Choose who can help" — searchable dropdown of people, with the option to add someone by name
+  var stepPersonMenuOpen = false;
+  var stepPersonSearch = '';
+  function stepPersonListHTML(fa){
+    var q = (stepPersonSearch || '').trim().toLowerCase();
+    var matches = PEOPLE.filter(function(p){ return !q || p.toLowerCase().indexOf(q) > -1; });
+    var items = matches.map(function(p){
+      var on = fa.supportPerson === p;
+      return '<div class="menu-item' + (on ? ' is-selected' : '') + '" role="menuitemradio" aria-checked="' + on + '" onclick="stepPickPerson(\'' + p.replace(/'/g, "\\'") + '\')">' +
+        '<span class="menu-item-body"><span class="menu-item-title">' + esc(p) + '</span></span>' + (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
+    }).join('');
+    var raw = (stepPersonSearch || '').trim();
+    var exact = PEOPLE.some(function(p){ return p.toLowerCase() === raw.toLowerCase(); });
+    var add = (raw && !exact)
+      ? '<div class="menu-item step-person-add" onclick="stepAddPerson(\'' + raw.replace(/'/g, "\\'") + '\')"><span class="menu-item-body"><span class="menu-item-title">Add “' + esc(raw) + '”</span><span class="menu-item-sub">Add someone from your organisation</span></span><i data-icon="plus"></i></div>'
+      : '';
+    return items + add || '<div class="menu-item is-empty">No matches</div>';
+  }
+  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); }
+  function onStepPersonSearch(v){ stepPersonSearch = v; var list = document.getElementById('step-person-list'); if(list){ list.innerHTML = stepPersonListHTML(stepFa()); if(window.Icons) window.Icons.render(list); } }
+  function stepPickPerson(name){ stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
+  function stepAddPerson(name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
+  document.addEventListener('click', function(e){
+    if(stepPersonMenuOpen && !(e.target.closest && e.target.closest('.step-person-wrap'))){ stepPersonMenuOpen = false; var m = document.querySelector('.step-person-menu'); if(m) m.hidden = true; }
+  });
+  function stepCanConfirm(){
+    var fa = stepFa();
+    if(fa.state === 'action')  return !!(fa.picked && fa.picked.length);
+    if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
+    return true;
+  }
+  function stepUpdateConfirm(){
+    var b = document.getElementById('step-confirm'); if(!b) return;
+    var ok = stepCanConfirm(); b.disabled = !ok; b.classList.toggle('is-disabled', !ok);
+  }
+  function stepConfirm(){
+    var fa = stepFa(); if(!stepCanConfirm()) return;
+    stepBusy = true; renderStepDialog();
+    setTimeout(function(){
+      if(fa.state === 'action'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }); fa.actionAdded = true; }
+      else if(fa.state === 'monitor'){ fa.monitorSaved = true; }
+      else if(fa.state === 'support'){ fa.supportSent = true; }
+      stepBusy = false; stepStage = 'success';
+      renderStepDialog();
+    }, 500);
+  }
+
+  function stepperBar(active){
+    return '<div class="stp-bar">' + STEP_META.map(function(s, i){
+      var done = i < active, on = i === active;
+      var cls = 'stp-step' + (done ? ' is-done' : (on ? ' is-active' : ' is-upcoming'));
+      var mark = done ? '<i data-icon="check"></i>' : (i + 1);
+      return '<div class="' + cls + '"><span class="stp-dot">' + mark + '</span><span class="stp-label">' + s.label + '</span></div>' +
+        (i < STEP_META.length - 1 ? '<span class="stp-line' + (done ? ' is-done' : '') + '"></span>' : '');
+    }).join('') + '</div>';
+  }
+
+  function stepPlanHTML(fa){
+    if(fa.state === 'action'){
+      var picked = fa.picked || [];
+      var cards = APPROACHES.map(function(a, ai){
+        var r = RECO[fa.recoKey][a], eff = EFFORT[a], on = picked.indexOf(a) > -1;
+        return '<label class="fv-pick' + (on?' is-selected':'') + '"><span class="cb-wrap"><input type="checkbox" class="cb"' + (on?' checked':'') + ' onchange="stepToggleApproach(' + ai + ')"></span>' +
+          '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
+          '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
+      }).join('');
+      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>';
+    }
+    if(fa.state === 'monitor'){
+      var mode = fa.monitorMode || 'survey';
+      var opts = [['survey','Revisit at the next survey'],['score','Keep an eye on the score'],['date','Check back on a set date'],['custom','Choose your own']];
+      var extra = '';
+      if(mode === 'date') extra = '<div class="fa-mon-inline"><input class="tf" type="date" value="' + esc(fa.monitorDate||'') + '" onchange="stepSetMonDate(this.value)"></div>';
+      else if(mode === 'custom') extra = '<div class="fa-mon-inline"><textarea class="ta" rows="2" placeholder="describe how you want to monitor this focus area" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea></div>';
+      var list = opts.map(function(o){
+        var on = mode === o[0];
+        return '<label class="rb-btn-bordered' + (on?' is-selected':'') + '"><span class="rb-wrap"><input type="radio" class="rb" name="stp-mon"' + (on?' checked':'') + ' onchange="stepSetMon(\'' + o[0] + '\')"></span>' + o[1] + '</label>';
+      }).join('');
+      return '<h3 class="step-plan-h">Choose how you want to monitor</h3><div class="fv-approach-chips fa-monitor-modes">' + list + '</div>' + (extra ? '<div class="step-mon-extra">' + extra + '</div>' : '');
+    }
+    var personTrigger = fa.supportPerson
+      ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
+      : '<span class="slt-ph">Select a person</span>';
+    return '<h3 class="step-plan-h">Describe the support you need <span class="fa-req">*</span></h3>' +
+      '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="stepSetSupportText(this.value)">' + esc(fa.supportText||'') + '</textarea>' +
+      '<h3 class="step-plan-h">Choose who can help <span class="fa-req">*</span></h3>' +
+      '<div class="slt-wrap step-person-wrap">' +
+        '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
+        '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
+          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search your organisation…" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
+          '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderStepDialog(){
+    var fa = stepFa(); if(!fa) return;
+    var active = stepStage === 'respond' ? 1 : (stepStage === 'plan' ? 2 : 3);
+    var body, footer = '';
+    if(stepBusy){
+      body = '<div class="step-loading"><span class="step-spinner"></span></div>';
+    } else if(stepStage === 'success'){
+      var word = { action:'being acted on', monitor:'being monitored', support:'flagged for support' }[fa.state] || 'handled';
+      body = '<div class="step-success">' +
+        '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
+        '<h2 class="step-h2">You’re all set</h2>' +
+        '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
+        '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button></div>';
+    } else if(stepStage === 'respond'){
+      body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
+        '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
+        '<div class="step-options">' + ['action','monitor','support'].map(function(st){
+          var d = DECIDED[st] || {};
+          return '<button class="step-opt is-' + st + (fa.state===st?' is-selected':'') + '" onclick="stepPickResponse(\'' + st + '\')">' +
+            '<span class="step-opt-ico"><i data-icon="' + d.icon + '"></i></span><span class="step-opt-title">' + LABEL[st] + '</span>' +
+            '<span class="step-opt-desc">' + STEP_DESC[st] + '</span></button>';
+        }).join('') + '</div>';
+    } else {
+      var d2 = DECIDED[fa.state] || {};
+      body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico is-' + fa.state + '"><i data-icon="' + d2.icon + '"></i></span>' +
+        '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
+        '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
+      var ok = stepCanConfirm();
+      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
+      footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
+        '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
+    }
+    document.getElementById('step-dialog').innerHTML =
+      '<div class="step-modal" role="dialog" aria-modal="true">' +
+        '<button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="stepClose()"><i data-icon="cross"></i></button>' +
+        (stepStage === 'success' ? '' : stepperBar(active)) + '<div class="step-body">' + body + '</div>' + footer +
+      '</div>';
+    if(window.Icons) window.Icons.render(document.getElementById('step-dialog'));
+  }
+  document.getElementById('step-dialog').addEventListener('click', function(e){ if(e.target === this) stepClose(); });
 
   renderCards();
   renderWins();
