@@ -604,6 +604,10 @@
     .step-success .btn { margin-top: var(--spacing-base); }
     @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
 
+    /* Overview embed — the real design-system Overview (ac-overview-embed.html) in an isolated
+       iframe, so its charts + styling match the DS exactly without CSS leaking into the prototype. */
+    .ov-embed { width: 100%; border: 0; display: block; min-height: 1200px; background: var(--bg-interface-body); }
+
     /* ── Actions page ── */
     .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; }
     .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
@@ -700,74 +704,7 @@
 
         <!-- ═══════════════ OVERVIEW VIEW ═══════════════ -->
         <div class="view" id="view-overview" hidden>
-          <div class="ov-grid">
-            <!-- Response rate -->
-            <div class="ov-card ov-rr">
-              <div class="ov-card-head">
-                <h3 class="ov-card-title">Response rate</h3>
-                <span class="ov-card-tools"><i data-icon="info"></i></span>
-              </div>
-              <div class="rr-body">
-                <div class="rr-gauge">
-                  <!-- icon-exempt: decorative gauge geometry, not an icon -->
-                  <svg viewBox="0 0 120 120" class="rr-donut" aria-hidden="true">
-                    <circle cx="60" cy="60" r="52" fill="none" style="stroke:var(--bg-tertiary)" stroke-width="10"/>
-                    <circle cx="60" cy="60" r="52" fill="none" style="stroke:var(--content-info)" stroke-width="10" stroke-linecap="round" stroke-dasharray="277.7 326.7" transform="rotate(-90 60 60)"/>
-                  </svg>
-                  <div class="rr-gauge-value">85%</div>
-                </div>
-                <div class="rr-participants"><b>139</b>/164 Participants</div>
-              </div>
-              <div class="rr-bars">
-                <div class="rr-bar-row"><span>Previous survey</span><span>85%</span></div>
-                <div class="rr-bar-track"><div class="rr-bar-fill is-prev" style="width:85%"></div></div>
-                <div class="rr-bar-row"><span class="rr-bench-lbl">Benchmark <i data-icon="info"></i></span><span>78%</span></div>
-                <div class="rr-bar-track"><div class="rr-bar-fill is-bench" style="width:78%"></div></div>
-              </div>
-            </div>
-            <!-- Highest scores -->
-            <div class="ov-card qs-card is-high">
-              <div class="ov-card-head">
-                <span class="qs-emoji">🎉</span>
-                <h3 class="ov-card-title">Highest scores</h3>
-                <span class="ov-card-tools">
-                  <span class="sc-pin-wrap">
-                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'high')"><i data-icon="pin"></i></button>
-                    <div class="sc-pin-pop" id="high-pin-pop" hidden></div>
-                  </span>
-                  <i data-icon="info"></i>
-                </span>
-              </div>
-              <div class="qs-rows">
-                <div class="qs-row"><p class="qs-row-q">My team understands what needs to be done to contribute to the success of Effectory</p><span class="qs-row-score">95%</span></div>
-                <div class="qs-row"><p class="qs-row-q">My skills and abilities fit in well with my job</p><span class="qs-row-score">90%</span></div>
-                <div class="qs-row"><p class="qs-row-q">In my team we collaborate well</p><span class="qs-row-score">90%</span></div>
-                <div class="qs-row"><p class="qs-row-q">I have confidence in my team lead</p><span class="qs-row-score">91%</span></div>
-                <div class="qs-row"><p class="qs-row-q">My team regularly develops good ideas for improvement</p><span class="qs-row-score">90%</span></div>
-              </div>
-            </div>
-            <!-- Lowest scores -->
-            <div class="ov-card qs-card is-low">
-              <div class="ov-card-head">
-                <span class="qs-emoji">📈</span>
-                <h3 class="ov-card-title">Lowest scores</h3>
-                <span class="ov-card-tools">
-                  <span class="sc-pin-wrap">
-                    <button class="ib ib-36 ib-tertiary sc-pin" aria-label="Pin a question" onclick="toggleScorePop(event,'low')"><i data-icon="pin"></i></button>
-                    <div class="sc-pin-pop" id="low-pin-pop" hidden></div>
-                  </span>
-                  <i data-icon="info"></i>
-                </span>
-              </div>
-              <div class="qs-rows">
-                <div class="qs-row"><p class="qs-row-q">Within Effectory the work processes are well organised</p><span class="qs-row-score">44%</span></div>
-                <div class="qs-row"><p class="qs-row-q">Within Effectory performance is rewarded</p><span class="qs-row-score">51%</span></div>
-                <div class="qs-row"><p class="qs-row-q">I can see clear improvements as a result of sharing feedback within Effectory</p><span class="qs-row-score">60%</span></div>
-                <div class="qs-row"><p class="qs-row-q">Important information is readily accessible for me</p><span class="qs-row-score">62%</span></div>
-                <div class="qs-row"><p class="qs-row-q">I feel appreciated by Effectory</p><span class="qs-row-score">63%</span></div>
-              </div>
-            </div>
-          </div>
+          <iframe id="ov-embed" class="ov-embed" src="ac-overview-embed.html" title="Overview" scrolling="no" loading="eager"></iframe>
         </div>
 
         <!-- ═══════════════ FOCUS VIEW ═══════════════ -->
@@ -1922,9 +1859,33 @@
         var title = document.getElementById('results-title');
         if(title) title.textContent = TITLES[v];
         if(v === 'actions') renderActions();
+        if(v === 'overview') resizeOvEmbed();
       });
     });
   })();
+
+  // ── Design-system Overview (embedded, isolated) ───────────────────────────────
+  // The Overview tab renders the real DS Overview in an iframe (real Chart.js charts, exact reference
+  // data). Clicking a Highest/Lowest score question bridges to the same stepper triage dialog.
+  function sizeOvEmbed(h){ var f = document.getElementById('ov-embed'); if(f && h) f.style.height = (h + 8) + 'px'; }
+  function resizeOvEmbed(){
+    var f = document.getElementById('ov-embed'); if(!f) return;
+    var read = function(){ try { var d = f.contentDocument; if(d && d.body) sizeOvEmbed(Math.max(d.body.scrollHeight, d.documentElement.scrollHeight)); } catch(e){} };
+    read(); setTimeout(read, 250); setTimeout(read, 800);
+  }
+  window.addEventListener('message', function(e){ if(e.data && e.data.type === 'ov-embed-height') sizeOvEmbed(e.data.height); });
+  function openScoreStepFromEmbed(text, score, which){
+    if(!text) return;
+    which = which || 'low';
+    var id = which + '-emb-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+    var t = scoreTargets.find(function(x){ return x.id === id; });
+    if(!t){
+      var keys = Object.keys(RECO);
+      t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      scoreTargets.push(t);
+    }
+    openStepDialog(id);
+  }
 
   // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
   var STEP_DESC = {
