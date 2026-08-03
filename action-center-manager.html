@@ -288,7 +288,7 @@
     .triage-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
     .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); }
     .triage-opt-head { display: flex; align-items: center; gap: var(--spacing-tight); }
-    .triage-opt-icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-base); display: flex; align-items: center; justify-content: center; }
+    .triage-opt-icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
     .triage-opt-icon i { display: flex; width: 16px; height: 16px; }
     .triage-opt-icon.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
     .triage-opt-icon.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
@@ -762,15 +762,15 @@
             </div>
             <div class="triage-options">
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-action"><i data-icon="target"></i></span><span class="triage-opt-t">Take action</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-action">1</span><span class="triage-opt-t">Take action</span></div>
                 <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
               </div>
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor"><i data-icon="eye"></i></span><span class="triage-opt-t">Monitor</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor">2</span><span class="triage-opt-t">Monitor</span></div>
                 <p class="triage-opt-d">Not urgent yet, so keep it on your radar and revisit at the next survey</p>
               </div>
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-support"><i data-icon="flag"></i></span><span class="triage-opt-t">Need support</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-support">3</span><span class="triage-opt-t">Need support</span></div>
                 <p class="triage-opt-d">Outside the team's control, so flag it for the right person to pick up</p>
               </div>
             </div>

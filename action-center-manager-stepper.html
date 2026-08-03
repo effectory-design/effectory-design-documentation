@@ -285,18 +285,15 @@
     .triage-ico i { display: flex; width: 22px; height: 22px; }
     .triage-title { margin: 0 0 var(--spacing-extra-tight); font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
     .triage-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .triage-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base); align-items: start; }
-    @media (max-width: 1100px) { .triage-options { grid-template-columns: repeat(2, 1fr); } }
-    /* background colour sits behind the number + title only; description is plain, below, left-aligned */
-    .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); background: transparent; padding: 0; }
-    .triage-opt-head { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--spacing-tight); padding: 5px 12px 5px 6px; border-radius: var(--radius-full); }
-    .triage-opt.is-start .triage-opt-head { background: var(--bg-tertiary); }
-    .triage-opt.is-action .triage-opt-head { background: var(--bg-brand-subtle); }
-    .triage-opt.is-monitor .triage-opt-head { background: var(--bg-info-subtle); }
-    .triage-opt.is-support .triage-opt-head { background: var(--bg-negative-subtle); }
-    .triage-opt-num { flex: none; width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--bg-base); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--content-base); }
+    .triage-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
+    .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); }
+    .triage-opt-head { display: flex; align-items: center; gap: var(--spacing-tight); }
+    .triage-opt-icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+    .triage-opt-icon.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .triage-opt-icon.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
+    .triage-opt-icon.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
     .triage-opt-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .triage-opt-d { margin: 0; font-size: 14px; line-height: 1.5; color: var(--content-secondary); }
+    .triage-opt-d { font-size: 14px; line-height: 1.5; color: var(--content-secondary); }
     .triage-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
 
     /* Action nudge — inline notification between the tabs and the stat pills */
@@ -839,20 +836,16 @@
               </div>
             </div>
             <div class="triage-options">
-              <div class="triage-opt is-start">
-                <div class="triage-opt-head"><span class="triage-opt-num">1</span><span class="triage-opt-t">Choose your focus area</span></div>
-                <p class="triage-opt-d">Start here — pick an area below and select “Choose” to respond to it</p>
-              </div>
-              <div class="triage-opt is-action">
-                <div class="triage-opt-head"><span class="triage-opt-num">2</span><span class="triage-opt-t">Take action</span></div>
+              <div class="triage-opt">
+                <div class="triage-opt-head"><span class="triage-opt-icon is-action">1</span><span class="triage-opt-t">Take action</span></div>
                 <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
               </div>
-              <div class="triage-opt is-monitor">
-                <div class="triage-opt-head"><span class="triage-opt-num">3</span><span class="triage-opt-t">Monitor</span></div>
+              <div class="triage-opt">
+                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor">2</span><span class="triage-opt-t">Monitor</span></div>
                 <p class="triage-opt-d">Not urgent yet, so keep it on your radar and revisit at the next survey</p>
               </div>
-              <div class="triage-opt is-support">
-                <div class="triage-opt-head"><span class="triage-opt-num">4</span><span class="triage-opt-t">Need support</span></div>
+              <div class="triage-opt">
+                <div class="triage-opt-head"><span class="triage-opt-icon is-support">3</span><span class="triage-opt-t">Need support</span></div>
                 <p class="triage-opt-d">Outside the team's control, so flag it for the right person to pick up</p>
               </div>
             </div>
@@ -1587,24 +1580,13 @@
     '</div>';
   }
 
+  // Overview pin → pick a question → open the SAME stepper dialog used on the Focus View
   function renderScorePop(screen, idx){
     var pop = document.getElementById('low-pin-pop'); if(!pop) return;
-    if(screen === 'detail'){
-      var q = LOW_SCORES[idx];
-      pop.innerHTML =
-        '<button class="sc-pop-back" onclick="renderScorePop(\'list\')"><i data-icon="arrow-left"></i> Back to list</button>' +
-        '<div class="sc-pop-head">' + esc(q.q) + ' <span class="sc-pop-score">(' + q.s + '%)</span></div>' +
-        '<div class="sc-pop-lbl">Decide how you’ll respond</div>' +
-        ['action', 'monitor', 'support'].map(function(st){
-          return '<button class="sc-pop-opt is-' + st + '" onclick="pickScoreTriage(' + idx + ',\'' + st + '\')">' +
-            '<span class="sc-pop-opt-ico"><i data-icon="' + TRIAGE[st].icon + '"></i></span>' + TRIAGE[st].label + '</button>';
-        }).join('');
-    } else {
-      pop.innerHTML = LOW_SCORES.map(function(q, i){
-        return '<button class="sc-pop-q" onclick="renderScorePop(\'detail\',' + i + ')">' +
-          '<span class="sc-pop-q-title">' + esc(q.q) + '</span><span class="sc-pop-qscore">' + q.s + '%</span></button>';
-      }).join('');
-    }
+    pop.innerHTML = LOW_SCORES.map(function(q, i){
+      return '<button class="sc-pop-q" onclick="openScoreStep(' + i + ')">' +
+        '<span class="sc-pop-q-title">' + esc(q.q) + '</span><span class="sc-pop-qscore">' + q.s + '%</span></button>';
+    }).join('');
     if(window.Icons) window.Icons.render(pop);
   }
   function toggleScorePop(e){
@@ -1614,20 +1596,17 @@
     if(willOpen) renderScorePop('list');
     pop.hidden = !willOpen;
   }
-  function pickScoreTriage(idx, state){
+  function openScoreStep(idx){
     var pop = document.getElementById('low-pin-pop'); if(pop) pop.hidden = true;
-    openScorePlan(idx, state);
-  }
-  function openScorePlan(idx, state){
     var q = LOW_SCORES[idx];
     var id = 'sc-' + idx;
     var t = scoreTargets.find(function(x){ return x.id === id; });
-    if(!t){ t = { id: id, text: q.q, score: q.s + '%', planItems: [], approach: null, planDesc: '' }; scoreTargets.push(t); }
-    t.triage = state;
-    if(state === 'action' && !t.planItems.length){ t.planItems.push({ text: '', done: false, isNew: true }); }
-    planCurrentId = id;
-    renderPlanPanel();
-    ensurePlanOverlay().hidden = false;
+    if(!t){
+      var keys = Object.keys(RECO);
+      t = { id: id, text: q.q, score: q.s + '%', recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      scoreTargets.push(t);
+    }
+    openStepDialog(id);
   }
   document.addEventListener('click', function(e){
     var pop = document.getElementById('low-pin-pop');
@@ -1670,7 +1649,7 @@
   var stepFaId = null;
   var stepStage = 'respond';   // 'respond' | 'plan' | 'success'
   var stepBusy = false;        // brief loader while advancing between steps
-  function stepFa(){ return focusAreas.find(function(f){ return f.id===stepFaId; }); }
+  function stepFa(){ return planFa(stepFaId); }
 
   function openStepDialog(id, startStage){
     stepFaId = id;
