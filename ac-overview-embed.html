@@ -21,10 +21,12 @@
     .main { display: block !important; min-width: 0 !important; }
     .main-scroll { overflow: visible !important; height: auto !important; }
     .overview-wrap { padding-top: var(--spacing-loose); }
-    /* Score questions become the triage entry point — clicking one opens the prototype's
-       stepper dialog in the parent window (same flow as the Focus View). */
-    .qs-card .qs-row { cursor: pointer; border-radius: var(--radius-base); transition: background var(--motion-fast, .1s) ease; }
-    .qs-card .qs-row:hover { background: var(--bg-secondary); }
+    /* Keep the 3-up card grid the prototype embeds in a ~1200px iframe (the DS drops to 2-up
+       below a 1300px *viewport*, which the iframe always is). Columns shrink to fit via minmax. */
+    @media (min-width: 900px) {
+      .ov-grid { grid-template-columns: repeat(3, minmax(0, 384px)) !important; max-width: 1200px !important; }
+      .ai-summary { max-width: 1200px !important; }
+    }
   </style>
 </head>
 <body>
@@ -36,32 +38,33 @@
     // Render the design-system Overview (exact reference dataset + real Chart.js charts).
     renderOverview('team-it-after', 'overview');
 
-    var wired = false;
-    function bridgeScoreTriage(){
-      if(wired) { reportHeight(); return; }
-      var any = false;
-      [['is-low', 'low'], ['is-high', 'high']].forEach(function(pair){
-        document.querySelectorAll('.qs-card.' + pair[0] + ' .qs-row').forEach(function(row){
-          any = true;
-          row.addEventListener('click', function(e){
-            e.stopPropagation();
-            var q = (row.querySelector('.qs-row-q') || {}).textContent || '';
-            var s = (row.querySelector('.qs-row-score') || {}).textContent || '';
-            if(window.parent && window.parent.openScoreStepFromEmbed){
-              window.parent.openScoreStepFromEmbed(q.trim(), s.trim(), pair[1]);
-            }
-          });
-        });
-      });
-      if(any) wired = true;
-      reportHeight();
-    }
+    // Route the Highest/Lowest scores pin to the prototype's triage dialog instead of the DS's
+    // "Select a goal" (Promote / Improve / Contemplate) step. Capture-phase on document so this runs
+    // before the DS's own per-item handler; scoped to the two score cards only (Themes/Topics keep
+    // their native goal flow). Delegation survives the DS re-rendering the popover.
+    document.addEventListener('click', function(e){
+      var item = e.target.closest && e.target.closest('.sc-pinlist-item');
+      if(!item) return;
+      var card = item.closest('.qs-card.is-low, .qs-card.is-high');
+      if(!card) return;
+      e.stopPropagation(); e.preventDefault();
+      var which = card.classList.contains('is-high') ? 'high' : 'low';
+      var name = item.getAttribute('data-pin-name') || (item.querySelector('.menu-item-title') || {}).textContent || '';
+      var score = item.getAttribute('data-pin-score') || '';
+      // close the DS popover so it isn't left open behind the dialog
+      document.querySelectorAll('.sc-pin-pop').forEach(function(p){ p.hidden = true; });
+      document.querySelectorAll('.sc-pin.is-pressed').forEach(function(b){ b.classList.remove('is-pressed'); });
+      if(window.parent && window.parent.openScoreStepFromEmbed){
+        window.parent.openScoreStepFromEmbed((name || '').replace(/\s*\(\d+%\)\s*$/, '').trim(), (score || '').trim(), which);
+      }
+    }, true);
+
+    // Report content height so the parent can size the iframe with no inner scrollbar.
     function reportHeight(){
       var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
       try { if(window.parent) window.parent.postMessage({ type: 'ov-embed-height', height: h }, '*'); } catch(e){}
     }
-    // Charts draw on fonts.ready; wire the bridge and report height after that settles.
-    function boot(){ bridgeScoreTriage(); setTimeout(bridgeScoreTriage, 200); setTimeout(reportHeight, 700); }
+    function boot(){ reportHeight(); setTimeout(reportHeight, 250); setTimeout(reportHeight, 800); }
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ setTimeout(boot, 60); }); }
     window.addEventListener('load', function(){ setTimeout(boot, 120); });
     window.addEventListener('resize', reportHeight);

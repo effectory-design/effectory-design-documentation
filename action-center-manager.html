@@ -555,7 +555,7 @@
     .stp-dot { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--bg-base); border: 2px solid var(--border-base); color: var(--content-subtle); font-size: 14px; font-weight: 600; flex: none; transition: background-color .2s, border-color .2s, color .2s, box-shadow .2s; }
     .stp-dot i { display: flex; width: 16px; height: 16px; }
     .stp-label { font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--content-subtle); }
-    .stp-step.is-active .stp-dot { background: var(--content-brand); border-color: var(--content-brand); color: #fff; box-shadow: 0 0 0 3px var(--bg-brand-subtle); }
+    .stp-step.is-active .stp-dot { background: var(--bg-base); border-color: var(--content-subtle); color: var(--content-base); box-shadow: 0 0 0 3px var(--bg-secondary); }
     .stp-step.is-active .stp-label { color: var(--content-base); }
     .stp-step.is-done .stp-dot { background: var(--bg-positive); border-color: var(--bg-positive); color: #fff; }
     .stp-step.is-done .stp-label { color: var(--content-base); }
@@ -791,7 +791,7 @@
             </div>
             <div class="triage-options">
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-action">1</span><span class="triage-opt-t">Take action</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-action">1</span><span class="triage-opt-t">Improve</span></div>
                 <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
               </div>
               <div class="triage-opt">
@@ -904,7 +904,7 @@
   var APPROACH_ICON = { '1 on 1 action':'user', 'Team level action':'group', 'Process / structural action':'gear' };
   var EFFORT = { '1 on 1 action':'low', 'Team level action':'medium', 'Process / structural action':'high' };
   var EFFORT_LABEL = { low:'Low effort', medium:'Medium effort', high:'High effort' };
-  var LABEL = { action:'Take action', monitor:'Monitor', support:'Need support', dismiss:'Not relevant' };
+  var LABEL = { action:'Improve', monitor:'Monitor', support:'Need support', dismiss:'Not relevant' };
 
   // Recommended actions per focus area — reused verbatim from the design-system Focus View (effectiveness-focus.html).
   var RECO = {
@@ -926,7 +926,7 @@
   };
 
   var DECIDED = {
-    action:  { title:"Take action", sub:"You'll turn this into a concrete step. This is where you directly improve your team's day-to-day experience.", icon:"target" },
+    action:  { title:"Improve", sub:"You'll turn this into a concrete step. This is where you directly improve your team's day-to-day experience.", icon:"target" },
     monitor: { title:"Monitor", sub:"Not everything needs action right now. You'll keep an eye on this and see if it shifts by the next survey before deciding.", icon:"eye" },
     support: { title:"Flagged for support", sub:"Shared with HR right away", icon:"flag" }
   };
@@ -1180,7 +1180,7 @@
           : '<button class="btn btn-primary"' + (picked.length ? '' : ' disabled') + ' onclick="confirmActions(' + fa.id + ')">Add action</button>';
         zone =
           '<div class="fv-approach">' +
-            chosenBlock('action','target','Take action',
+            chosenBlock('action','target','Improve',
               '<div class="fv-approach-lbl">Pick the actions you want to take</div>' +
               '<div class="fv-picks">' + pickCards + '</div>' +
               '<button class="btn btn-link fv-create"><i data-icon="plus"></i> Create new action</button>' +
@@ -1199,7 +1199,7 @@
           '</li>';
         }).join('');
         var aDetails = '<ul class="fa-done-list">' + itemsList + '</ul>';
-        zone = doneView(fa, 'target', "You're taking action on this focus area", aDetails, hrNoteHTML());
+        zone = doneView(fa, 'target', "You're improving this focus area", aDetails, hrNoteHTML());
       }
 
       return '<div class="' + cardCls + '" data-id="' + fa.id + '">' + head + zone + '</div>';
@@ -1721,7 +1721,7 @@
     { q: 'In my team we collaborate well', s: 90 },
     { q: 'My team regularly develops good ideas for improvement', s: 90 }
   ];
-  var TRIAGE = { action: { icon: 'target', label: 'Take action' }, monitor: { icon: 'eye', label: 'Monitor' }, support: { icon: 'flag', label: 'Need support' }, dismiss: { icon: 'down-vote', label: 'Not relevant' } };
+  var TRIAGE = { action: { icon: 'target', label: 'Improve' }, monitor: { icon: 'eye', label: 'Monitor' }, support: { icon: 'flag', label: 'Need support' }, dismiss: { icon: 'down-vote', label: 'Not relevant' } };
 
   // Panel lookup spans focus areas AND ad-hoc score-question targets from the Overview
   function planFa(id){
@@ -1790,7 +1790,7 @@
     var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
     var title, details = '';
     if(fa.state === 'action'){
-      title = "You're taking action on this focus area";
+      title = "You're improving this focus area";
       details = '<ul class="fa-done-list">' + (fa.planItems || []).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text || 'Untitled action') + '</span></li>'; }).join('') + '</ul>';
     } else if(fa.state === 'monitor'){
       title = 'This focus area is being monitored';
