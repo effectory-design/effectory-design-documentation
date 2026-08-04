@@ -734,6 +734,21 @@
     .triage-modal { position: relative; width: min(760px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose) var(--spacing-super-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .triage-modal-head { display: flex; flex-direction: column; gap: var(--spacing-tight); padding-right: var(--spacing-loose); }
     .triage-modal-foot { display: flex; justify-content: flex-end; border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); }
+    .fv-see-reco.btn-link { align-self: flex-start; gap: var(--spacing-tight); padding: 0; }
+    .fv-see-reco.btn-link i { display: flex; width: 16px; height: 16px; }
+    .fv-newaction select.fv-na-assignee, .fv-newaction input[type="date"] { height: 40px; padding: 0 var(--spacing-base-tight); border: 1px solid var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); font-family: inherit; font-size: 14px; color: var(--content-base); width: 100%; box-sizing: border-box; }
+    .fv-newaction select.fv-na-assignee { cursor: pointer; }
+    .triage-modal { position: relative; }
+    .triage-close-wrap { position: absolute; top: var(--spacing-base); right: var(--spacing-base); z-index: 5; }
+    .triage-close-wrap .step-close { position: static; }
+    .triage-close-pop { position: absolute; top: calc(100% + 6px); right: 0; width: 288px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers, 0 12px 32px rgba(0,0,0,.18)); padding: var(--spacing-base); z-index: 10; text-align: left; }
+    .triage-close-pop[hidden] { display: none; }
+    .triage-close-msg { margin: 0 0 var(--spacing-base-tight); font-size: 14px; line-height: 1.5; color: var(--content-base); }
+    .triage-close-acts { display: flex; justify-content: flex-end; gap: var(--spacing-tight); }
+    .triage-modal-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); }
+    .triage-foot-right { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
+    .triage-nav { gap: 6px; }
+    .triage-nav i { display: flex; width: 15px; height: 15px; }
   </style>
 </head>
 <body>
@@ -980,14 +995,20 @@
         <!-- ═══════════════ TRIAGE DIALOG ═══════════════ -->
         <div class="overlay triage-overlay" id="triage-dialog" hidden>
           <div class="triage-modal" role="dialog" aria-modal="true">
-            <button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="backToFocus()"><i data-icon="cross"></i></button>
+            <div class="triage-close-wrap">
+              <button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="triageAskClose()"><i data-icon="cross"></i></button>
+              <div class="triage-close-pop" id="triage-close-pop" hidden>
+                <p class="triage-close-msg">Close triage? Focus areas you haven't completed won't be saved.</p>
+                <div class="triage-close-acts"><button class="btn btn-secondary" onclick="triageDismissClose()">Keep editing</button><button class="btn btn-primary" onclick="backToFocus()">Close &amp; discard</button></div>
+              </div>
+            </div>
             <div class="triage-modal-head">
               <span class="fv-eyebrow is-focus">Triage</span>
               <h2 class="step-h2" id="triage-title">Choose how to respond</h2>
-              <p class="step-sub">Decide how you'll respond to each focus area you selected. HR is informed on your response automatically.</p>
+              <p class="step-sub" id="triage-progress">0 / 0 completed</p>
             </div>
             <div class="fv-cards triage-modal-body" id="triage-cards"></div>
-            <div class="triage-modal-foot"><button class="btn btn-primary" onclick="backToFocus()">Done</button></div>
+            <div class="triage-modal-foot" id="triage-foot"></div>
           </div>
         </div>
 
@@ -1152,7 +1173,9 @@
     '</div></div>';
   }
   // ── Focus View (V4): multi-select cards → sticky "Continue" → Triage sub-page ──
-  var triageIds = [];   // focus areas currently being triaged on the sub-page
+  var triageIds = [];   // focus areas currently being triaged
+  var triageIndex = 0;      // current card in the one-by-one wizard
+  var triageSeenDone = {};  // completions we've already auto-advanced past
 
   function renderCards(){
     var primary = focusAreas.filter(function(f){ return !f.secondary; }).map(focusCardV4).join('');
@@ -1239,6 +1262,7 @@
     triageIds = focusAreas.filter(function(f){ return f.selected && !faDecided(f); }).map(function(f){ return f.id; });
     focusAreas.forEach(function(f){ f.selected = false; });
     if(!triageIds.length) return;
+    triageIndex = 0; triageSeenDone = {};
     showTriage();
   }
   function showTriage(){
@@ -1248,19 +1272,25 @@
   }
   function backToFocus(){
     var dlg = document.getElementById('triage-dialog'); if(dlg) dlg.hidden = true;
+    var cp = document.getElementById('triage-close-pop'); if(cp) cp.hidden = true;
     document.body.classList.remove('step-open');
     renderCards();
   }
-  function triageChange(id){ triageIds = [id]; changeDecision(id); showTriage(); }
-  function triageEdit(id){ triageIds = [id]; editResponse(id); showTriage(); }
+  function triageChange(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; changeDecision(id); showTriage(); }
+  function triageEdit(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; editResponse(id); showTriage(); }
 
   // Triage sub-page — the V1 inline-triage cards (Improve / Monitor / Need support / Not relevant),
   // rendered only for the selected focus areas. Same flow + state functions as V1.
   function renderTriage(){
     var host = document.getElementById('triage-cards'); if(!host) return;
-    var areas = focusAreas.filter(function(f){ return triageIds.indexOf(f.id) > -1; });
-    var titleEl = document.getElementById('triage-title');
-    if(titleEl) titleEl.textContent = areas.length === 1 ? 'Choose how to respond' : ('Choose how to respond to ' + areas.length + ' focus areas');
+    var total = triageIds.length;
+    if(triageIndex >= total) triageIndex = Math.max(0, total - 1);
+    if(triageIndex < 0) triageIndex = 0;
+    triageIds.forEach(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); if(g && !faDecided(g)) delete triageSeenDone[id]; });
+    var completed = triageIds.filter(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }).length;
+    var prog = document.getElementById('triage-progress'); if(prog) prog.textContent = completed + ' / ' + total + ' completed';
+    var curId = triageIds[triageIndex];
+    var areas = focusAreas.filter(function(f){ return f.id === curId; });
     host.innerHTML = areas.map(function(fa){
       var isAction = fa.state === 'action';
       var active   = isAction && fa.picked && fa.picked.length;
@@ -1386,8 +1416,7 @@
         }).join('');
         var doneBtn = fa.busy === 'confirm' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary"' + ((picked.length || (fa.customActions && fa.customActions.length)) ? '' : ' disabled') + ' onclick="confirmActions(' + fa.id + ')">Add action</button>';
         zone = '<div class="fv-approach">' + chosenBlock('action','target','Improve',
-          '<div class="fv-approach-lbl">Pick the actions you want to take</div><div class="fv-picks">' + pickCards + '</div>' +
-          customActionsHTML(fa) + newActionFormHTML(fa) + actionRow(doneBtn)
+          (fa.creatingAction ? '' : '<div class="fv-approach-lbl">Pick the actions you want to take</div><div class="fv-picks">' + pickCards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa) + (fa.creatingAction ? '' : actionRow(doneBtn))
         ) + '</div>';
       } else {
         var itemsList = (fa.planItems || []).map(function(it, i){
@@ -1399,7 +1428,33 @@
     }).join('');
     if(window.Icons) window.Icons.render(host);
     openPanels();
+    renderTriageFoot();
+    var curFa = focusAreas.find(function(x){ return x.id === curId; });
+    if(curFa && faDecided(curFa) && !triageSeenDone[curId]){
+      triageSeenDone[curId] = true;
+      var nxt = triageNextIncomplete(triageIndex + 1);
+      if(nxt > -1){ setTimeout(function(){ triageIndex = nxt; renderTriage(); }, 800); }
+    }
   }
+  function renderTriageFoot(){
+    var foot = document.getElementById('triage-foot'); if(!foot) return;
+    var total = triageIds.length;
+    foot.innerHTML =
+      '<button class="btn btn-secondary triage-nav"' + (triageIndex <= 0 ? ' disabled' : '') + ' onclick="triagePrev()"><i data-icon="chevron-left"></i> Previous</button>' +
+      '<div class="triage-foot-right">' +
+        '<button class="btn btn-secondary triage-nav"' + (triageIndex >= total - 1 ? ' disabled' : '') + ' onclick="triageNext()">Next <i data-icon="chevron-right"></i></button>' +
+        '<button class="btn btn-primary" onclick="backToFocus()">Complete</button>' +
+      '</div>';
+    if(window.Icons) window.Icons.render(foot);
+  }
+  function triageNextIncomplete(from){
+    for(var i = from; i < triageIds.length; i++){ var g = focusAreas.find(function(x){ return x.id === triageIds[i]; }); if(g && !faDecided(g)) return i; }
+    return -1;
+  }
+  function triagePrev(){ if(triageIndex > 0){ triageIndex--; renderTriage(); } }
+  function triageNext(){ if(triageIndex < triageIds.length - 1){ triageIndex++; renderTriage(); } }
+  function triageAskClose(){ var pp = document.getElementById('triage-close-pop'); if(pp) pp.hidden = !pp.hidden; }
+  function triageDismissClose(){ var pp = document.getElementById('triage-close-pop'); if(pp) pp.hidden = true; }
 
 
   // The panel renders collapsed and opens on the next frame, so the transition has a start to run
@@ -2232,7 +2287,8 @@
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
     var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
-    return '<div class="fv-newaction">' +
+    return '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>' +
+      '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
       '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
@@ -2266,7 +2322,7 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa) + newActionFormHTML(fa);
+      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
       var mode = fa.monitorMode || 'survey';
@@ -2326,6 +2382,7 @@
       var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
+      if(fa.state === 'action' && fa.creatingAction) footer = '';
     }
     document.getElementById('step-dialog').innerHTML =
       '<div class="step-modal' + (stepStage === 'success' ? ' is-success' : '') + (stepPersonMenuOpen ? ' menu-open' : '') + '" role="dialog" aria-modal="true">' +
@@ -2335,7 +2392,7 @@
     if(window.Icons) window.Icons.render(document.getElementById('step-dialog'));
   }
   document.getElementById('step-dialog').addEventListener('click', function(e){ if(e.target === this) stepClose(); });
-  (function(){ var td = document.getElementById('triage-dialog'); if(td) td.addEventListener('click', function(e){ if(e.target === this) backToFocus(); }); })();
+  (function(){ var td = document.getElementById('triage-dialog'); if(td) td.addEventListener('click', function(e){ if(e.target === this) triageAskClose(); }); })();
 
   renderCards();
   renderWins();

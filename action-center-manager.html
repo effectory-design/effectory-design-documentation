@@ -689,6 +689,10 @@
     .fv-custom-tag i { display: flex; width: 13px; height: 13px; }
     .fv-custom-x { flex: none; }
     .fa-done-editrow { display: flex; margin-top: var(--spacing-tight); }
+    .fv-see-reco.btn-link { align-self: flex-start; gap: var(--spacing-tight); padding: 0; }
+    .fv-see-reco.btn-link i { display: flex; width: 16px; height: 16px; }
+    .fv-newaction select.fv-na-assignee, .fv-newaction input[type="date"] { height: 40px; padding: 0 var(--spacing-base-tight); border: 1px solid var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); font-family: inherit; font-size: 14px; color: var(--content-base); width: 100%; box-sizing: border-box; }
+    .fv-newaction select.fv-na-assignee { cursor: pointer; }
   </style>
 </head>
 <body>
@@ -1241,10 +1245,10 @@
         zone =
           '<div class="fv-approach">' +
             chosenBlock('action','target','Improve',
-              '<div class="fv-approach-lbl">Pick the actions you want to take</div>' +
+              (fa.creatingAction ? '' : '<div class="fv-approach-lbl">Pick the actions you want to take</div>' +
               '<div class="fv-picks">' + pickCards + '</div>' +
-              customActionsHTML(fa) + newActionFormHTML(fa) +
-              actionRow(doneBtn)
+              customActionsHTML(fa)) + newActionFormHTML(fa) +
+              (fa.creatingAction ? '' : actionRow(doneBtn))
             ) +
           '</div>';
       } else {
@@ -2101,7 +2105,8 @@
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
     var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
-    return '<div class="fv-newaction">' +
+    return '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>' +
+      '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
       '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
@@ -2135,7 +2140,7 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa) + newActionFormHTML(fa);
+      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
       var mode = fa.monitorMode || 'survey';
@@ -2195,6 +2200,7 @@
       var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
+      if(fa.state === 'action' && fa.creatingAction) footer = '';
     }
     document.getElementById('step-dialog').innerHTML =
       '<div class="step-modal' + (stepStage === 'success' ? ' is-success' : '') + (stepPersonMenuOpen ? ' menu-open' : '') + '" role="dialog" aria-modal="true">' +
