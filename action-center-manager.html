@@ -693,6 +693,8 @@
     .fv-see-reco.btn-link i { display: flex; width: 16px; height: 16px; }
     .fv-newaction select.fv-na-assignee, .fv-newaction input[type="date"] { height: 40px; padding: 0 var(--spacing-base-tight); border: 1px solid var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); font-family: inherit; font-size: 14px; color: var(--content-base); width: 100%; box-sizing: border-box; }
     .fv-newaction select.fv-na-assignee { cursor: pointer; }
+    .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
+    .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
   </style>
 </head>
 <body>
@@ -1341,11 +1343,11 @@
     var changeCtl = fa.busy === 'change'
       ? '<button class="link-inline" disabled><span class="loader-inline"></span></button>'
       : '<button class="link-inline fa-change-link" onclick="changeDecision(' + fa.id + ')"><i data-icon="edit"></i> Change</button>';
-    var editLink = '<button class="link-inline fa-done-editlink" onclick="editResponse(' + fa.id + ')">Edit details</button>';
+    var editLink = '<button class="link-inline fa-done-editlink" onclick="editResponse(' + fa.id + ')"><i data-icon="edit"></i> Edit details</button>';
     return '<div class="fv-approach">' +
       '<div class="fa-done">' +
         '<div class="fa-done-row">' +
-          '<span class="fv-done-check" title="Triaged"><i data-icon="check"></i></span>' +
+          '' +
           '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
           '<div class="fa-done-body">' +
             '<div class="fa-done-title">' + title + '</div>' +
@@ -2128,7 +2130,7 @@
   function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
   function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
   function setNewActionField(id, f, v){ var fa = planFa(id); if(!fa) return; fa.newAction = fa.newAction || {}; fa.newAction[f] = v; }
-  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
+  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ if(typeof stepConfirm === 'function') stepConfirm(); } else if(typeof confirmActions === 'function'){ confirmActions(id); } else { refreshActionForms(); } }
   function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){

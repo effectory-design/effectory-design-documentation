@@ -285,7 +285,9 @@
     .triage-ico i { display: flex; width: 22px; height: 22px; }
     .triage-title { margin: 0 0 var(--spacing-extra-tight); font-size: 20px; font-weight: 600; line-height: 28px; color: var(--content-base); }
     .triage-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .triage-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
+    .triage-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-base-tight); }
+    @media (max-width: 1120px) { .triage-options { grid-template-columns: repeat(2, 1fr); } }
+    .triage-opt-icon.is-select { background: var(--bg-tertiary); color: var(--content-base); }
     .triage-opt { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); }
     .triage-opt-head { display: flex; align-items: center; gap: var(--spacing-tight); }
     .triage-opt-icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
@@ -749,6 +751,16 @@
     .triage-foot-right { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
     .triage-nav { gap: 6px; }
     .triage-nav i { display: flex; width: 15px; height: 15px; }
+    .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
+    .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
+    .triage-progress-lbl { margin: 0; font-size: 13px; font-weight: 600; color: var(--content-secondary); }
+    .triage-foot-nav { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
+    @keyframes triage-slide-in { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+    .triage-modal-body .triage-slide-in { animation: triage-slide-in .3s cubic-bezier(.2,.8,.2,1); }
+    /* "Other areas to keep an eye on" — no divider line, smaller cards, faded-orange score */
+    .fv-more-inline-head { margin-top: var(--spacing-loose) !important; padding-top: 0 !important; border-top: none !important; }
+    #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
+    #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
   </style>
 </head>
 <body>
@@ -911,15 +923,19 @@
             </div>
             <div class="triage-options">
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-action">1</span><span class="triage-opt-t">Improve</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-select">1</span><span class="triage-opt-t">Choose your focus areas</span></div>
+                <p class="triage-opt-d">Select the areas you want to respond to, then continue to triage them</p>
+              </div>
+              <div class="triage-opt">
+                <div class="triage-opt-head"><span class="triage-opt-icon is-action">2</span><span class="triage-opt-t">Improve</span></div>
                 <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
               </div>
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor">2</span><span class="triage-opt-t">Monitor</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor">3</span><span class="triage-opt-t">Monitor</span></div>
                 <p class="triage-opt-d">Not urgent yet, so keep it on your radar and revisit at the next survey</p>
               </div>
               <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-support">3</span><span class="triage-opt-t">Need support</span></div>
+                <div class="triage-opt-head"><span class="triage-opt-icon is-support">4</span><span class="triage-opt-t">Need support</span></div>
                 <p class="triage-opt-d">Outside the team's control, so flag it for the right person to pick up</p>
               </div>
             </div>
@@ -934,6 +950,7 @@
             <a class="fv-why" data-dialog="fa-dialog"><i data-icon="info"></i> Why these focus areas?</a>
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
+            <div class="fv-cards" id="cards-more"></div>
           </div>
         </div>
 
@@ -1005,7 +1022,8 @@
             <div class="triage-modal-head">
               <span class="fv-eyebrow is-focus">Triage</span>
               <h2 class="step-h2" id="triage-title">Choose how to respond</h2>
-              <p class="step-sub" id="triage-progress">0 / 0 completed</p>
+              <p class="triage-progress-lbl" id="triage-progress">0 / 0 completed</p>
+              <p class="step-sub" id="triage-desc"></p>
             </div>
             <div class="fv-cards triage-modal-body" id="triage-cards"></div>
             <div class="triage-modal-foot" id="triage-foot"></div>
@@ -1130,7 +1148,7 @@
     var cta = decided
       ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
       : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
-    var check = decided ? '<span class="fv-done-check" title="Triaged"><i data-icon="check"></i></span>' : '';
+    var check = decided ? '' : '';
     var head =
       '<div class="fv-card-head">' +
         '<div class="fv-card-top">' +
@@ -1167,7 +1185,7 @@
       '<div class="fa-done-row">' +
         '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
         '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
-        '<button class="link-inline fa-done-editlink" onclick="openStepDialog(' + fa.id + ',\'plan\')">Edit details</button>' +
+        '<button class="link-inline fa-done-editlink" onclick="openStepDialog(' + fa.id + ',\'plan\')"><i data-icon="edit"></i> Edit details</button>' +
       '</div>' +
       '<div class="fa-done-details">' + details + '</div>' +
     '</div></div>';
@@ -1176,6 +1194,8 @@
   var triageIds = [];   // focus areas currently being triaged
   var triageIndex = 0;      // current card in the one-by-one wizard
   var triageSeenDone = {};  // completions we've already auto-advanced past
+  var triageSuccess = false;  // showing the final success screen
+  var _triagePrevIndex = -1;  // for the slide animation on navigation
 
   function renderCards(){
     var primary = focusAreas.filter(function(f){ return !f.secondary; }).map(focusCardV4).join('');
@@ -1184,7 +1204,8 @@
       extra = '<div class="fv-more-inline-head">Other areas to keep an eye on</div>' +
         focusAreas.filter(function(f){ return f.secondary; }).map(focusCardV4).join('');
     }
-    document.getElementById('cards').innerHTML = primary + extra;
+    document.getElementById('cards').innerHTML = primary;
+    var moreEl = document.getElementById('cards-more'); if(moreEl) moreEl.innerHTML = extra;
     if(window.Icons) window.Icons.render();
     updateProgress();
     updateStickyBar();
@@ -1231,7 +1252,7 @@
     return '<div class="fv-card is-active" data-id="' + fa.id + '">' +
       '<div class="fv-card-head"><div class="fv-card-top">' +
         '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
-        '<span class="fv-done-check" title="Triaged"><i data-icon="check"></i></span>' +
+        '' +
         '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
         '<span class="fv-card-cta"><button class="btn btn-secondary fv-choose-btn" onclick="triageChange(' + fa.id + ')"><i data-icon="edit"></i> Change</button></span>' +
       '</div></div>' +
@@ -1241,7 +1262,7 @@
           '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
         '</div>' +
         '<div class="fa-done-details">' + details + '</div>' +
-        '<div class="fa-done-editrow"><button class="link-inline fa-done-editlink" onclick="triageEdit(' + fa.id + ')">Edit details</button></div>' +
+        '<div class="fa-done-editrow"><button class="link-inline fa-done-editlink" onclick="triageEdit(' + fa.id + ')"><i data-icon="edit"></i> Edit details</button></div>' +
       '</div></div>' +
     '</div>';
   }
@@ -1262,7 +1283,7 @@
     triageIds = focusAreas.filter(function(f){ return f.selected && !faDecided(f); }).map(function(f){ return f.id; });
     focusAreas.forEach(function(f){ f.selected = false; });
     if(!triageIds.length) return;
-    triageIndex = 0; triageSeenDone = {};
+    triageIndex = 0; triageSeenDone = {}; triageSuccess = false; _triagePrevIndex = -1;
     showTriage();
   }
   function showTriage(){
@@ -1273,16 +1294,31 @@
   function backToFocus(){
     var dlg = document.getElementById('triage-dialog'); if(dlg) dlg.hidden = true;
     var cp = document.getElementById('triage-close-pop'); if(cp) cp.hidden = true;
+    triageSuccess = false;
     document.body.classList.remove('step-open');
     renderCards();
   }
-  function triageChange(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; changeDecision(id); showTriage(); }
-  function triageEdit(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; editResponse(id); showTriage(); }
+  function triageChange(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; triageSuccess = false; _triagePrevIndex = -1; changeDecision(id); showTriage(); }
+  function triageEdit(id){ triageIds = [id]; triageIndex = 0; triageSeenDone = {}; triageSuccess = false; _triagePrevIndex = -1; editResponse(id); showTriage(); }
 
   // Triage sub-page — the V1 inline-triage cards (Improve / Monitor / Need support / Not relevant),
   // rendered only for the selected focus areas. Same flow + state functions as V1.
   function renderTriage(){
     var host = document.getElementById('triage-cards'); if(!host) return;
+    if(triageSuccess){
+      host.innerHTML = '<div class="step-success">' +
+        '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
+        '<h2 class="step-h2">You\u2019re all set</h2>' +
+        '<p class="step-sub">' + triageIds.length + ' focus area' + (triageIds.length === 1 ? '' : 's') + ' triaged. Your team can see them and they\u2019re visible to HR.</p>' +
+        '<button class="btn btn-primary" onclick="backToFocus()">Back to Focus View</button></div>';
+      var f0 = document.getElementById('triage-foot'); if(f0) f0.innerHTML = '';
+      var p0 = document.getElementById('triage-progress'); if(p0) p0.textContent = '';
+      var d0 = document.getElementById('triage-desc'); if(d0) d0.textContent = '';
+      var t0 = document.getElementById('triage-title'); if(t0) t0.textContent = 'All set';
+      if(window.Icons) window.Icons.render(document.getElementById('triage-dialog'));
+      return;
+    }
+    var triageSlide = (triageIndex !== _triagePrevIndex); _triagePrevIndex = triageIndex;
     var total = triageIds.length;
     if(triageIndex >= total) triageIndex = Math.max(0, total - 1);
     if(triageIndex < 0) triageIndex = 0;
@@ -1291,6 +1327,9 @@
     var prog = document.getElementById('triage-progress'); if(prog) prog.textContent = completed + ' / ' + total + ' completed';
     var curId = triageIds[triageIndex];
     var areas = focusAreas.filter(function(f){ return f.id === curId; });
+    var descFa = areas[0];
+    var tEl = document.getElementById('triage-title'); if(tEl) tEl.textContent = 'Choose how to respond';
+    var dEl = document.getElementById('triage-desc'); if(dEl) dEl.textContent = descFa ? ('Pick the response that fits \u201c' + descFa.text + '\u201d. You can change it later.') : '';
     host.innerHTML = areas.map(function(fa){
       var isAction = fa.state === 'action';
       var active   = isAction && fa.picked && fa.picked.length;
@@ -1427,6 +1466,7 @@
       return '<div class="' + cardCls + '" data-id="' + fa.id + '">' + head + zone + '</div>';
     }).join('');
     if(window.Icons) window.Icons.render(host);
+    if(triageSlide && host.firstElementChild) host.firstElementChild.classList.add('triage-slide-in');
     openPanels();
     renderTriageFoot();
     var curFa = focusAreas.find(function(x){ return x.id === curId; });
@@ -1439,14 +1479,20 @@
   function renderTriageFoot(){
     var foot = document.getElementById('triage-foot'); if(!foot) return;
     var total = triageIds.length;
+    var cur = focusAreas.find(function(x){ return x.id === triageIds[triageIndex]; });
+    var inProgress = !!(cur && cur.state && !faDecided(cur));
+    var allDone = total > 0 && triageIds.every(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); });
+    var prevDis = (triageIndex <= 0 || inProgress) ? ' disabled' : '';
+    var nextDis = (triageIndex >= total - 1 || inProgress) ? ' disabled' : '';
     foot.innerHTML =
-      '<button class="btn btn-secondary triage-nav"' + (triageIndex <= 0 ? ' disabled' : '') + ' onclick="triagePrev()"><i data-icon="chevron-left"></i> Previous</button>' +
-      '<div class="triage-foot-right">' +
-        '<button class="btn btn-secondary triage-nav"' + (triageIndex >= total - 1 ? ' disabled' : '') + ' onclick="triageNext()">Next <i data-icon="chevron-right"></i></button>' +
-        '<button class="btn btn-primary" onclick="backToFocus()">Complete</button>' +
-      '</div>';
+      '<div class="triage-foot-nav">' +
+        '<button class="btn btn-secondary triage-nav"' + prevDis + ' onclick="triagePrev()"><i data-icon="chevron-left"></i> Previous</button>' +
+        '<button class="btn btn-secondary triage-nav"' + nextDis + ' onclick="triageNext()">Next <i data-icon="chevron-right"></i></button>' +
+      '</div>' +
+      '<button class="btn btn-primary' + (allDone ? '' : ' is-disabled') + '"' + (allDone ? '' : ' disabled') + ' onclick="triageComplete()">Complete</button>';
     if(window.Icons) window.Icons.render(foot);
   }
+  function triageComplete(){ var allDone = triageIds.length > 0 && triageIds.every(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }); if(!allDone) return; triageSuccess = true; renderTriage(); }
   function triageNextIncomplete(from){
     for(var i = from; i < triageIds.length; i++){ var g = focusAreas.find(function(x){ return x.id === triageIds[i]; }); if(g && !faDecided(g)) return i; }
     return -1;
@@ -1523,7 +1569,7 @@
       ? '<button class="link-inline" disabled><span class="loader-inline"></span></button>'
       : '<button class="link-inline" onclick="changeDecision(' + fa.id + ')">Change</button>';
     // "Edit" lives with the details it edits, so it's clear it tweaks this response (not the triage).
-    var editCtl = '<button class="link-inline fa-done-editlink" onclick="editResponse(' + fa.id + ')">Edit details</button>';
+    var editCtl = '<button class="link-inline fa-done-editlink" onclick="editResponse(' + fa.id + ')"><i data-icon="edit"></i> Edit details</button>';
     return '<div class="fv-approach">' +
       '<div class="fa-done">' +
         '<div class="fa-done-row">' +
@@ -2310,7 +2356,7 @@
   function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
   function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
   function setNewActionField(id, f, v){ var fa = planFa(id); if(!fa) return; fa.newAction = fa.newAction || {}; fa.newAction[f] = v; }
-  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
+  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ if(typeof stepConfirm === 'function') stepConfirm(); } else if(typeof confirmActions === 'function'){ confirmActions(id); } else { refreshActionForms(); } }
   function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
