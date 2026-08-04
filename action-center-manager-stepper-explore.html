@@ -677,10 +677,31 @@
     .step-modal.is-success { width: min(468px, 94vw); gap: var(--spacing-base); }
     .step-modal.is-success .step-body { min-height: 0; }
     .step-modal.menu-open { overflow: visible; }        /* let 'who can help' dropdown escape the modal */
+    /* Don't let the modal's flex column compress tall content — scroll the modal instead. */
+    .step-modal > .step-body { flex-shrink: 0; }
+    .triage-modal > .triage-modal-body { flex-shrink: 0; }
     .step-success { padding: var(--spacing-tight) 0 0 !important; gap: var(--spacing-tight) !important; }
     .step-success .step-sub { max-width: 42ch; margin: 0 auto; text-wrap: balance; }
     .step-success .btn { margin-top: var(--spacing-loose); }
     @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
+    /* Create-new-action form (custom action) */
+    .fv-newaction { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); margin-top: var(--spacing-tight); }
+    .fv-na-lbl { font-size: 13px; font-weight: 600; color: var(--content-base); }
+    .fv-na-opt { font-weight: 400; color: var(--content-subtle); }
+    .fv-newaction .tf, .fv-newaction .ta { width: 100%; }
+    .fv-na-opts { display: flex; gap: var(--spacing-base); flex-wrap: wrap; }
+    .fv-na-field { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
+    .fv-na-actions { display: flex; justify-content: flex-end; gap: var(--spacing-base-tight); margin-top: var(--spacing-tight); }
+    .fv-custom-list { display: flex; flex-direction: column; gap: var(--spacing-tight); margin-top: var(--spacing-tight); }
+    .fv-custom-item { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) var(--spacing-base); border: 1px solid var(--border-brand-subtle); border-radius: var(--radius-md); background: var(--bg-brand-subtle); }
+    .fv-custom-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .fv-custom-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .fv-custom-desc { font-size: 13px; color: var(--content-secondary); }
+    .fv-custom-meta { display: inline-flex; flex-wrap: wrap; gap: var(--spacing-base-tight); margin-top: 2px; }
+    .fv-custom-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--content-secondary); }
+    .fv-custom-tag i { display: flex; width: 13px; height: 13px; }
+    .fv-custom-x { flex: none; }
+    .fa-done-editrow { display: flex; margin-top: var(--spacing-tight); }
   </style>
 </head>
 <body>
@@ -1070,9 +1091,9 @@
       '<div class="fa-done-row">' +
         '<span class="fa-done-ico is-' + fa.state + '"><i data-icon="' + icon + '"></i></span>' +
         '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
-        '<button class="link-inline fa-done-editlink" onclick="openStepDialog(' + fa.id + ',\'plan\')">Edit details</button>' +
       '</div>' +
       '<div class="fa-done-details">' + details + '</div>' +
+      '<div class="fa-done-editrow"><button class="link-inline fa-done-editlink" onclick="openStepDialog(' + fa.id + ',\'plan\')">Edit details</button></div>' +
     '</div></div>';
   }
   function renderCards(){
@@ -1154,7 +1175,7 @@
       ? '<button class="link-inline" disabled><span class="loader-inline"></span></button>'
       : '<button class="link-inline" onclick="changeDecision(' + fa.id + ')">Change</button>';
     // "Edit" lives with the details it edits, so it's clear it tweaks this response (not the triage).
-    var editCtl = '<button class="btn btn-secondary fa-done-edit" onclick="editResponse(' + fa.id + ')"><i data-icon="edit"></i> Edit details</button>';
+    var editCtl = '<button class="link-inline fa-done-editlink" onclick="editResponse(' + fa.id + ')">Edit details</button>';
     return '<div class="fv-approach">' +
       '<div class="fa-done">' +
         '<div class="fa-done-row">' +
@@ -1325,14 +1346,14 @@
   // "Done" turns the selected recommendations into the actions on this focus area.
   function confirmActions(id){
     var fa = focusAreas.find(function(f){ return f.id===id; });
-    if(!fa.picked || !fa.picked.length) return;
+    if((!fa.picked || !fa.picked.length) && !(fa.customActions && fa.customActions.length)) return;
     fa.busy = 'confirm';
     renderCards();
     setTimeout(function(){
       fa.busy = null;
-      fa.planItems = fa.picked.map(function(a){
+      fa.planItems = (fa.picked||[]).map(function(a){
         return { text: RECO[fa.recoKey][a].title, approach: a, done: false };
-      });
+      }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; }));
       fa.actionAdded = true;
       renderCards();
       notifySaved('action');
@@ -1865,7 +1886,7 @@
   });
   function stepCanConfirm(){
     var fa = stepFa();
-    if(fa.state === 'action')  return !!(fa.picked && fa.picked.length);
+    if(fa.state === 'action')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
     if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
     return true;
   }
@@ -1877,7 +1898,7 @@
     var fa = stepFa(); if(!stepCanConfirm()) return;
     stepBusy = true; renderStepDialog();
     setTimeout(function(){
-      if(fa.state === 'action'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }); fa.actionAdded = true; }
+      if(fa.state === 'action'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
       else if(fa.state === 'monitor'){ fa.monitorSaved = true; }
       else if(fa.state === 'support'){ fa.supportSent = true; }
       stepBusy = false; stepStage = 'success';
@@ -1895,6 +1916,53 @@
     }).join('') + '</div>';
   }
 
+
+
+  // ── "Create new action" — a custom action (title + description required; due + assignee optional) ──
+  function customActionsHTML(fa){
+    var list = fa.customActions || [];
+    if(!list.length) return '';
+    return '<div class="fv-custom-list">' + list.map(function(a, i){
+      var meta = (a.due ? '<span class="fv-custom-tag"><i data-icon="from-to"></i> ' + esc(fmtDate(a.due)) + '</span>' : '') +
+        (a.assignee ? '<span class="fv-custom-tag"><i data-icon="user"></i> ' + esc(a.assignee) + '</span>' : '');
+      return '<div class="fv-custom-item"><div class="fv-custom-main"><span class="fv-custom-title">' + esc(a.text) + '</span>' +
+        (a.desc ? '<span class="fv-custom-desc">' + esc(a.desc) + '</span>' : '') +
+        (meta ? '<span class="fv-custom-meta">' + meta + '</span>' : '') + '</div>' +
+        '<button class="ib ib-24 ib-tertiary fv-custom-x" aria-label="Remove action" onclick="removeCustomAction(' + jsId(fa.id) + ',' + i + ')"><i data-icon="cross"></i></button></div>';
+    }).join('') + '</div>';
+  }
+  function newActionFormHTML(fa){
+    if(!fa.creatingAction){
+      return '<button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button>';
+    }
+    var na = fa.newAction || {};
+    var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
+    var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
+    return '<div class="fv-newaction">' +
+      '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
+      '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
+      '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
+      '<textarea class="ta fv-na-desc" rows="2" placeholder="Add a short description of this action" oninput="setNewActionField(' + jsId(fa.id) + ',\'desc\',this.value); newActionSync(this)">' + esc(na.desc || '') + '</textarea>' +
+      '<div class="fv-na-opts">' +
+        '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
+        '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><select class="tf fv-na-assignee" onchange="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)">' + opts + '</select></div>' +
+      '</div>' +
+      '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
+        '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>' +
+    '</div>';
+  }
+  function newActionSync(el){
+    var form = el.closest('.fv-newaction'); if(!form) return;
+    var t = form.querySelector('.fv-na-title'), d = form.querySelector('.fv-na-desc');
+    var ok = !!(t && t.value.trim() && d && d.value.trim());
+    var btn = form.querySelector('.fv-na-add'); if(btn){ btn.disabled = !ok; btn.classList.toggle('is-disabled', !ok); }
+  }
+  function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
+  function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
+  function setNewActionField(id, f, v){ var fa = planFa(id); if(!fa) return; fa.newAction = fa.newAction || {}; fa.newAction[f] = v; }
+  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
+  function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
+  function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
     if(fa.state === 'action'){
       var picked = fa.picked || [];
@@ -1904,7 +1972,7 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>';
+      return '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
       var mode = fa.monitorMode || 'survey';
