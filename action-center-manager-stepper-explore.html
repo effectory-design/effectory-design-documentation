@@ -735,7 +735,7 @@
     .fv-progress { display: flex; align-items: center; gap: var(--spacing-base-tight); flex: 1; min-width: 0; max-width: 360px; }
     .fv-progress-track { flex: 1; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
     .fv-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); transition: width var(--motion-base, .2s) ease; }
-    .fv-progress-lbl { font-size: 12px; font-weight: 600; color: var(--content-secondary); white-space: nowrap; }
+    .fv-progress-lbl { font-size: 15px; font-weight: 700; color: var(--content-base); white-space: nowrap; }
 .step-opt.is-promote .step-opt-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
@@ -765,11 +765,12 @@
     .fv-win-card.is-done { border-color: var(--border-positive-subtle); }
     .triage-flow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); margin-top: var(--spacing-base); align-items: stretch; }
     .triage-step { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-base); }
-    .triage-hl { display: inline; padding: 2px 6px; border-radius: var(--radius-sm); font-weight: 600; white-space: nowrap; }
-    .triage-hl.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .triage-hl.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .triage-hl.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
-    .triage-hl.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .triage-hl { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; white-space: nowrap; vertical-align: middle; }
+    .triage-hl i { display: inline-flex; width: 13px; height: 13px; }
+    .triage-hl.is-action { color: var(--content-brand); }
+    .triage-hl.is-monitor { color: var(--content-info); }
+    .triage-hl.is-support { color: var(--content-negative); }
+    .triage-hl.is-promote { color: var(--content-positive); }
     .triage-step-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-extra-tight); }
     .triage-step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--bg-brand-subtle); color: var(--content-brand); font-size: 13px; font-weight: 700; flex: none; }
     .triage-step-t { font-size: 15px; font-weight: 600; color: var(--content-base); }
@@ -948,18 +949,18 @@
             <div class="triage-head">
               <span class="triage-ico"><i data-icon="lightbulb"></i></span>
               <div>
-                <h3 class="triage-title">Decide how to move forward</h3>
-                <p class="triage-text">For each area you chose, make one call. You can come back and change it anytime.</p>
+                <h3 class="triage-title">Choose your areas, then decide what to do</h3>
+                <p class="triage-text">Pick the areas that matter to you, then decide what to do with each. Do them in any order and come back anytime.</p>
               </div>
             </div>
             <div class="triage-flow">
               <div class="triage-step">
                 <div class="triage-step-head"><span class="triage-step-num">1</span><span class="triage-step-t">Choose your focus areas</span></div>
-                <p class="triage-step-d">Start with the questions that matter most to your team right now. Select as many as you like — nothing is locked in, so you can add or remove areas whenever you want.</p>
+                <p class="triage-step-d">Start with the questions that matter most to your team. Pick as many as you like and adjust them anytime.</p>
               </div>
               <div class="triage-step">
                 <div class="triage-step-head"><span class="triage-step-num">2</span><span class="triage-step-t">Decide how to respond</span></div>
-                <p class="triage-step-d">Then decide how to respond to each one: <span class="triage-hl is-action">Improve</span> it now, <span class="triage-hl is-monitor">Monitor</span> it for later, flag that you <span class="triage-hl is-support">Need support</span>, or <span class="triage-hl is-promote">Promote</span> it as a strength.</p>
+                <p class="triage-step-d">Then choose how to respond: <span class="triage-hl is-action"><i data-icon="target"></i>Improve</span>, <span class="triage-hl is-monitor"><i data-icon="eye"></i>Monitor</span>, <span class="triage-hl is-support"><i data-icon="flag"></i>Need support</span>, or <span class="triage-hl is-promote"><i data-icon="benchmark-up"></i>Promote</span>.</p>
               </div>
             </div>
           </div>
@@ -1208,7 +1209,7 @@
     // decision has been made: undecided → "Choose", decided → "Change" (both open the dialog).
     var cta = decided
       ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
-      : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Respond</button>';
+      : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
     var check = decided ? '' : relevanceThumbsHTML(fa);
     var head =
       '<div class="fv-card-head">' +
@@ -1573,7 +1574,7 @@
       var t = winTarget(w, false); var done = !!(t && faDecided(t));
       var cta = done
         ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="respondWin(' + w.k + ')"><i data-icon="check"></i> ' + (LABEL[t.state] || 'Responded') + '</button>'
-        : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Respond</button>';
+        : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Choose</button>';
       return '<div class="fv-win-card' + (done ? ' is-done' : '') + '">' +
         '<div class="fv-card-q"><p class="fv-card-question">' + esc(w.q) + '</p><span class="fv-card-theme">' + esc(w.theme) + '</span></div>' +
         '<span class="fv-score is-win">' + esc(w.score) + '</span>' +
