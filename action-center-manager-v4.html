@@ -690,7 +690,8 @@
     /* ═══ V4: multi-select focus cards + sticky bar + Triage sub-page ═══ */
     .fv-select { cursor: pointer; transition: border-color var(--motion-fast, .12s) ease, box-shadow var(--motion-fast, .12s) ease, background var(--motion-fast, .12s) ease; }
     .fv-select:hover { border-color: var(--border-action-hover); }
-    .fv-select.is-selected { border-color: var(--border-brand); box-shadow: 0 0 0 1px var(--border-brand); background: var(--bg-brand-subtle); }
+    .fv-select { cursor: pointer; }
+    .fv-select.is-selected { border-color: var(--border-brand); box-shadow: 0 0 0 1px var(--border-brand); background: var(--bg-base); }
     .fv-select .fv-card-top { align-items: center; }
     .fv-select-cb { flex: none; }
     .fv-select .fv-card-question { margin: 0; }
@@ -771,6 +772,22 @@
     .fv-thumb.is-on-down { background: var(--bg-negative-subtle); border-color: var(--border-negative); color: var(--content-negative); }
     .fv-choose-btn.is-chosen { background: var(--bg-brand-subtle); border-color: var(--border-brand); color: var(--content-brand); }
     .fv-choose-btn.is-chosen i { display: flex; width: 15px; height: 15px; }
+    .fv-smarttag-row { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-top: var(--spacing-base-tight); min-width: 0; }
+    .fv-smarttag { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: var(--spacing-extra-tight) var(--spacing-base-tight); border-radius: var(--radius-full); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .fv-smarttag i { display: flex; width: 14px; height: 14px; }
+    .fv-smarttag.is-info { background: var(--bg-info-subtle); color: var(--content-info); }
+    .fv-smarttag.is-warning { background: var(--bg-warning-subtle); color: var(--content-warning); }
+    .fv-smarttag.is-accent { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .fv-smarttag-desc { flex: 1; min-width: 0; font-size: 13px; color: var(--content-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nr-modal { width: min(520px, 94vw); gap: var(--spacing-base); }
+    .nr-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .nr-other { width: 100%; margin-top: var(--spacing-tight); }
+    /* progress bar next to "Why these focus areas" (v2/v3) */
+    .fv-focus-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); }
+    .fv-progress { display: flex; align-items: center; gap: var(--spacing-base-tight); flex: 1; min-width: 0; max-width: 360px; }
+    .fv-progress-track { flex: 1; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
+    .fv-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); transition: width var(--motion-base, .2s) ease; }
+    .fv-progress-lbl { font-size: 12px; font-weight: 600; color: var(--content-secondary); white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -927,8 +944,8 @@
             <div class="triage-head">
               <span class="triage-ico"><i data-icon="lightbulb"></i></span>
               <div>
-                <h3 class="triage-title">Triage your focus areas</h3>
-                <p class="triage-text">Choose how to respond to each area. HR is informed on your response automatically.</p>
+                <h3 class="triage-title">Respond to your focus areas</h3>
+                <p class="triage-text">Respond to each area that matters to you. You can do them in any order and come back anytime.</p>
               </div>
             </div>
             <div class="triage-options">
@@ -1134,7 +1151,61 @@
       '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="Not relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
     '</span>';
   }
-  function setRelevance(e, id, v){ if(e){ e.stopPropagation(); e.preventDefault(); } var fa = planFa(id); if(!fa) return; fa.relevance = (fa.relevance === v ? null : v); renderCards(); }
+
+  // Smart tags — a short "why this is a focus area" signal, on the first three cards only.
+  var SMART_TAGS = {
+    0: { icon: 'arrow-left',  label: 'Furthest below benchmark', tone: 'info',    desc: '22 points below the company benchmark of 58%.' },
+    1: { icon: 'barchart-2',  label: 'Biggest drop',             tone: 'warning', desc: 'Down 11 points since the last survey.' },
+    2: { icon: 'group',       label: 'Most widely felt',         tone: 'accent',  desc: 'Scored low across 4 of your 5 sub-teams.' }
+  };
+  function smartTagHTML(fa){
+    var t = SMART_TAGS[fa.id]; if(!t) return '';
+    return '<div class="fv-smarttag-row"><span class="fv-smarttag is-' + t.tone + '"><i data-icon="' + t.icon + '"></i> ' + t.label + '</span><span class="fv-smarttag-desc">' + t.desc + '</span></div>';
+  }
+  // Thumbs-down opens a short "why not relevant" dialog (the old reasons picker); thumbs-up toggles directly.
+  function setRelevance(e, id, v){
+    if(e){ e.stopPropagation(); e.preventDefault(); }
+    var fa = planFa(id); if(!fa) return;
+    if(v === 'down'){
+      if(fa.relevance === 'down'){ fa.relevance = null; renderCards(); }
+      else { openNotRelevant(id); }
+      return;
+    }
+    fa.relevance = (fa.relevance === v ? null : v); renderCards();
+  }
+  var nrId = null;
+  function ensureNRDialog(){
+    var d = document.getElementById('nr-dialog');
+    if(!d){ d = document.createElement('div'); d.className = 'overlay step-overlay'; d.id = 'nr-dialog'; d.hidden = true; document.body.appendChild(d);
+      d.addEventListener('click', function(e){ if(e.target === d) closeNotRelevant(); }); }
+    return d;
+  }
+  function openNotRelevant(id){ nrId = id; var fa = planFa(id); if(!fa) return; fa.nrReasons = fa.nrReasons || []; ensureNRDialog().hidden = false; document.body.classList.add('step-open'); renderNRDialog(); }
+  function closeNotRelevant(){ var d = document.getElementById('nr-dialog'); if(d) d.hidden = true; document.body.classList.remove('step-open'); }
+  function toggleNRReason(ri){ var fa = planFa(nrId); if(!fa) return; var r = DISMISS_REASONS[ri]; fa.nrReasons = fa.nrReasons || []; var at = fa.nrReasons.indexOf(r); if(at > -1) fa.nrReasons.splice(at, 1); else fa.nrReasons.push(r); renderNRDialog(); }
+  function setNRNote(v){ var fa = planFa(nrId); if(fa) fa.nrNote = v; }
+  function submitNotRelevant(){ var fa = planFa(nrId); if(!fa || !(fa.nrReasons && fa.nrReasons.length)) return; fa.relevance = 'down'; closeNotRelevant(); renderCards(); }
+  function renderNRDialog(){
+    var fa = planFa(nrId); if(!fa) return;
+    var chosen = fa.nrReasons || [];
+    var list = DISMISS_REASONS.map(function(r, ri){
+      var on = chosen.indexOf(r) > -1;
+      var box = '<label class="cb-label-wrap nr-opt"><span class="cb-wrap"><input type="checkbox" class="cb"' + (on ? ' checked' : '') + ' onchange="toggleNRReason(' + ri + ')"></span>' + r + '</label>';
+      if(on && r === OTHER_REASON){ box += '<textarea class="ta nr-other" rows="2" placeholder="Tell us what makes this not relevant" oninput="setNRNote(this.value)">' + esc(fa.nrNote || '') + '</textarea>'; }
+      return box;
+    }).join('');
+    var canSubmit = chosen.length > 0;
+    document.getElementById('nr-dialog').innerHTML =
+      '<div class="step-modal nr-modal" role="dialog" aria-modal="true">' +
+        '<button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="closeNotRelevant()"><i data-icon="cross"></i></button>' +
+        '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico is-support"><i data-icon="down-vote"></i></span><h2 class="step-h2">Not relevant for your team?</h2></div>' +
+        '<p class="step-sub">Tell us why, so HR can read “' + esc(fa.text) + '” in the right context.</p></div>' +
+        '<div class="nr-list">' + list + '</div>' +
+        '<div class="step-footer"><button class="btn btn-secondary" onclick="closeNotRelevant()">Cancel</button>' +
+          '<button class="btn btn-primary' + (canSubmit ? '' : ' is-disabled') + '"' + (canSubmit ? '' : ' disabled') + ' onclick="submitNotRelevant()">Mark not relevant</button></div>' +
+      '</div>';
+    if(window.Icons) window.Icons.render(document.getElementById('nr-dialog'));
+  }
 
   // Identifies which step a card is showing. renderCards() rebuilds the DOM on every interaction, so
   // without this the freshly built panel always looks new and replays its open animation on every
@@ -1236,16 +1307,12 @@
   function focusCardV4(fa){
     if(!faDecided(fa)){
       var sel = !!fa.selected;
-      var cta = sel
-        ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="toggleSelect(' + fa.id + ')"><i data-icon="check"></i> Chosen</button>'
-        : '<button class="btn btn-secondary fv-choose-btn" onclick="toggleSelect(' + fa.id + ')">Choose</button>';
-      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '">' +
+      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '" onclick="toggleSelect(' + fa.id + ')">' +
         '<div class="fv-card-head"><div class="fv-card-top">' +
           '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
           relevanceThumbsHTML(fa) +
           '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
-          '<span class="fv-card-cta">' + cta + '</span>' +
-        '</div></div>' +
+        '</div>' + smartTagHTML(fa) + '</div>' +
       '</div>';
     }
     var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
