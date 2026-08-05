@@ -703,10 +703,10 @@
     .fv-sticky-actions .btn-primary { gap: 6px; }
     .fv-sticky-actions .btn-primary i { display: flex; width: 16px; height: 16px; }
 
-    .triage-page { max-width: 1248px; margin: 0 auto; padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    .triage-page { margin: 0; padding: var(--spacing-super-loose) var(--spacing-super-extra-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .triage-page-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-base); }
     .triage-page-head > div { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .triage-back { flex: none; gap: 6px; }
+    .triage-back { flex: none; gap: 6px; align-self: flex-start; }
     .triage-back i { display: flex; width: 16px; height: 16px; }
     #triage-cards { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
     .triage-page-foot { display: flex; justify-content: flex-end; padding-top: var(--spacing-tight); }
@@ -764,10 +764,10 @@
     #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
     /* V5 triage sub-page (minimalistic, Actions-list style) */
-    .triage-page { max-width: 1248px; margin: 0 auto; padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    .triage-page { margin: 0; padding: var(--spacing-super-loose) var(--spacing-super-extra-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .triage-page-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-base); }
     .triage-page-head > div { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .triage-back { flex: none; gap: 6px; }
+    .triage-back { flex: none; gap: 6px; align-self: flex-start; }
     .triage-back i { display: flex; width: 16px; height: 16px; }
     .triage-page-foot { display: flex; justify-content: flex-end; padding-top: var(--spacing-tight); }
     .triage-list { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
@@ -857,6 +857,9 @@
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
+    .triage-body { width: calc(100% - 371px); align-self: center; display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    @media (max-width: 1199px){ .triage-page { padding-left: var(--spacing-extra-loose); padding-right: var(--spacing-extra-loose); } .triage-body { width: 100%; } }
+    .triage-head-text { display: flex; flex-direction: column; gap: var(--spacing-tight); }
   </style>
 </head>
 <body>
@@ -1101,14 +1104,14 @@
         <!-- ═══════════════ TRIAGE DIALOG ═══════════════ -->
         <div class="view" id="view-triage" hidden>
           <div class="triage-page">
-            <div class="triage-page-head">
-              <button class="btn btn-secondary triage-back" onclick="backToFocus()"><i data-icon="arrow-left"></i> Back to Focus View</button>
-              <div>
+            <button class="btn btn-secondary triage-back" onclick="backToFocus()"><i data-icon="arrow-left"></i> Back to Focus View</button>
+            <div class="triage-body">
+              <div class="triage-head-text">
                 <h2 class="fv-section-title" id="triage-title">Choose how to respond</h2>
                 <p class="fv-section-desc" id="triage-desc"></p>
               </div>
+              <div class="fv-cards triage-list" id="triage-cards"></div>
             </div>
-            <div class="fv-cards triage-list" id="triage-cards"></div>
           </div>
         </div>
 
