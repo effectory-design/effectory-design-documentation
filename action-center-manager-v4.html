@@ -763,6 +763,14 @@
     #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
     .triage-modal-foot { border-top: none; padding-top: 0; border-bottom: 1px solid var(--border-base); padding-bottom: var(--spacing-base); }
+    .fv-relevance { flex: none; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin: 0 var(--spacing-tight); }
+    .fv-thumb { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--border-base); border-radius: var(--radius-base); background: var(--bg-base); color: var(--content-secondary); cursor: pointer; transition: border-color .1s, background .1s, color .1s; }
+    .fv-thumb:hover { border-color: var(--border-action-hover); color: var(--content-base); }
+    .fv-thumb i { display: flex; width: 15px; height: 15px; }
+    .fv-thumb.is-on-up { background: var(--bg-positive-subtle); border-color: var(--border-positive); color: var(--content-positive); }
+    .fv-thumb.is-on-down { background: var(--bg-negative-subtle); border-color: var(--border-negative); color: var(--content-negative); }
+    .fv-choose-btn.is-chosen { background: var(--bg-brand-subtle); border-color: var(--border-brand); color: var(--content-brand); }
+    .fv-choose-btn.is-chosen i { display: flex; width: 15px; height: 15px; }
   </style>
 </head>
 <body>
@@ -1119,6 +1127,14 @@
   ];
 
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function relevanceThumbsHTML(fa){
+    var r = fa.relevance;
+    return '<span class="fv-relevance">' +
+      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="Relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="Not relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
+    '</span>';
+  }
+  function setRelevance(e, id, v){ if(e){ e.stopPropagation(); e.preventDefault(); } var fa = planFa(id); if(!fa) return; fa.relevance = (fa.relevance === v ? null : v); renderCards(); }
 
   // Identifies which step a card is showing. renderCards() rebuilds the DOM on every interaction, so
   // without this the freshly built panel always looks new and replays its open animation on every
@@ -1220,13 +1236,17 @@
   function focusCardV4(fa){
     if(!faDecided(fa)){
       var sel = !!fa.selected;
-      return '<label class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '">' +
+      var cta = sel
+        ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="toggleSelect(' + fa.id + ')"><i data-icon="check"></i> Chosen</button>'
+        : '<button class="btn btn-secondary fv-choose-btn" onclick="toggleSelect(' + fa.id + ')">Choose</button>';
+      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '">' +
         '<div class="fv-card-head"><div class="fv-card-top">' +
-          '<span class="cb-wrap fv-select-cb"><input type="checkbox" class="cb"' + (sel ? ' checked' : '') + ' onchange="toggleSelect(' + fa.id + ')"></span>' +
           '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
+          relevanceThumbsHTML(fa) +
           '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
+          '<span class="fv-card-cta">' + cta + '</span>' +
         '</div></div>' +
-      '</label>';
+      '</div>';
     }
     var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
     var title, details = '';
@@ -1296,6 +1316,7 @@
   function backToFocus(){
     var dlg = document.getElementById('triage-dialog'); if(dlg) dlg.hidden = true;
     var cp = document.getElementById('triage-close-pop'); if(cp) cp.hidden = true;
+    if(!triageSuccess){ triageIds.forEach(function(id){ var fa = focusAreas.find(function(x){ return x.id === id; }); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } }); }
     triageSuccess = false;
     document.body.classList.remove('step-open');
     renderCards();
@@ -1369,7 +1390,7 @@
 
       var zone;
       if(!fa.state){
-        var decChips = ['action','monitor','support','dismiss'].map(function(opt){
+        var decChips = ['action','monitor','support'].map(function(opt){
           if(fa.loadingOpt === opt){
             return '<label class="rb-btn-bordered is-selected is-disabled"><span class="loader-inline"></span>' + LABEL[opt] + '</label>';
           }
@@ -2245,7 +2266,7 @@
     document.body.classList.add('step-open');
     renderStepDialog();
   }
-  function stepClose(){ document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
+  function stepClose(){ var fa = stepFa(); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
   function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
   function stepPickResponse(state){
     var fa = stepFa();

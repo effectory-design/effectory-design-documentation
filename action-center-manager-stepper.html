@@ -707,6 +707,14 @@
     .fv-newaction select.fv-na-assignee { cursor: pointer; }
     .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
     .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
+    .fv-relevance { flex: none; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin: 0 var(--spacing-tight); }
+    .fv-thumb { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--border-base); border-radius: var(--radius-base); background: var(--bg-base); color: var(--content-secondary); cursor: pointer; transition: border-color .1s, background .1s, color .1s; }
+    .fv-thumb:hover { border-color: var(--border-action-hover); color: var(--content-base); }
+    .fv-thumb i { display: flex; width: 15px; height: 15px; }
+    .fv-thumb.is-on-up { background: var(--bg-positive-subtle); border-color: var(--border-positive); color: var(--content-positive); }
+    .fv-thumb.is-on-down { background: var(--bg-negative-subtle); border-color: var(--border-negative); color: var(--content-negative); }
+    .fv-choose-btn.is-chosen { background: var(--bg-brand-subtle); border-color: var(--border-brand); color: var(--content-brand); }
+    .fv-choose-btn.is-chosen i { display: flex; width: 15px; height: 15px; }
   </style>
 </head>
 <body>
@@ -1027,6 +1035,14 @@
   ];
 
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function relevanceThumbsHTML(fa){
+    var r = fa.relevance;
+    return '<span class="fv-relevance">' +
+      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="Relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="Not relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
+    '</span>';
+  }
+  function setRelevance(e, id, v){ if(e){ e.stopPropagation(); e.preventDefault(); } var fa = planFa(id); if(!fa) return; fa.relevance = (fa.relevance === v ? null : v); renderCards(); }
 
   // Identifies which step a card is showing. renderCards() rebuilds the DOM on every interaction, so
   // without this the freshly built panel always looks new and replays its open animation on every
@@ -1058,7 +1074,7 @@
     var cta = decided
       ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
       : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
-    var check = decided ? '' : '';
+    var check = decided ? '' : relevanceThumbsHTML(fa);
     var head =
       '<div class="fv-card-head">' +
         '<div class="fv-card-top">' +
@@ -1838,7 +1854,7 @@
     document.body.classList.add('step-open');
     renderStepDialog();
   }
-  function stepClose(){ document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
+  function stepClose(){ var fa = stepFa(); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
   function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
   function stepPickResponse(state){
     var fa = stepFa();
