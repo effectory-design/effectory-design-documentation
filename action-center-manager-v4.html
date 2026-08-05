@@ -755,12 +755,13 @@
     .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
     .triage-progress-lbl { margin: 0; font-size: 13px; font-weight: 600; color: var(--content-secondary); }
     .triage-foot-nav { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
-    @keyframes triage-slide-in { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
-    .triage-modal-body .triage-slide-in { animation: triage-slide-in .3s cubic-bezier(.2,.8,.2,1); }
+    @keyframes triage-slide-in { 0% { opacity: 0; transform: translateX(72px); } 100% { opacity: 1; transform: translateX(0); } }
+    .triage-modal-body .triage-slide-in { animation: triage-slide-in .55s cubic-bezier(.22,.61,.36,1) both; }
     /* "Other areas to keep an eye on" — no divider line, smaller cards, faded-orange score */
     .fv-more-inline-head { margin-top: var(--spacing-loose) !important; padding-top: 0 !important; border-top: none !important; }
     #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
+    .triage-modal-foot { border-top: none; padding-top: 0; border-bottom: 1px solid var(--border-base); padding-bottom: var(--spacing-base); }
   </style>
 </head>
 <body>
@@ -1022,11 +1023,11 @@
             <div class="triage-modal-head">
               <span class="fv-eyebrow is-focus">Triage</span>
               <h2 class="step-h2" id="triage-title">Choose how to respond</h2>
-              <p class="triage-progress-lbl" id="triage-progress">0 / 0 completed</p>
               <p class="step-sub" id="triage-desc"></p>
+              <p class="triage-progress-lbl" id="triage-progress">0 / 0 completed</p>
             </div>
-            <div class="fv-cards triage-modal-body" id="triage-cards"></div>
             <div class="triage-modal-foot" id="triage-foot"></div>
+            <div class="fv-cards triage-modal-body" id="triage-cards"></div>
           </div>
         </div>
 
