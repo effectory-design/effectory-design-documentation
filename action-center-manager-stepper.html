@@ -612,7 +612,7 @@
     /* ═══ Stepper dialog ═══ */
     .step-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
     .step-overlay[hidden] { display: none; }
-    .step-modal { position: relative; width: min(760px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
+    .step-modal { position: relative; width: min(880px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
     .step-body { min-height: 340px; justify-content: flex-start; }
     .step-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
     .stp-bar { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: 0 40px var(--spacing-tight); }
@@ -642,7 +642,7 @@
     .step-hero-ico.is-success { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .step-h2 { margin: 0; font-size: 22px; font-weight: 600; color: var(--content-base); }
     .step-sub { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .step-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base-tight); }
+    .step-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-base-tight); }
     .step-opt { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); cursor: pointer; font-family: inherit; transition: border-color .15s, box-shadow .15s; }
     .step-opt:hover { border-color: var(--border-action); }
     .step-opt.is-selected { border-color: var(--content-brand); box-shadow: 0 0 0 1px var(--content-brand); }
@@ -736,13 +736,13 @@
     .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     /* Actions — educational empty state (centered) */
-    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); max-width: 620px; margin: var(--spacing-loose) auto; padding: var(--spacing-loose) var(--spacing-base); }
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); max-width: 840px; margin: var(--spacing-loose) auto; padding: var(--spacing-loose) var(--spacing-base); border: none; background: transparent; }
     .actions-illo { width: 300px; max-width: 80%; height: auto; margin-bottom: var(--spacing-tight); }
     .ae-eyebrow { margin-bottom: 2px; }
     .ae-title { font-size: 22px; font-weight: 700; color: var(--content-base); margin: 0; }
     .ae-desc { font-size: 15px; line-height: 1.5; color: var(--content-secondary); margin: 0; max-width: 520px; }
     .ae-types { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight); margin: var(--spacing-base-tight) 0 var(--spacing-tight); }
-    .ae-type { display: flex; align-items: center; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-tight) var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-base); min-width: 178px; }
+    .ae-type { display: flex; align-items: center; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-tight) var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-tertiary); flex: 1 1 168px; min-width: 0; }
     .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
     .ae-type-ico i { display: flex; width: 18px; height: 18px; }
     .ae-type-ico.is-target { background: var(--bg-brand-subtle); color: var(--content-brand); }
@@ -758,7 +758,13 @@
     .fv-explore-link { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; background: none; border: none; padding: 0; }
     .fv-explore-link i { display: flex; width: 16px; height: 16px; }
     .fv-win-card.is-done { border-color: var(--border-positive-subtle); }
-    .triage-flow { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr); gap: var(--spacing-loose); margin-top: var(--spacing-base); align-items: start; }
+    .triage-flow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); margin-top: var(--spacing-base); align-items: stretch; }
+    .triage-step { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-base); }
+    .triage-hl { display: inline; padding: 2px 6px; border-radius: var(--radius-sm); font-weight: 600; white-space: nowrap; }
+    .triage-hl.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .triage-hl.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
+    .triage-hl.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .triage-hl.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .triage-step-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-extra-tight); }
     .triage-step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--bg-brand-subtle); color: var(--content-brand); font-size: 13px; font-weight: 700; flex: none; }
     .triage-step-t { font-size: 15px; font-weight: 600; color: var(--content-base); }
@@ -774,6 +780,13 @@
     .triage-outcome-t { font-size: 13px; font-weight: 600; color: var(--content-base); }
     .triage-outcome-d { font-size: 12px; line-height: 1.4; color: var(--content-secondary); }
     @media (max-width: 760px){ .triage-flow { grid-template-columns: 1fr; } .triage-outcomes { grid-template-columns: 1fr; } }
+    .fv-thumb { position: relative; }
+    .fv-thumb[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--content-base); color: #fff; font-size: 12px; line-height: 1.3; font-weight: 500; padding: 5px 8px; border-radius: var(--radius-sm); white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .12s ease; z-index: 80; box-shadow: 0 4px 12px rgba(15,23,42,.22); }
+    .fv-thumb[data-tip]:hover::after { opacity: 1; visibility: visible; }
+    .ae-type-ico.is-benchmark-up { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
+    .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
+    .fv-defer { color: var(--content-secondary); }
   </style>
 </head>
 <body>
@@ -937,17 +950,11 @@
             <div class="triage-flow">
               <div class="triage-step">
                 <div class="triage-step-head"><span class="triage-step-num">1</span><span class="triage-step-t">Choose your focus areas</span></div>
-                <p class="triage-step-d">Pick the areas that matter most to your team.</p>
+                <p class="triage-step-d">Start with the questions that matter most to your team right now. Select as many as you like — nothing is locked in, so you can add or remove areas whenever you want.</p>
               </div>
               <div class="triage-step">
                 <div class="triage-step-head"><span class="triage-step-num">2</span><span class="triage-step-t">Decide how to respond</span></div>
-                <p class="triage-step-d">Choose one outcome for each area — you can change it later.</p>
-                <div class="triage-outcomes">
-                  <div class="triage-outcome"><span class="triage-dot is-action"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Improve</span><span class="triage-outcome-d">Something the team can influence, so commit to a concrete next step.</span></div></div>
-                  <div class="triage-outcome"><span class="triage-dot is-monitor"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Monitor</span><span class="triage-outcome-d">Not urgent yet, so keep it on your radar and revisit next survey.</span></div></div>
-                  <div class="triage-outcome"><span class="triage-dot is-support"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Need support</span><span class="triage-outcome-d">Outside the team's control, so flag it for the right person.</span></div></div>
-                  <div class="triage-outcome"><span class="triage-dot is-promote"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Promote</span><span class="triage-outcome-d">A real strength worth celebrating, so plan a way to share it.</span></div></div>
-                </div>
+                <p class="triage-step-d">Then decide how to respond to each one: <span class="triage-hl is-action">Improve</span> it now, <span class="triage-hl is-monitor">Monitor</span> it for later, flag that you <span class="triage-hl is-support">Need support</span>, or <span class="triage-hl is-promote">Promote</span> it as a strength.</p>
               </div>
             </div>
           </div>
@@ -1104,8 +1111,8 @@
   function relevanceThumbsHTML(fa){
     var r = fa.relevance;
     return '<span class="fv-relevance">' +
-      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="This focus area is relevant." onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
-      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="This focus area is not relevant." onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" data-tip="This focus area is relevant." onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" data-tip="This focus area is not relevant." onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
     '</span>';
   }
 
@@ -1947,13 +1954,13 @@
         '<div class="ae-type-txt"><span class="ae-type-t">' + label + '</span><span class="ae-type-d">' + desc + '</span></div></div>';
     };
     return '<div class="actions-empty">' + ACTIONS_ILLO +
-      '<span class="fv-eyebrow is-focus ae-eyebrow">Get started</span>' +
       '<h2 class="ae-title">Turn your results into action</h2>' +
       '<p class="ae-desc">Respond to a focus area to decide how you’ll act on it, and it shows up here — shared with your team and visible to HR. Not sure where to start? Create a custom action from your own goal.</p>' +
       '<div class="ae-types">' +
         chip('target', 'Improve', 'Commit to a concrete next step.') +
         chip('eye', 'Monitor', 'Keep it on your radar for later.') +
         chip('flag', 'Need support', 'Flag it for the right person.') +
+        chip('benchmark-up', 'Promote', 'Celebrate and share a strength.') +
       '</div>' +
       '<button class="btn btn-primary ae-cta" onclick="openCustomAction()"><i data-icon="plus"></i> Create Custom Action</button>' +
     '</div>';
@@ -2098,6 +2105,7 @@
     renderStepDialog();
   }
   function stepGoToActions(){ var sd = document.getElementById('step-dialog'); if(sd) sd.hidden = true; document.body.classList.remove('step-open'); renderCards(); var t = document.querySelector('.tab[data-view="actions"]'); if(t) t.click(); }
+  function stepDeferImprove(id){ var fa = (id !== undefined && id !== null) ? planFa(id) : (typeof stepFa === 'function' ? stepFa() : null); if(!fa) return; fa.state = 'action'; fa.actionAdded = true; if(!fa.planItems) fa.planItems = []; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ stepBusy = true; stepStage = 'success'; renderStepDialog(); setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 400); } else { renderCards(); if(typeof updateProgress === 'function') updateProgress(); } }
   function stepClose(){ var fa = stepFa(); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
   function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
   function stepPickResponse(state){
@@ -2193,7 +2201,7 @@
   }
   function newActionFormHTML(fa){
     if(!fa.creatingAction){
-      return '<button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button>';
+      return '<div class="fv-create-row"><button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button><button class="btn btn-link fv-defer" onclick="stepDeferImprove(' + jsId(fa.id) + ')">I\'ll figure it out later</button></div>';
     }
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
@@ -2238,7 +2246,7 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended action(s) you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
+      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><p class="step-plan-sub">Here are a few ideas for inspiration — pick any that fit, or add your own below.</p><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
       var mode = fa.monitorMode || 'survey';
@@ -2283,7 +2291,7 @@
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
-        '<div class="step-options">' + ((/Highest scores/.test(fa.theme||'') || fa.isHigh) ? ['action','monitor','support','promote'] : ['action','monitor','support']).map(function(st){
+        '<div class="step-options">' + ['action','monitor','support','promote'].map(function(st){
           var d = DECIDED[st] || {};
           return '<button class="step-opt is-' + st + (fa.state===st?' is-selected':'') + '" onclick="stepPickResponse(\'' + st + '\')">' +
             '<span class="step-opt-ico"><i data-icon="' + d.icon + '"></i></span><span class="step-opt-title">' + LABEL[st] + '</span>' +
