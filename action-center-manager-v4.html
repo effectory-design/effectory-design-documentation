@@ -246,7 +246,8 @@
 
     /* Need-support request form */
     .fv-approach .slt-wrap { position: relative; }
-    .fa-person-menu { position: absolute; top: calc(100% + var(--spacing-extra-tight)); left: 0; z-index: 20; min-width: 260px; }
+    .fa-person-menu { position: absolute; top: calc(100% + var(--spacing-extra-tight)); left: 0; right: 0; z-index: 20; min-width: 260px; max-height: 264px; overflow-y: auto; }
+    .triage-modal.menu-open { overflow: visible; }
     .fa-person-menu[hidden] { display: none; }
     .fa-support-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-base-tight); }
     .fa-req { color: var(--content-negative-secondary); }
@@ -1400,18 +1401,11 @@
         }
       } else if(fa.state === 'support'){
         if(!fa.supportSent){
-          var personVal = fa.supportPerson ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>' : '<span class="slt-ph">Select a person</span>';
-          var people = PEOPLE.map(function(p){
-            var on = fa.supportPerson === p;
-            return '<div class="menu-item' + (on ? ' is-selected' : '') + '" role="menuitemradio" aria-checked="' + on + '" onclick="setSupportPerson(' + fa.id + ',\'' + p.replace(/'/g, "\\'") + '\')"><span class="menu-item-body"><span class="menu-item-title">' + p + '</span></span>' + (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
-          }).join('');
           var canSend = !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
           zone = '<div class="fv-approach">' + chosenBlock('support','flag','Need support',
             '<div class="ta-wrap"><label class="ta-lbl">Describe the support you need <span class="fa-req">*</span></label>' +
             '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="setSupportText(' + fa.id + ',this.value)">' + esc(fa.supportText || '') + '</textarea></div>' +
-            '<div class="slt-wrap"><label class="slt-lbl">Choose who can help <span class="fa-req">*</span></label>' +
-            '<div class="slt" tabindex="0" onclick="toggleSupportMenu(' + fa.id + ',event)"><span class="slt-left">' + personVal + '</span><i data-icon="chevron-down"></i></div>' +
-            '<div class="menu fa-person-menu" id="person-menu-' + fa.id + '" hidden>' + people + '</div></div>' +
+            supportPersonMenuHTML(fa) +
             actionRow(fa.busy === 'send' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send request</button>')
           ) + '</div>';
         } else {
@@ -1769,20 +1763,37 @@
     btn.disabled = !ok;
     btn.classList.toggle('is-disabled', !ok);
   }
-  function setSupportPerson(id, name){
-    focusAreas.find(function(f){ return f.id===id; }).supportPerson = name;
-    renderCards();
+  function supportPersonListHTML(fa){
+    var q = (fa.personSearch || '').trim().toLowerCase();
+    var matches = PEOPLE.filter(function(p){ return !q || p.toLowerCase().indexOf(q) > -1; });
+    var items = matches.map(function(p){
+      var on = fa.supportPerson === p;
+      return '<div class="menu-item' + (on ? ' is-selected' : '') + '" role="menuitemradio" aria-checked="' + on + '" onclick="setSupportPerson(' + fa.id + ',\'' + p.replace(/'/g, "\\'") + '\')"><span class="menu-item-body"><span class="menu-item-title">' + esc(p) + '</span></span>' + (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
+    }).join('');
+    var raw = (fa.personSearch || '').trim();
+    var exact = PEOPLE.some(function(p){ return p.toLowerCase() === raw.toLowerCase(); });
+    var add = (raw && !exact) ? '<div class="menu-item step-person-add" onclick="addSupportPerson(' + fa.id + ',\'' + raw.replace(/'/g, "\\'") + '\')"><span class="menu-item-body"><span class="menu-item-title">Add “' + esc(raw) + '”</span><span class="menu-item-sub">Add someone from your organisation</span></span><i data-icon="plus"></i></div>' : '';
+    return (items + add) || '<div class="menu-item is-empty">No matches</div>';
   }
-  function toggleSupportMenu(id, e){
-    if(e){ e.stopPropagation(); }
-    var mn = document.getElementById('person-menu-' + id);
-    var willOpen = mn.hidden;
-    document.querySelectorAll('.fa-person-menu').forEach(function(x){ x.hidden = true; });
-    mn.hidden = !willOpen;
+  function supportPersonMenuHTML(fa){
+    var personVal = fa.supportPerson ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>' : '<span class="slt-ph">Select a person</span>';
+    return '<div class="slt-wrap fa-person-wrap">' +
+      '<label class="slt-lbl">Choose who can help <span class="fa-req">*</span></label>' +
+      '<div class="slt" tabindex="0" onclick="toggleSupportMenu(' + fa.id + ',event)"><span class="slt-left">' + personVal + '</span><i data-icon="chevron-down"></i></div>' +
+      '<div class="menu fa-person-menu"' + (fa.supportMenuOpen ? '' : ' hidden') + '>' +
+        '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="support-person-input-' + fa.id + '" placeholder="Search for colleague" value="' + esc(fa.personSearch || '') + '" oninput="onSupportPersonSearch(' + fa.id + ',this.value)" onclick="event.stopPropagation()"></div>' +
+        '<div id="support-person-list-' + fa.id + '">' + supportPersonListHTML(fa) + '</div>' +
+      '</div>' +
+    '</div>';
   }
+  function onSupportPersonSearch(id, v){ var fa = planFa(id); if(!fa) return; fa.personSearch = v; var list = document.getElementById('support-person-list-' + id); if(list){ list.innerHTML = supportPersonListHTML(fa); if(window.Icons) window.Icons.render(list); } }
+  function setSupportPerson(id, name){ var fa = planFa(id); if(!fa) return; fa.supportPerson = name; fa.supportMenuOpen = false; fa.personSearch = ''; renderCards(); syncTriageOverflow(); if(typeof updateSendState === 'function') updateSendState(id); }
+  function addSupportPerson(id, name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); setSupportPerson(id, name); }
+  function toggleSupportMenu(id, e){ if(e){ e.stopPropagation(); } var fa = planFa(id); if(!fa) return; var wasOpen = fa.supportMenuOpen; focusAreas.concat(scoreTargets).forEach(function(f){ f.supportMenuOpen = false; }); fa.supportMenuOpen = !wasOpen; renderCards(); syncTriageOverflow(); var inp = document.getElementById('support-person-input-' + id); if(fa.supportMenuOpen && inp) inp.focus(); }
+  function syncTriageOverflow(){ var m = document.querySelector('.triage-modal'); if(!m) return; var open = focusAreas.concat(scoreTargets).some(function(f){ return f.supportMenuOpen; }); m.classList.toggle('menu-open', open); }
   document.addEventListener('click', function(e){
-    if(!(e.target.closest && (e.target.closest('.slt') || e.target.closest('.fa-person-menu')))){
-      document.querySelectorAll('.fa-person-menu').forEach(function(x){ x.hidden = true; });
+    if(!(e.target.closest && e.target.closest('.fa-person-wrap'))){
+      if(focusAreas.concat(scoreTargets).some(function(f){ return f.supportMenuOpen; })){ focusAreas.concat(scoreTargets).forEach(function(f){ f.supportMenuOpen = false; }); renderCards(); syncTriageOverflow(); }
     }
     if(!(e.target.closest && (e.target.closest('.dp-trigger') || e.target.closest('.fa-dp')))){
       var anyOpen = focusAreas.some(function(f){ return f.dpOpen; });
@@ -2392,7 +2403,7 @@
       '<div class="slt-wrap step-person-wrap">' +
         '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
         '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
-          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search your organisation…" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
+          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search for colleague" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
           '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
         '</div>' +
       '</div>';

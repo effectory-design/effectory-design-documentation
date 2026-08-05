@@ -2008,7 +2008,7 @@
       '<div class="slt-wrap step-person-wrap">' +
         '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
         '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
-          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search your organisation…" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
+          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search for colleague" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
           '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
         '</div>' +
       '</div>';
