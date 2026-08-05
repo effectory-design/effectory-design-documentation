@@ -731,6 +731,10 @@
     .fv-progress-track { flex: 1; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
     .fv-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); transition: width var(--motion-base, .2s) ease; }
     .fv-progress-lbl { font-size: 12px; font-weight: 600; color: var(--content-secondary); white-space: nowrap; }
+.step-opt.is-promote .step-opt-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
   </style>
 </head>
 <body>
@@ -1013,7 +1017,7 @@
   var APPROACH_ICON = { '1 on 1 action':'user', 'Team level action':'group', 'Process / structural action':'gear' };
   var EFFORT = { '1 on 1 action':'low', 'Team level action':'medium', 'Process / structural action':'high' };
   var EFFORT_LABEL = { low:'Low effort', medium:'Medium effort', high:'High effort' };
-  var LABEL = { action:'Improve', monitor:'Monitor', support:'Need support', dismiss:'Not relevant' };
+  var LABEL = { action:'Improve', monitor:'Monitor', support:'Need support', dismiss:'Not relevant', promote:'Promote' };
 
   // Recommended actions per focus area — reused verbatim from the design-system Focus View (effectiveness-focus.html).
   var RECO = {
@@ -1037,7 +1041,8 @@
   var DECIDED = {
     action:  { title:"Improve", sub:"You'll turn this into a concrete step. This is where you directly improve your team's day-to-day experience.", icon:"target" },
     monitor: { title:"Monitor", sub:"Not everything needs action right now. You'll keep an eye on this and see if it shifts by the next survey before deciding.", icon:"eye" },
-    support: { title:"Flagged for support", sub:"Shared with HR right away", icon:"flag" }
+    support: { title:"Flagged for support", sub:"Shared with HR right away", icon:"flag" },
+    promote: { title:"Promote", sub:"Celebrate this strength with your team, or share it more widely.", icon:"benchmark-up" }
   };
 
   // People a manager can ask for help when flagging for support
@@ -1054,8 +1059,8 @@
   function relevanceThumbsHTML(fa){
     var r = fa.relevance;
     return '<span class="fv-relevance">' +
-      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="Relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
-      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="Not relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="This focus area is relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="This focus area is not relevant for my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
     '</span>';
   }
 
@@ -1122,6 +1127,7 @@
     var done = (fa.state === 'monitor' && fa.monitorSaved) ||
                (fa.state === 'support' && fa.supportSent) ||
                (fa.state === 'dismiss' && fa.dismissSent) ||
+               (fa.state === 'promote' && fa.actionAdded) ||
                (fa.state === 'action'  && fa.actionAdded);
     return fa.state + (done ? ':done' : ':edit');
   }
@@ -1135,7 +1141,7 @@
     if(ic){ ic.setAttribute('data-icon', moreExpanded ? 'chevron-up' : 'chevron-down'); ic.removeAttribute('data-icon-loaded'); if(window.Icons) window.Icons.render(document.getElementById('explore-more')); }
   }
   function faDecided(fa){
-    return (fa.state==='action' && fa.actionAdded) || (fa.state==='monitor' && fa.monitorSaved) || (fa.state==='support' && fa.supportSent);
+    return (fa.state==='action' && fa.actionAdded) || (fa.state==='promote' && fa.actionAdded) || (fa.state==='monitor' && fa.monitorSaved) || (fa.state==='support' && fa.supportSent);
   }
   function stepperCard(fa){
     var decided = faDecided(fa);
@@ -1162,6 +1168,9 @@
     var title, details = '';
     if(fa.state==='action'){
       title = "You're improving this focus area";
+      details = '<ul class="fa-done-list">' + (fa.planItems||[]).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+    } else if(fa.state==='promote'){
+      title = "You're celebrating this strength";
       details = '<ul class="fa-done-list">' + (fa.planItems||[]).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
     } else if(fa.state==='monitor'){
       title = 'This focus area is being monitored';
@@ -1516,6 +1525,7 @@
   // A focus area counts as triaged once its response is committed (added / saved / sent)
   function faDecided(f){
     return (f.state === 'action'  && f.actionAdded)  ||
+           (f.state === 'promote' && f.actionAdded)  ||
            (f.state === 'monitor' && f.monitorSaved) ||
            (f.state === 'support' && f.supportSent);
   }
@@ -1755,7 +1765,7 @@
     var t = scoreTargets.find(function(x){ return x.id === id; });
     if(!t){
       var keys = Object.keys(RECO);
-      t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, isHigh: (which === 'high'), recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
     openStepDialog(id);
@@ -1775,14 +1785,15 @@
   var ACT_GOAL = {
     action:  { cls: 'is-action',  icon: 'target', label: 'Improve' },
     monitor: { cls: 'is-monitor', icon: 'eye',    label: 'Monitor' },
-    support: { cls: 'is-support', icon: 'flag',   label: 'Need support' }
+    support: { cls: 'is-support', icon: 'flag',   label: 'Need support' },
+    promote: { cls: 'is-promote', icon: 'benchmark-up', label: 'Promote' }
   };
   function actionGoalChip(state){
     var g = ACT_GOAL[state]; if(!g) return '';
     return '<span class="ap-goal-chip ' + g.cls + '"><i data-icon="' + g.icon + '"></i> ' + g.label + '</span>';
   }
   function actionProgressHTML(fa){
-    if(fa.state === 'action'){
+    if(fa.state === 'action' || fa.state === 'promote'){
       var items = fa.planItems || [];
       var done = items.filter(function(x){ return x.done; }).length, tot = items.length;
       var pct = tot ? Math.round(done / tot * 100) : 0;
@@ -1894,7 +1905,7 @@
     var t = scoreTargets.find(function(x){ return x.id === id; });
     if(!t){
       var keys = Object.keys(RECO);
-      t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
+      t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), isHigh: (which === 'high'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
     openStepDialog(id);
@@ -1904,7 +1915,8 @@
   var STEP_DESC = {
     action:  'Something the team can influence, so commit to a concrete next step now.',
     monitor: 'Not urgent yet, so keep it on your radar and revisit at the next survey.',
-    support: "Outside the team's control, so flag it for the right person to pick up."
+    support: "Outside the team's control, so flag it for the right person to pick up.",
+    promote: 'A real strength worth celebrating, so plan a way to share the win with your team or more widely.'
   };
   // Stepper steps — icon-in-a-circle + label; step 1 is always complete (they arrived by choosing)
   var STEP_META = [
@@ -1974,7 +1986,7 @@
   });
   function stepCanConfirm(){
     var fa = stepFa();
-    if(fa.state === 'action')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
+    if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
     if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
     return true;
   }
@@ -1986,7 +1998,7 @@
     var fa = stepFa(); if(!stepCanConfirm()) return;
     stepBusy = true; renderStepDialog();
     setTimeout(function(){
-      if(fa.state === 'action'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
+      if(fa.state === 'action' || fa.state === 'promote'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
       else if(fa.state === 'monitor'){ fa.monitorSaved = true; }
       else if(fa.state === 'support'){ fa.supportSent = true; }
       stepBusy = false; stepStage = 'success';
@@ -2053,6 +2065,11 @@
   function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
+    if(fa.state === 'promote'){
+      return '<h3 class="step-plan-h">Plan how you\'ll celebrate this</h3>' +
+        '<p class="step-sub step-plan-note">Recognise the win with your team, or share it more widely across the organisation.</p>' +
+        customActionsHTML(fa) + newActionFormHTML(fa);
+    }
     if(fa.state === 'action'){
       var picked = fa.picked || [];
       var cards = APPROACHES.map(function(a, ai){
@@ -2097,7 +2114,7 @@
     if(stepBusy){
       body = '<div class="step-loading"><span class="step-spinner"></span></div>';
     } else if(stepStage === 'success'){
-      var word = { action:'being acted on', monitor:'being monitored', support:'flagged for support' }[fa.state] || 'handled';
+      var word = { action:'being acted on', monitor:'being monitored', support:'flagged for support', promote:'set up to celebrate' }[fa.state] || 'handled';
       body = '<div class="step-success">' +
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
@@ -2106,7 +2123,7 @@
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
-        '<div class="step-options">' + ['action','monitor','support'].map(function(st){
+        '<div class="step-options">' + ((/Highest scores/.test(fa.theme||'') || fa.isHigh) ? ['action','monitor','support','promote'] : ['action','monitor','support']).map(function(st){
           var d = DECIDED[st] || {};
           return '<button class="step-opt is-' + st + (fa.state===st?' is-selected':'') + '" onclick="stepPickResponse(\'' + st + '\')">' +
             '<span class="step-opt-ico"><i data-icon="' + d.icon + '"></i></span><span class="step-opt-title">' + LABEL[st] + '</span>' +
@@ -2121,7 +2138,7 @@
       var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
-      if(fa.state === 'action' && fa.creatingAction) footer = '';
+      if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction) footer = '';
     }
     document.getElementById('step-dialog').innerHTML =
       '<div class="step-modal' + (stepStage === 'success' ? ' is-success' : '') + (stepPersonMenuOpen ? ' menu-open' : '') + '" role="dialog" aria-modal="true">' +
