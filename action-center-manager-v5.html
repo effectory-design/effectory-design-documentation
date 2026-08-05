@@ -360,7 +360,7 @@
     .ov-embed { width: 100%; border: 0; display: block; min-height: 1200px; background: var(--bg-interface-body); }
 
     /* ── Actions page ── */
-    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; }
+    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; margin: 0 auto; }
     .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .actions-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
     .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
@@ -704,7 +704,7 @@
     .fv-sticky-actions .btn-primary i { display: flex; width: 16px; height: 16px; }
 
     .triage-page { max-width: 1248px; margin: 0 auto; padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
-    .triage-page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-loose); }
+    .triage-page-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-base); }
     .triage-page-head > div { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .triage-back { flex: none; gap: 6px; }
     .triage-back i { display: flex; width: 16px; height: 16px; }
@@ -765,7 +765,7 @@
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
     /* V5 triage sub-page (minimalistic, Actions-list style) */
     .triage-page { max-width: 1248px; margin: 0 auto; padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
-    .triage-page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-loose); }
+    .triage-page-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-base); }
     .triage-page-head > div { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .triage-back { flex: none; gap: 6px; }
     .triage-back i { display: flex; width: 16px; height: 16px; }
@@ -810,8 +810,8 @@
     .ae-eyebrow { margin-bottom: 2px; }
     .ae-title { font-size: 22px; font-weight: 700; color: var(--content-base); margin: 0; }
     .ae-desc { font-size: 15px; line-height: 1.5; color: var(--content-secondary); margin: 0; max-width: 520px; }
-    .ae-types { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight); margin: var(--spacing-base-tight) 0 var(--spacing-tight); }
-    .ae-type { display: flex; align-items: center; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-tight) var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-tertiary); flex: 1 1 168px; min-width: 0; }
+    .ae-types { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-base); margin: var(--spacing-base) 0 var(--spacing-tight); }
+    .ae-type { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); text-align: left; padding: var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-base); box-shadow: var(--sh-card); flex: 1 1 190px; min-width: 0; }
     .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
     .ae-type-ico i { display: flex; width: 18px; height: 18px; }
     .ae-type-ico.is-target { background: var(--bg-brand-subtle); color: var(--content-brand); }
@@ -1102,15 +1102,13 @@
         <div class="view" id="view-triage" hidden>
           <div class="triage-page">
             <div class="triage-page-head">
+              <button class="btn btn-secondary triage-back" onclick="backToFocus()"><i data-icon="arrow-left"></i> Back to Focus View</button>
               <div>
-                <span class="fv-eyebrow is-focus">Triage</span>
                 <h2 class="fv-section-title" id="triage-title">Choose how to respond</h2>
                 <p class="fv-section-desc" id="triage-desc"></p>
               </div>
-              <button class="btn btn-secondary triage-back" onclick="backToFocus()"><i data-icon="arrow-left"></i> Back to Focus View</button>
             </div>
             <div class="fv-cards triage-list" id="triage-cards"></div>
-            <div class="triage-page-foot"><button class="btn btn-primary" onclick="backToFocus()">Done</button></div>
           </div>
         </div>
 
