@@ -792,6 +792,29 @@
     .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    /* Actions — educational empty state (centered) */
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); max-width: 620px; margin: var(--spacing-loose) auto; padding: var(--spacing-loose) var(--spacing-base); }
+    .actions-illo { width: 300px; max-width: 80%; height: auto; margin-bottom: var(--spacing-tight); }
+    .ae-eyebrow { margin-bottom: 2px; }
+    .ae-title { font-size: 22px; font-weight: 700; color: var(--content-base); margin: 0; }
+    .ae-desc { font-size: 15px; line-height: 1.5; color: var(--content-secondary); margin: 0; max-width: 520px; }
+    .ae-types { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight); margin: var(--spacing-base-tight) 0 var(--spacing-tight); }
+    .ae-type { display: flex; align-items: center; gap: var(--spacing-tight); text-align: left; padding: var(--spacing-tight) var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-base); min-width: 178px; }
+    .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
+    .ae-type-ico i { display: flex; width: 18px; height: 18px; }
+    .ae-type-ico.is-target { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .ae-type-ico.is-eye { background: var(--bg-info-subtle); color: var(--content-info); }
+    .ae-type-ico.is-flag { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .ae-type-txt { display: flex; flex-direction: column; }
+    .ae-type-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .ae-type-d { font-size: 12.5px; color: var(--content-secondary); }
+    .ae-cta { margin-top: var(--spacing-tight); gap: 6px; }
+    .ae-cta i { display: flex; width: 16px; height: 16px; }
+    .custom-modal { width: min(540px, 94vw); }
+    .custom-body { display: flex; flex-direction: column; }
+    .fv-explore-link { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; background: none; border: none; padding: 0; }
+    .fv-explore-link i { display: flex; width: 16px; height: 16px; }
+    .fv-win-card.is-done { border-color: var(--border-positive-subtle); }
   </style>
 </head>
 <body>
@@ -995,6 +1018,7 @@
           <div class="fv-block-main">
             <a class="fv-why" data-dialog="wins-dialog"><i data-icon="info"></i> Why these successes?</a>
             <div class="fv-win-cards" id="wins"></div>
+            <a class="fv-explore-link" id="wins-explore" role="button" tabindex="0" onclick="toggleWinsMore()"><i data-icon="chevron-down"></i> <span class="wins-more-lbl">Explore more wins</span></a>
           </div>
         </div>
 
@@ -1143,9 +1167,12 @@
 
   // Highest-scoring questions — "Celebrate your wins"
   var WINS = [
-    { q:"I feel comfortable within the team", theme:"Engagement", score:"88%" },
-    { q:"Our team trusts one another", theme:"Collaboration", score:"85%" },
-    { q:"I enjoy my work", theme:"Work enjoyment", score:"82%" }
+    { k:0, q:"I feel comfortable within the team", theme:"Engagement", score:"88%" },
+    { k:1, q:"Our team trusts one another", theme:"Collaboration", score:"85%" },
+    { k:2, q:"I enjoy my work", theme:"Work enjoyment", score:"82%" },
+    { k:3, q:"I know what is expected of me at work", theme:"Role clarity", score:"81%" },
+    { k:4, q:"I get recognition for the work I do", theme:"Recognition", score:"80%" },
+    { k:5, q:"I can be myself at work", theme:"Inclusion", score:"79%" }
   ];
 
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
@@ -1418,6 +1445,7 @@
       var p0 = document.getElementById('triage-progress'); if(p0) p0.textContent = '';
       var d0 = document.getElementById('triage-desc'); if(d0) d0.textContent = '';
       var t0 = document.getElementById('triage-title'); if(t0) t0.textContent = 'All set';
+      var _hd = document.querySelector('#triage-dialog .triage-modal-head'); if(_hd) _hd.style.display = 'none';
       if(window.Icons) window.Icons.render(document.getElementById('triage-dialog'));
       return;
     }
@@ -1431,6 +1459,7 @@
     var curId = triageIds[triageIndex];
     var areas = focusAreas.filter(function(f){ return f.id === curId; });
     var descFa = areas[0];
+    var _hd2 = document.querySelector('#triage-dialog .triage-modal-head'); if(_hd2) _hd2.style.display = '';
     var tEl = document.getElementById('triage-title'); if(tEl) tEl.textContent = 'Choose how to respond';
     var dEl = document.getElementById('triage-desc'); if(dEl) dEl.textContent = descFa ? ('Pick the response that fits \u201c' + descFa.text + '\u201d. You can change it later.') : '';
     host.innerHTML = areas.map(function(fa){
@@ -1595,7 +1624,7 @@
   }
   function triagePrev(){ if(triageIndex > 0){ triageIndex--; renderTriage(); } }
   function triageNext(){ if(triageIndex < triageIds.length - 1){ triageIndex++; renderTriage(); } }
-  function triageAskClose(){ var pp = document.getElementById('triage-close-pop'); if(pp) pp.hidden = !pp.hidden; }
+  function triageAskClose(){ backToFocus(); }
   function triageDismissClose(){ var pp = document.getElementById('triage-close-pop'); if(pp) pp.hidden = true; }
 
 
@@ -1906,13 +1935,33 @@
   });
 
   // Celebrate your wins — static high-score cards
+  var winsExpanded = false;
+  function winTarget(w, create){
+    var id = 'win-' + w.k;
+    var t = scoreTargets.find(function(x){ return x.id === id; });
+    if(!t && create){ var keys = Object.keys(RECO); t = { id:id, text:w.q, score:w.score, theme:'Celebrate your wins', isHigh:true, recoKey:keys[scoreTargets.length % keys.length], planItems:[], picked:[], approach:null, state:null, planDesc:'' }; scoreTargets.push(t); }
+    return t;
+  }
+  function respondWin(k){ var w = WINS.find(function(x){ return x.k === k; }); if(!w) return; winTarget(w, true); openStepDialog('win-' + k); }
+  function toggleWinsMore(){ winsExpanded = !winsExpanded; renderWins(); }
   function renderWins(){
-    document.getElementById('wins').innerHTML = WINS.map(function(w){
-      return '<div class="fv-win-card">' +
+    var shown = winsExpanded ? WINS : WINS.slice(0, 3);
+    document.getElementById('wins').innerHTML = shown.map(function(w){
+      var t = winTarget(w, false); var done = !!(t && faDecided(t));
+      var cta = done
+        ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="respondWin(' + w.k + ')"><i data-icon="check"></i> ' + (LABEL[t.state] || 'Responded') + '</button>'
+        : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Respond</button>';
+      return '<div class="fv-win-card' + (done ? ' is-done' : '') + '">' +
         '<div class="fv-card-q"><p class="fv-card-question">' + esc(w.q) + '</p><span class="fv-card-theme">' + esc(w.theme) + '</span></div>' +
         '<span class="fv-score is-win">' + esc(w.score) + '</span>' +
+        '<span class="fv-card-cta">' + cta + '</span>' +
       '</div>';
     }).join('');
+    var ex = document.getElementById('wins-explore');
+    if(ex){ ex.hidden = WINS.length <= 3;
+      var lbl = ex.querySelector('.wins-more-lbl'); if(lbl) lbl.textContent = winsExpanded ? 'Show fewer wins' : 'Explore more wins';
+      var ci = ex.querySelector('i[data-icon]'); if(ci){ ci.setAttribute('data-icon', winsExpanded ? 'chevron-up' : 'chevron-down'); ci.removeAttribute('data-icon-loaded'); }
+    }
     if(window.Icons) window.Icons.render();
   }
 
@@ -2254,6 +2303,100 @@
     fa.state = null; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.picked = [];
     renderCards();
   }
+
+  // ── Actions empty state: educational card promoting the Respond/Triage concept ──
+  var ACTIONS_ILLO = '<svg class="actions-illo" viewBox="0 0 360 232" role="img" aria-label="Turn insights into action" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M56 196a112 92 0 0 1 224 0z" fill="#E4F1EF"/>' +
+    '<rect x="150" y="20" width="150" height="96" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>' +
+    '<circle cx="166" cy="36" r="5" fill="#CBD5E1"/><rect x="178" y="32" width="52" height="8" rx="4" fill="#EDF1F6"/>' +
+    '<rect x="286" y="30" width="12" height="14" rx="2" fill="none" stroke="#0C827F" stroke-width="2"/><rect x="289" y="27" width="6" height="4" rx="1" fill="#0C827F"/>' +
+    '<rect x="166" y="56" width="118" height="9" rx="4.5" fill="#EDF1F6"/><rect x="166" y="72" width="96" height="9" rx="4.5" fill="#EDF1F6"/><rect x="166" y="88" width="70" height="9" rx="4.5" fill="#EDF1F6"/>' +
+    // stat cards (trophy / chart / chat)
+    '<rect x="232" y="104" width="120" height="104" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>' +
+    '<rect x="246" y="118" width="22" height="22" rx="6" fill="#DFF3E7"/><path d="M252 124h10v3a5 5 0 0 1-10 0zm5 6v3m-3 3h6" stroke="#2E9E5B" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<rect x="276" y="124" width="62" height="10" rx="5" fill="#57C08A"/>' +
+    '<rect x="246" y="147" width="22" height="22" rx="6" fill="#FDEBD8"/><path d="M251 163v-4m5 4v-8m5 8v-11" stroke="#F5871F" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<rect x="276" y="153" width="52" height="10" rx="5" fill="#FB9E3A"/>' +
+    '<rect x="246" y="176" width="22" height="22" rx="6" fill="#EEF2F7"/><path d="M251 182h10v6h-4l-2 3v-3h-4z" stroke="#94A3B8" stroke-width="2" fill="none" stroke-linejoin="round"/>' +
+    '<rect x="276" y="182" width="44" height="10" rx="5" fill="#CBD5E1"/>' +
+    // lightbulb + glow
+    '<g><circle cx="132" cy="86" r="26" fill="#FFE08A" opacity="0.45"/>' +
+    '<path d="M118 84a14 14 0 1 1 28 0c0 6-4 9-6 13h-16c-2-4-6-7-6-13z" fill="#FFC53D"/>' +
+    '<rect x="126" y="99" width="12" height="8" rx="2" fill="#E0A21B"/><rect x="127.5" y="107" width="9" height="3.5" rx="1.75" fill="#C98A12"/>' +
+    '<path d="M132 55v-8M154 70l6-5M110 70l-6-5" stroke="#FFC53D" stroke-width="3" stroke-linecap="round"/></g>' +
+    // person walking, holding the bulb up
+    '<path d="M79 196l6-40 12 2-2 38z" fill="#2F6BE0"/><path d="M99 196l8-42 11 4-6 38z" fill="#3F7BF0"/>' +
+    '<rect x="74" y="192" width="16" height="7" rx="3.5" fill="#1E293B"/><rect x="98" y="192" width="16" height="7" rx="3.5" fill="#1E293B"/>' +
+    '<path d="M86 128c8-6 22-6 28 2 4 5 4 20 2 30-12 4-26 4-36-2 1-14 2-25 6-30z" fill="#E4572E"/>' +
+    '<path d="M112 132l20-30 8 6-18 34z" fill="#E4572E"/>' +
+    '<circle cx="128" cy="102" r="6" fill="#E8B98F"/>' +
+    '<circle cx="92" cy="112" r="13" fill="#E8B98F"/>' +
+    '<path d="M80 108a13 13 0 0 1 25-3c-4 1-8-2-13-1s-9 4-12 4z" fill="#3B2A22"/>' +
+    '<path d="M74 150l-6 18 9 3 8-18z" fill="#E8B98F"/>' +
+    '</svg>';
+
+  function actionsEmptyHTML(){
+    var chip = function(icon, label, desc){
+      return '<div class="ae-type"><span class="ae-type-ico is-' + icon + '"><i data-icon="' + icon + '"></i></span>' +
+        '<div class="ae-type-txt"><span class="ae-type-t">' + label + '</span><span class="ae-type-d">' + desc + '</span></div></div>';
+    };
+    return '<div class="actions-empty">' + ACTIONS_ILLO +
+      '<span class="fv-eyebrow is-focus ae-eyebrow">Get started</span>' +
+      '<h2 class="ae-title">Turn your results into action</h2>' +
+      '<p class="ae-desc">Respond to a focus area to decide how you’ll act on it, and it shows up here — shared with your team and visible to HR. Not sure where to start? Create a custom action from your own goal.</p>' +
+      '<div class="ae-types">' +
+        chip('target', 'Improve', 'Commit to a concrete next step.') +
+        chip('eye', 'Monitor', 'Keep it on your radar for later.') +
+        chip('flag', 'Need support', 'Flag it for the right person.') +
+      '</div>' +
+      '<button class="btn btn-primary ae-cta" onclick="openCustomAction()"><i data-icon="plus"></i> Create Custom Action</button>' +
+    '</div>';
+  }
+
+  // ── Create Custom Action: define your own goal, then respond to it (reuses the step flow) ──
+  var customDraft = null; var CUSTOM_SEQ = 0;
+  function ensureCustomDialog(){
+    var d = document.getElementById('custom-dialog');
+    if(!d){ d = document.createElement('div'); d.className = 'overlay step-overlay'; d.id = 'custom-dialog'; d.hidden = true; document.body.appendChild(d);
+      d.addEventListener('click', function(e){ if(e.target === d) closeCustomAction(); }); }
+    return d;
+  }
+  function openCustomAction(){ customDraft = { title:'', desc:'', due:'', assignee:'' }; ensureCustomDialog().hidden = false; document.body.classList.add('step-open'); renderCustomDialog(); }
+  function closeCustomAction(){ var d = document.getElementById('custom-dialog'); if(d) d.hidden = true; document.body.classList.remove('step-open'); customDraft = null; }
+  function setCustomField(f, v){ if(!customDraft) return; customDraft[f] = v; var b = document.getElementById('custom-continue'); if(b){ var ok = !!(customDraft.title && customDraft.title.trim() && customDraft.desc && customDraft.desc.trim()); b.disabled = !ok; b.classList.toggle('is-disabled', !ok); } }
+  function submitCustomAction(){
+    var d = customDraft; if(!d || !(d.title && d.title.trim() && d.desc && d.desc.trim())) return;
+    CUSTOM_SEQ++; var id = 'custom-' + CUSTOM_SEQ; var keys = Object.keys(RECO);
+    var t = { id:id, text:d.title.trim(), score:'—', theme:'Custom action', isCustom:true, recoKey:keys[scoreTargets.length % keys.length], planItems:[], picked:[], approach:null, state:null, planDesc:'',
+      customActions:[{ text:d.title.trim(), desc:(d.desc||'').trim(), due:d.due||'', assignee:d.assignee||'', done:false, custom:true }] };
+    scoreTargets.push(t);
+    closeCustomAction();
+    openStepDialog(id);
+  }
+  function renderCustomDialog(){
+    var d = customDraft || {};
+    var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (d.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
+    var ok = !!(d.title && d.title.trim() && d.desc && d.desc.trim());
+    document.getElementById('custom-dialog').innerHTML =
+      '<div class="step-modal custom-modal" role="dialog" aria-modal="true">' +
+        '<button class="step-close ib ib-36 ib-tertiary" aria-label="Close" onclick="closeCustomAction()"><i data-icon="cross"></i></button>' +
+        '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="target"></i></span><h2 class="step-h2">Create a custom action</h2></div>' +
+        '<p class="step-sub">Define your own goal, then choose how you’ll respond to it.</p></div>' +
+        '<div class="step-body custom-body">' +
+          '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
+          '<input class="tf fv-na-title" placeholder="What do you want to achieve?" value="' + esc(d.title||'') + '" oninput="setCustomField(\'title\',this.value)">' +
+          '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
+          '<textarea class="ta fv-na-desc" rows="2" placeholder="Add a short description of this action" oninput="setCustomField(\'desc\',this.value)">' + esc(d.desc||'') + '</textarea>' +
+          '<div class="fv-na-opts">' +
+            '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(d.due||'') + '" onchange="setCustomField(\'due\',this.value)"></div>' +
+            '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><select class="tf fv-na-assignee" onchange="setCustomField(\'assignee\',this.value)">' + opts + '</select></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="step-footer"><button class="btn btn-secondary" onclick="closeCustomAction()">Cancel</button>' +
+          '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="custom-continue"' + (ok?'':' disabled') + ' onclick="submitCustomAction()">Continue</button></div>' +
+    '</div>';
+    if(window.Icons) window.Icons.render(document.getElementById('custom-dialog'));
+  }
   function renderActions(){
     var list = document.getElementById('actions-list'); if(!list) return;
     var items = focusAreas.concat(scoreTargets).filter(faDecided);
@@ -2266,14 +2409,14 @@
           '<div class="act-sum-txt"><span class="act-sum-n">' + counts[r[0]] + '</span><span class="act-sum-l">' + r[2] + '</span></div></div>';
       }).join('');
     }
+    var _ahd = document.querySelector('#view-actions .actions-head'); if(_ahd) _ahd.style.display = items.length ? '' : 'none';
+    var _asum = document.getElementById('actions-summary'); if(_asum) _asum.style.display = items.length ? '' : 'none';
     if(items.length){
       list.innerHTML = '<div class="ap-table">' +
         '<div class="ap-head"><span>Focus area</span><span>Score</span><span>Response</span><span>Actions</span><span></span></div>' +
         items.map(actionRowHTML).join('') + '</div>';
     } else {
-      list.innerHTML = '<div class="actions-empty"><span class="actions-empty-ico"><i data-icon="target"></i></span>' +
-        '<p class="actions-empty-t">No responses yet</p>' +
-        '<p class="actions-empty-d">When you improve, monitor, or flag a focus area for support, it shows up here.</p></div>';
+      list.innerHTML = actionsEmptyHTML();
     }
     var badge = document.getElementById('actions-tab-count');
     if(badge){ if(items.length){ badge.textContent = items.length; badge.hidden = false; } else { badge.hidden = true; } }
@@ -2349,6 +2492,7 @@
     document.body.classList.add('step-open');
     renderStepDialog();
   }
+  function stepGoToActions(){ var sd = document.getElementById('step-dialog'); if(sd) sd.hidden = true; document.body.classList.remove('step-open'); renderCards(); var t = document.querySelector('.tab[data-view="actions"]'); if(t) t.click(); }
   function stepClose(){ var fa = stepFa(); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
   function stepBack(){ stepStage = 'respond'; renderStepDialog(); }
   function stepPickResponse(state){
@@ -2530,7 +2674,7 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
         '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
-        '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button></div>';
+        ((typeof fa.id === 'string') ? '<button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
