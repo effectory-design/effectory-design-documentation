@@ -26,17 +26,6 @@
       .ov-grid { grid-template-columns: repeat(3, minmax(0, 384px)) !important; max-width: 1200px !important; }
       .ai-summary { max-width: 1200px !important; }
     }
-    /* Score cards: drop the card-header pin; the triage entry point is a per-row pin next to each score. */
-    .qs-card .sc-pin-wrap { display: none !important; }
-    .qs-card .qs-row { align-items: center; }
-    .ov-row-pin {
-      flex: none; width: 28px; height: 28px; margin-left: var(--spacing-tight);
-      display: inline-flex; align-items: center; justify-content: center;
-      border: 0; border-radius: var(--radius-base); background: var(--bg-secondary);
-      color: var(--content-secondary); cursor: pointer; transition: background .12s ease, color .12s ease;
-    }
-    .ov-row-pin:hover { background: var(--bg-tertiary); color: var(--content-base); }
-    .ov-row-pin i { display: flex; width: 15px; height: 15px; }
   </style>
 </head>
 <body>
@@ -48,38 +37,33 @@
     // Render the design-system Overview (exact reference dataset + real Chart.js charts).
     renderOverview('team-it-after', 'overview');
 
-    // Add a small pin button next to each score in the Highest/Lowest cards. Clicking it opens the
-    // prototype's triage dialog straight away (no goal popover) for that question.
-    function addRowPins(){
-      [['is-low', 'low'], ['is-high', 'high']].forEach(function(pair){
-        document.querySelectorAll('.qs-card.' + pair[0] + ' .qs-row').forEach(function(row){
-          if(row.querySelector('.ov-row-pin')) return;
-          var scoreEl = row.querySelector('.qs-row-score');
-          var q = (row.querySelector('.qs-row-q') || {}).textContent || '';
-          var s = scoreEl ? scoreEl.textContent : '';
-          var btn = document.createElement('button');
-          btn.className = 'ov-row-pin';
-          btn.type = 'button';
-          btn.setAttribute('aria-label', 'Respond to this question');
-          btn.innerHTML = '<i data-icon="pin"></i>';
-          btn.addEventListener('click', function(e){
-            e.stopPropagation(); e.preventDefault();
-            if(window.parent && window.parent.openScoreStepFromEmbed){
-              window.parent.openScoreStepFromEmbed(q.trim(), (s || '').trim(), pair[1]);
-            }
-          });
-          (scoreEl || row).insertAdjacentElement(scoreEl ? 'afterend' : 'beforeend', btn);
-        });
-      });
-      if(window.Icons) window.Icons.render(document.body);
-    }
+    // The Highest/Lowest scores cards keep their design-system header pin: clicking it opens a
+    // popover that lists the questions. Picking a question routes to the prototype's triage dialog
+    // (instead of the DS "Select a goal" step). Capture-phase on document so this runs before the
+    // DS's own per-item handler; scoped to the two score cards only.
+    document.addEventListener('click', function(e){
+      var item = e.target.closest && e.target.closest('.sc-pinlist-item');
+      if(!item) return;
+      var card = item.closest('.qs-card.is-low, .qs-card.is-high');
+      if(!card) return;
+      e.stopPropagation(); e.preventDefault();
+      var which = card.classList.contains('is-high') ? 'high' : 'low';
+      var name = item.getAttribute('data-pin-name') || (item.querySelector('.menu-item-title') || {}).textContent || '';
+      var score = item.getAttribute('data-pin-score') || '';
+      // close the DS popover so it isn't left open behind the dialog
+      document.querySelectorAll('.sc-pin-pop').forEach(function(p){ p.hidden = true; });
+      document.querySelectorAll('.sc-pin.is-pressed').forEach(function(b){ b.classList.remove('is-pressed'); });
+      if(window.parent && window.parent.openScoreStepFromEmbed){
+        window.parent.openScoreStepFromEmbed((name || '').replace(/\s*\(\d+%\)\s*$/, '').trim(), (score || '').trim(), which);
+      }
+    }, true);
 
     // Report content height so the parent can size the iframe with no inner (or trailing) scroll.
     function reportHeight(){
       var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
       try { if(window.parent) window.parent.postMessage({ type: 'ov-embed-height', height: h }, '*'); } catch(e){}
     }
-    function boot(){ addRowPins(); reportHeight(); setTimeout(function(){ addRowPins(); reportHeight(); }, 250); setTimeout(reportHeight, 800); }
+    function boot(){ reportHeight(); setTimeout(reportHeight, 250); setTimeout(reportHeight, 800); }
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ setTimeout(boot, 60); }); }
     window.addEventListener('load', function(){ setTimeout(boot, 120); });
     window.addEventListener('resize', reportHeight);
