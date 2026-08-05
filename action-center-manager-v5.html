@@ -827,6 +827,22 @@
     .fv-explore-link { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; background: none; border: none; padding: 0; }
     .fv-explore-link i { display: flex; width: 16px; height: 16px; }
     .fv-win-card.is-done { border-color: var(--border-positive-subtle); }
+    .triage-flow { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr); gap: var(--spacing-loose); margin-top: var(--spacing-base); align-items: start; }
+    .triage-step-head { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-extra-tight); }
+    .triage-step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--bg-brand-subtle); color: var(--content-brand); font-size: 13px; font-weight: 700; flex: none; }
+    .triage-step-t { font-size: 15px; font-weight: 600; color: var(--content-base); }
+    .triage-step-d { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
+    .triage-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-tight); margin-top: var(--spacing-base-tight); }
+    .triage-outcome { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: var(--spacing-tight) var(--spacing-base-tight); background: var(--bg-tertiary); border-radius: var(--radius-md); }
+    .triage-dot { width: 9px; height: 9px; border-radius: var(--radius-full); margin-top: 5px; flex: none; }
+    .triage-dot.is-action { background: var(--content-brand); }
+    .triage-dot.is-monitor { background: var(--content-info); }
+    .triage-dot.is-support { background: var(--content-negative); }
+    .triage-dot.is-promote { background: var(--content-positive); }
+    .triage-outcome-tx { display: flex; flex-direction: column; min-width: 0; }
+    .triage-outcome-t { font-size: 13px; font-weight: 600; color: var(--content-base); }
+    .triage-outcome-d { font-size: 12px; line-height: 1.4; color: var(--content-secondary); }
+    @media (max-width: 760px){ .triage-flow { grid-template-columns: 1fr; } .triage-outcomes { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -983,26 +999,24 @@
             <div class="triage-head">
               <span class="triage-ico"><i data-icon="lightbulb"></i></span>
               <div>
-                <h3 class="triage-title">Respond to your focus areas</h3>
-                <p class="triage-text">Respond to each area that matters to you. You can do them in any order and come back anytime.</p>
+                <h3 class="triage-title">Decide how to move forward</h3>
+                <p class="triage-text">For each area you chose, make one call. You can come back and change it anytime.</p>
               </div>
             </div>
-            <div class="triage-options">
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-select">1</span><span class="triage-opt-t">Choose your focus areas</span></div>
-                <p class="triage-opt-d">Select the areas you want to respond to, then continue to triage them</p>
+            <div class="triage-flow">
+              <div class="triage-step">
+                <div class="triage-step-head"><span class="triage-step-num">1</span><span class="triage-step-t">Choose your focus areas</span></div>
+                <p class="triage-step-d">Pick the areas that matter most to your team.</p>
               </div>
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-action">2</span><span class="triage-opt-t">Improve</span></div>
-                <p class="triage-opt-d">Something the team can influence, so commit to a concrete next step now</p>
-              </div>
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-monitor">3</span><span class="triage-opt-t">Monitor</span></div>
-                <p class="triage-opt-d">Not urgent yet, so keep it on your radar and revisit at the next survey</p>
-              </div>
-              <div class="triage-opt">
-                <div class="triage-opt-head"><span class="triage-opt-icon is-support">4</span><span class="triage-opt-t">Need support</span></div>
-                <p class="triage-opt-d">Outside the team's control, so flag it for the right person to pick up</p>
+              <div class="triage-step">
+                <div class="triage-step-head"><span class="triage-step-num">2</span><span class="triage-step-t">Decide how to respond</span></div>
+                <p class="triage-step-d">Choose one outcome for each area — you can change it later.</p>
+                <div class="triage-outcomes">
+                  <div class="triage-outcome"><span class="triage-dot is-action"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Improve</span><span class="triage-outcome-d">Something the team can influence, so commit to a concrete next step.</span></div></div>
+                  <div class="triage-outcome"><span class="triage-dot is-monitor"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Monitor</span><span class="triage-outcome-d">Not urgent yet, so keep it on your radar and revisit next survey.</span></div></div>
+                  <div class="triage-outcome"><span class="triage-dot is-support"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Need support</span><span class="triage-outcome-d">Outside the team's control, so flag it for the right person.</span></div></div>
+                  <div class="triage-outcome"><span class="triage-dot is-promote"></span><div class="triage-outcome-tx"><span class="triage-outcome-t">Promote</span><span class="triage-outcome-d">A real strength worth celebrating, so plan a way to share it.</span></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1186,8 +1200,8 @@
   function relevanceThumbsHTML(fa){
     var r = fa.relevance;
     return '<span class="fv-relevance">' +
-      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="This focus area is relevant to my team" onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
-      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="This focus area is not relevant for my team" onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'up' ? ' is-on-up' : '') + '" aria-label="Relevant" title="This focus area is relevant." onclick="setRelevance(event,' + fa.id + ',\'up\')"><i data-icon="up-vote"></i></button>' +
+      '<button type="button" class="fv-thumb' + (r === 'down' ? ' is-on-down' : '') + '" aria-label="Not relevant" title="This focus area is not relevant." onclick="setRelevance(event,' + fa.id + ',\'down\')"><i data-icon="down-vote"></i></button>' +
     '</span>';
   }
 
