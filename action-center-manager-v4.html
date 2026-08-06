@@ -616,7 +616,7 @@
     /* ═══ Stepper dialog ═══ */
     .step-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
     .step-overlay[hidden] { display: none; }
-    .step-modal { position: relative; width: min(880px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
+    .step-modal { position: relative; width: min(880px, 94vw); max-height: calc(100dvh - 8rem); overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
     .step-body { min-height: 340px; justify-content: flex-start; }
     .step-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
     .stp-bar { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: 0 40px var(--spacing-tight); }
@@ -735,7 +735,7 @@
     /* Triage dialog (V4) — holds the inline-triage cards */
     .triage-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
     .triage-overlay[hidden] { display: none; }
-    .triage-modal { position: relative; width: min(760px, 94vw); max-height: 90vh; overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose) var(--spacing-super-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
+    .triage-modal { position: relative; width: min(760px, 94vw); max-height: calc(100dvh - 8rem); overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose) var(--spacing-super-loose); display: flex; flex-direction: column; gap: var(--spacing-loose); }
     .triage-modal-head { display: flex; flex-direction: column; gap: var(--spacing-tight); padding-right: var(--spacing-loose); }
     .triage-modal-foot { display: flex; justify-content: flex-end; border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); }
     .fv-see-reco.btn-link { align-self: flex-start; gap: var(--spacing-tight); padding: 0; }
@@ -755,7 +755,8 @@
     .triage-nav i { display: flex; width: 15px; height: 15px; }
     .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
     .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
-    .triage-progress-lbl { margin: 0; font-size: 13px; font-weight: 600; color: var(--content-secondary); }
+    .triage-progress-lbl { margin: 0; font-size: 13px; font-weight: 600; color: var(--content-secondary); white-space: nowrap; }
+    .triage-foot-end { display: inline-flex; align-items: center; gap: var(--spacing-base); }
     .triage-foot-nav { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
     @keyframes triage-slide-in { 0% { opacity: 0; transform: translateX(72px); } 100% { opacity: 1; transform: translateX(0); } }
     .triage-modal-body .triage-slide-in { animation: triage-slide-in .55s cubic-bezier(.22,.61,.36,1) both; }
@@ -763,7 +764,7 @@
     .fv-more-inline-head { margin-top: var(--spacing-loose) !important; padding-top: 0 !important; border-top: none !important; }
     #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
-    .triage-modal-foot { border-top: none; padding-top: 0; border-bottom: 1px solid var(--border-base); padding-bottom: var(--spacing-base); }
+    .triage-modal-foot { border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); border-bottom: none; padding-bottom: 0; }
     .fv-relevance { flex: none; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin: 0 var(--spacing-tight); }
     .fv-thumb { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--border-base); border-radius: var(--radius-base); background: var(--bg-base); color: var(--content-secondary); cursor: pointer; transition: border-color .1s, background .1s, color .1s; }
     .fv-thumb:hover { border-color: var(--border-action-hover); color: var(--content-base); }
@@ -846,6 +847,24 @@
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
+    .fa-person-menu.opens-up { top: auto; bottom: calc(100% + var(--spacing-extra-tight)); }
+    .step-person-menu.opens-up { top: auto; bottom: calc(100% + 4px); }
+    .fv-explore-more { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); background: none; border: 0; padding: var(--spacing-tight) 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
+    .fv-explore-more i { display: flex; width: 16px; height: 16px; }
+    .fv-more { overflow: hidden; max-height: 0; transition: max-height .55s var(--ease-standard, ease); }
+    .fv-more.is-open { max-height: 1400px; }
+    #wins-more { padding-top: var(--spacing-base-tight); }
+    .fv-more .fv-win-card { opacity: 0; transform: translateY(10px); transition: opacity .32s ease, transform .32s ease; }
+    .fv-more.is-open .fv-win-card { opacity: 1; transform: none; }
+    .fv-more.is-open .fv-win-card:nth-child(1){ transition-delay: 0.06s; }
+    .fv-more.is-open .fv-win-card:nth-child(2){ transition-delay: 0.14s; }
+    .fv-more.is-open .fv-win-card:nth-child(3){ transition-delay: 0.21s; }
+    .fv-more.is-open .fv-win-card:nth-child(4){ transition-delay: 0.28s; }
+    .fv-more.is-open .fv-win-card:nth-child(5){ transition-delay: 0.36s; }
+    .fv-more.is-open .fv-win-card:nth-child(6){ transition-delay: 0.43s; }
+    .fv-more.is-open .fv-win-card:nth-child(7){ transition-delay: 0.51s; }
+    .fv-more.is-open .fv-win-card:nth-child(8){ transition-delay: 0.58s; }
+    @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
   </style>
 </head>
 <body>
@@ -1041,7 +1060,8 @@
           <div class="fv-block-main">
             <a class="fv-why" data-dialog="wins-dialog"><i data-icon="info"></i> Why these successes?</a>
             <div class="fv-win-cards" id="wins"></div>
-            <a class="fv-explore-link" id="wins-explore" role="button" tabindex="0" onclick="toggleWinsMore()"><i data-icon="chevron-down"></i> <span class="wins-more-lbl">Explore more wins</span></a>
+            <button class="fv-explore-more" id="wins-explore" onclick="toggleWinsMore()"><span class="wins-more-lbl">Explore more wins</span> <i data-icon="chevron-down"></i></button>
+            <div class="fv-more" id="wins-more-block"><div class="fv-win-cards" id="wins-more"></div></div>
           </div>
         </div>
 
@@ -1098,13 +1118,11 @@
               </div>
             </div>
             <div class="triage-modal-head">
-              <span class="fv-eyebrow is-focus">Triage</span>
               <h2 class="step-h2" id="triage-title">Choose how to respond</h2>
               <p class="step-sub" id="triage-desc"></p>
-              <p class="triage-progress-lbl" id="triage-progress">0 / 0 completed</p>
             </div>
-            <div class="triage-modal-foot" id="triage-foot"></div>
             <div class="fv-cards triage-modal-body" id="triage-cards"></div>
+            <div class="triage-modal-foot" id="triage-foot"></div>
           </div>
         </div>
 
@@ -1478,7 +1496,6 @@
     if(triageIndex < 0) triageIndex = 0;
     triageIds.forEach(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); if(g && !faDecided(g)) delete triageSeenDone[id]; });
     var completed = triageIds.filter(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }).length;
-    var prog = document.getElementById('triage-progress'); if(prog) prog.textContent = completed + ' / ' + total + ' completed';
     var curId = triageIds[triageIndex];
     var areas = focusAreas.filter(function(f){ return f.id === curId; });
     var descFa = areas[0];
@@ -1621,7 +1638,7 @@
     if(curFa && faDecided(curFa) && !triageSeenDone[curId]){
       triageSeenDone[curId] = true;
       var nxt = triageNextIncomplete(triageIndex + 1);
-      if(nxt > -1){ setTimeout(function(){ triageIndex = nxt; renderTriage(); }, 800); }
+      if(nxt > -1){ setTimeout(function(){ triageIndex = nxt; renderTriage(); }, 2500); }
     }
   }
   function renderTriageFoot(){
@@ -1630,6 +1647,7 @@
     var cur = focusAreas.find(function(x){ return x.id === triageIds[triageIndex]; });
     var inProgress = !!(cur && cur.state && !faDecided(cur));
     var allDone = total > 0 && triageIds.every(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); });
+    var completedFt = triageIds.filter(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }).length;
     var prevDis = (triageIndex <= 0 || inProgress) ? ' disabled' : '';
     var nextDis = (triageIndex >= total - 1 || inProgress) ? ' disabled' : '';
     foot.innerHTML =
@@ -1637,7 +1655,10 @@
         '<button class="btn btn-secondary triage-nav"' + prevDis + ' onclick="triagePrev()"><i data-icon="chevron-left"></i> Previous</button>' +
         '<button class="btn btn-secondary triage-nav"' + nextDis + ' onclick="triageNext()">Next <i data-icon="chevron-right"></i></button>' +
       '</div>' +
-      '<button class="btn btn-primary' + (allDone ? '' : ' is-disabled') + '"' + (allDone ? '' : ' disabled') + ' onclick="triageComplete()">Complete</button>';
+      '<div class="triage-foot-end">' +
+        '<span class="triage-progress-lbl">' + completedFt + ' / ' + total + ' completed</span>' +
+        '<button class="btn btn-primary' + (allDone ? '' : ' is-disabled') + '"' + (allDone ? '' : ' disabled') + ' onclick="triageComplete()">Complete</button>' +
+      '</div>';
     if(window.Icons) window.Icons.render(foot);
   }
   function triageComplete(){ var allDone = triageIds.length > 0 && triageIds.every(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }); if(!allDone) return; triageSuccess = true; renderTriage(); }
@@ -1967,24 +1988,26 @@
   }
   function respondWin(k){ var w = WINS.find(function(x){ return x.k === k; }); if(!w) return; winTarget(w, true); openStepDialog('win-' + k); }
   function toggleWinsMore(){ winsExpanded = !winsExpanded; renderWins(); }
+  function winCardHTML(w){
+    var t = winTarget(w, false); var done = !!(t && faDecided(t));
+    var cta = done
+      ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="respondWin(' + w.k + ')"><i data-icon="check"></i> ' + (LABEL[t.state] || 'Responded') + '</button>'
+      : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Choose</button>';
+    return '<div class="fv-win-card' + (done ? ' is-done' : '') + '">' +
+      '<div class="fv-card-q"><p class="fv-card-question">' + esc(w.q) + '</p><span class="fv-card-theme">' + esc(w.theme) + '</span></div>' +
+      '<span class="fv-score is-win">' + esc(w.score) + '</span>' +
+      '<span class="fv-card-cta">' + cta + '</span>' +
+    '</div>';
+  }
   function renderWins(){
-    var shown = winsExpanded ? WINS : WINS.slice(0, 3);
-    document.getElementById('wins').innerHTML = shown.map(function(w){
-      var t = winTarget(w, false); var done = !!(t && faDecided(t));
-      var cta = done
-        ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="respondWin(' + w.k + ')"><i data-icon="check"></i> ' + (LABEL[t.state] || 'Responded') + '</button>'
-        : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Choose</button>';
-      return '<div class="fv-win-card' + (done ? ' is-done' : '') + '">' +
-        '<div class="fv-card-q"><p class="fv-card-question">' + esc(w.q) + '</p><span class="fv-card-theme">' + esc(w.theme) + '</span></div>' +
-        '<span class="fv-score is-win">' + esc(w.score) + '</span>' +
-        '<span class="fv-card-cta">' + cta + '</span>' +
-      '</div>';
-    }).join('');
+    document.getElementById('wins').innerHTML = WINS.slice(0, 3).map(winCardHTML).join('');
+    var moreEl = document.getElementById('wins-more'); if(moreEl) moreEl.innerHTML = WINS.slice(3).map(winCardHTML).join('');
     var ex = document.getElementById('wins-explore');
     if(ex){ ex.hidden = WINS.length <= 3;
       var lbl = ex.querySelector('.wins-more-lbl'); if(lbl) lbl.textContent = winsExpanded ? 'Show fewer wins' : 'Explore more wins';
       var ci = ex.querySelector('i[data-icon]'); if(ci){ ci.setAttribute('data-icon', winsExpanded ? 'chevron-up' : 'chevron-down'); ci.removeAttribute('data-icon-loaded'); }
     }
+    var blk = document.getElementById('wins-more-block'); if(blk) blk.classList.toggle('is-open', winsExpanded);
     if(window.Icons) window.Icons.render();
   }
 
@@ -2686,6 +2709,17 @@
       '</div>';
   }
 
+  // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
+  function positionOpenMenus(){
+    requestAnimationFrame(function(){
+      document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden])').forEach(function(m){
+        m.classList.remove('opens-up');
+        var b = m.getBoundingClientRect();
+        if(b.bottom > window.innerHeight - 12){ m.classList.add('opens-up'); }
+      });
+    });
+  }
+  document.addEventListener('click', function(){ positionOpenMenus(); });
   function renderStepDialog(){
     var fa = stepFa(); if(!fa) return;
     var active = stepStage === 'respond' ? 1 : (stepStage === 'plan' ? 2 : 3);
