@@ -865,6 +865,7 @@
     .fv-more.is-open .fv-win-card:nth-child(7){ transition-delay: 0.51s; }
     .fv-more.is-open .fv-win-card:nth-child(8){ transition-delay: 0.58s; }
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
+    .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
   </style>
 </head>
 <body>
@@ -1987,7 +1988,13 @@
     return t;
   }
   function respondWin(k){ var w = WINS.find(function(x){ return x.k === k; }); if(!w) return; winTarget(w, true); openStepDialog('win-' + k); }
-  function toggleWinsMore(){ winsExpanded = !winsExpanded; renderWins(); }
+  function toggleWinsMore(){
+    winsExpanded = !winsExpanded;
+    var blk = document.getElementById('wins-more-block'); if(blk) blk.classList.toggle('is-open', winsExpanded);
+    var ex = document.getElementById('wins-explore');
+    if(ex){ var lbl = ex.querySelector('.wins-more-lbl'); if(lbl) lbl.textContent = winsExpanded ? 'Show fewer wins' : 'Explore more wins';
+      var ci = ex.querySelector('i[data-icon]'); if(ci){ ci.setAttribute('data-icon', winsExpanded ? 'chevron-up' : 'chevron-down'); ci.removeAttribute('data-icon-loaded'); if(window.Icons) window.Icons.render(ex); } }
+  }
   function winCardHTML(w){
     var t = winTarget(w, false); var done = !!(t && faDecided(t));
     var cta = done
