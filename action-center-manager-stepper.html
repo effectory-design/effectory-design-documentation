@@ -23,11 +23,11 @@
     /* App shell */
     .app { display: flex; height: 100vh; overflow: hidden; }
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .main-scroll { flex: 1; overflow-y: auto; }
+    .main-scroll { flex: 1; overflow-y: auto; background: var(--bg-secondary); }
 
     .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side); }
 
-    .results-head { padding: var(--results-top) var(--results-side) 0; }
+    .results-head { padding: var(--results-top) var(--results-side) 0; background: var(--bg-base); }
     .results-title { margin: 0 0 var(--spacing-base); }
     .results-filters {
       display: flex; align-items: center; gap: var(--spacing-base);
@@ -760,7 +760,8 @@
     .fv-win-card.is-done { border-color: var(--border-positive-subtle); }
     .triage-flow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); margin-top: var(--spacing-base); align-items: stretch; }
     .triage-step { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-lg); background: var(--bg-base); }
-    .triage-hl { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; white-space: nowrap; vertical-align: middle; }
+    .triage-hl { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; white-space: nowrap; vertical-align: middle; color: var(--content-base); }
+    .triage-opts { display: inline-block; margin-top: var(--spacing-extra-tight); }
     .triage-hl i { display: inline-flex; width: 13px; height: 13px; }
     .triage-hl.is-action { color: var(--content-brand); }
     .triage-hl.is-monitor { color: var(--content-info); }
@@ -955,7 +956,7 @@
               </div>
               <div class="triage-step">
                 <div class="triage-step-head"><span class="triage-step-num">2</span><span class="triage-step-t">Decide how to respond</span></div>
-                <p class="triage-step-d">Then choose how to respond: <span class="triage-hl is-action"><i data-icon="target"></i>Improve</span>, <span class="triage-hl is-monitor"><i data-icon="eye"></i>Monitor</span>, <span class="triage-hl is-support"><i data-icon="flag"></i>Need support</span>, or <span class="triage-hl is-promote"><i data-icon="benchmark-up"></i>Promote</span>.</p>
+                <p class="triage-step-d">Give each area one response:<br><span class="triage-opts"><span class="triage-hl"><i data-icon="target"></i>Improve</span>, <span class="triage-hl"><i data-icon="eye"></i>Monitor</span>, <span class="triage-hl"><i data-icon="flag"></i>Need support</span>, or <span class="triage-hl"><i data-icon="benchmark-up"></i>Promote</span>.</span></p>
               </div>
             </div>
           </div>
@@ -1887,7 +1888,7 @@
     var id = jsId(fa.id);
     return '<div class="ap-row" data-id="' + esc(String(fa.id)) + '">' +
       '<div class="ap-cell ap-cell-q"><span class="ap-q">' + esc(fa.text) + '</span>' + (fa.theme ? '<span class="ap-q-theme">' + esc(fa.theme) + '</span>' : '') + '</div>' +
-      '<div class="ap-cell ap-cell-score">' + (fa.score ? esc(fa.score) : '–') + '</div>' +
+      '<div class="ap-cell ap-cell-score">' + ((fa.score && fa.score.indexOf('%') > -1) ? '<span class="fv-score ' + ((fa.isHigh || (fa.theme || '').indexOf('wins') > -1) ? 'is-win' : 'is-focus') + '">' + esc(fa.score) + '</span>' : (fa.score ? esc(fa.score) : '–')) + '</div>' +
       '<div class="ap-cell ap-cell-goal">' + actionGoalChip(fa.state) + '</div>' +
       '<div class="ap-cell ap-cell-actions">' + actionProgressHTML(fa) + '</div>' +
       '<div class="ap-cell ap-cell-menu">' +
