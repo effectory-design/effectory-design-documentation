@@ -1724,7 +1724,7 @@
   function onSupportPersonSearch(id, v){ var fa = planFa(id); if(!fa) return; fa.personSearch = v; var list = document.getElementById('support-person-list-' + id); if(list){ list.innerHTML = supportPersonListHTML(fa); if(window.Icons) window.Icons.render(list); } }
   function setSupportPerson(id, name){ var fa = planFa(id); if(!fa) return; fa.supportPerson = name; fa.supportMenuOpen = false; fa.personSearch = ''; renderCards(); syncTriageOverflow(); if(typeof updateSendState === 'function') updateSendState(id); }
   function addSupportPerson(id, name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); setSupportPerson(id, name); }
-  function toggleSupportMenu(id, e){ if(e){ e.stopPropagation(); } var fa = planFa(id); if(!fa) return; var wasOpen = fa.supportMenuOpen; focusAreas.concat(scoreTargets).forEach(function(f){ f.supportMenuOpen = false; }); fa.supportMenuOpen = !wasOpen; renderCards(); syncTriageOverflow(); var inp = document.getElementById('support-person-input-' + id); if(fa.supportMenuOpen && inp) inp.focus(); }
+  function toggleSupportMenu(id, e){ if(e){ e.stopPropagation(); } var fa = planFa(id); if(!fa) return; var wasOpen = fa.supportMenuOpen; focusAreas.concat(scoreTargets).forEach(function(f){ f.supportMenuOpen = false; }); fa.supportMenuOpen = !wasOpen; renderCards(); syncTriageOverflow(); var inp = document.getElementById('support-person-input-' + id); if(fa.supportMenuOpen && inp) inp.focus(); positionOpenMenus(); }
   function syncTriageOverflow(){ var m = document.querySelector('.triage-modal'); if(!m) return; var open = focusAreas.concat(scoreTargets).some(function(f){ return f.supportMenuOpen; }); m.classList.toggle('menu-open', open); }
   document.addEventListener('click', function(e){
     if(!(e.target.closest && e.target.closest('.fa-person-wrap'))){
@@ -2346,7 +2346,7 @@
       : '';
     return items + add || '<div class="menu-item is-empty">No matches</div>';
   }
-  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); }
+  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); positionOpenMenus(); }
   function onStepPersonSearch(v){ stepPersonSearch = v; var list = document.getElementById('step-person-list'); if(list){ list.innerHTML = stepPersonListHTML(stepFa()); if(window.Icons) window.Icons.render(list); } }
   function stepPickPerson(name){ stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
   function stepAddPerson(name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
@@ -2478,15 +2478,17 @@
 
   // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
   function positionOpenMenus(){
-    requestAnimationFrame(function(){
+    var run = function(){
       document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden])').forEach(function(m){
         m.classList.remove('opens-up');
         var b = m.getBoundingClientRect();
         if(b.bottom > window.innerHeight - 12){ m.classList.add('opens-up'); }
       });
-    });
+    };
+    run();
+    requestAnimationFrame(run);
   }
-  document.addEventListener('click', function(){ positionOpenMenus(); });
+  document.addEventListener('click', function(){ setTimeout(positionOpenMenus, 0); }, true);
   function renderStepDialog(){
     var fa = stepFa(); if(!fa) return;
     var active = stepStage === 'respond' ? 1 : (stepStage === 'plan' ? 2 : 3);

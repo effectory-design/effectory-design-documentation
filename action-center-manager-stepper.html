@@ -2191,7 +2191,7 @@
       : '';
     return items + add || '<div class="menu-item is-empty">No matches</div>';
   }
-  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); }
+  function toggleStepPersonMenu(e){ if(e){ e.stopPropagation(); } stepPersonMenuOpen = !stepPersonMenuOpen; renderStepDialog(); var inp = document.getElementById('step-person-input'); if(stepPersonMenuOpen && inp) inp.focus(); positionOpenMenus(); }
   function onStepPersonSearch(v){ stepPersonSearch = v; var list = document.getElementById('step-person-list'); if(list){ list.innerHTML = stepPersonListHTML(stepFa()); if(window.Icons) window.Icons.render(list); } }
   function stepPickPerson(name){ stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
   function stepAddPerson(name){ name = (name || '').trim(); if(!name) return; if(PEOPLE.indexOf(name) === -1) PEOPLE.push(name); stepFa().supportPerson = name; stepPersonMenuOpen = false; stepPersonSearch = ''; renderStepDialog(); }
@@ -2323,15 +2323,17 @@
 
   // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
   function positionOpenMenus(){
-    requestAnimationFrame(function(){
+    var run = function(){
       document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden])').forEach(function(m){
         m.classList.remove('opens-up');
         var b = m.getBoundingClientRect();
         if(b.bottom > window.innerHeight - 12){ m.classList.add('opens-up'); }
       });
-    });
+    };
+    run();
+    requestAnimationFrame(run);
   }
-  document.addEventListener('click', function(){ positionOpenMenus(); });
+  document.addEventListener('click', function(){ setTimeout(positionOpenMenus, 0); }, true);
   function renderStepDialog(){
     var fa = stepFa(); if(!fa) return;
     var active = stepStage === 'respond' ? 1 : (stepStage === 'plan' ? 2 : 3);
