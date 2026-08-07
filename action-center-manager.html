@@ -798,6 +798,19 @@
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
     .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
     .step-success-acts { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); justify-content: center; margin-top: var(--spacing-base); }
+    .fv-more-inner { display: contents; }
+    #cards-more { padding-top: var(--spacing-base-tight); }
+    #cards-more .fv-card { opacity: 0; transform: translateY(10px); transition: opacity .32s ease, transform .32s ease; }
+    .fv-more.is-open #cards-more .fv-card { opacity: 1; transform: none; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(1){ transition-delay: 0.06s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(2){ transition-delay: 0.14s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(3){ transition-delay: 0.21s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(4){ transition-delay: 0.28s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(5){ transition-delay: 0.36s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(6){ transition-delay: 0.43s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(7){ transition-delay: 0.51s; }
+    .fv-more.is-open #cards-more .fv-card:nth-child(8){ transition-delay: 0.58s; }
+    @media (prefers-reduced-motion: reduce){ #cards-more .fv-card { transition: none; } }
   </style>
 </head>
 <body>
@@ -978,6 +991,8 @@
           <div class="fv-block-main">
             <a class="fv-why" data-dialog="fa-dialog"><i data-icon="info"></i> Why these focus areas?</a>
             <div class="fv-cards" id="cards"></div>
+            <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
+            <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
           </div>
         </div>
 
@@ -1063,7 +1078,14 @@
   var focusAreas = [
     { id:0, text:"Within my organization, the work processes are well organized", theme:"Managing systems", score:"36%", recoKey:"Important information is readily accessible for me", state:null, approach:null },
     { id:1, text:"My manager gives me feedback that helps me improve", theme:"Providing direction", score:"41%", recoKey:"I know what results are expected of me at work", state:null, approach:null },
-    { id:2, text:"I have opportunities to grow within this organization", theme:"Career development", score:"48%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null }
+    { id:2, text:"I have opportunities to grow within this organization", theme:"Career development", score:"48%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null },
+    { id:3, text:"I receive recognition for the work I do", theme:"Recognition", score:"55%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true },
+    { id:4, text:"My workload is manageable", theme:"Workload", score:"58%", recoKey:"I know what results are expected of me at work", state:null, approach:null, secondary:true },
+    { id:5, text:"I have the tools and resources I need to do my job well", theme:"Enablement", score:"61%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null, secondary:true },
+    { id:6, text:"Decisions that affect me are communicated clearly", theme:"Communication", score:"64%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true },
+    { id:7, text:"I feel encouraged to share new ideas", theme:"Voice", score:"66%", recoKey:"I know what results are expected of me at work", state:null, approach:null, secondary:true },
+    { id:8, text:"There is good cooperation between teams", theme:"Collaboration", score:"68%", recoKey:"My skills and abilities fit in well with my job", state:null, approach:null, secondary:true },
+    { id:9, text:"I understand how my work contributes to our goals", theme:"Direction", score:"70%", recoKey:"Important information is readily accessible for me", state:null, approach:null, secondary:true }
   ];
 
   // Three approaches (design-system Focus View defines four — "Self directed" is dropped here).
@@ -1188,8 +1210,16 @@
                (fa.state === 'action'  && fa.actionAdded);
     return fa.state + (done ? ':done' : ':edit');
   }
+  var moreExpanded = false;
+  function toggleMore(){
+    moreExpanded = !moreExpanded;
+    var block = document.getElementById('more-block'); if(block) block.classList.toggle('is-open', moreExpanded);
+    var lbl = document.getElementById('explore-more-label'); if(lbl) lbl.textContent = moreExpanded ? 'Show fewer areas' : 'Explore more areas';
+    var ic = document.querySelector('#explore-more i[data-icon]');
+    if(ic){ ic.setAttribute('data-icon', moreExpanded ? 'chevron-up' : 'chevron-down'); ic.removeAttribute('data-icon-loaded'); if(window.Icons) window.Icons.render(document.getElementById('explore-more')); }
+  }
   function renderCards(){
-    document.getElementById('cards').innerHTML = focusAreas.map(function(fa){
+    function focusCardHTML(fa){
       var isAction = fa.state === 'action';
       var active   = isAction && fa.picked && fa.picked.length;
       var key      = panelKey(fa);
@@ -1426,7 +1456,9 @@
       }
 
       return '<div class="' + cardCls + '" data-id="' + fa.id + '">' + head + zone + '</div>';
-    }).join('');
+    }
+    document.getElementById('cards').innerHTML = focusAreas.filter(function(f){ return !f.secondary; }).map(focusCardHTML).join('');
+    var _moreEl = document.getElementById('cards-more'); if(_moreEl) _moreEl.innerHTML = focusAreas.filter(function(f){ return f.secondary; }).map(focusCardHTML).join('');
 
     if(window.Icons) window.Icons.render();
     openPanels();
@@ -1438,7 +1470,7 @@
   // from. The timer is the fallback for a throttled tab where rAF never fires — without it the panel
   // would simply stay shut.
   function openPanels(){
-    var panels = document.querySelectorAll('#cards .fa-chosen:not(.is-open)');
+    var panels = document.querySelectorAll('#cards .fa-chosen:not(.is-open), #cards-more .fa-chosen:not(.is-open)');
     if(!panels.length) return;
     var open = function(){ panels.forEach(function(el){ el.classList.add('is-open'); }); };
     requestAnimationFrame(open);
