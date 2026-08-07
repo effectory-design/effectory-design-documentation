@@ -797,6 +797,7 @@
     .fv-more.is-open .fv-win-card:nth-child(8){ transition-delay: 0.58s; }
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
     .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
+    .step-success-acts { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); justify-content: center; margin-top: var(--spacing-base); }
   </style>
 </head>
 <body>
@@ -1306,7 +1307,7 @@
               supportPersonMenuHTML(fa) +
               actionRow(fa.busy === 'send'
                 ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>'
-                : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send request</button>')
+                : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send</button>')
               ) +
             '</div>';
         } else {
@@ -2501,7 +2502,7 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
         '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
-        ((typeof fa.id === 'string') ? '<button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>';
+        '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
@@ -2517,7 +2518,7 @@
         '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
         '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
       var ok = stepCanConfirm();
-      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
+      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
       if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction) footer = '';

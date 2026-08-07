@@ -880,6 +880,7 @@
     .fv-more.is-open .fv-win-card:nth-child(8){ transition-delay: 0.58s; }
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
     .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
+    .step-success-acts { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); justify-content: center; margin-top: var(--spacing-base); }
   </style>
 </head>
 <body>
@@ -1394,7 +1395,7 @@
       var cta = sel
         ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="event.stopPropagation(); toggleSelect(' + fa.id + ')"><i data-icon="check"></i> Chosen</button>'
         : '<button class="btn btn-secondary fv-choose-btn" onclick="event.stopPropagation(); toggleSelect(' + fa.id + ')">Choose</button>';
-      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '" onclick="toggleSelect(' + fa.id + ')">' +
+      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '">' +
         '<div class="fv-card-head"><div class="fv-card-top">' +
           '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
           relevanceThumbsHTML(fa) +
@@ -1563,7 +1564,7 @@
             '<div class="ta-wrap"><label class="ta-lbl">Describe the support you need <span class="fa-req">*</span></label>' +
             '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="setSupportText(' + fa.id + ',this.value)">' + esc(fa.supportText || '') + '</textarea></div>' +
             supportPersonMenuHTML(fa) +
-            actionRow(fa.busy === 'send' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send request</button>')
+            actionRow(fa.busy === 'send' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send</button>')
           ) + '</div>';
         } else {
           var who = fa.supportPerson || 'the right person';
@@ -2715,7 +2716,7 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
         '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
-        ((typeof fa.id === 'string') ? '<button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>';
+        '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
@@ -2731,7 +2732,7 @@
         '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
         '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
       var ok = stepCanConfirm();
-      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
+      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
       if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction) footer = '';

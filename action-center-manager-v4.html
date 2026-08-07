@@ -764,7 +764,7 @@
     .fv-more-inline-head { margin-top: var(--spacing-loose) !important; padding-top: 0 !important; border-top: none !important; }
     #cards-more .fv-card { padding: var(--spacing-base); gap: var(--spacing-base-tight); }
     #cards-more .fv-score.is-focus { background: var(--bg-warning-subtle); color: var(--content-warning); }
-    .triage-modal-foot { border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); border-bottom: none; padding-bottom: 0; }
+    .triage-modal-foot { border-top: none; padding-top: var(--spacing-base); border-bottom: none; padding-bottom: 0; }
     .fv-relevance { flex: none; display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin: 0 var(--spacing-tight); }
     .fv-thumb { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--border-base); border-radius: var(--radius-base); background: var(--bg-base); color: var(--content-secondary); cursor: pointer; transition: border-color .1s, background .1s, color .1s; }
     .fv-thumb:hover { border-color: var(--border-action-hover); color: var(--content-base); }
@@ -866,6 +866,7 @@
     .fv-more.is-open .fv-win-card:nth-child(8){ transition-delay: 0.58s; }
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
     .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
+    .step-success-acts { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); justify-content: center; margin-top: var(--spacing-base); }
   </style>
 </head>
 <body>
@@ -1385,7 +1386,7 @@
       var cta = sel
         ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="event.stopPropagation(); toggleSelect(' + fa.id + ')"><i data-icon="check"></i> Chosen</button>'
         : '<button class="btn btn-secondary fv-choose-btn" onclick="event.stopPropagation(); toggleSelect(' + fa.id + ')">Choose</button>';
-      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '" onclick="toggleSelect(' + fa.id + ')">' +
+      return '<div class="fv-card fv-select' + (sel ? ' is-selected' : '') + '" data-id="' + fa.id + '">' +
         '<div class="fv-card-head"><div class="fv-card-top">' +
           '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
           relevanceThumbsHTML(fa) +
@@ -1482,7 +1483,7 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You\u2019re all set</h2>' +
         '<p class="step-sub">' + triageIds.length + ' focus area' + (triageIds.length === 1 ? '' : 's') + ' triaged. Your team can see them and they\u2019re visible to HR.</p>' +
-        '<button class="btn btn-primary" onclick="backToFocus()">Back to Focus View</button></div>';
+        '<div class="step-success-acts"><button class="btn btn-secondary" onclick="triageGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="backToFocus()">Back to Focus View</button></div></div>';
       var f0 = document.getElementById('triage-foot'); if(f0) f0.innerHTML = '';
       var p0 = document.getElementById('triage-progress'); if(p0) p0.textContent = '';
       var d0 = document.getElementById('triage-desc'); if(d0) d0.textContent = '';
@@ -1577,7 +1578,7 @@
             '<div class="ta-wrap"><label class="ta-lbl">Describe the support you need <span class="fa-req">*</span></label>' +
             '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="setSupportText(' + fa.id + ',this.value)">' + esc(fa.supportText || '') + '</textarea></div>' +
             supportPersonMenuHTML(fa) +
-            actionRow(fa.busy === 'send' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send request</button>')
+            actionRow(fa.busy === 'send' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary' + (canSend ? '' : ' is-disabled') + '" id="send-support-' + fa.id + '"' + (canSend ? '' : ' disabled') + ' onclick="sendSupport(' + fa.id + ')">Send</button>')
           ) + '</div>';
         } else {
           var who = fa.supportPerson || 'the right person';
@@ -2545,6 +2546,7 @@
     document.body.classList.add('step-open');
     renderStepDialog();
   }
+  function triageGoToActions(){ backToFocus(); var t = document.querySelector('.tab[data-view="actions"]'); if(t) t.click(); }
   function stepGoToActions(){ var sd = document.getElementById('step-dialog'); if(sd) sd.hidden = true; document.body.classList.remove('step-open'); renderCards(); var t = document.querySelector('.tab[data-view="actions"]'); if(t) t.click(); }
   function stepDeferImprove(id){ var fa = (id !== undefined && id !== null) ? planFa(id) : (typeof stepFa === 'function' ? stepFa() : null); if(!fa) return; fa.state = 'action'; fa.actionAdded = true; if(!fa.planItems) fa.planItems = []; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ stepBusy = true; stepStage = 'success'; renderStepDialog(); setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 400); } else { renderCards(); if(typeof updateProgress === 'function') updateProgress(); } }
   function stepClose(){ var fa = stepFa(); if(fa && fa.state && !faDecided(fa)){ fa.state = null; fa.picked = []; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false; fa.dismissSent = false; fa.creatingAction = false; fa.supportMenuOpen = false; } document.getElementById('step-dialog').hidden = true; document.body.classList.remove('step-open'); renderCards(); }
@@ -2741,7 +2743,7 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
         '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
-        ((typeof fa.id === 'string') ? '<button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>';
+        '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
@@ -2757,7 +2759,7 @@
         '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
         '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
       var ok = stepCanConfirm();
-      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send request' : 'Add action');
+      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
       if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction) footer = '';
