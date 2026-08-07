@@ -823,6 +823,9 @@
     @media (prefers-reduced-motion: reduce){ .fv-more, .fv-more .fv-win-card { transition: none; } }
     .fa-chosen-body-inner:has(.fa-person-menu:not([hidden])) { overflow: visible; }
     .step-success-acts { display: flex; flex-wrap: wrap; gap: var(--spacing-base-tight); justify-content: center; margin-top: var(--spacing-base); }
+    .fa-dp.opens-up { top: auto; bottom: calc(100% + var(--spacing-tight)); }
+    .fa-chosen-body-inner:has(.fa-dp:not([hidden])) { overflow: visible; }
+    .triage-modal:has(.fa-dp:not([hidden])), .step-modal:has(.fa-dp:not([hidden])) { overflow: visible; }
   </style>
 </head>
 <body>
@@ -1493,6 +1496,7 @@
     focusAreas.forEach(function(f){ if(f !== fa) f.dpOpen = false; });
     fa.dpOpen = !fa.dpOpen;
     renderCards();
+    if(typeof positionOpenMenus === 'function') positionOpenMenus();
   }
   function dpNav(id, delta, e){
     if(e){ e.stopPropagation(); e.preventDefault(); }
@@ -2325,7 +2329,7 @@
   // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
   function positionOpenMenus(){
     var run = function(){
-      document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden])').forEach(function(m){
+      document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden]), .fa-dp:not([hidden])').forEach(function(m){
         m.classList.remove('opens-up');
         var b = m.getBoundingClientRect();
         if(b.bottom > window.innerHeight - 12){ m.classList.add('opens-up'); }
