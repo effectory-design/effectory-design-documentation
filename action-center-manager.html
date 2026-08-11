@@ -814,6 +814,7 @@
     .fa-dp.opens-up { top: auto; bottom: calc(100% + var(--spacing-tight)); }
     .fa-chosen-body-inner:has(.fa-dp:not([hidden])) { overflow: visible; }
     .triage-modal:has(.fa-dp:not([hidden])), .step-modal:has(.fa-dp:not([hidden])) { overflow: visible; }
+    .step-context-card { background: var(--bg-secondary); cursor: default; }
   </style>
 </head>
 <body>
@@ -2514,6 +2515,13 @@
   }
 
   // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
+  function stepContextCard(fa){
+    var isWin = !!(fa.isHigh || (fa.theme || '').toLowerCase().indexOf('wins') > -1);
+    var score = (fa.score && fa.score.indexOf('%') > -1) ? '<span class="fv-score ' + (isWin ? 'is-win' : 'is-focus') + '">' + esc(fa.score) + '</span>' : '';
+    return '<div class="fv-card step-context-card"><div class="fv-card-head"><div class="fv-card-top">' +
+      '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
+      score + '</div></div></div>';
+  }
   function positionOpenMenus(){
     var run = function(){
       document.querySelectorAll('.fa-person-menu:not([hidden]), .step-person-menu:not([hidden]), .fa-dp:not([hidden])').forEach(function(m){
@@ -2541,7 +2549,8 @@
         '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
-        '<p class="step-sub">Pick the response that fits “' + esc(fa.text) + '”. You can change it later.</p></div>' +
+        '<p class="step-sub">Pick the response that fits this area — you can change it later.</p></div>' +
+        stepContextCard(fa) +
         '<div class="step-options">' + ['action','monitor','support','promote'].map(function(st){
           var d = DECIDED[st] || {};
           return '<button class="step-opt is-' + st + (fa.state===st?' is-selected':'') + '" onclick="stepPickResponse(\'' + st + '\')">' +
