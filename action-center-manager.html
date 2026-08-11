@@ -23,7 +23,8 @@
     /* App shell */
     .app { display: flex; height: 100vh; overflow: hidden; }
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .main-scroll { flex: 1; overflow-y: auto; background: var(--bg-secondary); }
+    .main-scroll { flex: 1; overflow-y: auto; background: var(--bg-base); }
+    .main-scroll:has(#view-actions:not([hidden])) { background: var(--bg-secondary); }
 
     .breadcrumb { padding-left: var(--results-side); padding-right: var(--results-side); }
 
