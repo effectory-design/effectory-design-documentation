@@ -853,29 +853,33 @@
     .cg-ov-banner .ann-actions { flex-shrink: 0; margin: 0; }
     @media (max-width: 720px) { .cg-ov-banner { flex-direction: column; align-items: flex-start; } }
 
-    /* Focus View entry card — the guide's recommended (not required) entry point */
+    /* Focus View entry card — the guide's recommended (not required) entry point.
+       Deliberately styled apart from the focus cards: neutral white surface (no brand
+       green), a larger title, an illustration on the right, and the CTA under the copy. */
     .cg-entry {
-      display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-loose);
-      background: var(--bg-brand-subtle); border: 1px solid var(--border-brand-subtle);
-      border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-loose);
-      margin-bottom: var(--spacing-base);
+      display: flex; align-items: center; gap: var(--spacing-super-loose);
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
+      padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
+    .cg-entry-main { flex: 1; min-width: 0; }
     .cg-entry-kicker {
-      display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
-      text-transform: uppercase; color: var(--content-brand); margin-bottom: var(--spacing-extra-tight);
+      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--content-info); margin-bottom: var(--spacing-tight);
     }
-    .cg-entry-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4; color: var(--content-base); }
-    .cg-entry-text { margin: var(--spacing-extra-tight) 0 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .cg-entry-actions { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: var(--spacing-extra-tight); }
+    .cg-entry-title { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.3; color: var(--content-base); letter-spacing: -0.01em; }
+    .cg-entry-text { margin: var(--spacing-tight) 0 var(--spacing-base); font-size: 14px; line-height: 1.6; color: var(--content-secondary); max-width: 60ch; }
+    .cg-entry-actions { display: flex; align-items: center; gap: var(--spacing-base); flex-wrap: wrap; }
     .cg-entry-note { font-size: 12px; color: var(--content-secondary); }
-    @media (max-width: 640px) {
-      .cg-entry { flex-direction: column; align-items: flex-start; }
-      .cg-entry-actions { align-items: flex-start; }
+    .cg-entry-illo { flex-shrink: 0; width: 128px; height: auto; align-self: center; }
+    @media (max-width: 720px) {
+      .cg-entry { flex-direction: column-reverse; align-items: flex-start; gap: var(--spacing-base); }
+      .cg-entry-illo { width: 96px; align-self: flex-start; }
     }
 
-    /* "What to ask your team" quiet link on each focus card */
-    .fv-card-cta:has(.cg-tt) { width: auto; }
-    .cg-ask-link { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); white-space: nowrap; padding-left: var(--spacing-tight); padding-right: var(--spacing-tight); }
+    /* "What to ask your team" quiet secondary link, in its own row under the card head */
+    .cg-card-ask { margin-top: var(--spacing-tight); }
+    .cg-ask-link { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); white-space: nowrap; padding-left: 0; padding-right: var(--spacing-tight); }
     .cg-ask-link i { flex-shrink: 0; width: 16px; height: 16px; display: flex; }
 
     /* Hover-gated tooltip wrapper — the design-system .tt-demo helper shows tooltips
@@ -1120,11 +1124,12 @@
                 <span class="cg-entry-kicker">Talk it through first</span>
                 <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
                 <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
+                <div class="cg-entry-actions">
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> Preview guide</button>
+                  <span class="cg-entry-note">Recommended, not required</span>
+                </div>
               </div>
-              <div class="cg-entry-actions">
-                <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> Preview guide</button>
-                <span class="cg-entry-note">Recommended, not required</span>
-              </div>
+              <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
             </div>
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
@@ -1321,18 +1326,25 @@
     return (fa.state==='action' && fa.actionAdded) || (fa.state==='promote' && fa.actionAdded) || (fa.state==='monitor' && fa.monitorSaved) || (fa.state==='support' && fa.supportSent);
   }
   function stepperCard(fa){
-    // Phase 1 is preview + download only: the card is read-only, with a quiet link into the
-    // conversation guide's listening questions for this focus area.
-    var cta = '<div class="cg-tt"><button class="btn btn-link cg-ask-link" onclick="openGuide(' + fa.id + ')"><i data-icon="featured"></i> What to ask your team</button><div class="tooltip is-above">Listening questions from your conversation guide</div></div>';
+    var decided = faDecided(fa);
+    // V2: a single Choose (undecided) / Change (decided) opens the stepper; relevance thumbs stay.
+    var cta = decided
+      ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
+      : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
+    var check = decided ? '' : relevanceThumbsHTML(fa);
+    // Quiet secondary link into the conversation guide's listening questions for this area.
+    var ask = '<div class="cg-card-ask"><div class="cg-tt"><button class="btn btn-link cg-ask-link" onclick="openGuide(' + fa.id + ')"><i data-icon="featured"></i> What to ask your team</button><div class="tooltip is-above">Listening questions from your conversation guide</div></div></div>';
     var head =
       '<div class="fv-card-head">' +
         '<div class="fv-card-top">' +
           '<div class="fv-card-q"><p class="fv-card-question">' + esc(fa.text) + '</p><span class="fv-card-theme">' + esc(fa.theme) + '</span></div>' +
+          check +
           '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
           '<span class="fv-card-cta">' + cta + '</span>' +
-        '</div>' + smartTagHTML(fa) +
+        '</div>' + (decided ? '' : smartTagHTML(fa) + ask) +
       '</div>';
-    return '<div class="fv-card" data-id="' + fa.id + '">' + head + '</div>';
+    if(!decided) return '<div class="fv-card" data-id="' + fa.id + '">' + head + '</div>';
+    return '<div class="fv-card is-active" data-id="' + fa.id + '">' + head + stepReflect(fa) + '</div>';
   }
   function stepReflect(fa){
     var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
@@ -1682,10 +1694,14 @@
       var ci = ex.querySelector('i[data-icon]'); if(ci){ ci.setAttribute('data-icon', winsExpanded ? 'chevron-up' : 'chevron-down'); ci.removeAttribute('data-icon-loaded'); if(window.Icons) window.Icons.render(ex); } }
   }
   function winCardHTML(w){
-    // Phase 1: wins are read-only highlights (no in-product response flow).
-    return '<div class="fv-win-card">' +
+    var t = winTarget(w, false); var done = !!(t && faDecided(t));
+    var cta = done
+      ? '<button class="btn btn-secondary fv-choose-btn is-chosen" onclick="respondWin(' + w.k + ')"><i data-icon="check"></i> ' + (LABEL[t.state] || 'Responded') + '</button>'
+      : '<button class="btn btn-secondary fv-choose-btn" onclick="respondWin(' + w.k + ')">Choose</button>';
+    return '<div class="fv-win-card' + (done ? ' is-done' : '') + '">' +
       '<div class="fv-card-q"><p class="fv-card-question">' + esc(w.q) + '</p><span class="fv-card-theme">' + esc(w.theme) + '</span></div>' +
       '<span class="fv-score is-win">' + esc(w.score) + '</span>' +
+      '<span class="fv-card-cta">' + cta + '</span>' +
     '</div>';
   }
   function renderWins(){
