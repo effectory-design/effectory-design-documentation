@@ -689,9 +689,8 @@
     .step-success .btn { margin-top: var(--spacing-loose); }
     @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
     /* ═══ V4: multi-select focus cards + sticky bar + Triage sub-page ═══ */
-    .fv-select { cursor: pointer; transition: border-color var(--motion-fast, .12s) ease, box-shadow var(--motion-fast, .12s) ease, background var(--motion-fast, .12s) ease; }
-    .fv-select:hover { border-color: var(--border-action-hover); }
-    .fv-select { cursor: pointer; }
+    .fv-select { cursor: default; transition: border-color var(--motion-fast, .12s) ease, box-shadow var(--motion-fast, .12s) ease, background var(--motion-fast, .12s) ease; }
+    .fv-select { cursor: default; }
     .fv-select.is-selected { border-color: var(--border-brand); box-shadow: 0 0 0 1px var(--border-brand); background: var(--bg-base); }
     .fv-select .fv-card-top { align-items: center; }
     .fv-select-cb { flex: none; }
@@ -1532,16 +1531,15 @@
 
       var zone;
       if(!fa.state){
-        var decChips = ['action','monitor','support'].map(function(opt){
-          if(fa.loadingOpt === opt){
-            return '<label class="rb-btn-bordered is-selected is-disabled"><span class="loader-inline"></span>' + LABEL[opt] + '</label>';
-          }
-          var dis = fa.loadingOpt ? ' is-disabled' : '';
-          return '<label class="rb-btn-bordered' + dis + '">' +
-            '<span class="rb-wrap"><input type="radio" class="rb" name="dec-' + fa.id + '"' + (fa.loadingOpt ? ' disabled' : '') +
-            ' onchange="chooseOption(' + fa.id + ',\'' + opt + '\')"></span>' + LABEL[opt] + '</label>';
+        var decCards = ['action','monitor','support','promote'].map(function(st){
+          var d = DECIDED[st] || {};
+          var loading = fa.loadingOpt === st;
+          return '<button class="step-opt is-' + st + (loading ? ' is-selected' : '') + '"' + (fa.loadingOpt ? ' disabled' : '') + ' onclick="chooseOption(' + fa.id + ',\'' + st + '\')">' +
+            '<span class="step-opt-ico">' + (loading ? '<span class="loader-inline"></span>' : '<i data-icon="' + d.icon + '"></i>') + '</span>' +
+            '<span class="step-opt-title">' + LABEL[st] + '</span>' +
+            '<span class="step-opt-desc">' + STEP_DESC[st] + '</span></button>';
         }).join('');
-        zone = '<div class="fv-approach"><div class="fv-decide-lbl">Choose how to respond</div><div class="fv-approach-chips">' + decChips + '</div></div>';
+        zone = '<div class="fv-approach"><div class="step-options">' + decCards + '</div></div>';
       } else if(fa.state === 'dismiss'){
         if(!fa.dismissSent){
           var chosen = fa.dismissReasons || [];
@@ -1612,14 +1610,14 @@
             '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div><span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
         }).join('');
         var doneBtn = fa.busy === 'confirm' ? '<button class="btn btn-primary" disabled><span class="loader-inline"></span></button>' : '<button class="btn btn-primary"' + ((picked.length || (fa.customActions && fa.customActions.length)) ? '' : ' disabled') + ' onclick="confirmActions(' + fa.id + ')">Add action</button>';
-        zone = '<div class="fv-approach">' + chosenBlock('action','target','Improve',
+        zone = '<div class="fv-approach">' + chosenBlock(fa.state, (DECIDED[fa.state]||{}).icon || 'target', LABEL[fa.state] || 'Improve',
           (fa.creatingAction ? '' : '<div class="fv-approach-lbl">Pick the actions you want to take</div><div class="fv-picks">' + pickCards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa) + (fa.creatingAction ? '' : actionRow(doneBtn))
         ) + '</div>';
       } else {
         var itemsList = (fa.planItems || []).map(function(it, i){
           return '<li class="fa-done-item' + (it.done ? ' is-done' : '') + '"><span class="cb-wrap"><input type="checkbox" class="cb fa-done-cb"' + (it.done ? ' checked' : '') + ' onchange="toggleFocusAction(' + fa.id + ',' + i + ')"></span><span class="fa-done-item-text">' + esc(it.text || 'Untitled action') + '</span></li>';
         }).join('');
-        zone = doneView(fa, 'target', "You're improving this focus area", '<ul class="fa-done-list">' + itemsList + '</ul>', hrNoteHTML());
+        zone = doneView(fa, (fa.state==='promote'?'benchmark-up':'target'), (fa.state==='promote'?"You're celebrating this strength":"You're improving this focus area"), '<ul class="fa-done-list">' + itemsList + '</ul>', hrNoteHTML());
       }
       return '<div class="' + cardCls + '" data-id="' + fa.id + '">' + head + zone + '</div>';
     }).join('');

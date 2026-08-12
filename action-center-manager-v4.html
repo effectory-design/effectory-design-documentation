@@ -689,9 +689,8 @@
     .step-success .btn { margin-top: var(--spacing-loose); }
     @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
     /* ═══ V4: multi-select focus cards + sticky bar + Triage sub-page ═══ */
-    .fv-select { cursor: pointer; transition: border-color var(--motion-fast, .12s) ease, box-shadow var(--motion-fast, .12s) ease, background var(--motion-fast, .12s) ease; }
-    .fv-select:hover { border-color: var(--border-action-hover); }
-    .fv-select { cursor: pointer; }
+    .fv-select { cursor: default; transition: border-color var(--motion-fast, .12s) ease, box-shadow var(--motion-fast, .12s) ease, background var(--motion-fast, .12s) ease; }
+    .fv-select { cursor: default; }
     .fv-select.is-selected { border-color: var(--border-brand); box-shadow: 0 0 0 1px var(--border-brand); background: var(--bg-base); }
     .fv-select .fv-card-top { align-items: center; }
     .fv-select-cb { flex: none; }
@@ -756,7 +755,7 @@
     .triage-nav i { display: flex; width: 15px; height: 15px; }
     .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
     .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
-    .triage-progress-lbl { margin: 0; font-size: 13px; font-weight: 600; color: var(--content-secondary); white-space: nowrap; }
+    .triage-progress-lbl { margin: 0; flex: 1; text-align: center; font-size: 15px; font-weight: 700; color: var(--content-base); white-space: nowrap; }
     .triage-foot-end { display: inline-flex; align-items: center; gap: var(--spacing-base); }
     .triage-foot-nav { display: inline-flex; align-items: center; gap: var(--spacing-base-tight); }
     @keyframes triage-slide-in { 0% { opacity: 0; transform: translateX(72px); } 100% { opacity: 1; transform: translateX(0); } }
@@ -1661,10 +1660,8 @@
         '<button class="btn btn-secondary triage-nav"' + prevDis + ' onclick="triagePrev()"><i data-icon="chevron-left"></i> Previous</button>' +
         '<button class="btn btn-secondary triage-nav"' + nextDis + ' onclick="triageNext()">Next <i data-icon="chevron-right"></i></button>' +
       '</div>' +
-      '<div class="triage-foot-end">' +
-        '<span class="triage-progress-lbl">' + completedFt + ' / ' + total + ' completed</span>' +
-        '<button class="btn btn-primary' + (allDone ? '' : ' is-disabled') + '"' + (allDone ? '' : ' disabled') + ' onclick="triageComplete()">Complete</button>' +
-      '</div>';
+      '<span class="triage-progress-lbl">' + completedFt + ' / ' + total + ' completed</span>' +
+      '<button class="btn btn-primary' + (allDone ? '' : ' is-disabled') + '"' + (allDone ? '' : ' disabled') + ' onclick="triageComplete()">Complete</button>';
     if(window.Icons) window.Icons.render(foot);
   }
   function triageComplete(){ var allDone = triageIds.length > 0 && triageIds.every(function(id){ var g = focusAreas.find(function(x){ return x.id === id; }); return g && faDecided(g); }); if(!allDone) return; triageSuccess = true; renderTriage(); }
