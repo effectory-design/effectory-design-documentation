@@ -885,6 +885,29 @@
     .fa-chosen-body-inner:has(.fa-dp:not([hidden])) { overflow: visible; }
     .triage-modal:has(.fa-dp:not([hidden])), .step-modal:has(.fa-dp:not([hidden])) { overflow: visible; }
     .step-context-card { background: var(--bg-secondary); cursor: default; }
+    .triage-legend { padding: var(--spacing-base); background: var(--bg-secondary); border-radius: var(--radius-lg); }
+    .triage-legend-hd { font-size: 13px; font-weight: 700; color: var(--content-base); margin-bottom: var(--spacing-tight); }
+    .triage-legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-base); }
+    .triage-legend-item { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
+    .triage-legend .step-opt-ico { width: 32px; height: 32px; border-radius: var(--radius-md); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+    .triage-legend .step-opt-ico i { display: flex; width: 18px; height: 18px; }
+    .triage-legend .step-opt-ico.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
+    .triage-legend .step-opt-ico.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
+    .triage-legend .step-opt-ico.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .triage-legend .step-opt-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .triage-legend-tx { display: flex; flex-direction: column; min-width: 0; }
+    .triage-legend-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .triage-legend-d { font-size: 12.5px; line-height: 1.4; color: var(--content-secondary); }
+    .triage-opts-compact { display: flex; flex-wrap: wrap; gap: var(--spacing-tight); }
+    .triage-opt-chip { display: inline-flex; align-items: center; gap: 6px; padding: var(--spacing-tight) var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-full); background: var(--bg-base); font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-base); cursor: pointer; transition: border-color .12s ease, background .12s ease; }
+    .triage-opt-chip:hover { border-color: var(--border-action-hover); }
+    .triage-opt-chip:disabled { opacity: .6; cursor: default; }
+    .triage-opt-chip i { display: flex; width: 16px; height: 16px; }
+    .triage-opt-chip.is-action i { color: var(--content-brand); }
+    .triage-opt-chip.is-monitor i { color: var(--content-info); }
+    .triage-opt-chip.is-support i { color: var(--content-negative); }
+    .triage-opt-chip.is-promote i { color: var(--content-positive); }
+    @media (max-width: 720px){ .triage-legend-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -1135,6 +1158,15 @@
               <div class="triage-head-text">
                 <h2 class="fv-section-title" id="triage-title">Choose how to respond</h2>
                 <p class="fv-section-desc" id="triage-desc"></p>
+              </div>
+              <div class="triage-legend">
+                <div class="triage-legend-hd">What each response means</div>
+                <div class="triage-legend-grid">
+                  <div class="triage-legend-item"><span class="step-opt-ico is-action"><i data-icon="target"></i></span><div class="triage-legend-tx"><span class="triage-legend-t">Improve</span><span class="triage-legend-d">Something the team can influence, so commit to a concrete next step.</span></div></div>
+                  <div class="triage-legend-item"><span class="step-opt-ico is-monitor"><i data-icon="eye"></i></span><div class="triage-legend-tx"><span class="triage-legend-t">Monitor</span><span class="triage-legend-d">Not urgent yet, so keep it on your radar and revisit at the next survey.</span></div></div>
+                  <div class="triage-legend-item"><span class="step-opt-ico is-support"><i data-icon="flag"></i></span><div class="triage-legend-tx"><span class="triage-legend-t">Need support</span><span class="triage-legend-d">Outside the team’s control, so flag it for the right person to pick up.</span></div></div>
+                  <div class="triage-legend-item"><span class="step-opt-ico is-promote"><i data-icon="benchmark-up"></i></span><div class="triage-legend-tx"><span class="triage-legend-t">Promote</span><span class="triage-legend-d">A real strength worth celebrating, so plan a way to share the win.</span></div></div>
+                </div>
               </div>
               <div class="fv-cards triage-list" id="triage-cards"></div>
             </div>
@@ -1531,15 +1563,14 @@
 
       var zone;
       if(!fa.state){
-        var decCards = ['action','monitor','support','promote'].map(function(st){
+        var decChips = ['action','monitor','support','promote'].map(function(st){
           var d = DECIDED[st] || {};
           var loading = fa.loadingOpt === st;
-          return '<button class="step-opt is-' + st + (loading ? ' is-selected' : '') + '"' + (fa.loadingOpt ? ' disabled' : '') + ' onclick="chooseOption(' + fa.id + ',\'' + st + '\')">' +
-            '<span class="step-opt-ico">' + (loading ? '<span class="loader-inline"></span>' : '<i data-icon="' + d.icon + '"></i>') + '</span>' +
-            '<span class="step-opt-title">' + LABEL[st] + '</span>' +
-            '<span class="step-opt-desc">' + STEP_DESC[st] + '</span></button>';
+          return '<button class="triage-opt-chip is-' + st + '"' + (fa.loadingOpt ? ' disabled' : '') + ' onclick="chooseOption(' + fa.id + ',\'' + st + '\')">' +
+            (loading ? '<span class="loader-inline"></span>' : '<i data-icon="' + d.icon + '"></i>') +
+            '<span>' + LABEL[st] + '</span></button>';
         }).join('');
-        zone = '<div class="fv-approach"><div class="step-options">' + decCards + '</div></div>';
+        zone = '<div class="fv-approach"><div class="fv-decide-lbl">Choose how to respond</div><div class="triage-opts-compact">' + decChips + '</div></div>';
       } else if(fa.state === 'dismiss'){
         if(!fa.dismissSent){
           var chosen = fa.dismissReasons || [];
