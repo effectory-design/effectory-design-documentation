@@ -904,53 +904,58 @@
     .cg-intro-text { margin: 0 0 var(--spacing-tight); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
     .cg-intro-dismiss { padding: 0; }
 
-    /* Document meta */
-    .cg-doc-meta { font-size: 13px; color: var(--content-secondary); line-height: 1.5; }
-    .cg-doc-meta b { color: var(--content-base); font-weight: 600; }
+    /* Header source line: compact, with the survey and team anchored in base weight */
+    .cg-guide .sp-subtitle b { color: var(--content-base); font-weight: 600; }
 
-    /* Agenda */
-    .cg-agenda { border: 1px solid var(--border-base); border-radius: var(--radius-md); overflow: hidden; }
-    .cg-agenda-head {
-      display: flex; align-items: center; gap: var(--spacing-tight);
-      padding: var(--spacing-tight) var(--spacing-base); background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-base);
-    }
-    .cg-agenda-head i { width: 16px; height: 16px; display: flex; color: var(--content-secondary); }
-    .cg-agenda-head h4 { margin: 0; font-size: 14px; font-weight: 600; }
-    .cg-agenda-dur { margin-left: auto; font-size: 12px; color: var(--content-secondary); }
-    .cg-agenda-list { list-style: none; margin: 0; padding: var(--spacing-tight) 0; }
-    .cg-agenda-list li { display: flex; gap: var(--spacing-base); padding: var(--spacing-extra-tight) var(--spacing-base); font-size: 14px; }
-    .cg-agenda-time { flex-shrink: 0; width: 42px; font-variant-numeric: tabular-nums; color: var(--content-secondary); font-weight: 500; }
-    .cg-agenda-label { color: var(--content-base); }
-    .cg-agenda-branch {
-      align-items: flex-start; gap: var(--spacing-tight); margin: var(--spacing-extra-tight) var(--spacing-base);
-      padding: var(--spacing-tight); background: var(--bg-info-subtle); border-radius: var(--radius-sm);
-      font-size: 13px; line-height: 1.5; color: var(--content-secondary);
-    }
-    .cg-agenda-branch i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-info); margin-top: 1px; }
+    /* Quiet block labels — one label style for every panel section */
+    .cg-blk-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
+    .cg-blk-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
+    .cg-blk-aside { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
 
-    /* Focus-area sections */
-    .cg-section { border-top: 1px solid var(--border-base); padding-top: var(--spacing-loose); }
-    .cg-sec-eyebrow { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-brand); }
-    .cg-sec-statement { margin: var(--spacing-extra-tight) 0 var(--spacing-tight); font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--content-base); }
-    .cg-sec-meta { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
-    .cg-trend { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); font-size: 12px; font-weight: 500; color: var(--content-secondary); }
-    .cg-trend i { width: 14px; height: 14px; display: flex; }
-    .cg-trend.is-down { color: var(--content-negative); }
-    .cg-trend.is-up { color: var(--content-positive); }
-    .cg-qgroup { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    /* What's inside: the session flow as three numbered steps */
+    .cg-steps { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .cg-step { display: flex; align-items: center; gap: var(--spacing-base-tight); }
+    .cg-step-num {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--radius-full);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--bg-secondary); color: var(--content-secondary);
+      font-size: 12px; font-weight: 600;
+    }
+    .cg-step-t { flex: 1; font-size: 14px; font-weight: 500; color: var(--content-base); }
+    .cg-step-time { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
+
+    /* Your focus areas: compact rows, score badge only */
+    .cg-fa-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .cg-fa-row {
+      display: flex; align-items: center; gap: var(--spacing-base-tight);
+      padding: var(--spacing-tight) var(--spacing-base);
+      border: 1px solid var(--border-base); border-radius: var(--radius-md);
+    }
+    .cg-fa-txt { flex: 1; min-width: 0; }
+    .cg-fa-st { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.45; color: var(--content-base); }
+    .cg-fa-theme { font-size: 12px; color: var(--content-secondary); }
+
+    /* One worked example: the single visually heaviest element in the panel */
+    .cg-example {
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
+      padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose);
+    }
+    .cg-example-eyebrow { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--content-brand); margin-bottom: var(--spacing-tight); }
+    .cg-example-st { margin: 0 0 var(--spacing-tight); font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--content-base); }
+    .cg-example-meta { margin-bottom: var(--spacing-base); }
     .cg-q { display: flex; flex-direction: column; gap: 2px; padding-left: var(--spacing-base); border-left: 2px solid var(--border-brand-subtle); }
     .cg-q-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
     .cg-q p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--content-base); }
-    .cg-triage {
-      display: flex; align-items: flex-start; gap: var(--spacing-tight); margin-top: var(--spacing-base);
-      padding: var(--spacing-tight) var(--spacing-base); background: var(--bg-secondary);
-      border-radius: var(--radius-sm); font-size: 13px; line-height: 1.5; color: var(--content-secondary);
-    }
-    .cg-triage i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); margin-top: 1px; }
-    .cg-closing-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+    .cg-example-note { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
-    /* Footer: default actions → rating after download */
+    /* Benefits strip: three one-line points above the footer */
+    .cg-benefits { display: flex; flex-direction: column; gap: var(--spacing-tight); border-top: 1px solid var(--border-base); padding-top: var(--spacing-loose); }
+    .cg-benefit { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; color: var(--content-secondary); }
+    .cg-benefit i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
+
+    /* Footer: format hint + default actions → rating after download */
+    .cg-fmt-hint { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
     .cg-guide-footer.is-rating { justify-content: space-between; }
     .cg-rating-q { font-size: 14px; color: var(--content-base); }
     .cg-rating-thumbs { display: inline-flex; gap: var(--spacing-tight); }
@@ -1036,7 +1041,7 @@
               <p class="ann-title">Results are in</p>
               <p class="ann-text">Get your guide for the team conversation</p>
             </div>
-            <div class="ann-actions"><button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> Preview guide</button></div>
+            <div class="ann-actions"><button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button></div>
           </div>
           <iframe id="ov-embed" class="ov-embed" src="ac-overview-embed.html" title="Overview" scrolling="no" loading="eager"></iframe>
         </div>
@@ -1125,7 +1130,7 @@
                 <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
                 <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
                 <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> Preview guide</button>
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>
                   <span class="cg-entry-note">Recommended, not required</span>
                 </div>
               </div>
@@ -2499,43 +2504,48 @@
   var guideRated = false;
   try { guideIntroDone = sessionStorage.getItem('cg-guide-intro-done') === '1'; } catch(e){}
 
-  function trendChipHTML(t){
-    var ic = t.dir === 'up' ? 'arrow-up' : (t.dir === 'down' ? 'arrow-down' : 'benchmark-up');
-    return '<span class="cg-trend is-' + t.dir + '"><i data-icon="' + ic + '"></i> ' + esc(t.text) + '</span>';
+  // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
+  function guideLowestArea(){
+    return GUIDE_AREAS.reduce(function(lo, a){ return parseInt(a.score, 10) < parseInt(lo.score, 10) ? a : lo; });
   }
-  function guideAgendaHTML(){
-    return '<section class="cg-agenda">' +
-      '<div class="cg-agenda-head"><i data-icon="clock"></i><h4>Agenda</h4><span class="cg-agenda-dur">About 45 minutes</span></div>' +
-      '<ol class="cg-agenda-list">' +
-        '<li><span class="cg-agenda-time">0:00</span><span class="cg-agenda-label">Open the conversation</span></li>' +
-        '<li class="cg-agenda-branch"><i data-icon="info"></i> If your team has not seen the results yet, plan 15 to 25 minutes to share them first</li>' +
-        GUIDE_AREAS.map(function(a, i){ var m = 5 + i * 10; return '<li><span class="cg-agenda-time">0:' + (m < 10 ? '0' + m : m) + '</span><span class="cg-agenda-label">' + esc(a.theme) + '</span></li>'; }).join('') +
-        '<li><span class="cg-agenda-time">0:' + (5 + GUIDE_AREAS.length * 10) + '</span><span class="cg-agenda-label">Agree on next steps</span></li>' +
-      '</ol></section>';
-  }
-  function guideSectionHTML(a){
-    var qs = [['Clarify', a.q.clarify], ['Concretize', a.q.concretize], ['Root cause', a.q.root]].map(function(p){
-      return '<div class="cg-q"><span class="cg-q-label">' + p[0] + '</span><p>' + esc(p[1]) + '</p></div>';
-    }).join('');
-    return '<section class="cg-section" id="cg-sec-' + a.id + '">' +
-      '<div class="cg-sec-head">' +
-        '<span class="cg-sec-eyebrow">Focus area ' + a.no + ' · ' + esc(a.theme) + '</span>' +
-        '<h4 class="cg-sec-statement">' + esc(a.statement) + '</h4>' +
-        '<div class="cg-sec-meta"><span class="fv-score is-focus">' + esc(a.score) + '</span>' + trendChipHTML(a.trend) + '</div>' +
-      '</div>' +
-      '<div class="cg-qgroup">' + qs + '</div>' +
-      '<div class="cg-triage"><i data-icon="target"></i> As a team, decide together: is this one to improve now, keep an eye on, or ask for support with</div>' +
+  function guideStepsHTML(){
+    var steps = [['Share the results', '15 min'], ['Listen per focus area', '30 min'], ['Decide together', '10 min']];
+    return '<section class="cg-blk">' +
+      '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">About 55 minutes</span></div>' +
+      '<div class="cg-steps">' + steps.map(function(s, i){
+        return '<div class="cg-step"><span class="cg-step-num">' + (i + 1) + '</span><span class="cg-step-t">' + s[0] + '</span><span class="cg-step-time">' + s[1] + '</span></div>';
+      }).join('') + '</div>' +
     '</section>';
   }
-  function guideClosingHTML(){
-    return '<section class="cg-section cg-closing">' +
-      '<div class="cg-sec-head"><span class="cg-sec-eyebrow">Close</span><h4 class="cg-sec-statement">Agree on next steps</h4></div>' +
-      '<p class="cg-closing-text">Before you wrap up, agree on one or two concrete steps and who will follow up. You can record the steps you agree on in the Action Planner.</p>' +
+  function guideFocusListHTML(){
+    return '<section class="cg-blk">' +
+      '<div class="cg-blk-head"><span class="cg-blk-label">Your focus areas</span></div>' +
+      '<div class="cg-fa-list">' + GUIDE_AREAS.map(function(a){
+        return '<div class="cg-fa-row" id="cg-fa-row-' + a.id + '">' +
+          '<div class="cg-fa-txt"><p class="cg-fa-st">' + esc(a.statement) + '</p><span class="cg-fa-theme">' + esc(a.theme) + '</span></div>' +
+          '<span class="fv-score is-focus">' + esc(a.score) + '</span>' +
+        '</div>';
+      }).join('') + '</div>' +
     '</section>';
   }
-  function guideDocHTML(){
-    return '<p class="cg-doc-meta">Generated from <b>' + esc(GUIDE_META.survey) + '</b> for <b>' + esc(GUIDE_META.team) + '</b>. Focus areas: ' + GUIDE_AREAS.map(function(a){ return esc(a.theme); }).join(', ') + '.</p>' +
-      guideAgendaHTML() + GUIDE_AREAS.map(guideSectionHTML).join('') + guideClosingHTML();
+  function guideExampleHTML(){
+    var a = guideLowestArea();
+    return '<section class="cg-example" id="cg-example">' +
+      '<span class="cg-example-eyebrow">Example from your guide</span>' +
+      '<h4 class="cg-example-st">' + esc(a.statement) + '</h4>' +
+      '<div class="cg-example-meta"><span class="fv-score is-focus">' + esc(a.score) + '</span></div>' +
+      '<div class="cg-q"><span class="cg-q-label">Clarify</span><p>' + esc(a.q.clarify) + '</p></div>' +
+      '<p class="cg-example-note">Your guide has three questions like this for each focus area, plus a prompt to decide together what to do next</p>' +
+    '</section>';
+  }
+  function guideBenefitsHTML(){
+    var items = [['lightbulb', 'Hear the why behind the scores'], ['clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
+    return '<section class="cg-benefits">' + items.map(function(b){
+      return '<div class="cg-benefit"><i data-icon="' + b[0] + '"></i> ' + b[1] + '</div>';
+    }).join('') + '</section>';
+  }
+  function guidePanelBodyHTML(){
+    return guideStepsHTML() + guideFocusListHTML() + guideExampleHTML() + guideBenefitsHTML();
   }
   function guideIntroHTML(){
     if(guideIntroDone) return '';
@@ -2547,6 +2557,7 @@
   }
   function guideFooterHTML(){
     return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
+      '<span class="cg-fmt-hint">PDF, print friendly</span>' +
       '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download guide</button>';
   }
   function ensureGuideOverlay(){
@@ -2570,9 +2581,9 @@
             '<div class="cg-tt"><button class="ib ib-36 ib-secondary" id="cg-guide-close" aria-label="Close" onclick="closeGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
           '</div></div>' +
           '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide</h3>' +
-            '<p class="sp-subtitle">From ' + esc(GUIDE_META.survey) + ' · ' + esc(GUIDE_META.team) + '</p></div>' +
+            '<p class="sp-subtitle">From <b>' + esc(GUIDE_META.survey) + '</b> for <b>' + esc(GUIDE_META.team) + '</b></p></div>' +
         '</div>' +
-        '<div class="sp-body cg-guide-body">' + guideIntroHTML() + guideDocHTML() + '</div>' +
+        '<div class="sp-body cg-guide-body">' + guideIntroHTML() + guidePanelBodyHTML() + '</div>' +
         '<div class="sp-footer cg-guide-footer" id="cg-guide-footer">' + guideFooterHTML() + '</div>' +
       '</div>';
     if(window.Icons) window.Icons.render(ov);
@@ -2583,7 +2594,7 @@
     if(faId != null && guideArea(faId)){
       // rect-difference is robust to the panel's slide-in animation and offset parent
       var doScroll = function(){
-        var sec = document.getElementById('cg-sec-' + faId);
+        var sec = document.getElementById(faId === guideLowestArea().id ? 'cg-example' : 'cg-fa-row-' + faId);
         var body = document.querySelector('#guide-overlay .sp-body');
         if(sec && body){
           var d = sec.getBoundingClientRect().top - body.getBoundingClientRect().top;
