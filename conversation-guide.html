@@ -889,7 +889,11 @@
     @keyframes cg-pop-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
     .cg-pop[hidden] { display: none; }
-    .cg-pop .announcement { width: 320px; max-width: 320px; }
+    .cg-pop .announcement { width: 360px; max-width: 360px; }
+    .cg-pop .ann-body { display: flex; align-items: center; gap: var(--spacing-base); }
+    .cg-pop-main { flex: 1; min-width: 0; }
+    .cg-pop-illo { flex-shrink: 0; width: 80px; height: auto; }
+    .cg-pop-never { padding: 0; margin-top: var(--spacing-tight); font-size: 13px; }
 
     /* Prototype-only control: switch between the two entry card versions */
     .cg-variant-ctl {
@@ -920,11 +924,6 @@
       .cg-entry-illo { width: 96px; align-self: flex-start; }
     }
 
-    /* "What to ask your team" quiet secondary link, in its own row under the card head */
-    .cg-card-ask { margin-top: var(--spacing-tight); }
-    .cg-ask-link { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); white-space: nowrap; padding-left: 0; padding-right: var(--spacing-tight); }
-    .cg-ask-link i { flex-shrink: 0; width: 16px; height: 16px; display: flex; }
-
     /* Hover-gated tooltip wrapper — the design-system .tt-demo helper shows tooltips
        permanently (docs use), so this variant only reveals on hover/focus. */
     .cg-tt { position: relative; display: inline-flex; }
@@ -935,7 +934,6 @@
     @media (prefers-reduced-motion: reduce) { .cg-tt .tooltip { transition: none; } }
 
     /* Guide preview side panel */
-    .cg-guide .sp-subtitle { margin-top: var(--spacing-extra-tight); }
     .cg-guide-body { display: flex; flex-direction: column; gap: var(--spacing-loose); }
 
     /* Intro USP card — soft yellow, borderless: title + USPs left, illustration right.
@@ -947,7 +945,7 @@
       border-radius: var(--radius-lg); padding: var(--spacing-loose);
     }
     .cg-intro-main { flex: 1; min-width: 0; }
-    .cg-intro-title { margin: 0 0 var(--spacing-tight); font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
+    .cg-intro-title { margin: 0 0 var(--spacing-base); font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
     .cg-intro-usps { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
     .cg-usp { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; font-weight: 500; color: var(--content-base); }
     .cg-usp-ico {
@@ -956,10 +954,10 @@
       background: var(--bg-highlight-base); color: var(--content-inverse);
     }
     .cg-usp-ico i { width: 12px; height: 12px; display: flex; }
-    .cg-intro-illo { flex-shrink: 0; width: 88px; height: auto; }
+    .cg-intro-illo { flex-shrink: 0; width: 128px; height: auto; }
 
-    /* Header source line: compact, with the survey and team anchored in base weight */
-    .cg-guide .sp-subtitle b { color: var(--content-base); font-weight: 600; }
+    /* Merged panel title: bold product name, regular tagline */
+    .cg-title-sub { font-weight: 400; }
 
     /* Panel section card — same surface as the example card, so the panel reads as one system */
     .cg-blk {
@@ -1187,14 +1185,18 @@
           <img class="cg-entry-alt-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
         </div>
 
-        <!-- Variant 3: conversational popup, appears from the bottom right 10 seconds after landing -->
+        <!-- Variant 2: conversational popup, appears from the bottom right 10 seconds after landing -->
         <div class="cg-pop" id="cg-entry-pop" hidden>
           <div class="announcement">
             <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
             <div class="ann-body">
-              <p class="ann-title">Ready to share the results with your team?</p>
-              <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
-              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
+              <div class="cg-pop-main">
+                <p class="ann-title">Ready to share the results with your team?</p>
+                <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
+                <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
+                <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
+              </div>
+              <img class="cg-pop-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
             </div>
           </div>
         </div>
@@ -1202,9 +1204,8 @@
         <!-- Prototype-only: switch between the entry card versions -->
         <div class="cg-variant-ctl">
           Entry card
-          <button class="btn btn-secondary" id="vbtn-a" onclick="setEntryVariant('a')">1</button>
-          <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">2</button>
-          <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">3</button>
+          <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">1</button>
+          <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">2</button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -1216,18 +1217,6 @@
             <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
           </div>
           <div class="fv-block-main">
-            <div class="cg-entry" id="cg-entry">
-              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-              <div class="cg-entry-main">
-                <span class="cg-entry-kicker">Talk it through first</span>
-                <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
-                <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
-                <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
-                </div>
-              </div>
-              <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
-            </div>
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
             <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
@@ -1430,8 +1419,6 @@
       ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
       : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
     var check = decided ? '' : relevanceThumbsHTML(fa);
-    // Quiet secondary link into the conversation guide's listening questions for this area.
-    var ask = '<div class="cg-card-ask"><div class="cg-tt"><button class="btn btn-link cg-ask-link" onclick="openGuide(' + fa.id + ')"><i data-icon="featured"></i> What to ask your team</button><div class="tooltip is-above">Listening questions from your conversation guide</div></div></div>';
     var head =
       '<div class="fv-card-head">' +
         '<div class="fv-card-top">' +
@@ -1439,7 +1426,7 @@
           check +
           '<span class="fv-score is-focus">' + esc(fa.score) + '</span>' +
           '<span class="fv-card-cta">' + cta + '</span>' +
-        '</div>' + (decided ? '' : smartTagHTML(fa) + ask) +
+        '</div>' + (decided ? '' : smartTagHTML(fa)) +
       '</div>';
     if(!decided) return '<div class="fv-card" data-id="' + fa.id + '">' + head + '</div>';
     return '<div class="fv-card is-active" data-id="' + fa.id + '">' + head + stepReflect(fa) + '</div>';
@@ -2615,30 +2602,28 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry card: three versions — 1 (a) card in the focus block, 2 (b) yellow
-  // card above it, 3 (c) conversational popup 10 seconds after landing. A prototype
-  // control switches versions; the dismiss x is remembered for the session.
-  var entryVariant = 'a';
-  try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'a'; } catch(e){}
-  if(['a', 'b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'a';
+  // Focus View entry: two versions — 1 (b) yellow card above the focus block,
+  // 2 (c) conversational popup 10 seconds after landing. A prototype control
+  // switches versions; dismissals are remembered for the session.
+  var entryVariant = 'b';
+  try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'b'; } catch(e){}
+  if(['b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'b';
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
   function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
-    var d = entryDismissed();
-    var a = document.getElementById('cg-entry'); if(a) a.hidden = d || entryVariant !== 'a';
-    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = d || entryVariant !== 'b';
+    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
     if(pop && entryVariant !== 'c') pop.hidden = true;
-    if(pop && entryVariant === 'c' && pop.hidden && !ssFlag('cg-entry-pop-dismissed')){
+    if(pop && entryVariant === 'c' && pop.hidden && !ssFlag('cg-entry-pop-never')){
       entryPopTimer = setTimeout(function(){
         pop.hidden = false;
         if(window.Icons) window.Icons.render(pop);
       }, 10000);
     }
-    ['a', 'b', 'c'].forEach(function(v){
+    ['b', 'c'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
       btn.classList.toggle('btn-primary', entryVariant === v);
       btn.classList.toggle('btn-secondary', entryVariant !== v);
@@ -2650,12 +2635,16 @@
     applyEntryState();
   }
   function dismissEntry(){ ssSet('cg-entry-dismissed'); applyEntryState(); }
+  // The x hides the popup for now; the link below the button keeps it away for the session
   function dismissEntryPop(){
-    ssSet('cg-entry-pop-dismissed');
     var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
   }
+  function neverShowEntryPop(){
+    ssSet('cg-entry-pop-never');
+    dismissEntryPop();
+  }
   function openGuideFromPop(){
-    var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
+    dismissEntryPop();
     openGuide();
   }
   applyEntryState();
@@ -2700,12 +2689,12 @@
     var usps = [['lightbulb', 'Hear the why behind the scores'], ['Clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
     return '<div class="cg-intro">' +
       '<div class="cg-intro-main">' +
-        '<h4 class="cg-intro-title">From scores to shared decisions</h4>' +
+        '<h4 class="cg-intro-title">Hear more, prep less, decide together</h4>' +
         '<div class="cg-intro-usps">' + usps.map(function(u){
           return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
         }).join('') + '</div>' +
       '</div>' +
-      '<img class="cg-intro-illo" src="assets/illustrations/communication-toolkit.svg" alt="" />' +
+      '<img class="cg-intro-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
     '</div>';
   }
   function guideFooterHTML(){
@@ -2733,8 +2722,7 @@
           '<div class="sp-toolbar"><div class="sp-actions">' +
             '<div class="cg-tt"><button class="ib ib-36 ib-secondary" id="cg-guide-close" aria-label="Close" onclick="closeGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
           '</div></div>' +
-          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide</h3>' +
-            '<p class="sp-subtitle">From <b>' + esc(GUIDE_META.survey) + '</b> for <b>' + esc(GUIDE_META.team) + '</b></p></div>' +
+          '<div class="sp-heading"><h3 class="sp-title" id="cg-guide-title">Your conversation guide: <span class="cg-title-sub">From scores to shared decisions</span></h3></div>' +
         '</div>' +
         '<div class="sp-body cg-guide-body">' + guideIntroHTML() + guidePanelBodyHTML() + '</div>' +
         '<div class="sp-footer cg-guide-footer" id="cg-guide-footer">' + guideFooterHTML() + '</div>' +
