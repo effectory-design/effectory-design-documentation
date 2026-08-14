@@ -750,6 +750,19 @@
     .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    /* Side-panel: goal dropdown + per-item description + Actions-page add-action link */
+    .act-goal-wrap { position: relative; display: inline-flex; }
+    .act-goal-wrap .act-goal-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 40; min-width: 220px; }
+    .plan-goal-opt { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); }
+    .plan-goal-opt .menu-item-check { width: 16px; height: 16px; flex: none; color: var(--content-brand); }
+    textarea.act-desc-val { flex: 1; min-width: 0; resize: none; line-height: 1.5; font-family: inherit; font-size: 14px; color: var(--content-base); background: none; border: 0; padding: 4px 0 0; outline: none; field-sizing: content; }
+    .act-item-desc { width: 100%; border: 0; background: transparent; font-family: inherit; font-size: 13px; line-height: 1.5; color: var(--content-secondary); outline: none; resize: none; padding: 0; field-sizing: content; }
+    .act-item-desc::placeholder { color: var(--content-placeholder); }
+    .act-item.is-done .act-item-desc { text-decoration: line-through; }
+    .ap-addaction { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: 0; padding: 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
+    .ap-addaction i { display: flex; width: 16px; height: 16px; }
+    .ap-addaction:hover { text-decoration: underline; }
+    .sp-eyebrow { display: block; font-size: 13px; color: var(--content-secondary); margin-top: 2px; }
     /* Actions — educational empty state (centered) */
     .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); max-width: 840px; margin: var(--spacing-loose) auto; padding: var(--spacing-loose) var(--spacing-base); border: none; background: transparent; }
     .actions-illo { width: 300px; max-width: 80%; height: auto; margin-bottom: var(--spacing-tight); }
@@ -1076,7 +1089,6 @@
             <div class="actions-head">
               <span class="fv-eyebrow is-focus">Your responses</span>
               <h2 class="fv-section-title">Everything you've decided to act on</h2>
-              <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
             </div>
             <div class="actions-summary" id="actions-summary"></div>
             <div class="fv-cards" id="actions-list"></div>
@@ -1244,7 +1256,7 @@
     // The control sits in a fixed-width slot after the score, so scores line up whether or not a
     // decision has been made: undecided → "Choose", decided → "Change" (both open the dialog).
     var cta = decided
-      ? '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ',\'respond\')"><i data-icon="edit"></i> Change</button>'
+      ? '<button class="btn btn-secondary fv-choose-btn" onclick="openPlanPanel(' + fa.id + ')"><i data-icon="edit"></i> Edit</button>'
       : '<button class="btn btn-secondary fv-choose-btn" onclick="openStepDialog(' + fa.id + ')">Choose</button>';
     var check = decided ? '' : relevanceThumbsHTML(fa);
     var head =
@@ -1288,7 +1300,7 @@
         '<div class="fa-done-body"><div class="fa-done-title">' + title + '</div><div class="fa-done-note">Visible to HR</div></div>' +
       '</div>' +
       '<div class="fa-done-details">' + details + '</div>' +
-      '<div class="fa-done-editrow"><button class="link-inline fa-done-editlink" onclick="openStepDialog(' + fa.id + ',\'plan\')"><i data-icon="edit"></i> Edit details</button></div>' +
+      '<div class="fa-done-editrow"><button class="link-inline fa-done-editlink" onclick="openPlanPanel(' + fa.id + ')"><i data-icon="edit"></i> Edit details</button></div>' +
     '</div></div>';
   }
   function renderCards(){
@@ -1658,7 +1670,7 @@
     var total = focusAreas.length;
     var n = focusAreas.filter(faDecided).length;
     var pb = document.getElementById('fv-progress');
-    if(pb){ pb.innerHTML = '<span class="fv-progress-lbl">' + n + ' / ' + total + ' responded</span>'; }
+    if(pb){ pb.innerHTML = ''; }   // responded counter removed
 
     var status = document.getElementById('status');
     if(!status){ if(window.Icons) window.Icons.render(); return; }
@@ -1724,6 +1736,7 @@
       '<span class="cb-wrap"><input type="checkbox" class="cb act-item-cb"' + (it.done ? ' checked' : '') + ' onchange="togglePlanItem(' + i + ')"></span>' +
       '<div class="act-item-main">' +
         '<input class="act-item-input" value="' + esc(it.text) + '" placeholder="Describe the action" oninput="setPlanItemText(' + i + ',this.value)">' +
+        '<textarea class="act-item-desc" rows="2" placeholder="Add a description" oninput="setPlanItemDesc(' + i + ',this.value)">' + esc(it.desc||'') + '</textarea>' +
         '<div class="act-item-controls">' + due + assignee + '</div>' +
       '</div>' +
       '<div class="act-item-more">' +
@@ -1732,13 +1745,30 @@
       '</div>' +
     '</div>';
   }
+  // Goal dropdown for the side panel — the same triage responses used across the prototype.
+  var PLAN_GOALS = [['action','target','Improve'],['monitor','eye','Monitor'],['support','flag','Need support'],['promote','benchmark-up','Promote']];
+  function planGoalMenuHTML(fa){
+    return '<div class="menu act-goal-menu" id="plan-goal-menu" hidden>' + PLAN_GOALS.map(function(o){
+      var on = fa.state === o[0];
+      return '<div class="menu-item plan-goal-opt' + (on?' is-selected':'') + '" role="option" tabindex="0" onclick="setPlanGoal(\'' + o[0] + '\')">' +
+        '<span class="ap-goal-chip is-' + o[0] + '"><i data-icon="' + o[1] + '"></i> ' + o[2] + '</span>' + (on ? '<i data-icon="check" class="menu-item-check"></i>' : '') + '</div>';
+    }).join('') + '</div>';
+  }
   function renderPlanPanel(){
     var fa = planFa(planCurrentId);
     if(!fa) return;
+    var st = fa.state || 'action';
+    var isActionish = (st === 'action' || st === 'promote');
     var items = fa.planItems || [];
     var doneN = items.filter(function(x){ return x.done; }).length;
     var pct = items.length ? Math.round(doneN / items.length * 100) : 0;
     var list = items.length ? items.map(planItemHTML).join('') : '<p class="app-empty">No actions yet. Add one to get started.</p>';
+    // Description binds to the field that matches the current goal.
+    var descLbl, descPh, descVal, descOn;
+    if(st === 'monitor'){ descLbl = 'Describe how you want to monitor'; descPh = 'Describe how you\'ll keep an eye on this focus area'; descVal = fa.monitorNote || ''; descOn = 'setPlanMonNote'; }
+    else if(st === 'support'){ descLbl = 'Support you need'; descPh = 'Describe the support you\'re looking for'; descVal = fa.supportText || ''; descOn = 'setPlanSupportText'; }
+    else { descLbl = 'Description'; descPh = 'Add a relevant description'; descVal = fa.planDesc || ''; descOn = 'setPlanDesc'; }
+    var goalChip = actionGoalChip(st) || '<span class="ap-goal-chip is-action"><i data-icon="target"></i> Improve</span>';
     var ov = ensurePlanOverlay();
     ov.innerHTML =
       '<div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="plan-title">' +
@@ -1747,23 +1777,30 @@
             '<div class="tt-demo"><button class="ib ib-36 ib-secondary" id="plan-close" aria-label="Close"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
           '</div></div>' +
           '<div class="sp-heading"><h3 class="sp-title" id="plan-title">' + esc(fa.text) + '</h3></div>' +
+          (fa.theme ? '<span class="sp-eyebrow">' + esc(fa.theme) + '</span>' : '') +
           '<div class="sp-tabs">' +
             '<a class="sp-tab"><i data-icon="layout"></i> Insights</a>' +
             '<a class="sp-tab"><i data-icon="lightbulb"></i> Tips &amp; Best practices</a>' +
-            '<a class="sp-tab is-active"><i data-icon="target"></i> Actions <span class="tab-count">' + items.length + '</span></a>' +
+            '<a class="sp-tab is-active"><i data-icon="target"></i> Actions' + (isActionish ? ' <span class="tab-count">' + items.length + '</span>' : '') + '</a>' +
           '</div>' +
         '</div>' +
         '<div class="sp-body">' +
-          (fa.triage ? triageChoiceCardHTML(fa.triage) : '') +
           '<div class="act-props">' +
             '<div class="act-row"><span class="act-row-lbl"><i data-icon="version-history"></i> Activity</span><span class="act-row-val">Last edited just now</span></div>' +
-            '<div class="act-row"><span class="act-row-lbl"><i data-icon="barchart-2"></i> Score</span><span class="act-row-val">' + esc(fa.score) + '</span></div>' +
-            '<div class="act-row"><span class="act-row-lbl"><i data-icon="target"></i> Goal</span><button class="act-goal-trigger"><span class="goal-chip is-improve"><i data-icon="barchart-2"></i> Improve</span><i data-icon="chevron-down"></i></button></div>' +
-            '<div class="act-row"><span class="act-row-lbl"><i data-icon="list-unordered"></i> Description</span><input class="act-desc-val" placeholder="Add a relevant description" value="' + esc(fa.planDesc || '') + '" oninput="setPlanDesc(this.value)"></div>' +
+            '<div class="act-row"><span class="act-row-lbl"><i data-icon="barchart-2"></i> Score</span><span class="act-row-val">' + esc(fa.score || '\u2013') + '</span></div>' +
+            '<div class="act-row"><span class="act-row-lbl"><i data-icon="goals"></i> Goal</span>' +
+              '<div class="act-goal-wrap">' +
+                '<button class="act-goal-trigger" type="button" onclick="togglePlanGoalMenu(event)">' + goalChip + '<i data-icon="chevron-down"></i></button>' +
+                planGoalMenuHTML(fa) +
+              '</div></div>' +
+            '<div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> ' + descLbl + '</span>' +
+              '<textarea class="act-desc-val" rows="2" placeholder="' + descPh + '" oninput="' + descOn + '(this.value)">' + esc(descVal) + '</textarea></div>' +
           '</div>' +
-          '<div class="act-prog-head"><h4>Action progress</h4><button class="btn btn-primary" onclick="addPlanItem()"><i data-icon="plus"></i> Add action</button></div>' +
-          '<div class="act-prog-bar"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>' +
-          '<div class="act-list" id="plan-list">' + list + '</div>' +
+          (isActionish ?
+            '<div class="act-prog-head"><h4>Action progress</h4><button class="btn btn-primary" onclick="addPlanItem()"><i data-icon="plus"></i> Add action</button></div>' +
+            '<div class="act-prog-bar"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>' +
+            '<div class="act-list" id="plan-list">' + list + '</div>'
+            : '') +
         '</div>' +
       '</div>';
     ov.querySelector('#plan-close').addEventListener('click', closePlanPanel);
@@ -1772,13 +1809,17 @@
   }
   function openPlanPanel(id){
     planCurrentId = id;
-    var fa = focusAreas.find(function(f){ return f.id===id; });
+    var fa = planFa(id);
+    if(!fa) return;
     fa.planItems = fa.planItems || [];
+    // Pull in any picked recommended actions not yet materialised, carrying their description.
     (fa.picked || []).forEach(function(a){
-      var rt = RECO[fa.recoKey][a].title;
-      if(!fa.planItems.some(function(x){ return x.text === rt; })) fa.planItems.push({ text: rt, done: false, isNew: true });
+      var r = RECO[fa.recoKey] && RECO[fa.recoKey][a]; if(!r) return;
+      if(!fa.planItems.some(function(x){ return x.text === r.title; })) fa.planItems.push({ text: r.title, desc: r.body, approach: a, done: false, isNew: true });
     });
-    fa.actionAdded = true;   // action is taken → the card behind collapses to the "done" status
+    // Backfill descriptions on reco-based items saved before per-item descriptions existed.
+    fa.planItems.forEach(function(it){ if((it.desc == null || it.desc === '') && it.approach && RECO[fa.recoKey] && RECO[fa.recoKey][it.approach]) it.desc = RECO[fa.recoKey][it.approach].body; });
+    if(fa.state === 'action' || fa.state === 'promote') fa.actionAdded = true;   // stays "done" on the card behind
     renderCards();
     renderPlanPanel();
     ensurePlanOverlay().hidden = false;
@@ -1818,6 +1859,20 @@
   function pickDuePlanItem(i){ planItems()[i].due = '30 Jun 2026'; renderPlanList(); }
   function clearDuePlanItem(i){ planItems()[i].due = null; renderPlanList(); }
   function setPlanDesc(v){ planFa(planCurrentId).planDesc = v; }
+  function setPlanMonNote(v){ var fa = planFa(planCurrentId); if(fa){ fa.monitorNote = v; fa.monitorMode = 'custom'; } }
+  function setPlanSupportText(v){ var fa = planFa(planCurrentId); if(fa) fa.supportText = v; }
+  function setPlanItemDesc(i, v){ planItems()[i].desc = v; }
+  function togglePlanGoalMenu(e){ if(e){ e.stopPropagation(); } var m = document.getElementById('plan-goal-menu'); if(!m) return; var willOpen = m.hidden; document.querySelectorAll('#plan-overlay .menu').forEach(function(x){ x.hidden = true; }); m.hidden = !willOpen; }
+  function setPlanGoal(state){
+    var fa = planFa(planCurrentId); if(!fa) return;
+    fa.state = state;
+    if(state === 'action' || state === 'promote'){ fa.actionAdded = true; fa.planItems = fa.planItems || []; }
+    else if(state === 'monitor'){ fa.monitorSaved = true; if(fa.monitorMode == null) fa.monitorMode = 'custom'; }
+    else if(state === 'support'){ fa.supportSent = true; }
+    var m = document.getElementById('plan-goal-menu'); if(m) m.hidden = true;
+    renderPlanPanel(); renderCards();
+  }
+  document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.act-goal-wrap'))){ var m = document.getElementById('plan-goal-menu'); if(m) m.hidden = true; } });
   function togglePlanMenu(e, i){
     if(e){ e.stopPropagation(); }
     var mn = document.getElementById('plan-menu-' + i);
@@ -1920,6 +1975,7 @@
   function actionProgressHTML(fa){
     if(fa.state === 'action' || fa.state === 'promote'){
       var items = fa.planItems || [];
+      if(!items.length){ return '<button class="ap-addaction" onclick="event.stopPropagation(); openPlanPanel(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button>'; }
       var done = items.filter(function(x){ return x.done; }).length, tot = items.length;
       var pct = tot ? Math.round(done / tot * 100) : 0;
       return '<div class="ap-progress"><div class="ap-progress-track"><div class="ap-progress-fill" style="width:' + pct + '%"></div></div>' +
@@ -1929,7 +1985,7 @@
       var m = fa.monitorMode || 'survey', when;
       if(m === 'date') when = fa.monitorDate ? ('Revisit ' + fmtDate(fa.monitorDate)) : 'Revisit on a set date';
       else if(m === 'score') when = 'Watching the score';
-      else if(m === 'custom') when = 'Custom check-back';
+      else if(m === 'custom'){ var note = (fa.monitorNote || '').trim(); when = note ? (note.length > 42 ? note.slice(0, 42) + '\u2026' : note) : 'Monitoring plan set'; }
       else when = 'Revisit next survey';
       return '<span class="ap-meta">' + when + '</span>';
     }
@@ -1961,8 +2017,8 @@
     var willOpen = menu.hidden; closeActionMenus(); menu.hidden = !willOpen;
   }
   document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.ap-cell-menu'))) closeActionMenus(); });
-  function actionMenuEdit(id){ closeActionMenus(); openStepDialog(id, 'plan'); }
-  function actionMenuChange(id){ closeActionMenus(); openStepDialog(id, 'respond'); }
+  function actionMenuEdit(id){ closeActionMenus(); openPlanPanel(id); }
+  function actionMenuChange(id){ closeActionMenus(); openPlanPanel(id); }
   function actionMenuRemove(id){
     closeActionMenus();
     var fa = planFa(id); if(!fa) return;
@@ -2177,7 +2233,7 @@
     renderStepDialog();
   }
   function stepSetMon(val){ stepFa().monitorMode = val; renderStepDialog(); }
-  function stepSetMonNote(v){ stepFa().monitorNote = v; }
+  function stepSetMonNote(v){ stepFa().monitorNote = v; stepUpdateConfirm(); }
   function stepSetMonDate(v){ stepFa().monitorDate = v; }
   function stepSetSupportText(v){ stepFa().supportText = v; stepUpdateConfirm(); }
   // "Choose who can help" — searchable dropdown of people, with the option to add someone by name
@@ -2209,6 +2265,7 @@
     var fa = stepFa();
     if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
     if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
+    if(fa.state === 'monitor') return !!(fa.monitorNote && fa.monitorNote.trim());
     return true;
   }
   function stepUpdateConfirm(){
@@ -2220,7 +2277,7 @@
     stepBusy = true; renderStepDialog();
     setTimeout(function(){
       if(fa.state === 'action' || fa.state === 'promote'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
-      else if(fa.state === 'monitor'){ fa.monitorSaved = true; }
+      else if(fa.state === 'monitor'){ fa.monitorSaved = true; fa.monitorMode = 'custom'; }
       else if(fa.state === 'support'){ fa.supportSent = true; }
       stepBusy = false; stepStage = 'success';
       renderStepDialog();
@@ -2302,16 +2359,8 @@
       return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><p class="step-plan-sub">Here are a few ideas for inspiration — pick any that fit, or add your own below.</p><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
-      var mode = fa.monitorMode || 'survey';
-      var opts = [['survey','Revisit at the next survey'],['score','Keep an eye on the score'],['date','Check back on a set date'],['custom','Choose your own']];
-      var extra = '';
-      if(mode === 'date') extra = '<div class="fa-mon-inline"><input class="tf" type="date" value="' + esc(fa.monitorDate||'') + '" onchange="stepSetMonDate(this.value)"></div>';
-      else if(mode === 'custom') extra = '<div class="fa-mon-inline"><textarea class="ta" rows="2" placeholder="describe how you want to monitor this focus area" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea></div>';
-      var list = opts.map(function(o){
-        var on = mode === o[0];
-        return '<label class="rb-btn-bordered' + (on?' is-selected':'') + '"><span class="rb-wrap"><input type="radio" class="rb" name="stp-mon"' + (on?' checked':'') + ' onchange="stepSetMon(\'' + o[0] + '\')"></span>' + o[1] + '</label>';
-      }).join('');
-      return '<h3 class="step-plan-h">Choose how you want to monitor</h3><div class="fv-approach-chips fa-monitor-modes">' + list + '</div>' + (extra ? '<div class="step-mon-extra">' + extra + '</div>' : '');
+      return '<h3 class="step-plan-h">Describe how you want to monitor <span class="fa-req">*</span></h3>' +
+        '<textarea class="ta" rows="3" placeholder="Describe how you\'ll keep an eye on this focus area \u2014 for example, revisit at the next survey, watch the score, or check back on a set date" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea>';
     }
     var personTrigger = fa.supportPerson
       ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
