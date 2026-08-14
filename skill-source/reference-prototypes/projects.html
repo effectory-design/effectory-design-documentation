@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects - My Effectory</title>
-  <base href="../" />
+  <base href="/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="tokens.css" />
-  <link rel="stylesheet" href="foundation.css" />
-  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/foundation.css" />
+  <link rel="stylesheet" href="/components.css" />
   <style>
     body { background: var(--bg-interface-body); }
 
@@ -66,7 +66,7 @@
     .promo-head h2 { margin: 0; flex: 1; min-width: 0; }
     .promo-carousel { position: relative; }
     /* arrows flank the cards, vertically centred on the illustration panel (152px tall) */
-    .promo-arrow { position: absolute; top: 76px; transform: translateY(-50%); z-index: 2; border-radius: var(--radius-full); background: var(--bg-brand-base); border-color: var(--border-brand-base); color: var(--content-on-brand-base); box-shadow: var(--sh-card); }
+    .promo-arrow { position: absolute; top: 76px; transform: translateY(-50%); z-index: 2; border-radius: var(--radius-full); background: var(--bg-brand); border-color: var(--border-brand); color: var(--content-on-brand-base); box-shadow: var(--sh-card); }
     .promo-prev { left: -18px; }
     .promo-next { right: -18px; }
     /* hide an arrow entirely when it can't do anything (start / end of the carousel) */
@@ -232,7 +232,7 @@
             <a class="promo-card">
               <div class="promo-media pm-green">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/esg.svg" alt="Environmental, Social &amp; Governance" />
+                <img src="/assets/illustrations/projects/esg.svg" alt="Environmental, Social &amp; Governance" />
               </div>
               <div class="promo-title">Environmental, Social &amp; Governance</div>
               <div class="promo-sub">Strengthen your ESG practices</div>
@@ -240,7 +240,7 @@
             <a class="promo-card">
               <div class="promo-media pm-orange">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/exit.svg" alt="Exit" />
+                <img src="/assets/illustrations/projects/exit.svg" alt="Exit" />
               </div>
               <div class="promo-title">Exit</div>
               <div class="promo-sub">Discover why employees leave</div>
@@ -248,7 +248,7 @@
             <a class="promo-card">
               <div class="promo-media pm-yellow">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/world-class-workplace.svg" alt="World-Class Workplace" />
+                <img src="/assets/illustrations/projects/world-class-workplace.svg" alt="World-Class Workplace" />
               </div>
               <div class="promo-title">World-Class Workplace</div>
               <div class="promo-sub">Earn the World-Class Workplace label</div>
@@ -256,7 +256,7 @@
             <a class="promo-card">
               <div class="promo-media pm-blue">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/onboarding.svg" alt="Onboarding" />
+                <img src="/assets/illustrations/projects/onboarding.svg" alt="Onboarding" />
               </div>
               <div class="promo-title">Onboarding</div>
               <div class="promo-sub">Make the best first impression</div>
@@ -264,7 +264,7 @@
             <a class="promo-card">
               <div class="promo-media pm-purple">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/diversity.svg" alt="Diversity, Equity &amp; Inclusion" />
+                <img src="/assets/illustrations/projects/diversity.svg" alt="Diversity, Equity &amp; Inclusion" />
               </div>
               <div class="promo-title">Diversity, Equity &amp; Inclusion</div>
               <div class="promo-sub">Build a diverse and inclusive workplace</div>
@@ -272,7 +272,7 @@
             <a class="promo-card">
               <div class="promo-media pm-turquoise">
                 <span class="promo-tag">Solution</span>
-                <img src="assets/illustrations/projects/team-development-scan.svg" alt="Team Development" />
+                <img src="/assets/illustrations/projects/team-development-scan.svg" alt="Team Development" />
               </div>
               <div class="promo-title">Team Development</div>
               <div class="promo-sub">Unlock the full potential of your teams</div>
@@ -280,7 +280,7 @@
             <a class="promo-card">
               <div class="promo-media pm-red">
                 <span class="promo-tag">Free resource</span>
-                <img src="assets/illustrations/projects/effectory-inspiration-bundle.svg" alt="Effectory’s Inspiration Bundle" />
+                <img src="/assets/illustrations/projects/effectory-inspiration-bundle.svg" alt="Effectory’s Inspiration Bundle" />
               </div>
               <div class="promo-title">Effectory’s Inspiration Bundle</div>
               <div class="promo-sub">Learn from top organizations</div>
@@ -296,7 +296,7 @@
 
 </div>
 
-<script src="icons.js"></script>
+<script src="/icons.js"></script>
 <script>
   // Sort (single-select) + search — reorder / filter the project grid live.
   (function () {

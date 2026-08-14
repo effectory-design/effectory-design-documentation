@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reports — Engagement Survey 2026</title>
-  <base href="../" />
+  <base href="/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="tokens.css" />
-  <link rel="stylesheet" href="foundation.css" />
-  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/foundation.css" />
+  <link rel="stylesheet" href="/components.css" />
   <style>
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
@@ -178,10 +178,10 @@
       gap: var(--spacing-tight);
       font-size: 12px;
       font-weight: 500;
-      color: var(--content-brand-base);
+      color: var(--content-brand);
       white-space: nowrap;
     }
-    .lang-status.is-ready { color: var(--content-positive-base); }
+    .lang-status.is-ready { color: var(--content-positive); }
     .lang-row.is-busy { cursor: default; }
     .lang-row.is-busy:hover { background: transparent; }
     .lang-row.is-busy .lang-name { color: var(--content-secondary); }
@@ -215,7 +215,7 @@
       width: 18px;
       height: 18px;
       border: 2px solid var(--border-action);
-      border-top-color: var(--content-brand-base);
+      border-top-color: var(--content-brand);
       border-radius: var(--radius-full);
       animation: gen-spin .7s linear infinite;
     }
@@ -261,7 +261,7 @@
       background: var(--bg-info-subtle);
       border-radius: var(--radius-md);
     }
-    .gen-longer-icon { flex: none; width: 20px; height: 20px; display: flex; margin-top: 1px; color: var(--content-info-base); }
+    .gen-longer-icon { flex: none; width: 20px; height: 20px; display: flex; margin-top: 1px; color: var(--content-info); }
     .gen-longer-note p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-base); }
     .gen-longer-actions { display: flex; justify-content: flex-end; margin-top: var(--spacing-base); }
 
@@ -273,7 +273,7 @@
       flex: none;
       font-size: 12px;
       font-weight: 500;
-      color: var(--content-brand-base);
+      color: var(--content-brand);
       white-space: nowrap;
     }
     .report-row.is-generating .report-gen { display: flex; }
@@ -405,7 +405,7 @@
           <h3 class="text-l5 report-group-title">Essential reports</h3>
           <div class="report-card">
             <div class="report-row">
-              <img class="file-icon" src="assets/icons/ppt-file.svg" alt="PowerPoint file" />
+              <img class="file-icon" src="/assets/icons/ppt-file.svg" alt="PowerPoint file" />
               <div class="report-meta">
                 <div class="report-name">Standard Group Results</div>
                 <div class="report-desc">Includes response rate, themes, question performance and group deep-dives. Includes eNPS and Organizational Effectiveness when available.</div>
@@ -413,7 +413,7 @@
               <button class="ib ib-36 ib-tertiary" aria-label="Download Standard Group Results"><i data-icon="download"></i></button>
             </div>
             <div class="report-row">
-              <img class="file-icon" src="assets/icons/pdf-file.svg" alt="PDF file" />
+              <img class="file-icon" src="/assets/icons/pdf-file.svg" alt="PDF file" />
               <div class="report-meta">
                 <div class="report-name">Management Summary</div>
                 <div class="report-desc">A leadership-ready summary of key outcomes, strengths, improvement areas, and the main takeaways.</div>
@@ -421,7 +421,7 @@
               <button class="ib ib-36 ib-tertiary" aria-label="Download Management Summary"><i data-icon="download"></i></button>
             </div>
             <div class="report-row">
-              <img class="file-icon" src="assets/icons/ppt-file.svg" alt="PowerPoint file" />
+              <img class="file-icon" src="/assets/icons/ppt-file.svg" alt="PowerPoint file" />
               <div class="report-meta">
                 <div class="report-name">Answer Distribution Report</div>
                 <div class="report-desc">Shows how responses are distributed per question, to reveal patterns beyond averages.</div>
@@ -436,21 +436,21 @@
           <h3 class="text-l5 report-group-title">Deep-dive reports</h3>
           <div class="report-card">
             <div class="report-row" data-raw="true">
-              <img class="file-icon" src="assets/icons/xls-file.svg" alt="Excel file" />
+              <img class="file-icon" src="/assets/icons/xls-file.svg" alt="Excel file" />
               <div class="report-meta">
                 <div class="report-name">Raw Data Report: Anonymized</div>
                 <div class="report-desc">Respondent-level raw answers for customers' own analysis and data portability.</div>
               </div>
               <button class="ib ib-36 ib-tertiary" aria-label="Download Raw Data Report: Anonymized"><i data-icon="download"></i></button>            </div>
             <div class="report-row" data-raw="true">
-              <img class="file-icon" src="assets/icons/xls-file.svg" alt="Excel file" />
+              <img class="file-icon" src="/assets/icons/xls-file.svg" alt="Excel file" />
               <div class="report-meta">
                 <div class="report-name">Raw Data Report: Pseudonymous</div>
                 <div class="report-desc">Only internal — respondent-level raw answers for customers' own analysis and data portability.</div>
               </div>
               <button class="ib ib-36 ib-tertiary" aria-label="Download Raw Data Report: Pseudonymous"><i data-icon="download"></i></button>            </div>
             <div class="report-row" data-raw="true">
-              <img class="file-icon" src="assets/icons/xls-file.svg" alt="Excel file" />
+              <img class="file-icon" src="/assets/icons/xls-file.svg" alt="Excel file" />
               <div class="report-meta">
                 <div class="report-name">Raw Data Report: Non-anonymized</div>
                 <div class="report-desc">Respondent-level raw answers for customers' own analysis and data portability.</div>
@@ -540,7 +540,7 @@
         <!-- Generating -->
         <div class="gen-card gen-loading">
           <div class="gen-icon">
-            <img class="gen-file" src="assets/icons/file-loading.svg" alt="" />
+            <img class="gen-file" src="/assets/icons/file-loading.svg" alt="" />
             <span class="gen-spinner"></span>
           </div>
           <div class="gen-text">
@@ -551,7 +551,7 @@
         <!-- Ready to download -->
         <div class="gen-done">
           <div class="gen-card">
-            <img class="gen-file" src="assets/icons/file-ready.svg" alt="" />
+            <img class="gen-file" src="/assets/icons/file-ready.svg" alt="" />
             <div class="gen-text">
               <span class="gen-title">Done!</span>
               <span class="gen-sub">The report will download automatically</span>
@@ -571,7 +571,7 @@
   </div>
 </div>
 
-<script src="icons.js"></script>
+<script src="/icons.js"></script>
 <script>
   (function () {
     // For the prototype we shorten generation times. Raw-data files take ~10 min in reality;
