@@ -874,11 +874,9 @@
     @keyframes cg-pop-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
     .cg-pop[hidden] { display: none; }
-    .cg-pop .announcement { width: 500px; max-width: 500px; }
-    .cg-pop .ann-body { display: flex; align-items: flex-start; gap: var(--spacing-loose); }
-    .cg-pop-main { flex: 1; min-width: 0; }
-    /* Top right; the top margin keeps it clear of the absolute close button above it */
-    .cg-pop-illo { flex-shrink: 0; width: 200px; height: auto; align-self: flex-start; margin-top: var(--spacing-extra-loose); }
+    .cg-pop .announcement { width: 260px; max-width: 260px; }
+    .cg-pop .ann-title { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
+    .cg-pop-title-ico { flex-shrink: 0; width: 18px; height: 18px; display: flex; color: var(--content-brand); margin-top: 2px; }
     .cg-pop-never { padding: 0; margin-top: var(--spacing-tight); font-size: 13px; }
 
     /* Prototype-only control: switch between the two entry card versions.
@@ -1159,13 +1157,10 @@
           <div class="announcement">
             <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
             <div class="ann-body">
-              <div class="cg-pop-main">
-                <p class="ann-title">Ready to share the results with your team?</p>
-                <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
-                <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
-                <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
-              </div>
-              <img class="cg-pop-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
+              <p class="ann-title"><i data-icon="message" class="cg-pop-title-ico"></i> Ready to share the results with your team?</p>
+              <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
+              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
+              <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
             </div>
           </div>
         </div>
