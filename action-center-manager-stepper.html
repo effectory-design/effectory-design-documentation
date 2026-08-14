@@ -774,6 +774,7 @@
     .scc-text { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--content-base); }
     .scc-actions { display: flex; justify-content: flex-end; gap: var(--spacing-tight); }
     .scc-actions .btn { padding: 6px 12px; font-size: 13px; }
+    .scc-discard, .scc-discard:hover { background: var(--content-negative); border-color: var(--content-negative); color: var(--content-inverse); }
     /* Side-panel action list: read-only rows + inline Save/Cancel editor */
     .act-item-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .act-item.is-done .act-item-title { color: var(--content-secondary); text-decoration: line-through; }
@@ -787,6 +788,7 @@
     .act-edit-title::placeholder { font-weight: 500; color: var(--content-placeholder); }
     .act-edit-desc { width: 100%; border: 0; background: transparent; font-family: inherit; font-size: 13px; line-height: 1.5; color: var(--content-secondary); outline: none; resize: none; padding: 0; field-sizing: content; }
     .act-edit-desc::placeholder { color: var(--content-placeholder); }
+    .act-edit-desc.act-edit-primary { font-size: 15px; color: var(--content-base); }
     .act-edit-row { display: flex; align-items: center; gap: var(--spacing-loose); flex-wrap: wrap; margin-top: var(--spacing-tight); }
     .act-edit-ctl { display: inline-flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; color: var(--content-secondary); }
     .act-edit-ctl i { display: flex; width: 16px; height: 16px; }
@@ -1027,27 +1029,6 @@
 
         <!-- What needs focus (design-system Focus View block) -->
         <div class="fv-block fv-focus" id="focus-block">
-
-          <!-- Triage explanation (dismissible) — full-width row above the section, inside the same block -->
-          <div class="triage-card" id="triage-card">
-            <button class="ib ib-24 ib-tertiary triage-close" aria-label="Dismiss" onclick="dismissTriage()"><i data-icon="cross"></i></button>
-            <div class="triage-head">
-              <span class="triage-ico"><i data-icon="lightbulb"></i></span>
-              <div>
-                <p class="triage-text">Pick the areas that matter to you, then decide what to do with each. Do them in any order and come back anytime.</p>
-              </div>
-            </div>
-            <div class="triage-flow">
-              <div class="triage-step">
-                <div class="triage-step-head"><span class="triage-step-num">1</span><span class="triage-step-t">Choose your focus areas</span></div>
-                <p class="triage-step-d">Start with the questions that matter most to your team. Pick as many as you like and adjust them anytime.</p>
-              </div>
-              <div class="triage-step">
-                <div class="triage-step-head"><span class="triage-step-num">2</span><span class="triage-step-t">Decide how to respond</span></div>
-                <p class="triage-step-d">Give each area one response:<br><span class="triage-opts"><span class="triage-hl"><i data-icon="target"></i>Improve</span>, <span class="triage-hl"><i data-icon="eye"></i>Monitor</span>, <span class="triage-hl"><i data-icon="flag"></i>Need support</span>, or <span class="triage-hl"><i data-icon="benchmark-up"></i>Promote</span>.</span></p>
-              </div>
-            </div>
-          </div>
 
           <div class="fv-block-aside">
             <span class="fv-eyebrow is-focus">What needs focus</span>
@@ -1765,21 +1746,33 @@
   function planInitials(name){ return (name || '').split(' ').map(function(w){ return w.charAt(0); }).join('').slice(0,2).toUpperCase(); }
   function planItemHTML(it, i){
     if(planEditIdx === i) return planEditFormHTML(i);
-    var meta = '';
-    if(it.due) meta += '<span class="act-meta"><i data-icon="clock"></i> ' + esc(planFmtDue(it.due)) + '</span>';
-    if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
+    var fa = planFa(planCurrentId) || {}; var st = fa.state;
+    var title, meta = '', descRo = '', delLabel = 'Remove action';
+    if(st === 'support'){
+      title = it.desc || 'Support request';
+      if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
+      delLabel = 'Remove request';
+    } else if(st === 'monitor'){
+      title = it.desc || 'Monitoring step';
+      delLabel = 'Remove';
+    } else {
+      title = it.text || 'Untitled action';
+      if(it.desc) descRo = '<span class="act-item-descro">' + esc(it.desc) + '</span>';
+      if(it.due) meta += '<span class="act-meta"><i data-icon="clock"></i> ' + esc(planFmtDue(it.due)) + '</span>';
+      if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
+    }
     return '<div class="act-item' + (it.done ? ' is-done' : '') + (it.isNew ? ' is-new' : '') + '">' +
       '<span class="cb-wrap"><input type="checkbox" class="cb act-item-cb"' + (it.done ? ' checked' : '') + ' onchange="togglePlanItem(' + i + ')"></span>' +
       '<div class="act-item-main" onclick="planStartEdit(' + i + ')">' +
-        '<span class="act-item-title">' + esc(it.text || 'Untitled action') + '</span>' +
-        (it.desc ? '<span class="act-item-descro">' + esc(it.desc) + '</span>' : '') +
+        '<span class="act-item-title">' + esc(title) + '</span>' +
+        descRo +
         (meta ? '<div class="act-item-controls">' + meta + '</div>' : '') +
       '</div>' +
       '<div class="act-item-more">' +
         '<button class="ib ib-24 ib-tertiary act-item-kebab" aria-label="More actions" onclick="togglePlanMenu(event,' + i + ')"><i data-icon="more-vertical"></i></button>' +
         '<div class="menu act-item-menu" id="plan-menu-' + i + '" hidden>' +
           '<div class="menu-item" role="button" tabindex="0" onclick="planStartEdit(' + i + ')"><i data-icon="edit" class="menu-item-icon"></i><span class="menu-item-title">Edit</span></div>' +
-          '<div class="menu-item act-item-del" role="button" tabindex="0" onclick="removePlanItem(' + i + ')"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">Remove action</span></div>' +
+          '<div class="menu-item act-item-del" role="button" tabindex="0" onclick="removePlanItem(' + i + ')"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">' + delLabel + '</span></div>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -1787,20 +1780,27 @@
   function planFmtDue(v){ return (/^\d{4}-\d{2}-\d{2}$/.test(v) && typeof fmtDate === 'function') ? fmtDate(v) : v; }
   // Inline add/edit form — Save/Cancel finalises the change (DS Action Planner pattern).
   function planEditFormHTML(idx){
+    var fa = planFa(planCurrentId) || {}; var st = fa.state;
     var d = planDraft || {};
-    var ok = !!(d.text && d.text.trim());
-    var opts = ['<option value="">Assign someone</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (d.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
-    return '<div class="act-item act-item-editing">' +
-      '<div class="act-edit">' +
-        '<input class="act-edit-title" placeholder="What needs to be done?" value="' + esc(d.text || '') + '" oninput="planDraftField(\'text\',this.value); planEditSync(this)">' +
+    var personSel = function(sel, ph){ return ['<option value="">' + ph + '</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (sel === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join(''); };
+    var okBtns = function(ok){ return '<div class="act-edit-btns"><button class="btn btn-secondary" onclick="planCancelEdit()">Cancel</button><button class="btn btn-primary act-edit-save"' + (ok ? '' : ' disabled') + ' onclick="planSaveEdit()">Save</button></div>'; };
+    var fields;
+    if(st === 'support'){
+      var oks = !!(d.desc && d.desc.trim());
+      fields = '<textarea class="act-edit-desc act-edit-primary" rows="2" placeholder="Describe the support you need" oninput="planDraftField(\'desc\',this.value); planEditSync()">' + esc(d.desc || '') + '</textarea>' +
+        '<div class="act-edit-row"><label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Who can help') + '</select></label>' + okBtns(oks) + '</div>';
+    } else if(st === 'monitor'){
+      var okm = !!(d.desc && d.desc.trim());
+      fields = '<textarea class="act-edit-desc act-edit-primary" rows="2" placeholder="Describe how you\'ll keep an eye on this" oninput="planDraftField(\'desc\',this.value); planEditSync()">' + esc(d.desc || '') + '</textarea>' +
+        '<div class="act-edit-row">' + okBtns(okm) + '</div>';
+    } else {
+      var oka = !!(d.text && d.text.trim());
+      fields = '<input class="act-edit-title act-edit-primary" placeholder="What needs to be done?" value="' + esc(d.text || '') + '" oninput="planDraftField(\'text\',this.value); planEditSync()">' +
         '<textarea class="act-edit-desc" rows="2" placeholder="Add a description" oninput="planDraftField(\'desc\',this.value)">' + esc(d.desc || '') + '</textarea>' +
-        '<div class="act-edit-row">' +
-          '<label class="act-edit-ctl"><i data-icon="clock"></i><input type="date" class="act-edit-date" value="' + esc(d.due || '') + '" onchange="planDraftField(\'due\',this.value)"></label>' +
-          '<label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + opts + '</select></label>' +
-          '<div class="act-edit-btns"><button class="btn btn-secondary" onclick="planCancelEdit()">Cancel</button><button class="btn btn-primary act-edit-save"' + (ok ? '' : ' disabled') + ' onclick="planSaveEdit()">Save</button></div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
+        '<div class="act-edit-row"><label class="act-edit-ctl"><i data-icon="clock"></i><input type="date" class="act-edit-date" value="' + esc(d.due || '') + '" onchange="planDraftField(\'due\',this.value)"></label>' +
+        '<label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Assign someone') + '</select></label>' + okBtns(oka) + '</div>';
+    }
+    return '<div class="act-item act-item-editing"><div class="act-edit">' + fields + '</div></div>';
   }
   var PLAN_GOALS = [['action','target','Improve'],['monitor','eye','Monitor'],['support','flag','Need support'],['promote','benchmark-up','Promote']];
   function planGoalMenuHTML(fa){
@@ -1815,15 +1815,14 @@
     var st = fa.state || 'action';
     var items = fa.planItems || [];
     var doneN = items.filter(function(x){ return x.done; }).length;
-    var descLbl, descPh, descVal, descOn;
-    if(st === 'monitor'){ descLbl = 'Describe how you want to monitor'; descPh = 'Describe how you\'ll keep an eye on this focus area'; descVal = fa.monitorNote || ''; descOn = 'setPlanMonNote'; }
-    else if(st === 'support'){ descLbl = 'Support you need'; descPh = 'Describe the support you\'re looking for'; descVal = fa.supportText || ''; descOn = 'setPlanSupportText'; }
-    else { descLbl = 'Description'; descPh = 'Add a relevant description'; descVal = fa.planDesc || ''; descOn = 'setPlanDesc'; }
+    var showGoalDesc = (st === 'action' || st === 'promote');
     var goalChip = fa.state ? (actionGoalChip(fa.state) || '<span class="ap-goal-chip is-action"><i data-icon="target"></i> Improve</span>') : '<span class="ap-goal-chip ap-goal-empty"><i data-icon="goals"></i> Select a goal</span>';
+    var emptyMsg = (st === 'support') ? 'No support requests yet. Add one to get started.' : (st === 'monitor' ? 'No monitoring steps yet. Add one to get started.' : 'No actions yet. Add one to get started.');
     var rows = items.map(planItemHTML).join('') + (planEditIdx === 'new' ? planEditFormHTML('new') : '');
-    if(!items.length && planEditIdx !== 'new') rows = '<p class="app-empty">No actions yet. Add one to get started.</p>';
+    if(!items.length && planEditIdx !== 'new') rows = '<p class="app-empty">' + emptyMsg + '</p>';
     var count = items.length ? ' <span class="act-count-inline">' + doneN + '/' + items.length + '</span>' : '';
     var addDis = (planEditIdx !== null || !fa.state) ? ' disabled' : '';
+    var descRow = showGoalDesc ? '<div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> Description</span><textarea class="act-desc-val" rows="2" placeholder="Add a relevant description" oninput="setPlanDesc(this.value)">' + esc(fa.planDesc || '') + '</textarea></div>' : '';
     return '<div class="act-props">' +
         '<div class="act-row"><span class="act-row-lbl"><i data-icon="version-history"></i> Activity</span><span class="act-row-val">Last edited just now</span></div>' +
         '<div class="act-row"><span class="act-row-lbl"><i data-icon="barchart-2"></i> Score</span><span class="act-row-val">' + esc(fa.score || '–') + '</span></div>' +
@@ -1832,10 +1831,7 @@
             '<button class="act-goal-trigger" type="button" onclick="togglePlanGoalMenu(event)">' + goalChip + '<i data-icon="chevron-down"></i></button>' +
             planGoalMenuHTML(fa) +
           '</div></div>' +
-        '<div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> ' + descLbl + '</span>' +
-          '<textarea class="act-desc-val" rows="2" placeholder="' + descPh + '" oninput="' + descOn + '(this.value)">' + esc(descVal) + '</textarea></div>' +
-        (st === 'support' ? '<div class="act-row"><span class="act-row-lbl"><i data-icon="user"></i> Who can help</span>' +
-          '<select class="act-person-select" onchange="setPlanSupportPerson(this.value)">' + ['<option value="">Choose a person</option>'].concat(PEOPLE.map(function(pp){ return '<option value="' + esc(pp) + '"' + (fa.supportPerson === pp ? ' selected' : '') + '>' + esc(pp) + '</option>'; })).join('') + '</select></div>' : '') +
+        descRow +
       '</div>' +
       '<div class="act-prog-head"><h4>Actions' + count + '</h4><button class="btn btn-primary act-add-btn" onclick="planStartAdd()"' + addDis + '><i data-icon="plus"></i> Add</button></div>' +
       '<div class="act-list" id="plan-list">' + rows + '</div>';
@@ -1887,6 +1883,9 @@
     });
     // Backfill descriptions on reco items saved before per-item descriptions existed.
     fa.planItems.forEach(function(it){ if((it.desc == null || it.desc === '') && it.approach && RECO[fa.recoKey] && RECO[fa.recoKey][it.approach]) it.desc = RECO[fa.recoKey][it.approach].body; });
+    // Support / Monitor responses are edited as actions in the list — migrate any legacy single-field data in.
+    if(fa.state === 'support' && !fa.planItems.length && ((fa.supportText||'').trim() || fa.supportPerson)){ fa.planItems.push({ desc: (fa.supportText||'').trim(), assignee: fa.supportPerson || '', done: false }); }
+    if(fa.state === 'monitor' && !fa.planItems.length && (fa.monitorNote||'').trim()){ fa.planItems.push({ desc: (fa.monitorNote||'').trim(), done: false }); }
     if(fa.state === 'action' || fa.state === 'promote') fa.actionAdded = true;
     renderCards();
     renderPlanPanel();
@@ -1911,14 +1910,20 @@
   function planStartAdd(){ if(planEditIdx !== null && planEditIdx !== 'new') return; planEditIdx = 'new'; planDraft = { text:'', desc:'', due:'', assignee:'' }; refreshPlanBody(); }
   function planStartEdit(i){ var it = planItems()[i]; if(!it) return; planEditIdx = i; planDraft = { text: it.text || '', desc: it.desc || '', due: it.due || '', assignee: it.assignee || '' }; refreshPlanBody(); }
   function planDraftField(f, v){ if(planDraft) planDraft[f] = v; }
-  function planEditSync(el){ var form = el.closest('.act-edit'); if(!form) return; var sv = form.querySelector('.act-edit-save'); if(sv) sv.disabled = !(el.value && el.value.trim()); }
+  function planEditSync(){ var fa = planFa(planCurrentId) || {}; var st = fa.state; var d = planDraft || {}; var ok = (st === 'support' || st === 'monitor') ? !!(d.desc && d.desc.trim()) : !!(d.text && d.text.trim()); var sv = document.querySelector('#plan-overlay .act-edit-save'); if(sv) sv.disabled = !ok; }
   function planCancelEdit(){ planEditIdx = null; planDraft = null; refreshPlanBody(); }
   function planSaveEdit(){
-    var d = planDraft || {}; if(!(d.text && d.text.trim())) return;
     var fa = planFa(planCurrentId); if(!fa) return;
+    var st = fa.state; var d = planDraft || {};
+    var ok = (st === 'support' || st === 'monitor') ? !!(d.desc && d.desc.trim()) : !!(d.text && d.text.trim());
+    if(!ok) return;
     fa.planItems = fa.planItems || [];
-    if(planEditIdx === 'new'){ fa.planItems.push({ text: d.text.trim(), desc: (d.desc||'').trim(), due: d.due||'', assignee: d.assignee||'', done: false, isNew: true }); }
-    else { var it = fa.planItems[planEditIdx]; if(it){ it.text = d.text.trim(); it.desc = (d.desc||'').trim(); it.due = d.due||''; it.assignee = d.assignee||''; } }
+    var it = (planEditIdx === 'new') ? { done: false, isNew: true } : fa.planItems[planEditIdx];
+    if(!it) return;
+    if(st === 'support'){ it.desc = d.desc.trim(); it.assignee = d.assignee || ''; it.text = ''; }
+    else if(st === 'monitor'){ it.desc = d.desc.trim(); it.text = ''; }
+    else { it.text = d.text.trim(); it.desc = (d.desc||'').trim(); it.due = d.due||''; it.assignee = d.assignee||''; }
+    if(planEditIdx === 'new') fa.planItems.push(it);
     planEditIdx = null; planDraft = null;
     refreshPlanBody(); renderCards();
   }
@@ -2046,14 +2051,15 @@
         '<span class="ap-progress-lbl">' + done + '/' + (tot || 1) + '</span></div>';
     }
     if(fa.state === 'monitor'){
-      var m = fa.monitorMode || 'survey', when;
-      if(m === 'date') when = fa.monitorDate ? ('Revisit ' + fmtDate(fa.monitorDate)) : 'Revisit on a set date';
-      else if(m === 'score') when = 'Watching the score';
-      else if(m === 'custom'){ var note = (fa.monitorNote || '').trim(); when = note ? (note.length > 42 ? note.slice(0, 42) + '\u2026' : note) : 'Monitoring plan set'; }
-      else when = 'Revisit next survey';
-      return '<span class="ap-meta">' + when + '</span>';
+      var mItems = fa.planItems || [];
+      var mNote = (mItems[0] && mItems[0].desc) ? mItems[0].desc.trim() : (fa.monitorNote || '').trim();
+      var mWhen = mNote ? (mNote.length > 42 ? mNote.slice(0, 42) + '\u2026' : mNote) : 'Monitoring plan set';
+      if(mItems.length > 1) mWhen += ' \u00b7 +' + (mItems.length - 1) + ' more';
+      return '<span class="ap-meta">' + esc(mWhen) + '</span>';
     }
-    return '<span class="ap-meta">Sent to ' + esc(fa.supportPerson || 'the right person') + '</span>';
+    var sItems = fa.planItems || [];
+    var sWho = (sItems[0] && sItems[0].assignee) ? sItems[0].assignee : (fa.supportPerson || 'the right person');
+    return '<span class="ap-meta">Sent to ' + esc(sWho) + (sItems.length > 1 ? ' \u00b7 +' + (sItems.length - 1) + ' more' : '') + '</span>';
   }
   function actionRowHTML(fa){
     var id = jsId(fa.id);
@@ -2256,6 +2262,7 @@
     var fa = stepFa();
     stepStage = startStage || (fa.state ? 'plan' : 'respond');
     if(stepStage === 'plan' && fa.state === 'monitor' && fa.monitorMode == null){ fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    if(stepStage === 'plan' && fa.state === 'promote'){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
     document.getElementById('step-dialog').hidden = false;
     document.body.classList.add('step-open');
     renderStepDialog();
@@ -2299,6 +2306,7 @@
     if(fa.state !== state){ fa.picked = []; fa.actionAdded = false; fa.supportSent = false; fa.monitorSaved = false; }
     fa.state = state;
     if(state === 'monitor'){ if(fa.monitorMode == null) fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
+    if(state === 'promote'){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
     stepStage = 'plan';
     stepBusy = true; renderStepDialog();
     setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 450);
@@ -2393,7 +2401,7 @@
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
     var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
-    return '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>' +
+    return (fa.state === 'promote' ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
       '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
@@ -2403,7 +2411,7 @@
         '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><select class="tf fv-na-assignee" onchange="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)">' + opts + '</select></div>' +
       '</div>' +
-      '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
+      '<div class="fv-na-actions">' + (fa.state === 'promote' ? '' : '<button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>') +
         '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>' +
     '</div>';
   }
