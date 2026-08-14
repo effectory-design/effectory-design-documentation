@@ -864,6 +864,10 @@
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
     .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    /* Actions page variant: educational guide card shown only once actions exist */
+    .cg-actions-guide { margin-top: var(--spacing-loose); margin-bottom: 0; }
+    .cg-actions-guide .cg-entry-title { font-size: 18px; }
+    .cg-actions-guide .cg-entry-illo { width: 96px; }
     .cg-entry-main { flex: 1; min-width: 0; }
     .cg-entry-kicker {
       display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
@@ -897,26 +901,30 @@
     .cg-guide .sp-subtitle { margin-top: var(--spacing-extra-tight); }
     .cg-guide-body { display: flex; flex-direction: column; gap: var(--spacing-loose); }
 
-    /* Intro value card — mirrors the Focus View entry card: content left, illustration right */
+    /* Intro USP card — light yellow, borderless, USPs only */
     .cg-intro {
-      display: flex; align-items: center; gap: var(--spacing-loose);
-      background: var(--bg-base); border: 1px solid var(--border-base);
-      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
-      padding: var(--spacing-loose);
+      display: flex; flex-direction: column; gap: var(--spacing-base);
+      background: var(--bg-highlight-subtle);
+      border-radius: var(--radius-lg); padding: var(--spacing-loose);
     }
-    .cg-intro-main { flex: 1; min-width: 0; }
-    .cg-intro-title { margin: 0 0 var(--spacing-extra-tight); font-size: 16px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
-    .cg-intro-text { margin: 0 0 var(--spacing-base); font-size: 13px; line-height: 1.55; color: var(--content-secondary); }
-    .cg-intro-usps { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .cg-usp { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; color: var(--content-secondary); }
-    .cg-usp i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
-    .cg-intro-illo { flex-shrink: 0; width: 96px; height: auto; align-self: flex-start; }
+    .cg-usp { display: flex; align-items: center; gap: var(--spacing-base-tight); font-size: 13px; font-weight: 500; color: var(--content-base); }
+    .cg-usp-ico {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: var(--radius-full);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--bg-highlight-base); color: var(--content-highlight);
+    }
+    .cg-usp-ico i { width: 16px; height: 16px; display: flex; }
 
     /* Header source line: compact, with the survey and team anchored in base weight */
     .cg-guide .sp-subtitle b { color: var(--content-base); font-weight: 600; }
 
-    /* Quiet block labels — one label style for every panel section */
-    .cg-blk-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-tight); margin-bottom: var(--spacing-tight); }
+    /* Panel section card — same surface as the example card, so the panel reads as one system */
+    .cg-blk {
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
+      padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose);
+    }
+    .cg-blk-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-tight); margin-bottom: var(--spacing-base); }
     .cg-blk-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
     .cg-blk-aside { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
 
@@ -2151,6 +2159,20 @@
     '</div>';
     if(window.Icons) window.Icons.render(document.getElementById('custom-dialog'));
   }
+  // Educational guide card on the Actions page — only shown once actions exist
+  function actionsGuideCardHTML(){
+    return '<div class="cg-entry cg-actions-guide">' +
+      '<div class="cg-entry-main">' +
+        '<span class="cg-entry-kicker">Keep the conversation going</span>' +
+        '<h3 class="cg-entry-title">Talk these actions through with your team</h3>' +
+        '<p class="cg-entry-text">Your conversation guide helps you hear the why behind each focus area and agree on next steps together.</p>' +
+        '<div class="cg-entry-actions">' +
+          '<button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>' +
+        '</div>' +
+      '</div>' +
+      '<img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
+    '</div>';
+  }
   function renderActions(){
     var list = document.getElementById('actions-list'); if(!list) return;
     var items = focusAreas.concat(scoreTargets).filter(faDecided);
@@ -2168,7 +2190,8 @@
     if(items.length){
       list.innerHTML = '<div class="ap-table">' +
         '<div class="ap-head"><span>Focus area</span><span>Score</span><span>Response</span><span>Actions</span><span></span></div>' +
-        items.map(actionRowHTML).join('') + '</div>';
+        items.map(actionRowHTML).join('') + '</div>' +
+        actionsGuideCardHTML();
     } else {
       list.innerHTML = actionsEmptyHTML();
     }
@@ -2551,16 +2574,9 @@
   }
   function guideIntroHTML(){
     var usps = [['lightbulb', 'Hear the why behind the scores'], ['clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
-    return '<div class="cg-intro">' +
-      '<div class="cg-intro-main">' +
-        '<h4 class="cg-intro-title">Why start with a conversation</h4>' +
-        '<p class="cg-intro-text">Scores tell you what your team thinks. The conversation tells you why.</p>' +
-        '<div class="cg-intro-usps">' + usps.map(function(u){
-          return '<div class="cg-usp"><i data-icon="' + u[0] + '"></i> ' + u[1] + '</div>';
-        }).join('') + '</div>' +
-      '</div>' +
-      '<img class="cg-intro-illo" src="assets/illustrations/communication-toolkit.svg" alt="" />' +
-    '</div>';
+    return '<div class="cg-intro">' + usps.map(function(u){
+      return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
+    }).join('') + '</div>';
   }
   function guideFooterHTML(){
     return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
