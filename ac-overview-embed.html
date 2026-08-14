@@ -60,7 +60,13 @@
 
     // Report content height so the parent can size the iframe with no inner (or trailing) scroll.
     function reportHeight(){
-      var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      // Size to the overview content's true bottom. document.body.scrollHeight is inflated by the
+      // toast/notification stack (a tall, empty fixed container), which left a large empty scroll
+      // region below the last cards.
+      var wrap = document.querySelector('.overview-wrap');
+      var h;
+      if(wrap){ var y = 0, el = wrap; while(el){ y += el.offsetTop; el = el.offsetParent; } h = y + wrap.offsetHeight + 8; }
+      else { h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight); }
       try { if(window.parent) window.parent.postMessage({ type: 'ov-embed-height', height: h }, '*'); } catch(e){}
     }
     function boot(){ reportHeight(); setTimeout(reportHeight, 250); setTimeout(reportHeight, 800); }
