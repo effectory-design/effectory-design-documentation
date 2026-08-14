@@ -627,8 +627,8 @@
     /* ═══ Stepper dialog ═══ */
     .step-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: var(--spacing-loose); background: rgba(15, 23, 42, 0.45); }
     .step-overlay[hidden] { display: none; }
-    .step-modal { position: relative; width: min(880px, 94vw); max-height: calc(100dvh - 8rem); overflow-y: auto; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
-    .step-body { min-height: 0; justify-content: flex-start; }
+    .step-modal { position: relative; width: min(880px, 94vw); max-height: calc(100dvh - 4rem); overflow: hidden; background: var(--bg-base); border-radius: var(--radius-lg); box-shadow: var(--sh-popovers, 0 20px 48px rgba(0,0,0,.25)); padding: var(--spacing-super-loose, 40px) var(--spacing-super-loose, 48px); display: flex; flex-direction: column; gap: var(--spacing-extra-loose); }
+    .step-body { min-height: 0; justify-content: flex-start; overflow-y: auto; }
     .step-close { position: absolute; top: var(--spacing-base); right: var(--spacing-base); }
     .stp-bar { display: flex; align-items: flex-start; gap: var(--spacing-tight); padding: 0 40px var(--spacing-tight); }
     .stp-step { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-tight); flex: 0 0 auto; width: 120px; text-align: center; }
@@ -681,7 +681,7 @@
     .step-person-search .tf:focus { outline: none; box-shadow: none; }
     .step-person-add .menu-item-sub { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
     .menu-item.is-empty { color: var(--content-secondary); font-size: 14px; padding: var(--spacing-tight) var(--spacing-base-tight); }
-    .step-footer { display: flex; justify-content: space-between; gap: var(--spacing-base); border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); }
+    .step-footer { display: flex; flex: none; justify-content: space-between; gap: var(--spacing-base); border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); background: var(--bg-base); }
     /* success: centered, no stepper bar */
     .step-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); padding: var(--spacing-loose) 0; }
     .step-success-ico { width: 56px; height: 56px; border-radius: var(--radius-full); }
@@ -690,9 +690,9 @@
     /* Success + support-dropdown refinements */
     .step-modal.is-success { width: min(468px, 94vw); gap: var(--spacing-base); }
     .step-modal.is-success .step-body { min-height: 0; }
-    .step-modal.menu-open { overflow: visible; }        /* let 'who can help' dropdown escape the modal */
+    .step-modal.menu-open, .step-modal.menu-open .step-body { overflow: visible; }        /* let 'who can help' dropdown escape the modal */
     /* Don't let the modal's flex column compress tall content — scroll the modal instead. */
-    .step-modal > .step-body { flex-shrink: 0; }
+    .step-modal > .step-body { flex: 0 1 auto; min-height: 0; }
     .triage-modal > .triage-modal-body { flex-shrink: 0; }
     .step-success { padding: var(--spacing-tight) 0 0 !important; gap: var(--spacing-tight) !important; }
     .step-success .step-sub { max-width: 42ch; margin: 0 auto; text-wrap: balance; }
@@ -767,6 +767,8 @@
     .sp-title-input:focus { border-bottom-color: var(--content-brand); }
     .sp-title-input::placeholder { color: var(--content-placeholder); font-weight: 500; }
     .ap-goal-chip.ap-goal-empty { background: var(--bg-secondary); color: var(--content-secondary); }
+    .act-person-select { flex: 1; min-width: 0; max-width: 260px; border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: 6px 10px; font-family: inherit; font-size: 14px; color: var(--content-base); background: var(--bg-base); outline: none; cursor: pointer; }
+    .act-person-select:focus { border-color: var(--border-action-hover, var(--content-brand)); }
     .step-close-confirm { position: absolute; top: 58px; right: 20px; z-index: 30; width: 268px; background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-popovers, 0 12px 32px rgba(15,23,42,.18)); padding: var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-base-tight); text-align: left; }
     .step-close-confirm::before { content: ''; position: absolute; top: -7px; right: 20px; width: 12px; height: 12px; background: var(--bg-base); border-left: 1px solid var(--border-base); border-top: 1px solid var(--border-base); transform: rotate(45deg); }
     .scc-text { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--content-base); }
@@ -1032,7 +1034,6 @@
             <div class="triage-head">
               <span class="triage-ico"><i data-icon="lightbulb"></i></span>
               <div>
-                <h3 class="triage-title">Choose your areas, then decide what to do</h3>
                 <p class="triage-text">Pick the areas that matter to you, then decide what to do with each. Do them in any order and come back anytime.</p>
               </div>
             </div>
@@ -1216,7 +1217,7 @@
   };
   function smartTagHTML(fa){
     var t = SMART_TAGS[fa.id]; if(!t) return '';
-    return '<div class="fv-smarttag-row"><span class="fv-smarttag is-' + t.tone + '"><i data-icon="' + t.icon + '"></i> ' + t.label + '</span><span class="fv-smarttag-desc">' + t.desc + '</span></div>';
+    return '<div class="fv-smarttag-row"><span class="fv-smarttag is-' + t.tone + '"><i data-icon="' + t.icon + '"></i> ' + t.label + '</span></div>';
   }
   // Thumbs-down opens a short "why not relevant" dialog (the old reasons picker); thumbs-up toggles directly.
   function setRelevance(e, id, v){
@@ -1833,6 +1834,8 @@
           '</div></div>' +
         '<div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> ' + descLbl + '</span>' +
           '<textarea class="act-desc-val" rows="2" placeholder="' + descPh + '" oninput="' + descOn + '(this.value)">' + esc(descVal) + '</textarea></div>' +
+        (st === 'support' ? '<div class="act-row"><span class="act-row-lbl"><i data-icon="user"></i> Who can help</span>' +
+          '<select class="act-person-select" onchange="setPlanSupportPerson(this.value)">' + ['<option value="">Choose a person</option>'].concat(PEOPLE.map(function(pp){ return '<option value="' + esc(pp) + '"' + (fa.supportPerson === pp ? ' selected' : '') + '>' + esc(pp) + '</option>'; })).join('') + '</select></div>' : '') +
       '</div>' +
       '<div class="act-prog-head"><h4>Actions' + count + '</h4><button class="btn btn-primary act-add-btn" onclick="planStartAdd()"' + addDis + '><i data-icon="plus"></i> Add</button></div>' +
       '<div class="act-list" id="plan-list">' + rows + '</div>';
@@ -1922,6 +1925,7 @@
   function setPlanDesc(v){ planFa(planCurrentId).planDesc = v; }
   function setPlanMonNote(v){ var fa = planFa(planCurrentId); if(fa){ fa.monitorNote = v; fa.monitorMode = 'custom'; } }
   function setPlanSupportText(v){ var fa = planFa(planCurrentId); if(fa) fa.supportText = v; }
+  function setPlanSupportPerson(v){ var fa = planFa(planCurrentId); if(fa) fa.supportPerson = v; }
   function setPlanTitle(v){ var fa = planFa(planCurrentId); if(fa) fa.text = v; }
   function togglePlanGoalMenu(e){ if(e){ e.stopPropagation(); } var m = document.getElementById('plan-goal-menu'); if(!m) return; var willOpen = m.hidden; document.querySelectorAll('#plan-overlay .menu').forEach(function(x){ x.hidden = true; }); m.hidden = !willOpen; }
   function setPlanGoal(state){
@@ -2062,7 +2066,7 @@
         '<button class="ib ib-36 ib-tertiary ap-kebab" aria-label="More actions" onclick="toggleActionMenu(event, ' + id + ')"><i data-icon="more-vertical"></i></button>' +
         '<div class="menu ap-menu" hidden>' +
           '<div class="menu-item" role="button" tabindex="0" onclick="actionMenuEdit(' + id + ')"><i data-icon="edit" class="menu-item-icon"></i><span class="menu-item-title">Edit details</span></div>' +
-          '<div class="menu-item" role="button" tabindex="0" onclick="actionMenuChange(' + id + ')"><i data-icon="list-unordered" class="menu-item-icon"></i><span class="menu-item-title">Change response</span></div>' +
+          '<div class="menu-item" role="button" tabindex="0" onclick="actionMenuAdd(' + id + ')"><i data-icon="plus" class="menu-item-icon"></i><span class="menu-item-title">Add action</span></div>' +
           '<div class="menu-divider"></div>' +
           '<div class="menu-item ap-menu-remove" role="button" tabindex="0" onclick="actionMenuRemove(' + id + ')"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">Remove</span></div>' +
         '</div>' +
@@ -2079,6 +2083,7 @@
   document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.ap-cell-menu'))) closeActionMenus(); });
   function actionMenuEdit(id){ closeActionMenus(); openPlanPanel(id); }
   function actionMenuChange(id){ closeActionMenus(); openPlanPanel(id); }
+  function actionMenuAdd(id){ closeActionMenus(); openPlanPanelAdd(id); }
   function actionMenuRemove(id){
     closeActionMenus();
     var fa = planFa(id); if(!fa) return;
