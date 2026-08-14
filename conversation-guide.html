@@ -857,11 +857,13 @@
        Deliberately styled apart from the focus cards: neutral white surface (no brand
        green), a larger title, an illustration on the right, and the CTA under the copy. */
     .cg-entry {
+      position: relative;
       display: flex; align-items: center; gap: var(--spacing-super-loose);
       background: var(--bg-base); border: 1px solid var(--border-base);
       border-radius: var(--radius-lg); box-shadow: var(--sh-card);
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
+    .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
     .cg-entry-main { flex: 1; min-width: 0; }
     .cg-entry-kicker {
       display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
@@ -895,14 +897,20 @@
     .cg-guide .sp-subtitle { margin-top: var(--spacing-extra-tight); }
     .cg-guide-body { display: flex; flex-direction: column; gap: var(--spacing-loose); }
 
-    /* First-open educational intro (one moment only, dismissible) */
+    /* Intro value card — mirrors the Focus View entry card: content left, illustration right */
     .cg-intro {
-      background: var(--bg-info-subtle); border: 1px solid var(--border-info-subtle);
-      border-radius: var(--radius-md); padding: var(--spacing-base);
+      display: flex; align-items: center; gap: var(--spacing-loose);
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
+      padding: var(--spacing-loose);
     }
-    .cg-intro-title { margin: 0 0 var(--spacing-extra-tight); font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .cg-intro-text { margin: 0 0 var(--spacing-tight); font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .cg-intro-dismiss { padding: 0; }
+    .cg-intro-main { flex: 1; min-width: 0; }
+    .cg-intro-title { margin: 0 0 var(--spacing-extra-tight); font-size: 16px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
+    .cg-intro-text { margin: 0 0 var(--spacing-base); font-size: 13px; line-height: 1.55; color: var(--content-secondary); }
+    .cg-intro-usps { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .cg-usp { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; color: var(--content-secondary); }
+    .cg-usp i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
+    .cg-intro-illo { flex-shrink: 0; width: 96px; height: auto; align-self: flex-start; }
 
     /* Header source line: compact, with the survey and team anchored in base weight */
     .cg-guide .sp-subtitle b { color: var(--content-base); font-weight: 600; }
@@ -912,28 +920,30 @@
     .cg-blk-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
     .cg-blk-aside { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
 
-    /* What's inside: the session flow as three numbered steps */
-    .cg-steps { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .cg-step { display: flex; align-items: center; gap: var(--spacing-base-tight); }
-    .cg-step-num {
-      flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--radius-full);
+    /* What's inside: the session flow as a horizontal three-step timeline.
+       Blue filled circles with icons, connected by lines, everything centered per step. */
+    .cg-steps { display: flex; align-items: flex-start; }
+    .cg-step {
+      position: relative; flex: 1; min-width: 0;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      gap: var(--spacing-extra-tight); padding: 0 var(--spacing-tight);
+    }
+    .cg-step + .cg-step::before {
+      content: ''; position: absolute; top: 19px; height: 2px;
+      left: calc(-50% + 28px); right: calc(50% + 28px);
+      background: var(--border-info-subtle); border-radius: var(--radius-full);
+    }
+    .cg-step-ico {
+      position: relative; z-index: 1;
+      width: 40px; height: 40px; border-radius: var(--radius-full);
       display: inline-flex; align-items: center; justify-content: center;
-      background: var(--bg-secondary); color: var(--content-secondary);
-      font-size: 12px; font-weight: 600;
+      background: var(--bg-info); color: var(--content-inverse);
+      margin-bottom: var(--spacing-extra-tight);
     }
-    .cg-step-t { flex: 1; font-size: 14px; font-weight: 500; color: var(--content-base); }
-    .cg-step-time { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
-
-    /* Your focus areas: compact rows, score badge only */
-    .cg-fa-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .cg-fa-row {
-      display: flex; align-items: center; gap: var(--spacing-base-tight);
-      padding: var(--spacing-tight) var(--spacing-base);
-      border: 1px solid var(--border-base); border-radius: var(--radius-md);
-    }
-    .cg-fa-txt { flex: 1; min-width: 0; }
-    .cg-fa-st { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.45; color: var(--content-base); }
-    .cg-fa-theme { font-size: 12px; color: var(--content-secondary); }
+    .cg-step-ico i { width: 18px; height: 18px; display: flex; }
+    .cg-step-t { font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--content-base); }
+    .cg-step-d { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
+    .cg-step-time { font-size: 12px; font-weight: 500; color: var(--content-info); white-space: nowrap; }
 
     /* One worked example: the single visually heaviest element in the panel */
     .cg-example {
@@ -949,13 +959,7 @@
     .cg-q p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--content-base); }
     .cg-example-note { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
-    /* Benefits strip: three one-line points above the footer */
-    .cg-benefits { display: flex; flex-direction: column; gap: var(--spacing-tight); border-top: 1px solid var(--border-base); padding-top: var(--spacing-loose); }
-    .cg-benefit { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; color: var(--content-secondary); }
-    .cg-benefit i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
-
-    /* Footer: format hint + default actions → rating after download */
-    .cg-fmt-hint { font-size: 12px; color: var(--content-secondary); white-space: nowrap; }
+    /* Footer: default actions → rating after download */
     .cg-guide-footer.is-rating { justify-content: space-between; }
     .cg-rating-q { font-size: 14px; color: var(--content-base); }
     .cg-rating-thumbs { display: inline-flex; gap: var(--spacing-tight); }
@@ -1124,7 +1128,8 @@
             <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
           </div>
           <div class="fv-block-main">
-            <div class="cg-entry">
+            <div class="cg-entry" id="cg-entry">
+              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
               <div class="cg-entry-main">
                 <span class="cg-entry-kicker">Talk it through first</span>
                 <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
@@ -2500,30 +2505,33 @@
           root:"What holds you back from taking those steps today" } }
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
-  var guideIntroDone = false;   // session-only; set on dismiss or first download
   var guideRated = false;
-  try { guideIntroDone = sessionStorage.getItem('cg-guide-intro-done') === '1'; } catch(e){}
+
+  // Focus View entry card: dismissible with the x, remembered for the session
+  function dismissEntry(){
+    try { sessionStorage.setItem('cg-entry-dismissed', '1'); } catch(e){}
+    var el = document.getElementById('cg-entry'); if(el) el.hidden = true;
+  }
+  try { if(sessionStorage.getItem('cg-entry-dismissed') === '1'){ var _ce = document.getElementById('cg-entry'); if(_ce) _ce.hidden = true; } } catch(e){}
 
   // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
   function guideLowestArea(){
     return GUIDE_AREAS.reduce(function(lo, a){ return parseInt(a.score, 10) < parseInt(lo.score, 10) ? a : lo; });
   }
   function guideStepsHTML(){
-    var steps = [['Share the results', '15 min'], ['Listen per focus area', '30 min'], ['Decide together', '10 min']];
+    var steps = [
+      ['barchart-2', 'Share the results', 'Walk through the scores together', '15 min'],
+      ['group', 'Listen per focus area', 'Ask what sits behind each score', '30 min'],
+      ['check', 'Decide together', 'Agree on next steps as a team', '10 min']
+    ];
     return '<section class="cg-blk">' +
       '<div class="cg-blk-head"><span class="cg-blk-label">What’s inside</span><span class="cg-blk-aside">About 55 minutes</span></div>' +
-      '<div class="cg-steps">' + steps.map(function(s, i){
-        return '<div class="cg-step"><span class="cg-step-num">' + (i + 1) + '</span><span class="cg-step-t">' + s[0] + '</span><span class="cg-step-time">' + s[1] + '</span></div>';
-      }).join('') + '</div>' +
-    '</section>';
-  }
-  function guideFocusListHTML(){
-    return '<section class="cg-blk">' +
-      '<div class="cg-blk-head"><span class="cg-blk-label">Your focus areas</span></div>' +
-      '<div class="cg-fa-list">' + GUIDE_AREAS.map(function(a){
-        return '<div class="cg-fa-row" id="cg-fa-row-' + a.id + '">' +
-          '<div class="cg-fa-txt"><p class="cg-fa-st">' + esc(a.statement) + '</p><span class="cg-fa-theme">' + esc(a.theme) + '</span></div>' +
-          '<span class="fv-score is-focus">' + esc(a.score) + '</span>' +
+      '<div class="cg-steps">' + steps.map(function(s){
+        return '<div class="cg-step">' +
+          '<span class="cg-step-ico"><i data-icon="' + s[0] + '"></i></span>' +
+          '<span class="cg-step-t">' + s[1] + '</span>' +
+          '<span class="cg-step-d">' + s[2] + '</span>' +
+          '<span class="cg-step-time">' + s[3] + '</span>' +
         '</div>';
       }).join('') + '</div>' +
     '</section>';
@@ -2538,26 +2546,24 @@
       '<p class="cg-example-note">Your guide has three questions like this for each focus area, plus a prompt to decide together what to do next</p>' +
     '</section>';
   }
-  function guideBenefitsHTML(){
-    var items = [['lightbulb', 'Hear the why behind the scores'], ['clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
-    return '<section class="cg-benefits">' + items.map(function(b){
-      return '<div class="cg-benefit"><i data-icon="' + b[0] + '"></i> ' + b[1] + '</div>';
-    }).join('') + '</section>';
-  }
   function guidePanelBodyHTML(){
-    return guideStepsHTML() + guideFocusListHTML() + guideExampleHTML() + guideBenefitsHTML();
+    return guideStepsHTML() + guideExampleHTML();
   }
   function guideIntroHTML(){
-    if(guideIntroDone) return '';
-    return '<div class="cg-intro" id="cg-intro">' +
-      '<h4 class="cg-intro-title">Why start with a conversation</h4>' +
-      '<p class="cg-intro-text">Scores tell you what your team thinks. The conversation tells you why. This guide helps you hear their side before choosing what to act on.</p>' +
-      '<button class="btn btn-link cg-intro-dismiss" onclick="dismissGuideIntro()">Got it</button>' +
+    var usps = [['lightbulb', 'Hear the why behind the scores'], ['clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
+    return '<div class="cg-intro">' +
+      '<div class="cg-intro-main">' +
+        '<h4 class="cg-intro-title">Why start with a conversation</h4>' +
+        '<p class="cg-intro-text">Scores tell you what your team thinks. The conversation tells you why.</p>' +
+        '<div class="cg-intro-usps">' + usps.map(function(u){
+          return '<div class="cg-usp"><i data-icon="' + u[0] + '"></i> ' + u[1] + '</div>';
+        }).join('') + '</div>' +
+      '</div>' +
+      '<img class="cg-intro-illo" src="assets/illustrations/communication-toolkit.svg" alt="" />' +
     '</div>';
   }
   function guideFooterHTML(){
     return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
-      '<span class="cg-fmt-hint">PDF, print friendly</span>' +
       '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download guide</button>';
   }
   function ensureGuideOverlay(){
@@ -2594,7 +2600,7 @@
     if(faId != null && guideArea(faId)){
       // rect-difference is robust to the panel's slide-in animation and offset parent
       var doScroll = function(){
-        var sec = document.getElementById(faId === guideLowestArea().id ? 'cg-example' : 'cg-fa-row-' + faId);
+        var sec = document.getElementById('cg-example');
         var body = document.querySelector('#guide-overlay .sp-body');
         if(sec && body){
           var d = sec.getBoundingClientRect().top - body.getBoundingClientRect().top;
@@ -2616,15 +2622,6 @@
     if(panel && !reduce){ panel.addEventListener('animationend', fin, { once: true }); setTimeout(fin, 400); }
     else fin();
   }
-  function markGuideIntroDone(){
-    guideIntroDone = true;
-    try { sessionStorage.setItem('cg-guide-intro-done', '1'); } catch(e){}
-  }
-  function dismissGuideIntro(){
-    markGuideIntroDone();
-    var el = document.getElementById('cg-intro');
-    if(el){ el.style.transition = 'opacity var(--motion-base) var(--ease-out)'; el.style.opacity = '0'; setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 220); }
-  }
   function downloadGuide(){
     var blob = new Blob([buildGuideFile()], { type: 'text/html' });
     var url = URL.createObjectURL(blob);
@@ -2632,7 +2629,6 @@
     a.href = url; a.download = 'conversation-guide-sales-west.html';
     document.body.appendChild(a); a.click();
     setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 800);
-    markGuideIntroDone();
     showGuideRating();
   }
   function showGuideRating(){
