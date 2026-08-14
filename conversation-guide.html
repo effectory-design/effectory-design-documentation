@@ -863,25 +863,10 @@
       border-radius: var(--radius-lg); box-shadow: var(--sh-card);
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
-    .cg-entry .cg-entry-close, .cg-entry-alt .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
     /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
-    .cg-entry[hidden], .cg-entry-alt[hidden] { display: none; }
-    /* Alternative entry card — full width above the What needs focus block, in the
-       same light yellow container as the panel's USP card */
-    .cg-entry-alt {
-      position: relative; display: flex; align-items: center; gap: var(--spacing-loose);
-      background: color-mix(in srgb, var(--bg-highlight-subtle) 45%, var(--bg-base));
-      border-radius: var(--radius-lg); padding: var(--spacing-loose);
-      margin-bottom: var(--spacing-loose);
-    }
-    .cg-entry-alt-main { flex: 1; min-width: 0; }
-    .cg-entry-alt .cg-entry-title { font-size: 20px; }
-    .cg-entry-alt-usps { display: flex; flex-wrap: wrap; gap: var(--spacing-tight) var(--spacing-base); margin: var(--spacing-base) 0; }
-    .cg-entry-alt .cg-usp-ico { background: var(--bg-info); }
-    /* Stretched to the content height: as a flex item the img's cross size follows the row */
-    .cg-entry-alt-illo { align-self: stretch; flex-shrink: 0; width: auto; }
-
-    /* Variant C: small conversational popup from the bottom right after 10 seconds */
+    .cg-entry[hidden] { display: none; }
+    /* Variant 2: small conversational popup from the bottom right after 10 seconds */
     .cg-pop {
       position: fixed; right: var(--spacing-loose); bottom: calc(var(--spacing-loose) * 2 + 40px); z-index: 140;
       animation: cg-pop-in var(--motion-slow) var(--ease-out);
@@ -889,15 +874,17 @@
     @keyframes cg-pop-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
     .cg-pop[hidden] { display: none; }
-    .cg-pop .announcement { width: 360px; max-width: 360px; }
-    .cg-pop .ann-body { display: flex; align-items: center; gap: var(--spacing-base); }
+    .cg-pop .announcement { width: 500px; max-width: 500px; }
+    .cg-pop .ann-body { display: flex; align-items: flex-start; gap: var(--spacing-loose); }
     .cg-pop-main { flex: 1; min-width: 0; }
-    .cg-pop-illo { flex-shrink: 0; width: 80px; height: auto; }
+    /* Top right; the top margin keeps it clear of the absolute close button above it */
+    .cg-pop-illo { flex-shrink: 0; width: 200px; height: auto; align-self: flex-start; margin-top: var(--spacing-extra-loose); }
     .cg-pop-never { padding: 0; margin-top: var(--spacing-tight); font-size: 13px; }
 
-    /* Prototype-only control: switch between the two entry card versions */
+    /* Prototype-only control: switch between the two entry card versions.
+       Bottom left (offset past the 240px mainnav) so it never stacks under the popup. */
     .cg-variant-ctl {
-      position: fixed; right: var(--spacing-loose); bottom: var(--spacing-loose); z-index: 150;
+      position: fixed; left: calc(240px + var(--spacing-loose)); bottom: var(--spacing-loose); z-index: 150;
       display: flex; align-items: center; gap: var(--spacing-tight);
       background: var(--bg-base); border: 1px solid var(--border-base);
       border-radius: var(--radius-full); box-shadow: var(--sh-dialogs);
@@ -1167,24 +1154,6 @@
           </div>
         </div>
 
-        <!-- Alternative entry card (variant 2): above the focus block, light yellow, USP led -->
-        <div class="cg-entry-alt" id="cg-entry-alt" hidden>
-          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-          <div class="cg-entry-alt-main">
-            <span class="cg-entry-kicker">Talk it through first</span>
-            <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
-            <div class="cg-entry-alt-usps">
-              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="lightbulb"></i></span> Hear the why behind the scores</div>
-              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="Clock"></i></span> Ready to run in about five minutes of prep</div>
-              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="group"></i></span> End with decisions you make together</div>
-            </div>
-            <div class="cg-entry-actions">
-              <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
-            </div>
-          </div>
-          <img class="cg-entry-alt-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
-        </div>
-
         <!-- Variant 2: conversational popup, appears from the bottom right 10 seconds after landing -->
         <div class="cg-pop" id="cg-entry-pop" hidden>
           <div class="announcement">
@@ -1217,6 +1186,19 @@
             <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
           </div>
           <div class="fv-block-main">
+            <!-- Entry card (version 1): right above the focus cards -->
+            <div class="cg-entry" id="cg-entry" hidden>
+              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
+              <div class="cg-entry-main">
+                <span class="cg-entry-kicker">Talk it through first</span>
+                <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
+                <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
+                <div class="cg-entry-actions">
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
+                </div>
+              </div>
+              <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
+            </div>
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
             <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
@@ -2602,9 +2584,9 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry: two versions — 1 (b) yellow card above the focus block,
-  // 2 (c) conversational popup 10 seconds after landing. A prototype control
-  // switches versions; dismissals are remembered for the session.
+  // Focus View entry: two versions — 1 (b) card above the focus cards inside the
+  // What needs focus block, 2 (c) conversational popup 10 seconds after landing.
+  // A prototype control switches versions; dismissals are remembered for the session.
   var entryVariant = 'b';
   try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'b'; } catch(e){}
   if(['b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'b';
@@ -2613,7 +2595,7 @@
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
   function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
-    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
+    var b = document.getElementById('cg-entry'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
     if(pop && entryVariant !== 'c') pop.hidden = true;
