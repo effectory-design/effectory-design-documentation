@@ -865,7 +865,7 @@
     }
     .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
     /* Actions page variant: educational guide card shown only once actions exist */
-    .cg-actions-guide { margin-top: var(--spacing-loose); margin-bottom: 0; }
+    .cg-actions-guide { margin: 0 0 var(--spacing-loose); }
     .cg-actions-guide .cg-entry-title { font-size: 18px; }
     .cg-actions-guide .cg-entry-illo { width: 96px; }
     .cg-entry-main { flex: 1; min-width: 0; }
@@ -901,19 +901,25 @@
     .cg-guide .sp-subtitle { margin-top: var(--spacing-extra-tight); }
     .cg-guide-body { display: flex; flex-direction: column; gap: var(--spacing-loose); }
 
-    /* Intro USP card — light yellow, borderless, USPs only */
+    /* Intro USP card — soft yellow, borderless: title + USPs left, illustration right.
+       The extra-light yellow mixes two tokens; the DS has no tint lighter than
+       --bg-highlight-subtle, flagged as a token gap. */
     .cg-intro {
-      display: flex; flex-direction: column; gap: var(--spacing-base);
-      background: var(--bg-highlight-subtle);
+      display: flex; align-items: center; gap: var(--spacing-loose);
+      background: color-mix(in srgb, var(--bg-highlight-subtle) 45%, var(--bg-base));
       border-radius: var(--radius-lg); padding: var(--spacing-loose);
     }
-    .cg-usp { display: flex; align-items: center; gap: var(--spacing-base-tight); font-size: 13px; font-weight: 500; color: var(--content-base); }
+    .cg-intro-main { flex: 1; min-width: 0; }
+    .cg-intro-title { margin: 0 0 var(--spacing-tight); font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
+    .cg-intro-usps { display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
+    .cg-usp { display: flex; align-items: center; gap: var(--spacing-tight); font-size: 13px; font-weight: 500; color: var(--content-base); }
     .cg-usp-ico {
-      flex-shrink: 0; width: 32px; height: 32px; border-radius: var(--radius-full);
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: var(--radius-full);
       display: inline-flex; align-items: center; justify-content: center;
-      background: var(--bg-highlight-base); color: var(--content-highlight);
+      background: var(--bg-highlight-base); color: var(--content-inverse);
     }
-    .cg-usp-ico i { width: 16px; height: 16px; display: flex; }
+    .cg-usp-ico i { width: 12px; height: 12px; display: flex; }
+    .cg-intro-illo { flex-shrink: 0; width: 88px; height: auto; }
 
     /* Header source line: compact, with the survey and team anchored in base weight */
     .cg-guide .sp-subtitle b { color: var(--content-base); font-weight: 600; }
@@ -966,6 +972,10 @@
     .cg-q-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
     .cg-q p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--content-base); }
     .cg-example-note { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
+
+    /* Footer note: where to find the full questions, bottom left in the button row */
+    .cg-foot-note { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin-right: auto; font-size: 12px; line-height: 1.4; color: var(--content-secondary); }
+    .cg-foot-note i { flex-shrink: 0; width: 14px; height: 14px; display: flex; }
 
     /* Footer: default actions → rating after download */
     .cg-guide-footer.is-rating { justify-content: space-between; }
@@ -1182,6 +1192,7 @@
               <h2 class="fv-section-title">Everything you've decided to act on</h2>
               <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
             </div>
+            <div id="actions-guide-slot"></div>
             <div class="actions-summary" id="actions-summary"></div>
             <div class="fv-cards" id="actions-list"></div>
           </div>
@@ -2187,11 +2198,11 @@
     }
     var _ahd = document.querySelector('#view-actions .actions-head'); if(_ahd) _ahd.style.display = items.length ? '' : 'none';
     var _asum = document.getElementById('actions-summary'); if(_asum) _asum.style.display = items.length ? '' : 'none';
+    var _gslot = document.getElementById('actions-guide-slot'); if(_gslot) _gslot.innerHTML = items.length ? actionsGuideCardHTML() : '';
     if(items.length){
       list.innerHTML = '<div class="ap-table">' +
         '<div class="ap-head"><span>Focus area</span><span>Score</span><span>Response</span><span>Actions</span><span></span></div>' +
-        items.map(actionRowHTML).join('') + '</div>' +
-        actionsGuideCardHTML();
+        items.map(actionRowHTML).join('') + '</div>';
     } else {
       list.innerHTML = actionsEmptyHTML();
     }
@@ -2573,13 +2584,21 @@
     return guideStepsHTML() + guideExampleHTML();
   }
   function guideIntroHTML(){
-    var usps = [['lightbulb', 'Hear the why behind the scores'], ['clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
-    return '<div class="cg-intro">' + usps.map(function(u){
-      return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
-    }).join('') + '</div>';
+    // Note: the icon file is Clock.svg (capital C) — GitHub Pages is case sensitive
+    var usps = [['lightbulb', 'Hear the why behind the scores'], ['Clock', 'Ready to run in about five minutes of prep'], ['group', 'End with decisions you make together']];
+    return '<div class="cg-intro">' +
+      '<div class="cg-intro-main">' +
+        '<h4 class="cg-intro-title">From scores to shared decisions</h4>' +
+        '<div class="cg-intro-usps">' + usps.map(function(u){
+          return '<div class="cg-usp"><span class="cg-usp-ico"><i data-icon="' + u[0] + '"></i></span> ' + u[1] + '</div>';
+        }).join('') + '</div>' +
+      '</div>' +
+      '<img class="cg-intro-illo" src="assets/illustrations/communication-toolkit.svg" alt="" />' +
+    '</div>';
   }
   function guideFooterHTML(){
-    return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
+    return '<span class="cg-foot-note"><i data-icon="info"></i> Find the full questions for each focus area in the download</span>' +
+      '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
       '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download guide</button>';
   }
   function ensureGuideOverlay(){
