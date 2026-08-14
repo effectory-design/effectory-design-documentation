@@ -869,14 +869,27 @@
     /* Alternative entry card — full width above the What needs focus block, in the
        same light yellow container as the panel's USP card */
     .cg-entry-alt {
-      position: relative;
+      position: relative; display: flex; align-items: center; gap: var(--spacing-loose);
       background: color-mix(in srgb, var(--bg-highlight-subtle) 45%, var(--bg-base));
       border-radius: var(--radius-lg); padding: var(--spacing-loose);
       margin-bottom: var(--spacing-loose);
     }
+    .cg-entry-alt-main { flex: 1; min-width: 0; }
     .cg-entry-alt .cg-entry-title { font-size: 20px; }
-    .cg-entry-alt-usps { display: flex; flex-wrap: wrap; gap: var(--spacing-base) var(--spacing-loose); margin: var(--spacing-base) 0; }
-    .cg-entry-alt-usps .cg-usp { flex: 1 1 220px; }
+    .cg-entry-alt-usps { display: flex; flex-wrap: wrap; gap: var(--spacing-tight) var(--spacing-base); margin: var(--spacing-base) 0; }
+    .cg-entry-alt .cg-usp-ico { background: var(--bg-info); }
+    /* Stretched to the content height: as a flex item the img's cross size follows the row */
+    .cg-entry-alt-illo { align-self: stretch; flex-shrink: 0; width: auto; }
+
+    /* Variant C: small conversational popup from the bottom right after 10 seconds */
+    .cg-pop {
+      position: fixed; right: var(--spacing-loose); bottom: calc(var(--spacing-loose) * 2 + 40px); z-index: 140;
+      animation: cg-pop-in var(--motion-slow) var(--ease-out);
+    }
+    @keyframes cg-pop-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
+    .cg-pop[hidden] { display: none; }
+    .cg-pop .announcement { width: 320px; max-width: 320px; }
 
     /* Prototype-only control: switch between the two entry card versions */
     .cg-variant-ctl {
@@ -1001,11 +1014,6 @@
     .cg-foot-note { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin-right: auto; font-size: 12px; line-height: 1.4; color: var(--content-secondary); }
     .cg-foot-note i { flex-shrink: 0; width: 14px; height: 14px; display: flex; }
 
-    /* Footer: default actions → rating after download */
-    .cg-guide-footer.is-rating { justify-content: space-between; }
-    .cg-rating-q { font-size: 14px; color: var(--content-base); }
-    .cg-rating-thumbs { display: inline-flex; gap: var(--spacing-tight); }
-    .cg-rating-done { font-size: 14px; color: var(--content-secondary); }
   </style>
 </head>
 <body>
@@ -1161,26 +1169,43 @@
           </div>
         </div>
 
-        <!-- Alternative entry card (variant B): above the focus block, light yellow, USP led -->
+        <!-- Alternative entry card (variant 2): above the focus block, light yellow, USP led -->
         <div class="cg-entry-alt" id="cg-entry-alt" hidden>
           <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-          <span class="cg-entry-kicker">Talk it through first</span>
-          <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
-          <div class="cg-entry-alt-usps">
-            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="lightbulb"></i></span> Hear the why behind the scores</div>
-            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="Clock"></i></span> Ready to run in about five minutes of prep</div>
-            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="group"></i></span> End with decisions you make together</div>
+          <div class="cg-entry-alt-main">
+            <span class="cg-entry-kicker">Talk it through first</span>
+            <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
+            <div class="cg-entry-alt-usps">
+              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="lightbulb"></i></span> Hear the why behind the scores</div>
+              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="Clock"></i></span> Ready to run in about five minutes of prep</div>
+              <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="group"></i></span> End with decisions you make together</div>
+            </div>
+            <div class="cg-entry-actions">
+              <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
+            </div>
           </div>
-          <div class="cg-entry-actions">
-            <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>
+          <img class="cg-entry-alt-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
+        </div>
+
+        <!-- Variant 3: conversational popup, appears from the bottom right 10 seconds after landing -->
+        <div class="cg-pop" id="cg-entry-pop" hidden>
+          <div class="announcement">
+            <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
+            <div class="ann-body">
+              <p class="ann-title">Ready to share the results with your team?</p>
+              <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
+              <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
+            </div>
           </div>
         </div>
 
-        <!-- Prototype-only: toggle between entry card versions -->
-        <label class="cg-variant-ctl tgl-label-wrap">
-          <span class="tgl-wrap"><input type="checkbox" class="tgl" id="entry-variant-tgl" onchange="toggleEntryVariant()" /><span class="tgl-track"><span class="tgl-thumb"></span></span></span>
-          Alternative entry card
-        </label>
+        <!-- Prototype-only: switch between the entry card versions -->
+        <div class="cg-variant-ctl">
+          Entry card
+          <button class="btn btn-secondary" id="vbtn-a" onclick="setEntryVariant('a')">1</button>
+          <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">2</button>
+          <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">3</button>
+        </div>
 
         <!-- What needs focus (design-system Focus View block) -->
         <div class="fv-block fv-focus" id="focus-block">
@@ -1198,7 +1223,7 @@
                 <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
                 <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
                 <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>
+                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
                 </div>
               </div>
               <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
@@ -2215,14 +2240,20 @@
     if(window.Icons) window.Icons.render(document.getElementById('custom-dialog'));
   }
   // Educational guide card on the Actions page — only shown once actions exist
+  function actionsGuideDismissed(){ return ssFlag('cg-actions-guide-dismissed'); }
+  function dismissActionsGuide(){
+    ssSet('cg-actions-guide-dismissed');
+    var slot = document.getElementById('actions-guide-slot'); if(slot) slot.innerHTML = '';
+  }
   function actionsGuideCardHTML(){
     return '<div class="cg-entry cg-actions-guide">' +
+      '<div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissActionsGuide()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>' +
       '<div class="cg-entry-main">' +
         '<span class="cg-entry-kicker">Keep the conversation going</span>' +
         '<h3 class="cg-entry-title">Talk these actions through with your team</h3>' +
         '<p class="cg-entry-text">Your conversation guide helps you hear the why behind each focus area and agree on next steps together.</p>' +
         '<div class="cg-entry-actions">' +
-          '<button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>' +
+          '<button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>' +
         '</div>' +
       '</div>' +
       '<img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
@@ -2242,7 +2273,7 @@
     }
     var _ahd = document.querySelector('#view-actions .actions-head'); if(_ahd) _ahd.style.display = items.length ? '' : 'none';
     var _asum = document.getElementById('actions-summary'); if(_asum) _asum.style.display = items.length ? '' : 'none';
-    var _gslot = document.getElementById('actions-guide-slot'); if(_gslot) _gslot.innerHTML = items.length ? actionsGuideCardHTML() : '';
+    var _gslot = document.getElementById('actions-guide-slot'); if(_gslot) _gslot.innerHTML = (items.length && !actionsGuideDismissed()) ? actionsGuideCardHTML() : '';
     if(items.length){
       list.innerHTML = '<div class="ap-table">' +
         '<div class="ap-head"><span>Focus area</span><span>Score</span><span>Response</span><span>Actions</span><span></span></div>' +
@@ -2583,29 +2614,49 @@
           root:"What holds you back from taking those steps today" } }
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
-  var guideRated = false;
 
-  // Focus View entry card: two versions (A in the focus block, B above it), a prototype
-  // toggle to switch, and a shared dismiss x remembered for the session
-  var entryAlt = false;
-  try { entryAlt = sessionStorage.getItem('cg-entry-variant') === 'b'; } catch(e){}
-  function entryDismissed(){
-    try { return sessionStorage.getItem('cg-entry-dismissed') === '1'; } catch(e){ return false; }
-  }
+  // Focus View entry card: three versions — 1 (a) card in the focus block, 2 (b) yellow
+  // card above it, 3 (c) conversational popup 10 seconds after landing. A prototype
+  // control switches versions; the dismiss x is remembered for the session.
+  var entryVariant = 'a';
+  try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'a'; } catch(e){}
+  if(['a', 'b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'a';
+  var entryPopTimer = null;
+  function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
+  function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
+  function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
     var d = entryDismissed();
-    var a = document.getElementById('cg-entry'); if(a) a.hidden = d || entryAlt;
-    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = d || !entryAlt;
-    var t = document.getElementById('entry-variant-tgl'); if(t) t.checked = entryAlt;
+    var a = document.getElementById('cg-entry'); if(a) a.hidden = d || entryVariant !== 'a';
+    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = d || entryVariant !== 'b';
+    var pop = document.getElementById('cg-entry-pop');
+    if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
+    if(pop && entryVariant !== 'c') pop.hidden = true;
+    if(pop && entryVariant === 'c' && pop.hidden && !ssFlag('cg-entry-pop-dismissed')){
+      entryPopTimer = setTimeout(function(){
+        pop.hidden = false;
+        if(window.Icons) window.Icons.render(pop);
+      }, 10000);
+    }
+    ['a', 'b', 'c'].forEach(function(v){
+      var btn = document.getElementById('vbtn-' + v); if(!btn) return;
+      btn.classList.toggle('btn-primary', entryVariant === v);
+      btn.classList.toggle('btn-secondary', entryVariant !== v);
+    });
   }
-  function toggleEntryVariant(){
-    entryAlt = !entryAlt;
-    try { sessionStorage.setItem('cg-entry-variant', entryAlt ? 'b' : 'a'); } catch(e){}
+  function setEntryVariant(v){
+    entryVariant = v;
+    try { sessionStorage.setItem('cg-entry-variant', v); } catch(e){}
     applyEntryState();
   }
-  function dismissEntry(){
-    try { sessionStorage.setItem('cg-entry-dismissed', '1'); } catch(e){}
-    applyEntryState();
+  function dismissEntry(){ ssSet('cg-entry-dismissed'); applyEntryState(); }
+  function dismissEntryPop(){
+    ssSet('cg-entry-pop-dismissed');
+    var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
+  }
+  function openGuideFromPop(){
+    var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
+    openGuide();
   }
   applyEntryState();
 
@@ -2725,25 +2776,7 @@
     a.href = url; a.download = 'conversation-guide-sales-west.html';
     document.body.appendChild(a); a.click();
     setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); }, 800);
-    showGuideRating();
   }
-  function showGuideRating(){
-    var f = document.getElementById('cg-guide-footer');
-    if(!f) return;
-    f.classList.add('is-rating');
-    if(guideRated){
-      f.innerHTML = '<span class="cg-rating-done">Thanks, this helps us improve the guide</span>' +
-        '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>';
-    } else {
-      f.innerHTML = '<span class="cg-rating-q">Was this useful for your team conversation</span>' +
-        '<span class="cg-rating-thumbs">' +
-          '<div class="cg-tt"><button class="fv-thumb" aria-label="Yes, useful" onclick="rateGuide()"><i data-icon="up-vote"></i></button><div class="tooltip is-above">Yes, useful</div></div>' +
-          '<div class="cg-tt"><button class="fv-thumb" aria-label="Not useful" onclick="rateGuide()"><i data-icon="down-vote"></i></button><div class="tooltip is-above">Not useful</div></div>' +
-        '</span>';
-    }
-    if(window.Icons) window.Icons.render(f);
-  }
-  function rateGuide(){ guideRated = true; showGuideRating(); }
 
   // Self-contained printable HTML deliverable (opens/prints on its own, no design-system files).
   function guideFileSection(a){
