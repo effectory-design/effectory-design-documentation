@@ -863,7 +863,31 @@
       border-radius: var(--radius-lg); box-shadow: var(--sh-card);
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
-    .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    .cg-entry .cg-entry-close, .cg-entry-alt .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
+    .cg-entry[hidden], .cg-entry-alt[hidden] { display: none; }
+    /* Alternative entry card — full width above the What needs focus block, in the
+       same light yellow container as the panel's USP card */
+    .cg-entry-alt {
+      position: relative;
+      background: color-mix(in srgb, var(--bg-highlight-subtle) 45%, var(--bg-base));
+      border-radius: var(--radius-lg); padding: var(--spacing-loose);
+      margin-bottom: var(--spacing-loose);
+    }
+    .cg-entry-alt .cg-entry-title { font-size: 20px; }
+    .cg-entry-alt-usps { display: flex; flex-wrap: wrap; gap: var(--spacing-base) var(--spacing-loose); margin: var(--spacing-base) 0; }
+    .cg-entry-alt-usps .cg-usp { flex: 1 1 220px; }
+
+    /* Prototype-only control: switch between the two entry card versions */
+    .cg-variant-ctl {
+      position: fixed; right: var(--spacing-loose); bottom: var(--spacing-loose); z-index: 150;
+      display: flex; align-items: center; gap: var(--spacing-tight);
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-full); box-shadow: var(--sh-dialogs);
+      padding: var(--spacing-tight) var(--spacing-base);
+      font-size: 13px; font-weight: 500; color: var(--content-base);
+    }
+
     /* Actions page variant: educational guide card shown only once actions exist */
     .cg-actions-guide { margin: 0 0 var(--spacing-loose); }
     .cg-actions-guide .cg-entry-title { font-size: 18px; }
@@ -1137,6 +1161,27 @@
           </div>
         </div>
 
+        <!-- Alternative entry card (variant B): above the focus block, light yellow, USP led -->
+        <div class="cg-entry-alt" id="cg-entry-alt" hidden>
+          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
+          <span class="cg-entry-kicker">Talk it through first</span>
+          <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
+          <div class="cg-entry-alt-usps">
+            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="lightbulb"></i></span> Hear the why behind the scores</div>
+            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="Clock"></i></span> Ready to run in about five minutes of prep</div>
+            <div class="cg-usp"><span class="cg-usp-ico"><i data-icon="group"></i></span> End with decisions you make together</div>
+          </div>
+          <div class="cg-entry-actions">
+            <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>
+          </div>
+        </div>
+
+        <!-- Prototype-only: toggle between entry card versions -->
+        <label class="cg-variant-ctl tgl-label-wrap">
+          <span class="tgl-wrap"><input type="checkbox" class="tgl" id="entry-variant-tgl" onchange="toggleEntryVariant()" /><span class="tgl-track"><span class="tgl-thumb"></span></span></span>
+          Alternative entry card
+        </label>
+
         <!-- What needs focus (design-system Focus View block) -->
         <div class="fv-block fv-focus" id="focus-block">
 
@@ -1154,7 +1199,6 @@
                 <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
                 <div class="cg-entry-actions">
                   <button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button>
-                  <span class="cg-entry-note">Recommended, not required</span>
                 </div>
               </div>
               <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
@@ -2541,12 +2585,29 @@
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
   var guideRated = false;
 
-  // Focus View entry card: dismissible with the x, remembered for the session
+  // Focus View entry card: two versions (A in the focus block, B above it), a prototype
+  // toggle to switch, and a shared dismiss x remembered for the session
+  var entryAlt = false;
+  try { entryAlt = sessionStorage.getItem('cg-entry-variant') === 'b'; } catch(e){}
+  function entryDismissed(){
+    try { return sessionStorage.getItem('cg-entry-dismissed') === '1'; } catch(e){ return false; }
+  }
+  function applyEntryState(){
+    var d = entryDismissed();
+    var a = document.getElementById('cg-entry'); if(a) a.hidden = d || entryAlt;
+    var b = document.getElementById('cg-entry-alt'); if(b) b.hidden = d || !entryAlt;
+    var t = document.getElementById('entry-variant-tgl'); if(t) t.checked = entryAlt;
+  }
+  function toggleEntryVariant(){
+    entryAlt = !entryAlt;
+    try { sessionStorage.setItem('cg-entry-variant', entryAlt ? 'b' : 'a'); } catch(e){}
+    applyEntryState();
+  }
   function dismissEntry(){
     try { sessionStorage.setItem('cg-entry-dismissed', '1'); } catch(e){}
-    var el = document.getElementById('cg-entry'); if(el) el.hidden = true;
+    applyEntryState();
   }
-  try { if(sessionStorage.getItem('cg-entry-dismissed') === '1'){ var _ce = document.getElementById('cg-entry'); if(_ce) _ce.hidden = true; } } catch(e){}
+  applyEntryState();
 
   // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
   function guideLowestArea(){
