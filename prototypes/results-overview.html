@@ -2801,6 +2801,23 @@ ${focusView(d)}
 
     <div class="sp-body">
       <div class="rs-section">
+        <h3 class="rs-section-title">Result visibility</h3>
+        <p class="rs-section-desc">Controls who can see the results for this structure in the dashboard.</p>
+        <div class="rs-variant" id="rs-visibility">
+          <label class="tgl-info-wrap">
+            <span class="tgl-info-body">
+              <span class="tgl-info-label">Show results for this structure</span>
+              <span class="tgl-info-desc">When this is off, only Effectory employees can see these results. Coordinators and managers can't.</span>
+            </span>
+            <span class="tgl-wrap">
+              <input type="checkbox" class="tgl" checked />
+              <span class="tgl-track"><span class="tgl-thumb"></span></span>
+            </span>
+          </label>
+        </div>
+      </div><!-- /rs-section -->
+
+      <div class="rs-section">
       <h3 class="rs-section-title">Raw data file</h3>
       <p class="rs-section-desc">Only available for top-level groups. It won't be visible for lower-level groups in this structure.</p>
 
@@ -2837,31 +2854,6 @@ ${focusView(d)}
           </div>
         </div>`).join('')}
       </div>
-      </div><!-- /rs-section -->
-
-      <div class="rs-section">
-        <h3 class="rs-section-title">Result visibility</h3>
-        <p class="rs-section-desc">Controls who can see the results for this structure in the dashboard.</p>
-        <div class="rs-variant" id="rs-visibility">
-          <label class="tgl-info-wrap">
-            <span class="tgl-info-body">
-              <span class="tgl-info-label">Show results for this structure</span>
-              <span class="tgl-info-desc">When this is off, only Effectory employees can see these results. Coordinators and managers can't.</span>
-            </span>
-            <span class="tgl-wrap">
-              <input type="checkbox" class="tgl" checked />
-              <span class="tgl-track"><span class="tgl-thumb"></span></span>
-            </span>
-          </label>
-        </div>
-        <div class="inline-notif is-info is-one-liner rs-hidden-notice" hidden>
-          <img class="inline-notif-icon" src="assets/icons/notification-information.svg" alt="" />
-          <div class="inline-notif-content">
-            <span class="inline-notif-text">
-              <span class="inline-notif-msg">These results are hidden. Only Effectory employees can see them.</span>
-            </span>
-          </div>
-        </div>
       </div><!-- /rs-section -->
     </div><!-- /sp-body -->
 
@@ -3001,10 +2993,6 @@ function renderOverview(variant, initialView) {
         tgl.closest('.rs-variant').classList.toggle('is-on', tgl.checked);
       });
     });
-    /* Result visibility: switching it off leaves the results internal-only */
-    const visTgl = document.querySelector('#rs-visibility .tgl');
-    const visNotice = rspOverlay.querySelector('.rs-hidden-notice');
-    visTgl.addEventListener('change', () => { visNotice.hidden = visTgl.checked; });
   }
 
   /* Comparisons filter dropdown (effectiveness panel) */
