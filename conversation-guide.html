@@ -863,7 +863,21 @@
       border-radius: var(--radius-lg); box-shadow: var(--sh-card);
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
-    .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    .cg-entry .cg-entry-close, .cg-entry-aside .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+
+    /* Version 3: compact vertical card in the aside column, illustration above the content */
+    .cg-entry-aside {
+      position: relative; display: flex; flex-direction: column; align-items: flex-start;
+      gap: var(--spacing-base);
+      background: var(--bg-base); border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
+      padding: var(--spacing-loose); margin-top: var(--spacing-loose);
+    }
+    .cg-entry-aside[hidden] { display: none; }
+    .cg-entry-aside-illo { width: 150px; height: auto; align-self: center; }
+    .cg-entry-aside-title { margin: 0; display: flex; align-items: center; gap: var(--spacing-tight); font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
+    .cg-entry-aside-title i { flex-shrink: 0; width: 18px; height: 18px; display: flex; color: var(--content-brand); }
+    .cg-entry-aside-text { margin: 0; font-size: 13px; line-height: 1.6; color: var(--content-secondary); }
     /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
     .cg-entry[hidden] { display: none; }
     /* Variant 2: small conversational popup from the bottom right after 10 seconds */
@@ -1170,6 +1184,7 @@
           Entry card
           <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">1</button>
           <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">2</button>
+          <button class="btn btn-secondary" id="vbtn-d" onclick="setEntryVariant('d')">3</button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -1179,6 +1194,14 @@
             <span class="fv-eyebrow is-focus">What needs focus</span>
             <h2 class="fv-section-title">This is where your attention matters most</h2>
             <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
+            <!-- Entry card (version 3): compact card in the aside column -->
+            <div class="cg-entry-aside" id="cg-entry-aside" hidden>
+              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
+              <img class="cg-entry-aside-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
+              <h3 class="cg-entry-aside-title"><i data-icon="message"></i> Talk it through first</h3>
+              <p class="cg-entry-aside-text">Bring these results to your team before you decide. Your guide has a light agenda and the questions ready.</p>
+              <button class="btn btn-primary" onclick="openGuide()">View conversation guide</button>
+            </div>
           </div>
           <div class="fv-block-main">
             <!-- Entry card (version 1): right above the focus cards -->
@@ -2579,18 +2602,20 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry: two versions — 1 (b) card above the focus cards inside the
-  // What needs focus block, 2 (c) conversational popup 10 seconds after landing.
+  // Focus View entry: three versions — 1 (b) card above the focus cards inside the
+  // What needs focus block, 2 (c) conversational popup 10 seconds after landing,
+  // 3 (d) compact card in the aside column under the section description.
   // A prototype control switches versions; dismissals are remembered for the session.
   var entryVariant = 'b';
   try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'b'; } catch(e){}
-  if(['b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'b';
+  if(['b', 'c', 'd'].indexOf(entryVariant) === -1) entryVariant = 'b';
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
   function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
     var b = document.getElementById('cg-entry'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
+    var d = document.getElementById('cg-entry-aside'); if(d) d.hidden = entryDismissed() || entryVariant !== 'd';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
     if(pop && entryVariant !== 'c') pop.hidden = true;
@@ -2600,7 +2625,7 @@
         if(window.Icons) window.Icons.render(pop);
       }, 10000);
     }
-    ['b', 'c'].forEach(function(v){
+    ['b', 'c', 'd'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
       btn.classList.toggle('btn-primary', entryVariant === v);
       btn.classList.toggle('btn-secondary', entryVariant !== v);
