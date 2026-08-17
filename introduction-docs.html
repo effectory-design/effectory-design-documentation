@@ -1,244 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Introduction — Engage Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-
-    /* ── Hero ── */
-    .intro-hero {
-      padding: 80px 0 72px;
-      border-bottom: 1px solid var(--border-base);
-      margin-bottom: 60px;
-    }
-    .intro-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--bg-brand-subtle);
-      color: var(--content-brand);
-      font-size: 11px; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
-      margin-bottom: 28px;
-    }
-    .intro-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--bg-brand); display: inline-block;
-    }
-    .intro-hero h1 {
-      font-size: 48px; font-weight: 800; line-height: 1.1;
-      color: var(--content-base); letter-spacing: -.04em;
-      margin: 0 0 20px; max-width: 520px;
-    }
-    .intro-hero h1 em { font-style: normal; color: var(--content-brand); }
-    .intro-hero p {
-      font-size: 17px; color: var(--content-secondary);
-      line-height: 1.6; max-width: 440px; margin: 0 0 36px;
-    }
-    .intro-btns { display: flex; gap: 10px; }
-    .ibtn-primary {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--bg-brand); color: #fff;
-      padding: 11px 22px; border-radius: 8px;
-      font-size: 14px; font-weight: 600; text-decoration: none;
-      transition: opacity .15s;
-    }
-    .ibtn-primary:hover { opacity: .88; }
-    .ibtn-ghost {
-      display: inline-flex; align-items: center; gap: 7px;
-      color: var(--content-secondary);
-      padding: 11px 20px; border-radius: 8px;
-      font-size: 14px; font-weight: 500; text-decoration: none;
-      transition: color .15s, background .15s;
-    }
-    .ibtn-ghost:hover { color: var(--content-base); background: var(--bg-secondary); }
-
-    /* ── Section label ── */
-    .intro-sec-label {
-      font-size: 11px; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--content-secondary);
-      margin-bottom: 20px;
-    }
-
-    /* ── Category grid ── */
-    .intro-cat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 60px;
-    }
-    .cat-card {
-      display: flex; align-items: center; gap: 12px;
-      padding: 16px 16px; border-radius: 10px;
-      border: 1px solid var(--border-base);
-      text-decoration: none;
-      transition: border-color .15s, background .15s;
-    }
-    .cat-card:hover {
-      border-color: var(--border-action);
-      background: var(--bg-secondary);
-    }
-    .cat-dot {
-      width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .cat-card-name  { font-size: 13px; font-weight: 600; color: var(--content-base); }
-    .cat-card-count { font-size: 12px; color: var(--content-secondary); margin-top: 1px; }
-    .ci-amber  { background: #fff7ed; color: #c2410c; }
-    .ci-teal   { background: #e6faf9; color: #0a9d99; }
-    .ci-indigo { background: #eef2ff; color: #4f46e5; }
-    .ci-rose   { background: #fff1f2; color: #e11d48; }
-    .ci-green  { background: #ecfdf5; color: #059669; }
-    .ci-violet { background: #f5f3ff; color: #7c3aed; }
-    .ci-slate  { background: #f1f5f9; color: #475569; }
-
-    /* ── Getting started ── */
-    .intro-steps { display: flex; flex-direction: column; gap: 0; }
-    .intro-step {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border-base);
-    }
-    .intro-step:first-child { border-top: 1px solid var(--border-base); }
-    .step-num {
-      font-size: 12px; font-weight: 700; color: var(--content-brand);
-      min-width: 20px; padding-top: 1px; flex-shrink: 0;
-    }
-    .step-title { font-size: 14px; font-weight: 600; color: var(--content-base); margin-bottom: 3px; }
-    .step-desc  { font-size: 13px; color: var(--content-secondary); line-height: 1.6; }
-    .step-desc a { color: var(--content-brand); text-decoration: none; font-weight: 600; }
-    .step-desc a:hover { text-decoration: underline; }
-
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verhuisd · Introduction</title>
+<link rel="canonical" href="https://effectory-ux.github.io/Engage-Design-system-/introduction-docs.html" />
+<meta http-equiv="refresh" content="0; url=https://effectory-ux.github.io/Engage-Design-system-/introduction-docs.html" />
+<meta name="robots" content="noindex" />
+<script>location.replace("https://effectory-ux.github.io/Engage-Design-system-/introduction-docs.html" + location.hash);</script>
+<style>
+  body { margin:0; min-height:100vh; display:grid; place-items:center;
+         font-family:'Poppins',system-ui,sans-serif; color:#192743; background:#f8f8f9; }
+  .box { max-width:440px; padding:32px; text-align:center; }
+  h1 { font-size:20px; margin:0 0 8px; }
+  p { font-size:14px; line-height:1.6; color:#636f88; margin:0 0 16px; }
+  a { display:inline-block; padding:8px 16px; font-size:14px; font-weight:500;
+      color:#fff; background:#0a9d99; border-radius:6px; text-decoration:none; } /* radius-exempt: standalone redirect page, loads no tokens */
+</style>
 </head>
 <body>
-<div id="topnav-placeholder"></div>
-<div class="shell">
-<div id="sidebar-placeholder"></div>
-<div class="content-wrap" style="max-width:820px;">
-
-  <!-- Hero -->
-  <div class="intro-hero">
-    <div class="intro-badge">v1.4.0</div>
-    <h1>The design system<br>powering <em>Engage</em>.</h1>
-    <p>Components, tokens, and guidelines — connecting every Figma decision to a production Angular component.</p>
-    <div class="intro-btns">
-      <a href="colors-docs.html" class="ibtn-primary">
-        Explore foundations
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="button-docs.html" class="ibtn-ghost">
-        Browse components →
-      </a>
-    </div>
+  <div class="box">
+    <h1>De documentatie is verhuisd</h1>
+    <p>Het Engage design system staat nu in de effectory-ux organisatie. Je wordt
+       automatisch doorgestuurd; gebeurt dat niet, gebruik dan de knop.</p>
+    <a href="https://effectory-ux.github.io/Engage-Design-system-/introduction-docs.html">Naar Introduction</a>
   </div>
-
-  <!-- Components -->
-  <div class="intro-sec-label">Components</div>
-  <div class="intro-cat-grid">
-
-    <a class="cat-card" href="button-docs.html">
-      <div class="cat-dot ci-amber">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="16" height="8" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Buttons</div>
-        <div class="cat-card-count">5 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="segmented-control-docs.html">
-      <div class="cat-dot ci-teal">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="16" height="8" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M7 5v8M11 5v8" stroke="currentColor" stroke-width="1.5"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Navigation</div>
-        <div class="cat-card-count">6 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="text-field-docs.html">
-      <div class="cat-dot ci-indigo">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1" y="5" width="16" height="8" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13.5 7.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".5"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Forms</div>
-        <div class="cat-card-count">10 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="alert-docs.html">
-      <div class="cat-dot ci-rose">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 6v4M9 12v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Feedback</div>
-        <div class="cat-card-count">7 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="table-docs.html">
-      <div class="cat-dot ci-green">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 7h16M1 11h16M6 7v8M12 7v8" stroke="currentColor" stroke-width="1.2" opacity=".6"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Data display</div>
-        <div class="cat-card-count">8 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="dropdown-menu-docs.html">
-      <div class="cat-dot ci-violet">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="3" y="1" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h6M6 9h6M6 12h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".7"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Overlays</div>
-        <div class="cat-card-count">4 components</div>
-      </div>
-    </a>
-
-    <a class="cat-card" href="container-docs.html">
-      <div class="cat-dot ci-slate">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="4" width="4" height="4" rx="1" fill="currentColor" opacity=".3"/><rect x="10" y="4" width="4" height="4" rx="1" fill="currentColor" opacity=".3"/><rect x="4" y="10" width="10" height="4" rx="1" fill="currentColor" opacity=".2"/></svg>
-      </div>
-      <div>
-        <div class="cat-card-name">Layout</div>
-        <div class="cat-card-count">4 components</div>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Getting started -->
-  <div class="intro-sec-label">Getting started</div>
-  <div class="intro-steps">
-    <div class="intro-step">
-      <div class="step-num">01</div>
-      <div>
-        <div class="step-title">Read the Design Principles</div>
-        <div class="step-desc">The <a href="design-principles-docs.html">Design Principles</a> explain the values behind the system — the tiebreaker when two valid options exist.</div>
-      </div>
-    </div>
-    <div class="intro-step">
-      <div class="step-num">02</div>
-      <div>
-        <div class="step-title">Learn the token system</div>
-        <div class="step-desc">Spend 10 minutes with <a href="colors-docs.html">Colors</a> and <a href="spacing-docs.html">Spacing</a>. Understanding semantic tokens makes every component page much easier to read.</div>
-      </div>
-    </div>
-    <div class="intro-step">
-      <div class="step-num">03</div>
-      <div>
-        <div class="step-title">Open any component</div>
-        <div class="step-desc">Each page has a <strong>Design tab</strong> and a <strong>Developer tab</strong> with live playground, Angular API, and copy-ready code. A <strong>⚠ Figma gap</strong> callout marks anything not yet built.</div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /content-wrap -->
-</div><!-- /shell -->
-<script src="nav.js"></script>
 </body>
 </html>
