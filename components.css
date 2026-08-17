@@ -1490,7 +1490,7 @@ input[type="checkbox"].tgl.is-disabled + .tgl-track {
 }
 .tgl-info-body { display: flex; flex-direction: column; gap: 2px; }
 .tgl-info-label {
-  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600;
   line-height: 1.5; color: var(--content-base);
 }
 .tgl-info-desc {
