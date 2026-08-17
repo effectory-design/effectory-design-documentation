@@ -2012,12 +2012,13 @@
     var q = cfg.data[idx];
     var id = which + '-sc-' + idx;
     var t = scoreTargets.find(function(x){ return x.id === id; });
+    var decided = !!(t && faDecided(t));
     if(!t){
       var keys = Object.keys(RECO);
       t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, isHigh: (which === 'high'), recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
-    openStepDialog(id);
+    if(decided){ openPlanPanelAdd(id); } else { openStepDialog(id); }
   }
   document.addEventListener('click', function(e){
     if(e.target.closest && e.target.closest('.sc-pin-wrap')) return;
@@ -2230,12 +2231,13 @@
     which = which || 'low';
     var id = which + '-emb-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
     var t = scoreTargets.find(function(x){ return x.id === id; });
+    var decided = !!(t && faDecided(t));   // already responded/pinned → edit in the side panel, not the dialog
     if(!t){
       var keys = Object.keys(RECO);
       t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), isHigh: (which === 'high'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
-    openStepDialog(id);
+    if(decided){ openPlanPanelAdd(id); } else { openStepDialog(id); }
   }
 
   // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
