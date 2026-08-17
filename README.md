@@ -1,42 +1,55 @@
 # effectory-design-documentation
 
+De naam dekt de lading niet meer. Het design system en alle documentatie zijn
+verhuisd naar **[effectory-ux/Engage-Design-system-](https://github.com/effectory-ux/Engage-Design-system-)**;
+wat hier nog staat zijn een handvol prototypes en de doorverwijzingen naar hun
+nieuwe plek.
+
+## Wat hier nog leeft
+
+| | |
+|---|---|
+| `prototypes/` | results dashboard (2), my-effectory-home, BambooHR-integratie, approach picker, announcement playground |
+| root | `action-center-manager*.html` (4), `conversation-guide.html`, `ac-overview-embed.html` |
+| bouwstenen | `tokens.css`, `foundation.css`, `components.css`, `icons.js`, `assets/`, en `effectiveness.js` + `.css` + `i18n.js` voor het embed-fragment |
+
+Die bouwstenen zijn kopieën uit het design system. Ze staan hier omdat de
+prototypes hierboven ze uit de repo-root laden. Weghalen breekt ze.
+
+## Waar de rest heen is
+
+| Was hier | Staat nu |
+|---|---|
+| design system, docs, skill | [effectory-ux/Engage-Design-system-](https://effectory-ux.github.io/Engage-Design-system-/) |
+| group linking (5 varianten) | [effectory-ux/group-linking](https://effectory-ux.github.io/group-linking/) |
+| GTMA before/after (24 schermen) | [effectory-ux/gtma](https://effectory-ux.github.io/gtma/) |
+
+Alle oude URL's blijven werken: op elk oud pad staat een pagina die doorstuurt,
+inclusief de hash, dus ook een diepe link naar een specifiek scherm komt goed
+terecht.
+
+Een overzicht van alle prototypes van het team staat in de
+**[galerij](https://effectory-ux.github.io/prototypes/)**.
+
+## Werken aan het design system
+
+Niet hier, maar in een kloon van de nieuwe repo:
+
+```bash
+git clone https://github.com/effectory-ux/Engage-Design-system-.git
+```
+
+Daar staan `skill-source/`, `build-tokens.py` en `release-skill.sh`, en daar horen
+de conventies uit `CLAUDE.md` bij.
+
 ## Contributor setup
 
-After cloning, enable the versioned git hooks once:
+Na het klonen eenmalig de hooks aanzetten:
 
 ```bash
 git config core.hooksPath .githooks
 ```
 
-This activates the **pre-commit guard against inline SVG icons** in `*-docs.html`
-and `index.html` — per CLAUDE.md §14, icons must use `<i data-icon="name">` from
-the library. The hook silently allows:
-
-- Do/Don't tick SVGs (`fill="#16a34a"` / `fill="#dc2626"`)
-- Tab bar icons inside `<button class="page-tab">`
-- Anything preceded by `<!-- icon-exempt: reason -->`
-
-If you genuinely need a decorative inline SVG, annotate it:
-
-```html
-<!-- icon-exempt: callout line in anatomy figure -->
-<svg ...>...</svg>
-```
-
-## Releasing the skill
-
-The skill is distributed as a single rolling GitHub release, **`skill-latest`**, whose download URL never changes and always serves the newest build:
-
-```
-https://github.com/effectory-ux/Engage-Design-system-/releases/download/skill-latest/effectory-design-system.zip
-```
-
-**Versioning.** The version lives in the root `VERSION` file (single source of truth). Bump it when you ship changes (e.g. `1.0.0` → `1.0.1`). The number is stamped into the bundle (`VERSION` + the `**Version:**` line in `SKILL.md`), shown in the build output, and used as the GitHub release title — so you always know which version you're uploading/using.
-
-**Publish a new build** (rebuilds the bundle and refreshes the `skill-latest` asset + title):
-
-```bash
-./release-skill.sh
-```
-
-**Automate it (optional).** `ci/release-skill.yml.example` is a GitHub Action that does the same on every push to `main`. To enable it, move it to `.github/workflows/release-skill.yml` (needs a token with the `workflow` scope, or add the file via the GitHub web UI).
+Die bewaken inline SVG-iconen, de type-schaal en radius-tokens. Zie de hook zelf
+voor de uitzonderingen (`<!-- icon-exempt: … -->`, `/* font-scale-exempt: … */`,
+`/* radius-exempt: … */`).
