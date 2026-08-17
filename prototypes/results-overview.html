@@ -78,7 +78,14 @@
       padding-left: var(--results-side);
       padding-right: var(--results-side);
     }
-    .results-title { margin: 0 0 var(--spacing-base); cursor: pointer; width: fit-content; }
+    /* Title row: survey name left, header actions pinned right */
+    .results-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--spacing-base);
+    }
+    .results-title { margin: 0 0 var(--spacing-base); width: fit-content; }
     .results-filters {
       display: flex;
       align-items: center;
@@ -150,6 +157,44 @@
     .tt-demo:hover .tooltip,
     .tt-demo:focus-within .tooltip {
       opacity: 1;
+    }
+
+    /* ════ Result settings panel (CSM) ════ */
+    .rs-section-title {
+      margin: 0 0 var(--spacing-extra-tight);
+      font-size: 16px; font-weight: 600; color: var(--content-base);
+    }
+    .rs-section-desc {
+      margin: 0 0 var(--spacing-base);
+      font-size: 14px; color: var(--content-secondary);
+    }
+    .rs-variants { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
+    .rs-variant {
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    /* Toggle row — DS toggle-with-description, but the switch sits right (per design) */
+    .rs-variant .tgl-info-wrap {
+      justify-content: space-between;
+      padding: var(--spacing-base);
+    }
+    .rs-variant.is-on .tgl-info-wrap { background: var(--bg-secondary); }
+    .rs-variant .tgl-wrap { margin-top: 0; }
+    /* Detail block, revealed when the variant is switched on */
+    .rs-detail {
+      border-top: 1px solid var(--border-base);
+      padding: var(--spacing-loose);
+      display: flex; flex-direction: column; gap: var(--spacing-loose);
+    }
+    .rs-variant:not(.is-on) .rs-detail { display: none; }
+    .rs-note {
+      margin: 0;
+      font-size: 14px; font-style: italic; color: var(--content-secondary);
+    }
+    .rs-access-label {
+      display: block; margin-bottom: var(--spacing-tight);
+      font-size: 14px; font-weight: 600; color: var(--content-base);
     }
 
     /* ════ Effectiveness (kwadrant) ════ */
@@ -2265,7 +2310,13 @@ function shell(d) {
     <div class="main-scroll">
 
       <div class="results-head">
-        <h1 class="text-l3 results-title">${d.surveyName}</h1>
+        <div class="results-title-row">
+          <h1 class="text-l3 results-title">${d.surveyName}</h1>
+          <div class="tt-demo">
+            <button class="ib ib-36 ib-secondary" id="rsp-open" type="button" aria-label="CSM result settings"><i data-icon="clipboard-settings"></i></button>
+            <div class="tooltip is-above">CSM result settings</div>
+          </div>
+        </div>
         <div class="results-filters">
           <button class="sel-btn" id="hdr-filter" type="button">
             <i data-icon="filter"></i>
@@ -2735,6 +2786,63 @@ ${focusView(d)}
     </div><!-- /sp-body -->
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
+
+<!-- ════ Result settings (CSM-only) ════ -->
+<div class="overlay is-right" id="rsp-overlay" hidden>
+  <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="rsp-title">
+    <div class="sp-header">
+      <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="rsp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
+      <div class="sp-heading">
+        <h2 class="sp-title" id="rsp-title">Result settings</h2>
+        <p class="sp-subtitle">Settings below apply to the current structure: <strong>${d.groupName}</strong></p>
+      </div>
+    </div>
+
+    <div class="sp-body">
+      <h3 class="rs-section-title">Raw data file</h3>
+      <p class="rs-section-desc">Only available for top-level groups. It won't be visible for lower-level groups in this structure.</p>
+
+      <div class="rs-variants">
+        ${[
+          { id: 'a', title: 'Share variant A: anonymized',     desc: 'Standard anonymized survey results. A DPA clause isn&rsquo;t required.',        on: true,  note: 'No additional data available for this variant' },
+          { id: 'b', title: 'Share variant B: pseudonymized',  desc: 'Extends variant A by placing respondents in their original group. Requires a DPA clause.', on: false, note: '' },
+          { id: 'c', title: 'Share variant C: non-anonymized', desc: 'Includes employee IDs, so respondents can be identified. Requires a DPA clause.', on: false, note: '' }
+        ].map(v => `
+        <div class="rs-variant ${v.on ? 'is-on' : ''}" data-variant="${v.id}">
+          <label class="tgl-info-wrap">
+            <span class="tgl-info-body">
+              <span class="tgl-info-label">${v.title}</span>
+              <span class="tgl-info-desc">${v.desc}</span>
+            </span>
+            <span class="tgl-wrap">
+              <input type="checkbox" class="tgl" ${v.on ? 'checked' : ''} />
+              <span class="tgl-track"><span class="tgl-thumb"></span></span>
+            </span>
+          </label>
+          <div class="rs-detail">
+            ${v.note ? `<p class="rs-note">${v.note}</p>` : ''}
+            <div>
+              <span class="rs-access-label">Access to raw data file</span>
+              <div class="rb-group">
+                <label class="rb-label-wrap">
+                  <span class="rb-wrap"><input type="radio" class="rb" name="rs-access-${v.id}" checked /></span>Only internal (Effectory employees)
+                </label>
+                <label class="rb-label-wrap">
+                  <span class="rb-wrap"><input type="radio" class="rb" name="rs-access-${v.id}" /></span>Internal and central coordinators
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div><!-- /sp-body -->
+
+    <div class="sp-footer">
+      <button class="btn btn-secondary" id="rsp-cancel" type="button">Cancel</button>
+      <button class="btn btn-primary" id="rsp-save" type="button">Save settings</button>
+    </div>
+  </div><!-- /sidepanel -->
+</div><!-- /overlay -->
 `;
 }
 
@@ -2849,6 +2957,24 @@ function renderOverview(variant, initialView) {
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
   wirePanel('npsp-overlay', 'npsp-close', '.nps-card');
 
+  /* Result settings panel — opened from the header icon button, not a card */
+  const rspOverlay = document.getElementById('rsp-overlay');
+  if (rspOverlay) {
+    const closeRsp = () => { rspOverlay.hidden = true; };
+    document.getElementById('rsp-open').addEventListener('click', () => { rspOverlay.hidden = false; });
+    document.getElementById('rsp-close').addEventListener('click', closeRsp);
+    document.getElementById('rsp-cancel').addEventListener('click', closeRsp);
+    document.getElementById('rsp-save').addEventListener('click', closeRsp);
+    rspOverlay.addEventListener('click', (e) => { if (e.target === rspOverlay) closeRsp(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !rspOverlay.hidden) closeRsp(); });
+    /* Switching a variant on reveals its access settings */
+    rspOverlay.querySelectorAll('.rs-variant .tgl').forEach(tgl => {
+      tgl.addEventListener('change', () => {
+        tgl.closest('.rs-variant').classList.toggle('is-on', tgl.checked);
+      });
+    });
+  }
+
   /* Comparisons filter dropdown (effectiveness panel) */
   const cmpBtn = document.getElementById('efp-cmp-btn');
   const cmpMenu = document.getElementById('efp-filter');
@@ -2889,20 +3015,8 @@ function renderOverview(variant, initialView) {
     if (ft) ft.click();
   }
 
-  /* Header filter: toggle between team level (Team IT) and organization level (Novanta),
-     keeping the survey period (before/after) and the active view (overview/focus). */
-  const hdrFilter = document.getElementById('hdr-filter');
-  if (hdrFilter) {
-    hdrFilter.addEventListener('click', () => {
-      const period = variant.endsWith('-before') ? 'before' : 'after';
-      const group = variant.startsWith('novanta') ? 'team-it' : 'novanta';
-      const activeTab = document.querySelector('.tab.is-active[data-view]');
-      const view = activeTab ? activeTab.dataset.view : 'overview';
-      location.href = `${group}-${period}-${view}.html`;
-    });
-  }
-
-  /* Survey name / date range: switch survey period (Q2 <-> Q3), keeping group + view */
+  /* The survey name and the group filter are plain labels — neither navigates away.
+     The date range still switches the survey period (Q2 <-> Q3), keeping group + view. */
   const switchPeriod = () => {
     const group = variant.startsWith('novanta') ? 'novanta' : 'team-it';
     const targetPeriod = variant.endsWith('-before') ? 'after' : 'before';
@@ -2910,7 +3024,6 @@ function renderOverview(variant, initialView) {
     const view = activeTab ? activeTab.dataset.view : 'overview';
     location.href = `${group}-${targetPeriod}-${view}.html`;
   };
-  document.querySelector('.results-title')?.addEventListener('click', switchPeriod);
   document.querySelector('.date-range')?.addEventListener('click', switchPeriod);
 
   /* Focus View: 'Explore' opens the effectiveness side panel */
