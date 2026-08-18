@@ -867,8 +867,32 @@
     /* Version 3: same card, full width between At first glance and What needs focus.
        The band is wide enough for the supporting line to sit on one line, so the 60ch
        cap is lifted here — otherwise it wraps and leaves a gap before the illustration. */
-    .cg-entry-band { margin-bottom: var(--spacing-loose); }
+    .cg-entry-band { position: relative; overflow: hidden; margin-bottom: var(--spacing-loose); }
     .cg-entry-band .cg-entry-text { max-width: none; }
+    /* The artwork is a decorative layer bleeding off the right edge instead of a boxed
+       image, so there is no white gap between the copy and the illustration. A soft tint
+       behind it and a fade on its left edge blend it into the card surface. */
+    .cg-entry-band::after {
+      content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 46%;
+      background: linear-gradient(to right, transparent, color-mix(in srgb, var(--bg-info-subtle) 75%, transparent));
+      pointer-events: none;
+    }
+    .cg-entry-band .cg-entry-main { position: relative; z-index: 2; max-width: calc(100% - 200px); }
+    .cg-entry-band .cg-entry-close { z-index: 3; }
+    .cg-entry-band .cg-entry-illo {
+      /* Scaled past the card height and bottom anchored, so the artwork reads large and
+         bleeds off the top edge instead of sitting boxed inside the card. */
+      position: absolute; z-index: 1; top: auto; bottom: 0; right: 0; width: 38%;
+      height: 115%; object-fit: contain; object-position: right bottom;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+      mask-image: linear-gradient(to right, transparent, #000 45%);
+      pointer-events: none;
+    }
+    /* Narrow viewports: drop the artwork so it never sits under the copy */
+    @media (max-width: 900px) {
+      .cg-entry-band::after, .cg-entry-band .cg-entry-illo { display: none; }
+      .cg-entry-band .cg-entry-main { max-width: none; }
+    }
 
     /* Version 4: guide nudge inside the stepper success screen. Stacked, because the
        modal column is too narrow for a side-by-side illustration and readable copy. */
