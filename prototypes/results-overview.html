@@ -214,13 +214,14 @@
     .flt-count.is-hidden, .flt-count.is-hidden i { color: var(--content-info); }
 
     /* A structure whose results the CSM has hidden */
-    .flt-hidden-mark {
-      display: inline-flex; align-items: center; gap: var(--spacing-extra-tight);
-      font-size: 12px; color: var(--content-info);
+    .flt-sub { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); }
+    .flt-sub i { display: flex; width: 14px; height: 14px; }
+    .menu-item-sub.is-hidden, .menu-item-sub.is-hidden i { color: var(--content-info); }
+    .flt-btn-hidden {
+      display: flex; width: 16px; height: 16px; flex: none;
+      color: var(--content-info);
     }
-    .flt-hidden-mark i { display: flex; width: 16px; height: 16px; }
-    .flt-struct-wrap .sel-btn .flt-hidden-mark { margin-left: auto; }
-    .menu-item .flt-hidden-mark { margin-left: var(--spacing-tight); }
+    .flt-btn-hidden[hidden] { display: none; }
     .flt-vh {
       position: absolute; width: 1px; height: 1px; overflow: hidden;
       clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
@@ -2879,6 +2880,7 @@ ${focusView(d)}
           <button class="sel-btn is-filled" id="flt-struct-btn" type="button" aria-haspopup="true" aria-expanded="false">
             <i data-icon="structure" id="flt-struct-icon"></i>
             <span class="sel-btn-value" id="flt-struct-name">Organizational structure</span>
+            <i data-icon="eye-off" class="flt-btn-hidden" id="flt-struct-hidden" aria-hidden="true" hidden></i>
             <i data-icon="chevron-down"></i>
           </button>
           <div class="menu" id="flt-struct-menu" role="menu" hidden>
@@ -2890,7 +2892,10 @@ ${focusView(d)}
             <div class="menu-item${i === 0 ? ' is-selected' : ''}" role="menuitemradio"
                  aria-checked="${i === 0 ? 'true' : 'false'}" data-struct="${st.id}" data-icon-name="${st.icon}">
               <i data-icon="${st.icon}" class="menu-item-icon"></i>
-              <span class="menu-item-body"><span class="menu-item-title">${st.name}</span></span>
+              <span class="menu-item-body">
+                <span class="menu-item-title">${st.name}</span>
+                <span class="menu-item-sub"></span>
+              </span>
               ${i === 0 ? '<i data-icon="check" class="menu-item-check"></i>' : ''}
             </div>`).join('')}
           </div>
@@ -3191,25 +3196,23 @@ function renderOverview(variant, initialView) {
   const structNames = { org: 'Organizational structure', loc: 'Location', job: 'Job family' };
   const hiddenStructs = { org: false, loc: false, job: false };
 
-  /* Mark hidden structures in the picker — on the button and on every menu item */
-  const mark = (host, on) => {
-    const existing = host.querySelector('.flt-hidden-mark');
-    if (on && !existing) {
-      const el = document.createElement('span');
-      el.className = 'flt-hidden-mark';
-      el.innerHTML = '<i data-icon="eye-off" aria-hidden="true"></i>Hidden';
-      host.appendChild(el);
-      if (window.Icons) window.Icons.render(el);
-    } else if (!on && existing) { existing.remove(); }
-  };
+  /* Every structure carries a subtitle: its group count, or that it's hidden */
   const syncHidden = () => {
     const btn = document.getElementById('flt-struct-btn');
     if (!btn) return;
-    mark(btn, hiddenStructs[struct]);
+    document.getElementById('flt-struct-hidden').hidden = !hiddenStructs[struct];
     document.querySelectorAll('#flt-struct-menu .menu-item').forEach(mi => {
-      mark(mi, hiddenStructs[mi.dataset.struct]);
+      const sid = mi.dataset.struct;
+      const off = hiddenStructs[sid];
+      const groups = document.querySelectorAll('.flt-row[data-struct="' + sid + '"][data-parent]:not([data-parent=""])').length;
+      const sub = mi.querySelector('.menu-item-sub');
+      sub.classList.toggle('is-hidden', off);
+      sub.innerHTML = off
+        ? '<span class="flt-sub"><i data-icon="eye-off" aria-hidden="true"></i>Results hidden</span>'
+        : groups + ' groups';
+      if (off && window.Icons) window.Icons.render(sub);
       const name = mi.querySelector('.menu-item-title').textContent;
-      mi.setAttribute('aria-label', hiddenStructs[mi.dataset.struct] ? name + ', results hidden' : name);
+      mi.setAttribute('aria-label', off ? name + ', results hidden' : name);
     });
   };
 
@@ -3239,6 +3242,7 @@ function renderOverview(variant, initialView) {
       refresh();
     };
     refresh();   /* markup ships collapsed; let the open-state decide what shows */
+    syncHidden();
     rows.forEach(row => {
       const caret = row.querySelector('.flt-caret');
       if (caret) caret.addEventListener('click', (e) => {
