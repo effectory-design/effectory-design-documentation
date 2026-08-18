@@ -159,6 +159,58 @@
       opacity: 1;
     }
 
+    /* ════ Filter results panel ════ */
+    .flt-toolbar {
+      display: flex; gap: var(--spacing-base-tight);
+      margin-bottom: var(--spacing-base);
+    }
+    .flt-toolbar .sel-btn, .flt-toolbar .search-wrap { flex: 1; min-width: 0; }
+    .flt-toolbar .sel-btn { justify-content: flex-start; }
+    .flt-toolbar .sel-btn .sel-btn-value { margin-right: auto; }
+
+    .flt-row {
+      display: flex; align-items: center; gap: var(--spacing-base-tight);
+      min-height: 64px; padding: var(--spacing-tight) var(--spacing-base-tight);
+      border-top: 1px solid var(--border-base);
+      cursor: pointer;
+    }
+    /* author display beats the UA [hidden] rule, so restate it */
+    .flt-row[hidden] { display: none; }
+    .flt-row:last-child { border-bottom: 1px solid var(--border-base); }
+    .flt-row:hover { background: var(--bg-secondary); }
+    .flt-row.is-selected { background: var(--bg-brand-subtle); border-color: transparent; }
+    .flt-row.is-selected + .flt-row { border-top-color: transparent; }
+    /* Child rows indent one step per level below the root */
+    .flt-row[data-level="2"] { padding-left: calc(var(--spacing-base-tight) + var(--spacing-base)); }
+    .flt-row[data-level="3"] { padding-left: calc(var(--spacing-base-tight) + var(--spacing-loose)); }
+
+    .flt-caret {
+      display: flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; flex: none;
+      padding: 0; border: 0; background: none; cursor: pointer;
+      color: var(--content-base);
+    }
+    .flt-caret i { display: flex; width: 16px; height: 16px; transition: transform var(--motion-fast) var(--ease-out); }
+    .flt-row.is-open > .flt-caret i { transform: rotate(90deg); }
+    .flt-caret-spacer { width: 20px; flex: none; }
+
+    .flt-row-body { display: flex; flex-direction: column; gap: 2px; margin-right: auto; min-width: 0; }
+    .flt-row-name { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .flt-row-level { font-size: 12px; color: var(--content-secondary); }
+
+    .flt-count {
+      display: flex; align-items: center; gap: var(--spacing-extra-tight);
+      font-size: 14px; color: var(--content-base);
+    }
+    .flt-count i { display: flex; width: 16px; height: 16px; color: var(--content-secondary); }
+    /* Below the anonymity threshold: results stay hidden */
+    .flt-count.is-hidden, .flt-count.is-hidden i { color: var(--content-info); }
+
+    .flt-empty {
+      padding: var(--spacing-extra-loose) 0;
+      font-size: 14px; color: var(--content-secondary); text-align: center;
+    }
+
     /* ════ Result settings panel (CSM) ════ */
     .rs-section-title {
       margin: 0 0 var(--spacing-extra-tight);
@@ -2789,6 +2841,84 @@ ${focusView(d)}
   </div><!-- /sidepanel -->
 </div><!-- /overlay -->
 
+<!-- ════ Filter results ════ -->
+<div class="overlay is-right" id="flt-overlay" hidden>
+  <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="flt-title">
+    <div class="sp-header">
+      <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="flt-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
+      <div class="sp-heading"><h2 class="sp-title" id="flt-title">Filter results</h2></div>
+      <div class="sp-tabs">
+        <a class="sp-tab is-active"><i data-icon="group"></i> Groups</a>
+        <a class="sp-tab"><i data-icon="filter"></i> Advanced filters</a>
+      </div>
+    </div>
+
+    <div class="sp-body">
+      <div class="flt-toolbar">
+        <button class="sel-btn is-filled" type="button">
+          <i data-icon="building"></i>
+          <span class="sel-btn-value">Organizational structure</span>
+          <i data-icon="chevron-down"></i>
+        </button>
+        <div class="search-wrap">
+          <span class="search-icon"><i data-icon="search"></i></span>
+          <input type="search" class="srch" id="flt-search" placeholder="Search" />
+        </div>
+      </div>
+
+      <div class="flt-groups" id="flt-groups">
+        ${[
+          { id: 'novanta', name: 'Novanta B.V.',              level: 1, n: 632, open: true },
+          { id: 'cs',      name: 'Customer Success',          level: 2, n: 120, parent: 'novanta' },
+          { id: 'fin',     name: 'Finance',                   level: 2, n: 24,  parent: 'novanta' },
+          { id: 'hr',      name: 'Human Resources',           level: 2, n: 4,   parent: 'novanta' },
+          { id: 'mkt',     name: 'Marketing',                 level: 2, n: 60,  parent: 'novanta' },
+          { id: 'ops',     name: 'Operations',                level: 2, n: 152, parent: 'novanta' },
+          { id: 'prd',     name: 'Product',                   level: 2, n: 40,  parent: 'novanta' },
+          { id: 'sls',     name: 'Sales',                     level: 2, n: 76,  parent: 'novanta' },
+          { id: 'it',      name: 'Team IT',                   level: 2, n: 156, parent: 'novanta', selected: true },
+          { id: 'it-cloud',name: 'Cloud Operations Team',     level: 3, n: 28,  parent: 'it' },
+          { id: 'it-cyber',name: 'Cybersecurity Team',        level: 3, n: 22,  parent: 'it' },
+          { id: 'it-help', name: 'Help Desk / IT Support',    level: 3, n: 46,  parent: 'it' },
+          { id: 'it-infra',name: 'Infrastructure Team',       level: 3, n: 30,  parent: 'it' },
+          { id: 'it-net',  name: 'Network Team',              level: 3, n: 4,   parent: 'it' },
+          { id: 'it-sys',  name: 'Systems Administration Team',level: 3, n: 26, parent: 'it' }
+        ].map((g, i, all) => {
+          const hasKids = all.some(o => o.parent === g.id);
+          /* Under the anonymity threshold the group's results stay hidden */
+          const hidden = g.n < 5;
+          return `
+        <div class="flt-row${g.selected ? ' is-selected' : ''}${g.open ? ' is-open' : ''}"
+             data-id="${g.id}" data-level="${g.level}" data-parent="${g.parent || ''}"
+             role="radio" aria-checked="${g.selected ? 'true' : 'false'}" tabindex="0"
+             ${g.parent && g.parent !== 'novanta' ? 'hidden' : ''}>
+          ${hasKids
+            ? `<button class="flt-caret" type="button" aria-label="Show groups in ${g.name}"><i data-icon="chevron-right"></i></button>`
+            : `<span class="flt-caret-spacer"></span>`}
+          <span class="flt-row-body">
+            <span class="flt-row-name">${g.name}</span>
+            <span class="flt-row-level">Level ${g.level}</span>
+          </span>
+          <span class="flt-count${hidden ? ' is-hidden' : ''}">
+            <span>${g.n}</span><i data-icon="${hidden ? 'eye-off' : 'users'}"></i>
+          </span>
+          <span class="rb-wrap">
+            <input type="radio" class="rb" name="flt-group" tabindex="-1" ${g.selected ? 'checked' : ''} />
+          </span>
+        </div>`;
+        }).join('')}
+        <p class="flt-empty" id="flt-empty" hidden>No groups match your search</p>
+      </div>
+    </div><!-- /sp-body -->
+
+    <div class="sp-footer">
+      <button class="btn btn-primary" id="flt-apply" type="button">View results</button>
+    </div>
+  </div><!-- /sidepanel -->
+</div><!-- /overlay -->
+
+<div class="sysnotif-stack" id="sysnotif-stack"></div>
+
 <!-- ════ Result settings (CSM-only) ════ -->
 <div class="overlay is-right" id="rsp-overlay" hidden>
   <div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="rsp-title">
@@ -2978,6 +3108,82 @@ function renderOverview(variant, initialView) {
   wirePanel('engp-overlay', 'engp-close', '.eng-card');
   wirePanel('npsp-overlay', 'npsp-close', '.nps-card');
 
+  /* Small helper: show a system notification top-right, auto-dismissing */
+  const notify = (title, desc) => {
+    const stack = document.getElementById('sysnotif-stack');
+    if (!stack) return;
+    const n = document.createElement('div');
+    n.className = 'sysnotif';
+    n.setAttribute('role', 'status');
+    n.innerHTML = `<div class="sysnotif-title">${title}</div>`
+      + (desc ? `<div class="sysnotif-desc">${desc}</div>` : '')
+      + `<button class="sysnotif-close" aria-label="Dismiss"><i data-icon="cross"></i></button>`;
+    stack.appendChild(n);
+    if (window.Icons) window.Icons.render(n);
+    const drop = () => n.remove();
+    n.querySelector('.sysnotif-close').addEventListener('click', drop);
+    setTimeout(drop, 5000);
+  };
+
+  /* Filter results panel — opened from the header filter button */
+  const fltOverlay = document.getElementById('flt-overlay');
+  if (fltOverlay) {
+    const closeFlt = () => { fltOverlay.hidden = true; };
+    document.getElementById('hdr-filter').addEventListener('click', () => { fltOverlay.hidden = false; });
+    document.getElementById('flt-close').addEventListener('click', closeFlt);
+    fltOverlay.addEventListener('click', (e) => { if (e.target === fltOverlay) closeFlt(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !fltOverlay.hidden) closeFlt(); });
+
+    const rows = [...fltOverlay.querySelectorAll('.flt-row')];
+    const kidsOf = (id) => rows.filter(r => r.dataset.parent === id);
+
+    /* A row shows only when every ancestor above it is expanded */
+    const byId = Object.fromEntries(rows.map(r => [r.dataset.id, r]));
+    const refresh = () => rows.forEach(r => {
+      let p = byId[r.dataset.parent], show = true;
+      while (p) { if (!p.classList.contains('is-open')) { show = false; break; } p = byId[p.dataset.parent]; }
+      r.hidden = !show;
+    });
+    const setOpen = (row, open) => { row.classList.toggle('is-open', open); refresh(); };
+    rows.forEach(row => {
+      const caret = row.querySelector('.flt-caret');
+      if (caret) caret.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setOpen(row, !row.classList.contains('is-open'));
+      });
+      const pick = () => {
+        rows.forEach(r => { r.classList.remove('is-selected'); r.setAttribute('aria-checked', 'false'); });
+        row.classList.add('is-selected');
+        row.setAttribute('aria-checked', 'true');
+        row.querySelector('.rb').checked = true;
+      };
+      row.addEventListener('click', pick);
+      row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+    });
+
+    /* Search looks through the whole tree, so matches deeper down surface too */
+    const search = document.getElementById('flt-search');
+    const empty = document.getElementById('flt-empty');
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      if (!q) { refresh(); empty.hidden = true; return; }
+      let hits = 0;
+      rows.forEach(r => {
+        const match = r.querySelector('.flt-row-name').textContent.toLowerCase().includes(q);
+        r.hidden = !match;
+        if (match) hits++;
+      });
+      empty.hidden = hits > 0;
+    });
+
+    document.getElementById('flt-apply').addEventListener('click', () => {
+      const picked = fltOverlay.querySelector('.flt-row.is-selected .flt-row-name');
+      const chip = document.querySelector('#hdr-filter .sel-btn-value');
+      if (picked && chip) chip.textContent = picked.textContent;
+      closeFlt();
+    });
+  }
+
   /* Result settings panel — opened from the header icon button, not a card */
   const rspOverlay = document.getElementById('rsp-overlay');
   if (rspOverlay) {
@@ -2985,7 +3191,10 @@ function renderOverview(variant, initialView) {
     document.getElementById('rsp-open').addEventListener('click', () => { rspOverlay.hidden = false; });
     document.getElementById('rsp-close').addEventListener('click', closeRsp);
     document.getElementById('rsp-cancel').addEventListener('click', closeRsp);
-    document.getElementById('rsp-save').addEventListener('click', closeRsp);
+    document.getElementById('rsp-save').addEventListener('click', () => {
+      closeRsp();
+      notify('Settings saved', 'Your result settings are up to date.');
+    });
     rspOverlay.addEventListener('click', (e) => { if (e.target === rspOverlay) closeRsp(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !rspOverlay.hidden) closeRsp(); });
     /* Switching a variant on reveals its access settings */
