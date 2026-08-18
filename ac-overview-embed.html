@@ -19,12 +19,15 @@
     .app { display: block !important; height: auto !important; overflow: visible !important; }
     .main { display: block !important; min-width: 0 !important; }
     .main-scroll { overflow: visible !important; height: auto !important; }
-    /* Trim the design-system's generous top/bottom gutters so the embed has no dead scroll space. */
-    .overview-wrap { padding-top: var(--spacing-loose) !important; padding-bottom: var(--spacing-base) !important; }
-    /* Keep the 3-up card grid — the DS drops to 2-up below a 1300px *viewport*, which the iframe always is. */
+    /* Trim the design-system's generous top/bottom gutters so the embed has no dead scroll space.
+       The host page already supplies the horizontal gutter, so the wrap runs full-bleed here —
+       otherwise the Overview content would be 48px narrower than Focus view / Actions. */
+    .overview-wrap { padding: var(--spacing-loose) 0 var(--spacing-base) 0 !important; max-width: none !important; }
+    /* Keep the 3-up card grid — the DS drops to 2-up below a 1300px *viewport*, which the iframe always is.
+       1fr columns so the row fills the shared 1080px content width exactly, whatever the gap is. */
     @media (min-width: 900px) {
-      .ov-grid { grid-template-columns: repeat(3, minmax(0, 384px)) !important; max-width: 1200px !important; }
-      .ai-summary { max-width: 1200px !important; }
+      .ov-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; max-width: 1080px !important; }
+      .ai-summary { max-width: 1080px !important; }
     }
   </style>
 </head>

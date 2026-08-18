@@ -17,6 +17,7 @@
       color: var(--content-base);
       font-family: 'Poppins', sans-serif;
       --results-side: calc(var(--spacing-extra-loose) * 2); /* 64px */
+      --content-max: 1080px;   /* shared content width below the tabs, every view */
       --results-top: calc(var(--spacing-loose) * 2);        /* 48px */
     }
 
@@ -42,10 +43,10 @@
     .results-head .tabs { padding: 0 var(--results-side); margin: 0 calc(-1 * var(--results-side)); }
     .results-head .tab .tab-spark { width: 18px; height: 18px; color: var(--bg-highlight-base); }
 
-    /* Focus flow — wide results container (1200px content + 24px gutters), matches the
-       design-system results dashboard (§11: dashboards are wide, not narrow). */
+    /* Every view below the tabs shares one content width (--content-max) so Overview,
+       Focus view and Actions line up; the gutters sit outside that width. */
     .focus-wrap {
-      max-width: 1128px; margin: 0 auto;
+      max-width: calc(var(--content-max) + var(--spacing-loose) * 2); margin: 0 auto;
       padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose);
     }
 
@@ -804,7 +805,7 @@
     .act-add-btn[disabled] { opacity: .5; cursor: default; }
     .act-sum.is-promote .act-sum-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
     /* Actions — educational empty state (centered) */
-    .actions-empty { display: flex; flex-direction: row; align-items: center; text-align: left; gap: var(--spacing-super-loose); max-width: 1080px; margin: var(--spacing-super-loose) auto; padding: var(--spacing-loose) 0; border: none; background: transparent; }
+    .actions-empty { display: flex; flex-direction: row; align-items: center; text-align: left; gap: var(--spacing-super-loose); max-width: var(--content-max); margin: var(--spacing-super-loose) auto; padding: var(--spacing-loose) 0; border: none; background: transparent; }
     .ae-illo { flex: none; width: 40%; max-width: 400px; }
     .ae-content { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-base-tight); }
     .actions-illo { width: 100%; height: auto; display: block; margin: 0; }
