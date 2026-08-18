@@ -864,6 +864,22 @@
       padding: var(--spacing-loose); margin-bottom: var(--spacing-base);
     }
     .cg-entry .cg-entry-close { position: absolute; top: var(--spacing-tight); right: var(--spacing-tight); }
+    /* Version 3: same card, full width between At first glance and What needs focus */
+    .cg-entry-band { margin-bottom: var(--spacing-loose); }
+
+    /* Version 4: guide nudge inside the stepper success screen. Stacked, because the
+       modal column is too narrow for a side-by-side illustration and readable copy. */
+    .cg-step-guide {
+      display: flex; flex-direction: column; align-items: stretch; gap: var(--spacing-base-tight);
+      text-align: left; margin-top: var(--spacing-loose);
+      padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose);
+      background: var(--bg-secondary); border-radius: var(--radius-lg);
+    }
+    .cg-step-guide-illo { width: 110px; height: auto; align-self: center; }
+    .cg-step-guide-main { min-width: 0; }
+    .cg-step-guide-title { margin: 0 0 var(--spacing-extra-tight); display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
+    .cg-step-guide-title i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
+    .cg-step-guide-text { margin: 0 0 var(--spacing-base-tight); font-size: 13px; line-height: 1.55; color: var(--content-secondary); }
     /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
     .cg-entry[hidden] { display: none; }
     /* Variant 2: small conversational popup from the bottom right after 10 seconds */
@@ -988,9 +1004,6 @@
     .cg-example-eyebrow { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--content-brand); margin-bottom: var(--spacing-tight); }
     .cg-example-st { margin: 0 0 var(--spacing-tight); font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--content-base); }
     .cg-example-meta { margin-bottom: var(--spacing-base); }
-    .cg-q { display: flex; flex-direction: column; gap: 2px; padding-left: var(--spacing-base); border-left: 2px solid var(--border-brand-subtle); }
-    .cg-q-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--content-secondary); }
-    .cg-q p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--content-base); }
     .cg-example-note { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
 
     /* Footer note: where to find the full questions, bottom left in the button row */
@@ -1165,11 +1178,27 @@
           </div>
         </div>
 
+        <!-- Entry card (version 3): full width between At first glance and What needs focus -->
+        <div class="cg-entry cg-entry-band" id="cg-entry-band" hidden>
+          <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
+          <div class="cg-entry-main">
+            <span class="cg-entry-kicker">Talk it through first</span>
+            <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
+            <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
+            <div class="cg-entry-actions">
+              <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
+            </div>
+          </div>
+          <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
+        </div>
+
         <!-- Prototype-only: switch between the entry card versions -->
         <div class="cg-variant-ctl">
           Entry card
           <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">1</button>
           <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">2</button>
+          <button class="btn btn-secondary" id="vbtn-d" onclick="setEntryVariant('d')">3</button>
+          <button class="btn btn-secondary" id="vbtn-e" onclick="setEntryVariant('e')">4</button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -2523,7 +2552,8 @@
         '<span class="step-hero-ico is-success step-success-ico"><i data-icon="check"></i></span>' +
         '<h2 class="step-h2">You’re all set</h2>' +
         '<p class="step-sub">“' + esc(fa.text) + '” is now <strong>' + word + '</strong>. Your team can see it and it’s visible to HR.</p>' +
-        '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' + '</div>';
+        '<div class="step-success-acts">' + ((typeof fa.id === 'string') ? '<button class="btn btn-secondary" onclick="stepClose()">Back to Focus View</button><button class="btn btn-primary" onclick="stepGoToActions()">Go to Actions</button>' : '<button class="btn btn-secondary" onclick="stepGoToActions()">Go to Actions</button><button class="btn btn-primary" onclick="stepClose()">Back to Focus View</button>') + '</div>' +
+        stepGuideNudgeHTML() + '</div>';
     } else if(stepStage === 'respond'){
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico"><i data-icon="list-unordered"></i></span><h2 class="step-h2">Choose how to respond</h2></div>' +
         '<p class="step-sub">Pick the response that fits this area — you can change it later.</p></div>' +
@@ -2579,18 +2609,21 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry: two versions — 1 (b) card above the focus cards inside the
-  // What needs focus block, 2 (c) conversational popup 10 seconds after landing.
+  // Focus View entry: four versions — 1 (b) card above the focus cards inside the What
+  // needs focus block, 2 (c) conversational popup 10 seconds after landing, 3 (d) the
+  // same card full width between At first glance and What needs focus, 4 (e) a nudge in
+  // the stepper success screen only (nothing on the Focus View itself).
   // A prototype control switches versions; dismissals are remembered for the session.
   var entryVariant = 'b';
   try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'b'; } catch(e){}
-  if(['b', 'c'].indexOf(entryVariant) === -1) entryVariant = 'b';
+  if(['b', 'c', 'd', 'e'].indexOf(entryVariant) === -1) entryVariant = 'b';
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
   function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
     var b = document.getElementById('cg-entry'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
+    var d = document.getElementById('cg-entry-band'); if(d) d.hidden = entryDismissed() || entryVariant !== 'd';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
     if(pop && entryVariant !== 'c') pop.hidden = true;
@@ -2600,7 +2633,7 @@
         if(window.Icons) window.Icons.render(pop);
       }, 10000);
     }
-    ['b', 'c'].forEach(function(v){
+    ['b', 'c', 'd', 'e'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
       btn.classList.toggle('btn-primary', entryVariant === v);
       btn.classList.toggle('btn-secondary', entryVariant !== v);
@@ -2612,6 +2645,23 @@
     applyEntryState();
   }
   function dismissEntry(){ ssSet('cg-entry-dismissed'); applyEntryState(); }
+  // Version 4 only: nudge the guide from the stepper success screen, for the areas just chosen
+  function stepGuideNudgeHTML(){
+    if(entryVariant !== 'e') return '';
+    return '<div class="cg-step-guide">' +
+      '<img class="cg-step-guide-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
+      '<div class="cg-step-guide-main">' +
+        '<h4 class="cg-step-guide-title"><i data-icon="message"></i> Talk this through with your team</h4>' +
+        '<p class="cg-step-guide-text">Your conversation guide has listening questions for the areas you picked, so you can hear the why before you act.</p>' +
+        '<button class="btn btn-primary" onclick="openGuideFromStep()"><i data-icon="message"></i> View conversation guide</button>' +
+      '</div>' +
+    '</div>';
+  }
+  // The stepper dialog sits above the side panel, so close it before opening the guide
+  function openGuideFromStep(){
+    if(typeof stepClose === 'function') stepClose();
+    openGuide();
+  }
   // The x hides the popup for now; the link below the button keeps it away for the session
   function dismissEntryPop(){
     var pop = document.getElementById('cg-entry-pop'); if(pop) pop.hidden = true;
@@ -2654,8 +2704,7 @@
       '<span class="cg-example-eyebrow">Example from your guide</span>' +
       '<h4 class="cg-example-st">' + esc(a.statement) + '</h4>' +
       '<div class="cg-example-meta"><span class="fv-score is-focus">' + esc(a.score) + '</span></div>' +
-      '<div class="cg-q"><span class="cg-q-label">Clarify</span><p>' + esc(a.q.clarify) + '</p></div>' +
-      '<p class="cg-example-note">Your guide has three questions like this for each focus area, plus a prompt to decide together what to do next</p>' +
+      '<p class="cg-example-note">Your guide has three listening questions for each focus area, plus a prompt to decide together what to do next</p>' +
     '</section>';
   }
   function guidePanelBodyHTML(){
