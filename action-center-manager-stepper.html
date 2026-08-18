@@ -766,7 +766,8 @@
     .ap-addaction { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: 0; padding: 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
     .ap-addaction i { display: flex; width: 16px; height: 16px; }
     .ap-addaction:hover { text-decoration: underline; }
-    .sp-eyebrow { display: block; font-size: 13px; color: var(--content-secondary); margin-top: 2px; }
+    #plan-overlay .sp-subtitle { margin: 6px 0 0; font-size: 14px; color: var(--content-secondary); }
+    #plan-overlay .sp-actions i[data-icon] { width: 18px; height: 18px; display: flex; cursor: pointer; color: var(--content-action); }
     .sp-title-input { width: 100%; border: 0; border-bottom: 1px solid var(--border-base); background: transparent; font-family: inherit; font-size: 20px; font-weight: 600; color: var(--content-base); outline: none; padding: 2px 0 6px; }
     .sp-title-input:focus { border-bottom-color: var(--content-brand); }
     .sp-title-input::placeholder { color: var(--content-placeholder); font-weight: 500; }
@@ -1756,33 +1757,22 @@
   function planInitials(name){ return (name || '').split(' ').map(function(w){ return w.charAt(0); }).join('').slice(0,2).toUpperCase(); }
   function planItemHTML(it, i){
     if(planEditIdx === i) return planEditFormHTML(i);
-    var fa = planFa(planCurrentId) || {}; var st = fa.state;
-    var title, meta = '', descRo = '', delLabel = 'Remove action';
-    if(st === 'support'){
-      title = it.desc || 'Support request';
-      if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
-      delLabel = 'Remove request';
-    } else if(st === 'monitor'){
-      title = it.desc || 'Monitoring step';
-      delLabel = 'Remove';
-    } else {
-      title = it.text || 'Untitled action';
-      if(it.desc) descRo = '<span class="act-item-descro">' + esc(it.desc) + '</span>';
-      if(it.due) meta += '<span class="act-meta"><i data-icon="clock"></i> ' + esc(planFmtDue(it.due)) + '</span>';
-      if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
-    }
+    var title = (it.text && it.text.trim()) ? it.text : (it.desc || 'Untitled action');
+    var descRo = (it.text && it.text.trim() && it.desc) ? '<span class="act-item-descro">' + esc(it.desc) + '</span>' : '';
+    var meta = '';
+    if(it.due) meta += '<span class="act-meta"><i data-icon="clock"></i> ' + esc(planFmtDue(it.due)) + '</span>';
+    if(it.assignee) meta += '<span class="act-meta"><i data-icon="user"></i> ' + esc(it.assignee) + '</span>';
     return '<div class="act-item' + (it.done ? ' is-done' : '') + (it.isNew ? ' is-new' : '') + '">' +
       '<span class="cb-wrap"><input type="checkbox" class="cb act-item-cb"' + (it.done ? ' checked' : '') + ' onchange="togglePlanItem(' + i + ')"></span>' +
       '<div class="act-item-main" onclick="planStartEdit(' + i + ')">' +
-        '<span class="act-item-title">' + esc(title) + '</span>' +
-        descRo +
+        '<span class="act-item-title">' + esc(title) + '</span>' + descRo +
         (meta ? '<div class="act-item-controls">' + meta + '</div>' : '') +
       '</div>' +
       '<div class="act-item-more">' +
         '<button class="ib ib-24 ib-tertiary act-item-kebab" aria-label="More actions" onclick="togglePlanMenu(event,' + i + ')"><i data-icon="more-vertical"></i></button>' +
         '<div class="menu act-item-menu" id="plan-menu-' + i + '" hidden>' +
           '<div class="menu-item" role="button" tabindex="0" onclick="planStartEdit(' + i + ')"><i data-icon="edit" class="menu-item-icon"></i><span class="menu-item-title">Edit</span></div>' +
-          '<div class="menu-item act-item-del" role="button" tabindex="0" onclick="removePlanItem(' + i + ')"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">' + delLabel + '</span></div>' +
+          '<div class="menu-item act-item-del" role="button" tabindex="0" onclick="removePlanItem(' + i + ')"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">Remove action</span></div>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -1792,25 +1782,25 @@
   function planEditFormHTML(idx){
     var fa = planFa(planCurrentId) || {}; var st = fa.state;
     var d = planDraft || {};
+    var ok = !!(d.text && d.text.trim());
     var personSel = function(sel, ph){ return ['<option value="">' + ph + '</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (sel === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join(''); };
-    var okBtns = function(ok){ return '<div class="act-edit-btns"><button class="btn btn-secondary" onclick="planCancelEdit()">Cancel</button><button class="btn btn-primary act-edit-save"' + (ok ? '' : ' disabled') + ' onclick="planSaveEdit()">Save</button></div>'; };
-    var fields;
+    // Title + description are the same everywhere; only the trailing controls differ per goal.
+    var extras;
     if(st === 'support'){
-      var oks = !!(d.desc && d.desc.trim());
-      fields = '<textarea class="act-edit-desc act-edit-primary" rows="2" placeholder="Describe the support you need" oninput="planDraftField(\'desc\',this.value); planEditSync()">' + esc(d.desc || '') + '</textarea>' +
-        '<div class="act-edit-row"><label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Who can help') + '</select></label>' + okBtns(oks) + '</div>';
+      extras = '<label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Who can help') + '</select></label>';
     } else if(st === 'monitor'){
-      var okm = !!(d.desc && d.desc.trim());
-      fields = '<textarea class="act-edit-desc act-edit-primary" rows="2" placeholder="Describe how you\'ll keep an eye on this" oninput="planDraftField(\'desc\',this.value); planEditSync()">' + esc(d.desc || '') + '</textarea>' +
-        '<div class="act-edit-row">' + okBtns(okm) + '</div>';
+      extras = '<label class="act-edit-ctl"><i data-icon="clock"></i><input type="date" class="act-edit-date" value="' + esc(d.due || '') + '" onchange="planDraftField(\'due\',this.value)"></label>';
     } else {
-      var oka = !!(d.text && d.text.trim());
-      fields = '<input class="act-edit-title act-edit-primary" placeholder="What needs to be done?" value="' + esc(d.text || '') + '" oninput="planDraftField(\'text\',this.value); planEditSync()">' +
-        '<textarea class="act-edit-desc" rows="2" placeholder="Add a description" oninput="planDraftField(\'desc\',this.value)">' + esc(d.desc || '') + '</textarea>' +
-        '<div class="act-edit-row"><label class="act-edit-ctl"><i data-icon="clock"></i><input type="date" class="act-edit-date" value="' + esc(d.due || '') + '" onchange="planDraftField(\'due\',this.value)"></label>' +
-        '<label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Assign someone') + '</select></label>' + okBtns(oka) + '</div>';
+      extras = '<label class="act-edit-ctl"><i data-icon="clock"></i><input type="date" class="act-edit-date" value="' + esc(d.due || '') + '" onchange="planDraftField(\'due\',this.value)"></label>' +
+        '<label class="act-edit-ctl"><i data-icon="user"></i><select class="act-edit-assignee" onchange="planDraftField(\'assignee\',this.value)">' + personSel(d.assignee, 'Assign someone') + '</select></label>';
     }
-    return '<div class="act-item act-item-editing"><div class="act-edit">' + fields + '</div></div>';
+    return '<div class="act-item act-item-editing"><div class="act-edit">' +
+      '<input class="act-edit-title act-edit-primary" placeholder="What needs to be done?" value="' + esc(d.text || '') + '" oninput="planDraftField(\'text\',this.value); planEditSync()">' +
+      '<textarea class="act-edit-desc" rows="2" placeholder="Add a description" oninput="planDraftField(\'desc\',this.value)">' + esc(d.desc || '') + '</textarea>' +
+      '<div class="act-edit-row">' + extras +
+        '<div class="act-edit-btns"><button class="btn btn-secondary" onclick="planCancelEdit()">Cancel</button><button class="btn btn-primary act-edit-save"' + (ok ? '' : ' disabled') + ' onclick="planSaveEdit()">Save</button></div>' +
+      '</div>' +
+    '</div></div>';
   }
   var PLAN_GOALS = [['action','target','Improve'],['monitor','eye','Monitor'],['support','flag','Need support'],['promote','benchmark-up','Promote']];
   function planGoalMenuHTML(fa){
@@ -1833,6 +1823,7 @@
     if(!items.length && planEditIdx !== 'new') rows = '<p class="app-empty">' + emptyMsg + '</p>';
     var count = items.length ? ' <span class="act-count-inline">' + doneN + '/' + items.length + '</span>' : '';
     var addDis = (planEditIdx !== null || !fa.state) ? ' disabled' : '';
+    var hasExisting = !!(fa.state && items.length);   // editing an existing pin vs adding the first action
     var descRow = showGoalDesc ? '<div class="act-row act-row-desc"><span class="act-row-lbl"><i data-icon="text-entry"></i> Description</span><textarea class="act-desc-val" rows="2" placeholder="Add a relevant description" oninput="setPlanDesc(this.value)">' + esc(fa.planDesc || '') + '</textarea></div>' : '';
     return '<div class="act-props">' +
         '<div class="act-row"><span class="act-row-lbl"><i data-icon="version-history"></i> Activity</span><span class="act-row-val">Last edited just now</span></div>' +
@@ -1844,7 +1835,7 @@
           '</div></div>' +
         descRow +
       '</div>' +
-      '<div class="act-prog-head"><h4>Actions' + count + '</h4><button class="btn btn-primary act-add-btn" onclick="planStartAdd()"' + addDis + '><i data-icon="plus"></i> Add</button></div>' +
+      '<div class="act-prog-head"><h4>Actions' + count + '</h4><button class="btn btn-primary act-add-btn" onclick="planStartAdd()"' + addDis + '><i data-icon="' + (hasExisting ? 'edit' : 'plus') + '"></i> ' + (hasExisting ? 'Edit action' : 'Add action') + '</button></div>' +
       '<div class="act-list" id="plan-list">' + rows + '</div>';
   }
   function renderPlanPanel(){
@@ -1856,10 +1847,12 @@
       '<div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="plan-title">' +
         '<div class="sp-header">' +
           '<div class="sp-toolbar"><div class="sp-actions">' +
-            '<div class="tt-demo"><button class="ib ib-36 ib-secondary" id="plan-close" aria-label="Close"><i data-icon="cross"></i></button><div class="tooltip is-left">Close</div></div>' +
+            '<i data-icon="cross" id="plan-close" role="button" tabindex="0" aria-label="Close"></i>' +
           '</div></div>' +
-          '<div class="sp-heading">' + (fa.isCustom ? '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value)">' : '<h3 class="sp-title" id="plan-title">' + esc(fa.text) + '</h3>') + '</div>' +
-          (fa.theme ? '<span class="sp-eyebrow">' + esc(fa.theme) + '</span>' : '') +
+          '<div class="sp-heading">' +
+            (fa.isCustom ? '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value)">' : '<h2 class="sp-title" id="plan-title">' + esc(fa.text) + '</h2>') +
+            (fa.theme ? '<p class="sp-subtitle">' + esc(fa.theme) + '</p>' : '') +
+          '</div>' +
           '<div class="sp-tabs">' +
             '<a class="sp-tab"><i data-icon="layout"></i> Insights</a>' +
             '<a class="sp-tab"><i data-icon="lightbulb"></i> Tips &amp; Best practices</a>' +
@@ -1919,21 +1912,21 @@
   function togglePlanItem(i){ planItems()[i].done = !planItems()[i].done; refreshPlanBody(); }
   function removePlanItem(i){ planItems().splice(i, 1); if(planEditIdx === i){ planEditIdx = null; planDraft = null; } refreshPlanBody(); renderCards(); }
   function planStartAdd(){ if(planEditIdx !== null && planEditIdx !== 'new') return; planEditIdx = 'new'; planDraft = { text:'', desc:'', due:'', assignee:'' }; refreshPlanBody(); }
-  function planStartEdit(i){ var it = planItems()[i]; if(!it) return; planEditIdx = i; planDraft = { text: it.text || '', desc: it.desc || '', due: it.due || '', assignee: it.assignee || '' }; refreshPlanBody(); }
+  function planStartEdit(i){ var it = planItems()[i]; if(!it) return; planEditIdx = i; planDraft = { text: (it.text && it.text.trim()) ? it.text : (it.desc || ''), desc: (it.text && it.text.trim()) ? (it.desc || '') : '', due: it.due || '', assignee: it.assignee || '' }; refreshPlanBody(); }
   function planDraftField(f, v){ if(planDraft) planDraft[f] = v; }
-  function planEditSync(){ var fa = planFa(planCurrentId) || {}; var st = fa.state; var d = planDraft || {}; var ok = (st === 'support' || st === 'monitor') ? !!(d.desc && d.desc.trim()) : !!(d.text && d.text.trim()); var sv = document.querySelector('#plan-overlay .act-edit-save'); if(sv) sv.disabled = !ok; }
+  function planEditSync(){ var d = planDraft || {}; var sv = document.querySelector('#plan-overlay .act-edit-save'); if(sv) sv.disabled = !(d.text && d.text.trim()); }
   function planCancelEdit(){ planEditIdx = null; planDraft = null; refreshPlanBody(); }
   function planSaveEdit(){
     var fa = planFa(planCurrentId); if(!fa) return;
     var st = fa.state; var d = planDraft || {};
-    var ok = (st === 'support' || st === 'monitor') ? !!(d.desc && d.desc.trim()) : !!(d.text && d.text.trim());
-    if(!ok) return;
+    if(!(d.text && d.text.trim())) return;
     fa.planItems = fa.planItems || [];
     var it = (planEditIdx === 'new') ? { done: false, isNew: true } : fa.planItems[planEditIdx];
     if(!it) return;
-    if(st === 'support'){ it.desc = d.desc.trim(); it.assignee = d.assignee || ''; it.text = ''; }
-    else if(st === 'monitor'){ it.desc = d.desc.trim(); it.text = ''; }
-    else { it.text = d.text.trim(); it.desc = (d.desc||'').trim(); it.due = d.due||''; it.assignee = d.assignee||''; }
+    it.text = d.text.trim(); it.desc = (d.desc||'').trim();
+    if(st === 'support'){ it.assignee = d.assignee || ''; it.due = ''; }
+    else if(st === 'monitor'){ it.due = d.due || ''; it.assignee = ''; }
+    else { it.due = d.due||''; it.assignee = d.assignee||''; }
     if(planEditIdx === 'new') fa.planItems.push(it);
     planEditIdx = null; planDraft = null;
     refreshPlanBody(); renderCards();
@@ -2031,7 +2024,8 @@
       t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, isHigh: (which === 'high'), recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
-    if(decided){ openPlanPanelAdd(id); } else { openStepDialog(id); }
+    // Already pinned/responded → side panel: show what's there, or open the inputs if nothing yet.
+    if(decided){ if((t.planItems || []).length){ openPlanPanel(id); } else { openPlanPanelAdd(id); } } else { openStepDialog(id); }
   }
   document.addEventListener('click', function(e){
     if(e.target.closest && e.target.closest('.sc-pin-wrap')) return;
@@ -2251,7 +2245,8 @@
       t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), isHigh: (which === 'high'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
-    if(decided){ openPlanPanelAdd(id); } else { openStepDialog(id); }
+    // Already pinned/responded → side panel: show what's there, or open the inputs if nothing yet.
+    if(decided){ if((t.planItems || []).length){ openPlanPanel(id); } else { openPlanPanelAdd(id); } } else { openStepDialog(id); }
   }
 
   // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
@@ -2271,6 +2266,9 @@
   var stepStage = 'respond';   // 'respond' | 'plan' | 'success'
   var stepBusy = false;        // brief loader while advancing between steps
   function stepFa(){ return planFa(stepFaId); }
+  // Overview-originated targets (pinned score questions and custom pins) have no meaningful
+  // recommendations, so Improve goes straight to the action inputs there. Focus View keeps its recos.
+  function isOverviewTarget(fa){ return !!(fa && (fa.isCustom || /^(low|high)-(emb|sc)-/.test(String(fa.id)) || (fa.theme || '').indexOf('Overview') === 0)); }
 
   function openStepDialog(id, startStage){
     hideStepCloseConfirm();
@@ -2278,7 +2276,7 @@
     var fa = stepFa();
     stepStage = startStage || (fa.state ? 'plan' : 'respond');
     if(stepStage === 'plan' && fa.state === 'monitor' && fa.monitorMode == null){ fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
-    if(stepStage === 'plan' && fa.state === 'promote'){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
+    if(stepStage === 'plan' && (fa.state === 'promote' || (fa.state === 'action' && isOverviewTarget(fa)))){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
     document.getElementById('step-dialog').hidden = false;
     document.body.classList.add('step-open');
     renderStepDialog();
@@ -2322,7 +2320,7 @@
     if(fa.state !== state){ fa.picked = []; fa.actionAdded = false; fa.supportSent = false; fa.monitorSaved = false; }
     fa.state = state;
     if(state === 'monitor'){ if(fa.monitorMode == null) fa.monitorMode = 'survey'; if(fa.monitorBaseline == null) fa.monitorBaseline = parseInt(fa.score,10)||0; }
-    if(state === 'promote'){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
+    if(state === 'promote' || (state === 'action' && isOverviewTarget(fa))){ fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; }
     stepStage = 'plan';
     stepBusy = true; renderStepDialog();
     setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 450);
@@ -2417,7 +2415,8 @@
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
     var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
-    return (fa.state === 'promote' ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
+    var noReco = (fa.state === 'promote' || isOverviewTarget(fa));
+    return (noReco ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
       '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
@@ -2427,7 +2426,7 @@
         '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><select class="tf fv-na-assignee" onchange="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)">' + opts + '</select></div>' +
       '</div>' +
-      '<div class="fv-na-actions">' + (fa.state === 'promote' ? '' : '<button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>') +
+      '<div class="fv-na-actions">' + (noReco ? '' : '<button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>') +
         '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>' +
     '</div>';
   }
