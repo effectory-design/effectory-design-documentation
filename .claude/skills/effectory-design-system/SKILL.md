@@ -149,24 +149,38 @@ Een prototype ziet eruit als een echte pagina in de app — niet als een docs-pa
 - Gebruik `--content-base` als standaard tekstkleur
 - Geen docs-chrome (sidebar, tabs, TOC, etc.)
 
-### 8. Altijd via lokale server openen — en `<base href="/">` verplicht
-Prototypes in `prototypes/` staan in een submap. `icons.js` fetcht SVGs relatief aan het HTML-document, niet het script. Zonder `<base href="/">` wordt `assets/icons/` omgezet naar `prototypes/assets/icons/` — die map bestaat niet. Iconen laden dan niet, ook niet via http.
+### 8. Assets relatief laden — nooit `<base href="/">`
+`icons.js` haalt SVG's op naast **zichzelf** (via `document.currentScript`), dus relatieve paden werken
+gewoon. Gebruik ze:
 
-Altijd in de `<head>` van elk prototype:
 ```html
-<base href="/" />
-```
-En gebruik root-relatieve paden voor alle assets:
-```html
-<link rel="stylesheet" href="/tokens.css" />
-<link rel="stylesheet" href="/foundation.css" />
-<link rel="stylesheet" href="/components.css" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="foundation.css" />
+<link rel="stylesheet" href="components.css" />
 ...
-<script src="/icons.js"></script>
+<script src="icons.js"></script>
 ```
 
-Bovendien: open prototypes altijd via `python3 serve.py` → `http://localhost:<poort>/...`.
-Nooit via dubbelklik (`file://`) — CSS-masks voor het Toggle-vinkje werken dan ook niet.
+Staat het prototype in een submap zoals `prototypes/`, zet er dan een base bij die één niveau omhoog wijst:
+
+```html
+<base href="../" />
+```
+
+**Nooit `<base href="/">`.** Dat werkt alleen zolang je lokaal serveert vanaf de repo-root. Zodra het
+prototype op GitHub Pages staat, wijst `/` naar de root van het domein en niet naar de repo, en laadt
+geen enkele stylesheet of icoon meer. Dat is precies wat er op 17-08-2026 met vijftien prototypes gebeurde:
+de pagina's bleven werken op de lokale server en waren live compleet ongestyled.
+
+Wil je het prototype los van deze bestanden publiceren, verwijs dan naar het design system zelf:
+
+```html
+<link rel="stylesheet" href="https://effectory-ux.github.io/Engage-Design-system-/components.css" />
+<script src="https://effectory-ux.github.io/Engage-Design-system-/icons.js"></script>
+```
+
+Open prototypes altijd via `python3 serve.py` → `http://localhost:<poort>/...`, nooit via dubbelklik
+(`file://`) — CSS-masks voor het Toggle-vinkje werken dan niet.
 
 ### 9. Animaties via motion-tokens en `.overlay`
 Verzin geen eigen duraties of easings — gebruik de motion-tokens (`--motion-fast/base/slow`, `--ease-out/in/standard`; zie reference sectie 2 → Motion).
@@ -225,16 +239,81 @@ Token-gebaseerd: 64 = `--spacing-extra-loose × 2`, 48 = `--spacing-loose × 2`,
 
 ---
 
+### 12. Vraag in welke track het prototype hoort
+Bouw je een nieuw prototype, vraag dan **voordat je begint** bij welke track het hoort. Product & Tech
+werkt in drie tracks, en de prototype-galerij is daarop ingedeeld:
+
+| Track | Waar het over gaat |
+|---|---|
+| **Surveying** | een survey opzetten, uitzetten en koppelen |
+| **Leadership enablement** | van resultaat naar gesprek en actie |
+| **Reporting** | resultaten teruggeven en duiden |
+| **Platform** | alles wat geen track raakt: homepage, instellingen, integraties |
+
+Het gaat om het onderwerp, niet om wie het maakt: group linking is van Jente maar hoort bij Surveying.
+
+Weet de gebruiker het niet, doe dan een voorstel op basis van het scherm en laat het bevestigen. Noteer
+het antwoord in de oplevering, zodat het prototype met de juiste `group` in
+[`prototypes.json`](https://github.com/effectory-ux/prototypes) van de galerij kan.
+
+---
+
+### 13. Meerdere pagina's = meerdere bestanden, elk met een eigen URL
+Bestaat een prototype uit meer dan één scherm, dan is **elk scherm een apart HTML-bestand** met zijn eigen
+URL. Bouw **nooit** één bestand dat met JS de hele view omwisselt (`showPage()`, `hidden` op
+page-containers, hash-routing, een `switch` op een `currentPage`-variabele).
+
+Waarom: elk scherm is dan deelbaar als deep link (review, Slack, Figma, de galerij), refresh en
+back/forward landen op hetzelfde scherm, en de bestanden blijven leesbaar.
+
+**Naamgeving:** `<prototype>-<scherm>.html`, met het scherm als laatste deel.
+```
+prototypes/action-center-overview.html
+prototypes/action-center-actions.html
+prototypes/action-center-settings.html
+```
+
+**Navigeren gaat met echte links** — geen `onclick` die de view verwisselt:
+```html
+<a class="mainnav-item is-active" href="action-center-overview.html">Overview</a>
+<a class="mainnav-item" href="action-center-actions.html">Actions</a>
+```
+Zet in elk bestand het actieve navigatie-item en de actieve tab hard op die pagina.
+
+**Wat blijft wél in dezelfde pagina** (geen apart bestand): tijdelijke UI-state boven of binnen het
+scherm — dialogs, side panels, dropdown-menu's, tooltips, popovers, accordions, filter- en zoekstates,
+en losse component-demo's.
+
+**Tabs — kijk naar het niveau.**
+- **Page-level tabs** staan onder de page header, wisselen de héle hoofdcontent en zijn in het echte
+  product een eigen route. Die krijgen elk hun eigen bestand, zoals het resultaten-dashboard:
+  `…-overview.html`, `…-focus.html`, `…-themes.html`, `…-scores.html`, `…-reports.html`, `…-actions.html`.
+- **Lokale tabs** wisselen alleen de inhoud van één card, sectie, side panel of dialog (bijvoorbeeld een
+  segmented control boven een chart). Die blijven in-page — daar hoort ook in het echte product geen
+  eigen URL bij.
+
+**Vuistregel:** zou je in het echte product een link naar precies deze staat kunnen sturen? Ja → eigen
+bestand. Nee → in-page. Anders gezegd: verandert de page header, de breadcrumb of het actieve
+navigatie-item, dan is het een nieuwe pagina.
+
+Houd de app-shell (`.mainnav`, header, page padding) in alle bestanden identiek; wijzig je de shell, pas
+hem dan in élk pagina-bestand aan. Meld bij oplevering de URL van iedere pagina, niet alleen die van de
+eerste.
+
+---
+
+
 ## Workflow
 
 1. **Lees de reference** — laad `design-system-reference.md` volledig
 2. **Begrijp de vraag** — welk scherm, welke componenten, welke flow?
 3. **Controleer beschikbaarheid** — staan alle benodigde componenten en tokens in de reference?
    - Niet beschikbaar → stop en meld het aan de gebruiker
-4. **Bouw incrementeel** — begin met de HTML-structuur, voeg components toe, stel layout in met tokens
-5. **Geen eigen stijlen** — custom CSS alleen voor layout-specifieke zaken (positionering, grid, flex), altijd met tokens voor waarden
-6. **Review** — check de output op doc-classes en hardcoded waarden vóór oplevering
-7. **Lokale server vereist** — meld na het bouwen altijd:
+4. **Bepaal de pagina's** — benoem elk scherm dat het prototype nodig heeft en geef elk scherm zijn eigen bestand + URL (regel 13). Meer dan één scherm? Bouw dan nooit één bestand dat views omwisselt.
+5. **Bouw incrementeel** — begin met de HTML-structuur, voeg components toe, stel layout in met tokens
+6. **Geen eigen stijlen** — custom CSS alleen voor layout-specifieke zaken (positionering, grid, flex), altijd met tokens voor waarden
+7. **Review** — check de output op doc-classes en hardcoded waarden vóór oplevering
+8. **Lokale server vereist** — meld na het bouwen altijd de URL van **elke** pagina:
    > ⚠️ Open dit prototype via de lokale server, **niet** via dubbelklik (file://).
    > SVG-maskers (o.a. Toggle-vinkje) en icoonfuncties werken niet zonder HTTP.
    > Start de server met `python3 serve.py` en open daarna:
