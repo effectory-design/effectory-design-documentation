@@ -3232,12 +3232,13 @@ function renderOverview(variant, initialView) {
     document.querySelectorAll('#flt-struct-menu .menu-item').forEach(mi => {
       const sid = mi.dataset.struct;
       const off = hiddenStructs[sid];
-      const groups = document.querySelectorAll('.flt-row[data-struct="' + sid + '"][data-parent]:not([data-parent=""])').length;
+      /* only a hidden structure says anything below its name */
       const sub = mi.querySelector('.menu-item-sub');
       sub.classList.toggle('is-hidden', off);
+      sub.hidden = !off;
       sub.innerHTML = off
         ? '<span class="flt-sub"><i data-icon="eye-off" aria-hidden="true"></i>Results hidden</span>'
-        : groups + ' groups';
+        : '';
       if (off && window.Icons) window.Icons.render(sub);
       const name = mi.querySelector('.menu-item-title').textContent;
       mi.setAttribute('aria-label', off ? name + ', results hidden' : name);
