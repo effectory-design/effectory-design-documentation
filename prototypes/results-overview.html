@@ -3230,6 +3230,8 @@ function renderOverview(variant, initialView) {
       let p = byId[r.dataset.parent], show = r.dataset.struct === struct;
       while (show && p) { if (!p.classList.contains('is-open')) { show = false; break; } p = byId[p.dataset.parent]; }
       r.hidden = !show;
+      /* keep exactly one tab stop: the selected row of the visible structure */
+      r.tabIndex = show && r.classList.contains('is-selected') ? 0 : -1;
     });
     const setOpen = (row, open) => {
       row.classList.toggle('is-open', open);
