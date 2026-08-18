@@ -242,7 +242,9 @@
 
     /* A structure whose results the CSM has hidden */
     .flt-sub { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); }
-    .flt-sub i { display: flex; width: 14px; height: 14px; }
+    .flt-sub i { display: flex; width: 12px; height: 12px; }
+    /* a status line, so it carries a little more weight than a plain subtitle */
+    .menu-item-sub.is-hidden { font-weight: 500; }
     .menu-item-sub.is-hidden, .menu-item-sub.is-hidden i { color: var(--content-info); }
     .flt-btn-hidden {
       display: flex; width: 16px; height: 16px; flex: none;
