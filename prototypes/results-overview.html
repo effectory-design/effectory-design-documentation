@@ -164,7 +164,14 @@
       display: flex; gap: var(--spacing-base-tight);
       margin-bottom: var(--spacing-base);
     }
-    .flt-toolbar .sel-btn, .flt-toolbar .search-wrap { flex: 1; min-width: 0; }
+    .flt-struct-wrap { position: relative; flex: 1; min-width: 0; }
+    .flt-struct-wrap .sel-btn { width: 100%; }
+    .flt-struct-wrap .menu {
+      position: absolute; top: calc(100% + var(--spacing-extra-tight)); left: 0; right: 0;
+      z-index: 20;
+    }
+    .flt-struct-wrap .menu[hidden] { display: none; }
+    .flt-toolbar .search-wrap { flex: 1; min-width: 0; }
     .flt-toolbar .sel-btn { justify-content: flex-start; }
     .flt-toolbar .sel-btn .sel-btn-value { margin-right: auto; }
 
@@ -2855,11 +2862,26 @@ ${focusView(d)}
 
     <div class="sp-body">
       <div class="flt-toolbar">
-        <button class="sel-btn is-filled" type="button">
-          <i data-icon="building"></i>
-          <span class="sel-btn-value">Organizational structure</span>
-          <i data-icon="chevron-down"></i>
-        </button>
+        <div class="flt-struct-wrap">
+          <button class="sel-btn is-filled" id="flt-struct-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <i data-icon="structure" id="flt-struct-icon"></i>
+            <span class="sel-btn-value" id="flt-struct-name">Organizational structure</span>
+            <i data-icon="chevron-down"></i>
+          </button>
+          <div class="menu" id="flt-struct-menu" role="menu" hidden>
+            ${[
+              { id: 'org', name: 'Organizational structure', icon: 'structure' },
+              { id: 'loc', name: 'Location',                 icon: 'building' },
+              { id: 'job', name: 'Job family',               icon: 'briefcase' }
+            ].map((st, i) => `
+            <div class="menu-item${i === 0 ? ' is-selected' : ''}" role="menuitemradio"
+                 aria-checked="${i === 0 ? 'true' : 'false'}" data-struct="${st.id}" data-icon-name="${st.icon}">
+              <i data-icon="${st.icon}" class="menu-item-icon"></i>
+              <span class="menu-item-body"><span class="menu-item-title">${st.name}</span></span>
+              ${i === 0 ? '<i data-icon="check" class="menu-item-check"></i>' : ''}
+            </div>`).join('')}
+          </div>
+        </div>
         <div class="search-wrap">
           <span class="search-icon"><i data-icon="search"></i></span>
           <input type="search" class="srch" id="flt-search" placeholder="Search" />
@@ -2867,31 +2889,52 @@ ${focusView(d)}
       </div>
 
       <div class="flt-groups" id="flt-groups">
-        ${[
-          { id: 'novanta', name: 'Novanta B.V.',              level: 1, n: 632, open: true },
-          { id: 'cs',      name: 'Customer Success',          level: 2, n: 120, parent: 'novanta' },
-          { id: 'fin',     name: 'Finance',                   level: 2, n: 24,  parent: 'novanta' },
-          { id: 'hr',      name: 'Human Resources',           level: 2, n: 4,   parent: 'novanta' },
-          { id: 'mkt',     name: 'Marketing',                 level: 2, n: 60,  parent: 'novanta' },
-          { id: 'ops',     name: 'Operations',                level: 2, n: 152, parent: 'novanta' },
-          { id: 'prd',     name: 'Product',                   level: 2, n: 40,  parent: 'novanta' },
-          { id: 'sls',     name: 'Sales',                     level: 2, n: 76,  parent: 'novanta' },
-          { id: 'it',      name: 'Team IT',                   level: 2, n: 156, parent: 'novanta', selected: true },
-          { id: 'it-cloud',name: 'Cloud Operations Team',     level: 3, n: 28,  parent: 'it' },
-          { id: 'it-cyber',name: 'Cybersecurity Team',        level: 3, n: 22,  parent: 'it' },
-          { id: 'it-help', name: 'Help Desk / IT Support',    level: 3, n: 46,  parent: 'it' },
-          { id: 'it-infra',name: 'Infrastructure Team',       level: 3, n: 30,  parent: 'it' },
-          { id: 'it-net',  name: 'Network Team',              level: 3, n: 4,   parent: 'it' },
-          { id: 'it-sys',  name: 'Systems Administration Team',level: 3, n: 26, parent: 'it' }
-        ].map((g, i, all) => {
-          const hasKids = all.some(o => o.parent === g.id);
-          /* Under the anonymity threshold the group's results stay hidden */
-          const hidden = g.n < 5;
-          return `
+        ${(() => {
+          /* One tree per structure. Counts add up to the 632 people in Novanta B.V. */
+          const TREES = {
+            org: [
+              { id: 'novanta', name: 'Novanta B.V.',               level: 1, n: 632, open: true },
+              { id: 'cs',      name: 'Customer Success',           level: 2, n: 120, parent: 'novanta' },
+              { id: 'fin',     name: 'Finance',                    level: 2, n: 24,  parent: 'novanta' },
+              { id: 'hr',      name: 'Human Resources',            level: 2, n: 4,   parent: 'novanta' },
+              { id: 'mkt',     name: 'Marketing',                  level: 2, n: 60,  parent: 'novanta' },
+              { id: 'ops',     name: 'Operations',                 level: 2, n: 152, parent: 'novanta' },
+              { id: 'prd',     name: 'Product',                    level: 2, n: 40,  parent: 'novanta' },
+              { id: 'sls',     name: 'Sales',                      level: 2, n: 76,  parent: 'novanta' },
+              { id: 'it',      name: 'Team IT',                    level: 2, n: 156, parent: 'novanta', selected: true },
+              { id: 'it-cloud',name: 'Cloud Operations Team',      level: 3, n: 28,  parent: 'it' },
+              { id: 'it-cyber',name: 'Cybersecurity Team',         level: 3, n: 22,  parent: 'it' },
+              { id: 'it-help', name: 'Help Desk / IT Support',     level: 3, n: 46,  parent: 'it' },
+              { id: 'it-infra',name: 'Infrastructure Team',        level: 3, n: 30,  parent: 'it' },
+              { id: 'it-net',  name: 'Network Team',               level: 3, n: 4,   parent: 'it' },
+              { id: 'it-sys',  name: 'Systems Administration Team',level: 3, n: 26,  parent: 'it' }
+            ],
+            loc: [
+              { id: 'l-root',  name: 'Novanta B.V.', level: 1, n: 632, open: true, selected: true },
+              { id: 'l-ams',   name: 'Amsterdam',    level: 2, n: 284, parent: 'l-root' },
+              { id: 'l-rtm',   name: 'Rotterdam',    level: 2, n: 128, parent: 'l-root' },
+              { id: 'l-ehv',   name: 'Eindhoven',    level: 2, n: 96,  parent: 'l-root' },
+              { id: 'l-ber',   name: 'Berlin',       level: 2, n: 76,  parent: 'l-root' },
+              { id: 'l-rem',   name: 'Remote',       level: 2, n: 48,  parent: 'l-root' }
+            ],
+            job: [
+              { id: 'j-root',  name: 'Novanta B.V.',        level: 1, n: 632, open: true, selected: true },
+              { id: 'j-eng',   name: 'Engineering',         level: 2, n: 196, parent: 'j-root' },
+              { id: 'j-com',   name: 'Commercial',          level: 2, n: 160, parent: 'j-root' },
+              { id: 'j-cus',   name: 'Customer Operations', level: 2, n: 152, parent: 'j-root' },
+              { id: 'j-cor',   name: 'Corporate Services',  level: 2, n: 76,  parent: 'j-root' },
+              { id: 'j-lea',   name: 'Leadership',          level: 2, n: 48,  parent: 'j-root' }
+            ]
+          };
+          return Object.entries(TREES).map(([sid, all]) => all.map(g => {
+            const hasKids = all.some(o => o.parent === g.id);
+            /* Under the anonymity threshold the group's results stay hidden */
+            const hidden = g.n < 5;
+            return `
         <div class="flt-row${g.selected ? ' is-selected' : ''}${g.open ? ' is-open' : ''}"
-             data-id="${g.id}" data-level="${g.level}" data-parent="${g.parent || ''}"
+             data-struct="${sid}" data-id="${g.id}" data-level="${g.level}" data-parent="${g.parent || ''}"
              role="radio" aria-checked="${g.selected ? 'true' : 'false'}" tabindex="0"
-             ${g.parent && g.parent !== 'novanta' ? 'hidden' : ''}>
+             ${sid !== 'org' || g.parent ? 'hidden' : ''}>
           ${hasKids
             ? `<button class="flt-caret" type="button" aria-label="Show groups in ${g.name}"><i data-icon="chevron-right"></i></button>`
             : `<span class="flt-caret-spacer"></span>`}
@@ -2906,7 +2949,8 @@ ${focusView(d)}
             <input type="radio" class="rb" name="flt-group" tabindex="-1" ${g.selected ? 'checked' : ''} />
           </span>
         </div>`;
-        }).join('')}
+          }).join('')).join('');
+        })()}
         <p class="flt-empty" id="flt-empty" hidden>No groups match your search</p>
       </div>
     </div><!-- /sp-body -->
@@ -3135,16 +3179,17 @@ function renderOverview(variant, initialView) {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !fltOverlay.hidden) closeFlt(); });
 
     const rows = [...fltOverlay.querySelectorAll('.flt-row')];
-    const kidsOf = (id) => rows.filter(r => r.dataset.parent === id);
-
-    /* A row shows only when every ancestor above it is expanded */
     const byId = Object.fromEntries(rows.map(r => [r.dataset.id, r]));
+    let struct = 'org';
+
+    /* A row shows when it belongs to the active structure and every ancestor is expanded */
     const refresh = () => rows.forEach(r => {
-      let p = byId[r.dataset.parent], show = true;
-      while (p) { if (!p.classList.contains('is-open')) { show = false; break; } p = byId[p.dataset.parent]; }
+      let p = byId[r.dataset.parent], show = r.dataset.struct === struct;
+      while (show && p) { if (!p.classList.contains('is-open')) { show = false; break; } p = byId[p.dataset.parent]; }
       r.hidden = !show;
     });
     const setOpen = (row, open) => { row.classList.toggle('is-open', open); refresh(); };
+    refresh();   /* markup ships collapsed; let the open-state decide what shows */
     rows.forEach(row => {
       const caret = row.querySelector('.flt-caret');
       if (caret) caret.addEventListener('click', (e) => {
@@ -3169,11 +3214,61 @@ function renderOverview(variant, initialView) {
       if (!q) { refresh(); empty.hidden = true; return; }
       let hits = 0;
       rows.forEach(r => {
-        const match = r.querySelector('.flt-row-name').textContent.toLowerCase().includes(q);
+        const match = r.dataset.struct === struct
+          && r.querySelector('.flt-row-name').textContent.toLowerCase().includes(q);
         r.hidden = !match;
         if (match) hits++;
       });
       empty.hidden = hits > 0;
+    });
+
+    /* Structure picker — each structure brings its own group tree */
+    const structBtn = document.getElementById('flt-struct-btn');
+    const structMenu = document.getElementById('flt-struct-menu');
+    const closeStructMenu = () => { structMenu.hidden = true; structBtn.setAttribute('aria-expanded', 'false'); };
+    structBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      structMenu.hidden = !structMenu.hidden;
+      structBtn.setAttribute('aria-expanded', String(!structMenu.hidden));
+    });
+    document.addEventListener('click', (e) => {
+      if (!structMenu.hidden && !structMenu.contains(e.target)) closeStructMenu();
+    });
+    structMenu.querySelectorAll('.menu-item').forEach(mi => {
+      mi.addEventListener('click', () => {
+        struct = mi.dataset.struct;
+        structMenu.querySelectorAll('.menu-item').forEach(o => {
+          const on = o === mi;
+          o.classList.toggle('is-selected', on);
+          o.setAttribute('aria-checked', String(on));
+          const check = o.querySelector('.menu-item-check');
+          if (on && !check) {
+            const c = document.createElement('i');
+            c.setAttribute('data-icon', 'check');
+            c.className = 'menu-item-check';
+            o.appendChild(c);
+            if (window.Icons) window.Icons.render(o);
+          } else if (!on && check) { check.remove(); }
+        });
+        document.getElementById('flt-struct-name').textContent = mi.querySelector('.menu-item-title').textContent;
+        const btnIcon = document.getElementById('flt-struct-icon');
+        btnIcon.setAttribute('data-icon', mi.dataset.iconName);
+        btnIcon.removeAttribute('data-icon-loaded');
+        btnIcon.innerHTML = '';
+        if (window.Icons) window.Icons.render(structBtn);
+        /* Selection belongs to a structure, so fall back to the new tree's root */
+        rows.forEach(r => { r.classList.remove('is-selected'); r.setAttribute('aria-checked', 'false'); });
+        const root = rows.find(r => r.dataset.struct === struct && !r.dataset.parent);
+        if (root) {
+          root.classList.add('is-selected');
+          root.setAttribute('aria-checked', 'true');
+          root.querySelector('.rb').checked = true;
+        }
+        search.value = '';
+        empty.hidden = true;
+        refresh();
+        closeStructMenu();
+      });
     });
 
     document.getElementById('flt-apply').addEventListener('click', () => {
