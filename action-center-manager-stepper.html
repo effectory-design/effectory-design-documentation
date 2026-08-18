@@ -359,7 +359,11 @@
 
     /* ── Actions page ── */
     .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: none; margin: 0 auto; }
-    .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
+    .actions-head { display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; gap: var(--spacing-base); }
+    .actions-head-txt { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
+    .actions-head-cta { display: flex; gap: var(--spacing-base-tight); flex: none; }
+    .actions-head-cta i { display: flex; width: 16px; height: 16px; }
+    @media (max-width: 720px){ .actions-head { flex-direction: column; } .actions-head-cta { width: 100%; } }
     .actions-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base); }
     .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
     .act-sum-ico { flex: none; width: 40px; height: 40px; border-radius: var(--radius-base); display: inline-flex; align-items: center; justify-content: center; }
@@ -1104,9 +1108,15 @@
         <div class="view" id="view-actions" hidden>
           <div class="actions-page">
             <div class="actions-head">
-              <span class="fv-eyebrow is-focus">Your responses</span>
-              <h2 class="fv-section-title">Everything you've decided to act on</h2>
-              <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+              <div class="actions-head-txt">
+                <span class="fv-eyebrow is-focus">Your responses</span>
+                <h2 class="fv-section-title">Everything you've decided to act on</h2>
+                <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+              </div>
+              <div class="actions-head-cta">
+                <button class="btn btn-secondary" onclick="exportActions()"><i data-icon="download"></i> Export</button>
+                <button class="btn btn-primary" onclick="openCustomAction()"><i data-icon="plus"></i> Custom pin</button>
+              </div>
             </div>
             <div class="actions-summary" id="actions-summary"></div>
             <div class="fv-cards" id="actions-list"></div>
@@ -1818,7 +1828,8 @@
     var showGoalDesc = (st === 'action' || st === 'promote');
     var goalChip = fa.state ? (actionGoalChip(fa.state) || '<span class="ap-goal-chip is-action"><i data-icon="target"></i> Improve</span>') : '<span class="ap-goal-chip ap-goal-empty"><i data-icon="goals"></i> Select a goal</span>';
     var emptyMsg = (st === 'support') ? 'No support requests yet. Add one to get started.' : (st === 'monitor' ? 'No monitoring steps yet. Add one to get started.' : 'No actions yet. Add one to get started.');
-    var rows = items.map(planItemHTML).join('') + (planEditIdx === 'new' ? planEditFormHTML('new') : '');
+    var rows = (planEditIdx === 'new' ? planEditFormHTML('new') : '');
+    for(var ri = items.length - 1; ri >= 0; ri--){ rows += planItemHTML(items[ri], ri); }   // newest first
     if(!items.length && planEditIdx !== 'new') rows = '<p class="app-empty">' + emptyMsg + '</p>';
     var count = items.length ? ' <span class="act-count-inline">' + doneN + '/' + items.length + '</span>' : '';
     var addDis = (planEditIdx !== null || !fa.state) ? ' disabled' : '';
@@ -1939,7 +1950,9 @@
     if(state === 'action' || state === 'promote'){ fa.actionAdded = true; fa.planItems = fa.planItems || []; }
     else if(state === 'monitor'){ fa.monitorSaved = true; if(fa.monitorMode == null) fa.monitorMode = 'custom'; }
     else if(state === 'support'){ fa.supportSent = true; }
-    refreshPlanBody(); renderCards();
+    renderCards();
+    if(!(fa.planItems || []).length){ planStartAdd(); }   // no items yet → open the goal-appropriate input fields
+    else { refreshPlanBody(); }
   }
   document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.act-goal-wrap'))){ var m = document.getElementById('plan-goal-menu'); if(m) m.hidden = true; } });
   function togglePlanMenu(e, i){
@@ -2012,7 +2025,7 @@
     var q = cfg.data[idx];
     var id = which + '-sc-' + idx;
     var t = scoreTargets.find(function(x){ return x.id === id; });
-    var decided = !!(t && faDecided(t));
+    var decided = !!(t && t.state);
     if(!t){
       var keys = Object.keys(RECO);
       t = { id: id, text: q.q, score: q.s + '%', theme: cfg.theme, isHigh: (which === 'high'), recoKey: keys[idx % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
@@ -2130,6 +2143,7 @@
       d.addEventListener('click', function(e){ if(e.target === d) closeCustomAction(); }); }
     return d;
   }
+  function exportActions(){ var st = notifyStack(); var n = document.createElement('div'); n.className = 'sysnotif'; n.innerHTML = '<div class="sysnotif-title">Preparing your export\u2026</div><button class="sysnotif-close" aria-label="Close"><i data-icon="cross"></i></button>'; n.querySelector('.sysnotif-close').addEventListener('click', function(){ n.remove(); }); st.appendChild(n); if(window.Icons) window.Icons.render(n); setTimeout(function(){ n.remove(); }, 3200); }
   function openCustomAction(){
     CUSTOM_SEQ++; var id = 'custom-' + CUSTOM_SEQ; var keys = Object.keys(RECO);
     var t = { id: id, text: '', score: '\u2013', theme: 'Custom action', isCustom: true, recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '', customActions: [] };
@@ -2231,7 +2245,7 @@
     which = which || 'low';
     var id = which + '-emb-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
     var t = scoreTargets.find(function(x){ return x.id === id; });
-    var decided = !!(t && faDecided(t));   // already responded/pinned → edit in the side panel, not the dialog
+    var decided = !!(t && t.state);   // already responded/pinned → edit in the side panel, not the dialog
     if(!t){
       var keys = Object.keys(RECO);
       t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), isHigh: (which === 'high'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
