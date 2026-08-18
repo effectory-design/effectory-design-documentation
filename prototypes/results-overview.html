@@ -165,7 +165,34 @@
       margin-bottom: var(--spacing-base);
     }
     .flt-struct-wrap { position: relative; flex: 1; min-width: 0; }
-    .flt-struct-wrap .sel-btn { width: 100%; }
+    /* Structure select tints itself with the active structure's colour,
+       matching the live dashboard and the group linking prototype. */
+    .flt-struct-select {
+      font-family: inherit;
+      display: flex; align-items: center; gap: var(--spacing-tight); width: 100%;
+      font-size: 14px; font-weight: 600; color: var(--content-base);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-base); border-radius: var(--radius-md);
+      padding: var(--spacing-tight) var(--spacing-base-tight);
+      cursor: pointer;
+      transition: background var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out);
+    }
+    .flt-struct-select.is-blue   { background: var(--bg-info-subtle);     border-color: var(--border-info); }
+    .flt-struct-select.is-green  { background: var(--bg-positive-subtle); border-color: var(--border-positive); }
+    .flt-struct-select.is-orange { background: var(--bg-warning-subtle);  border-color: var(--border-warning); }
+    .flt-struct-select-icon { width: 18px; height: 18px; display: flex; flex: none; }
+    .flt-struct-select-val { flex: 1; min-width: 0; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .flt-struct-select-chev { width: 16px; height: 16px; display: flex; flex: none; color: var(--content-secondary); }
+
+    .flt-struct-tile {
+      width: 28px; height: 28px; flex: none; border-radius: var(--radius-base);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--content-base);
+    }
+    .flt-struct-tile i { width: 16px; height: 16px; display: flex; }
+    .flt-struct-tile.is-blue   { background: var(--bg-info-subtle); }
+    .flt-struct-tile.is-green  { background: var(--bg-positive-subtle); }
+    .flt-struct-tile.is-orange { background: var(--bg-warning-subtle); }
     .flt-struct-wrap .menu {
       position: absolute; top: calc(100% + var(--spacing-extra-tight)); left: 0; right: 0;
       z-index: 20;
@@ -2877,21 +2904,22 @@ ${focusView(d)}
     <div class="sp-body">
       <div class="flt-toolbar">
         <div class="flt-struct-wrap">
-          <button class="sel-btn is-filled" id="flt-struct-btn" type="button" aria-haspopup="true" aria-expanded="false">
-            <i data-icon="structure" id="flt-struct-icon"></i>
-            <span class="sel-btn-value" id="flt-struct-name">Organizational structure</span>
+          <button class="flt-struct-select is-blue" id="flt-struct-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <i data-icon="structure" class="flt-struct-select-icon" id="flt-struct-icon"></i>
+            <span class="flt-struct-select-val" id="flt-struct-name">Organizational structure</span>
             <i data-icon="eye-off" class="flt-btn-hidden" id="flt-struct-hidden" aria-hidden="true" hidden></i>
-            <i data-icon="chevron-down"></i>
+            <i data-icon="chevron-down" class="flt-struct-select-chev"></i>
           </button>
           <div class="menu" id="flt-struct-menu" role="menu" hidden>
             ${[
-              { id: 'org', name: 'Organizational structure', icon: 'structure' },
-              { id: 'loc', name: 'Location',                 icon: 'building' },
-              { id: 'job', name: 'Job family',               icon: 'briefcase' }
+              { id: 'org', name: 'Organizational structure', icon: 'structure', color: 'blue' },
+              { id: 'loc', name: 'Location',                 icon: 'building',  color: 'green' },
+              { id: 'job', name: 'Job family',               icon: 'briefcase', color: 'orange' }
             ].map((st, i) => `
             <div class="menu-item${i === 0 ? ' is-selected' : ''}" role="menuitemradio"
-                 aria-checked="${i === 0 ? 'true' : 'false'}" data-struct="${st.id}" data-icon-name="${st.icon}">
-              <i data-icon="${st.icon}" class="menu-item-icon"></i>
+                 aria-checked="${i === 0 ? 'true' : 'false'}" data-struct="${st.id}"
+                 data-icon-name="${st.icon}" data-color="${st.color}">
+              <span class="flt-struct-tile is-${st.color}"><i data-icon="${st.icon}"></i></span>
               <span class="menu-item-body">
                 <span class="menu-item-title">${st.name}</span>
                 <span class="menu-item-sub"></span>
@@ -3326,10 +3354,13 @@ function renderOverview(variant, initialView) {
           } else if (!on && check) { check.remove(); }
         });
         document.getElementById('flt-struct-name').textContent = mi.querySelector('.menu-item-title').textContent;
+        /* the trigger takes on the colour of the structure it shows */
+        structBtn.className = 'flt-struct-select is-' + mi.dataset.color;
         const btnIcon = document.getElementById('flt-struct-icon');
         btnIcon.setAttribute('data-icon', mi.dataset.iconName);
         btnIcon.removeAttribute('data-icon-loaded');
         btnIcon.innerHTML = '';
+        btnIcon.className = 'flt-struct-select-icon';
         if (window.Icons) window.Icons.render(structBtn);
         /* Selection belongs to a structure, so fall back to the new tree's root */
         const root = rows.find(r => r.dataset.struct === struct && !r.dataset.parent);
