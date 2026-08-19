@@ -58,7 +58,7 @@
       document.querySelectorAll('.sc-pin.is-pressed').forEach(function(b){ b.classList.remove('is-pressed'); });
       // Pass the design system's own pin state along: a question already pinned here (it has a goal,
       // and possibly actions) must open the prototype's side panel for editing, not the triage dialog.
-      var meta = { pinned: item.classList.contains('is-pinned') };
+      var meta = { pinned: item.classList.contains('is-pinned'), key: item.getAttribute('data-pin-key') };
       try {
         var st = actState(item.getAttribute('data-pin-key'));
         if(st){
@@ -72,6 +72,42 @@
         window.parent.openScoreStepFromEmbed((name || '').replace(/\s*\(\d+%\)\s*$/, '').trim(), (score || '').trim(), which, meta);
       }
     }, true);
+
+    /* The prototype owns the pin state once a manager responds, so it writes back here: the pin
+       count, the pinned rows and the "N action(s)" labels are re-derived from the design system's
+       own store. Mirrors the DS's internal refresh(), which is a closure we cannot call. */
+    window.applyPinFromParent = function(key, goal, actions){
+      if(!key) return;
+      try {
+        var st = actState(key);
+        st.goal = goal || '';
+        st.actions = (actions || []).map(function(a){ return { text: a.text || '', done: !!a.done, due: a.due || '', assignee: a.assignee || '' }; });
+        if(typeof syncPinsForKey === 'function') syncPinsForKey(key);
+        refreshPinCounts();
+      } catch(e){}
+    };
+    function refreshPinCounts(){
+      document.querySelectorAll('.sc-pin-multi').forEach(function(wrap){
+        var n = 0;
+        wrap.querySelectorAll('.sc-pinlist-item').forEach(function(it){
+          var st = actState(it.dataset.pinKey), pinned = !!st.goal;
+          if(pinned) n++;
+          it.classList.toggle('is-pinned', pinned);
+          var pinIco = it.querySelector('.sc-pinlist-pin');
+          if(pinIco) ['promote','improve','contemplate'].forEach(function(g){ pinIco.classList.toggle('is-goal-' + g, st.goal === g); });
+          var m = it.querySelector('.sc-pinlist-meta');
+          if(m) m.textContent = pinned ? ((st.actions || []).length + ' action(s)') : '';
+        });
+        var cnt = wrap.querySelector('.sc-pin-count'); if(cnt){ cnt.textContent = n; cnt.hidden = n === 0; }
+        var btn = wrap.querySelector('.sc-pin'); if(!btn) return;
+        btn.classList.toggle('is-pinned', n > 0);
+        var ico = btn.querySelector('[data-icon]');
+        if(ico){ var want = n > 0 ? 'pin-filled' : 'pin'; if(ico.dataset.icon !== want){ ico.dataset.icon = want; delete ico.dataset.iconLoaded; ico.innerHTML = ''; if(window.Icons) window.Icons.renderOne(ico); } }
+        var txt = n > 0 ? (n + ' items with selected goal') : 'Pin: no status';
+        btn.setAttribute('aria-label', txt);
+        var tip = wrap.querySelector('.tooltip'); if(tip) tip.textContent = txt;
+      });
+    }
 
     // Report content height so the parent can size the iframe with no inner (or trailing) scroll.
     function reportHeight(){
