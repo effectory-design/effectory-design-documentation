@@ -686,7 +686,7 @@
     .step-person-search .tf:focus { outline: none; box-shadow: none; }
     .step-person-add .menu-item-sub { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
     .menu-item.is-empty { color: var(--content-secondary); font-size: 14px; padding: var(--spacing-tight) var(--spacing-base-tight); }
-    .step-footer { display: flex; flex: none; justify-content: space-between; gap: var(--spacing-base); border-top: 1px solid var(--border-base); padding-top: var(--spacing-base); background: var(--bg-base); }
+    .step-footer { display: flex; flex: none; justify-content: space-between; gap: var(--spacing-base); padding-top: var(--spacing-base); background: var(--bg-base); }
     /* success: centered, no stepper bar */
     .step-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); padding: var(--spacing-loose) 0; }
     .step-success-ico { width: 56px; height: 56px; border-radius: var(--radius-full); }
@@ -2500,13 +2500,16 @@
         '<button class="ib ib-24 ib-tertiary fv-custom-x" aria-label="Remove action" onclick="removeCustomAction(' + jsId(fa.id) + ',' + i + ')"><i data-icon="cross"></i></button></div>';
     }).join('') + '</div>';
   }
+  // Improve-with-recommendations keeps Cancel + Add action inside the form; the create-only
+  // screens (Promote, Overview Improve) hand Add action to the dialog footer instead.
+  function formOwnsButtons(fa){ return !(fa.state === 'promote' || isOverviewTarget(fa)); }
   function newActionFormHTML(fa){
     if(!fa.creatingAction){
       return '<div class="fv-create-row"><button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button><button class="btn btn-link fv-defer" onclick="stepDeferImprove(' + jsId(fa.id) + ')">I\'ll figure it out later</button></div>';
     }
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
-    var noReco = (fa.state === 'promote' || isOverviewTarget(fa));
+    var noReco = !formOwnsButtons(fa);
     return (noReco ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
       '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
@@ -2517,15 +2520,15 @@
         '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><input class="tf" placeholder="Who will own this?" value="' + esc(na.assignee || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)"></div>' +
       '</div>' +
-      '<div class="fv-na-actions">' + (noReco ? '' : '<button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>') +
-        '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>' +
+      (noReco ? '' : '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
+        '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>') +
     '</div>';
   }
   function newActionSync(el){
     var form = el.closest('.fv-newaction'); if(!form) return;
     var t = form.querySelector('.fv-na-title'), d = form.querySelector('.fv-na-desc');
     var ok = !!(t && t.value.trim() && d && d.value.trim());
-    var btn = form.querySelector('.fv-na-add'); if(btn){ btn.disabled = !ok; btn.classList.toggle('is-disabled', !ok); }
+    document.querySelectorAll('.fv-na-add').forEach(function(btn){ btn.disabled = !ok; btn.classList.toggle('is-disabled', !ok); });
   }
   function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
   function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
@@ -2614,13 +2617,15 @@
         '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div></div>' +
         '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
       var ok = stepCanConfirm();
-      var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
-        '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
-      // The create form has its own Add action button, so the footer keeps Back only — it stays
-      // reachable (sticky) when the form is taller than the dialog.
+        '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">Add action</button></div>';
       if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction){
-        footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button></div>';
+        // Screens that are only the create form (Promote, and Improve from the Overview) put its
+        // Add action next to Back, so both live on one sticky row.
+        var naOk = !!(fa.newAction && (fa.newAction.title || '').trim() && (fa.newAction.desc || '').trim());
+        footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
+          (formOwnsButtons(fa) ? '' : '<button class="btn btn-primary fv-na-add' + (naOk ? '' : ' is-disabled') + '"' + (naOk ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button>') +
+        '</div>';
       }
     }
     document.getElementById('step-dialog').innerHTML =
