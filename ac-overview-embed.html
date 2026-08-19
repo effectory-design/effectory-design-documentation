@@ -56,8 +56,20 @@
       // close the DS popover so it isn't left open behind the dialog
       document.querySelectorAll('.sc-pin-pop').forEach(function(p){ p.hidden = true; });
       document.querySelectorAll('.sc-pin.is-pressed').forEach(function(b){ b.classList.remove('is-pressed'); });
+      // Pass the design system's own pin state along: a question already pinned here (it has a goal,
+      // and possibly actions) must open the prototype's side panel for editing, not the triage dialog.
+      var meta = { pinned: item.classList.contains('is-pinned') };
+      try {
+        var st = actState(item.getAttribute('data-pin-key'));
+        if(st){
+          meta.pinned = meta.pinned || !!st.goal;
+          meta.goal = st.goal || '';
+          meta.desc = st.desc || '';
+          meta.actions = (st.actions || []).map(function(a){ return { text: a.text || '', done: !!a.done, due: a.due || '', assignee: a.assignee || '' }; });
+        }
+      } catch(e){}
       if(window.parent && window.parent.openScoreStepFromEmbed){
-        window.parent.openScoreStepFromEmbed((name || '').replace(/\s*\(\d+%\)\s*$/, '').trim(), (score || '').trim(), which);
+        window.parent.openScoreStepFromEmbed((name || '').replace(/\s*\(\d+%\)\s*$/, '').trim(), (score || '').trim(), which, meta);
       }
     }, true);
 

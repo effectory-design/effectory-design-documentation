@@ -704,7 +704,8 @@
     .step-success .btn { margin-top: var(--spacing-loose); }
     @media (max-width: 760px) { .step-options { grid-template-columns: 1fr; } }
     /* Create-new-action form (custom action) */
-    .fv-newaction { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-secondary); margin-top: var(--spacing-tight); }
+    /* Field group — plain, no tinted card, so Improve/Promote match Monitor/Need support. */
+    .fv-newaction { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: 0; border: 0; border-radius: 0; background: transparent; margin-top: var(--spacing-tight); }
     .fv-na-lbl { font-size: 13px; font-weight: 600; color: var(--content-base); }
     .fv-na-opt { font-weight: 400; color: var(--content-subtle); }
     .fv-newaction .tf, .fv-newaction .ta { width: 100%; }
@@ -768,6 +769,7 @@
     .ap-addaction i { display: flex; width: 16px; height: 16px; }
     .ap-addaction:hover { text-decoration: underline; }
     #plan-overlay .sp-subtitle { margin: 6px 0 0; font-size: 14px; color: var(--content-secondary); }
+    .sp-kicker { display: block; font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--content-brand); margin-bottom: var(--spacing-extra-tight); }
     #plan-overlay .sp-actions i[data-icon] { width: 18px; height: 18px; display: flex; cursor: pointer; color: var(--content-action); }
     .sp-title-input { width: 100%; border: 0; border-bottom: 1px solid var(--border-base); background: transparent; font-family: inherit; font-size: 20px; font-weight: 600; color: var(--content-base); outline: none; padding: 2px 0 6px; }
     .sp-title-input:focus { border-bottom-color: var(--content-brand); }
@@ -1851,7 +1853,8 @@
             '<i data-icon="cross" id="plan-close" role="button" tabindex="0" aria-label="Close"></i>' +
           '</div></div>' +
           '<div class="sp-heading">' +
-            (fa.isCustom ? '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value)">' : '<h2 class="sp-title" id="plan-title">' + esc(fa.text) + '</h2>') +
+            (fa.isCustom ? '<span class="sp-kicker">' + ((fa.text || '').trim() ? 'Edit action' : 'Add action') + '</span>' +
+              '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value); syncPlanKicker(this.value)">' : '<h2 class="sp-title" id="plan-title">' + esc(fa.text) + '</h2>') +
             (fa.theme ? '<p class="sp-subtitle">' + esc(fa.theme) + '</p>' : '') +
           '</div>' +
           '<div class="sp-tabs">' +
@@ -1889,8 +1892,8 @@
     // Backfill descriptions on reco items saved before per-item descriptions existed.
     fa.planItems.forEach(function(it){ if((it.desc == null || it.desc === '') && it.approach && RECO[fa.recoKey] && RECO[fa.recoKey][it.approach]) it.desc = RECO[fa.recoKey][it.approach].body; });
     // Support / Monitor responses are edited as actions in the list — migrate any legacy single-field data in.
-    if(fa.state === 'support' && !fa.planItems.length && ((fa.supportText||'').trim() || fa.supportPerson)){ fa.planItems.push({ desc: (fa.supportText||'').trim(), assignee: fa.supportPerson || '', done: false }); }
-    if(fa.state === 'monitor' && !fa.planItems.length && (fa.monitorNote||'').trim()){ fa.planItems.push({ desc: (fa.monitorNote||'').trim(), done: false }); }
+    if(fa.state === 'support' && !fa.planItems.length && ((fa.supportText||'').trim() || fa.supportPerson)){ fa.planItems.push({ text: (fa.supportTitle||'').trim() || 'Support request', desc: (fa.supportText||'').trim(), assignee: fa.supportPerson || '', done: false }); }
+    if(fa.state === 'monitor' && !fa.planItems.length && (fa.monitorNote||'').trim()){ fa.planItems.push({ text: (fa.monitorTitle||'').trim() || 'Monitoring step', desc: (fa.monitorNote||'').trim(), done: false }); }
     if(fa.state === 'action' || fa.state === 'promote') fa.actionAdded = true;
     renderCards();
     renderPlanPanel();
@@ -1937,6 +1940,7 @@
   function setPlanSupportText(v){ var fa = planFa(planCurrentId); if(fa) fa.supportText = v; }
   function setPlanSupportPerson(v){ var fa = planFa(planCurrentId); if(fa) fa.supportPerson = v; }
   function setPlanTitle(v){ var fa = planFa(planCurrentId); if(fa) fa.text = v; }
+  function syncPlanKicker(v){ var k = document.querySelector('#plan-overlay .sp-kicker'); if(k) k.textContent = (v || '').trim() ? 'Edit action' : 'Add action'; }
   function togglePlanGoalMenu(e){ if(e){ e.stopPropagation(); } var m = document.getElementById('plan-goal-menu'); if(!m) return; var willOpen = m.hidden; document.querySelectorAll('#plan-overlay .menu').forEach(function(x){ x.hidden = true; }); m.hidden = !willOpen; }
   function setPlanGoal(state){
     var fa = planFa(planCurrentId); if(!fa) return;
@@ -2235,19 +2239,33 @@
     read(); setTimeout(read, 250); setTimeout(read, 800);
   }
   window.addEventListener('message', function(e){ if(e.data && e.data.type === 'ov-embed-height') sizeOvEmbed(e.data.height); });
-  function openScoreStepFromEmbed(text, score, which){
+  // The design system's own goals map onto the prototype's responses.
+  var DS_GOAL_STATE = { improve: 'action', promote: 'promote', contemplate: 'monitor' };
+  function openScoreStepFromEmbed(text, score, which, meta){
     if(!text) return;
     which = which || 'low';
+    meta = meta || {};
     var id = which + '-emb-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
     var t = scoreTargets.find(function(x){ return x.id === id; });
-    var decided = !!(t && t.state);   // already responded/pinned → edit in the side panel, not the dialog
     if(!t){
       var keys = Object.keys(RECO);
       t = { id: id, text: text, score: score, theme: (which === 'high' ? 'Overview · Highest scores' : 'Overview · Lowest scores'), isHigh: (which === 'high'), recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '' };
       scoreTargets.push(t);
     }
+    // Pinned inside the embed (the design system keeps its own pin state) → seed what it knows.
+    if(!t.state && meta.pinned){
+      t.state = DS_GOAL_STATE[meta.goal] || 'action';
+      if(!t.planDesc && meta.desc) t.planDesc = meta.desc;
+      if(!(t.planItems || []).length && (meta.actions || []).length){
+        t.planItems = meta.actions.filter(function(a){ return (a.text || '').trim(); })
+          .map(function(a){ return { text: a.text, desc: '', due: a.due || '', assignee: a.assignee || '', done: !!a.done }; });
+      }
+      if(t.state === 'monitor') t.monitorSaved = true;
+      else if(t.state === 'support') t.supportSent = true;
+      else t.actionAdded = true;
+    }
     // Already pinned/responded → side panel: show what's there, or open the inputs if nothing yet.
-    if(decided){ if((t.planItems || []).length){ openPlanPanel(id); } else { openPlanPanelAdd(id); } } else { openStepDialog(id); }
+    if(t.state){ if((t.planItems || []).length){ openPlanPanel(id); } else { openPlanPanelAdd(id); } } else { openStepDialog(id); }
   }
 
   // ═══════════════ Stepper dialog: Choose focus area → Respond → Plan → success ═══════════════
@@ -2288,8 +2306,8 @@
   // Closing mid-flow asks first — a small popover at the X — so unsaved input isn't lost silently.
   function hasStepChanges(fa){
     if(!fa || stepStage === 'success') return false;
-    if(fa.state === 'monitor') return !!(fa.monitorNote && fa.monitorNote.trim());
-    if(fa.state === 'support') return !!((fa.supportText && fa.supportText.trim()) || fa.supportPerson);
+    if(fa.state === 'monitor') return !!((fa.monitorNote && fa.monitorNote.trim()) || (fa.monitorTitle && fa.monitorTitle.trim()));
+    if(fa.state === 'support') return !!((fa.supportText && fa.supportText.trim()) || (fa.supportTitle && fa.supportTitle.trim()) || fa.supportPerson);
     if(fa.state === 'action' || fa.state === 'promote') return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length) || fa.creatingAction);
     return !!fa.creatingAction;
   }
@@ -2334,6 +2352,8 @@
   }
   function stepSetMon(val){ stepFa().monitorMode = val; renderStepDialog(); }
   function stepSetMonNote(v){ stepFa().monitorNote = v; stepUpdateConfirm(); }
+  function stepSetMonTitle(v){ stepFa().monitorTitle = v; stepUpdateConfirm(); }
+  function stepSetSupportTitle(v){ stepFa().supportTitle = v; stepUpdateConfirm(); }
   function stepSetMonDate(v){ stepFa().monitorDate = v; }
   function stepSetSupportText(v){ stepFa().supportText = v; stepUpdateConfirm(); }
   // "Choose who can help" — searchable dropdown of people, with the option to add someone by name
@@ -2364,8 +2384,8 @@
   function stepCanConfirm(){
     var fa = stepFa();
     if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
-    if(fa.state === 'support') return !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
-    if(fa.state === 'monitor') return !!(fa.monitorNote && fa.monitorNote.trim());
+    if(fa.state === 'support') return !!(fa.supportTitle && fa.supportTitle.trim()) && !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
+    if(fa.state === 'monitor') return !!(fa.monitorTitle && fa.monitorTitle.trim()) && !!(fa.monitorNote && fa.monitorNote.trim());
     return true;
   }
   function stepUpdateConfirm(){
@@ -2460,21 +2480,31 @@
       return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><p class="step-plan-sub">Here are a few ideas for inspiration — pick any that fit, or add your own below.</p><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
-      return '<h3 class="step-plan-h">Describe how you want to monitor <span class="fa-req">*</span></h3>' +
-        '<textarea class="ta" rows="3" placeholder="Describe how you\'ll keep an eye on this focus area \u2014 for example, revisit at the next survey, watch the score, or check back on a set date" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea>';
+      return '<h3 class="step-plan-h">Plan how you\'ll keep an eye on this</h3>' +
+        '<div class="fv-newaction">' +
+          '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
+          '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.monitorTitle||'') + '" oninput="stepSetMonTitle(this.value)">' +
+          '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
+          '<textarea class="ta" rows="3" placeholder="Describe how you\'ll keep an eye on this focus area \u2014 for example, revisit at the next survey, watch the score, or check back on a set date" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea>' +
+        '</div>';
     }
     var personTrigger = fa.supportPerson
       ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
       : '<span class="slt-ph">Select a person</span>';
-    return '<h3 class="step-plan-h">Describe the support you need <span class="fa-req">*</span></h3>' +
+    return '<h3 class="step-plan-h">Ask for the support you need</h3>' +
+      '<div class="fv-newaction">' +
+      '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
+      '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.supportTitle||'') + '" oninput="stepSetSupportTitle(this.value)">' +
+      '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
       '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="stepSetSupportText(this.value)">' + esc(fa.supportText||'') + '</textarea>' +
-      '<h3 class="step-plan-h">Choose who can help <span class="fa-req">*</span></h3>' +
+      '<label class="fv-na-lbl">Who can help <span class="fa-req">*</span></label>' +
       '<div class="slt-wrap step-person-wrap">' +
         '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
         '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
           '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search for colleague" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
           '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
         '</div>' +
+      '</div>' +
       '</div>';
   }
 
@@ -2530,7 +2560,11 @@
       var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
       footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
         '<button class="btn btn-primary' + (ok?'':' is-disabled') + '" id="step-confirm"' + (ok?'':' disabled') + ' onclick="stepConfirm()">' + cta + '</button></div>';
-      if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction) footer = '';
+      // The create form has its own Add action button, so the footer keeps Back only — it stays
+      // reachable (sticky) when the form is taller than the dialog.
+      if((fa.state === 'action' || fa.state === 'promote') && fa.creatingAction){
+        footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button></div>';
+      }
     }
     document.getElementById('step-dialog').innerHTML =
       '<div class="step-modal' + (stepStage === 'success' ? ' is-success' : '') + (stepPersonMenuOpen ? ' menu-open' : '') + '" role="dialog" aria-modal="true">' +
