@@ -769,7 +769,10 @@
     .ap-addaction i { display: flex; width: 16px; height: 16px; }
     .ap-addaction:hover { text-decoration: underline; }
     #plan-overlay .sp-subtitle { margin: 6px 0 0; font-size: 14px; color: var(--content-secondary); }
-    .sp-kicker { display: block; font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--content-brand); margin-bottom: var(--spacing-extra-tight); }
+    .app-eyebrow { font-size: 14px; font-weight: 600; color: var(--content-base); }
+    .sp-more-wrap { position: relative; display: inline-flex; }
+    .plan-head-menu { position: absolute; top: calc(100% + var(--spacing-tight)); right: 0; z-index: 40; min-width: 180px; }
+    .plan-head-menu[hidden] { display: none; }
     #plan-overlay .sp-actions i[data-icon] { width: 18px; height: 18px; display: flex; cursor: pointer; color: var(--content-action); }
     .sp-title-input { width: 100%; border: 0; border-bottom: 1px solid var(--border-base); background: transparent; font-family: inherit; font-size: 20px; font-weight: 600; color: var(--content-base); outline: none; padding: 2px 0 6px; }
     .sp-title-input:focus { border-bottom-color: var(--content-brand); }
@@ -1745,6 +1748,7 @@
   /* ── Action-planner side panel (opens from "Add to action planner") ── */
   var planCurrentId = null;
   var planEditIdx = null, planDraft = null;
+  var planPanelMode = 'Add action';   // toolbar title: editing an existing pin vs adding a new one
   function ensurePlanOverlay(){
     var ov = document.getElementById('plan-overlay');
     if(ov) return ov;
@@ -1849,12 +1853,19 @@
     ov.innerHTML =
       '<div class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="plan-title">' +
         '<div class="sp-header">' +
-          '<div class="sp-toolbar"><div class="sp-actions">' +
-            '<i data-icon="cross" id="plan-close" role="button" tabindex="0" aria-label="Close"></i>' +
-          '</div></div>' +
+          '<div class="sp-toolbar">' +
+            '<span class="app-eyebrow">' + planPanelMode + '</span>' +
+            '<div class="sp-actions">' +
+              '<span class="sp-more-wrap">' +
+                '<i data-icon="more-vertical" role="button" tabindex="0" aria-label="More options" onclick="togglePlanHeadMenu(event)"></i>' +
+                '<div class="menu plan-head-menu" id="plan-head-menu" hidden>' +
+                  '<div class="menu-item ap-menu-remove" role="button" tabindex="0" onclick="removePlanPin()"><i data-icon="trash" class="menu-item-icon"></i><span class="menu-item-title">Remove pin</span></div>' +
+                '</div>' +
+              '</span>' +
+              '<i data-icon="cross" id="plan-close" role="button" tabindex="0" aria-label="Close"></i>' +
+            '</div></div>' +
           '<div class="sp-heading">' +
-            (fa.isCustom ? '<span class="sp-kicker">' + ((fa.text || '').trim() ? 'Edit action' : 'Add action') + '</span>' +
-              '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value); syncPlanKicker(this.value)">' : '<h2 class="sp-title" id="plan-title">' + esc(fa.text) + '</h2>') +
+            (fa.isCustom ? '<input class="sp-title-input" id="plan-title-input" placeholder="Name this action" value="' + esc(fa.text || '') + '" oninput="setPlanTitle(this.value)">' : '<h2 class="sp-title" id="plan-title">' + esc(fa.text) + '</h2>') +
             (fa.theme ? '<p class="sp-subtitle">' + esc(fa.theme) + '</p>' : '') +
           '</div>' +
           '<div class="sp-tabs">' +
@@ -1883,6 +1894,8 @@
     planEditIdx = null; planDraft = null;
     var fa = planFa(id);
     if(!fa) return;
+    // Title is decided when the panel opens, so it doesn't flip while you work in it.
+    planPanelMode = (fa.state && ((fa.planItems || []).length || faDecided(fa))) ? 'Edit action' : 'Add action';
     fa.planItems = fa.planItems || [];
     // Pull in any picked recommended actions not yet materialised, carrying their description.
     (fa.picked || []).forEach(function(a){
@@ -1940,7 +1953,19 @@
   function setPlanSupportText(v){ var fa = planFa(planCurrentId); if(fa) fa.supportText = v; }
   function setPlanSupportPerson(v){ var fa = planFa(planCurrentId); if(fa) fa.supportPerson = v; }
   function setPlanTitle(v){ var fa = planFa(planCurrentId); if(fa) fa.text = v; }
-  function syncPlanKicker(v){ var k = document.querySelector('#plan-overlay .sp-kicker'); if(k) k.textContent = (v || '').trim() ? 'Edit action' : 'Add action'; }
+  function togglePlanHeadMenu(e){ if(e){ e.stopPropagation(); } var m = document.getElementById('plan-head-menu'); if(!m) return; var willOpen = m.hidden; document.querySelectorAll('#plan-overlay .menu').forEach(function(x){ x.hidden = true; }); m.hidden = !willOpen; }
+  // Remove pin — drops the response and its actions, then closes the panel.
+  function removePlanPin(){
+    var fa = planFa(planCurrentId); if(!fa) return;
+    fa.state = null; fa.actionAdded = false; fa.monitorSaved = false; fa.supportSent = false;
+    fa.planItems = []; fa.picked = []; fa.planDesc = '';
+    fa.monitorNote = ''; fa.monitorTitle = ''; fa.supportText = ''; fa.supportTitle = ''; fa.supportPerson = null;
+    if(fa.isCustom){ var at = scoreTargets.indexOf(fa); if(at > -1) scoreTargets.splice(at, 1); }
+    var m = document.getElementById('plan-head-menu'); if(m) m.hidden = true;
+    closePlanPanel(); renderCards();
+    if(typeof renderActions === 'function') renderActions();
+  }
+  document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.sp-more-wrap'))){ var m = document.getElementById('plan-head-menu'); if(m) m.hidden = true; } });
   function togglePlanGoalMenu(e){ if(e){ e.stopPropagation(); } var m = document.getElementById('plan-goal-menu'); if(!m) return; var willOpen = m.hidden; document.querySelectorAll('#plan-overlay .menu').forEach(function(x){ x.hidden = true; }); m.hidden = !willOpen; }
   function setPlanGoal(state){
     var fa = planFa(planCurrentId); if(!fa) return;
@@ -2054,25 +2079,14 @@
     var g = ACT_GOAL[state]; if(!g) return '';
     return '<span class="ap-goal-chip ' + g.cls + '"><i data-icon="' + g.icon + '"></i> ' + g.label + '</span>';
   }
+  // One representation for every response: a progress bar over its actions (or an Add action link).
   function actionProgressHTML(fa){
-    if(fa.state === 'action' || fa.state === 'promote'){
-      var items = fa.planItems || [];
-      if(!items.length){ return '<button class="ap-addaction" onclick="event.stopPropagation(); openPlanPanelAdd(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button>'; }
-      var done = items.filter(function(x){ return x.done; }).length, tot = items.length;
-      var pct = tot ? Math.round(done / tot * 100) : 0;
-      return '<div class="ap-progress"><div class="ap-progress-track"><div class="ap-progress-fill" style="width:' + pct + '%"></div></div>' +
-        '<span class="ap-progress-lbl">' + done + '/' + (tot || 1) + '</span></div>';
-    }
-    if(fa.state === 'monitor'){
-      var mItems = fa.planItems || [];
-      var mNote = (mItems[0] && mItems[0].desc) ? mItems[0].desc.trim() : (fa.monitorNote || '').trim();
-      var mWhen = mNote ? (mNote.length > 42 ? mNote.slice(0, 42) + '\u2026' : mNote) : 'Monitoring plan set';
-      if(mItems.length > 1) mWhen += ' \u00b7 +' + (mItems.length - 1) + ' more';
-      return '<span class="ap-meta">' + esc(mWhen) + '</span>';
-    }
-    var sItems = fa.planItems || [];
-    var sWho = (sItems[0] && sItems[0].assignee) ? sItems[0].assignee : (fa.supportPerson || 'the right person');
-    return '<span class="ap-meta">Sent to ' + esc(sWho) + (sItems.length > 1 ? ' \u00b7 +' + (sItems.length - 1) + ' more' : '') + '</span>';
+    var items = fa.planItems || [];
+    if(!items.length){ return '<button class="ap-addaction" onclick="event.stopPropagation(); openPlanPanelAdd(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button>'; }
+    var done = items.filter(function(x){ return x.done; }).length, tot = items.length;
+    var pct = tot ? Math.round(done / tot * 100) : 0;
+    return '<div class="ap-progress"><div class="ap-progress-track"><div class="ap-progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<span class="ap-progress-lbl">' + done + '/' + tot + '</span></div>';
   }
   function actionRowHTML(fa){
     var id = jsId(fa.id);
@@ -2465,9 +2479,7 @@
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
     if(fa.state === 'promote'){
-      return '<h3 class="step-plan-h">Plan how you\'ll celebrate this</h3>' +
-        '<p class="step-sub step-plan-note">Recognise the win with your team, or share it more widely across the organisation.</p>' +
-        customActionsHTML(fa) + newActionFormHTML(fa);
+      return customActionsHTML(fa) + newActionFormHTML(fa);
     }
     if(fa.state === 'action'){
       var picked = fa.picked || [];
@@ -2477,11 +2489,10 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><p class="step-plan-sub">Here are a few ideas for inspiration — pick any that fit, or add your own below.</p><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
+      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
-      return '<h3 class="step-plan-h">Plan how you\'ll keep an eye on this</h3>' +
-        '<div class="fv-newaction">' +
+      return '<div class="fv-newaction">' +
           '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
           '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.monitorTitle||'') + '" oninput="stepSetMonTitle(this.value)">' +
           '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
@@ -2491,8 +2502,7 @@
     var personTrigger = fa.supportPerson
       ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
       : '<span class="slt-ph">Select a person</span>';
-    return '<h3 class="step-plan-h">Ask for the support you need</h3>' +
-      '<div class="fv-newaction">' +
+    return '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.supportTitle||'') + '" oninput="stepSetSupportTitle(this.value)">' +
       '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
@@ -2554,7 +2564,7 @@
     } else {
       var d2 = DECIDED[fa.state] || {};
       body = '<div class="step-hero"><div class="step-hero-row"><span class="step-hero-ico is-' + fa.state + '"><i data-icon="' + d2.icon + '"></i></span>' +
-        '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div><p class="step-sub">' + STEP_DESC[fa.state] + '</p></div>' +
+        '<h2 class="step-h2">' + LABEL[fa.state] + '</h2></div></div>' +
         '<div class="step-plan">' + stepPlanHTML(fa) + '</div>';
       var ok = stepCanConfirm();
       var cta = fa.state === 'monitor' ? 'Save' : (fa.state === 'support' ? 'Send' : 'Add action');
