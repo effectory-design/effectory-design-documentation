@@ -724,7 +724,7 @@
     .fa-done-editrow { display: flex; margin-top: var(--spacing-tight); }
     .fv-see-reco.btn-link { align-self: flex-start; gap: var(--spacing-tight); padding: 0; }
     .fv-see-reco.btn-link i { display: flex; width: 16px; height: 16px; }
-    .fv-newaction select.fv-na-assignee, .fv-newaction input[type="date"] { height: 40px; padding: 0 var(--spacing-base-tight); border: 1px solid var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); font-family: inherit; font-size: 14px; color: var(--content-base); width: 100%; box-sizing: border-box; }
+    .fv-newaction select.fv-na-assignee, .fv-newaction input[type="date"], .fv-newaction .fv-na-field input.tf { height: 40px; padding: 0 var(--spacing-base-tight); border: 1px solid var(--border-action); border-radius: var(--radius-base); background: var(--bg-base); font-family: inherit; font-size: 14px; color: var(--content-base); width: 100%; box-sizing: border-box; }
     .fv-newaction select.fv-na-assignee { cursor: pointer; }
     .fa-done-editlink { text-decoration: none; font-size: 13px; gap: 4px; }
     .fa-done-editlink i { display: flex; width: 13px; height: 13px; }
@@ -2423,6 +2423,7 @@
   function stepSetMonNote(v){ stepFa().monitorNote = v; stepUpdateConfirm(); }
   function stepSetMonTitle(v){ stepFa().monitorTitle = v; stepUpdateConfirm(); }
   function stepSetSupportTitle(v){ stepFa().supportTitle = v; stepUpdateConfirm(); }
+  function stepSetSupportPerson(v){ stepFa().supportPerson = v; stepUpdateConfirm(); }
   function stepSetMonDate(v){ stepFa().monitorDate = v; }
   function stepSetSupportText(v){ stepFa().supportText = v; stepUpdateConfirm(); }
   // "Choose who can help" — searchable dropdown of people, with the option to add someone by name
@@ -2453,7 +2454,7 @@
   function stepCanConfirm(){
     var fa = stepFa();
     if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
-    if(fa.state === 'support') return !!(fa.supportTitle && fa.supportTitle.trim()) && !!(fa.supportText && fa.supportText.trim()) && !!fa.supportPerson;
+    if(fa.state === 'support') return !!(fa.supportTitle && fa.supportTitle.trim()) && !!(fa.supportText && fa.supportText.trim());   // who can help is optional
     if(fa.state === 'monitor') return !!(fa.monitorTitle && fa.monitorTitle.trim()) && !!(fa.monitorNote && fa.monitorNote.trim());
     return true;
   }
@@ -2505,7 +2506,6 @@
     }
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
-    var opts = ['<option value="">Unassigned</option>'].concat(PEOPLE.map(function(p){ return '<option value="' + esc(p) + '"' + (na.assignee === p ? ' selected' : '') + '>' + esc(p) + '</option>'; })).join('');
     var noReco = (fa.state === 'promote' || isOverviewTarget(fa));
     return (noReco ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
       '<div class="fv-newaction">' +
@@ -2515,7 +2515,7 @@
       '<textarea class="ta fv-na-desc" rows="2" placeholder="Add a short description of this action" oninput="setNewActionField(' + jsId(fa.id) + ',\'desc\',this.value); newActionSync(this)">' + esc(na.desc || '') + '</textarea>' +
       '<div class="fv-na-opts">' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
-        '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><select class="tf fv-na-assignee" onchange="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)">' + opts + '</select></div>' +
+        '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><input class="tf" placeholder="Who will own this?" value="' + esc(na.assignee || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)"></div>' +
       '</div>' +
       '<div class="fv-na-actions">' + (noReco ? '' : '<button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>') +
         '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>' +
@@ -2555,22 +2555,13 @@
           '<textarea class="ta" rows="3" placeholder="Describe how you\'ll keep an eye on this focus area \u2014 for example, revisit at the next survey, watch the score, or check back on a set date" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea>' +
         '</div>';
     }
-    var personTrigger = fa.supportPerson
-      ? '<span class="slt-val">' + esc(fa.supportPerson) + '</span>'
-      : '<span class="slt-ph">Select a person</span>';
     return '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.supportTitle||'') + '" oninput="stepSetSupportTitle(this.value)">' +
       '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
       '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="stepSetSupportText(this.value)">' + esc(fa.supportText||'') + '</textarea>' +
-      '<label class="fv-na-lbl">Who can help <span class="fa-req">*</span></label>' +
-      '<div class="slt-wrap step-person-wrap">' +
-        '<div class="slt" tabindex="0" onclick="toggleStepPersonMenu(event)"><span class="slt-left">' + personTrigger + '</span><i data-icon="chevron-down"></i></div>' +
-        '<div class="menu step-person-menu"' + (stepPersonMenuOpen ? '' : ' hidden') + '>' +
-          '<div class="step-person-search"><i data-icon="group"></i><input class="tf" id="step-person-input" placeholder="Search for colleague" value="' + esc(stepPersonSearch||'') + '" oninput="onStepPersonSearch(this.value)" onclick="event.stopPropagation()"></div>' +
-          '<div id="step-person-list">' + stepPersonListHTML(fa) + '</div>' +
-        '</div>' +
-      '</div>' +
+      '<label class="fv-na-lbl">Who can help <span class="fv-na-opt">optional</span></label>' +
+      '<input class="tf" placeholder="Who could help with this?" value="' + esc(fa.supportPerson||'') + '" oninput="stepSetSupportPerson(this.value)">' +
       '</div>';
   }
 
