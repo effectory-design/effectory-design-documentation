@@ -258,7 +258,22 @@ het antwoord in de oplevering, zodat het prototype met de juiste `group` in
 
 ---
 
-### 13. Meerdere pagina's = meerdere bestanden, elk met een eigen URL
+### 13. Vraag hoe het prototype moet heten
+Vraag **voordat je begint** hoe het prototype heet. Die naam legt drie dingen tegelijk vast: de
+**bestandsnaam**, de **`<title>`** van elke pagina, en de **`name`** van de kaart in de galerij. Achteraf
+hernoemen kost een nieuwe URL, en gedeelde links breken daarop.
+
+- **Bestandsnaam:** de naam in kebab-case → `prototypes/<naam>.html`. Bestaat het prototype uit meerdere
+  schermen, dan komt het scherm erachter (regel 14).
+- **Kaartnaam:** de naam zoals de gebruiker hem uitspreekt, in de galerij-entry (regel 15).
+
+Weet de gebruiker het nog niet, doe dan een voorstel op basis van het scherm en laat het bevestigen.
+Benoem het onderwerp, niet de plek waar het toevallig begon: "CSM result settings" zegt meer dan
+"results overview".
+
+---
+
+### 14. Meerdere pagina's = meerdere bestanden, elk met een eigen URL
 Bestaat een prototype uit meer dan één scherm, dan is **elk scherm een apart HTML-bestand** met zijn eigen
 URL. Bouw **nooit** één bestand dat met JS de hele view omwisselt (`showPage()`, `hidden` op
 page-containers, hash-routing, een `switch` op een `currentPage`-variabele).
@@ -303,14 +318,14 @@ eerste.
 ---
 
 
-### 14. Bied de galerij-entry aan — maar commit niks zonder akkoord
+### 15. Bied de galerij-entry aan — maar commit niks zonder akkoord
 Elk prototype hoort in de galerij ([`effectory-ux/prototypes`](https://github.com/effectory-ux/prototypes)),
 maar die staat in een **andere repo** en de kaarten zijn met de hand samengesteld. Doe daarom na het
 bouwen een voorstel en wacht op akkoord.
 
 1. **Stel de entry voor** die in `prototypes.json` zou komen: `path` = de **entry-pagina**, `also`-regexes
    die de overige schermen claimen (zodat een prototype van meerdere pagina's één kaart blijft met
-   "N schermen"), de `group` uit regel 12, en een korte, zelf geschreven omschrijving.
+   "N schermen"), de `name` uit regel 13, de `group` uit regel 12, en een korte, zelf geschreven omschrijving.
 2. **Vraag expliciet of je hem mag toevoegen.** Geen akkoord = niet committen in de galerij-repo.
 3. **Na akkoord:** push eerst het prototype zelf — `build-gallery.py` crawlt de bron-repo live via de
    GitHub API en vindt ongepushte pagina's niet. Voeg dan de entry toe, draai `./build-gallery.py` en
@@ -329,18 +344,19 @@ dezelfde kaart.
 
 1. **Lees de reference** — laad `design-system-reference.md` volledig
 2. **Begrijp de vraag** — welk scherm, welke componenten, welke flow?
-3. **Controleer beschikbaarheid** — staan alle benodigde componenten en tokens in de reference?
+3. **Vraag de naam** — hoe heet dit prototype? Bepaalt bestandsnaam, `<title>` en galerij-kaart (zie regel 13)
+4. **Controleer beschikbaarheid** — staan alle benodigde componenten en tokens in de reference?
    - Niet beschikbaar → stop en meld het aan de gebruiker
-4. **Bepaal de pagina's** — benoem elk scherm dat het prototype nodig heeft en geef elk scherm zijn eigen bestand + URL (regel 13). Meer dan één scherm? Bouw dan nooit één bestand dat views omwisselt.
-5. **Bouw incrementeel** — begin met de HTML-structuur, voeg components toe, stel layout in met tokens
-6. **Geen eigen stijlen** — custom CSS alleen voor layout-specifieke zaken (positionering, grid, flex), altijd met tokens voor waarden
-7. **Review** — check de output op doc-classes en hardcoded waarden vóór oplevering
-8. **Lokale server vereist** — meld na het bouwen altijd de URL van **elke** pagina:
+5. **Bepaal de pagina's** — benoem elk scherm dat het prototype nodig heeft en geef elk scherm zijn eigen bestand + URL (regel 14). Meer dan één scherm? Bouw dan nooit één bestand dat views omwisselt.
+6. **Bouw incrementeel** — begin met de HTML-structuur, voeg components toe, stel layout in met tokens
+7. **Geen eigen stijlen** — custom CSS alleen voor layout-specifieke zaken (positionering, grid, flex), altijd met tokens voor waarden
+8. **Review** — check de output op doc-classes en hardcoded waarden vóór oplevering
+9. **Lokale server vereist** — meld na het bouwen altijd de URL van **elke** pagina:
    > ⚠️ Open dit prototype via de lokale server, **niet** via dubbelklik (file://).
    > SVG-maskers (o.a. Toggle-vinkje) en icoonfuncties werken niet zonder HTTP.
    > Start de server met `python3 serve.py` en open daarna:
    > `http://localhost:<poort>/prototypes/<bestandsnaam>.html`
-9. **Galerij aanbieden** — stel de `prototypes.json`-entry voor en vraag of je hem mag toevoegen (regel 14)
+10. **Galerij aanbieden** — stel de `prototypes.json`-entry voor en vraag of je hem mag toevoegen (regel 15)
 
 ---
 
