@@ -256,6 +256,20 @@
       clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
     }
 
+    /* author display beats the UA [hidden] rule, so restate it for each */
+    .flt-pane[hidden], .rs-variants[hidden], .rs-variant[hidden], .rs-unavailable[hidden] { display: none; }
+    .flt-pane-intro {
+      margin: 0 0 var(--spacing-base);
+      font-size: 14px; color: var(--content-secondary);
+    }
+    /* Section content replaced by a reason, when a setting cannot apply */
+    .rs-unavailable {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 160px; padding: var(--spacing-loose);
+      background: var(--bg-secondary); border-radius: var(--radius-md);
+      font-size: 14px; color: var(--content-secondary); text-align: center;
+    }
+
     .flt-empty {
       padding: var(--spacing-extra-loose) 0;
       font-size: 14px; color: var(--content-secondary); text-align: center;
@@ -2897,13 +2911,14 @@ ${focusView(d)}
     <div class="sp-header">
       <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="flt-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
       <div class="sp-heading"><h2 class="sp-title" id="flt-title">Filter results</h2></div>
-      <div class="sp-tabs">
-        <a class="sp-tab is-active"><i data-icon="group"></i> Groups</a>
-        <a class="sp-tab"><i data-icon="filter"></i> Advanced filters</a>
+      <div class="sp-tabs" role="tablist">
+        <a class="sp-tab is-active" role="tab" aria-selected="true" tabindex="0" data-pane="groups"><i data-icon="group"></i> Groups</a>
+        <a class="sp-tab" role="tab" aria-selected="false" tabindex="0" data-pane="advanced"><i data-icon="filter"></i> Advanced filters</a>
       </div>
     </div>
 
     <div class="sp-body">
+      <div class="flt-pane" id="flt-pane-groups">
       <div class="flt-toolbar">
         <div class="flt-struct-wrap">
           <button class="flt-struct-select is-blue" id="flt-struct-btn" type="button" aria-haspopup="true" aria-expanded="false">
@@ -3004,6 +3019,27 @@ ${focusView(d)}
         })()}
         <p class="flt-empty" id="flt-empty" hidden>No groups match your search</p>
       </div>
+      </div><!-- /flt-pane-groups -->
+
+      <div class="flt-pane" id="flt-pane-advanced" hidden>
+        <p class="flt-pane-intro">Saved combinations of background data. Picking one replaces the group filter.</p>
+        <div role="radiogroup" aria-label="Advanced filters">
+          <div class="flt-row" id="flt-adv-row" data-adv="leadership-ams" role="radio" aria-checked="false" tabindex="0">
+            <span class="flt-caret-spacer"></span>
+            <span class="flt-row-body">
+              <span class="flt-row-name">Leadership in Amsterdam</span>
+              <span class="flt-row-level">Job family: Leadership &middot; Location: Amsterdam</span>
+            </span>
+            <span class="flt-count">
+              <span aria-hidden="true">22</span><i data-icon="users" aria-hidden="true"></i>
+              <span class="flt-vh">22 participants</span>
+            </span>
+            <span class="rb-wrap" aria-hidden="true">
+              <input type="radio" class="rb" name="flt-group" tabindex="-1" />
+            </span>
+          </div>
+        </div>
+      </div>
     </div><!-- /sp-body -->
 
     <div class="sp-footer">
@@ -3021,7 +3057,7 @@ ${focusView(d)}
       <div class="sp-toolbar"><div class="sp-actions"><i data-icon="cross" id="rsp-close" role="button" tabindex="0" aria-label="Close"></i></div></div>
       <div class="sp-heading">
         <h2 class="sp-title" id="rsp-title">Result settings</h2>
-        <p class="sp-subtitle">Settings below apply to the current structure: <strong id="rsp-struct">Organizational structure</strong></p>
+        <p class="sp-subtitle"><span id="rsp-scope">Settings below apply to the current structure:</span> <strong id="rsp-struct">Organizational structure</strong></p>
       </div>
     </div>
 
@@ -3029,6 +3065,7 @@ ${focusView(d)}
       <div class="rs-section">
         <h3 class="rs-section-title">Result visibility</h3>
         <p class="rs-section-desc">Controls who can see the results for this structure in the dashboard.</p>
+        <div class="rs-unavailable" id="rs-vis-na" hidden>Result visibility is not available for advanced filters</div>
         <div class="rs-variant" id="rs-visibility">
           <label class="tgl-info-wrap">
             <span class="tgl-info-body">
@@ -3047,6 +3084,7 @@ ${focusView(d)}
       <h3 class="rs-section-title">Raw data file</h3>
       <p class="rs-section-desc">Only available for top-level groups. It won't be visible for lower-level groups in this structure.</p>
 
+      <div class="rs-unavailable" id="rs-raw-na" hidden>Raw data files are not available for advanced filters</div>
       <div class="rs-variants">
         ${[
           { id: 'a', title: 'Share variant A: anonymized',     desc: 'Standard anonymized survey results. A DPA clause isn&rsquo;t required.',        on: true,  note: 'No additional data available for this variant' },
@@ -3223,6 +3261,8 @@ function renderOverview(variant, initialView) {
   /* Which structure the results are filtered on, and which ones the CSM has
      hidden from the customer. Shared by the filter panel and result settings. */
   let struct = 'org';
+  /* Set once an advanced filter is applied; result settings do not apply to those. */
+  let advancedFilter = null;
   const structNames = { org: 'Organizational structure', loc: 'Location', job: 'Job family' };
   const hiddenStructs = { org: false, loc: false, job: false };
 
@@ -3256,7 +3296,8 @@ function renderOverview(variant, initialView) {
     fltOverlay.addEventListener('click', (e) => { if (e.target === fltOverlay) closeFlt(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !fltOverlay.hidden) closeFlt(); });
 
-    const rows = [...fltOverlay.querySelectorAll('.flt-row')];
+    /* group rows only — the advanced filter row lives in its own pane */
+    const rows = [...fltOverlay.querySelectorAll('#flt-groups .flt-row')];
     const byId = Object.fromEntries(rows.map(r => [r.dataset.id, r]));
 
     /* A row shows when it belongs to the active structure and every ancestor is expanded */
@@ -3376,10 +3417,44 @@ function renderOverview(variant, initialView) {
       });
     });
 
+    /* Tabs: groups or a saved advanced filter — one selection wins, not both */
+    const panes = { groups: document.getElementById('flt-pane-groups'),
+                    advanced: document.getElementById('flt-pane-advanced') };
+    fltOverlay.querySelectorAll('.sp-tab[data-pane]').forEach(tab => {
+      const show = () => {
+        fltOverlay.querySelectorAll('.sp-tab[data-pane]').forEach(t => {
+          const on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+          panes[t.dataset.pane].hidden = !on;
+        });
+      };
+      tab.addEventListener('click', show);
+      tab.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
+    });
+
+    const advRow = document.getElementById('flt-adv-row');
+    const pickAdv = () => {
+      rows.forEach(r => { r.classList.remove('is-selected'); r.setAttribute('aria-selected', 'false'); r.tabIndex = -1; });
+      advRow.classList.add('is-selected');
+      advRow.setAttribute('aria-checked', 'true');
+      advRow.querySelector('.rb').checked = true;
+    };
+    advRow.addEventListener('click', pickAdv);
+    advRow.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickAdv(); } });
+    /* Picking a group again drops the advanced filter */
+    rows.forEach(r => r.addEventListener('click', () => {
+      advRow.classList.remove('is-selected');
+      advRow.setAttribute('aria-checked', 'false');
+    }));
+
     document.getElementById('flt-apply').addEventListener('click', () => {
-      const picked = fltOverlay.querySelector('.flt-row.is-selected .flt-row-name');
       const chip = document.querySelector('#hdr-filter .sel-btn-value');
-      if (picked && chip) chip.textContent = picked.textContent;
+      advancedFilter = advRow.classList.contains('is-selected')
+        ? advRow.querySelector('.flt-row-name').textContent
+        : null;
+      const picked = advancedFilter || fltOverlay.querySelector('.flt-row.is-selected .flt-row-name')?.textContent;
+      if (picked && chip) chip.textContent = picked;
       closeFlt();
     });
   }
@@ -3393,14 +3468,24 @@ function renderOverview(variant, initialView) {
       visTgl.checked = !hiddenStructs[struct];   /* drop uncommitted changes */
     };
     document.getElementById('rsp-open').addEventListener('click', () => {
-      /* The panel always speaks about the structure the results are filtered on */
-      document.getElementById('rsp-struct').textContent = structNames[struct];
+      /* An advanced filter is not a structure, so neither setting applies to it */
+      const na = !!advancedFilter;
+      document.getElementById('rsp-struct').textContent = advancedFilter || structNames[struct];
+      document.getElementById('rsp-scope').textContent = na
+        ? 'Settings below apply to the current filter:'
+        : 'Settings below apply to the current structure:';
+      document.getElementById('rs-raw-na').hidden = !na;
+      document.getElementById('rs-vis-na').hidden = !na;
+      document.querySelector('#rsp-overlay .rs-variants').hidden = na;
+      document.getElementById('rs-visibility').hidden = na;
+      document.getElementById('rsp-save').disabled = na;
       visTgl.checked = !hiddenStructs[struct];
       rspOverlay.hidden = false;
     });
     document.getElementById('rsp-close').addEventListener('click', closeRsp);
     document.getElementById('rsp-cancel').addEventListener('click', closeRsp);
     document.getElementById('rsp-save').addEventListener('click', () => {
+      if (advancedFilter) return;
       hiddenStructs[struct] = !visTgl.checked;
       syncHidden();
       rspOverlay.hidden = true;
