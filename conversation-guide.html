@@ -880,10 +880,11 @@
     .cg-entry-band .cg-entry-main { position: relative; z-index: 2; max-width: calc(100% - 200px); }
     .cg-entry-band .cg-entry-close { z-index: 3; }
     .cg-entry-band .cg-entry-illo {
-      /* Scaled past the card height and bottom anchored, so the artwork reads large and
-         bleeds off the top edge instead of sitting boxed inside the card. */
-      position: absolute; z-index: 1; top: auto; bottom: 0; right: 0; width: 38%;
-      height: 115%; object-fit: contain; object-position: right bottom;
+      /* Inset on all sides so the artwork is never clipped: the contain box is the card
+         height minus the insets, and the art is right aligned inside it. */
+      position: absolute; z-index: 1; top: var(--spacing-base); bottom: auto; right: var(--spacing-base);
+      width: 38%; height: calc(100% - var(--spacing-base) * 2);
+      object-fit: contain; object-position: right center;
       -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
       mask-image: linear-gradient(to right, transparent, #000 45%);
       pointer-events: none;
@@ -1222,10 +1223,9 @@
         <!-- Prototype-only: switch between the entry card versions -->
         <div class="cg-variant-ctl">
           Entry card
-          <button class="btn btn-secondary" id="vbtn-b" onclick="setEntryVariant('b')">1</button>
+          <button class="btn btn-secondary" id="vbtn-d" onclick="setEntryVariant('d')">1</button>
           <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">2</button>
-          <button class="btn btn-secondary" id="vbtn-d" onclick="setEntryVariant('d')">3</button>
-          <button class="btn btn-secondary" id="vbtn-e" onclick="setEntryVariant('e')">4</button>
+          <button class="btn btn-secondary" id="vbtn-e" onclick="setEntryVariant('e')">3</button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -1237,19 +1237,6 @@
             <p class="fv-section-desc">These are questions where improvement will have the most impact on your team results.</p>
           </div>
           <div class="fv-block-main">
-            <!-- Entry card (version 1): right above the focus cards -->
-            <div class="cg-entry" id="cg-entry" hidden>
-              <div class="cg-tt cg-entry-close"><button class="ib ib-24 ib-tertiary" aria-label="Dismiss" onclick="dismissEntry()"><i data-icon="cross"></i></button><div class="tooltip is-left">Dismiss</div></div>
-              <div class="cg-entry-main">
-                <span class="cg-entry-kicker">Talk it through first</span>
-                <h3 class="cg-entry-title">Bring these results to your team before you decide</h3>
-                <p class="cg-entry-text">Your conversation guide gives you a light agenda, listening questions for each focus area, and about five minutes of prep.</p>
-                <div class="cg-entry-actions">
-                  <button class="btn btn-primary" onclick="openGuide()"><i data-icon="message"></i> View conversation guide</button>
-                </div>
-              </div>
-              <img class="cg-entry-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />
-            </div>
             <div class="fv-cards" id="cards"></div>
             <button class="fv-explore-more" id="explore-more" onclick="toggleMore()"><span id="explore-more-label">Explore more areas</span> <i data-icon="chevron-down"></i></button>
             <div class="fv-more" id="more-block"><div class="fv-more-inner"><div class="fv-cards" id="cards-more"></div></div></div>
@@ -2636,20 +2623,18 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry: four versions — 1 (b) card above the focus cards inside the What
-  // needs focus block, 2 (c) conversational popup 10 seconds after landing, 3 (d) the
-  // same card full width between At first glance and What needs focus, 4 (e) a nudge in
-  // the stepper success screen only (nothing on the Focus View itself).
+  // Focus View entry: three versions — 1 (d) card full width between At first glance and
+  // What needs focus, 2 (c) conversational popup 10 seconds after landing, 3 (e) a nudge
+  // in the stepper success screen only (nothing on the Focus View itself).
   // A prototype control switches versions; dismissals are remembered for the session.
-  var entryVariant = 'b';
-  try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'b'; } catch(e){}
-  if(['b', 'c', 'd', 'e'].indexOf(entryVariant) === -1) entryVariant = 'b';
+  var entryVariant = 'd';
+  try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'd'; } catch(e){}
+  if(['c', 'd', 'e'].indexOf(entryVariant) === -1) entryVariant = 'd';
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
   function entryDismissed(){ return ssFlag('cg-entry-dismissed'); }
   function applyEntryState(){
-    var b = document.getElementById('cg-entry'); if(b) b.hidden = entryDismissed() || entryVariant !== 'b';
     var d = document.getElementById('cg-entry-band'); if(d) d.hidden = entryDismissed() || entryVariant !== 'd';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
@@ -2660,7 +2645,7 @@
         if(window.Icons) window.Icons.render(pop);
       }, 10000);
     }
-    ['b', 'c', 'd', 'e'].forEach(function(v){
+    ['c', 'd', 'e'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
       btn.classList.toggle('btn-primary', entryVariant === v);
       btn.classList.toggle('btn-secondary', entryVariant !== v);
