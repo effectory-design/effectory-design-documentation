@@ -910,7 +910,7 @@
     .cg-step-guide-text { margin: 0 0 var(--spacing-base-tight); font-size: 13px; line-height: 1.55; color: var(--content-secondary); }
     /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
     .cg-entry[hidden] { display: none; }
-    /* Variant 2: small conversational popup from the bottom right after 10 seconds */
+    /* Popup versions: small conversational card from the bottom right after 2 seconds */
     .cg-pop {
       /* Same inset bottom and right; the old extra offset cleared the variant control,
          which now sits bottom left. */
@@ -1195,7 +1195,7 @@
           </div>
         </div>
 
-        <!-- Variant 2: conversational popup, appears from the bottom right 10 seconds after landing -->
+        <!-- Popup versions 2 and 4: appears from the bottom right 2 seconds after landing, copy set per version -->
         <div class="cg-pop" id="cg-entry-pop" hidden>
           <div class="announcement">
             <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
@@ -2627,7 +2627,7 @@
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
   // Focus View entry: four versions — 1 (d) card full width between At first glance and
-  // What needs focus, 2 (c) conversational popup 10 seconds after landing, 3 (e) a nudge
+  // What needs focus, 2 (c) conversational popup 2 seconds after landing, 3 (e) a nudge
   // in the stepper success screen only (nothing on the Focus View itself), 4 (f) the same
   // popup with copy aimed at managers who are unsure what to do with the results.
   // A prototype control switches versions; dismissals are remembered for the session.
@@ -2658,7 +2658,7 @@
       entryPopTimer = setTimeout(function(){
         pop.hidden = false;
         if(window.Icons) window.Icons.render(pop);
-      }, 10000);
+      }, 2000);
     }
     ['c', 'd', 'e', 'f'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
