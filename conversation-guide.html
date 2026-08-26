@@ -912,7 +912,9 @@
     .cg-entry[hidden] { display: none; }
     /* Variant 2: small conversational popup from the bottom right after 10 seconds */
     .cg-pop {
-      position: fixed; right: var(--spacing-loose); bottom: calc(var(--spacing-loose) * 2 + 40px); z-index: 140;
+      /* Same inset bottom and right; the old extra offset cleared the variant control,
+         which now sits bottom left. */
+      position: fixed; right: var(--spacing-loose); bottom: var(--spacing-loose); z-index: 140;
       animation: cg-pop-in var(--motion-slow) var(--ease-out);
     }
     @keyframes cg-pop-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -1198,8 +1200,8 @@
           <div class="announcement">
             <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
             <div class="ann-body">
-              <p class="ann-title"><i data-icon="message" class="cg-pop-title-ico"></i> Ready to share the results with your team?</p>
-              <p class="ann-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
+              <p class="ann-title"><i data-icon="message" class="cg-pop-title-ico"></i> <span id="cg-pop-title">Ready to share the results with your team?</span></p>
+              <p class="ann-text" id="cg-pop-text">Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.</p>
               <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
               <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
             </div>
@@ -1226,6 +1228,7 @@
           <button class="btn btn-secondary" id="vbtn-d" onclick="setEntryVariant('d')">1</button>
           <button class="btn btn-secondary" id="vbtn-c" onclick="setEntryVariant('c')">2</button>
           <button class="btn btn-secondary" id="vbtn-e" onclick="setEntryVariant('e')">3</button>
+          <button class="btn btn-secondary" id="vbtn-f" onclick="setEntryVariant('f')">4</button>
         </div>
 
         <!-- What needs focus (design-system Focus View block) -->
@@ -2623,13 +2626,22 @@
   ];
   function guideArea(id){ return GUIDE_AREAS.find(function(a){ return a.id === id; }); }
 
-  // Focus View entry: three versions — 1 (d) card full width between At first glance and
+  // Focus View entry: four versions — 1 (d) card full width between At first glance and
   // What needs focus, 2 (c) conversational popup 10 seconds after landing, 3 (e) a nudge
-  // in the stepper success screen only (nothing on the Focus View itself).
+  // in the stepper success screen only (nothing on the Focus View itself), 4 (f) the same
+  // popup with copy aimed at managers who are unsure what to do with the results.
   // A prototype control switches versions; dismissals are remembered for the session.
   var entryVariant = 'd';
   try { entryVariant = sessionStorage.getItem('cg-entry-variant') || 'd'; } catch(e){}
-  if(['c', 'd', 'e'].indexOf(entryVariant) === -1) entryVariant = 'd';
+  if(['c', 'd', 'e', 'f'].indexOf(entryVariant) === -1) entryVariant = 'd';
+  // Both popup versions share one element; only the copy differs
+  var POP_COPY = {
+    c: { title: 'Ready to share the results with your team?',
+         text: 'Not sure what to talk about in that meeting? Your guide has a light agenda and the questions ready.' },
+    f: { title: 'Still not sure what to do next?',
+         text: 'Align on the results with your team first. Talking them through makes the priorities clearer, so you can decide the next step together.' }
+  };
+  function isPopVariant(v){ return v === 'c' || v === 'f'; }
   var entryPopTimer = null;
   function ssFlag(key){ try { return sessionStorage.getItem(key) === '1'; } catch(e){ return false; } }
   function ssSet(key){ try { sessionStorage.setItem(key, '1'); } catch(e){} }
@@ -2638,14 +2650,17 @@
     var d = document.getElementById('cg-entry-band'); if(d) d.hidden = entryDismissed() || entryVariant !== 'd';
     var pop = document.getElementById('cg-entry-pop');
     if(entryPopTimer){ clearTimeout(entryPopTimer); entryPopTimer = null; }
-    if(pop && entryVariant !== 'c') pop.hidden = true;
-    if(pop && entryVariant === 'c' && pop.hidden && !ssFlag('cg-entry-pop-never')){
+    if(pop && !isPopVariant(entryVariant)) pop.hidden = true;
+    if(pop && isPopVariant(entryVariant) && pop.hidden && !ssFlag('cg-entry-pop-never')){
+      var copy = POP_COPY[entryVariant];
+      var tEl = document.getElementById('cg-pop-title'); if(tEl) tEl.textContent = copy.title;
+      var xEl = document.getElementById('cg-pop-text'); if(xEl) xEl.textContent = copy.text;
       entryPopTimer = setTimeout(function(){
         pop.hidden = false;
         if(window.Icons) window.Icons.render(pop);
       }, 10000);
     }
-    ['c', 'd', 'e'].forEach(function(v){
+    ['c', 'd', 'e', 'f'].forEach(function(v){
       var btn = document.getElementById('vbtn-' + v); if(!btn) return;
       btn.classList.toggle('btn-primary', entryVariant === v);
       btn.classList.toggle('btn-secondary', entryVariant !== v);
