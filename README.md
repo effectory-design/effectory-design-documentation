@@ -10,11 +10,28 @@ nieuwe plek.
 | | |
 |---|---|
 | `prototypes/` | results dashboard (2), my-effectory-home, BambooHR-integratie, approach picker, announcement playground |
-| root | `action-center-manager*.html` (4), `conversation-guide.html`, `ac-overview-embed.html` |
+| root | `action-center-manager*.html` (4, zie hieronder welke de winnaar is), `conversation-guide.html`, `ac-overview-embed.html` |
 | bouwstenen | `tokens.css`, `foundation.css`, `components.css`, `icons.js`, `assets/`, en `effectiveness.js` + `.css` + `i18n.js` voor het embed-fragment |
 
 Die bouwstenen zijn kopieën uit het design system. Ze staan hier omdat de
 prototypes hierboven ze uit de repo-root laden. Weghalen breekt ze.
+
+## Action Center — welke versie is de winnaar
+
+Er staan vier Action Center-prototypes in de root. Na de usability test is
+**de stepper-versie** gekozen. Bouw daarop verder; de rest blijft alleen als
+referentie staan.
+
+| | Prototype | Wat het is |
+|---|---|---|
+| 🏆 **winnaar** | **[`action-center-manager-stepper.html`](https://effectory-design.github.io/effectory-design-documentation/action-center-manager-stepper.html)** | Kiezen → reageren → plannen in een dialog, met side panel voor bewerken. **Hier gaat alle nieuwe werk in.** |
+| verouderd | [`action-center-manager.html`](https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html) | V1 — inline triage in de focuskaart |
+| verouderd | [`action-center-manager-v4.html`](https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v4.html) | V4 — multi-select → triage-dialog (wizard) |
+| verouderd | [`action-center-manager-v5.html`](https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v5.html) | V5 — multi-select → triage-pagina |
+
+De drie verouderde varianten tonen onderin een balkje dat naar de winnaar
+linkt, en hun tabtitel begint met `[Superseded]`. De winnaar is te herkennen
+aan `· WINNER` in de tabtitel.
 
 ## Waar de rest heen is
 
