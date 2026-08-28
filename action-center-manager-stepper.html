@@ -30,6 +30,12 @@
       --r-monitor-pill: var(--bg-info-subtle);      --r-monitor-tile: var(--bg-info-subtle);           --r-monitor-fg: var(--content-info);
       --r-support-pill: var(--bg-highlight-subtle); --r-support-tile: var(--bg-highlight-subtle);      --r-support-fg: var(--p-color-yellow-600);
       --r-promote-pill: var(--bg-positive-subtle);  --r-promote-tile: var(--bg-positive-subtle);       --r-promote-fg: var(--content-positive);
+
+      /* Focus-area signals, from the "Smart tags" set in Figma: the category picks
+         the icon, the level picks the colour. Strong = red, Moderate = amber, Mild = blue. */
+      --sig-strong-bg: var(--bg-negative-subtle);    --sig-strong-fg: var(--content-negative);
+      --sig-moderate-bg: var(--bg-highlight-subtle); --sig-moderate-fg: var(--p-color-yellow-600);
+      --sig-mild-bg: var(--bg-info-subtle);          --sig-mild-fg: var(--content-info);
     }
 
     /* App shell */
@@ -753,9 +759,9 @@
     .fv-smarttag-row { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-top: var(--spacing-base-tight); min-width: 0; }
     .fv-smarttag { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: var(--spacing-extra-tight) var(--spacing-base-tight); border-radius: var(--radius-full); font-size: 12px; font-weight: 600; white-space: nowrap; }
     .fv-smarttag i { display: flex; width: 14px; height: 14px; }
-    .fv-smarttag.is-info { background: var(--bg-info-subtle); color: var(--content-info); }
-    .fv-smarttag.is-warning { background: var(--bg-warning-subtle); color: var(--content-warning); }
-    .fv-smarttag.is-accent { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .fv-smarttag.is-strong   { background: var(--sig-strong-bg);   color: var(--sig-strong-fg); }
+    .fv-smarttag.is-moderate { background: var(--sig-moderate-bg); color: var(--sig-moderate-fg); }
+    .fv-smarttag.is-mild     { background: var(--sig-mild-bg);     color: var(--sig-mild-fg); }
     .fv-smarttag-desc { flex: 1; min-width: 0; font-size: 13px; color: var(--content-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .nr-modal { width: min(520px, 94vw); gap: var(--spacing-base); }
     .nr-list { display: flex; flex-direction: column; gap: var(--spacing-tight); }
@@ -826,32 +832,26 @@
     /* Actions — educational empty state (centered) */
     /* Width matches the dialog's content box (.step-modal is min(880px, 94vw) with 40px side padding),
        so the four response cards are exactly the size they are in the dialog. */
-    .actions-empty { display: flex; flex-direction: column; align-items: stretch; text-align: left; gap: var(--spacing-loose); width: 100%; max-width: calc(min(880px, 94vw) - 80px); margin: var(--spacing-super-loose) auto; padding: var(--spacing-loose) 0; border: none; background: transparent; }
-    /* Illustration beside the copy, sized to the height of the two together */
-    .ae-hero { display: flex; align-items: center; gap: var(--spacing-extra-loose); width: 100%; }
-    .ae-illo { flex: none; }
-    .actions-illo { display: block; height: 96px; width: auto; margin: 0; }   /* JS matches this to the copy block */
-    .ae-hero-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    /* Response cards reuse the dialog's own cards, as static (non-clickable) tiles */
-    .ae-options { width: 100%; }
-    .step-opt.is-static { cursor: default; }
-    .step-opt.is-static:hover { border-color: var(--border-base); }
-    .ae-cta-row { display: flex; justify-content: center; }
-    @media (max-width: 900px){ .ae-hero { flex-direction: column; text-align: center; } .ae-hero-txt { align-items: center; text-align: center; } }
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 900px; margin: 0 auto; padding: var(--spacing-super-loose) 0; border: none; background: transparent; }
+    .actions-illo { display: block; flex: none; width: 286px; height: 205px; min-height: 205px; margin: 0 auto; }   /* the asset's own size, pinned both ways so no layout pass can collapse it */
+    .ae-hero-txt { display: flex; flex-direction: column; gap: var(--spacing-tight); width: 100%; margin-top: var(--spacing-loose); }
+    /* Four response cards, 4-up as in the Figma frame */
+    .ae-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base-tight); width: 100%; margin-top: var(--spacing-loose); }
+    .ae-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-sizing: border-box; }
+    .ae-card-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 6px; flex: none; }
+    .ae-card-ico i { display: flex; width: 20px; height: 20px; }
+    .ae-card-ico.is-action  { background: var(--r-action-tile);  color: var(--r-action-fg); }
+    .ae-card-ico.is-monitor { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .ae-card-ico.is-support { background: var(--r-support-tile); color: var(--r-support-fg); }
+    .ae-card-ico.is-promote { background: var(--r-promote-tile); color: var(--r-promote-fg); }
+    .ae-card-t { margin-top: var(--spacing-tight); font-size: 15px; font-weight: 600; color: var(--content-base); }
+    .ae-card-d { margin-top: var(--spacing-tight); font-size: 12px; line-height: 1.5; color: var(--content-base); }
+    .ae-cta-row { display: flex; justify-content: center; margin-top: var(--spacing-loose); }
+    @media (max-width: 900px){ .ae-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px){ .ae-cards { grid-template-columns: 1fr; } }
     .ae-eyebrow { margin-bottom: 2px; }
-    .ae-title { font-size: 22px; font-weight: 700; color: var(--content-base); margin: 0; }
-    .ae-desc { font-size: 15px; line-height: 1.5; color: var(--content-secondary); margin: 0; max-width: none; }
-    .ae-types { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-base); width: 100%; align-items: stretch; margin: var(--spacing-base) 0 var(--spacing-tight); }
-    @media (max-width: 560px){ .ae-types { grid-template-columns: 1fr; } }
-    .ae-type { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); text-align: left; padding: var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-base); box-shadow: var(--sh-card); height: 100%; box-sizing: border-box; min-width: 0; }
-    .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
-    .ae-type-ico i { display: flex; width: 18px; height: 18px; }
-    .ae-type-ico.is-target { background: var(--r-action-tile); color: var(--r-action-fg); }
-    .ae-type-ico.is-eye { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
-    .ae-type-ico.is-flag { background: var(--r-support-tile); color: var(--r-support-fg); }
-    .ae-type-txt { display: flex; flex-direction: column; }
-    .ae-type-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .ae-type-d { font-size: 12.5px; color: var(--content-secondary); }
+    .ae-title { font-size: 26px; font-weight: 600; color: var(--content-base); margin: 0; }
+    .ae-desc { font-size: 14px; line-height: 1.6; color: var(--content-base); margin: 0; max-width: none; }
     .ae-cta { margin-top: var(--spacing-tight); gap: 6px; }
     .ae-cta i { display: flex; width: 16px; height: 16px; }
     .custom-modal { width: min(540px, 94vw); }
@@ -886,7 +886,6 @@
     .fv-thumb { position: relative; }
     .fv-thumb[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--content-base); color: #fff; font-size: 12px; line-height: 1.3; font-weight: 500; padding: 5px 8px; border-radius: var(--radius-sm); white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .12s ease; z-index: 80; box-shadow: 0 4px 12px rgba(15,23,42,.22); }
     .fv-thumb[data-tip]:hover::after { opacity: 1; visibility: visible; }
-    .ae-type-ico.is-benchmark-up { background: var(--r-promote-tile); color: var(--r-promote-fg); }
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
@@ -1231,14 +1230,23 @@
   }
 
   // Smart tags — a short "why this is a focus area" signal, on the first three cards only.
+  // Four signal categories, each with its own icon; the level decides the colour.
+  var SIGNAL_CAT = {
+    trend:       { icon: 'barchart-2',   what: "score declined since the last survey" },
+    gap:         { icon: 'from-to',      what: "how the team compares to the rest of the organisation" },
+    performance: { icon: 'benchmark-up', what: "how the score compares to the benchmarks" },
+    consistency: { icon: 'group',        what: "how aligned the team's answers are" }
+  };
   var SMART_TAGS = {
-    0: { icon: 'arrow-left',  label: 'Furthest below benchmark', tone: 'info',    desc: '22 points below the company benchmark of 58%.' },
-    1: { icon: 'barchart-2',  label: 'Biggest drop',             tone: 'warning', desc: 'Down 11 points since the last survey.' },
-    2: { icon: 'group',       label: 'Most widely felt',         tone: 'accent',  desc: 'Scored low across 4 of your 5 sub-teams.' }
+    0: { cat: 'performance', level: 'strong',   label: 'Well below benchmark' },
+    1: { cat: 'trend',       level: 'strong',   label: 'Steep decline' },
+    2: { cat: 'gap',         level: 'moderate', label: 'Below the organisation' }
   };
   function smartTagHTML(fa){
     var t = SMART_TAGS[fa.id]; if(!t) return '';
-    return '<div class="fv-smarttag-row"><span class="fv-smarttag is-' + t.tone + '"><i data-icon="' + t.icon + '"></i> ' + t.label + '</span></div>';
+    var c = SIGNAL_CAT[t.cat] || {};
+    return '<div class="fv-smarttag-row"><span class="fv-smarttag is-' + t.level + '" title="' + esc(c.what || '') + '">' +
+      '<i data-icon="' + c.icon + '"></i> ' + t.label + '</span></div>';
   }
   // Thumbs-down opens a short "why not relevant" dialog (the old reasons picker); thumbs-up toggles directly.
   function setRelevance(e, id, v){
@@ -2177,31 +2185,31 @@
   }
 
   // ── Actions empty state: educational card promoting the Respond/Triage concept ──
-  var ACTIONS_ILLO = '<svg class="actions-illo" viewBox="0 0 356 257" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_15687_45752)"> <rect x="1" y="1" width="245.823" height="179.87" rx="9.59309" fill="#F5F7FA"/> <g filter="url(#filter0_d_15687_45752)"> <g clip-path="url(#clip1_15687_45752)"> <rect x="23.7837" y="38.1732" width="200.256" height="159.485" rx="9.59309" fill="white"/> <path d="M146.293 188.555C141.564 192.06 135.654 194.151 129.229 194.151C113.714 194.151 101.137 182.031 101.137 167.081C101.137 152.214 113.573 140.146 128.968 140.011C144.263 140.146 156.618 152.214 156.618 167.081H208.451C208.451 124.717 172.842 90.0119 129.229 89.7381L128.968 89.7369L128.709 89.7365C84.8088 90.0085 48.9658 124.716 48.9658 167.081C48.9658 209.612 85.0921 244.425 129.229 244.425C152.413 244.425 173.365 234.974 187.648 219.938L187.108 219.45C200.336 205.718 208.448 187.329 208.448 167.081H156.694C156.694 175.674 152.522 183.312 146.041 188.244L146.293 188.555Z" fill="#F5F7FA"/> <rect x="33.3772" y="47.7667" width="124.71" height="9.59309" rx="4.79654" fill="#F5F7FA"/> <rect x="33.3772" y="64.5546" width="59.9568" height="5.99568" rx="2.99784" fill="#F5F7FA"/> <rect x="185.667" y="47.767" width="28.7793" height="28.7793" rx="4.79654" fill="#F5F7FA"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M200.057 70.7904C200.587 70.7904 201.017 70.3609 201.017 69.8311V65.0345H205.813C206.343 65.0345 206.772 64.605 206.772 64.0752C206.772 61.3282 204.798 59.8882 203.894 59.2967V55.4414H204.854C205.384 55.4414 205.813 55.0119 205.813 54.4821C205.813 53.9523 205.384 53.5228 204.854 53.5228H195.261C194.731 53.5228 194.301 53.9523 194.301 54.4821C194.301 55.0119 194.731 55.4414 195.261 55.4414H196.22V59.2967C195.316 59.8882 193.342 61.3282 193.342 64.0752C193.342 64.605 193.772 65.0345 194.301 65.0345H199.098L199.098 69.8311C199.098 70.3609 199.527 70.7904 200.057 70.7904ZM202.36 60.5791C202.118 60.3979 201.976 60.1136 201.976 59.8116V55.4414H198.139V59.8116C198.139 60.1136 197.996 60.3979 197.755 60.5791C197.635 60.6687 197.499 60.7615 197.353 60.8607C196.653 61.3373 195.731 61.9641 195.393 63.1159H199.098V62.1566C199.098 61.6268 199.527 61.1973 200.057 61.1973C200.587 61.1973 201.017 61.6268 201.017 62.1566V63.1159H204.722C204.383 61.9641 203.462 61.3373 202.761 60.8608C202.615 60.7615 202.479 60.6687 202.36 60.5791Z" fill="#5D6D87"/> </g> </g> <rect width="245.823" height="19.1862" transform="translate(1 1)" fill="white"/> <rect width="14.3896" height="14.3896" transform="translate(5.79688 3.39844)" fill="white"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9408 12.1704C14.8964 12.1704 16.4874 10.5795 16.4874 8.62384C16.4874 6.66828 14.8964 5.07727 12.9408 5.07727C10.9852 5.07727 9.39416 6.66828 9.39416 8.62384C9.39416 10.5795 10.9852 12.1704 12.9408 12.1704ZM11.3861 8.62384C11.3861 7.76657 12.0836 7.06892 12.941 7.06892C13.7983 7.06892 14.4958 7.76657 14.4958 8.62384C14.4958 9.48122 13.7983 10.1788 12.941 10.1788C12.0836 10.1788 11.3861 9.48122 11.3861 8.62384ZM16.087 13.3513C16.5365 13.3513 16.9008 13.7156 16.9008 14.165V15.4176H10.0534L9.03442 16.0491V14.1723C9.03442 13.7188 9.40208 13.3513 9.85559 13.3513H16.087Z" fill="#192743"/> <rect x="100.528" y="7.58118" width="46.404" height="6.31235" rx="3.15618" fill="#EFF0F2"/> </g> <rect x="0.5" y="0.5" width="246.823" height="180.87" rx="10.0931" stroke="#ECEEF0"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M113.447 74.6036C116.566 77.8005 119.126 87.19 116.719 88.4709C115.759 88.9817 113.354 88.8688 110.703 88.0783L115.055 97.5347L106.708 99.5321L105.646 85.7271C103.491 84.2682 101.729 82.2701 101.151 79.6969C99.4865 72.2825 110.328 71.4068 113.447 74.6036Z" fill="#D4A181"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M101.055 78.1587C100.361 69.5791 113.157 71.7934 114.944 69.9515C116.266 72.669 115.387 75.3204 109.747 76.1322C108.951 77.0677 108.532 78.4067 108.055 80.0971C107.813 80.075 107.565 80.091 107.319 80.15C106.15 80.4309 105.477 81.5794 105.817 82.7153C105.986 83.2806 106.374 83.7361 106.864 84.0166C106.584 84.8121 106.254 85.6514 105.853 86.5317C103.244 85.7396 100.456 82.4294 101.035 78.2912L101.055 78.1587Z" fill="#192743"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M106.388 126.712L124.231 171.048L136.737 203.727H143.868L126.677 126.712L106.388 126.712Z" fill="#5B8EF5"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M101.978 126.712C101.784 141.925 101.924 162.406 101.472 163.355C101.171 163.987 91.8001 171.19 73.3601 184.964L75.8372 189.022L78.0291 189.846C99.9484 177.084 110.434 170.063 111.553 168.297C113.232 165.647 121.667 141.266 126.055 126.712H101.978Z" fill="#5B8EF5"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M136.075 209.999L136.447 202.681H144.24C147.935 205.121 152.759 207.095 158.712 208.605V209.999H144.611L139.786 209.302V209.999H136.075Z" fill="#404F6C"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M89.2627 125.246L96.8739 124.905C93.555 139.756 91.7506 147.637 91.4605 148.55C90.8079 150.604 92.8798 153.584 93.7976 155.194C91.4155 156.386 91.3059 152.406 88.3061 153.963C85.5679 155.384 83.6122 157.814 80.1236 156.009C79.6947 155.787 79.1639 154.899 80.1721 154.136C82.6839 152.235 86.252 148.948 86.6774 147.902C87.2575 146.476 88.1193 138.924 89.2627 125.246Z" fill="#D4A181"/> <path d="M160.145 97.8057L160.369 97.7129C162.3 96.9065 162.08 97.9209 161.777 98.4864C160.238 100.292 158.118 102.079 155.417 103.847L147.573 115.173L142.616 110.343L151.823 102.402C153.459 97.9542 154.586 95.9513 155.206 96.3937C156.135 97.0573 155.259 98.2118 155.811 98.7493C156.341 99.2661 158.28 98.5763 160.145 97.8057Z" fill="#D4A181"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M109.583 92.0607L112.473 90.8175C120.963 95.4935 128.15 109.916 133.157 110.846C137.892 111.725 143.265 108.472 149.563 104.309L153.115 108.489C148.734 116.781 136.819 125.769 130.333 123.845C119.963 120.769 112.396 102.668 109.583 92.0607Z" fill="#DC2D14"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M107.409 133.554C119.548 130.635 128.477 128.487 134.196 127.112C135.42 126.818 134.664 125.113 134.222 124.268C129.12 114.511 117.85 105.38 113.495 90.7922L105.408 91.444C102.072 103.215 103.624 116.346 107.409 133.554Z" fill="#E6E9EE"/> <path d="M126.252 127.682C125.797 128.9 118.774 152.751 111.029 168.999C100.59 177.276 81.7333 187.393 78.0292 189.845" stroke="#192743" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="bevel"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M66.8928 188.913L73.1011 184.476L78.1103 190.082C78.4956 194.308 79.9857 199.048 82.5805 204.301L81.4434 205.197L72.3791 195.053L69.8467 191.135L69.2781 191.583L66.8928 188.913Z" fill="#404F6C"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M108.179 91.1123C121.85 112.038 128.152 126.687 127.087 135.059L102.112 141.344C100.929 135.711 100.526 129.541 100.634 123.399C97.6803 134.293 94.8716 142.308 92.208 147.444L86.0908 147.849C83.6834 125.341 89.9898 106.694 105.01 91.9096L108.179 91.1123Z" fill="#EF533D"/> <path d="M86.7969 146.949C86.8652 146.949 91.1807 146.702 91.1807 146.702" stroke="#192743" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/> <g filter="url(#filter1_d_15687_45752)"> <rect x="185.668" y="80.1433" width="158.948" height="163.082" rx="9.59309" fill="white"/> <rect x="186.168" y="80.6433" width="157.948" height="162.082" rx="9.09309" stroke="#ECEEF0"/> <rect x="200.058" y="94.533" width="130.169" height="26.381" rx="4.79654" fill="#66B881"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M214.807 101.008H221.282C221.349 101.008 221.402 101.062 221.402 101.128V102.267V106.464V106.884C221.402 108.738 219.899 110.242 218.045 110.242C216.19 110.242 214.687 108.738 214.687 106.884V106.464V102.267V101.128C214.687 101.062 214.741 101.008 214.807 101.008ZM213.012 101.008C213.074 100.071 213.854 99.3295 214.807 99.3295H221.282C222.236 99.3295 223.016 100.071 223.077 101.008H225.39C225.967 101.008 226.441 101.477 226.439 102.061C226.435 103.041 226.399 104.343 225.939 105.441C225.702 106.008 225.341 106.548 224.795 106.963C224.31 107.331 223.719 107.571 223.02 107.671C222.685 109.805 221.011 111.494 218.884 111.851V114.439H221.402C221.866 114.439 222.242 114.814 222.242 115.278C222.242 115.742 221.866 116.117 221.402 116.117H214.687C214.223 116.117 213.847 115.742 213.847 115.278C213.847 114.814 214.223 114.439 214.687 114.439H217.205V111.851C215.079 111.494 213.404 109.805 213.069 107.671C212.37 107.571 211.779 107.331 211.294 106.963C210.748 106.548 210.387 106.008 210.15 105.441C209.69 104.343 209.655 103.041 209.651 102.061C209.648 101.477 210.122 101.008 210.7 101.008H213.012ZM213.008 102.687H211.34C211.367 103.463 211.45 104.2 211.699 104.793C211.849 105.151 212.048 105.427 212.31 105.626C212.484 105.759 212.71 105.874 213.008 105.95V102.687ZM223.081 105.95V102.687H224.749C224.722 103.463 224.639 104.2 224.391 104.793C224.241 105.151 224.041 105.427 223.779 105.626C223.605 105.759 223.38 105.874 223.081 105.95Z" fill="white"/> <rect x="233.633" y="103.724" width="87" height="8" rx="2" fill="white" fill-opacity="0.4"/> <rect x="200.058" y="130.507" width="112.169" height="26.381" rx="4.79654" fill="#FA8324"/> <path fill-rule="evenodd" clip-rule="evenodd" d="M219.723 136.982C219.723 137.446 220.099 137.822 220.563 137.822H221.894L218.884 140.832L216.12 138.068C215.792 137.74 215.261 137.74 214.933 138.068L211.575 141.425C211.248 141.753 211.248 142.284 211.575 142.612C211.903 142.94 212.435 142.94 212.762 142.612L215.526 139.848L218.29 142.612C218.618 142.94 219.15 142.94 219.478 142.612L223.081 139.009V140.34C223.081 140.804 223.457 141.179 223.92 141.179C224.384 141.179 224.76 140.804 224.76 140.34V136.982C224.76 136.519 224.384 136.143 223.92 136.143H220.563C220.099 136.143 219.723 136.519 219.723 136.982ZM222.242 143.698C222.242 143.234 222.617 142.858 223.081 142.858C223.545 142.858 223.92 143.234 223.92 143.698V150.413C223.92 150.876 223.545 151.252 223.081 151.252C222.617 151.252 222.242 150.876 222.242 150.413V143.698ZM215.526 145.376C215.526 144.913 215.902 144.537 216.366 144.537C216.829 144.537 217.205 144.913 217.205 145.376V150.413C217.205 150.876 216.829 151.252 216.366 151.252C215.902 151.252 215.526 150.876 215.526 150.413V145.376ZM212.169 147.055C212.169 146.591 212.545 146.216 213.008 146.216C213.472 146.216 213.848 146.591 213.848 147.055V150.413C213.848 150.876 213.472 151.252 213.008 151.252C212.545 151.252 212.169 150.876 212.169 150.413V147.055ZM219.723 145.376C219.26 145.376 218.884 145.752 218.884 146.216V150.413C218.884 150.876 219.26 151.252 219.723 151.252C220.187 151.252 220.563 150.876 220.563 150.413V146.216C220.563 145.752 220.187 145.376 219.723 145.376Z" fill="white"/> <rect x="233.633" y="139.698" width="69" height="8" rx="2" fill="white" fill-opacity="0.4"/> <rect x="200.058" y="166.481" width="123.169" height="26.381" rx="4.79654" fill="#E0E3E9"/> <g clip-path="url(#clip2_15687_45752)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M226.249 179.256C226.249 183.556 222.763 187.042 218.463 187.042C217.334 187.042 216.261 186.802 215.293 186.369L210.959 187.81C210.303 188.028 209.679 187.403 209.899 186.747L211.347 182.421C210.916 181.454 210.677 180.383 210.677 179.256C210.677 174.955 214.163 171.469 218.463 171.469C222.763 171.469 226.249 174.955 226.249 179.256ZM224.574 179.262C224.574 182.637 221.838 185.373 218.464 185.373C217.477 185.373 216.545 185.139 215.72 184.724C215.529 184.627 215.307 184.602 215.104 184.669L212.034 185.677L213.05 182.612C213.117 182.408 213.093 182.187 212.997 181.995C212.585 181.172 212.353 180.244 212.353 179.262C212.353 175.887 215.089 173.151 218.464 173.151C221.838 173.151 224.574 175.887 224.574 179.262Z" fill="#192743"/> </g> <rect x="233.633" y="175.672" width="80" height="8" rx="2" fill="#192743" fill-opacity="0.2"/> <rect x="200.058" y="202.455" width="118" height="26.381" rx="4.79654" fill="#CBD9F5"/> <path d="M212.6 207.6 v14.6" stroke="#2F4B7C" stroke-width="1.7" stroke-linecap="round"/> <path d="M212.6 208.7 h8.6 l-2.2 2.9 l2.2 2.9 h-8.6 z" fill="#2F4B7C"/> <rect x="233.633" y="211.646" width="74" height="8" rx="2" fill="#2F4B7C" fill-opacity="0.28"/> </g> <defs> <filter id="filter0_d_15687_45752" x="18.9871" y="35.7749" width="209.849" height="169.078" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="2.39827"/> <feGaussianBlur stdDeviation="2.39827"/> <feComposite in2="hardAlpha" operator="out"/> <feColorMatrix type="matrix" values="0 0 0 0 0.0980392 0 0 0 0 0.152941 0 0 0 0 0.262745 0 0 0 0.04 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15687_45752"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15687_45752" result="shape"/> </filter> <filter id="filter1_d_15687_45752" x="174.876" y="71.7494" width="180.533" height="184.667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="2.39827"/> <feGaussianBlur stdDeviation="5.39611"/> <feColorMatrix type="matrix" values="0 0 0 0 0.0980392 0 0 0 0 0.152941 0 0 0 0 0.262745 0 0 0 0.08 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15687_45752"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15687_45752" result="shape"/> </filter> <clipPath id="clip0_15687_45752"> <rect x="1" y="1" width="245.823" height="179.87" rx="9.59309" fill="white"/> </clipPath> <clipPath id="clip1_15687_45752"> <rect x="23.7837" y="38.1732" width="200.256" height="159.485" rx="9.59309" fill="white"/> </clipPath> <clipPath id="clip2_15687_45752"> <rect width="16.7879" height="16.7879" fill="white" transform="translate(209.651 171.278)"/> </clipPath> </defs> </svg>';
+  // Illustration exported from Figma "Actions 01 - Empty state" (node 10060:3368).
+  var ACTIONS_ILLO = '<img class="actions-illo" src="assets/illustrations/action-planning.svg" width="286" height="205" alt="">';
 
   function actionsEmptyHTML(){
-    // The four responses are shown exactly as the dialog shows them (same cards, same copy).
-    var opt = function(st, icon, label){
-      return '<div class="step-opt is-' + st + ' is-static">' +
-        '<span class="step-opt-ico"><i data-icon="' + icon + '"></i></span>' +
-        '<span class="step-opt-title">' + label + '</span>' +
-        '<span class="step-opt-desc">' + STEP_DESC[st] + '</span></div>';
+    // Layout and copy follow the Figma frame "Actions 01 - Empty state" (10060:3368):
+    // illustration on top, centred heading, four response cards, centred CTA.
+    var card = function(st, icon, label, desc){
+      return '<div class="ae-card">' +
+        '<span class="ae-card-ico is-' + st + '"><i data-icon="' + icon + '"></i></span>' +
+        '<span class="ae-card-t">' + label + '</span>' +
+        '<span class="ae-card-d">' + desc + '</span></div>';
     };
     return '<div class="actions-empty">' +
-      '<div class="ae-hero">' +
-        '<div class="ae-hero-txt">' +
-          '<h2 class="ae-title">Turn your results into action</h2>' +
-          '<p class="ae-desc">Respond to a focus area to decide how you\u2019ll act on it, and it shows up here \u2014 shared with your team and visible to HR. Not sure where to start? Create a custom action from your own goal.</p>' +
-        '</div>' +
-        '<div class="ae-illo">' + ACTIONS_ILLO + '</div>' +
+      ACTIONS_ILLO +
+      '<div class="ae-hero-txt">' +
+        '<h2 class="ae-title">Turn your results into action</h2>' +
+        '<p class="ae-desc">Respond to a focus area to decide how you\u2019ll act on it, and it shows up here, shared with your team and visible to HR.</p>' +
       '</div>' +
-      '<div class="step-options ae-options">' +
-        opt('action', 'target', 'Improve') +
-        opt('monitor', 'eye', 'Monitor') +
-        opt('support', 'flag', 'Need support') +
-        opt('promote', 'benchmark-up', 'Promote') +
+      '<div class="ae-cards">' +
+        card('action', 'target', 'Improve', 'Something the team can influence, so commit to a concrete next step now.') +
+        card('monitor', 'eye', 'Monitor', 'Not urgent yet, so keep it on your radar and revisit at the next survey.') +
+        card('support', 'flag', 'Need support', 'Outside the team\'s control, so flag it for the right person to pick up.') +
+        card('promote', 'win', 'Promote', 'A real strength worth celebrating, so find a way to share the win with your team.') +
       '</div>' +
-      '<div class="ae-cta-row"><button class="btn btn-primary ae-cta" onclick="openCustomAction()"><i data-icon="plus"></i> Create Custom Action</button></div>' +
+      '<div class="ae-cta-row"><button class="btn btn-primary ae-cta" onclick="openCustomAction()">Create Custom Action</button></div>' +
     '</div>';
   }
 
