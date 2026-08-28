@@ -725,6 +725,8 @@
     .fv-newaction { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: 0; border: 0; border-radius: 0; background: transparent; margin-top: var(--spacing-tight); }
     .fv-na-lbl { font-size: 13px; font-weight: 600; color: var(--content-base); }
     .fv-na-opt { font-weight: 400; color: var(--content-subtle); }
+    /* Creating your own action next to the recommendations: a tile in the same list */
+    .fv-newaction.is-tile { padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); box-shadow: var(--sh-action, none); }
     .fv-na-ta-wrap { position: relative; }
     .fv-na-ta-wrap .ta { padding-bottom: 24px; }
     .fv-na-count { position: absolute; right: 12px; bottom: 8px; font-size: 11px; color: var(--content-subtle); pointer-events: none; }
@@ -2537,13 +2539,12 @@
       return '<div class="fv-create-row"><button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button><button class="btn btn-link fv-defer" onclick="stepDeferImprove(' + jsId(fa.id) + ')">I\'ll figure it out later</button></div>';
     }
     var na = fa.newAction || {};
-    var ok = !!(na.title && na.title.trim() && na.desc && na.desc.trim());
+    var ok = !!(na.title && na.title.trim());   // only the title is required
     var noReco = !formOwnsButtons(fa);
-    return (noReco ? '' : '<button class="btn btn-link fv-see-reco" onclick="cancelNewAction(' + jsId(fa.id) + ')"><i data-icon="chevron-left"></i> See recommendations</button>') +
-      '<div class="fv-newaction">' +
+    return '<div class="fv-newaction' + (noReco ? '' : ' is-tile') + '">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
-      '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
+      '<label class="fv-na-lbl">Description <span class="fv-na-opt">optional</span></label>' +
       '<div class="fv-na-ta-wrap">' +
         '<textarea class="ta fv-na-desc" rows="2" maxlength="1000" placeholder="Add a short description of this action" oninput="setNewActionField(' + jsId(fa.id) + ',\'desc\',this.value); newActionSync(this); naCount(this)">' + esc(na.desc || '') + '</textarea>' +
         '<span class="fv-na-count">' + (na.desc || '').length + '/1000</span>' +
@@ -2553,7 +2554,7 @@
         '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><input class="tf" placeholder="Who will own this?" value="' + esc(na.assignee || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)"></div>' +
       '</div>' +
       (noReco ? '' : '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
-        '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>') +
+        '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Save</button></div>') +
     '</div>';
   }
   // Description is capped at 1000 characters, with the count shown in the corner.
@@ -2563,14 +2564,30 @@
   }
   function newActionSync(el){
     var form = el.closest('.fv-newaction'); if(!form) return;
-    var t = form.querySelector('.fv-na-title'), d = form.querySelector('.fv-na-desc');
-    var ok = !!(t && t.value.trim() && d && d.value.trim());
+    var t = form.querySelector('.fv-na-title');
+    var ok = !!(t && t.value.trim());
     document.querySelectorAll('.fv-na-add').forEach(function(btn){ btn.disabled = !ok; btn.classList.toggle('is-disabled', !ok); });
   }
   function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
   function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
   function setNewActionField(id, f, v){ var fa = planFa(id); if(!fa) return; fa.newAction = fa.newAction || {}; fa.newAction[f] = v; }
-  function addNewAction(id){ var fa = planFa(id); if(!fa) return; var na = fa.newAction || {}; if(!(na.title && na.title.trim() && na.desc && na.desc.trim())) return; fa.customActions = fa.customActions || []; fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true }); fa.creatingAction = false; fa.newAction = { title:'', desc:'', due:'', assignee:'' }; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ if(typeof stepConfirm === 'function') stepConfirm(); } else if(typeof confirmActions === 'function'){ confirmActions(id); } else { refreshActionForms(); } }
+  function addNewAction(id){
+    var fa = planFa(id); if(!fa) return;
+    var na = fa.newAction || {};
+    if(!(na.title && na.title.trim())) return;               // title is the only requirement
+    fa.customActions = fa.customActions || [];
+    fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true });
+    fa.creatingAction = false;
+    fa.newAction = { title:'', desc:'', due:'', assignee:'' };
+    var sd = document.getElementById('step-dialog');
+    // Alongside recommendations the tile is one of several actions, so saving it just
+    // adds it to the list; the footer's Add action still finishes the step. On the
+    // screens that are only this form, saving finishes the step as before.
+    if(sd && !sd.hidden && formOwnsButtons(fa)) refreshActionForms();
+    else if(sd && !sd.hidden) stepConfirm();
+    else if(typeof confirmActions === 'function') confirmActions(id);
+    else refreshActionForms();
+  }
   function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
@@ -2585,7 +2602,9 @@
           '<div class="fv-pick-body"><div class="fv-pick-head"><div class="fv-pick-title-wrap"><span class="fv-reco-eyebrow">' + a + '</span><p class="fv-reco-title">' + esc(r.title) + '</p></div>' +
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
-      return (fa.creatingAction ? '' : '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><div class="fv-picks">' + cards + '</div>' + customActionsHTML(fa)) + newActionFormHTML(fa);
+      // The recommendations stay on screen; creating your own adds a tile below them.
+      return '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><div class="fv-picks">' + cards + '</div>' +
+        customActionsHTML(fa) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
       return '<div class="fv-newaction">' +
