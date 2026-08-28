@@ -837,7 +837,9 @@
     .ae-hero-txt { display: flex; flex-direction: column; gap: var(--spacing-tight); width: 100%; margin-top: var(--spacing-loose); }
     /* Four response cards, 4-up as in the Figma frame */
     .ae-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base-tight); width: 100%; margin-top: var(--spacing-loose); }
-    .ae-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-sizing: border-box; }
+    .ae-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-sizing: border-box; font-family: inherit; color: inherit; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    .ae-card:hover { border-color: var(--border-action-hover, var(--content-brand)); box-shadow: var(--sh-card); }
+    .ae-card:focus-visible { outline: 2px solid var(--content-brand); outline-offset: 2px; }
     .ae-card-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 6px; flex: none; }
     .ae-card-ico i { display: flex; width: 20px; height: 20px; }
     .ae-card-ico.is-action  { background: var(--r-action-tile);  color: var(--r-action-fg); }
@@ -2191,11 +2193,13 @@
   function actionsEmptyHTML(){
     // Layout and copy follow the Figma frame "Actions 01 - Empty state" (10060:3368):
     // illustration on top, centred heading, four response cards, centred CTA.
+    // Each card starts a custom action on that response, so picking one here is the
+    // same as picking it from the goal dropdown in the panel.
     var card = function(st, icon, label, desc){
-      return '<div class="ae-card">' +
+      return '<button type="button" class="ae-card" onclick="openCustomAction(\'' + st + '\')">' +
         '<span class="ae-card-ico is-' + st + '"><i data-icon="' + icon + '"></i></span>' +
         '<span class="ae-card-t">' + label + '</span>' +
-        '<span class="ae-card-d">' + desc + '</span></div>';
+        '<span class="ae-card-d">' + desc + '</span></button>';
     };
     return '<div class="actions-empty">' +
       ACTIONS_ILLO +
@@ -2222,12 +2226,15 @@
     return d;
   }
   function exportActions(){ var st = notifyStack(); var n = document.createElement('div'); n.className = 'sysnotif'; n.innerHTML = '<div class="sysnotif-title">Preparing your export\u2026</div><button class="sysnotif-close" aria-label="Close"><i data-icon="cross"></i></button>'; n.querySelector('.sysnotif-close').addEventListener('click', function(){ n.remove(); }); st.appendChild(n); if(window.Icons) window.Icons.render(n); setTimeout(function(){ n.remove(); }, 3200); }
-  function openCustomAction(){
+  // With a goal, the panel opens with that goal already chosen and its input fields
+  // open; without one the manager picks the goal in the panel first.
+  function openCustomAction(goal){
     CUSTOM_SEQ++; var id = 'custom-' + CUSTOM_SEQ; var keys = Object.keys(RECO);
     var t = { id: id, text: '', score: '\u2013', theme: 'Custom action', isCustom: true, recoKey: keys[scoreTargets.length % keys.length], planItems: [], picked: [], approach: null, state: null, planDesc: '', customActions: [] };
     scoreTargets.push(t);
     openPlanPanel(id);
-    setTimeout(function(){ var el = document.getElementById('plan-title-input'); if(el) el.focus(); }, 60);
+    if(goal){ setPlanGoal(goal); }   // sets the chip and opens the action fields
+    else setTimeout(function(){ var el = document.getElementById('plan-title-input'); if(el) el.focus(); }, 60);
   }
   function closeCustomAction(){ var d = document.getElementById('custom-dialog'); if(d) d.hidden = true; document.body.classList.remove('step-open'); customDraft = null; }
   function setCustomField(f, v){ if(!customDraft) return; customDraft[f] = v; var b = document.getElementById('custom-continue'); if(b){ var ok = !!(customDraft.title && customDraft.title.trim() && customDraft.desc && customDraft.desc.trim()); b.disabled = !ok; b.classList.toggle('is-disabled', !ok); } }
