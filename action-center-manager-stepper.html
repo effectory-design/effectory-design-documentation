@@ -21,6 +21,15 @@
       --results-side: calc(var(--spacing-extra-loose) * 2); /* 64px */
       --content-max: 1080px;   /* shared content width below the tabs, every view */
       --results-top: calc(var(--spacing-loose) * 2);        /* 48px */
+
+      /* One palette for the four responses, so a chip, an icon tile and a done
+         marker never disagree. Follows the Survey tags standard in Figma:
+         Improve = red, Monitor = blue, Need support = amber, Promote = green.
+         *-pill is the tag tint, *-tile the stronger tint used behind an icon. */
+      --r-action-pill: var(--bg-negative-subtle);   --r-action-tile: var(--content-accent-red-subtle); --r-action-fg: var(--content-negative);
+      --r-monitor-pill: var(--bg-info-subtle);      --r-monitor-tile: var(--bg-info-subtle);           --r-monitor-fg: var(--content-info);
+      --r-support-pill: var(--bg-highlight-subtle); --r-support-tile: var(--bg-highlight-subtle);      --r-support-fg: var(--p-color-yellow-600);
+      --r-promote-pill: var(--bg-positive-subtle);  --r-promote-tile: var(--bg-positive-subtle);       --r-promote-fg: var(--content-positive);
     }
 
     /* App shell */
@@ -371,9 +380,9 @@
     .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
     .act-sum-ico { flex: none; width: 40px; height: 40px; border-radius: var(--radius-base); display: inline-flex; align-items: center; justify-content: center; }
     .act-sum-ico i { display: flex; width: 20px; height: 20px; }
-    .act-sum.is-action .act-sum-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .act-sum.is-monitor .act-sum-ico { background: var(--bg-info-subtle); color: var(--content-info); }
-    .act-sum.is-support .act-sum-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .act-sum.is-action .act-sum-ico { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .act-sum.is-monitor .act-sum-ico { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .act-sum.is-support .act-sum-ico { background: var(--r-support-tile); color: var(--r-support-fg); }
     .act-sum-txt { display: flex; flex-direction: column; }
     .act-sum-n { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--content-base); }
     .act-sum-l { font-size: 12px; color: var(--content-secondary); }
@@ -398,9 +407,9 @@
     .ap-cell-score { font-weight: 600; color: var(--content-secondary); }
     .ap-goal-chip { display: inline-flex; align-items: center; gap: 6px; padding: var(--spacing-extra-tight) var(--spacing-base-tight); border-radius: var(--radius-full); font-size: 12px; font-weight: 600; white-space: nowrap; }
     .ap-goal-chip i { display: flex; width: 14px; height: 14px; }
-    .ap-goal-chip.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .ap-goal-chip.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .ap-goal-chip.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .ap-goal-chip.is-action { background: var(--r-action-pill); color: var(--r-action-fg); }
+    .ap-goal-chip.is-monitor { background: var(--r-monitor-pill); color: var(--r-monitor-fg); }
+    .ap-goal-chip.is-support { background: var(--r-support-pill); color: var(--r-support-fg); }
     .ap-progress { display: flex; align-items: center; gap: var(--spacing-tight); }
     .ap-progress-track { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
     .ap-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); }
@@ -523,9 +532,9 @@
     .fa-done-editlink i { display: flex; width: 14px; height: 14px; }
     .fa-done-ico { flex: none; width: 32px; height: 32px; border-radius: var(--radius-base); display: flex; align-items: center; justify-content: center; }
     .fa-done-ico i { display: flex; width: 18px; height: 18px; }
-    .fa-done-ico.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .fa-done-ico.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .fa-done-ico.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .fa-done-ico.is-action { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .fa-done-ico.is-monitor { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .fa-done-ico.is-support { background: var(--r-support-tile); color: var(--r-support-fg); }
     .fa-done-ico.is-dismiss { background: var(--bg-secondary); color: var(--content-secondary); }
     /* Reasons for marking a focus area as not relevant */
     .fa-why-list { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
@@ -658,9 +667,9 @@
     .step-hero-row { display: flex; align-items: center; gap: var(--spacing-base-tight); }
     .step-hero-ico { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-base); background: var(--bg-brand-subtle); color: var(--content-brand); }
     .step-hero-ico i { display: flex; width: 22px; height: 22px; }
-    .step-hero-ico.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .step-hero-ico.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .step-hero-ico.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-hero-ico.is-action { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .step-hero-ico.is-monitor { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .step-hero-ico.is-support { background: var(--r-support-tile); color: var(--r-support-fg); }
     .step-hero-ico.is-success { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .step-h2 { margin: 0; font-size: 22px; font-weight: 600; color: var(--content-base); }
     .step-sub { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
@@ -670,9 +679,9 @@
     .step-opt.is-selected { border-color: var(--content-brand); box-shadow: 0 0 0 1px var(--content-brand); }
     .step-opt-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-base); }
     .step-opt-ico i { display: flex; width: 20px; height: 20px; }
-    .step-opt.is-action .step-opt-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .step-opt.is-monitor .step-opt-ico { background: var(--bg-info-subtle); color: var(--content-info); }
-    .step-opt.is-support .step-opt-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .step-opt.is-action .step-opt-ico { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .step-opt.is-monitor .step-opt-ico { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .step-opt.is-support .step-opt-ico { background: var(--r-support-tile); color: var(--r-support-fg); }
     .step-opt-title { font-size: 15px; font-weight: 600; color: var(--content-base); }
     .step-opt-desc { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
     .step-plan { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
@@ -710,6 +719,9 @@
     .fv-newaction { display: flex; flex-direction: column; gap: var(--spacing-tight); padding: 0; border: 0; border-radius: 0; background: transparent; margin-top: var(--spacing-tight); }
     .fv-na-lbl { font-size: 13px; font-weight: 600; color: var(--content-base); }
     .fv-na-opt { font-weight: 400; color: var(--content-subtle); }
+    .fv-na-ta-wrap { position: relative; }
+    .fv-na-ta-wrap .ta { padding-bottom: 24px; }
+    .fv-na-count { position: absolute; right: 12px; bottom: 8px; font-size: 11px; color: var(--content-subtle); pointer-events: none; }
     .fv-newaction .tf, .fv-newaction .ta { width: 100%; }
     .fv-na-opts { display: flex; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-na-field { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
@@ -754,10 +766,10 @@
     .fv-progress-track { flex: 1; height: 8px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
     .fv-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); transition: width var(--motion-base, .2s) ease; }
     .fv-progress-lbl { font-size: 15px; font-weight: 700; color: var(--content-base); white-space: nowrap; }
-.step-opt.is-promote .step-opt-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
-    .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
-    .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
-    .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
+.step-opt.is-promote .step-opt-ico { background: var(--r-promote-tile); color: var(--r-promote-fg); }
+    .step-hero-ico.is-promote { background: var(--r-promote-tile); color: var(--r-promote-fg); }
+    .fa-done-ico.is-promote { background: var(--r-promote-tile); color: var(--r-promote-fg); }
+    .ap-goal-chip.is-promote { background: var(--r-promote-pill); color: var(--r-promote-fg); }
     /* Side-panel: goal dropdown + per-item description + Actions-page add-action link */
     .act-goal-wrap { position: relative; display: inline-flex; }
     .act-goal-wrap .act-goal-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 40; min-width: 220px; }
@@ -810,7 +822,7 @@
     .act-edit-btns .btn { padding: 6px 14px; font-size: 14px; }
     .act-count-inline { font-size: 15px; font-weight: 600; color: var(--content-secondary); margin-left: var(--spacing-tight); }
     .act-add-btn[disabled] { opacity: .5; cursor: default; }
-    .act-sum.is-promote .act-sum-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .act-sum.is-promote .act-sum-ico { background: var(--r-promote-tile); color: var(--r-promote-fg); }
     /* Actions — educational empty state (centered) */
     /* Width matches the dialog's content box (.step-modal is min(880px, 94vw) with 40px side padding),
        so the four response cards are exactly the size they are in the dialog. */
@@ -834,9 +846,9 @@
     .ae-type { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); text-align: left; padding: var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-base); box-shadow: var(--sh-card); height: 100%; box-sizing: border-box; min-width: 0; }
     .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
     .ae-type-ico i { display: flex; width: 18px; height: 18px; }
-    .ae-type-ico.is-target { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .ae-type-ico.is-eye { background: var(--bg-info-subtle); color: var(--content-info); }
-    .ae-type-ico.is-flag { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .ae-type-ico.is-target { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .ae-type-ico.is-eye { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .ae-type-ico.is-flag { background: var(--r-support-tile); color: var(--r-support-fg); }
     .ae-type-txt { display: flex; flex-direction: column; }
     .ae-type-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .ae-type-d { font-size: 12.5px; color: var(--content-secondary); }
@@ -874,7 +886,7 @@
     .fv-thumb { position: relative; }
     .fv-thumb[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--content-base); color: #fff; font-size: 12px; line-height: 1.3; font-weight: 500; padding: 5px 8px; border-radius: var(--radius-sm); white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .12s ease; z-index: 80; box-shadow: 0 4px 12px rgba(15,23,42,.22); }
     .fv-thumb[data-tip]:hover::after { opacity: 1; visibility: visible; }
-    .ae-type-ico.is-benchmark-up { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    .ae-type-ico.is-benchmark-up { background: var(--r-promote-tile); color: var(--r-promote-fg); }
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
@@ -2517,7 +2529,10 @@
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
       '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
-      '<textarea class="ta fv-na-desc" rows="2" placeholder="Add a short description of this action" oninput="setNewActionField(' + jsId(fa.id) + ',\'desc\',this.value); newActionSync(this)">' + esc(na.desc || '') + '</textarea>' +
+      '<div class="fv-na-ta-wrap">' +
+        '<textarea class="ta fv-na-desc" rows="2" maxlength="1000" placeholder="Add a short description of this action" oninput="setNewActionField(' + jsId(fa.id) + ',\'desc\',this.value); newActionSync(this); naCount(this)">' + esc(na.desc || '') + '</textarea>' +
+        '<span class="fv-na-count">' + (na.desc || '').length + '/1000</span>' +
+      '</div>' +
       '<div class="fv-na-opts">' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Due date <span class="fv-na-opt">optional</span></label><input class="tf" type="date" value="' + esc(na.due || '') + '" onchange="setNewActionField(' + jsId(fa.id) + ',\'due\',this.value)"></div>' +
         '<div class="fv-na-field"><label class="fv-na-lbl">Assignee <span class="fv-na-opt">optional</span></label><input class="tf" placeholder="Who will own this?" value="' + esc(na.assignee || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'assignee\',this.value)"></div>' +
@@ -2525,6 +2540,11 @@
       (noReco ? '' : '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
         '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button></div>') +
     '</div>';
+  }
+  // Description is capped at 1000 characters, with the count shown in the corner.
+  function naCount(el){
+    var wrap = el.closest('.fv-na-ta-wrap'); if(!wrap) return;
+    var c = wrap.querySelector('.fv-na-count'); if(c) c.textContent = el.value.length + '/1000';
   }
   function newActionSync(el){
     var form = el.closest('.fv-newaction'); if(!form) return;
