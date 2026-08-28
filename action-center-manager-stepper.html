@@ -726,7 +726,9 @@
     .fv-na-lbl { font-size: 13px; font-weight: 600; color: var(--content-base); }
     .fv-na-opt { font-weight: 400; color: var(--content-subtle); }
     /* Creating your own action next to the recommendations: a tile in the same list */
-    .fv-newaction.is-tile { padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); box-shadow: var(--sh-action, none); }
+    .fv-newaction.is-tile { display: flex; flex-direction: row; align-items: flex-start; gap: var(--spacing-base); padding: var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); box-shadow: var(--sh-action, none); }
+    .fv-newaction.is-tile > .cb-wrap { flex: none; margin-top: 2px; }
+    .fv-na-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fv-na-ta-wrap { position: relative; }
     .fv-na-ta-wrap .ta { padding-bottom: 24px; }
     .fv-na-count { position: absolute; right: 12px; bottom: 8px; font-size: 11px; color: var(--content-subtle); pointer-events: none; }
@@ -2525,7 +2527,7 @@
     return '<div class="fv-custom-list">' + list.map(function(a, i){
       var meta = (a.due ? '<span class="fv-custom-tag"><i data-icon="from-to"></i> ' + esc(fmtDate(a.due)) + '</span>' : '') +
         (a.assignee ? '<span class="fv-custom-tag"><i data-icon="user"></i> ' + esc(a.assignee) + '</span>' : '');
-      return '<div class="fv-custom-item"><div class="fv-custom-main"><span class="fv-custom-title">' + esc(a.text) + '</span>' +
+      return '<div class="fv-custom-item"><div class="fv-custom-main"><span class="fv-reco-eyebrow">Custom action</span><span class="fv-custom-title">' + esc(a.text) + '</span>' +
         (a.desc ? '<span class="fv-custom-desc">' + esc(a.desc) + '</span>' : '') +
         (meta ? '<span class="fv-custom-meta">' + meta + '</span>' : '') + '</div>' +
         '<button class="ib ib-24 ib-tertiary fv-custom-x" aria-label="Remove action" onclick="removeCustomAction(' + jsId(fa.id) + ',' + i + ')"><i data-icon="cross"></i></button></div>';
@@ -2541,7 +2543,11 @@
     var na = fa.newAction || {};
     var ok = !!(na.title && na.title.trim());   // only the title is required
     var noReco = !formOwnsButtons(fa);
-    return '<div class="fv-newaction' + (noReco ? '' : ' is-tile') + '">' +
+    var tile = !noReco;   // alongside recommendations it reads as one more row in that list
+    return '<div class="fv-newaction' + (tile ? ' is-tile' : '') + '">' +
+      (tile ? '<span class="cb-wrap"><input type="checkbox" class="cb" checked disabled aria-label="This action will be added"></span>' : '') +
+      (tile ? '<div class="fv-na-body">' : '') +
+      (tile ? '<span class="fv-reco-eyebrow">Custom action</span>' : '') +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
       '<input class="tf fv-na-title" placeholder="What needs to happen?" value="' + esc(na.title || '') + '" oninput="setNewActionField(' + jsId(fa.id) + ',\'title\',this.value); newActionSync(this)">' +
       '<label class="fv-na-lbl">Description <span class="fv-na-opt">optional</span></label>' +
@@ -2555,6 +2561,7 @@
       '</div>' +
       (noReco ? '' : '<div class="fv-na-actions"><button class="btn btn-secondary" onclick="cancelNewAction(' + jsId(fa.id) + ')">Cancel</button>' +
         '<button class="btn btn-primary fv-na-add' + (ok ? '' : ' is-disabled') + '"' + (ok ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Save</button></div>') +
+      (tile ? '</div>' : '') +
     '</div>';
   }
   // Description is capped at 1000 characters, with the count shown in the corner.
@@ -2568,7 +2575,22 @@
     var ok = !!(t && t.value.trim());
     document.querySelectorAll('.fv-na-add').forEach(function(btn){ btn.disabled = !ok; btn.classList.toggle('is-disabled', !ok); });
   }
-  function openNewAction(id){ var fa = planFa(id); if(!fa) return; focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; }); fa.creatingAction = true; fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' }; refreshActionForms(); }
+  function openNewAction(id){
+    var fa = planFa(id); if(!fa) return;
+    focusAreas.concat(scoreTargets).forEach(function(f){ f.creatingAction = false; });
+    fa.creatingAction = true;
+    fa.newAction = fa.newAction || { title:'', desc:'', due:'', assignee:'' };
+    refreshActionForms();
+    // The tile is appended below the recommendations, so bring it — and its buttons —
+    // into view instead of leaving the manager to find it.
+    var reveal = function(){
+      var body = document.querySelector('#step-dialog .step-body');
+      var t = document.querySelector('#step-dialog .fv-newaction.is-tile');
+      if(body && t) body.scrollTop = body.scrollHeight;
+      var f = document.querySelector('#step-dialog .fv-na-title'); if(f) f.focus();
+    };
+    reveal(); requestAnimationFrame(reveal);
+  }
   function cancelNewAction(id){ var fa = planFa(id); if(!fa) return; fa.creatingAction = false; refreshActionForms(); }
   function setNewActionField(id, f, v){ var fa = planFa(id); if(!fa) return; fa.newAction = fa.newAction || {}; fa.newAction[f] = v; }
   function addNewAction(id){
@@ -2680,7 +2702,11 @@
         // Add action next to Back, so both live on one sticky row.
         var naOk = !!(fa.newAction && (fa.newAction.title || '').trim() && (fa.newAction.desc || '').trim());
         footer = '<div class="step-footer"><button class="btn btn-secondary" onclick="stepBack()">Back</button>' +
-          (formOwnsButtons(fa) ? '' : '<button class="btn btn-primary fv-na-add' + (naOk ? '' : ' is-disabled') + '"' + (naOk ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button>') +
+          (formOwnsButtons(fa)
+            // The tile has its own Save; the step's Add action stays put but greyed,
+            // so the footer never changes shape mid-flow.
+            ? '<button class="btn btn-primary is-disabled" disabled>Add action</button>'
+            : '<button class="btn btn-primary fv-na-add' + (naOk ? '' : ' is-disabled') + '"' + (naOk ? '' : ' disabled') + ' onclick="addNewAction(' + jsId(fa.id) + ')">Add action</button>') +
         '</div>';
       }
     }
