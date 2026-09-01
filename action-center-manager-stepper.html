@@ -554,6 +554,10 @@
     .fa-done-details { display: flex; flex-direction: column; gap: var(--spacing-base-tight); margin-top: var(--spacing-base-tight); padding-top: var(--spacing-base-tight); border-top: 1px solid var(--border-base); }
     .fa-done-line { margin: 0; font-size: 14px; color: var(--content-base); }
     .fa-done-meta { margin: 0; font-size: 12px; color: var(--content-subtle); }
+    .fa-done-empty { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
+    .fa-done-empty-txt { margin: 0; font-size: 13px; color: var(--content-secondary); }
+    .fa-done-add { height: 32px; padding: 0 10px; font-size: 13px; gap: 6px; }
+    .fa-done-add i { display: flex; width: 14px; height: 14px; }
     .fa-done-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .fa-done-item { display: flex; align-items: center; gap: var(--spacing-base-tight); font-size: 14px; color: var(--content-base); }
     .fa-done-item .cb-wrap { flex: none; }
@@ -790,9 +794,8 @@
     .act-item-desc { width: 100%; border: 0; background: transparent; font-family: inherit; font-size: 13px; line-height: 1.5; color: var(--content-secondary); outline: none; resize: none; padding: 0; field-sizing: content; }
     .act-item-desc::placeholder { color: var(--content-placeholder); }
     .act-item.is-done .act-item-desc { text-decoration: line-through; }
-    .ap-addaction { display: inline-flex; align-items: center; gap: var(--spacing-tight); background: none; border: 0; padding: 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
-    .ap-addaction i { display: flex; width: 16px; height: 16px; }
-    .ap-addaction:hover { text-decoration: underline; }
+    .ap-addaction { height: 32px; padding: 0 10px; font-size: 13px; gap: 6px; }
+    .ap-addaction i { display: flex; width: 14px; height: 14px; }
     #plan-overlay .sp-subtitle { margin: 6px 0 0; font-size: 14px; color: var(--content-secondary); }
     .app-eyebrow { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .sp-more-wrap { position: relative; display: inline-flex; }
@@ -1345,15 +1348,25 @@
     if(!decided) return '<div class="fv-card" data-id="' + fa.id + '">' + head + '</div>';
     return '<div class="fv-card is-active" data-id="' + fa.id + '">' + head + stepReflect(fa) + '</div>';
   }
+  // A response can stand on its own before any action is written down ("I'll figure it out
+  // later"), so the empty list is replaced by the same Add action button the Actions page shows.
+  function planListOrAdd(fa){
+    var items = fa.planItems || [];
+    if(!items.length){
+      return '<div class="fa-done-empty"><p class="fa-done-empty-txt">No actions yet — add one whenever you\'re ready.</p>' +
+        '<button class="btn btn-secondary fa-done-add" onclick="event.stopPropagation(); openPlanPanelAdd(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button></div>';
+    }
+    return '<ul class="fa-done-list">' + items.map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+  }
   function stepReflect(fa){
     var icon = (DECIDED[fa.state] && DECIDED[fa.state].icon) || 'flag';
     var title, details = '';
     if(fa.state==='action'){
       title = "You're improving this focus area";
-      details = '<ul class="fa-done-list">' + (fa.planItems||[]).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+      details = planListOrAdd(fa);
     } else if(fa.state==='promote'){
       title = "You're celebrating this strength";
-      details = '<ul class="fa-done-list">' + (fa.planItems||[]).map(function(it){ return '<li class="fa-done-item"><span class="fa-done-item-text">' + esc(it.text||'Untitled action') + '</span></li>'; }).join('') + '</ul>';
+      details = planListOrAdd(fa);
     } else if(fa.state==='monitor'){
       title = 'This focus area is being monitored';
       var m = fa.monitorMode||'survey', when;
@@ -1963,7 +1976,8 @@
     var fa = planFa(id);
     if(!fa) return;
     // Title is decided when the panel opens, so it doesn't flip while you work in it.
-    planPanelMode = (fa.state && ((fa.planItems || []).length || faDecided(fa))) ? 'Edit action' : 'Add action';
+    // A deferred response is decided but has nothing planned under it, so the panel is still adding.
+    planPanelMode = ((fa.planItems || []).length || fa.state === 'monitor' || fa.state === 'support') ? 'Edit action' : 'Add action';
     fa.planItems = fa.planItems || [];
     // Pull in any picked recommended actions not yet materialised, carrying their description.
     (fa.picked || []).forEach(function(a){
@@ -2150,7 +2164,7 @@
   // One representation for every response: a progress bar over its actions (or an Add action link).
   function actionProgressHTML(fa){
     var items = fa.planItems || [];
-    if(!items.length){ return '<button class="ap-addaction" onclick="event.stopPropagation(); openPlanPanelAdd(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button>'; }
+    if(!items.length){ return '<button class="btn btn-secondary ap-addaction" onclick="event.stopPropagation(); openPlanPanelAdd(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Add action</button>'; }
     var done = items.filter(function(x){ return x.done; }).length, tot = items.length;
     var pct = tot ? Math.round(done / tot * 100) : 0;
     return '<div class="ap-progress"><div class="ap-progress-track"><div class="ap-progress-fill" style="width:' + pct + '%"></div></div>' +
