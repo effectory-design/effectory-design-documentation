@@ -24,10 +24,10 @@
        otherwise the Overview content would be 48px narrower than Focus view / Actions. */
     .overview-wrap { padding: var(--spacing-loose) 0 var(--spacing-base) 0 !important; max-width: none !important; }
     /* Keep the 3-up card grid — the DS drops to 2-up below a 1300px *viewport*, which the iframe always is.
-       1fr columns so the row fills the shared 1080px content width exactly, whatever the gap is. */
+       1fr columns so the row fills the shared 1200px content width exactly, whatever the gap is. */
     @media (min-width: 900px) {
-      .ov-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; max-width: 1080px !important; }
-      .ai-summary { max-width: 1080px !important; }
+      .ov-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; max-width: 1200px !important; }
+      .ai-summary { max-width: 1200px !important; }
     }
   </style>
 </head>
