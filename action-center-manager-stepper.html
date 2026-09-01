@@ -896,6 +896,7 @@
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
+    .fv-create-row.is-defer-only { justify-content: flex-end; }
     .fa-person-menu.opens-up { top: auto; bottom: calc(100% + var(--spacing-extra-tight)); }
     .step-person-menu.opens-up { top: auto; bottom: calc(100% + 4px); }
     .fv-explore-more { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); background: none; border: 0; padding: var(--spacing-tight) 0; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; }
@@ -2404,7 +2405,24 @@
     renderStepDialog();
   }
   function stepGoToActions(){ var sd = document.getElementById('step-dialog'); if(sd) sd.hidden = true; document.body.classList.remove('step-open'); renderCards(); var t = document.querySelector('.tab[data-view="actions"]'); if(t) t.click(); }
-  function stepDeferImprove(id){ var fa = (id !== undefined && id !== null) ? planFa(id) : (typeof stepFa === 'function' ? stepFa() : null); if(!fa) return; fa.state = 'action'; fa.actionAdded = true; if(!fa.planItems) fa.planItems = []; var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ stepBusy = true; stepStage = 'success'; renderStepDialog(); setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 400); } else { renderCards(); if(typeof updateProgress === 'function') updateProgress(); } }
+  // "I'll figure it out later" — the response stands, with nothing planned under it yet.
+  function stepDeferResponse(id){
+    var fa = (id !== undefined && id !== null) ? planFa(id) : (typeof stepFa === 'function' ? stepFa() : null);
+    if(!fa) return;
+    if(fa.state === 'monitor') fa.monitorSaved = true;
+    else if(fa.state === 'support') fa.supportSent = true;
+    else { fa.actionAdded = true; if(!fa.planItems) fa.planItems = []; }
+    fa.creatingAction = false;
+    var sd = document.getElementById('step-dialog');
+    if(sd && !sd.hidden){
+      stepBusy = true; stepStage = 'success'; renderStepDialog();
+      setTimeout(function(){ stepBusy = false; renderStepDialog(); }, 400);
+    } else {
+      renderCards();
+      if(typeof updateProgress === 'function') updateProgress();
+    }
+  }
+  function stepDeferImprove(id){ stepDeferResponse(id); }   // older call sites
   var stepCloseConfirmShown = false;
   // Closing mid-flow asks first — a small popover at the X — so unsaved input isn't lost silently.
   function hasStepChanges(fa){
@@ -2541,6 +2559,10 @@
   // Improve-with-recommendations keeps Cancel + Add action inside the form; the create-only
   // screens (Promote, Overview Improve) hand Add action to the dialog footer instead.
   function formOwnsButtons(fa){ return !(fa.state === 'promote' || isOverviewTarget(fa)); }
+  // Every response can be deferred, so the link lives in its own row and is reused.
+  function deferRowHTML(fa){
+    return '<div class="fv-create-row is-defer-only"><button class="btn btn-link fv-defer" onclick="stepDeferResponse(' + jsId(fa.id) + ')">I\'ll figure it out later</button></div>';
+  }
   function newActionFormHTML(fa){
     if(!fa.creatingAction){
       return '<div class="fv-create-row"><button class="btn btn-link fv-create" onclick="openNewAction(' + jsId(fa.id) + ')"><i data-icon="plus"></i> Create new action</button><button class="btn btn-link fv-defer" onclick="stepDeferImprove(' + jsId(fa.id) + ')">I\'ll figure it out later</button></div>';
@@ -2626,7 +2648,7 @@
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
     if(fa.state === 'promote'){
-      return customActionsHTML(fa) + newActionFormHTML(fa);
+      return customActionsHTML(fa) + newActionFormHTML(fa) + deferRowHTML(fa);
     }
     if(fa.state === 'action'){
       var picked = fa.picked || [];
@@ -2646,7 +2668,7 @@
           '<input class="tf" placeholder="What needs to happen?" value="' + esc(fa.monitorTitle||'') + '" oninput="stepSetMonTitle(this.value)">' +
           '<label class="fv-na-lbl">Description <span class="fa-req">*</span></label>' +
           '<textarea class="ta" rows="3" placeholder="Describe how you\'ll keep an eye on this focus area \u2014 for example, revisit at the next survey, watch the score, or check back on a set date" oninput="stepSetMonNote(this.value)">' + esc(fa.monitorNote||'') + '</textarea>' +
-        '</div>';
+        '</div>' + deferRowHTML(fa);
     }
     return '<div class="fv-newaction">' +
       '<label class="fv-na-lbl">Action title <span class="fa-req">*</span></label>' +
@@ -2655,7 +2677,7 @@
       '<textarea class="ta" rows="3" placeholder="Describe the support you\'re looking for" oninput="stepSetSupportText(this.value)">' + esc(fa.supportText||'') + '</textarea>' +
       '<label class="fv-na-lbl">Who can help <span class="fv-na-opt">optional</span></label>' +
       '<input class="tf" placeholder="Who could help with this?" value="' + esc(fa.supportPerson||'') + '" oninput="stepSetSupportPerson(this.value)">' +
-      '</div>';
+      '</div>' + deferRowHTML(fa);
   }
 
   // Flip person dropdowns upward when they'd run past the viewport bottom (tall dialogs)
