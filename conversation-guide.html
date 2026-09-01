@@ -18,6 +18,7 @@
       font-family: 'Poppins', sans-serif;
       --results-side: calc(var(--spacing-extra-loose) * 2); /* 64px */
       --results-top: calc(var(--spacing-loose) * 2);        /* 48px */
+      --content-max: 1200px;   /* shared content width below the tabs, every view */
     }
 
     /* App shell */
@@ -43,10 +44,10 @@
     .results-head .tabs { padding: 0 var(--results-side); margin: 0 calc(-1 * var(--results-side)); }
     .results-head .tab .tab-spark { width: 18px; height: 18px; color: var(--bg-highlight-base); }
 
-    /* Focus flow — wide results container (1200px content + 24px gutters), matches the
-       design-system results dashboard (§11: dashboards are wide, not narrow). */
+    /* Every view below the tabs shares one content width (--content-max) so Overview,
+       Focus view and Actions line up. Wide per design-system §11 (dashboards are wide). */
     .focus-wrap {
-      max-width: 1248px; margin: 0 auto;
+      max-width: calc(var(--content-max) + var(--spacing-loose) * 2); margin: 0 auto;
       padding: var(--spacing-super-loose) var(--spacing-loose) var(--spacing-super-extra-loose);
     }
 
@@ -359,7 +360,8 @@
     .ov-embed { width: 100%; border: 0; display: block; min-height: 1200px; background: var(--bg-interface-body); }
 
     /* ── Actions page ── */
-    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: 880px; margin: 0 auto; }
+    /* No own cap: the Actions page fills the shared content width like the other views */
+    .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: none; margin: 0 auto; }
     .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
     .actions-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
     .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
