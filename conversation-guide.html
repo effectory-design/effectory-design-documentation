@@ -899,16 +899,22 @@
 
     /* Version 4: guide nudge inside the stepper success screen. Stacked, because the
        modal column is too narrow for a side-by-side illustration and readable copy. */
+    /* Version 3: compact nudge at the end of the stepper success screen, illustration
+       on the left in its own white tile. */
     .cg-step-guide {
-      display: flex; flex-direction: column; align-items: stretch; gap: var(--spacing-base-tight);
+      display: flex; flex-direction: row; align-items: center; gap: var(--spacing-base);
       text-align: left; margin-top: var(--spacing-loose);
-      padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose);
+      padding: var(--spacing-base);
       background: var(--bg-secondary); border-radius: var(--radius-lg);
     }
-    .cg-step-guide-illo { width: 110px; height: auto; align-self: center; }
-    .cg-step-guide-main { min-width: 0; }
-    .cg-step-guide-title { margin: 0 0 var(--spacing-extra-tight); display: flex; align-items: center; gap: var(--spacing-tight); font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
-    .cg-step-guide-title i { flex-shrink: 0; width: 16px; height: 16px; display: flex; color: var(--content-brand); }
+    .cg-step-guide-fig {
+      flex-shrink: 0; width: 64px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-base); border-radius: var(--radius-sm);
+    }
+    .cg-step-guide-illo { width: 48px; height: auto; }
+    .cg-step-guide-main { flex: 1; min-width: 0; }
+    .cg-step-guide-title { margin: 0 0 var(--spacing-extra-tight); font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--content-base); }
     .cg-step-guide-text { margin: 0 0 var(--spacing-base-tight); font-size: 13px; line-height: 1.55; color: var(--content-secondary); }
     /* [hidden] must beat the cards' own display values (same fix as .overlay[hidden]) */
     .cg-entry[hidden] { display: none; }
@@ -2678,11 +2684,11 @@
   function stepGuideNudgeHTML(){
     if(entryVariant !== 'e') return '';
     return '<div class="cg-step-guide">' +
-      '<img class="cg-step-guide-illo" src="assets/illustrations/follow-up-guide.svg" alt="" />' +
+      '<span class="cg-step-guide-fig"><img class="cg-step-guide-illo" src="assets/illustrations/follow-up-guide.svg" alt="" /></span>' +
       '<div class="cg-step-guide-main">' +
-        '<h4 class="cg-step-guide-title"><i data-icon="message"></i> Talk this through with your team</h4>' +
-        '<p class="cg-step-guide-text">Your conversation guide has listening questions for the areas you picked, so you can hear the why before you act.</p>' +
-        '<button class="btn btn-primary" onclick="openGuideFromStep()"><i data-icon="message"></i> View conversation guide</button>' +
+        '<h4 class="cg-step-guide-title">Talk this through first</h4>' +
+        '<p class="cg-step-guide-text">Your guide has questions for this focus area, so you can decide together</p>' +
+        '<button class="btn btn-secondary" onclick="openGuideFromStep()"><i data-icon="message"></i> View guide</button>' +
       '</div>' +
     '</div>';
   }
