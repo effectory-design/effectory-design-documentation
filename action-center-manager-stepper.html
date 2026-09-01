@@ -737,14 +737,15 @@
     .fv-na-field { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: var(--spacing-extra-tight); }
     .fv-na-actions { display: flex; justify-content: flex-end; gap: var(--spacing-base-tight); margin-top: var(--spacing-tight); }
     .fv-custom-list { display: flex; flex-direction: column; gap: var(--spacing-tight); margin-top: var(--spacing-tight); }
-    .fv-custom-item { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); padding: var(--spacing-base-tight) var(--spacing-base); border: 1px solid var(--border-brand-subtle); border-radius: var(--radius-md); background: var(--bg-brand-subtle); }
+    .fv-custom-item { display: flex; align-items: flex-start; gap: var(--spacing-base); padding: var(--spacing-base-tight) var(--spacing-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); background: var(--bg-base); cursor: pointer; }
+    .fv-custom-item.is-selected { border-color: var(--border-brand); background: var(--bg-brand-subtle); }
+    .fv-custom-item > .cb-wrap { flex: none; margin-top: 2px; }
     .fv-custom-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
     .fv-custom-title { font-size: 14px; font-weight: 600; color: var(--content-base); }
     .fv-custom-desc { font-size: 13px; color: var(--content-secondary); }
     .fv-custom-meta { display: inline-flex; flex-wrap: wrap; gap: var(--spacing-base-tight); margin-top: 2px; }
     .fv-custom-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--content-secondary); }
     .fv-custom-tag i { display: flex; width: 13px; height: 13px; }
-    .fv-custom-x { flex: none; }
     .fa-done-editrow { display: flex; margin-top: var(--spacing-tight); }
     .fv-see-reco.btn-link { align-self: flex-start; gap: var(--spacing-tight); padding: 0; }
     .fv-see-reco.btn-link i { display: flex; width: 16px; height: 16px; }
@@ -1649,7 +1650,7 @@
       fa.busy = null;
       fa.planItems = (fa.picked||[]).map(function(a){
         return { text: RECO[fa.recoKey][a].title, approach: a, done: false };
-      }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; }));
+      }).concat((fa.customActions||[]).filter(function(c){ return c.selected !== false; }).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; }));
       fa.actionAdded = true;
       renderCards();
       notifySaved('action');
@@ -2486,7 +2487,7 @@
   });
   function stepCanConfirm(){
     var fa = stepFa();
-    if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions && fa.customActions.length));
+    if(fa.state === 'action' || fa.state === 'promote')  return !!((fa.picked && fa.picked.length) || (fa.customActions || []).some(function(c){ return c.selected !== false; }));
     if(fa.state === 'support') return !!(fa.supportTitle && fa.supportTitle.trim()) && !!(fa.supportText && fa.supportText.trim());   // who can help is optional
     if(fa.state === 'monitor') return !!(fa.monitorTitle && fa.monitorTitle.trim()) && !!(fa.monitorNote && fa.monitorNote.trim());
     return true;
@@ -2499,7 +2500,7 @@
     var fa = stepFa(); if(!stepCanConfirm()) return;
     stepBusy = true; renderStepDialog();
     setTimeout(function(){
-      if(fa.state === 'action' || fa.state === 'promote'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
+      if(fa.state === 'action' || fa.state === 'promote'){ fa.planItems = (fa.picked||[]).map(function(a){ return { text: RECO[fa.recoKey][a].title, approach: a, done: false }; }).concat((fa.customActions||[]).filter(function(c){ return c.selected !== false; }).map(function(c){ return { text: c.text, desc: c.desc, due: c.due, assignee: c.assignee, done: false, custom: true }; })); fa.actionAdded = true; }
       else if(fa.state === 'monitor'){ fa.monitorSaved = true; fa.monitorMode = 'custom'; }
       else if(fa.state === 'support'){ fa.supportSent = true; }
       stepBusy = false; stepStage = 'success';
@@ -2527,10 +2528,14 @@
     return '<div class="fv-custom-list">' + list.map(function(a, i){
       var meta = (a.due ? '<span class="fv-custom-tag"><i data-icon="from-to"></i> ' + esc(fmtDate(a.due)) + '</span>' : '') +
         (a.assignee ? '<span class="fv-custom-tag"><i data-icon="user"></i> ' + esc(a.assignee) + '</span>' : '');
-      return '<div class="fv-custom-item"><div class="fv-custom-main"><span class="fv-reco-eyebrow">Custom action</span><span class="fv-custom-title">' + esc(a.text) + '</span>' +
+      // Selected on arrival, like a recommendation you just ticked; unticking it leaves
+      // the action written down but out of this response.
+      var on = a.selected !== false;
+      return '<label class="fv-custom-item' + (on ? ' is-selected' : '') + '">' +
+        '<span class="cb-wrap"><input type="checkbox" class="cb"' + (on ? ' checked' : '') + ' onchange="toggleCustomAction(' + jsId(fa.id) + ',' + i + ')"></span>' +
+        '<div class="fv-custom-main"><span class="fv-reco-eyebrow">Custom action</span><span class="fv-custom-title">' + esc(a.text) + '</span>' +
         (a.desc ? '<span class="fv-custom-desc">' + esc(a.desc) + '</span>' : '') +
-        (meta ? '<span class="fv-custom-meta">' + meta + '</span>' : '') + '</div>' +
-        '<button class="ib ib-24 ib-tertiary fv-custom-x" aria-label="Remove action" onclick="removeCustomAction(' + jsId(fa.id) + ',' + i + ')"><i data-icon="cross"></i></button></div>';
+        (meta ? '<span class="fv-custom-meta">' + meta + '</span>' : '') + '</div></label>';
     }).join('') + '</div>';
   }
   // Improve-with-recommendations keeps Cancel + Add action inside the form; the create-only
@@ -2598,7 +2603,7 @@
     var na = fa.newAction || {};
     if(!(na.title && na.title.trim())) return;               // title is the only requirement
     fa.customActions = fa.customActions || [];
-    fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true });
+    fa.customActions.push({ text: na.title.trim(), desc: (na.desc || '').trim(), due: na.due || '', assignee: na.assignee || '', done: false, custom: true, selected: true });
     fa.creatingAction = false;
     fa.newAction = { title:'', desc:'', due:'', assignee:'' };
     var sd = document.getElementById('step-dialog');
@@ -2611,6 +2616,13 @@
     else refreshActionForms();
   }
   function removeCustomAction(id, i){ var fa = planFa(id); if(!fa) return; (fa.customActions || []).splice(i, 1); refreshActionForms(); }
+  function toggleCustomAction(id, i){
+    var fa = planFa(id); if(!fa) return;
+    var a = (fa.customActions || [])[i]; if(!a) return;
+    a.selected = a.selected === false;
+    refreshActionForms();
+    if(typeof stepUpdateConfirm === 'function') stepUpdateConfirm();
+  }
   function refreshActionForms(){ var sd = document.getElementById('step-dialog'); if(sd && !sd.hidden){ renderStepDialog(); } else { renderCards(); } }
   function stepPlanHTML(fa){
     if(fa.state === 'promote'){
