@@ -157,10 +157,6 @@
     .fv-reco-effort.is-medium { background: var(--bg-accent-yellow-subtle); color: var(--content-accent-yellow); }
     .fv-reco-effort.is-high { background: var(--bg-accent-orange-subtle); color: var(--content-accent-orange); }
     .fv-reco-body { margin: 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    /* While an own action is being written, the recommendations collapse to their titles so the
-       tile and its buttons fit without scrolling. They come back on save or cancel. */
-    .fv-picks.is-compact .fv-reco-body { display: none; }
-    .fv-picks.is-compact .fv-pick { padding: var(--spacing-tight) var(--spacing-base); }
     /* Multi-select recommendation cards — same selection behaviour as the DS .rb-tile, with a checkbox */
     .fv-picks { display: flex; flex-direction: column; gap: var(--spacing-base-tight); }
     .fv-pick { display: flex; align-items: flex-start; gap: var(--spacing-base); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-action); border-radius: var(--radius-md); cursor: pointer; transition: border-color .1s, background .1s; }
@@ -2677,7 +2673,7 @@
           '<span class="fv-reco-effort is-' + eff + '">' + EFFORT_LABEL[eff] + '</span></div><p class="fv-reco-body">' + esc(r.body) + '</p></div></label>';
       }).join('');
       // The recommendations stay on screen; creating your own adds a tile below them.
-      return '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><div class="fv-picks' + (fa.creatingAction ? ' is-compact' : '') + '">' + cards + '</div>' +
+      return '<h3 class="step-plan-h">Choose the recommended actions you want to take</h3><div class="fv-picks">' + cards + '</div>' +
         customActionsHTML(fa) + newActionFormHTML(fa);
     }
     if(fa.state === 'monitor'){
