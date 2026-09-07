@@ -1,7 +1,5 @@
 .DS_Store
 .claude/**
-!.claude/skills/
-!.claude/skills/**
 *.pyc
 __pycache__/
 dist/
