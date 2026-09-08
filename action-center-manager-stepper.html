@@ -927,6 +927,8 @@
   </style>
 </head>
 <body>
+  <script src="proto-config-ac.js"></script>
+  <script src="toolbar/load.js"></script>
 
 <div class="app">
 
@@ -2767,9 +2769,31 @@
   }
   document.getElementById('step-dialog').addEventListener('click', function(e){ if(e.target === this) stepClose(); });
 
+  // The prototype toolbar can start this prototype with responses already recorded, so a
+  // reviewer sees the Actions page and the deferred Add action button without clicking through.
+  if(window.ProtoToolbar && ProtoToolbar.edge('seeded')){
+    var sdA = focusAreas[0], sdB = focusAreas[1], sdC = focusAreas[2];
+    sdA.state = 'action'; sdA.actionAdded = true;
+    sdA.planItems = [{ text: 'Run a 15 minute information check-in every Monday', done: false }];
+    sdB.state = 'monitor'; sdB.monitorSaved = true; sdB.monitorMode = 'survey';
+    sdC.state = 'action'; sdC.actionAdded = true; sdC.planItems = [];   // deferred: decided, nothing planned yet
+  }
+
   renderCards();
   renderWins();
   wireWhyDialogs();
+
+  // ?view= opens a tab and ?respond=1 opens the response dialog, so the toolbar's Screens menu
+  // and any shared link can land on the exact state instead of the default page.
+  (function openFromUrl(){
+    var q = new URLSearchParams(location.search);
+    var v = q.get('view');
+    if(v){ var t = document.querySelector('.tab[data-view="' + v + '"]'); if(t) t.click(); }
+    if(q.get('respond') === '1'){
+      var fa = focusAreas.filter(function(f){ return !faDecided(f); })[0] || focusAreas[0];
+      if(fa) openStepDialog(fa.id);
+    }
+  })();
 </script>
 </body>
 </html>
