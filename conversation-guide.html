@@ -19,6 +19,15 @@
       --results-side: calc(var(--spacing-extra-loose) * 2); /* 64px */
       --results-top: calc(var(--spacing-loose) * 2);        /* 48px */
       --content-max: 1200px;   /* shared content width below the tabs, every view */
+
+      /* One palette for the four responses, so a chip, an icon tile and a done
+         marker never disagree. Follows the Survey tags standard in Figma:
+         Improve = red, Monitor = blue, Need support = amber, Promote = green.
+         *-pill is the tag tint, *-tile the stronger tint used behind an icon. */
+      --r-action-pill: var(--bg-negative-subtle);   --r-action-tile: var(--content-accent-red-subtle); --r-action-fg: var(--content-negative);
+      --r-monitor-pill: var(--bg-info-subtle);      --r-monitor-tile: var(--bg-info-subtle);           --r-monitor-fg: var(--content-info);
+      --r-support-pill: var(--bg-highlight-subtle); --r-support-tile: var(--bg-highlight-subtle);      --r-support-fg: var(--p-color-yellow-600);
+      --r-promote-pill: var(--bg-positive-subtle);  --r-promote-tile: var(--bg-positive-subtle);       --r-promote-fg: var(--content-positive);
     }
 
     /* App shell */
@@ -362,14 +371,19 @@
     /* ── Actions page ── */
     /* No own cap: the Actions page fills the shared content width like the other views */
     .actions-page { display: flex; flex-direction: column; gap: var(--spacing-loose); max-width: none; margin: 0 auto; }
-    .actions-head { display: flex; flex-direction: column; gap: var(--spacing-tight); }
-    .actions-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-base); }
+    .actions-head { display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; gap: var(--spacing-base); }
+    .actions-head-txt { display: flex; flex-direction: column; gap: var(--spacing-tight); min-width: 0; }
+    .actions-head-cta { display: flex; gap: var(--spacing-base-tight); flex: none; }
+    .actions-head-cta i { display: flex; width: 16px; height: 16px; }
+    @media (max-width: 720px){ .actions-head { flex-direction: column; } .actions-head-cta { width: 100%; } }
+    .actions-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base); }
     .act-sum { display: flex; align-items: center; gap: var(--spacing-base-tight); padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-shadow: var(--sh-card); }
     .act-sum-ico { flex: none; width: 40px; height: 40px; border-radius: var(--radius-base); display: inline-flex; align-items: center; justify-content: center; }
     .act-sum-ico i { display: flex; width: 20px; height: 20px; }
-    .act-sum.is-action .act-sum-ico { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .act-sum.is-monitor .act-sum-ico { background: var(--bg-info-subtle); color: var(--content-info); }
-    .act-sum.is-support .act-sum-ico { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .act-sum.is-action .act-sum-ico { background: var(--r-action-tile); color: var(--r-action-fg); }
+    .act-sum.is-monitor .act-sum-ico { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .act-sum.is-support .act-sum-ico { background: var(--r-support-tile); color: var(--r-support-fg); }
+    .act-sum.is-promote .act-sum-ico { background: var(--r-promote-tile); color: var(--r-promote-fg); }
     .act-sum-txt { display: flex; flex-direction: column; }
     .act-sum-n { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--content-base); }
     .act-sum-l { font-size: 12px; color: var(--content-secondary); }
@@ -394,9 +408,9 @@
     .ap-cell-score { font-weight: 600; color: var(--content-secondary); }
     .ap-goal-chip { display: inline-flex; align-items: center; gap: 6px; padding: var(--spacing-extra-tight) var(--spacing-base-tight); border-radius: var(--radius-full); font-size: 12px; font-weight: 600; white-space: nowrap; }
     .ap-goal-chip i { display: flex; width: 14px; height: 14px; }
-    .ap-goal-chip.is-action { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .ap-goal-chip.is-monitor { background: var(--bg-info-subtle); color: var(--content-info); }
-    .ap-goal-chip.is-support { background: var(--bg-negative-subtle); color: var(--content-negative); }
+    .ap-goal-chip.is-action { background: var(--r-action-pill); color: var(--r-action-fg); }
+    .ap-goal-chip.is-monitor { background: var(--r-monitor-pill); color: var(--r-monitor-fg); }
+    .ap-goal-chip.is-support { background: var(--r-support-pill); color: var(--r-support-fg); }
     .ap-progress { display: flex; align-items: center; gap: var(--spacing-tight); }
     .ap-progress-track { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--bg-tertiary); overflow: hidden; }
     .ap-progress-fill { height: 100%; background: var(--bg-brand); border-radius: var(--radius-full); }
@@ -752,25 +766,7 @@
 .step-opt.is-promote .step-opt-ico { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .step-hero-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
     .fa-done-ico.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
-    .ap-goal-chip.is-promote { background: var(--bg-positive-subtle); color: var(--content-positive); }
-    /* Actions — educational empty state (centered) */
-    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-base-tight); max-width: 840px; margin: var(--spacing-loose) auto; padding: var(--spacing-loose) var(--spacing-base); border: none; background: transparent; }
-    .actions-illo { width: 300px; max-width: 80%; height: auto; margin-bottom: var(--spacing-tight); }
-    .ae-eyebrow { margin-bottom: 2px; }
-    .ae-title { font-size: 22px; font-weight: 700; color: var(--content-base); margin: 0; }
-    .ae-desc { font-size: 15px; line-height: 1.5; color: var(--content-secondary); margin: 0; max-width: 520px; }
-    .ae-types { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-base); margin: var(--spacing-base) 0 var(--spacing-tight); }
-    .ae-type { display: flex; align-items: flex-start; gap: var(--spacing-base-tight); text-align: left; padding: var(--spacing-base); border-radius: var(--radius-lg); background: var(--bg-base); box-shadow: var(--sh-card); flex: 1 1 190px; min-width: 0; }
-    .ae-type-ico { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-md); flex: none; }
-    .ae-type-ico i { display: flex; width: 18px; height: 18px; }
-    .ae-type-ico.is-target { background: var(--bg-brand-subtle); color: var(--content-brand); }
-    .ae-type-ico.is-eye { background: var(--bg-info-subtle); color: var(--content-info); }
-    .ae-type-ico.is-flag { background: var(--bg-negative-subtle); color: var(--content-negative); }
-    .ae-type-txt { display: flex; flex-direction: column; }
-    .ae-type-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
-    .ae-type-d { font-size: 12.5px; color: var(--content-secondary); }
-    .ae-cta { margin-top: var(--spacing-tight); gap: 6px; }
-    .ae-cta i { display: flex; width: 16px; height: 16px; }
+    .ap-goal-chip.is-promote { background: var(--r-promote-pill); color: var(--r-promote-fg); }
     .custom-modal { width: min(540px, 94vw); }
     .custom-body { display: flex; flex-direction: column; }
     .fv-explore-link { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--spacing-base-tight); font-size: 14px; font-weight: 600; color: var(--content-brand); cursor: pointer; background: none; border: none; padding: 0; }
@@ -803,7 +799,33 @@
     .fv-thumb { position: relative; }
     .fv-thumb[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--content-base); color: #fff; font-size: 12px; line-height: 1.3; font-weight: 500; padding: 5px 8px; border-radius: var(--radius-sm); white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .12s ease; z-index: 80; box-shadow: 0 4px 12px rgba(15,23,42,.22); }
     .fv-thumb[data-tip]:hover::after { opacity: 1; visibility: visible; }
-    .ae-type-ico.is-benchmark-up { background: var(--bg-positive-subtle); color: var(--content-positive); }
+    /* Actions — educational empty state (centered) */
+    /* Width matches the dialog's content box (.step-modal is min(880px, 94vw) with 40px side padding),
+       so the four response cards are exactly the size they are in the dialog. */
+    .actions-empty { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 900px; margin: 0 auto; padding: var(--spacing-super-loose) 0; border: none; background: transparent; }
+    .actions-illo { display: block; flex: none; width: 286px; height: 205px; min-height: 205px; margin: 0 auto; }   /* the asset's own size, pinned both ways so no layout pass can collapse it */
+    .ae-hero-txt { display: flex; flex-direction: column; gap: var(--spacing-tight); width: 100%; margin-top: var(--spacing-loose); }
+    /* Four response cards, 4-up as in the Figma frame */
+    .ae-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-base-tight); width: 100%; margin-top: var(--spacing-loose); }
+    .ae-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: var(--spacing-base); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); box-sizing: border-box; font-family: inherit; color: inherit; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    .ae-card:hover { border-color: var(--border-action-hover, var(--content-brand)); box-shadow: var(--sh-card); }
+    .ae-card:focus-visible { outline: 2px solid var(--content-brand); outline-offset: 2px; }
+    .ae-card-ico { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 6px; flex: none; }
+    .ae-card-ico i { display: flex; width: 20px; height: 20px; }
+    .ae-card-ico.is-action  { background: var(--r-action-tile);  color: var(--r-action-fg); }
+    .ae-card-ico.is-monitor { background: var(--r-monitor-tile); color: var(--r-monitor-fg); }
+    .ae-card-ico.is-support { background: var(--r-support-tile); color: var(--r-support-fg); }
+    .ae-card-ico.is-promote { background: var(--r-promote-tile); color: var(--r-promote-fg); }
+    .ae-card-t { margin-top: var(--spacing-tight); font-size: 15px; font-weight: 600; color: var(--content-base); }
+    .ae-card-d { margin-top: var(--spacing-tight); font-size: 12px; line-height: 1.5; color: var(--content-base); }
+    .ae-cta-row { display: flex; justify-content: center; margin-top: var(--spacing-loose); }
+    @media (max-width: 900px){ .ae-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px){ .ae-cards { grid-template-columns: 1fr; } }
+    .ae-eyebrow { margin-bottom: 2px; }
+    .ae-title { font-size: 26px; font-weight: 600; color: var(--content-base); margin: 0; }
+    .ae-desc { font-size: 14px; line-height: 1.6; color: var(--content-base); margin: 0; max-width: none; }
+    .ae-cta { margin-top: var(--spacing-tight); gap: 6px; }
+    .ae-cta i { display: flex; width: 16px; height: 16px; }
     .step-plan-sub { margin: -2px 0 var(--spacing-base-tight); font-size: 13.5px; line-height: 1.5; color: var(--content-secondary); }
     .fv-create-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-base); flex-wrap: wrap; }
     .fv-defer { color: var(--content-secondary); }
@@ -833,27 +855,6 @@
     .step-context-card { background: var(--bg-secondary); cursor: default; }
 
     /* ═══ Conversation Guide — Phase 1 (preview + download) ═══════════════════ */
-
-    /* Overview banner — full-width toolkit banner (the design system has no full-width
-       banner component; .announcement is a fixed 260px promo card, so this is built
-       from tokens like the rest of the prototype's bespoke layout). */
-    .cg-ov-banner {
-      width: 100%; display: flex; align-items: center; gap: var(--spacing-base);
-      background: var(--bg-brand-subtle); border: 1px solid var(--border-brand-subtle);
-      border-radius: var(--radius-md); padding: var(--spacing-base) var(--spacing-loose);
-      margin-bottom: var(--spacing-loose);
-    }
-    .cg-ov-icon {
-      flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--radius-md);
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg-base); color: var(--content-brand);
-    }
-    .cg-ov-icon i { width: 22px; height: 22px; display: flex; }
-    .cg-ov-banner .ann-body { flex: 1; padding: 0; }
-    .cg-ov-banner .ann-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4; color: var(--content-base); }
-    .cg-ov-banner .ann-text { margin: var(--spacing-extra-tight) 0 0; font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
-    .cg-ov-banner .ann-actions { flex-shrink: 0; margin: 0; }
-    @media (max-width: 720px) { .cg-ov-banner { flex-direction: column; align-items: flex-start; } }
 
     /* Focus View entry card — the guide's recommended (not required) entry point.
        Deliberately styled apart from the focus cards: neutral white surface (no brand
@@ -1108,14 +1109,6 @@
 
         <!-- ═══════════════ OVERVIEW VIEW ═══════════════ -->
         <div class="view" id="view-overview" hidden>
-          <div class="cg-ov-banner">
-            <span class="cg-ov-icon"><i data-icon="featured"></i></span>
-            <div class="ann-body">
-              <p class="ann-title">Results are in</p>
-              <p class="ann-text">Get your guide for the team conversation</p>
-            </div>
-            <div class="ann-actions"><button class="btn btn-primary" onclick="openGuide()"><i data-icon="featured"></i> View guide</button></div>
-          </div>
           <iframe id="ov-embed" class="ov-embed" src="ac-overview-embed.html" title="Overview" scrolling="no" loading="eager"></iframe>
         </div>
 
@@ -1262,9 +1255,15 @@
         <div class="view" id="view-actions" hidden>
           <div class="actions-page">
             <div class="actions-head">
-              <span class="fv-eyebrow is-focus">Your responses</span>
-              <h2 class="fv-section-title">Everything you've decided to act on</h2>
-              <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+              <div class="actions-head-txt">
+                <span class="fv-eyebrow is-focus">Your responses</span>
+                <h2 class="fv-section-title">Everything you've decided to act on</h2>
+                <p class="fv-section-desc">Actions you're taking, areas you're monitoring, and topics flagged for support &mdash; gathered from your focus areas and the questions you pinned in the Overview. All of this is visible to HR.</p>
+              </div>
+              <div class="actions-head-cta">
+                <button class="btn btn-secondary" onclick="exportActions()"><i data-icon="download"></i> Export</button>
+                <button class="btn btn-primary" onclick="openCustomAction()"><i data-icon="plus"></i> Custom pin</button>
+              </div>
             </div>
             <div id="actions-guide-slot"></div>
             <div class="actions-summary" id="actions-summary"></div>
@@ -2159,42 +2158,33 @@
   }
 
   // ── Actions empty state: educational card promoting the Respond/Triage concept ──
-  var ACTIONS_ILLO = '<svg class="actions-illo" viewBox="0 0 360 232" role="img" aria-label="Turn insights into action" xmlns="http://www.w3.org/2000/svg">' +
-    '<path d="M56 196a112 92 0 0 1 224 0z" fill="#E4F1EF"/>' +
-    '<rect x="150" y="20" width="150" height="96" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>' +
-    '<circle cx="166" cy="36" r="5" fill="#CBD5E1"/><rect x="178" y="32" width="52" height="8" rx="4" fill="#EDF1F6"/>' +
-    '<rect x="286" y="30" width="12" height="14" rx="2" fill="none" stroke="#0C827F" stroke-width="2"/><rect x="289" y="27" width="6" height="4" rx="1" fill="#0C827F"/>' +
-    '<rect x="166" y="56" width="118" height="9" rx="4.5" fill="#EDF1F6"/><rect x="166" y="72" width="96" height="9" rx="4.5" fill="#EDF1F6"/><rect x="166" y="88" width="70" height="9" rx="4.5" fill="#EDF1F6"/>' +
-    // stat cards (trophy / chart / chat)
-    '<rect x="232" y="104" width="120" height="104" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>' +
-    '<rect x="246" y="118" width="22" height="22" rx="6" fill="#DFF3E7"/><path d="M252 124h10v3a5 5 0 0 1-10 0zm5 6v3m-3 3h6" stroke="#2E9E5B" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-    '<rect x="276" y="124" width="62" height="10" rx="5" fill="#57C08A"/>' +
-    '<rect x="246" y="147" width="22" height="22" rx="6" fill="#FDEBD8"/><path d="M251 163v-4m5 4v-8m5 8v-11" stroke="#F5871F" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-    '<rect x="276" y="153" width="52" height="10" rx="5" fill="#FB9E3A"/>' +
-    '<rect x="246" y="176" width="22" height="22" rx="6" fill="#EEF2F7"/><path d="M251 182h10v6h-4l-2 3v-3h-4z" stroke="#94A3B8" stroke-width="2" fill="none" stroke-linejoin="round"/>' +
-    '<rect x="276" y="182" width="44" height="10" rx="5" fill="#CBD5E1"/>' +
-    // lightbulb + glow
-    '<g><circle cx="132" cy="86" r="26" fill="#FFE08A" opacity="0.45"/>' +
-    '<path d="M118 84a14 14 0 1 1 28 0c0 6-4 9-6 13h-16c-2-4-6-7-6-13z" fill="#FFC53D"/>' +
-    '<rect x="126" y="99" width="12" height="8" rx="2" fill="#E0A21B"/><rect x="127.5" y="107" width="9" height="3.5" rx="1.75" fill="#C98A12"/>' +
-    '<path d="M132 55v-8M154 70l6-5M110 70l-6-5" stroke="#FFC53D" stroke-width="3" stroke-linecap="round"/></g>' +
-    // person walking, holding the bulb up
-    '<path d="M79 196l6-40 12 2-2 38z" fill="#2F6BE0"/><path d="M99 196l8-42 11 4-6 38z" fill="#3F7BF0"/>' +
-    '<rect x="74" y="192" width="16" height="7" rx="3.5" fill="#1E293B"/><rect x="98" y="192" width="16" height="7" rx="3.5" fill="#1E293B"/>' +
-    '<path d="M86 128c8-6 22-6 28 2 4 5 4 20 2 30-12 4-26 4-36-2 1-14 2-25 6-30z" fill="#E4572E"/>' +
-    '<path d="M112 132l20-30 8 6-18 34z" fill="#E4572E"/>' +
-    '<circle cx="128" cy="102" r="6" fill="#E8B98F"/>' +
-    '<circle cx="92" cy="112" r="13" fill="#E8B98F"/>' +
-    '<path d="M80 108a13 13 0 0 1 25-3c-4 1-8-2-13-1s-9 4-12 4z" fill="#3B2A22"/>' +
-    '<path d="M74 150l-6 18 9 3 8-18z" fill="#E8B98F"/>' +
-    '</svg>';
+
+  var ACTIONS_ILLO = '<img class="actions-illo" src="assets/illustrations/action-planning.svg" width="286" height="205" alt="">';
 
   function actionsEmptyHTML(){
-    // Phase 1: preview + download only. The respond and custom-action flows are deferred, so
-    // this is a passive placeholder for where agreed next steps will land in the Action Planner.
-    return '<div class="actions-empty">' + ACTIONS_ILLO +
-      '<h2 class="ae-title">No actions yet</h2>' +
-      '<p class="ae-desc">When you agree on next steps in your team conversation, they will show up here for you and for HR.</p>' +
+    // Layout and copy follow the Figma frame "Actions 01 - Empty state" (10060:3368):
+    // illustration on top, centred heading, four response cards, centred CTA.
+    // Each card starts a custom action on that response, so picking one here is the
+    // same as picking it from the goal dropdown in the panel.
+    var card = function(st, icon, label, desc){
+      return '<button type="button" class="ae-card" onclick="openCustomAction(\'' + st + '\')">' +
+        '<span class="ae-card-ico is-' + st + '"><i data-icon="' + icon + '"></i></span>' +
+        '<span class="ae-card-t">' + label + '</span>' +
+        '<span class="ae-card-d">' + desc + '</span></button>';
+    };
+    return '<div class="actions-empty">' +
+      ACTIONS_ILLO +
+      '<div class="ae-hero-txt">' +
+        '<h2 class="ae-title">Turn your results into action</h2>' +
+        '<p class="ae-desc">Respond to a focus area to decide how you\u2019ll act on it, and it shows up here, shared with your team and visible to HR.</p>' +
+      '</div>' +
+      '<div class="ae-cards">' +
+        card('action', 'target', 'Improve', 'Something the team can influence, so commit to a concrete next step now.') +
+        card('monitor', 'eye', 'Monitor', 'Not urgent yet, so keep it on your radar and revisit at the next survey.') +
+        card('support', 'flag', 'Need support', 'Outside the team\'s control, so flag it for the right person to pick up.') +
+        card('promote', 'win', 'Promote', 'A real strength worth celebrating, so find a way to share the win with your team.') +
+      '</div>' +
+      '<div class="ae-cta-row"><button class="btn btn-primary ae-cta" onclick="openCustomAction()">Create Custom Action</button></div>' +
     '</div>';
   }
 
@@ -2206,7 +2196,9 @@
       d.addEventListener('click', function(e){ if(e.target === d) closeCustomAction(); }); }
     return d;
   }
-  function openCustomAction(){ customDraft = { title:'', desc:'', due:'', assignee:'' }; ensureCustomDialog().hidden = false; document.body.classList.add('step-open'); renderCustomDialog(); }
+  // `goal` is the response picked on an empty-state card; it preselects the response
+  // so the step dialog opens straight on the plan, instead of asking again.
+  function openCustomAction(goal){ customDraft = { title:'', desc:'', due:'', assignee:'', goal: goal || null }; ensureCustomDialog().hidden = false; document.body.classList.add('step-open'); renderCustomDialog(); }
   function closeCustomAction(){ var d = document.getElementById('custom-dialog'); if(d) d.hidden = true; document.body.classList.remove('step-open'); customDraft = null; }
   function setCustomField(f, v){ if(!customDraft) return; customDraft[f] = v; var b = document.getElementById('custom-continue'); if(b){ var ok = !!(customDraft.title && customDraft.title.trim() && customDraft.desc && customDraft.desc.trim()); b.disabled = !ok; b.classList.toggle('is-disabled', !ok); } }
   function submitCustomAction(){
@@ -2214,6 +2206,7 @@
     CUSTOM_SEQ++; var id = 'custom-' + CUSTOM_SEQ; var keys = Object.keys(RECO);
     var t = { id:id, text:d.title.trim(), score:'—', theme:'Custom action', isCustom:true, recoKey:keys[scoreTargets.length % keys.length], planItems:[], picked:[], approach:null, state:null, planDesc:'',
       customActions:[{ text:d.title.trim(), desc:(d.desc||'').trim(), due:d.due||'', assignee:d.assignee||'', done:false, custom:true }] };
+    if(d.goal){ t.state = d.goal; }
     scoreTargets.push(t);
     closeCustomAction();
     openStepDialog(id);
@@ -2264,12 +2257,12 @@
   }
   function renderActions(){
     var list = document.getElementById('actions-list'); if(!list) return;
-    var items = focusAreas.concat(scoreTargets).filter(faDecided);
-    var counts = { action: 0, monitor: 0, support: 0 };
+    var items = focusAreas.concat(scoreTargets).filter(faDecided).filter(function(f){ return !(f.isCustom && !(f.text || '').trim()); });
+    var counts = { action: 0, monitor: 0, support: 0, promote: 0 };
     items.forEach(function(f){ if(counts[f.state] != null) counts[f.state]++; });
     var summary = document.getElementById('actions-summary');
     if(summary){
-      summary.innerHTML = [['action', 'target', 'To improve'], ['monitor', 'eye', 'Monitoring'], ['support', 'flag', 'Flagged for support']].map(function(r){
+      summary.innerHTML = [['action', 'target', 'To improve'], ['monitor', 'eye', 'Monitoring'], ['support', 'flag', 'Flagged for support'], ['promote', 'benchmark-up', 'To promote']].map(function(r){
         return '<div class="act-sum is-' + r[0] + '"><span class="act-sum-ico"><i data-icon="' + r[1] + '"></i></span>' +
           '<div class="act-sum-txt"><span class="act-sum-n">' + counts[r[0]] + '</span><span class="act-sum-l">' + r[2] + '</span></div></div>';
       }).join('');
@@ -2287,7 +2280,19 @@
     var badge = document.getElementById('actions-tab-count');
     if(badge){ if(items.length){ badge.textContent = items.length; badge.hidden = false; } else { badge.hidden = true; } }
     if(window.Icons) window.Icons.render(document.getElementById('view-actions'));
+    sizeEmptyIllo();
   }
+  // The empty-state illustration is as tall as the title + description beside it.
+  function sizeEmptyIllo(){
+    var illo = document.querySelector('.actions-empty .actions-illo');
+    var txt = document.querySelector('.actions-empty .ae-hero-txt');
+    if(!illo || !txt) return;
+    var apply = function(){ var h = txt.getBoundingClientRect().height; if(h > 40) illo.style.height = Math.round(h) + 'px'; };
+    apply(); requestAnimationFrame(apply);
+  }
+  window.addEventListener('resize', function(){ if(typeof sizeEmptyIllo === 'function') sizeEmptyIllo(); });
+  // Export is a stub in this prototype: it only confirms the export has started.
+  function exportActions(){ var st = notifyStack(); var n = document.createElement('div'); n.className = 'sysnotif'; n.innerHTML = '<div class="sysnotif-title">Preparing your export\u2026</div><button class="sysnotif-close" aria-label="Close"><i data-icon="cross"></i></button>'; n.querySelector('.sysnotif-close').addEventListener('click', function(){ n.remove(); }); st.appendChild(n); if(window.Icons) window.Icons.render(n); setTimeout(function(){ n.remove(); }, 3200); }
   // Tab switching — Overview / Focus view / Actions (other tabs stay inert in this prototype)
   (function wireViewTabs(){
     var VIEWS = ['overview', 'focus', 'actions'];
