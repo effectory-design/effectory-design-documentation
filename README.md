@@ -10,7 +10,7 @@ nieuwe plek.
 | | |
 |---|---|
 | `prototypes/` | results dashboard (2), my-effectory-home, BambooHR-integratie, approach picker, announcement playground |
-| root | `action-center-manager*.html` (4, zie hieronder welke de winnaar is), `conversation-guide.html`, `ac-overview-embed.html` |
+| root | `action-center-manager*.html` (4, zie hieronder welke de winnaar is), `conversation-guide-v1.html` + `-v2.html` (A/B voor user testing), `ac-overview-embed.html` |
 | bouwstenen | `tokens.css`, `foundation.css`, `components.css`, `icons.js`, `assets/`, en `effectiveness.js` + `.css` + `i18n.js` voor het embed-fragment |
 
 Die bouwstenen zijn kopieën uit het design system. Ze staan hier omdat de
