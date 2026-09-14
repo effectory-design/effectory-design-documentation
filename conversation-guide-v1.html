@@ -1023,21 +1023,6 @@
     .cg-step-d { font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
     .cg-step-time { font-size: 12px; font-weight: 500; color: var(--content-info); white-space: nowrap; }
 
-    /* One worked example: the single visually heaviest element in the panel */
-    .cg-example {
-      background: var(--bg-base); border: 1px solid var(--border-base);
-      border-radius: var(--radius-lg); box-shadow: var(--sh-card);
-      padding: var(--spacing-base) var(--spacing-loose) var(--spacing-loose);
-    }
-    .cg-example-eyebrow { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--content-brand); margin-bottom: var(--spacing-tight); }
-    .cg-example-st { margin: 0 0 var(--spacing-tight); font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--content-base); }
-    .cg-example-meta { margin-bottom: var(--spacing-base); }
-    .cg-example-note { margin: var(--spacing-base) 0 0; font-size: 12px; line-height: 1.5; color: var(--content-secondary); }
-
-    /* Footer note: where to find the full questions, bottom left in the button row */
-    .cg-foot-note { display: inline-flex; align-items: center; gap: var(--spacing-extra-tight); margin-right: auto; font-size: 12px; line-height: 1.4; color: var(--content-secondary); }
-    .cg-foot-note i { flex-shrink: 0; width: 14px; height: 14px; display: flex; }
-
   </style>
 </head>
 <body>
@@ -2669,9 +2654,6 @@
   applyEntryState();
 
   // ── Panel body: a five-second trailer for the downloadable guide, not the guide itself ──
-  function guideLowestArea(){
-    return GUIDE_AREAS.reduce(function(lo, a){ return parseInt(a.score, 10) < parseInt(lo.score, 10) ? a : lo; });
-  }
   function guideStepsHTML(){
     var steps = [
       ['barchart-2', 'Share the results', 'Walk through the scores together', '15 min'],
@@ -2690,17 +2672,8 @@
       }).join('') + '</div>' +
     '</section>';
   }
-  function guideExampleHTML(){
-    var a = guideLowestArea();
-    return '<section class="cg-example" id="cg-example">' +
-      '<span class="cg-example-eyebrow">Example from your guide</span>' +
-      '<h4 class="cg-example-st">' + esc(a.statement) + '</h4>' +
-      '<div class="cg-example-meta"><span class="fv-score is-focus">' + esc(a.score) + '</span></div>' +
-      '<p class="cg-example-note">Your guide has three listening questions for each focus area, plus a prompt to decide together what to do next</p>' +
-    '</section>';
-  }
   function guidePanelBodyHTML(){
-    return guideStepsHTML() + guideExampleHTML();
+    return guideStepsHTML();
   }
   function guideIntroHTML(){
     // Note: the icon file is Clock.svg (capital C) — GitHub Pages is case sensitive
@@ -2716,8 +2689,7 @@
     '</div>';
   }
   function guideFooterHTML(){
-    return '<span class="cg-foot-note"><i data-icon="info"></i> Find the full questions for each focus area in the download</span>' +
-      '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
+    return '<button class="btn btn-secondary" onclick="closeGuide()">Close</button>' +
       '<button class="btn btn-primary" onclick="downloadGuide()"><i data-icon="download"></i> Download guide</button>';
   }
   function ensureGuideOverlay(){
@@ -2747,22 +2719,9 @@
       '</div>';
     if(window.Icons) window.Icons.render(ov);
   }
-  function openGuide(faId){
+  function openGuide(){
     renderGuidePanel();
     ensureGuideOverlay().hidden = false;
-    if(faId != null && guideArea(faId)){
-      // rect-difference is robust to the panel's slide-in animation and offset parent
-      var doScroll = function(){
-        var sec = document.getElementById('cg-example');
-        var body = document.querySelector('#guide-overlay .sp-body');
-        if(sec && body){
-          var d = sec.getBoundingClientRect().top - body.getBoundingClientRect().top;
-          body.scrollTop = Math.max(0, body.scrollTop + d - 16);
-        }
-      };
-      requestAnimationFrame(doScroll);
-      setTimeout(doScroll, 140);
-    }
   }
   function closeGuide(){
     var ov = document.getElementById('guide-overlay');
