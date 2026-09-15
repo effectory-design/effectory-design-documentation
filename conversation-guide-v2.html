@@ -931,8 +931,11 @@
     @media (prefers-reduced-motion: reduce) { .cg-pop { animation: none; } }
     .cg-pop[hidden] { display: none; }
     .cg-pop .announcement { width: 260px; max-width: 260px; }
-    .cg-pop .ann-title { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
-    .cg-pop-title-ico { flex-shrink: 0; width: 18px; height: 18px; display: flex; color: var(--content-brand); margin-top: 2px; }
+    /* Media slot follows the announcement playground's Card design: full-bleed
+       illustration on the accent of the card's colour set. .ann-media crops photos
+       with object-fit: cover, so the SVG is contained and inset instead. */
+    .cg-pop .ann-media { height: 140px; background: var(--bg-info); }
+    .cg-pop .ann-media img { object-fit: contain; padding: var(--spacing-base); box-sizing: border-box; }
     .cg-pop-never { padding: 0; margin-top: var(--spacing-tight); font-size: 13px; }
 
     /* Actions page variant: educational guide card shown only once actions exist */
@@ -1173,10 +1176,11 @@
 
         <!-- Popup versions 2 and 4: appears from the bottom right 2 seconds after landing, copy set per version -->
         <div class="cg-pop" id="cg-entry-pop" hidden>
-          <div class="announcement">
+          <div class="announcement is-blue">
             <button class="ann-close ib ib-24 ib-secondary" aria-label="Dismiss" onclick="dismissEntryPop()"><i data-icon="cross"></i></button>
+            <div class="ann-media"><img src="assets/illustrations/follow-up-guide.svg" alt="" /></div>
             <div class="ann-body">
-              <p class="ann-title"><i data-icon="message" class="cg-pop-title-ico"></i> <span id="cg-pop-title">Bring these results to your team before you decide</span></p>
+              <p class="ann-title" id="cg-pop-title">Bring these results to your team before you decide</p>
               <p class="ann-text" id="cg-pop-text">A light agenda and listening questions to help you run the conversation, ready in about five minutes.</p>
               <div class="ann-actions"><button class="btn btn-primary" onclick="openGuideFromPop()"><i data-icon="message"></i> View conversation guide</button></div>
               <button class="btn btn-link cg-pop-never" onclick="neverShowEntryPop()">Do not show this again</button>
